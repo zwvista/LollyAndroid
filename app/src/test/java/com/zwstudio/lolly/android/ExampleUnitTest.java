@@ -1,4 +1,4 @@
-package com.studio.zwvista.lollyandroid;
+package com.zwstudio.lolly.android;
 
 import org.junit.Test;
 

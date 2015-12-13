@@ -1,11 +1,18 @@
-package com.studio.zwvista.lollyandroid;
+package com.zwstudio.lolly.data;
 
 
 import android.content.Context;
+import java.sql.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
+import com.zwstudio.lolly.domain.DictAll;
+import com.zwstudio.lolly.domain.DictAllId;
+import com.zwstudio.lolly.domain.Dictionary;
+import com.zwstudio.lolly.domain.DictionaryId;
+import com.zwstudio.lolly.domain.Language;
 
 /**
  * Database helper class used to manage the creation and upgrading of your database. This class also usually provides
@@ -17,6 +24,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "lolly.db";
     // any time you make changes to your database objects, you may have to increase the database version
     private static final int DATABASE_VERSION = 1;
+
+    private Dao<Language, Integer> daoLanguage = null;
+    private Dao<Dictionary, DictionaryId> daoDictionary = null;
+    private Dao<DictAll, DictAllId> daoDictAll = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -45,4 +56,26 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void close() {
         super.close();
     }
+
+    public Dao<Language, Integer> getDaoLanguage() throws SQLException {
+        if (daoLanguage == null) {
+            daoLanguage = getDao(Language.class);
+        }
+        return daoLanguage;
+    }
+
+    public Dao<Dictionary, DictionaryId> getDaoDictionary() throws SQLException {
+        if (daoDictionary == null) {
+            daoDictionary = getDao(Dictionary.class);
+        }
+        return daoDictionary;
+    }
+
+    public Dao<DictAll, DictAllId> getDaoDictAll() throws SQLException {
+        if (daoDictAll == null) {
+            daoDictAll = getDao(DictAll.class);
+        }
+        return daoDictAll;
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.studio.zwvista.lollyandroid;
+package com.zwstudio.lolly.android;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,30 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.zwstudio.lolly.data.DatabaseHelper;
+import com.zwstudio.lolly.data.Repo;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DatabaseHelper databaseHelper = null;
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (databaseHelper != null) {
-            OpenHelperManager.releaseHelper();
-            databaseHelper = null;
-        }
-    }
-
-    private DatabaseHelper getHelper() {
-        if (databaseHelper == null) {
-            databaseHelper =
-                    OpenHelperManager.getHelper(this, DatabaseHelper.class);
-        }
-        return databaseHelper;
-    }
+    Repo repo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +47,11 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        repo = new Repo(this);
+        String s = repo.repoLanguage.getData().get(1).getLangname();
+        SearchView v = (SearchView) findViewById(R.id.searchView);
+        v.setQuery(s, false);
     }
 
     @Override
