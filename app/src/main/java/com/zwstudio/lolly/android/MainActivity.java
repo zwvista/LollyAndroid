@@ -19,6 +19,8 @@ import com.zwstudio.lolly.data.DatabaseHelper;
 import com.zwstudio.lolly.data.Repo;
 import com.zwstudio.lolly.domain.Language;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -52,10 +54,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         repo = new Repo(this);
-        List<Language> aa = repo.repoLanguage.getData();
-
-        SearchView v = (SearchView) findViewById(R.id.searchView);
-        v.setQuery(Integer.toString(aa.size()), false);
     }
 
     @Override
