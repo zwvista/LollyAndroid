@@ -4,14 +4,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.lolly.domain.DictAll;
-import com.zwstudio.lolly.domain.DictAllId;
 
 public class RepoDictAll {
 	
-	Dao<DictAll, DictAllId> daoDictAll;
+	Dao<DictAll, Integer> daoDictAll;
 	
 	public RepoDictAll(DatabaseHelper db) {
 		try {

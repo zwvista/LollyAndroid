@@ -35,7 +35,7 @@ public class RepoLanguage {
 		Map<String, String> m = new HashMap<String, String>();
 		List<Language> lst = getData();
 		for(Language r : lst)
-			m.put(Integer.toString(r.getLangid()), r.getLangname());
+			m.put(Integer.toString(r.langid), r.langname);
 		return m;
 	}
 

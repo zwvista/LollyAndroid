@@ -9,9 +9,7 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.zwstudio.lolly.domain.DictAll;
-import com.zwstudio.lolly.domain.DictAllId;
 import com.zwstudio.lolly.domain.Dictionary;
-import com.zwstudio.lolly.domain.DictionaryId;
 import com.zwstudio.lolly.domain.Language;
 
 /**
@@ -26,8 +24,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     private Dao<Language, Integer> daoLanguage = null;
-    private Dao<Dictionary, DictionaryId> daoDictionary = null;
-    private Dao<DictAll, DictAllId> daoDictAll = null;
+    private Dao<Dictionary, Integer> daoDictionary = null;
+    private Dao<DictAll, Integer> daoDictAll = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -64,14 +62,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return daoLanguage;
     }
 
-    public Dao<Dictionary, DictionaryId> getDaoDictionary() throws SQLException {
+    public Dao<Dictionary, Integer> getDaoDictionary() throws SQLException {
         if (daoDictionary == null) {
             daoDictionary = getDao(Dictionary.class);
         }
         return daoDictionary;
     }
 
-    public Dao<DictAll, DictAllId> getDaoDictAll() throws SQLException {
+    public Dao<DictAll, Integer> getDaoDictAll() throws SQLException {
         if (daoDictAll == null) {
             daoDictAll = getDao(DictAll.class);
         }

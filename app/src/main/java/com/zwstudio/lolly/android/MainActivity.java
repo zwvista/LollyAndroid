@@ -17,6 +17,9 @@ import android.widget.SearchView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.zwstudio.lolly.data.DatabaseHelper;
 import com.zwstudio.lolly.data.Repo;
+import com.zwstudio.lolly.domain.Language;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,9 +52,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         repo = new Repo(this);
-        String s = repo.repoLanguage.getData().get(1).getLangname();
+        List<Language> aa = repo.repoLanguage.getData();
+
         SearchView v = (SearchView) findViewById(R.id.searchView);
-        v.setQuery(s, false);
+        v.setQuery(Integer.toString(aa.size()), false);
     }
 
     @Override

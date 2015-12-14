@@ -18,96 +18,18 @@ import javax.persistence.Table;
 @Table(name = "LANGUAGES")
 public class Language implements java.io.Serializable {
 
-	private int langid;
-	private String langname;
-	private String chnname;
-	private String voice;
-	private Integer curbookid;
-	private String engname;
-	private Set<AutoCorrect> autoCorrects = new HashSet<AutoCorrect>(0);
-
-	public Language() {
-	}
-
-	public Language(int langid, String langname, String chnname) {
-		this.langid = langid;
-		this.langname = langname;
-		this.chnname = chnname;
-	}
-
-	public Language(int langid, String langname, String chnname, String voice,
-			Integer curbookid, String engname, Set<AutoCorrect> autoCorrects) {
-		this.langid = langid;
-		this.langname = langname;
-		this.chnname = chnname;
-		this.voice = voice;
-		this.curbookid = curbookid;
-		this.engname = engname;
-		this.autoCorrects = autoCorrects;
-	}
-
 	@Id
 	@Column(name = "LANGID", nullable = false)
-	public int getLangid() {
-		return this.langid;
-	}
-
-	public void setLangid(int langid) {
-		this.langid = langid;
-	}
-
+	public int langid;
 	@Column(name = "LANGNAME", nullable = false, length = 2000000000)
-	public String getLangname() {
-		return this.langname;
-	}
-
-	public void setLangname(String langname) {
-		this.langname = langname;
-	}
-
+	public String langname;
 	@Column(name = "CHNNAME", nullable = false, length = 2000000000)
-	public String getChnname() {
-		return this.chnname;
-	}
-
-	public void setChnname(String chnname) {
-		this.chnname = chnname;
-	}
-
+	public String chnname;
 	@Column(name = "VOICE", length = 2000000000)
-	public String getVoice() {
-		return this.voice;
-	}
-
-	public void setVoice(String voice) {
-		this.voice = voice;
-	}
-
+	public String voice;
 	@Column(name = "CURBOOKID")
-	public Integer getCurbookid() {
-		return this.curbookid;
-	}
-
-	public void setCurbookid(Integer curbookid) {
-		this.curbookid = curbookid;
-	}
-
+	public Integer curbookid;
 	@Column(name = "ENGNAME", length = 2000000000)
-	public String getEngname() {
-		return this.engname;
-	}
-
-	public void setEngname(String engname) {
-		this.engname = engname;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "language")
-	public Set<AutoCorrect> getAutoCorrects() {
-		return this.autoCorrects;
-	}
-
-	public void setAutoCorrects(Set<AutoCorrect> autoCorrects) {
-		this.autoCorrects = autoCorrects;
-	}
+	public String engname;
 
 }

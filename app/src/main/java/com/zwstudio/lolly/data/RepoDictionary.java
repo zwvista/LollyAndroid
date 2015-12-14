@@ -1,10 +1,7 @@
 package com.zwstudio.lolly.data;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.lolly.domain.Dictionary;
-import com.zwstudio.lolly.domain.DictionaryId;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,7 +9,7 @@ import java.util.List;
 
 public class RepoDictionary {
 
-	Dao<Dictionary, DictionaryId> daoDictionary;
+	Dao<Dictionary, Integer> daoDictionary;
 
 	public RepoDictionary(DatabaseHelper db) {
 		try {
@@ -35,7 +32,7 @@ public class RepoDictionary {
         List<Dictionary> lst = getDataByLang(langid);
 		List<String> lst2 = new ArrayList<String>();
         for(Dictionary r : lst)
-            lst2.add(r.getId().getDictname());
+            lst2.add(r.dictname);
         return lst2;
 	}
 
