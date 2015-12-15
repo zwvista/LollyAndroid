@@ -2,14 +2,11 @@ package com.zwstudio.lolly.android;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.SearchView;
 
 import com.zwstudio.lolly.data.RepoDictAll;
 import com.zwstudio.lolly.domain.DictAll;
-
-import java.io.UnsupportedEncodingException;
 
 public class SearchActivity extends BaseActivity {
 

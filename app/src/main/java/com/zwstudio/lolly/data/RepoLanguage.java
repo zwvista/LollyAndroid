@@ -1,8 +1,5 @@
 package com.zwstudio.lolly.data;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
 import com.zwstudio.lolly.domain.Language;
 
 import java.sql.SQLException;

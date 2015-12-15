@@ -2,13 +2,12 @@ package com.zwstudio.lolly.data;
 
 import android.util.Log;
 
+import com.zwstudio.lolly.domain.DictAll;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.List;
-
-import com.j256.ormlite.dao.Dao;
-import com.zwstudio.lolly.domain.DictAll;
 
 public class RepoDictAll {
 

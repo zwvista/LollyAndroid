@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.data;
 
-import com.j256.ormlite.dao.Dao;
 import com.zwstudio.lolly.domain.Dictionary;
 
 import java.sql.SQLException;
