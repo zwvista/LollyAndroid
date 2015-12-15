@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -11,18 +10,25 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.zwstudio.lolly.data.Repo;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.zwstudio.lolly.data.DBHelper;
+import com.zwstudio.lolly.data.LollyViewModel;
 
 public class BaseActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    protected Repo repo;
+
+
+    protected LollyViewModel getLollyViewModel() {
+        return ((LollyApplication)getApplicationContext()).getLollyViewModel();
+    }
 
     protected void onCreateDrawer() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -39,21 +45,13 @@ public class BaseActivity extends AppCompatActivity
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
-            public void onDrawerClosed(View view) {
-//                getActionBar().setTitle(R.string.app_name);
-            }
-            public void onDrawerOpened(View drawerView) {
-//                getActionBar().setTitle(R.string.app_name);
-            }
-        };
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        repo = new Repo(this);
     }
 
     @Override

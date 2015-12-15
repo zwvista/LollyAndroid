@@ -12,18 +12,14 @@ import java.util.Map;
 
 public class RepoLanguage {
 
-	Dao<Language, Integer> daoLanguage;
+    DBHelper db;
 
-	public RepoLanguage(DatabaseHelper db) {
-		try {
-			daoLanguage = db.getDaoLanguage();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public RepoLanguage(DBHelper db) {
+		this.db = db;
 	}
 	public List<Language> getData() {
 		try {
-			return daoLanguage.queryBuilder()
+			return db.getDaoLanguage().queryBuilder()
 			    .where().gt("LANGID", 0)
                 .query();
 		} catch (SQLException e) {

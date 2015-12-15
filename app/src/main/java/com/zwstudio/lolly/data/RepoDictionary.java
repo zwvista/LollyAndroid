@@ -9,18 +9,14 @@ import java.util.List;
 
 public class RepoDictionary {
 
-	Dao<Dictionary, Integer> daoDictionary;
+    DBHelper db;
 
-	public RepoDictionary(DatabaseHelper db) {
-		try {
-			daoDictionary = db.getDaoDictionary();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+	public RepoDictionary(DBHelper db) {
+        this.db = db;
+    }
 	public List<Dictionary> getDataByLang(int langid) {
 		try {
-			return daoDictionary.queryBuilder()
+			return db.getDaoDictionary().queryBuilder()
 			    .where().eq("LANGID", langid)
                 .query();
 		} catch (SQLException e) {

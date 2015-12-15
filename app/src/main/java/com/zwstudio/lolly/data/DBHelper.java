@@ -23,7 +23,7 @@ import com.zwstudio.lolly.domain.Language;
  * Database helper class used to manage the creation and upgrading of your database. This class also usually provides
  * the DAOs used by the other classes.
  */
-public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
+public class DBHelper extends OrmLiteSqliteOpenHelper {
 
     // name of the database file for your application -- change to something appropriate for your app
     private static final String DATABASE_NAME = "Lolly.db";
@@ -35,7 +35,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Dictionary, Integer> daoDictionary = null;
     private Dao<DictAll, Integer> daoDictAll = null;
 
-    public DatabaseHelper(Context context) throws IOException {
+    public DBHelper(Context context) throws IOException {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         boolean dbexist = checkdatabase();
         if (!dbexist) {
@@ -46,7 +46,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 dir.mkdirs();
                 InputStream myinput = context.getAssets().open(DATABASE_NAME);
                 String outfilename = DATABASE_PATH + DATABASE_NAME;
-                Log.i(DatabaseHelper.class.getName(), "DB Path : " + outfilename);
+                Log.i(DBHelper.class.getName(), "DB Path : " + outfilename);
                 OutputStream myoutput = new FileOutputStream(outfilename);
                 byte[] buffer = new byte[1024];
                 int length;
@@ -72,7 +72,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         File dbfile = new File(myPath);
         checkdb = dbfile.exists();
 
-        Log.i(DatabaseHelper.class.getName(), "DB Exist : " + checkdb);
+        Log.i(DBHelper.class.getName(), "DB Exist : " + checkdb);
 
         return checkdb;
     }
@@ -99,26 +99,26 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void close() {
         super.close();
+        daoDictAll = null;
+        daoDictionary = null;
+        daoLanguage = null;
     }
 
     public Dao<Language, Integer> getDaoLanguage() throws SQLException {
-        if (daoLanguage == null) {
+        if (daoLanguage == null)
             daoLanguage = getDao(Language.class);
-        }
         return daoLanguage;
     }
 
     public Dao<Dictionary, Integer> getDaoDictionary() throws SQLException {
-        if (daoDictionary == null) {
+        if (daoDictionary == null)
             daoDictionary = getDao(Dictionary.class);
-        }
         return daoDictionary;
     }
 
     public Dao<DictAll, Integer> getDaoDictAll() throws SQLException {
-        if (daoDictAll == null) {
+        if (daoDictAll == null)
             daoDictAll = getDao(DictAll.class);
-        }
         return daoDictAll;
     }
 

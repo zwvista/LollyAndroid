@@ -8,8 +8,8 @@ import android.widget.SearchView;
 public class SearchActivity extends BaseActivity {
 
     SearchView svWord;
-    WebView wvOnline;
-    WebView wvOffline;
+    WebView wvDictOnline;
+    WebView wvDictOffline;
 
     String word = "";
     boolean webViewFinished = false;
@@ -20,10 +20,17 @@ public class SearchActivity extends BaseActivity {
         setContentView(R.layout.activity_search);
 
         svWord = (SearchView)findViewById(R.id.svWord);
-        wvOnline = (WebView)findViewById(R.id.wvOnline);
+        wvDictOnline = (WebView)findViewById(R.id.wvDictOnline);
+        wvDictOffline = (WebView)findViewById(R.id.wvDictOffline);
+
+        wvDictOnline.setVisibility(View.INVISIBLE);
+        wvDictOffline.setVisibility(View.INVISIBLE);
     }
 
     private void searchDict(View view) {
+        wvDictOnline.setVisibility(View.VISIBLE);
+        wvDictOffline.setVisibility(View.INVISIBLE);
+
         word = svWord.getQuery().toString();
     }
 

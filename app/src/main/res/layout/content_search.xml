@@ -11,32 +11,37 @@
     android:orientation="vertical">
 
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="0">
+
+        <SearchView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="0">
-
-            <SearchView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/svWord"
-                android:queryHint="Enter a word here"
-                android:iconifiedByDefault="false"
-                android:layout_weight="1" />
-
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="Go"
-                android:id="@+id/btnGo"
-                android:layout_weight="0"
-                android:onClick="searchDict"/>
-        </LinearLayout>
-
-        <WebView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/wvOnline"
+            android:id="@+id/svWord"
+            android:queryHint="Enter a word here"
+            android:iconifiedByDefault="false"
             android:layout_weight="1" />
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="Go"
+            android:id="@+id/btnGo"
+            android:layout_weight="0"
+            android:onClick="searchDict"/>
+    </LinearLayout>
+
+    <WebView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/wvDictOnline"
+        android:layout_weight="1" />
+    <WebView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/wvDictOffline"
+        android:layout_weight="1" />
 </LinearLayout>
