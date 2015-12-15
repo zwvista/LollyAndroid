@@ -2,6 +2,7 @@ package com.zwstudio.lolly.android;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.SearchView;
 
@@ -36,7 +37,6 @@ public class SearchActivity extends BaseActivity {
                 searchDict(svWord);
                 return true;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
@@ -45,12 +45,17 @@ public class SearchActivity extends BaseActivity {
     }
 
     public void searchDict(View view) {
+        word = svWord.getQuery().toString();
         wvDictOnline.setVisibility(View.VISIBLE);
         wvDictOffline.setVisibility(View.INVISIBLE);
-
-        word = svWord.getQuery().toString();
         DictAll m = getLollyViewModel().getCurrentDict();
         String url = RepoDictAll.urlString(m.url, word);
+        svWord.post(new Runnable() {
+            @Override
+            public void run() {
+                svWord.clearFocus();
+            }
+        });
         wvDictOnline.loadUrl(url);
     }
 
