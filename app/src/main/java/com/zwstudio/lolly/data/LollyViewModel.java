@@ -14,14 +14,17 @@ public class LollyViewModel {
 
     public List<Language> lstLanguages;
     public List<DictAll> lstDictAll = new ArrayList<>();
-    private int currentLanguageIndex = 2;
-    private int currentDictIndex = 0;
+    private int currentLanguageIndex;
+    public int currentDictIndex;
 
     public LollyViewModel(DBHelper db)
     {
         repoDictAll = new RepoDictAll(db);
         repoDictionary = new RepoDictionary(db);
         repoLanguage = new RepoLanguage(db);
+
+        lstLanguages = repoLanguage.getData();
+        setCurrentLanguageIndex(2);
     }
 
     public int getCurrentLanguageIndex() {
@@ -30,13 +33,12 @@ public class LollyViewModel {
 
     public void setCurrentLanguageIndex(int currentLanguageIndex) {
         this.currentLanguageIndex = currentLanguageIndex;
+        Language m = lstLanguages.get(currentLanguageIndex);
+        lstDictAll = repoDictAll.getDataByLang(m.langid);
+        currentDictIndex = 0;
     }
 
-    public int getCurrentDictIndex() {
-        return currentDictIndex;
-    }
-
-    public void setCurrentDictIndex(int currentDictIndex) {
-        this.currentDictIndex = currentDictIndex;
+    public DictAll getCurrentDict() {
+        return lstDictAll.get(currentDictIndex);
     }
 }

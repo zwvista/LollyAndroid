@@ -5,6 +5,11 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.SearchView;
 
+import com.zwstudio.lolly.data.RepoDictAll;
+import com.zwstudio.lolly.domain.DictAll;
+
+import java.io.UnsupportedEncodingException;
+
 public class SearchActivity extends BaseActivity {
 
     SearchView svWord;
@@ -25,13 +30,28 @@ public class SearchActivity extends BaseActivity {
 
         wvDictOnline.setVisibility(View.INVISIBLE);
         wvDictOffline.setVisibility(View.INVISIBLE);
+        svWord.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchDict(svWord);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 
-    private void searchDict(View view) {
+    public void searchDict(View view) {
         wvDictOnline.setVisibility(View.VISIBLE);
         wvDictOffline.setVisibility(View.INVISIBLE);
 
         word = svWord.getQuery().toString();
+        DictAll m = getLollyViewModel().getCurrentDict();
+        String url = RepoDictAll.urlString(m.url, word);
+        wvDictOnline.loadUrl(url);
     }
 
 }

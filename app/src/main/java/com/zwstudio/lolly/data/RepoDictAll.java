@@ -1,5 +1,9 @@
 package com.zwstudio.lolly.data;
 
+import android.util.Log;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -34,5 +38,15 @@ public class RepoDictAll {
 		}
 		return null;
 	}
+    public static String urlString(String url, String word) {
+        String wordUrl = null;
+        try {
+            wordUrl = url.replace("{0}", URLEncoder.encode(word, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        Log.d("RepoDictAll", "urlString: " + wordUrl);
+        return wordUrl;
+    }
 
 }
