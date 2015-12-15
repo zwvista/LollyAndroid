@@ -20,7 +20,7 @@
             <SearchView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/searchView"
+                android:id="@+id/svWord"
                 android:queryHint="Enter a word here"
                 android:iconifiedByDefault="false"
                 android:layout_weight="1" />
@@ -29,13 +29,14 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:text="Go"
-                android:id="@+id/button"
-                android:layout_weight="0" />
+                android:id="@+id/btnGo"
+                android:layout_weight="0"
+                android:onClick="searchDict"/>
         </LinearLayout>
 
         <WebView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/webView"
+            android:id="@+id/wvOnline"
             android:layout_weight="1" />
 </LinearLayout>
