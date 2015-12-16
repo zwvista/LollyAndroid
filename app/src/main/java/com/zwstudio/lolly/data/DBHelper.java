@@ -25,10 +25,9 @@ import java.sql.SQLException;
  */
 public class DBHelper extends OrmLiteSqliteOpenHelper {
 
-    // name of the database file for your application -- change to something appropriate for your app
     private static final String DATABASE_NAME = "Lolly.db";
-    private static final String DATABASE_PATH = "/data/data/com.zwstudio.lolly.android/databases/";
-    // any time you make changes to your database objects, you may have to increase the database version
+    private static String databasePath;
+
     private static final int DATABASE_VERSION = 1;
 
     private Dao<Language, Integer> daoLanguage = null;
@@ -37,15 +36,15 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 
     public DBHelper(Context context) throws IOException {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        databasePath = context.getDatabasePath(DATABASE_NAME).getParent() + "/";
         boolean dbexist = checkdatabase();
         if (!dbexist) {
-
             // If database did not exist, try copying existing database from assets folder.
             try {
-                File dir = new File(DATABASE_PATH);
+                File dir = new File(databasePath);
                 dir.mkdirs();
                 InputStream myinput = context.getAssets().open(DATABASE_NAME);
-                String outfilename = DATABASE_PATH + DATABASE_NAME;
+                String outfilename = databasePath + DATABASE_NAME;
                 Log.i(DBHelper.class.getName(), "DB Path : " + outfilename);
                 OutputStream myoutput = new FileOutputStream(outfilename);
                 byte[] buffer = new byte[1024];
@@ -68,7 +67,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     private boolean checkdatabase() {
         boolean checkdb = false;
 
-        String myPath = DATABASE_PATH + DATABASE_NAME;
+        String myPath = databasePath + DATABASE_NAME;
         File dbfile = new File(myPath);
         checkdb = dbfile.exists();
 
