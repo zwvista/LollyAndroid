@@ -16,6 +16,7 @@ public class LollyViewModel {
     public List<DictAll> lstDictAll = new ArrayList<>();
     private int currentLanguageIndex;
     public int currentDictIndex;
+    public String word = "";
 
     public LollyViewModel(DBHelper db)
     {

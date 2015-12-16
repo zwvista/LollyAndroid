@@ -12,7 +12,8 @@
         <activity
             android:name=".SearchActivity"
             android:label="@string/search"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="fullSensor" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,18 +23,14 @@
         <activity
             android:name=".DictionaryActivity"
             android:label="@string/dictionary"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="fullSensor" >
         </activity>
         <activity
             android:name=".LanguageActivity"
             android:label="@string/language"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="fullSensor" >
         </activity>
     </application>
 
