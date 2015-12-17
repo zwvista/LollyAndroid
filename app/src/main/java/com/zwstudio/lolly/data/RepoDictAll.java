@@ -19,8 +19,8 @@ public class RepoDictAll {
 	public List<DictAll> getDataByLang(int langid) {
 		try {
 			return db.getDaoDictAll().queryBuilder()
-				.where().eq("LANGID", langid)
-				.query();
+					.where().eq("LANGID", langid)
+					.query();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -30,8 +30,8 @@ public class RepoDictAll {
 		try {
             return db.getDaoDictAll().queryBuilder()
                     .where().eq("LANGID", langid)
-                .and().eq("DICTNAME", dictname)
-                .queryForFirst();
+					.and().eq("DICTNAME", dictname)
+					.queryForFirst();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

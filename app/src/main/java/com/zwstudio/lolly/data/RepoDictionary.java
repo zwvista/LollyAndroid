@@ -16,8 +16,8 @@ public class RepoDictionary {
 	public List<Dictionary> getDataByLang(int langid) {
 		try {
 			return db.getDaoDictionary().queryBuilder()
-			    .where().eq("LANGID", langid)
-                .query();
+					.where().eq("LANGID", langid)
+					.query();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

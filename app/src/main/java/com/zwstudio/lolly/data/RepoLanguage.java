@@ -17,8 +17,8 @@ public class RepoLanguage {
 	public List<Language> getData() {
 		try {
 			return db.getDaoLanguage().queryBuilder()
-			    .where().gt("LANGID", 0)
-                .query();
+					.where().gt("LANGID", 0)
+					.query();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
