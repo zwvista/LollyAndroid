@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.android;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,7 @@ public class LanguageActivity extends BaseActivity {
                 );
                 CheckedTextView ctv = (CheckedTextView) v.findViewById(android.R.id.text1);
                 ctv.setText(lst.get(position).langname);
+                ctv.setTextColor(Color.BLUE);
                 return v;
             }
         };
