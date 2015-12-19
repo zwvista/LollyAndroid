@@ -27,19 +27,13 @@ public class LanguageActivity extends BaseActivity {
                 android.R.layout.simple_list_item_single_choice, android.R.id.text1, lst) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-//                View v = super.getView(position, convertView, parent);
-                View v = LanguageActivity.this.getLayoutInflater().inflate(
-                        android.R.layout.simple_list_item_single_choice, parent, false
-                );
+                View v = super.getView(position, convertView, parent);
                 CheckedTextView ctv = (CheckedTextView) v.findViewById(android.R.id.text1);
                 ctv.setText(lst.get(position).langname);
                 ctv.setTextColor(Color.BLUE);
                 return v;
             }
         };
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice);
-//        for(Language m : lst)
-//            adapter.add(m.langname);
         lv.setAdapter(adapter);
 
         lv.setItemChecked(getLollyViewModel().getCurrentLanguageIndex(), true);

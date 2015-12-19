@@ -27,10 +27,7 @@ public class DictionaryActivity extends BaseActivity {
                 R.layout.item_dictionary, android.R.id.text1, lst) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-//                View v = super.getView(position, convertView, parent);
-                View v = DictionaryActivity.this.getLayoutInflater().inflate(
-                        R.layout.item_dictionary, parent, false
-                );
+                View v = super.getView(position, convertView, parent);
                 DictAll m = lst.get(position);
                 CheckedTextView ctv = (CheckedTextView) v.findViewById(android.R.id.text1);
                 ctv.setText(m.dictname);
