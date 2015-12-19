@@ -18,8 +18,7 @@ public class LollyViewModel {
     public int currentDictIndex;
     public String word = "";
 
-    public LollyViewModel(DBHelper db)
-    {
+    public LollyViewModel(DBHelper db) {
         repoDictAll = new RepoDictAll(db);
         repoDictionary = new RepoDictionary(db);
         repoLanguage = new RepoLanguage(db);

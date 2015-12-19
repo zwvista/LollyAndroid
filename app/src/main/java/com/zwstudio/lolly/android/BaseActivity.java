@@ -24,7 +24,7 @@ public class BaseActivity extends AppCompatActivity
 
 
     protected LollyViewModel getLollyViewModel() {
-        return ((LollyApplication)getApplicationContext()).getLollyViewModel();
+        return ((LollyApplication) getApplicationContext()).getLollyViewModel();
     }
 
     protected void onCreateDrawer() {
@@ -100,7 +100,7 @@ public class BaseActivity extends AppCompatActivity
         } else if (id == R.id.nav_language) {
             Intent intent = new Intent(this, LanguageActivity.class);
             startActivityForResult(intent, 0);
-       } else if (id == R.id.nav_dictionary) {
+        } else if (id == R.id.nav_dictionary) {
             Intent intent = new Intent(this, DictionaryActivity.class);
             startActivityForResult(intent, 0);
         }

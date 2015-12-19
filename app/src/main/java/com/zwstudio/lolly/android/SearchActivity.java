@@ -25,9 +25,9 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        svWord = (SearchView)findViewById(R.id.svWord);
-        wvDictOnline = (WebView)findViewById(R.id.wvDictOnline);
-        wvDictOffline = (WebView)findViewById(R.id.wvDictOffline);
+        svWord = (SearchView) findViewById(R.id.svWord);
+        wvDictOnline = (WebView) findViewById(R.id.wvDictOnline);
+        wvDictOffline = (WebView) findViewById(R.id.wvDictOffline);
         configWebView(wvDictOnline);
         configWebView(wvDictOffline);
 
@@ -40,6 +40,7 @@ public class SearchActivity extends BaseActivity {
                 searchDict(svWord);
                 return true;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 getLollyViewModel().word = newText;

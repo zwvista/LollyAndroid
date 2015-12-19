@@ -12,31 +12,34 @@ import java.util.List;
 public class RepoDictAll {
 
     DBHelper db;
-	
-	public RepoDictAll(DBHelper db) {
+
+    public RepoDictAll(DBHelper db) {
         this.db = db;
     }
-	public List<DictAll> getDataByLang(int langid) {
-		try {
-			return db.getDaoDictAll().queryBuilder()
-					.where().eq("LANGID", langid)
-					.query();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	public DictAll getDataByLangDict(int langid, String dictname) {
-		try {
+
+    public List<DictAll> getDataByLang(int langid) {
+        try {
             return db.getDaoDictAll().queryBuilder()
                     .where().eq("LANGID", langid)
-					.and().eq("DICTNAME", dictname)
-					.queryForFirst();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public DictAll getDataByLangDict(int langid, String dictname) {
+        try {
+            return db.getDaoDictAll().queryBuilder()
+                    .where().eq("LANGID", langid)
+                    .and().eq("DICTNAME", dictname)
+                    .queryForFirst();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String urlString(String url, String word) {
         String wordUrl = null;
         try {

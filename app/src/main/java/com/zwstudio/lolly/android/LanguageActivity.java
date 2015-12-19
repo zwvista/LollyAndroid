@@ -21,7 +21,7 @@ public class LanguageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_language);
 
-        final ListView lv = (ListView)findViewById(R.id.listView);
+        final ListView lv = (ListView) findViewById(R.id.listView);
         final List<Language> lst = getLollyViewModel().lstLanguages;
         ArrayAdapter<Language> adapter = new ArrayAdapter<Language>(this,
                 android.R.layout.simple_list_item_single_choice, android.R.id.text1, lst) {

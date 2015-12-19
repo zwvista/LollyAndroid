@@ -12,21 +12,21 @@ import javax.persistence.Id;
 @Entity(name = "LANGUAGES")
 public class Language implements java.io.Serializable {
 
-	@Id
-	@Column(name = "LANGID", nullable = false)
-	public int langid;
-	@Column(name = "LANGNAME", nullable = false, length = 2000000000)
-	public String langname;
-	@Column(name = "CHNNAME", nullable = false, length = 2000000000)
-	public String chnname;
-	@Column(name = "VOICE", length = 2000000000)
-	public String voice;
-	@Column(name = "CURBOOKID")
-	public Integer curbookid;
-	@Column(name = "ENGNAME", length = 2000000000)
-	public String engname;
+    @Id
+    @Column(name = "LANGID", nullable = false)
+    public int langid;
+    @Column(name = "LANGNAME", nullable = false, length = 2000000000)
+    public String langname;
+    @Column(name = "CHNNAME", nullable = false, length = 2000000000)
+    public String chnname;
+    @Column(name = "VOICE", length = 2000000000)
+    public String voice;
+    @Column(name = "CURBOOKID")
+    public Integer curbookid;
+    @Column(name = "ENGNAME", length = 2000000000)
+    public String engname;
 
 
-	public Language() {
-	}
+    public Language() {
+    }
 }

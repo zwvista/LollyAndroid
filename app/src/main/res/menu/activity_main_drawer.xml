@@ -2,12 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_search" android:icon="@android:drawable/ic_menu_camera"
-            android:title="Search" />
-        <item android:id="@+id/nav_language" android:icon="@android:drawable/ic_menu_gallery"
-            android:title="Language" />
-        <item android:id="@+id/nav_dictionary" android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="Dictionary" />
+        <item
+            android:id="@+id/nav_search"
+            android:icon="@android:drawable/ic_menu_camera"
+            android:title="Search"/>
+        <item
+            android:id="@+id/nav_language"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="Language"/>
+        <item
+            android:id="@+id/nav_dictionary"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="Dictionary"/>
     </group>
 
 </menu>
