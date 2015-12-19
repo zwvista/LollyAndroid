@@ -19,7 +19,8 @@ public class DictionaryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dictionary);
+        setContentView(R.layout.activity_main);
+        inflateStub(R.layout.content_dictionary);
 
         final ListView lv = (ListView) findViewById(R.id.listView);
         final List<DictAll> lst = getLollyViewModel().lstDictAll;
