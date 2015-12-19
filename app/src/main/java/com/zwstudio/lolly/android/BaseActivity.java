@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.android;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -14,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 
 import com.zwstudio.lolly.data.LollyViewModel;
 
@@ -54,21 +54,16 @@ public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void setContentView(@LayoutRes int layoutResID) {
-        super.setContentView(layoutResID);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         onCreateDrawer();
     }
 
-    protected void inflateStub(@LayoutRes int layoutResID) {
-        ViewStub stub = (ViewStub) findViewById(R.id.stub);
-        stub.setLayoutResource(layoutResID);
-        // not working
-//        stub.inflate();
-        ViewGroup parent = (ViewGroup)stub.getParent();
+    protected void addContent(@LayoutRes int layoutResID) {
+        ViewGroup parent = (ViewGroup) findViewById(R.id.app_bar);
         View v = getLayoutInflater().inflate(layoutResID, parent, false);
-        final int index = parent.indexOfChild(stub);
-        parent.removeViewInLayout(stub);
-        parent.addView(v, index);
+        parent.addView(v, 1);
     }
 
     @Override

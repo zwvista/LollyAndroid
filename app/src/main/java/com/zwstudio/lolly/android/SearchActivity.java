@@ -23,8 +23,7 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        inflateStub(R.layout.content_search);
+        addContent(R.layout.content_search);
 
         svWord = (SearchView) findViewById(R.id.svWord);
         wvDictOnline = (WebView) findViewById(R.id.wvDictOnline);

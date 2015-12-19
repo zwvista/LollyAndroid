@@ -19,8 +19,7 @@ public class LanguageActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        inflateStub(R.layout.content_language);
+        addContent(R.layout.content_language);
 
         final ListView lv = (ListView) findViewById(R.id.listView);
         final List<Language> lst = getLollyViewModel().lstLanguages;
