@@ -18,6 +18,7 @@ import java.util.Map;
 
 import roboguice.RoboGuice;
 import roboguice.activity.event.OnActivityResultEvent;
+import roboguice.activity.event.OnContentChangedEvent;
 import roboguice.activity.event.OnNewIntentEvent;
 import roboguice.activity.event.OnPauseEvent;
 import roboguice.activity.event.OnRestartEvent;
@@ -49,11 +50,8 @@ public class RoboAppCompatActivity  extends  AppCompatActivity implements RoboCo
         eventManager = injector.getInstance(EventManager.class);
         injector.injectMembersWithoutViews(this);
         super.onCreate(savedInstanceState);
-        onCreateFinished();
         eventManager.fire(new OnCreateEvent<Activity>(this,savedInstanceState));
     }
-
-    protected void onCreateFinished(){}
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -68,7 +66,7 @@ public class RoboAppCompatActivity  extends  AppCompatActivity implements RoboCo
     }
 
     @Override
-    protected void onStart() {
+         protected void onStart() {
         super.onStart();
         eventManager.fire(new OnStartEvent<Activity>(this));
     }
@@ -123,8 +121,8 @@ public class RoboAppCompatActivity  extends  AppCompatActivity implements RoboCo
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-//        RoboGuice.getInjector(this).injectViewMembers(this);
-//        eventManager.fire(new OnContentChangedEvent(this));
+        RoboGuice.getInjector(this).injectViewMembers(this);
+        eventManager.fire(new OnContentChangedEvent(this));
     }
 
     @Override

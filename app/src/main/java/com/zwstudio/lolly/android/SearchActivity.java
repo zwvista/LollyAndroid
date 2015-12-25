@@ -11,10 +11,17 @@ import android.widget.Toast;
 import com.zwstudio.lolly.data.RepoDictAll;
 import com.zwstudio.lolly.domain.DictAll;
 
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
+
+@ContentView(R.layout.activity_search)
 public class SearchActivity extends BaseActivity {
 
+    @InjectView(R.id.svWord)
     SearchView svWord;
+    @InjectView(R.id.wvDictOnline)
     WebView wvDictOnline;
+    @InjectView(R.id.wvDictOffline)
     WebView wvDictOffline;
 
     String word = "";
@@ -23,11 +30,7 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addContent(R.layout.content_search);
 
-        svWord = (SearchView) findViewById(R.id.svWord);
-        wvDictOnline = (WebView) findViewById(R.id.wvDictOnline);
-        wvDictOffline = (WebView) findViewById(R.id.wvDictOffline);
         configWebView(wvDictOnline);
         configWebView(wvDictOffline);
 

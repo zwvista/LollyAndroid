@@ -14,14 +14,19 @@ import com.zwstudio.lolly.domain.Language;
 
 import java.util.List;
 
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
+
+@ContentView(R.layout.activity_language)
 public class LanguageActivity extends BaseActivity {
+
+    @InjectView(R.id.listView)
+    ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addContent(R.layout.content_language);
 
-        final ListView lv = (ListView) findViewById(R.id.listView);
         final List<Language> lst = getLollyViewModel().lstLanguages;
         ArrayAdapter<Language> adapter = new ArrayAdapter<Language>(this,
                 android.R.layout.simple_list_item_single_choice, android.R.id.text1, lst) {

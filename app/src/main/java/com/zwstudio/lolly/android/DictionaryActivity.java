@@ -14,14 +14,19 @@ import com.zwstudio.lolly.domain.DictAll;
 
 import java.util.List;
 
+import roboguice.inject.ContentView;
+import roboguice.inject.InjectView;
+
+@ContentView(R.layout.activity_dictionary)
 public class DictionaryActivity extends BaseActivity {
+
+    @InjectView(R.id.listView)
+    ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addContent(R.layout.content_dictionary);
 
-        final ListView lv = (ListView) findViewById(R.id.listView);
         final List<DictAll> lst = getLollyViewModel().lstDictAll;
         final ArrayAdapter<DictAll> adapter = new ArrayAdapter<DictAll>(this,
                 R.layout.item_dictionary, android.R.id.text1, lst) {
