@@ -102,6 +102,9 @@ public class BaseActivity extends RoboAppCompatActivity
         } else if (id == R.id.nav_dictionary) {
             Intent intent = new Intent(this, DictionaryActivity.class);
             startActivityForResult(intent, 0);
+        } else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivityForResult(intent, 0);
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
