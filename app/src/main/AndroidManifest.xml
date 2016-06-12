@@ -22,18 +22,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DictionaryActivity"
-            android:label="@string/dictionary"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="fullSensor">
-        </activity>
-        <activity
-            android:name=".LanguageActivity"
-            android:label="@string/language"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="fullSensor">
-        </activity>
-        <activity
             android:name=".SettingsActivity"
             android:label="@string/settings"
             android:theme="@style/AppTheme.NoActionBar"

@@ -31,22 +31,30 @@ public class SettingsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initSpnLanguage();
-        initSpnDictionary();
     }
 
     private void initSpnLanguage() {
         final List<Language> lst = getLollyViewModel().lstLanguages;
         ArrayAdapter<Language> adapter = new ArrayAdapter<Language>(this,
-                android.R.layout.simple_list_item_single_choice, android.R.id.text1, lst) {
+                android.R.layout.simple_spinner_item, lst) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
+                TextView tv = (TextView) v.findViewById(android.R.id.text1);
+                tv.setText(lst.get(position).langname);
+                tv.setTextColor(Color.BLUE);
+                return v;
+            }
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
                 CheckedTextView ctv = (CheckedTextView) v.findViewById(android.R.id.text1);
                 ctv.setText(lst.get(position).langname);
                 ctv.setTextColor(Color.BLUE);
                 return v;
             }
         };
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spnLanguage.setAdapter(adapter);
 
         spnLanguage.setSelection(getLollyViewModel().getCurrentLanguageIndex());
@@ -55,10 +63,10 @@ public class SettingsActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 getLollyViewModel().setCurrentLanguageIndex(position);
                 Log.d("", String.format("Checked position:%d", position));
+                initSpnDictionary();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
@@ -66,10 +74,18 @@ public class SettingsActivity extends BaseActivity {
     private void initSpnDictionary() {
         final List<DictAll> lst = getLollyViewModel().lstDictAll;
         final ArrayAdapter<DictAll> adapter = new ArrayAdapter<DictAll>(this,
-                R.layout.item_dictionary, android.R.id.text1, lst) {
+                android.R.layout.simple_spinner_item, android.R.id.text1, lst) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
+                DictAll m = lst.get(position);
+                TextView tv = (TextView) v.findViewById(android.R.id.text1);
+                tv.setText(m.dictname);
+                return v;
+            }
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
                 DictAll m = lst.get(position);
                 CheckedTextView ctv = (CheckedTextView) v.findViewById(android.R.id.text1);
                 ctv.setText(m.dictname);
@@ -79,6 +95,7 @@ public class SettingsActivity extends BaseActivity {
                 return v;
             }
         };
+        adapter.setDropDownViewResource(R.layout.item_dictionary);
         spnDictionary.setAdapter(adapter);
 
         spnDictionary.setSelection(getLollyViewModel().currentDictIndex);
@@ -91,7 +108,6 @@ public class SettingsActivity extends BaseActivity {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
