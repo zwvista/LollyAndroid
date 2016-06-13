@@ -34,7 +34,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initSpnLanguage() {
-        final List<Language> lst = getLollyViewModel().lstLanguages;
+        final List<Language> lst = getWordsOnlineViewModel().lstLanguages;
         ArrayAdapter<Language> adapter = new ArrayAdapter<Language>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override
@@ -57,11 +57,11 @@ public class SettingsActivity extends BaseActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spnLanguage.setAdapter(adapter);
 
-        spnLanguage.setSelection(getLollyViewModel().getCurrentLanguageIndex());
+        spnLanguage.setSelection(getWordsOnlineViewModel().getCurrentLanguageIndex());
         spnLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getLollyViewModel().setCurrentLanguageIndex(position);
+                getWordsOnlineViewModel().setCurrentLanguageIndex(position);
                 Log.d("", String.format("Checked position:%d", position));
                 initSpnDictionary();
             }
@@ -72,7 +72,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initSpnDictionary() {
-        final List<DictAll> lst = getLollyViewModel().lstDictAll;
+        final List<DictAll> lst = getWordsOnlineViewModel().lstDictAll;
         final ArrayAdapter<DictAll> adapter = new ArrayAdapter<DictAll>(this,
                 android.R.layout.simple_spinner_item, android.R.id.text1, lst) {
             @Override
@@ -98,11 +98,11 @@ public class SettingsActivity extends BaseActivity {
         adapter.setDropDownViewResource(R.layout.item_dictionary);
         spnDictionary.setAdapter(adapter);
 
-        spnDictionary.setSelection(getLollyViewModel().currentDictIndex);
+        spnDictionary.setSelection(getWordsOnlineViewModel().currentDictIndex);
         spnDictionary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getLollyViewModel().currentDictIndex = position;
+                getWordsOnlineViewModel().currentDictIndex = position;
                 Log.d("", String.format("Checked position:%d", position));
                 adapter.notifyDataSetChanged();
             }

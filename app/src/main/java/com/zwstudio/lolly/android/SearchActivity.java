@@ -36,7 +36,7 @@ public class SearchActivity extends BaseActivity {
 
         wvDictOnline.setVisibility(View.INVISIBLE);
         wvDictOffline.setVisibility(View.INVISIBLE);
-        svWord.setQuery(getLollyViewModel().word, false);
+        svWord.setQuery(getWordsOnlineViewModel().word, false);
         svWord.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -46,7 +46,7 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                getLollyViewModel().word = newText;
+                getWordsOnlineViewModel().word = newText;
                 return false;
             }
         });
@@ -67,7 +67,7 @@ public class SearchActivity extends BaseActivity {
         word = svWord.getQuery().toString();
         wvDictOnline.setVisibility(View.VISIBLE);
         wvDictOffline.setVisibility(View.INVISIBLE);
-        DictAll m = getLollyViewModel().getCurrentDict();
+        DictAll m = getWordsOnlineViewModel().getCurrentDict();
         String url = RepoDictAll.urlString(m.url, word);
         svWord.post(new Runnable() {
             @Override

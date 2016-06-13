@@ -4,17 +4,17 @@ import android.app.Application;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.zwstudio.lolly.data.DBHelper;
-import com.zwstudio.lolly.data.LollyViewModel;
+import com.zwstudio.lolly.data.WordsOnlineViewModel;
 
 public class LollyApplication extends Application {
     private DBHelper dbHelper = null;
 
-    private LollyViewModel lollyViewModel;
+    private WordsOnlineViewModel wordsOnlineViewModel;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        lollyViewModel = new LollyViewModel(getHelper());
+        wordsOnlineViewModel = new WordsOnlineViewModel(getHelper());
     }
 
     @Override
@@ -32,7 +32,7 @@ public class LollyApplication extends Application {
         return dbHelper;
     }
 
-    public LollyViewModel getLollyViewModel() {
-        return lollyViewModel;
+    public WordsOnlineViewModel getWordsOnlineViewModel() {
+        return wordsOnlineViewModel;
     }
 }

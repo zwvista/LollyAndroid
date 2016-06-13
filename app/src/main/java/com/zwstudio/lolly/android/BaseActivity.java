@@ -13,7 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.zwstudio.lolly.data.LollyViewModel;
+import com.zwstudio.lolly.data.WordsOnlineViewModel;
 
 public class BaseActivity extends RoboAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -22,8 +22,8 @@ public class BaseActivity extends RoboAppCompatActivity
     private ActionBarDrawerToggle drawerToggle;
 
 
-    protected LollyViewModel getLollyViewModel() {
-        return ((LollyApplication) getApplicationContext()).getLollyViewModel();
+    protected WordsOnlineViewModel getWordsOnlineViewModel() {
+        return ((LollyApplication) getApplicationContext()).getWordsOnlineViewModel();
     }
 
     protected void onCreateDrawer() {
