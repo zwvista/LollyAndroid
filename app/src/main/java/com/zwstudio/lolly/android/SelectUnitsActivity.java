@@ -12,7 +12,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.zwstudio.lolly.domain.Book;
-import com.zwstudio.lolly.domain.DictAll;
 import com.zwstudio.lolly.domain.Language;
 
 import java.util.List;
@@ -62,7 +61,7 @@ public class SelectUnitsActivity extends BaseActivity {
         spnLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getWordsOnlineViewModel().setCurrentLanguageIndex(position);
+                getSelectUnitsViewModel().setCurrentLanguageIndex(position);
                 Log.d("", String.format("Checked position:%d", position));
                 initSpnBook();
             }

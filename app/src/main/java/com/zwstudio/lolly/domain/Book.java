@@ -19,8 +19,8 @@ public class Book implements java.io.Serializable {
 	public int langid;
 	@Column(name = "BOOKNAME", nullable = false, length = 2000000000)
 	public String bookname;
-	@Column(name = "UINTSINBOOK", nullable = false)
-	public int uintsinbook;
+	@Column(name = "UNITSINBOOK", nullable = false)
+	public int unitsinbook;
 	@Column(name = "PARTS", nullable = false, length = 2000000000)
 	public String parts;
 	@Column(name = "UNITFROM", nullable = false)

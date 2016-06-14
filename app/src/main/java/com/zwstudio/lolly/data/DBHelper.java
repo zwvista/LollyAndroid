@@ -103,6 +103,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         daoDictAll = null;
         daoDictionary = null;
         daoLanguage = null;
+        daoBook = null;
     }
 
     public Dao<Language, Integer> getDaoLanguage() throws SQLException {
