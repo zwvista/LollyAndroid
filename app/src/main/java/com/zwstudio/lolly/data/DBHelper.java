@@ -8,6 +8,7 @@ import android.util.Log;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
+import com.zwstudio.lolly.domain.Book;
 import com.zwstudio.lolly.domain.DictAll;
 import com.zwstudio.lolly.domain.Dictionary;
 import com.zwstudio.lolly.domain.Language;
@@ -33,6 +34,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     private Dao<Language, Integer> daoLanguage = null;
     private Dao<Dictionary, Integer> daoDictionary = null;
     private Dao<DictAll, Integer> daoDictAll = null;
+    private Dao<Book, Integer> daoBook = null;
 
     public DBHelper(Context context) throws IOException {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -113,6 +115,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         if (daoDictionary == null)
             daoDictionary = getDao(Dictionary.class);
         return daoDictionary;
+    }
+
+    public Dao<Book, Integer> getDaoBook() throws SQLException {
+        if (daoBook == null)
+            daoBook = getDao(Book.class);
+        return daoBook;
     }
 
     public Dao<DictAll, Integer> getDaoDictAll() throws SQLException {

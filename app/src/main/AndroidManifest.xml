@@ -27,6 +27,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
         </activity>
+        <activity
+            android:name=".SelectUnitsActivity"
+            android:label="@string/select_units"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="fullSensor">
+        </activity>
     </application>
 
 </manifest>
