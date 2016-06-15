@@ -43,7 +43,6 @@ public class SearchActivity extends BaseActivity {
                 searchDict(svWord);
                 return true;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 getWordsOnlineViewModel().word = newText;
