@@ -5,6 +5,7 @@ import com.zwstudio.lolly.domain.Language;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class SelectUnitsViewModel {
 
@@ -32,7 +33,9 @@ public class SelectUnitsViewModel {
         this.currentLanguageIndex = currentLanguageIndex;
         Language m = lstLanguages.get(currentLanguageIndex);
         lstBooks = repoBook.getDataByLang(m.langid);
-        currentBookIndex = 0;
+        currentBookIndex = IntStream.range(0, lstBooks.size())
+            .filter(i -> lstBooks.get(i).bookid == m.curbookid)
+            .findFirst().getAsInt();
     }
 
     public Book getCurrentDict() {
