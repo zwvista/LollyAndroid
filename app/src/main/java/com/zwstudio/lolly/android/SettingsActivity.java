@@ -34,7 +34,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initSpnLanguage() {
-        final List<Language> lst = getWordsOnlineViewModel().lstLanguages;
+        List<Language> lst = getWordsOnlineViewModel().lstLanguages;
         ArrayAdapter<Language> adapter = new ArrayAdapter<Language>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override
@@ -72,8 +72,8 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initSpnDictionary() {
-        final List<DictAll> lst = getWordsOnlineViewModel().lstDictAll;
-        final ArrayAdapter<DictAll> adapter = new ArrayAdapter<DictAll>(this,
+        List<DictAll> lst = getWordsOnlineViewModel().lstDictAll;
+        ArrayAdapter<DictAll> adapter = new ArrayAdapter<DictAll>(this,
                 android.R.layout.simple_spinner_item, android.R.id.text1, lst) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {

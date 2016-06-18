@@ -38,7 +38,7 @@ public class SelectUnitsViewModel {
             .findFirst().getAsInt();
     }
 
-    public Book getCurrentDict() {
+    public Book getCurrentBook() {
         return lstBooks.get(currentBookIndex);
     }
 }

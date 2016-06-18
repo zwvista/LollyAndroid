@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,6 +28,16 @@ public class SelectUnitsActivity extends BaseActivity {
     Spinner spnLanguage;
     @InjectView(R.id.spnBook)
     Spinner spnBook;
+    @InjectView(R.id.edtUnitFrom)
+    EditText edtUnitFrom;
+    @InjectView(R.id.edtUnitTo)
+    EditText edtUnitTo;
+    @InjectView(R.id.spnUnitFrom)
+    Spinner spnUnitFrom;
+    @InjectView(R.id.spnUnitTo)
+    Spinner spnUnitTo;
+    @InjectView(R.id.chkUnitTo)
+    CheckBox chkUnitTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +46,7 @@ public class SelectUnitsActivity extends BaseActivity {
     }
 
     private void initSpnLanguage() {
-        final List<Language> lst = getSelectUnitsViewModel().lstLanguages;
+        List<Language> lst = getSelectUnitsViewModel().lstLanguages;
         ArrayAdapter<Language> adapter = new ArrayAdapter<Language>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override
@@ -72,8 +84,8 @@ public class SelectUnitsActivity extends BaseActivity {
     }
 
     private void initSpnBook() {
-        final List<Book> lst = getSelectUnitsViewModel().lstBooks;
-        final ArrayAdapter<Book> adapter = new ArrayAdapter<Book>(this,
+        List<Book> lst = getSelectUnitsViewModel().lstBooks;
+        ArrayAdapter<Book> adapter = new ArrayAdapter<Book>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -102,11 +114,46 @@ public class SelectUnitsActivity extends BaseActivity {
                 getSelectUnitsViewModel().currentBookIndex = position;
                 Log.d("", String.format("Checked position:%d", position));
                 adapter.notifyDataSetChanged();
+                initUnits();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    private void initUnits() {
+        Book currentBook = getSelectUnitsViewModel().getCurrentBook();
+        edtUnitFrom.setText(String.format("%d", currentBook.unitfrom));
+        edtUnitTo.setText(String.format("%d", currentBook.unitto));
+        chkUnitTo.setChecked(currentBook.unitfrom != currentBook.unitto);
+
+        String[] lst = currentBook.parts.split(" ");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, lst) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                String m = lst[position];
+                TextView tv = (TextView) v.findViewById(android.R.id.text1);
+                tv.setText(m);
+                return v;
+            }
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                String m = lst[position];
+                CheckedTextView ctv = (CheckedTextView) v.findViewById(android.R.id.text1);
+                ctv.setText(m);
+                return v;
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        spnUnitFrom.setAdapter(adapter);
+        spnUnitTo.setAdapter(adapter);
+
+        spnUnitFrom.setSelection(currentBook.partfrom - 1);
+        spnUnitTo.setSelection(currentBook.partto - 1);
     }
 
 }
