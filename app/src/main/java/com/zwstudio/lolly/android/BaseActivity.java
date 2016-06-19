@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.zwstudio.lolly.data.SelectUnitsViewModel;
 import com.zwstudio.lolly.data.WordsOnlineViewModel;
 
 public class BaseActivity extends RoboAppCompatActivity
@@ -25,10 +24,6 @@ public class BaseActivity extends RoboAppCompatActivity
 
     protected WordsOnlineViewModel getWordsOnlineViewModel() {
         return ((LollyApplication) getApplicationContext()).getWordsOnlineViewModel();
-    }
-
-    protected SelectUnitsViewModel getSelectUnitsViewModel() {
-        return ((LollyApplication) getApplicationContext()).getSelectUnitsViewModel();
     }
 
     protected void onCreateDrawer() {
@@ -103,9 +98,6 @@ public class BaseActivity extends RoboAppCompatActivity
             startActivityForResult(intent, 0);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
-            startActivityForResult(intent, 0);
-        } else if (id == R.id.nav_select_units) {
-            Intent intent = new Intent(this, SelectUnitsActivity.class);
             startActivityForResult(intent, 0);
         }
 

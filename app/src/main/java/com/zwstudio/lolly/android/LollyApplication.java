@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.zwstudio.lolly.data.DBHelper;
-import com.zwstudio.lolly.data.SelectUnitsViewModel;
 import com.zwstudio.lolly.data.WordsOnlineViewModel;
 
 public class LollyApplication extends Application {
@@ -12,13 +11,10 @@ public class LollyApplication extends Application {
 
     private WordsOnlineViewModel wordsOnlineViewModel;
 
-    private SelectUnitsViewModel selectUnitsViewModel;
-
     @Override
     public void onCreate() {
         super.onCreate();
         wordsOnlineViewModel = new WordsOnlineViewModel(getHelper());
-        selectUnitsViewModel = new SelectUnitsViewModel(getHelper());
     }
 
     @Override
@@ -38,9 +34,5 @@ public class LollyApplication extends Application {
 
     public WordsOnlineViewModel getWordsOnlineViewModel() {
         return wordsOnlineViewModel;
-    }
-
-    public SelectUnitsViewModel getSelectUnitsViewModel() {
-        return selectUnitsViewModel;
     }
 }
