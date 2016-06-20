@@ -13,7 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.zwstudio.lolly.data.WordsOnlineViewModel;
+import com.zwstudio.lolly.data.SettingsViewModel;
 
 public class BaseActivity extends RoboAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -22,8 +22,8 @@ public class BaseActivity extends RoboAppCompatActivity
     private ActionBarDrawerToggle drawerToggle;
 
 
-    protected WordsOnlineViewModel getWordsOnlineViewModel() {
-        return ((LollyApplication) getApplicationContext()).getWordsOnlineViewModel();
+    protected SettingsViewModel getSettingsViewModel() {
+        return ((LollyApplication) getApplicationContext()).getSettingsViewModel();
     }
 
     protected void onCreateDrawer() {
@@ -87,7 +87,6 @@ public class BaseActivity extends RoboAppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.

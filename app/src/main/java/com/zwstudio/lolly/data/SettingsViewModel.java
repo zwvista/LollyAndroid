@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class WordsOnlineViewModel {
+public class SettingsViewModel {
 
     public RepoDictAll repoDictAll;
     public RepoDictionary repoDictionary;
@@ -23,7 +23,7 @@ public class WordsOnlineViewModel {
     public List<Book> lstBooks = new ArrayList<>();
     public int currentBookIndex;
 
-    public WordsOnlineViewModel(DBHelper db) {
+    public SettingsViewModel(DBHelper db) {
         repoDictAll = new RepoDictAll(db);
         repoDictionary = new RepoDictionary(db);
         repoLanguage = new RepoLanguage(db);

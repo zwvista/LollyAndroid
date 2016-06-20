@@ -49,7 +49,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initSpnLanguage() {
-        List<Language> lst = getWordsOnlineViewModel().lstLanguages;
+        List<Language> lst = getSettingsViewModel().lstLanguages;
         ArrayAdapter<Language> adapter = new ArrayAdapter<Language>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override
@@ -72,11 +72,11 @@ public class SettingsActivity extends BaseActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spnLanguage.setAdapter(adapter);
 
-        spnLanguage.setSelection(getWordsOnlineViewModel().getCurrentLanguageIndex());
+        spnLanguage.setSelection(getSettingsViewModel().getCurrentLanguageIndex());
         spnLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getWordsOnlineViewModel().setCurrentLanguageIndex(position);
+                getSettingsViewModel().setCurrentLanguageIndex(position);
                 Log.d("", String.format("Checked position:%d", position));
                 initSpnDictionary();
                 initSpnBook();
@@ -88,7 +88,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initSpnDictionary() {
-        List<DictAll> lst = getWordsOnlineViewModel().lstDictAll;
+        List<DictAll> lst = getSettingsViewModel().lstDictAll;
         ArrayAdapter<DictAll> adapter = new ArrayAdapter<DictAll>(this,
                 android.R.layout.simple_spinner_item, android.R.id.text1, lst) {
             @Override
@@ -114,11 +114,11 @@ public class SettingsActivity extends BaseActivity {
         adapter.setDropDownViewResource(R.layout.item_dictionary);
         spnDictionary.setAdapter(adapter);
 
-        spnDictionary.setSelection(getWordsOnlineViewModel().currentDictIndex);
+        spnDictionary.setSelection(getSettingsViewModel().currentDictIndex);
         spnDictionary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getWordsOnlineViewModel().currentDictIndex = position;
+                getSettingsViewModel().currentDictIndex = position;
                 Log.d("", String.format("Checked position:%d", position));
                 adapter.notifyDataSetChanged();
             }
@@ -129,7 +129,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initSpnBook() {
-        List<Book> lst = getWordsOnlineViewModel().lstBooks;
+        List<Book> lst = getSettingsViewModel().lstBooks;
         ArrayAdapter<Book> adapter = new ArrayAdapter<Book>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override
@@ -152,11 +152,11 @@ public class SettingsActivity extends BaseActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spnBook.setAdapter(adapter);
 
-        spnBook.setSelection(getWordsOnlineViewModel().currentBookIndex);
+        spnBook.setSelection(getSettingsViewModel().currentBookIndex);
         spnBook.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getWordsOnlineViewModel().currentBookIndex = position;
+                getSettingsViewModel().currentBookIndex = position;
                 Log.d("", String.format("Checked position:%d", position));
                 adapter.notifyDataSetChanged();
                 initUnits();
@@ -168,7 +168,7 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void initUnits() {
-        Book currentBook = getWordsOnlineViewModel().getCurrentBook();
+        Book currentBook = getSettingsViewModel().getCurrentBook();
         edtUnitFrom.setText(String.format("%d", currentBook.unitfrom));
         edtUnitTo.setText(String.format("%d", currentBook.unitto));
         chkUnitTo.setChecked(currentBook.unitfrom != currentBook.unitto);
