@@ -75,18 +75,24 @@
         android:text="Units:"
         android:id="@+id/tvUnitFrom" />
 
-    <EditText
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/edtUnitFrom" />
+        android:weightSum="2">
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spnUnitFrom"
-        android:layout_gravity="center_horizontal" />
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spnUnitFrom"
+            android:layout_weight="1"/>
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spnPartFrom"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -95,16 +101,22 @@
         android:id="@+id/chkUnitTo"
         android:checked="false" />
 
-    <EditText
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:id="@+id/edtUnitTo" />
+        android:weightSum="2">
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spnUnitTo"
-        android:layout_gravity="center_horizontal" />
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spnUnitTo"
+            android:layout_weight="1"/>
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spnPartTo"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </LinearLayout>

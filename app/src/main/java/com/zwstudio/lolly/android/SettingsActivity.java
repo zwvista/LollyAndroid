@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -18,6 +17,8 @@ import com.zwstudio.lolly.domain.DictAll;
 import com.zwstudio.lolly.domain.Language;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -31,14 +32,14 @@ public class SettingsActivity extends BaseActivity {
     Spinner spnDictionary;
     @InjectView(R.id.spnBook)
     Spinner spnBook;
-    @InjectView(R.id.edtUnitFrom)
-    EditText edtUnitFrom;
-    @InjectView(R.id.edtUnitTo)
-    EditText edtUnitTo;
     @InjectView(R.id.spnUnitFrom)
     Spinner spnUnitFrom;
     @InjectView(R.id.spnUnitTo)
     Spinner spnUnitTo;
+    @InjectView(R.id.spnPartFrom)
+    Spinner spnPartFrom;
+    @InjectView(R.id.spnPartTo)
+    Spinner spnPartTo;
     @InjectView(R.id.chkUnitTo)
     CheckBox chkUnitTo;
 
@@ -159,7 +160,7 @@ public class SettingsActivity extends BaseActivity {
                 getSettingsViewModel().currentBookIndex = position;
                 Log.d("", String.format("Checked position:%d", position));
                 adapter.notifyDataSetChanged();
-                initUnits();
+                initUnitsAndParts();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -167,38 +168,68 @@ public class SettingsActivity extends BaseActivity {
         });
     }
 
-    private void initUnits() {
+    private void initUnitsAndParts() {
         Book currentBook = getSettingsViewModel().getCurrentBook();
-        edtUnitFrom.setText(String.format("%d", currentBook.unitfrom));
-        edtUnitTo.setText(String.format("%d", currentBook.unitto));
         chkUnitTo.setChecked(currentBook.unitfrom != currentBook.unitto);
 
-        String[] lst = currentBook.parts.split(" ");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, lst) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View v = super.getView(position, convertView, parent);
-                String m = lst[position];
-                TextView tv = (TextView) v.findViewById(android.R.id.text1);
-                tv.setText(m);
-                return v;
-            }
-            @Override
-            public View getDropDownView(int position, View convertView, ViewGroup parent) {
-                View v = super.getDropDownView(position, convertView, parent);
-                String m = lst[position];
-                CheckedTextView ctv = (CheckedTextView) v.findViewById(android.R.id.text1);
-                ctv.setText(m);
-                return v;
-            }
-        };
-        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        spnUnitFrom.setAdapter(adapter);
-        spnUnitTo.setAdapter(adapter);
+        {
+            List<String> lst = IntStream.rangeClosed(1, currentBook.unitsinbook)
+                    .mapToObj(i -> String.valueOf(i)).collect(Collectors.toList());
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, lst) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View v = super.getView(position, convertView, parent);
+                    String m = lst.get(position);
+                    TextView tv = (TextView) v.findViewById(android.R.id.text1);
+                    tv.setText(m);
+                    return v;
+                }
+                @Override
+                public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                    View v = super.getDropDownView(position, convertView, parent);
+                    String m = lst.get(position);
+                    CheckedTextView ctv = (CheckedTextView) v.findViewById(android.R.id.text1);
+                    ctv.setText(m);
+                    return v;
+                }
+            };
+            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+            spnUnitFrom.setAdapter(adapter);
+            spnUnitTo.setAdapter(adapter);
 
-        spnUnitFrom.setSelection(currentBook.partfrom - 1);
-        spnUnitTo.setSelection(currentBook.partto - 1);
+            spnUnitFrom.setSelection(currentBook.unitfrom - 1);
+            spnUnitTo.setSelection(currentBook.unitto - 1);
+        }
+
+        {
+            String[] lst = currentBook.parts.split(" ");
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, lst) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    View v = super.getView(position, convertView, parent);
+                    String m = lst[position];
+                    TextView tv = (TextView) v.findViewById(android.R.id.text1);
+                    tv.setText(m);
+                    return v;
+                }
+                @Override
+                public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                    View v = super.getDropDownView(position, convertView, parent);
+                    String m = lst[position];
+                    CheckedTextView ctv = (CheckedTextView) v.findViewById(android.R.id.text1);
+                    ctv.setText(m);
+                    return v;
+                }
+            };
+            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+            spnPartFrom.setAdapter(adapter);
+            spnPartTo.setAdapter(adapter);
+
+            spnPartFrom.setSelection(currentBook.partfrom - 1);
+            spnPartTo.setSelection(currentBook.partto - 1);
+        }
     }
 
 }
