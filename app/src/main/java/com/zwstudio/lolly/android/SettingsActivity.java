@@ -24,7 +24,7 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 @ContentView(R.layout.activity_settings)
-public class SettingsActivity extends BaseActivity {
+public class SettingsActivity extends DrawerActivity {
 
     @InjectView(R.id.spnLanguage)
     Spinner spnLanguage;

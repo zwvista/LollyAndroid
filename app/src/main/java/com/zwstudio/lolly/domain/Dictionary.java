@@ -15,8 +15,8 @@ public class Dictionary implements java.io.Serializable {
     public int langid;
     @Column(name = "DICTNAME", nullable = false, length = 2000000000)
     public String dictname;
-    @Column(name = "ORD", nullable = false)
-    public int ord;
+    @Column(name = "SEQNUM", nullable = false)
+    public int seqnum;
     @Column(name = "DICTTYPEID", nullable = false)
     public int dicttypeid;
     @Column(name = "LANGIDTO", nullable = false)

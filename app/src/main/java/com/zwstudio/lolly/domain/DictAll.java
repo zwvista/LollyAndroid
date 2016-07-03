@@ -15,8 +15,8 @@ public class DictAll implements java.io.Serializable {
     public Integer langid;
     @Column(name = "DICTNAME", length = 2000000000)
     public String dictname;
-    @Column(name = "ORD")
-    public Integer ord;
+    @Column(name = "SEQNUM")
+    public Integer seqnum;
     @Column(name = "LANGIDTO")
     public Integer langidto;
     @Column(name = "DICTTYPENAME", length = 2000000000)

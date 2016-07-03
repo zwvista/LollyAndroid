@@ -27,6 +27,18 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
         </activity>
+        <activity
+            android:name=".WordsActivity"
+            android:label="@string/words"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="fullSensor">
+        </activity>
+        <activity
+            android:name=".WordActivity"
+            android:label="@string/word"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
     </application>
 
 </manifest>

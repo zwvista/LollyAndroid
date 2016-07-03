@@ -45,7 +45,15 @@ public class SettingsViewModel {
         lstBooks = repoBook.getDataByLang(m.langid);
         currentBookIndex = IntStream.range(0, lstBooks.size())
                 .filter(i -> lstBooks.get(i).bookid == m.curbookid)
-                .findFirst().getAsInt();
+                .findFirst().orElse(-1);
+
+        currentBookIndex = -1;
+        for(int i = 0; i < lstBooks.size(); i++){
+            if(lstBooks.get(i).bookid == m.curbookid) {
+                currentBookIndex = i;
+                break;
+            }
+        }
     }
 
     public DictAll getCurrentDict() {

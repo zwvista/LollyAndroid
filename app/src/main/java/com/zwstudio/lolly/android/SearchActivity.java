@@ -15,7 +15,7 @@ import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 
 @ContentView(R.layout.activity_search)
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends DrawerActivity {
 
     @InjectView(R.id.svWord)
     SearchView svWord;
@@ -53,7 +53,7 @@ public class SearchActivity extends BaseActivity {
 
     private void configWebView(WebView wv) {
         wv.getSettings().setJavaScriptEnabled(true); // enable javascript
-        final Activity activity = this;
+        Activity activity = this;
         wv.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {

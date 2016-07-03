@@ -26,7 +26,7 @@ public class LollyApplication extends Application {
         }
     }
 
-    private DBHelper getHelper() {
+    public DBHelper getHelper() {
         if (dbHelper == null)
             dbHelper = OpenHelperManager.getHelper(this, DBHelper.class);
         return dbHelper;

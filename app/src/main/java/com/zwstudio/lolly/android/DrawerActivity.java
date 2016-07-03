@@ -13,17 +13,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.zwstudio.lolly.data.DBHelper;
 import com.zwstudio.lolly.data.SettingsViewModel;
 
-public class BaseActivity extends RoboAppCompatActivity
+public class DrawerActivity extends RoboAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
 
-
     protected SettingsViewModel getSettingsViewModel() {
         return ((LollyApplication) getApplicationContext()).getSettingsViewModel();
+    }
+
+    protected DBHelper getDBHelper() {
+        return ((LollyApplication) getApplicationContext()).getHelper();
     }
 
     protected void onCreateDrawer() {
@@ -97,6 +101,9 @@ public class BaseActivity extends RoboAppCompatActivity
             startActivityForResult(intent, 0);
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
+            startActivityForResult(intent, 0);
+        } else if (id == R.id.nav_words) {
+            Intent intent = new Intent(this, WordsActivity.class);
             startActivityForResult(intent, 0);
         }
 

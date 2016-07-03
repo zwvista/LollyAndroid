@@ -37,7 +37,7 @@ import roboguice.util.RoboContext;
 /**
  * Created by SJI on 2015/12/24.
  */
-public class RoboAppCompatActivity  extends  AppCompatActivity implements RoboContext {
+public class RoboAppCompatActivity extends AppCompatActivity implements RoboContext {
     // http://stackoverflow.com/questions/26661571/roboguice-3-0-noclassdeffounderror-annotationdatabaseimpl
     static {
         RoboGuice.setUseAnnotationDatabases(false);

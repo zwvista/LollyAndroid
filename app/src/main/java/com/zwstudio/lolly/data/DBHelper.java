@@ -12,6 +12,7 @@ import com.zwstudio.lolly.domain.Book;
 import com.zwstudio.lolly.domain.DictAll;
 import com.zwstudio.lolly.domain.Dictionary;
 import com.zwstudio.lolly.domain.Language;
+import com.zwstudio.lolly.domain.WordUnit;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,10 +32,11 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
-    private Dao<Language, Integer> daoLanguage = null;
-    private Dao<Dictionary, Integer> daoDictionary = null;
-    private Dao<DictAll, Integer> daoDictAll = null;
-    private Dao<Book, Integer> daoBook = null;
+    private Dao<Language, Integer> daoLanguage;
+    private Dao<Dictionary, Integer> daoDictionary;
+    private Dao<DictAll, Integer> daoDictAll;
+    private Dao<Book, Integer> daoBook;
+    private Dao<WordUnit, Integer> daoWordUnit;
 
     public DBHelper(Context context) throws IOException {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -128,6 +130,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         if (daoDictAll == null)
             daoDictAll = getDao(DictAll.class);
         return daoDictAll;
+    }
+
+    public Dao<WordUnit, Integer> getdaoWordUnit() throws SQLException {
+        if (daoWordUnit == null)
+            daoWordUnit = getDao(WordUnit.class);
+        return daoWordUnit;
     }
 
 }
