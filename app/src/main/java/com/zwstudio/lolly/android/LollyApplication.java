@@ -14,7 +14,7 @@ public class LollyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        settingsViewModel = new SettingsViewModel(getHelper());
+        settingsViewModel = new SettingsViewModel(getDBHelper());
     }
 
     @Override
@@ -26,7 +26,7 @@ public class LollyApplication extends Application {
         }
     }
 
-    public DBHelper getHelper() {
+    public DBHelper getDBHelper() {
         if (dbHelper == null)
             dbHelper = OpenHelperManager.getHelper(this, DBHelper.class);
         return dbHelper;

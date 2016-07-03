@@ -13,22 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.zwstudio.lolly.data.DBHelper;
-import com.zwstudio.lolly.data.SettingsViewModel;
-
 public class DrawerActivity extends RoboAppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, LollyContext {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-
-    protected SettingsViewModel getSettingsViewModel() {
-        return ((LollyApplication) getApplicationContext()).getSettingsViewModel();
-    }
-
-    protected DBHelper getDBHelper() {
-        return ((LollyApplication) getApplicationContext()).getHelper();
-    }
 
     protected void onCreateDrawer() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
