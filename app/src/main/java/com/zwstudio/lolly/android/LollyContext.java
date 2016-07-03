@@ -10,11 +10,15 @@ import com.zwstudio.lolly.data.SettingsViewModel;
  */
 public interface LollyContext {
 
+    default LollyApplication getLollyApp() {
+        return (LollyApplication)((Activity)this).getApplicationContext();
+    }
+
     default SettingsViewModel getSettingsViewModel() {
-        return ((LollyApplication) ((Activity)this).getApplicationContext()).getSettingsViewModel();
+        return getLollyApp().getSettingsViewModel();
     }
 
     default DBHelper getDBHelper() {
-        return ((LollyApplication) ((Activity)this).getApplicationContext()).getDBHelper();
+        return getLollyApp().getDBHelper();
     }
 }
