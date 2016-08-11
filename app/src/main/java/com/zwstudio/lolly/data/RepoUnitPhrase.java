@@ -1,22 +1,22 @@
 package com.zwstudio.lolly.data;
 
-import com.zwstudio.lolly.domain.WordUnit;
+import com.zwstudio.lolly.domain.UnitPhrase;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class RepoWordUnit {
+public class RepoUnitPhrase {
 
     DBHelper db;
 
-    public RepoWordUnit(DBHelper db) {
+    public RepoUnitPhrase(DBHelper db) {
         this.db = db;
     }
 
-    public List<WordUnit> getDataByBookUnitParts(int bookid, int unitpartfrom, int unitpartto) {
+    public List<UnitPhrase> getDataByTextBookUnitParts(int textbookid, int unitpartfrom, int unitpartto) {
         try {
-            return db.getdaoWordUnit().queryBuilder()
-                    .where().eq("BOOKID", bookid)
+            return db.getDaoUnitPhrase().queryBuilder()
+                    .where().eq("TEXTBOOKID", textbookid)
                     .and().raw(String.format("UNIT*10+PART>=%d", unitpartfrom))
                     .and().raw(String.format("UNIT*10+PART<=%d", unitpartto))
                     .query();

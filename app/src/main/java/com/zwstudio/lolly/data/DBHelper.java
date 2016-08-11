@@ -8,11 +8,14 @@ import android.util.Log;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
-import com.zwstudio.lolly.domain.Book;
-import com.zwstudio.lolly.domain.DictAll;
 import com.zwstudio.lolly.domain.Dictionary;
+import com.zwstudio.lolly.domain.LangPhrase;
+import com.zwstudio.lolly.domain.LangWord;
 import com.zwstudio.lolly.domain.Language;
-import com.zwstudio.lolly.domain.WordUnit;
+import com.zwstudio.lolly.domain.TBWord;
+import com.zwstudio.lolly.domain.TextBook;
+import com.zwstudio.lolly.domain.UnitPhrase;
+import com.zwstudio.lolly.domain.UnitWord;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,16 +30,19 @@ import java.sql.SQLException;
  */
 public class DBHelper extends OrmLiteSqliteOpenHelper {
 
-    private static final String DATABASE_NAME = "Lolly.db";
+    private static final String DATABASE_NAME = "LollyCore.db";
     private static String databasePath;
 
     private static final int DATABASE_VERSION = 1;
 
-    private Dao<Language, Integer> daoLanguage;
     private Dao<Dictionary, Integer> daoDictionary;
-    private Dao<DictAll, Integer> daoDictAll;
-    private Dao<Book, Integer> daoBook;
-    private Dao<WordUnit, Integer> daoWordUnit;
+    private Dao<LangPhrase, Integer> daoLangPhrase;
+    private Dao<Language, Integer> daoLanguage;
+    private Dao<LangWord, Integer> daoLangWord;
+    private Dao<TBWord, Integer> daoTBWord;
+    private Dao<TextBook, Integer> daoTextBook;
+    private Dao<UnitPhrase, Integer> daoUnitPhrase;
+    private Dao<UnitWord, Integer> daoUnitWord;
 
     public DBHelper(Context context) throws IOException {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -102,10 +108,14 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void close() {
         super.close();
-        daoDictAll = null;
         daoDictionary = null;
         daoLanguage = null;
-        daoBook = null;
+        daoTextBook = null;
+        daoUnitWord = null;
+        daoLangWord = null;
+        daoTBWord = null;
+        daoLangPhrase = null;
+        daoUnitPhrase = null;
     }
 
     public Dao<Language, Integer> getDaoLanguage() throws SQLException {
@@ -120,22 +130,40 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         return daoDictionary;
     }
 
-    public Dao<Book, Integer> getDaoBook() throws SQLException {
-        if (daoBook == null)
-            daoBook = getDao(Book.class);
-        return daoBook;
+    public Dao<TextBook, Integer> getDaoTextBook() throws SQLException {
+        if (daoTextBook == null)
+            daoTextBook = getDao(TextBook.class);
+        return daoTextBook;
     }
 
-    public Dao<DictAll, Integer> getDaoDictAll() throws SQLException {
-        if (daoDictAll == null)
-            daoDictAll = getDao(DictAll.class);
-        return daoDictAll;
+    public Dao<UnitWord, Integer> getDaoUnitWord() throws SQLException {
+        if (daoUnitWord == null)
+            daoUnitWord = getDao(UnitWord.class);
+        return daoUnitWord;
     }
 
-    public Dao<WordUnit, Integer> getdaoWordUnit() throws SQLException {
-        if (daoWordUnit == null)
-            daoWordUnit = getDao(WordUnit.class);
-        return daoWordUnit;
+    public Dao<LangWord, Integer> getDaoLangWord() throws SQLException {
+        if (daoLangWord == null)
+            daoLangWord = getDao(LangWord.class);
+        return daoLangWord;
+    }
+
+    public Dao<TBWord, Integer> getDaoTBWord() throws SQLException {
+        if (daoTBWord == null)
+            daoTBWord = getDao(TBWord.class);
+        return daoTBWord;
+    }
+
+    public Dao<LangPhrase, Integer> getDaoLangPhrase() throws SQLException {
+        if (daoLangPhrase == null)
+            daoLangPhrase = getDao(LangPhrase.class);
+        return daoLangPhrase;
+    }
+
+    public Dao<UnitPhrase, Integer> getDaoUnitPhrase() throws SQLException {
+        if (daoUnitPhrase == null)
+            daoUnitPhrase = getDao(UnitPhrase.class);
+        return daoUnitPhrase;
     }
 
 }

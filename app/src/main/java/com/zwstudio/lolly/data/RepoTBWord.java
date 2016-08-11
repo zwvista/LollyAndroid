@@ -1,24 +1,21 @@
 package com.zwstudio.lolly.data;
 
-import com.zwstudio.lolly.domain.Book;
-import com.zwstudio.lolly.domain.Language;
+import com.zwstudio.lolly.domain.TBWord;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class RepoBook {
+public class RepoTBWord {
 
     DBHelper db;
 
-    public RepoBook(DBHelper db) {
+    public RepoTBWord(DBHelper db) {
         this.db = db;
     }
 
-    public List<Book> getDataByLang(int langid) {
+    public List<TBWord> getDataByLang(int langid) {
         try {
-            return db.getDaoBook().queryBuilder()
+            return db.getDaoTBWord().queryBuilder()
                     .where().eq("LANGID", langid)
                     .query();
         } catch (SQLException e) {

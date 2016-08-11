@@ -2,7 +2,9 @@
     <string name="app_name">LollyAndroid</string>
     <string name="search">Search</string>
     <string name="settings">Settings</string>
-    <string name="words">Words</string>
+    <string name="words_units">Words in Units</string>
+    <string name="words_tb">Words in TextBook</string>
+    <string name="words_lang">Words in Language</string>
     <string name="word">Word</string>
 
 

@@ -18,7 +18,7 @@ public class RepoLanguage {
     public List<Language> getData() {
         try {
             return db.getDaoLanguage().queryBuilder()
-                    .where().gt("LANGID", 0)
+                    .where().gt("ID", 0)
                     .query();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -30,7 +30,7 @@ public class RepoLanguage {
         Map<String, String> m = new HashMap<String, String>();
         List<Language> lst = getData();
         for (Language r : lst)
-            m.put(Integer.toString(r.langid), r.langname);
+            m.put(Integer.toString(r.id), r.langname);
         return m;
     }
 

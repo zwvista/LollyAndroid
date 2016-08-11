@@ -8,8 +8,8 @@ import android.webkit.WebViewClient;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.zwstudio.lolly.data.RepoDictAll;
-import com.zwstudio.lolly.domain.DictAll;
+import com.zwstudio.lolly.data.RepoDictionary;
+import com.zwstudio.lolly.domain.Dictionary;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -66,8 +66,8 @@ public class SearchActivity extends DrawerActivity {
         word = svWord.getQuery().toString();
         wvDictOnline.setVisibility(View.VISIBLE);
         wvDictOffline.setVisibility(View.INVISIBLE);
-        DictAll m = getSettingsViewModel().getCurrentDict();
-        String url = RepoDictAll.urlString(m.url, word);
+        Dictionary m = getSettingsViewModel().getCurrentDict();
+        String url = RepoDictionary.urlString(m.url, word);
         svWord.post(new Runnable() {
             @Override
             public void run() {

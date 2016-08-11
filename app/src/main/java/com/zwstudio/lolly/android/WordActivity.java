@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.zwstudio.lolly.data.RepoDictAll;
-import com.zwstudio.lolly.domain.DictAll;
+import com.zwstudio.lolly.data.RepoDictionary;
+import com.zwstudio.lolly.domain.Dictionary;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -27,8 +27,8 @@ public class WordActivity extends RoboAppCompatActivity implements LollyContext 
         Intent intent = getIntent();
         String word = intent.getStringExtra("word");
         setTitle(word);
-        DictAll m = getSettingsViewModel().getCurrentDict();
-        String url = RepoDictAll.urlString(m.url, word);
+        Dictionary m = getSettingsViewModel().getCurrentDict();
+        String url = RepoDictionary.urlString(m.url, word);
         // http://stackoverflow.com/questions/7746409/android-webview-launches-browser-when-calling-loadurl
         wv.setWebViewClient(new WebViewClient());
         wv.loadUrl(url);

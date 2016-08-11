@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.data;
 
-import com.zwstudio.lolly.domain.Book;
-import com.zwstudio.lolly.domain.DictAll;
+import com.zwstudio.lolly.domain.Dictionary;
 import com.zwstudio.lolly.domain.Language;
+import com.zwstudio.lolly.domain.TextBook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,24 +10,22 @@ import java.util.stream.IntStream;
 
 public class SettingsViewModel {
 
-    public RepoDictAll repoDictAll;
     public RepoDictionary repoDictionary;
     public RepoLanguage repoLanguage;
-    public RepoBook repoBook;
+    public RepoTextBook repoTextBook;
 
     public List<Language> lstLanguages;
     private int currentLanguageIndex;
-    public List<DictAll> lstDictAll = new ArrayList<>();
+    public List<Dictionary> lstDictionary = new ArrayList<>();
     public int currentDictIndex;
     public String word = "";
-    public List<Book> lstBooks = new ArrayList<>();
-    public int currentBookIndex;
+    public List<TextBook> lstTextBooks = new ArrayList<>();
+    public int currentTextBookIndex;
 
     public SettingsViewModel(DBHelper db) {
-        repoDictAll = new RepoDictAll(db);
         repoDictionary = new RepoDictionary(db);
         repoLanguage = new RepoLanguage(db);
-        repoBook = new RepoBook(db);
+        repoTextBook = new RepoTextBook(db);
 
         lstLanguages = repoLanguage.getData();
         setCurrentLanguageIndex(2);
@@ -40,27 +38,27 @@ public class SettingsViewModel {
     public void setCurrentLanguageIndex(int currentLanguageIndex) {
         this.currentLanguageIndex = currentLanguageIndex;
         Language m = lstLanguages.get(currentLanguageIndex);
-        lstDictAll = repoDictAll.getDataByLang(m.langid);
+        lstDictionary = repoDictionary.getDataByLang(m.id);
         currentDictIndex = 0;
-        lstBooks = repoBook.getDataByLang(m.langid);
-        currentBookIndex = IntStream.range(0, lstBooks.size())
-                .filter(i -> lstBooks.get(i).bookid == m.curbookid)
+        lstTextBooks = repoTextBook.getDataByLang(m.id);
+        currentTextBookIndex = IntStream.range(0, lstTextBooks.size())
+                .filter(i -> lstTextBooks.get(i).id == m.ustextbookid)
                 .findFirst().orElse(-1);
 
-        currentBookIndex = -1;
-        for(int i = 0; i < lstBooks.size(); i++){
-            if(lstBooks.get(i).bookid == m.curbookid) {
-                currentBookIndex = i;
+        currentTextBookIndex = -1;
+        for(int i = 0; i < lstTextBooks.size(); i++){
+            if(lstTextBooks.get(i).id == m.ustextbookid) {
+                currentTextBookIndex = i;
                 break;
             }
         }
     }
 
-    public DictAll getCurrentDict() {
-        return lstDictAll.get(currentDictIndex);
+    public Dictionary getCurrentDict() {
+        return lstDictionary.get(currentDictIndex);
     }
 
-    public Book getCurrentBook() {
-        return lstBooks.get(currentBookIndex);
+    public TextBook getCurrentTextBook() {
+        return lstTextBooks.get(currentTextBookIndex);
     }
 }

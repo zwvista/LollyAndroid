@@ -5,15 +5,23 @@
         <item
             android:id="@+id/nav_search"
             android:icon="@android:drawable/ic_menu_camera"
-            android:title="Search"/>
+            android:title="@string/search"/>
         <item
             android:id="@+id/nav_settings"
             android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="Settings"/>
+            android:title="@string/settings"/>
         <item
-            android:id="@+id/nav_words"
+            android:id="@+id/nav_words_units"
             android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="Words"/>
+            android:title="@string/words_units"/>
+        <item
+            android:id="@+id/nav_words_tb"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="@string/words_tb"/>
+        <item
+            android:id="@+id/nav_words_lang"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="@string/words_lang"/>
     </group>
 
 </menu>

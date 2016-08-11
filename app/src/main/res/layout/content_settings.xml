@@ -54,13 +54,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Book:"
-        android:id="@+id/tvBook"/>
+        android:text="TextBook:"
+        android:id="@+id/tvTextBook"/>
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spnBook"
+        android:id="@+id/spnTextBook"
         android:layout_gravity="center_horizontal" />
 
     <Space

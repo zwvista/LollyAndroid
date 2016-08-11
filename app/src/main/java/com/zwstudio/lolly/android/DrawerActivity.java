@@ -91,8 +91,14 @@ public class DrawerActivity extends RoboAppCompatActivity
         } else if (id == R.id.nav_settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivityForResult(intent, 0);
-        } else if (id == R.id.nav_words) {
-            Intent intent = new Intent(this, WordsActivity.class);
+        } else if (id == R.id.nav_words_units) {
+            Intent intent = new Intent(this, WordsUnitsActivity.class);
+            startActivityForResult(intent, 0);
+        } else if (id == R.id.nav_words_tb) {
+            Intent intent = new Intent(this, WordsTBActivity.class);
+            startActivityForResult(intent, 0);
+        } else if (id == R.id.nav_words_lang) {
+            Intent intent = new Intent(this, WordsLangActivity.class);
             startActivityForResult(intent, 0);
         }
 

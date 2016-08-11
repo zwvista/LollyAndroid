@@ -28,8 +28,20 @@
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordsActivity"
-            android:label="@string/words"
+            android:name=".WordsUnitsActivity"
+            android:label="@string/words_units"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="fullSensor">
+        </activity>
+        <activity
+            android:name=".WordsTBActivity"
+            android:label="@string/words_tb"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="fullSensor">
+        </activity>
+        <activity
+            android:name=".WordsLangActivity"
+            android:label="@string/words_lang"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
         </activity>

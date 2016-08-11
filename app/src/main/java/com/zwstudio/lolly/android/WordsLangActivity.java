@@ -7,32 +7,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.zwstudio.lolly.data.WordsViewModel;
-import com.zwstudio.lolly.domain.WordUnit;
+import com.zwstudio.lolly.data.WordsLangViewModel;
+import com.zwstudio.lolly.domain.LangWord;
 
 import java.util.List;
 
 import roboguice.inject.ContentView;
-import roboguice.inject.InjectView;
 
-@ContentView(R.layout.activity_words)
-public class WordsActivity extends DrawerActivity {
+@ContentView(R.layout.activity_words_lang)
+public class WordsLangActivity extends WordsBaseActivity {
 
-    @InjectView(R.id.listView)
-    ListView lv;
-
-    WordsViewModel wordsViewModel;
+    WordsLangViewModel wordsLangViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        wordsViewModel = new WordsViewModel(getDBHelper(), getSettingsViewModel());
-        List<WordUnit> lst = wordsViewModel.lstWords;
-        ArrayAdapter<WordUnit> adapter = new ArrayAdapter<WordUnit>(this,
+        wordsLangViewModel = new WordsLangViewModel(getDBHelper(), getSettingsViewModel());
+        List<LangWord> lst = wordsLangViewModel.lstWords;
+        ArrayAdapter<LangWord> adapter = new ArrayAdapter<LangWord>(this,
                 android.R.layout.simple_list_item_1, lst) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {

@@ -12,8 +12,8 @@ import android.widget.CheckedTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.zwstudio.lolly.domain.Book;
-import com.zwstudio.lolly.domain.DictAll;
+import com.zwstudio.lolly.domain.TextBook;
+import com.zwstudio.lolly.domain.Dictionary;
 import com.zwstudio.lolly.domain.Language;
 
 import java.util.List;
@@ -30,8 +30,8 @@ public class SettingsActivity extends DrawerActivity {
     Spinner spnLanguage;
     @InjectView(R.id.spnDictionary)
     Spinner spnDictionary;
-    @InjectView(R.id.spnBook)
-    Spinner spnBook;
+    @InjectView(R.id.spnTextBook)
+    Spinner spnTextBook;
     @InjectView(R.id.spnUnitFrom)
     Spinner spnUnitFrom;
     @InjectView(R.id.spnUnitTo)
@@ -80,7 +80,7 @@ public class SettingsActivity extends DrawerActivity {
                 getSettingsViewModel().setCurrentLanguageIndex(position);
                 Log.d("", String.format("Checked position:%d", position));
                 initSpnDictionary();
-                initSpnBook();
+                initSpnTextBook();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -89,13 +89,13 @@ public class SettingsActivity extends DrawerActivity {
     }
 
     private void initSpnDictionary() {
-        List<DictAll> lst = getSettingsViewModel().lstDictAll;
-        ArrayAdapter<DictAll> adapter = new ArrayAdapter<DictAll>(this,
+        List<Dictionary> lst = getSettingsViewModel().lstDictionary;
+        ArrayAdapter<Dictionary> adapter = new ArrayAdapter<Dictionary>(this,
                 android.R.layout.simple_spinner_item, android.R.id.text1, lst) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
-                DictAll m = lst.get(position);
+                Dictionary m = lst.get(position);
                 TextView tv = (TextView) v.findViewById(android.R.id.text1);
                 tv.setText(m.dictname);
                 return v;
@@ -103,7 +103,7 @@ public class SettingsActivity extends DrawerActivity {
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
-                DictAll m = lst.get(position);
+                Dictionary m = lst.get(position);
                 CheckedTextView ctv = (CheckedTextView) v.findViewById(android.R.id.text1);
                 ctv.setText(m.dictname);
                 ctv.setChecked(spnDictionary.getSelectedItemPosition() == position);
@@ -129,35 +129,35 @@ public class SettingsActivity extends DrawerActivity {
         });
     }
 
-    private void initSpnBook() {
-        List<Book> lst = getSettingsViewModel().lstBooks;
-        ArrayAdapter<Book> adapter = new ArrayAdapter<Book>(this,
+    private void initSpnTextBook() {
+        List<TextBook> lst = getSettingsViewModel().lstTextBooks;
+        ArrayAdapter<TextBook> adapter = new ArrayAdapter<TextBook>(this,
                 android.R.layout.simple_spinner_item, lst) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
-                Book m = lst.get(position);
+                TextBook m = lst.get(position);
                 TextView tv = (TextView) v.findViewById(android.R.id.text1);
-                tv.setText(m.bookname);
+                tv.setText(m.textbookname);
                 return v;
             }
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View v = super.getDropDownView(position, convertView, parent);
-                Book m = lst.get(position);
+                TextBook m = lst.get(position);
                 CheckedTextView ctv = (CheckedTextView) v.findViewById(android.R.id.text1);
-                ctv.setText(m.bookname);
+                ctv.setText(m.textbookname);
                 return v;
             }
         };
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-        spnBook.setAdapter(adapter);
+        spnTextBook.setAdapter(adapter);
 
-        spnBook.setSelection(getSettingsViewModel().currentBookIndex);
-        spnBook.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spnTextBook.setSelection(getSettingsViewModel().currentTextBookIndex);
+        spnTextBook.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getSettingsViewModel().currentBookIndex = position;
+                getSettingsViewModel().currentTextBookIndex = position;
                 Log.d("", String.format("Checked position:%d", position));
                 adapter.notifyDataSetChanged();
                 initUnitsAndParts();
@@ -169,11 +169,11 @@ public class SettingsActivity extends DrawerActivity {
     }
 
     private void initUnitsAndParts() {
-        Book currentBook = getSettingsViewModel().getCurrentBook();
-        chkUnitTo.setChecked(currentBook.unitfrom != currentBook.unitto);
+        TextBook currentTextBook = getSettingsViewModel().getCurrentTextBook();
+        chkUnitTo.setChecked(currentTextBook.usunitfrom != currentTextBook.usunitto);
 
         {
-            List<String> lst = IntStream.rangeClosed(1, currentBook.unitsinbook)
+            List<String> lst = IntStream.rangeClosed(1, currentTextBook.units)
                     .mapToObj(i -> String.valueOf(i)).collect(Collectors.toList());
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, lst) {
@@ -198,12 +198,12 @@ public class SettingsActivity extends DrawerActivity {
             spnUnitFrom.setAdapter(adapter);
             spnUnitTo.setAdapter(adapter);
 
-            spnUnitFrom.setSelection(currentBook.unitfrom - 1);
-            spnUnitTo.setSelection(currentBook.unitto - 1);
+            spnUnitFrom.setSelection(currentTextBook.usunitfrom - 1);
+            spnUnitTo.setSelection(currentTextBook.usunitto - 1);
         }
 
         {
-            String[] lst = currentBook.parts.split(" ");
+            String[] lst = currentTextBook.parts.split(" ");
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, lst) {
                 @Override
@@ -227,8 +227,8 @@ public class SettingsActivity extends DrawerActivity {
             spnPartFrom.setAdapter(adapter);
             spnPartTo.setAdapter(adapter);
 
-            spnPartFrom.setSelection(currentBook.partfrom - 1);
-            spnPartTo.setSelection(currentBook.partto - 1);
+            spnPartFrom.setSelection(currentTextBook.uspartfrom - 1);
+            spnPartTo.setSelection(currentTextBook.uspartto - 1);
         }
     }
 
