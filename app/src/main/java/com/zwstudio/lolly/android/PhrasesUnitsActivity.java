@@ -9,31 +9,34 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.zwstudio.lolly.data.WordsLangViewModel;
-import com.zwstudio.lolly.domain.LangWord;
+import com.zwstudio.lolly.data.PhrasesUnitsViewModel;
+import com.zwstudio.lolly.domain.UnitPhrase;
 
 import java.util.List;
 
 import roboguice.inject.ContentView;
 
-@ContentView(R.layout.activity_words_lang)
-public class WordsLangActivity extends DrawerListActivity {
+@ContentView(R.layout.activity_phrases_units)
+public class PhrasesUnitsActivity extends DrawerListActivity {
 
-    WordsLangViewModel wordsLangViewModel;
+    PhrasesUnitsViewModel phrasesUnitsViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        wordsLangViewModel = new WordsLangViewModel(getDBHelper(), getSettingsViewModel());
-        List<LangWord> lst = wordsLangViewModel.lstWords;
-        ArrayAdapter<LangWord> adapter = new ArrayAdapter<LangWord>(this,
-                android.R.layout.simple_list_item_1, lst) {
+        phrasesUnitsViewModel = new PhrasesUnitsViewModel(getDBHelper(), getSettingsViewModel());
+        List<UnitPhrase> lst = phrasesUnitsViewModel.lstPhrases;
+        ArrayAdapter<UnitPhrase> adapter = new ArrayAdapter<UnitPhrase>(this,
+                android.R.layout.simple_list_item_2, android.R.id.text1, lst) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 TextView tv = (TextView) v.findViewById(android.R.id.text1);
-                tv.setText(lst.get(position).word);
+                tv.setText(lst.get(position).phrase);
+                tv.setTextColor(Color.rgb(255, 165, 0));
+                tv = (TextView) v.findViewById(android.R.id.text2);
+                tv.setText(lst.get(position).translation);
                 tv.setTextColor(Color.BLUE);
                 return v;
             }
@@ -43,8 +46,8 @@ public class WordsLangActivity extends DrawerListActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(),WordActivity.class);
-                intent.putExtra("word", lst.get(position).word);
+                Intent intent = new Intent(getApplicationContext(), WordActivity.class);
+                intent.putExtra("word", lst.get(position).phrase);
                 startActivity(intent);
             }
         });

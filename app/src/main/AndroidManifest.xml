@@ -51,6 +51,18 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
+        <activity
+            android:name=".PhrasesUnitsActivity"
+            android:label="@string/phrases_units"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="fullSensor">
+        </activity>
+        <activity
+            android:name=".PhrasesLangActivity"
+            android:label="@string/phrases_lang"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="fullSensor">
+        </activity>
     </application>
 
 </manifest>

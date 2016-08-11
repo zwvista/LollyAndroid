@@ -35,7 +35,7 @@ public class DrawerActivity extends RoboAppCompatActivity
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.setDrawerListener(drawerToggle);
+        drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -99,6 +99,12 @@ public class DrawerActivity extends RoboAppCompatActivity
             startActivityForResult(intent, 0);
         } else if (id == R.id.nav_words_lang) {
             Intent intent = new Intent(this, WordsLangActivity.class);
+            startActivityForResult(intent, 0);
+        } else if (id == R.id.nav_phrases_units) {
+            Intent intent = new Intent(this, PhrasesUnitsActivity.class);
+            startActivityForResult(intent, 0);
+        } else if (id == R.id.nav_phrases_lang) {
+            Intent intent = new Intent(this, PhrasesLangActivity.class);
             startActivityForResult(intent, 0);
         }
 

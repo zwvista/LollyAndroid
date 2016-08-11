@@ -5,6 +5,8 @@
     <string name="words_units">Words in Units</string>
     <string name="words_tb">Words in TextBook</string>
     <string name="words_lang">Words in Language</string>
+    <string name="phrases_units">Phrases in Units</string>
+    <string name="phrases_lang">Phrases in Language</string>
     <string name="word">Word</string>
 
 

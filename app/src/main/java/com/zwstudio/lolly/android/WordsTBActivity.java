@@ -17,7 +17,7 @@ import java.util.List;
 import roboguice.inject.ContentView;
 
 @ContentView(R.layout.activity_words_tb)
-public class WordsTBActivity extends WordsBaseActivity {
+public class WordsTBActivity extends DrawerListActivity {
 
     WordsTBViewModel wordsTBViewModel;
 

@@ -4,7 +4,7 @@ import android.widget.ListView;
 
 import roboguice.inject.InjectView;
 
-public class WordsBaseActivity extends DrawerActivity {
+public class DrawerListActivity extends DrawerActivity {
 
     @InjectView(R.id.listView)
     ListView lv;
