@@ -3,6 +3,7 @@ package com.zwstudio.lolly.data;
 import com.zwstudio.lolly.domain.Dictionary;
 import com.zwstudio.lolly.domain.Language;
 import com.zwstudio.lolly.domain.TextBook;
+import com.zwstudio.lolly.domain.UserSetting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +14,11 @@ public class SettingsViewModel {
     public RepoDictionary repoDictionary;
     public RepoLanguage repoLanguage;
     public RepoTextBook repoTextBook;
+    public RepoUserSetting repoUserSetting;
 
     public List<Language> lstLanguages;
     private int currentLanguageIndex;
-    public List<Dictionary> lstDictionary = new ArrayList<>();
+    public List<Dictionary> lstDictionaries = new ArrayList<>();
     public int currentDictIndex;
     public String word = "";
     public List<TextBook> lstTextBooks = new ArrayList<>();
@@ -26,9 +28,14 @@ public class SettingsViewModel {
         repoDictionary = new RepoDictionary(db);
         repoLanguage = new RepoLanguage(db);
         repoTextBook = new RepoTextBook(db);
+        repoUserSetting = new RepoUserSetting(db);
 
         lstLanguages = repoLanguage.getData();
-        setCurrentLanguageIndex(2);
+        UserSetting m = repoUserSetting.getData();
+        int currentLangIndex = IntStream.range(0, lstLanguages.size())
+                .filter(i -> lstLanguages.get(i).id == m.uslangid)
+                .findFirst().orElse(-1);
+        setCurrentLanguageIndex(currentLangIndex);
     }
 
     public int getCurrentLanguageIndex() {
@@ -38,24 +45,18 @@ public class SettingsViewModel {
     public void setCurrentLanguageIndex(int currentLanguageIndex) {
         this.currentLanguageIndex = currentLanguageIndex;
         Language m = lstLanguages.get(currentLanguageIndex);
-        lstDictionary = repoDictionary.getDataByLang(m.id);
-        currentDictIndex = 0;
+        lstDictionaries = repoDictionary.getDataByLang(m.id);
+        currentDictIndex = IntStream.range(0, lstDictionaries.size())
+                .filter(i -> lstDictionaries.get(i).id == m.usdictid)
+                .findFirst().orElse(-1);
         lstTextBooks = repoTextBook.getDataByLang(m.id);
         currentTextBookIndex = IntStream.range(0, lstTextBooks.size())
                 .filter(i -> lstTextBooks.get(i).id == m.ustextbookid)
                 .findFirst().orElse(-1);
-
-        currentTextBookIndex = -1;
-        for(int i = 0; i < lstTextBooks.size(); i++){
-            if(lstTextBooks.get(i).id == m.ustextbookid) {
-                currentTextBookIndex = i;
-                break;
-            }
-        }
     }
 
     public Dictionary getCurrentDict() {
-        return lstDictionary.get(currentDictIndex);
+        return lstDictionaries.get(currentDictIndex);
     }
 
     public TextBook getCurrentTextBook() {

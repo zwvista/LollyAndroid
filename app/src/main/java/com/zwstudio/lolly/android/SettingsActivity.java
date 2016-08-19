@@ -121,7 +121,7 @@ public class SettingsActivity extends DrawerActivity {
     }
 
     private void initSpnDictionary() {
-        List<Dictionary> lst = getSettingsViewModel().lstDictionary;
+        List<Dictionary> lst = getSettingsViewModel().lstDictionaries;
         ArrayAdapter<Dictionary> adapter = new ArrayAdapter<Dictionary>(this,
                 android.R.layout.simple_spinner_item, android.R.id.text1, lst) {
             @Override

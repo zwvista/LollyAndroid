@@ -21,6 +21,8 @@ public class Language implements java.io.Serializable {
     public String voice;
     @Column(name = "USTEXTBOOKID")
     public int ustextbookid;
+    @Column(name = "USDICTID")
+    public int usdictid;
 
     public Language() {
     }

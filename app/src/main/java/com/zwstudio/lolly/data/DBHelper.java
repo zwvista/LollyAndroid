@@ -16,6 +16,7 @@ import com.zwstudio.lolly.domain.TBWord;
 import com.zwstudio.lolly.domain.TextBook;
 import com.zwstudio.lolly.domain.UnitPhrase;
 import com.zwstudio.lolly.domain.UnitWord;
+import com.zwstudio.lolly.domain.UserSetting;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,6 +44,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     private Dao<TextBook, Integer> daoTextBook;
     private Dao<UnitPhrase, Integer> daoUnitPhrase;
     private Dao<UnitWord, Integer> daoUnitWord;
+    private Dao<UserSetting, Integer> daoUserSetting;
 
     public DBHelper(Context context) throws IOException {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -116,6 +118,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         daoTBWord = null;
         daoLangPhrase = null;
         daoUnitPhrase = null;
+        daoUserSetting = null;
     }
 
     public Dao<Language, Integer> getDaoLanguage() throws SQLException {
@@ -164,6 +167,12 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         if (daoUnitPhrase == null)
             daoUnitPhrase = getDao(UnitPhrase.class);
         return daoUnitPhrase;
+    }
+
+    public Dao<UserSetting, Integer> getDaoUserSetting() throws SQLException {
+        if (daoUserSetting == null)
+            daoUserSetting = getDao(UserSetting.class);
+        return daoUserSetting;
     }
 
 }
