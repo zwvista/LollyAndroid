@@ -17,7 +17,7 @@ public class SettingsViewModel {
     public RepoUserSetting repoUserSetting;
 
     public List<Language> lstLanguages;
-    private int currentLanguageIndex;
+    private int currentLangIndex;
     public List<Dictionary> lstDictionaries = new ArrayList<>();
     public int currentDictIndex;
     public String word = "";
@@ -39,12 +39,12 @@ public class SettingsViewModel {
     }
 
     public int getCurrentLanguageIndex() {
-        return currentLanguageIndex;
+        return currentLangIndex;
     }
 
-    public void setCurrentLanguageIndex(int currentLanguageIndex) {
-        this.currentLanguageIndex = currentLanguageIndex;
-        Language m = lstLanguages.get(currentLanguageIndex);
+    public void setCurrentLanguageIndex(int currentLangIndex) {
+        this.currentLangIndex = currentLangIndex;
+        Language m = lstLanguages.get(currentLangIndex);
         lstDictionaries = repoDictionary.getDataByLang(m.id);
         currentDictIndex = IntStream.range(0, lstDictionaries.size())
                 .filter(i -> lstDictionaries.get(i).id == m.usdictid)

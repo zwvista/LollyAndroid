@@ -123,13 +123,15 @@ public class SettingsActivity extends DrawerActivity {
     private void initSpnDictionary() {
         List<Dictionary> lst = getSettingsViewModel().lstDictionaries;
         ArrayAdapter<Dictionary> adapter = new ArrayAdapter<Dictionary>(this,
-                android.R.layout.simple_spinner_item, android.R.id.text1, lst) {
+                R.layout.spinner_item_2, android.R.id.text1, lst) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 Dictionary m = lst.get(position);
                 TextView tv = (TextView) v.findViewById(android.R.id.text1);
                 tv.setText(m.dictname);
+                tv = (TextView) v.findViewById(android.R.id.text2);
+                tv.setText(m.url);
                 return v;
             }
             @Override
@@ -144,7 +146,7 @@ public class SettingsActivity extends DrawerActivity {
                 return v;
             }
         };
-        adapter.setDropDownViewResource(R.layout.item_dictionary);
+        adapter.setDropDownViewResource(R.layout.list_item_2);
         spnDictionary.setAdapter(adapter);
 
         spnDictionary.setSelection(getSettingsViewModel().currentDictIndex);
@@ -164,13 +166,15 @@ public class SettingsActivity extends DrawerActivity {
     private void initSpnTextBook() {
         List<TextBook> lst = getSettingsViewModel().lstTextBooks;
         ArrayAdapter<TextBook> adapter = new ArrayAdapter<TextBook>(this,
-                android.R.layout.simple_spinner_item, lst) {
+                R.layout.spinner_item_2, android.R.id.text1, lst) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View v = super.getView(position, convertView, parent);
                 TextBook m = lst.get(position);
                 TextView tv = (TextView) v.findViewById(android.R.id.text1);
                 tv.setText(m.textbookname);
+                tv = (TextView) v.findViewById(android.R.id.text2);
+                tv.setText(m.units + " units");
                 return v;
             }
             @Override
@@ -179,10 +183,13 @@ public class SettingsActivity extends DrawerActivity {
                 TextBook m = lst.get(position);
                 CheckedTextView ctv = (CheckedTextView) v.findViewById(android.R.id.text1);
                 ctv.setText(m.textbookname);
+                ctv.setChecked(spnTextBook.getSelectedItemPosition() == position);
+                TextView tv = (TextView) v.findViewById(android.R.id.text2);
+                tv.setText(m.units + " units");
                 return v;
             }
         };
-        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+        adapter.setDropDownViewResource(R.layout.list_item_2);
         spnTextBook.setAdapter(adapter);
 
         spnTextBook.setSelection(getSettingsViewModel().currentTextBookIndex);
