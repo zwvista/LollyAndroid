@@ -45,6 +45,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/spnDictionary"
         android:layout_gravity="center_horizontal" />
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,24 +76,27 @@
         android:text="Units:"
         android:id="@+id/tvUnitFrom" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2">
+        android:id="@+id/spnUnitFrom"
+        android:layout_gravity="center_horizontal"/>
 
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnUnitFrom"
-            android:layout_weight="1"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05" />
 
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnPartFrom"
-            android:layout_weight="1"/>
-    </LinearLayout>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnPartFrom"
+        android:layout_gravity="center_horizontal"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -101,22 +105,25 @@
         android:id="@+id/chkUnitTo"
         android:checked="false" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2">
+        android:layout_weight="0.05" />
 
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnUnitTo"
-            android:layout_weight="1"/>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnUnitTo"
+        android:layout_gravity="center_horizontal"/>
 
-        <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnPartTo"
-            android:layout_weight="1"/>
-    </LinearLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spnPartTo"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>
