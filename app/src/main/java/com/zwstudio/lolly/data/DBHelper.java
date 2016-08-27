@@ -12,7 +12,7 @@ import com.zwstudio.lolly.domain.Dictionary;
 import com.zwstudio.lolly.domain.LangPhrase;
 import com.zwstudio.lolly.domain.LangWord;
 import com.zwstudio.lolly.domain.Language;
-import com.zwstudio.lolly.domain.TBWord;
+import com.zwstudio.lolly.domain.TextbookWord;
 import com.zwstudio.lolly.domain.TextBook;
 import com.zwstudio.lolly.domain.UnitPhrase;
 import com.zwstudio.lolly.domain.UnitWord;
@@ -40,7 +40,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
     private Dao<LangPhrase, Integer> daoLangPhrase;
     private Dao<Language, Integer> daoLanguage;
     private Dao<LangWord, Integer> daoLangWord;
-    private Dao<TBWord, Integer> daoTBWord;
+    private Dao<TextbookWord, Integer> daoTextbookWord;
     private Dao<TextBook, Integer> daoTextBook;
     private Dao<UnitPhrase, Integer> daoUnitPhrase;
     private Dao<UnitWord, Integer> daoUnitWord;
@@ -115,7 +115,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         daoTextBook = null;
         daoUnitWord = null;
         daoLangWord = null;
-        daoTBWord = null;
+        daoTextbookWord = null;
         daoLangPhrase = null;
         daoUnitPhrase = null;
         daoUserSetting = null;
@@ -151,10 +151,10 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         return daoLangWord;
     }
 
-    public Dao<TBWord, Integer> getDaoTBWord() throws SQLException {
-        if (daoTBWord == null)
-            daoTBWord = getDao(TBWord.class);
-        return daoTBWord;
+    public Dao<TextbookWord, Integer> getDaoTextbookWord() throws SQLException {
+        if (daoTextbookWord == null)
+            daoTextbookWord = getDao(TextbookWord.class);
+        return daoTextbookWord;
     }
 
     public Dao<LangPhrase, Integer> getDaoLangPhrase() throws SQLException {

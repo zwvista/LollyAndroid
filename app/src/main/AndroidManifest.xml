@@ -34,7 +34,7 @@
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordsTBActivity"
+            android:name=".WordsTextbookActivity"
             android:label="@string/words_tb"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
