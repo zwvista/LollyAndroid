@@ -43,7 +43,7 @@ public class WordsLangActivity extends DrawerListActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(),WordActivity.class);
+                Intent intent = new Intent(getApplicationContext(),WordsDictActivity.class);
                 intent.putExtra("word", lst.get(position).word);
                 startActivity(intent);
             }

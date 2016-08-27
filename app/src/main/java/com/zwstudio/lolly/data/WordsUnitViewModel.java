@@ -5,14 +5,14 @@ import com.zwstudio.lolly.domain.UnitWord;
 
 import java.util.List;
 
-public class WordsUnitsViewModel {
+public class WordsUnitViewModel {
 
     public RepoUnitWord repoUnitWord;
     public SettingsViewModel settingsViewModel;
 
     public List<UnitWord> lstWords;
 
-    public WordsUnitsViewModel(DBHelper db, SettingsViewModel settingsViewModel) {
+    public WordsUnitViewModel(DBHelper db, SettingsViewModel settingsViewModel) {
         this.settingsViewModel = settingsViewModel;
         repoUnitWord = new RepoUnitWord(db);
         Textbook m = settingsViewModel.lstTextbooks.get(settingsViewModel.currentTextbookIndex);

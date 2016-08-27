@@ -9,24 +9,24 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.zwstudio.lolly.data.PhrasesUnitsViewModel;
+import com.zwstudio.lolly.data.PhrasesUnitViewModel;
 import com.zwstudio.lolly.domain.UnitPhrase;
 
 import java.util.List;
 
 import roboguice.inject.ContentView;
 
-@ContentView(R.layout.activity_phrases_units)
-public class PhrasesUnitsActivity extends DrawerListActivity {
+@ContentView(R.layout.activity_phrases_unit)
+public class PhrasesUnitActivity extends DrawerListActivity {
 
-    PhrasesUnitsViewModel phrasesUnitsViewModel;
+    PhrasesUnitViewModel phrasesUnitViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        phrasesUnitsViewModel = new PhrasesUnitsViewModel(getDBHelper(), getSettingsViewModel());
-        List<UnitPhrase> lst = phrasesUnitsViewModel.lstPhrases;
+        phrasesUnitViewModel = new PhrasesUnitViewModel(getDBHelper(), getSettingsViewModel());
+        List<UnitPhrase> lst = phrasesUnitViewModel.lstPhrases;
         ArrayAdapter<UnitPhrase> adapter = new ArrayAdapter<UnitPhrase>(this,
                 android.R.layout.simple_list_item_2, android.R.id.text1, lst) {
             @Override
@@ -46,7 +46,7 @@ public class PhrasesUnitsActivity extends DrawerListActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), WordActivity.class);
+                Intent intent = new Intent(getApplicationContext(), WordsDictActivity.class);
                 intent.putExtra("word", lst.get(position).phrase);
                 startActivity(intent);
             }

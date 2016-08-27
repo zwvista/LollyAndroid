@@ -15,7 +15,7 @@ import roboguice.inject.InjectView;
  * Created by zwvista on 2016/07/03.
  */
 @ContentView(R.layout.activity_word)
-public class WordActivity extends RoboAppCompatActivity implements LollyContext {
+public class WordsDictActivity extends RoboAppCompatActivity implements LollyContext {
 
     @InjectView(R.id.webView)
     WebView wv;
