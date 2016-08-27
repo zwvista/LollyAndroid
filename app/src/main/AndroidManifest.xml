@@ -35,7 +35,7 @@
         </activity>
         <activity
             android:name=".WordsTextbookActivity"
-            android:label="@string/words_tb"
+            android:label="@string/words_textbook"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
         </activity>

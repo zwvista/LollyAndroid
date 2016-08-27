@@ -2,7 +2,7 @@ package com.zwstudio.lolly.data;
 
 import com.zwstudio.lolly.domain.Dictionary;
 import com.zwstudio.lolly.domain.Language;
-import com.zwstudio.lolly.domain.TextBook;
+import com.zwstudio.lolly.domain.Textbook;
 import com.zwstudio.lolly.domain.UserSetting;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class SettingsViewModel {
 
     public RepoDictionary repoDictionary;
     public RepoLanguage repoLanguage;
-    public RepoTextBook repoTextBook;
+    public RepoTextbook repoTextbook;
     public RepoUserSetting repoUserSetting;
 
     public List<Language> lstLanguages;
@@ -21,13 +21,13 @@ public class SettingsViewModel {
     public List<Dictionary> lstDictionaries = new ArrayList<>();
     public int currentDictIndex;
     public String word = "";
-    public List<TextBook> lstTextBooks = new ArrayList<>();
-    public int currentTextBookIndex;
+    public List<Textbook> lstTextbooks = new ArrayList<>();
+    public int currentTextbookIndex;
 
     public SettingsViewModel(DBHelper db) {
         repoDictionary = new RepoDictionary(db);
         repoLanguage = new RepoLanguage(db);
-        repoTextBook = new RepoTextBook(db);
+        repoTextbook = new RepoTextbook(db);
         repoUserSetting = new RepoUserSetting(db);
 
         lstLanguages = repoLanguage.getData();
@@ -49,9 +49,9 @@ public class SettingsViewModel {
         currentDictIndex = IntStream.range(0, lstDictionaries.size())
                 .filter(i -> lstDictionaries.get(i).id == m.usdictid)
                 .findFirst().orElse(-1);
-        lstTextBooks = repoTextBook.getDataByLang(m.id);
-        currentTextBookIndex = IntStream.range(0, lstTextBooks.size())
-                .filter(i -> lstTextBooks.get(i).id == m.ustextbookid)
+        lstTextbooks = repoTextbook.getDataByLang(m.id);
+        currentTextbookIndex = IntStream.range(0, lstTextbooks.size())
+                .filter(i -> lstTextbooks.get(i).id == m.ustextbookid)
                 .findFirst().orElse(-1);
     }
 
@@ -59,7 +59,7 @@ public class SettingsViewModel {
         return lstDictionaries.get(currentDictIndex);
     }
 
-    public TextBook getCurrentTextBook() {
-        return lstTextBooks.get(currentTextBookIndex);
+    public Textbook getCurrentTextbook() {
+        return lstTextbooks.get(currentTextbookIndex);
     }
 }

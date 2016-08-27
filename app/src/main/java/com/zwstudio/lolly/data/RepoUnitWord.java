@@ -13,7 +13,7 @@ public class RepoUnitWord {
         this.db = db;
     }
 
-    public List<UnitWord> getDataByTextBookUnitParts(int textbookid, int unitpartfrom, int unitpartto) {
+    public List<UnitWord> getDataByTextbookUnitParts(int textbookid, int unitpartfrom, int unitpartto) {
         try {
             return db.getDaoUnitWord().queryBuilder()
                     .where().eq("TEXTBOOKID", textbookid)
