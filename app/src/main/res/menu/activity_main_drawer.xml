@@ -11,21 +11,21 @@
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/settings"/>
         <item
-            android:id="@+id/nav_words_units"
+            android:id="@+id/nav_words_unit"
             android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="@string/words_units"/>
+            android:title="@string/words_unit"/>
         <item
-            android:id="@+id/nav_words_tb"
+            android:id="@+id/nav_words_textbook"
             android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="@string/words_tb"/>
+            android:title="@string/words_textbook"/>
         <item
             android:id="@+id/nav_words_lang"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/words_lang"/>
         <item
-            android:id="@+id/nav_phrases_units"
+            android:id="@+id/nav_phrases_unit"
             android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="@string/phrases_units"/>
+            android:title="@string/phrases_unit"/>
         <item
             android:id="@+id/nav_phrases_lang"
             android:icon="@android:drawable/ic_menu_slideshow"

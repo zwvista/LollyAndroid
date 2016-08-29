@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.data;
 
 import com.zwstudio.lolly.domain.LangPhrase;
-import com.zwstudio.lolly.domain.TextBook;
+import com.zwstudio.lolly.domain.Textbook;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class PhrasesLangViewModel {
     public PhrasesLangViewModel(DBHelper db, SettingsViewModel settingsViewModel) {
         this.settingsViewModel = settingsViewModel;
         repoLangPhrase = new RepoLangPhrase(db);
-        TextBook m = settingsViewModel.lstTextBooks.get(settingsViewModel.currentTextBookIndex);
+        Textbook m = settingsViewModel.lstTextbooks.get(settingsViewModel.currentTextbookIndex);
         lstPhrases = repoLangPhrase.getDataByLang(m.langid);
     }
 

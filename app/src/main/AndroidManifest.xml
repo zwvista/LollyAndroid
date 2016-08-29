@@ -28,14 +28,14 @@
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordsUnitsActivity"
-            android:label="@string/words_units"
+            android:name=".WordsUnitActivity"
+            android:label="@string/words_unit"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordsTBActivity"
-            android:label="@string/words_tb"
+            android:name=".WordsTextbookActivity"
+            android:label="@string/words_textbook"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
         </activity>
@@ -46,14 +46,14 @@
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordActivity"
+            android:name=".WordsDictActivity"
             android:label="@string/word"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".PhrasesUnitsActivity"
-            android:label="@string/phrases_units"
+            android:name=".PhrasesUnitActivity"
+            android:label="@string/phrases_unit"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
         </activity>

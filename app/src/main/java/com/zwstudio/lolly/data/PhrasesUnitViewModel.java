@@ -1,22 +1,22 @@
 package com.zwstudio.lolly.data;
 
-import com.zwstudio.lolly.domain.TextBook;
+import com.zwstudio.lolly.domain.Textbook;
 import com.zwstudio.lolly.domain.UnitPhrase;
 
 import java.util.List;
 
-public class PhrasesUnitsViewModel {
+public class PhrasesUnitViewModel {
 
     public RepoUnitPhrase repoUnitPhrase;
     public SettingsViewModel settingsViewModel;
 
     public List<UnitPhrase> lstPhrases;
 
-    public PhrasesUnitsViewModel(DBHelper db, SettingsViewModel settingsViewModel) {
+    public PhrasesUnitViewModel(DBHelper db, SettingsViewModel settingsViewModel) {
         this.settingsViewModel = settingsViewModel;
         repoUnitPhrase = new RepoUnitPhrase(db);
-        TextBook m = settingsViewModel.lstTextBooks.get(settingsViewModel.currentTextBookIndex);
-        lstPhrases = repoUnitPhrase.getDataByTextBookUnitParts(m.id, m.usunitfrom * 10 + m.uspartfrom,
+        Textbook m = settingsViewModel.lstTextbooks.get(settingsViewModel.currentTextbookIndex);
+        lstPhrases = repoUnitPhrase.getDataByTextbookUnitParts(m.id, m.usunitfrom * 10 + m.uspartfrom,
                 m.usunitto * 10 + m.uspartto);
     }
 

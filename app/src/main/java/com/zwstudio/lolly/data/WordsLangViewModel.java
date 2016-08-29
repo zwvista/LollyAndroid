@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.data;
 
-import com.zwstudio.lolly.domain.TextBook;
+import com.zwstudio.lolly.domain.Textbook;
 import com.zwstudio.lolly.domain.LangWord;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class WordsLangViewModel {
     public WordsLangViewModel(DBHelper db, SettingsViewModel settingsViewModel) {
         this.settingsViewModel = settingsViewModel;
         repoLangWord = new RepoLangWord(db);
-        TextBook m = settingsViewModel.lstTextBooks.get(settingsViewModel.currentTextBookIndex);
+        Textbook m = settingsViewModel.lstTextbooks.get(settingsViewModel.currentTextbookIndex);
         lstWords = repoLangWord.getDataByLang(m.langid);
     }
 

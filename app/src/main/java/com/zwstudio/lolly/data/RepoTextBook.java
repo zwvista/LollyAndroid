@@ -1,21 +1,21 @@
 package com.zwstudio.lolly.data;
 
-import com.zwstudio.lolly.domain.TextBook;
+import com.zwstudio.lolly.domain.Textbook;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class RepoTextBook {
+public class RepoTextbook {
 
     DBHelper db;
 
-    public RepoTextBook(DBHelper db) {
+    public RepoTextbook(DBHelper db) {
         this.db = db;
     }
 
-    public List<TextBook> getDataByLang(int langid) {
+    public List<Textbook> getDataByLang(int langid) {
         try {
-            return db.getDaoTextBook().queryBuilder()
+            return db.getDaoTextbook().queryBuilder()
                     .where().eq("LANGID", langid)
                     .query();
         } catch (SQLException e) {
