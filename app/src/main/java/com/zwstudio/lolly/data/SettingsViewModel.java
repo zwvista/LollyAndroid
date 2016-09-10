@@ -17,12 +17,12 @@ public class SettingsViewModel {
     public RepoUserSetting repoUserSetting;
 
     public List<Language> lstLanguages;
-    private int currentLangIndex;
+    private int selectedLangIndex;
     public List<Dictionary> lstDictionaries = new ArrayList<>();
-    public int currentDictIndex;
-    public String word = "";
+    public int selectedDictIndex;
     public List<Textbook> lstTextbooks = new ArrayList<>();
-    public int currentTextbookIndex;
+    public int selectedTextbookIndex;
+    public String word = "";
 
     public SettingsViewModel(DBHelper db) {
         repoDictionary = new RepoDictionary(db);
@@ -32,34 +32,34 @@ public class SettingsViewModel {
 
         lstLanguages = repoLanguage.getData();
         UserSetting m = repoUserSetting.getData();
-        int currentLangIndex = IntStream.range(0, lstLanguages.size())
+        int selectedLangIndex = IntStream.range(0, lstLanguages.size())
                 .filter(i -> lstLanguages.get(i).id == m.uslangid)
                 .findFirst().orElse(-1);
-        setCurrentLanguageIndex(currentLangIndex);
+        setSelectedLangIndex(selectedLangIndex);
     }
 
-    public int getCurrentLanguageIndex() {
-        return currentLangIndex;
+    public int getSelectedLangIndex() {
+        return selectedLangIndex;
     }
 
-    public void setCurrentLanguageIndex(int currentLangIndex) {
-        this.currentLangIndex = currentLangIndex;
-        Language m = lstLanguages.get(currentLangIndex);
+    public void setSelectedLangIndex(int selectedLangIndex) {
+        this.selectedLangIndex = selectedLangIndex;
+        Language m = lstLanguages.get(selectedLangIndex);
         lstDictionaries = repoDictionary.getDataByLang(m.id);
-        currentDictIndex = IntStream.range(0, lstDictionaries.size())
+        selectedDictIndex = IntStream.range(0, lstDictionaries.size())
                 .filter(i -> lstDictionaries.get(i).id == m.usdictid)
                 .findFirst().orElse(-1);
         lstTextbooks = repoTextbook.getDataByLang(m.id);
-        currentTextbookIndex = IntStream.range(0, lstTextbooks.size())
+        selectedTextbookIndex = IntStream.range(0, lstTextbooks.size())
                 .filter(i -> lstTextbooks.get(i).id == m.ustextbookid)
                 .findFirst().orElse(-1);
     }
 
-    public Dictionary getCurrentDict() {
-        return lstDictionaries.get(currentDictIndex);
+    public Dictionary getSelectedDict() {
+        return lstDictionaries.get(selectedDictIndex);
     }
 
-    public Textbook getCurrentTextbook() {
-        return lstTextbooks.get(currentTextbookIndex);
+    public Textbook getSelectedTextbook() {
+        return lstTextbooks.get(selectedTextbookIndex);
     }
 }

@@ -15,7 +15,7 @@ public class WordsLangViewModel {
     public WordsLangViewModel(DBHelper db, SettingsViewModel settingsViewModel) {
         this.settingsViewModel = settingsViewModel;
         repoLangWord = new RepoLangWord(db);
-        Textbook m = settingsViewModel.lstTextbooks.get(settingsViewModel.currentTextbookIndex);
+        Textbook m = settingsViewModel.lstTextbooks.get(settingsViewModel.selectedTextbookIndex);
         lstWords = repoLangWord.getDataByLang(m.langid);
     }
 
