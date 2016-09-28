@@ -66,7 +66,7 @@ public class SettingsActivity extends DrawerActivity {
     }
 
     private void updateUnitPartFrom() {
-        Textbook m = getSettingsViewModel().getCurrentTextbook();
+        Textbook m = getSettingsViewModel().getSelectedTextbook();
         m.usunitfrom = m.usunitto;
         spnUnitFrom.setSelection(spnUnitTo.getSelectedItemPosition());
         m.uspartfrom = m.uspartto;
@@ -74,7 +74,7 @@ public class SettingsActivity extends DrawerActivity {
     }
 
     private void updateUnitPartTo() {
-        Textbook m = getSettingsViewModel().getCurrentTextbook();
+        Textbook m = getSettingsViewModel().getSelectedTextbook();
         m.usunitto = m.usunitfrom;
         spnUnitTo.setSelection(spnUnitFrom.getSelectedItemPosition());
         m.uspartto = m.uspartfrom;
@@ -105,11 +105,11 @@ public class SettingsActivity extends DrawerActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
         spnLanguage.setAdapter(adapter);
 
-        spnLanguage.setSelection(getSettingsViewModel().getCurrentLanguageIndex());
+        spnLanguage.setSelection(getSettingsViewModel().getSelectedLangIndex());
         spnLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getSettingsViewModel().setCurrentLanguageIndex(position);
+                getSettingsViewModel().setSelectedLangIndex(position);
                 Log.d("", String.format("Checked position:%d", position));
                 initSpnDictionary();
                 initSpnTextbook();
@@ -149,11 +149,11 @@ public class SettingsActivity extends DrawerActivity {
         adapter.setDropDownViewResource(R.layout.list_item_2);
         spnDictionary.setAdapter(adapter);
 
-        spnDictionary.setSelection(getSettingsViewModel().currentDictIndex);
+        spnDictionary.setSelection(getSettingsViewModel().selectedDictIndex);
         spnDictionary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getSettingsViewModel().currentDictIndex = position;
+                getSettingsViewModel().selectedDictIndex = position;
                 Log.d("", String.format("Checked position:%d", position));
                 adapter.notifyDataSetChanged();
             }
@@ -192,11 +192,11 @@ public class SettingsActivity extends DrawerActivity {
         adapter.setDropDownViewResource(R.layout.list_item_2);
         spnTextbook.setAdapter(adapter);
 
-        spnTextbook.setSelection(getSettingsViewModel().currentTextbookIndex);
+        spnTextbook.setSelection(getSettingsViewModel().selectedTextbookIndex);
         spnTextbook.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getSettingsViewModel().currentTextbookIndex = position;
+                getSettingsViewModel().selectedTextbookIndex = position;
                 Log.d("", String.format("Checked position:%d", position));
                 adapter.notifyDataSetChanged();
                 initUnitsAndParts();
@@ -208,7 +208,7 @@ public class SettingsActivity extends DrawerActivity {
     }
 
     private void initUnitsAndParts() {
-        Textbook m = getSettingsViewModel().getCurrentTextbook();
+        Textbook m = getSettingsViewModel().getSelectedTextbook();
         BooleanSupplier isInvalidUnitPart = () -> m.usunitfrom * 10 + m.uspartfrom > m.usunitto * 10 + m.uspartto;
         boolean b = m.usunitfrom != m.usunitto;
         chkUnitTo.setChecked(b);

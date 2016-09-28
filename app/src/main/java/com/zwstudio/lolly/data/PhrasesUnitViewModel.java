@@ -15,7 +15,7 @@ public class PhrasesUnitViewModel {
     public PhrasesUnitViewModel(DBHelper db, SettingsViewModel settingsViewModel) {
         this.settingsViewModel = settingsViewModel;
         repoUnitPhrase = new RepoUnitPhrase(db);
-        Textbook m = settingsViewModel.lstTextbooks.get(settingsViewModel.currentTextbookIndex);
+        Textbook m = settingsViewModel.lstTextbooks.get(settingsViewModel.selectedTextbookIndex);
         lstPhrases = repoUnitPhrase.getDataByTextbookUnitParts(m.id, m.usunitfrom * 10 + m.uspartfrom,
                 m.usunitto * 10 + m.uspartto);
     }

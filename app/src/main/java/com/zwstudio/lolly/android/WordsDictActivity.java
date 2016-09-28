@@ -27,7 +27,7 @@ public class WordsDictActivity extends RoboAppCompatActivity implements LollyCon
         Intent intent = getIntent();
         String word = intent.getStringExtra("word");
         setTitle(word);
-        Dictionary m = getSettingsViewModel().getCurrentDict();
+        Dictionary m = getSettingsViewModel().getSelectedDict();
         String url = RepoDictionary.urlString(m.url, word);
         // http://stackoverflow.com/questions/7746409/android-webview-launches-browser-when-calling-loadurl
         wv.setWebViewClient(new WebViewClient());

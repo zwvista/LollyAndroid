@@ -66,7 +66,7 @@ public class SearchActivity extends DrawerActivity {
         word = svWord.getQuery().toString();
         wvDictOnline.setVisibility(View.VISIBLE);
         wvDictOffline.setVisibility(View.INVISIBLE);
-        Dictionary m = getSettingsViewModel().getCurrentDict();
+        Dictionary m = getSettingsViewModel().getSelectedDict();
         String url = RepoDictionary.urlString(m.url, word);
         svWord.post(new Runnable() {
             @Override
