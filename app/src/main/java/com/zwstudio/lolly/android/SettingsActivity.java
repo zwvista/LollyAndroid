@@ -18,12 +18,12 @@ import com.zwstudio.lolly.domain.Language;
 import com.zwstudio.lolly.domain.Textbook;
 
 import java.util.List;
-import java.util.function.BooleanSupplier;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
+import fj.F0;
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
+
+import static fj.data.Stream.range;
 
 @ContentView(R.layout.activity_settings)
 public class SettingsActivity extends DrawerActivity {
@@ -209,14 +209,14 @@ public class SettingsActivity extends DrawerActivity {
 
     private void initUnitsAndParts() {
         Textbook m = getSettingsViewModel().getSelectedTextbook();
-        BooleanSupplier isInvalidUnitPart = () -> m.usunitfrom * 10 + m.uspartfrom > m.usunitto * 10 + m.uspartto;
+        F0<Boolean> isInvalidUnitPart = () -> m.usunitfrom * 10 + m.uspartfrom > m.usunitto * 10 + m.uspartto;
         boolean b = m.usunitfrom != m.usunitto;
         chkUnitTo.setChecked(b);
         chkUnitTo_onCheckedChanged(b);
 
         {
-            List<String> lst = IntStream.rangeClosed(1, m.units)
-                    .mapToObj(i -> String.valueOf(i)).collect(Collectors.toList());
+            List<String> lst = range(1, m.units + 1)
+                    .map(i -> String.valueOf(i)).toJavaList();
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_spinner_item, lst) {
                 @Override
@@ -247,7 +247,7 @@ public class SettingsActivity extends DrawerActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                     m.usunitfrom = position + 1;
-                    if(!chkUnitTo.isChecked() || isInvalidUnitPart.getAsBoolean())
+                    if(!chkUnitTo.isChecked() || isInvalidUnitPart.f())
                         updateUnitPartTo();
                 }
                 @Override
@@ -258,7 +258,7 @@ public class SettingsActivity extends DrawerActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                     m.usunitto = position + 1;
-                    if(isInvalidUnitPart.getAsBoolean())
+                    if(isInvalidUnitPart.f())
                         updateUnitPartFrom();
                 }
                 @Override
@@ -299,7 +299,7 @@ public class SettingsActivity extends DrawerActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                     m.uspartfrom = position + 1;
-                    if(!chkUnitTo.isChecked() || isInvalidUnitPart.getAsBoolean())
+                    if(!chkUnitTo.isChecked() || isInvalidUnitPart.f())
                         updateUnitPartTo();
                 }
                 @Override
@@ -310,7 +310,7 @@ public class SettingsActivity extends DrawerActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
                     m.uspartto = position + 1;
-                    if(isInvalidUnitPart.getAsBoolean())
+                    if(isInvalidUnitPart.f())
                         updateUnitPartFrom();
                 }
                 @Override

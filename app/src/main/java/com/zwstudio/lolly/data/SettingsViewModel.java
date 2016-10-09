@@ -7,7 +7,8 @@ import com.zwstudio.lolly.domain.UserSetting;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
+
+import static fj.data.Stream.range;
 
 public class SettingsViewModel {
 
@@ -32,9 +33,9 @@ public class SettingsViewModel {
 
         lstLanguages = repoLanguage.getData();
         UserSetting m = repoUserSetting.getData();
-        int selectedLangIndex = IntStream.range(0, lstLanguages.size())
+        int selectedLangIndex = range(0, lstLanguages.size())
                 .filter(i -> lstLanguages.get(i).id == m.uslangid)
-                .findFirst().orElse(-1);
+                .orHead(() -> -1);
         setSelectedLangIndex(selectedLangIndex);
     }
 
@@ -46,13 +47,13 @@ public class SettingsViewModel {
         this.selectedLangIndex = selectedLangIndex;
         Language m = lstLanguages.get(selectedLangIndex);
         lstDictionaries = repoDictionary.getDataByLang(m.id);
-        selectedDictIndex = IntStream.range(0, lstDictionaries.size())
+        selectedDictIndex = range(0, lstDictionaries.size())
                 .filter(i -> lstDictionaries.get(i).id == m.usdictid)
-                .findFirst().orElse(-1);
+                .orHead(() -> -1);
         lstTextbooks = repoTextbook.getDataByLang(m.id);
-        selectedTextbookIndex = IntStream.range(0, lstTextbooks.size())
+        selectedTextbookIndex = range(0, lstTextbooks.size())
                 .filter(i -> lstTextbooks.get(i).id == m.ustextbookid)
-                .findFirst().orElse(-1);
+                .orHead(() -> -1);
     }
 
     public Dictionary getSelectedDict() {

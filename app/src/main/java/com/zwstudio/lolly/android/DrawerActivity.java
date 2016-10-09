@@ -13,8 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class DrawerActivity extends RoboAppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, LollyContext {
+public class DrawerActivity extends LollyContextActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
