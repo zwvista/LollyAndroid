@@ -31,6 +31,9 @@ public class SearchActivity extends DrawerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
+        this.setTitle(getResources().getString(R.string.search));
+
         configWebView(wvDictOnline);
         configWebView(wvDictOffline);
 
