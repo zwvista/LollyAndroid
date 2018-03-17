@@ -9,9 +9,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".LollyApplication">
+        android:name=".LollyApplication_">
         <activity
-            android:name=".SearchActivity"
+            android:name=".SearchActivity_"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
@@ -22,43 +22,43 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".SettingsActivity_"
             android:label="@string/settings"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordsUnitActivity"
+            android:name=".WordsUnitActivity_"
             android:label="@string/words_unit"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordsTextbookActivity"
+            android:name=".WordsTextbookActivity_"
             android:label="@string/words_textbook"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordsLangActivity"
+            android:name=".WordsLangActivity_"
             android:label="@string/words_lang"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordsDictActivity"
+            android:name=".WordsDictActivity_"
             android:label="@string/word"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".PhrasesUnitActivity"
+            android:name=".PhrasesUnitActivity_"
             android:label="@string/phrases_unit"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".PhrasesLangActivity"
+            android:name=".PhrasesLangActivity_"
             android:label="@string/phrases_lang"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="fullSensor">
