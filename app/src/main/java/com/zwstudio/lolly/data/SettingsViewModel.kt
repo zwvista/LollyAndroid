@@ -95,7 +95,6 @@ class SettingsViewModel : BaseViewModel1() {
     val selectedDict: Dictionary
         get() = lstDictionaries[selectedDictIndex]
 
-    var word = ""
     var lstUnits = listOf<String>()
     var lstParts = listOf<String>()
 

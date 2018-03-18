@@ -5,7 +5,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.SearchView
 import android.widget.Toast
-import com.zwstudio.lolly.data.SettingsViewModel
+import com.zwstudio.lolly.data.SearchViewModel
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
@@ -23,7 +23,7 @@ class SearchActivity : DrawerActivity() {
     lateinit var wvDictOffline: WebView
 
     @Bean
-    lateinit var vm: SettingsViewModel
+    lateinit var vm: SearchViewModel
 
     var word = ""
     var webViewFinished = false
@@ -64,13 +64,12 @@ class SearchActivity : DrawerActivity() {
     }
 
     fun searchDict(view: View?) {
-//        word = svWord.query.toString()
-//        wvDictOnline.visibility = View.VISIBLE
-//        wvDictOffline.visibility = View.INVISIBLE
-//        val m = vm.selectedDict
-//        val url = RestDictionary.urlString(m.url, word)
-//        svWord.post { svWord.clearFocus() }
-//        wvDictOnline.loadUrl(url)
+        word = svWord.query.toString()
+        wvDictOnline.visibility = View.VISIBLE
+        wvDictOffline.visibility = View.INVISIBLE
+        val url = vm.urlString!!
+        svWord.post { svWord.clearFocus() }
+        wvDictOnline.loadUrl(url)
     }
 
 }
