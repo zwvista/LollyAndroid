@@ -158,7 +158,7 @@ class SettingsViewModel : BaseViewModel1() {
 
     fun updateTextbook(onNext: () -> Unit) {
         retrofit.create(RestUserSetting::class.java)
-            .updateTextbook(selectedLang.id, ustextbookid)
+            .updateTextbook(selectedUSLang.id, ustextbookid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -169,7 +169,7 @@ class SettingsViewModel : BaseViewModel1() {
 
     fun updateDict(onNext: () -> Unit) {
         retrofit.create(RestUserSetting::class.java)
-            .updateDict(selectedLang.id, usdictid)
+            .updateDict(selectedUSLang.id, usdictid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -180,7 +180,7 @@ class SettingsViewModel : BaseViewModel1() {
 
     fun updateUnitFrom(onNext: () -> Unit) {
         retrofit.create(RestUserSetting::class.java)
-            .updateUnitFrom(selectedTextbook.id, usunitfrom)
+            .updateUnitFrom(selectedUSTextbook.id, usunitfrom)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -191,7 +191,7 @@ class SettingsViewModel : BaseViewModel1() {
 
     fun updatePartFrom(onNext: () -> Unit) {
         retrofit.create(RestUserSetting::class.java)
-            .updatePartFrom(selectedTextbook.id, uspartfrom)
+            .updatePartFrom(selectedUSTextbook.id, uspartfrom)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -202,7 +202,7 @@ class SettingsViewModel : BaseViewModel1() {
 
     fun updateUnitTo(onNext: () -> Unit) {
         retrofit.create(RestUserSetting::class.java)
-            .updateUnitTo(selectedTextbook.id, usunitto)
+            .updateUnitTo(selectedUSTextbook.id, usunitto)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -213,7 +213,7 @@ class SettingsViewModel : BaseViewModel1() {
 
     fun updatePartTo(onNext: () -> Unit) {
         retrofit.create(RestUserSetting::class.java)
-            .updatePartTo(selectedTextbook.id, uspartto)
+            .updatePartTo(selectedUSTextbook.id, uspartto)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
