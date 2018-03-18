@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.data
 
+import android.util.Log
 import com.zwstudio.lolly.domain.Dictionary
 import com.zwstudio.lolly.domain.Language
 import com.zwstudio.lolly.domain.Textbook
@@ -142,5 +143,82 @@ class SettingsViewModel : BaseViewModel1() {
 
     fun setSelectedDictIndex() {
         usdictid = selectedDict.id
+    }
+
+    fun updateLang(onNext: () -> Unit) {
+        retrofit.create(RestUserSetting::class.java)
+            .updateLang(selectedUSUser.id, uslangid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                Log.d("", it.toString())
+                onNext()
+            }
+    }
+
+    fun updateTextbook(onNext: () -> Unit) {
+        retrofit.create(RestUserSetting::class.java)
+            .updateTextbook(selectedLang.id, ustextbookid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                Log.d("", it.toString())
+                onNext()
+            }
+    }
+
+    fun updateDict(onNext: () -> Unit) {
+        retrofit.create(RestUserSetting::class.java)
+            .updateDict(selectedLang.id, usdictid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                Log.d("", it.toString())
+                onNext()
+            }
+    }
+
+    fun updateUnitFrom(onNext: () -> Unit) {
+        retrofit.create(RestUserSetting::class.java)
+            .updateUnitFrom(selectedTextbook.id, usunitfrom)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                Log.d("", it.toString())
+                onNext()
+            }
+    }
+
+    fun updatePartFrom(onNext: () -> Unit) {
+        retrofit.create(RestUserSetting::class.java)
+            .updatePartFrom(selectedTextbook.id, uspartfrom)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                Log.d("", it.toString())
+                onNext()
+            }
+    }
+
+    fun updateUnitTo(onNext: () -> Unit) {
+        retrofit.create(RestUserSetting::class.java)
+            .updateUnitTo(selectedTextbook.id, usunitto)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                Log.d("", it.toString())
+                onNext()
+            }
+    }
+
+    fun updatePartTo(onNext: () -> Unit) {
+        retrofit.create(RestUserSetting::class.java)
+            .updatePartTo(selectedTextbook.id, uspartto)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                Log.d("", it.toString())
+                onNext()
+            }
     }
 }

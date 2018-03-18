@@ -51,19 +51,25 @@ class SettingsActivity : DrawerActivity() {
     }
 
     private fun updateUnitPartFrom() {
-//        val m = vm.selectedTextbook
-//        m.usunitfrom = m.usunitto
-//        spnUnitFrom.setSelection(spnUnitTo.selectedItemPosition)
-//        m.uspartfrom = m.uspartto
-//        spnPartFrom.setSelection(spnPartTo.selectedItemPosition)
+        vm.usunitfrom = vm.usunitto
+        vm.updateUnitFrom {
+            spnUnitFrom.setSelection(spnUnitTo.selectedItemPosition)
+        }
+        vm.uspartfrom = vm.uspartto
+        vm.updatePartFrom {
+            spnPartFrom.setSelection(spnPartTo.selectedItemPosition)
+        }
     }
 
     private fun updateUnitPartTo() {
-//        val m = vm.selectedTextbook
-//        m.usunitto = m.usunitfrom
-//        spnUnitTo.setSelection(spnUnitFrom.selectedItemPosition)
-//        m.uspartto = m.uspartfrom
-//        spnPartTo.setSelection(spnPartFrom.selectedItemPosition)
+        vm.usunitto = vm.usunitfrom
+        vm.updateUnitTo {
+            spnUnitTo.setSelection(spnUnitFrom.selectedItemPosition)
+        }
+        vm.uspartto = vm.uspartfrom
+        vm.updatePartTo {
+            spnPartTo.setSelection(spnPartFrom.selectedItemPosition)
+        }
     }
 
     private fun initSpnLanguage() {
@@ -94,10 +100,13 @@ class SettingsActivity : DrawerActivity() {
 
     @ItemSelect
     fun spnLanguageItemSelected(selected: Boolean, position: Int) {
-        vm.selectedLangIndex = position
         Log.d("", String.format("Checked position:%d", position))
-        initSpnDictionary()
-        initSpnTextbook()
+        vm.setSelectedLangIndex(position) {
+            vm.updateLang {
+                initSpnDictionary()
+                initSpnTextbook()
+            }
+        }
     }
 
     private fun initSpnDictionary() {
@@ -178,105 +187,105 @@ class SettingsActivity : DrawerActivity() {
     }
 
     private fun initUnitsAndParts() {
-//        val m = vm.selectedTextbook
-//        val isInvalidUnitPart = { m.usunitfrom * 10 + m.uspartfrom > m.usunitto * 10 + m.uspartto }
-//        val b = m.usunitfrom != m.usunitto
-//        chkUnitTo.isChecked = b
-//        chkUnitTo_onCheckedChanged(b)
-//
-//        run {
-//            val lst = (1..m.units).map { it.toString() }
-//            val adapter = object : ArrayAdapter<String>(this,
-//                    android.R.layout.simple_spinner_item, lst) {
-//                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-//                    val v = super.getView(position, convertView, parent)
-//                    val s = lst[position]
-//                    val tv = v.findViewById<View>(android.R.id.text1) as TextView
-//                    tv.text = s
-//                    return v
-//                }
-//
-//                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-//                    val v = super.getDropDownView(position, convertView, parent)
-//                    val s = lst[position]
-//                    val ctv = v.findViewById<View>(android.R.id.text1) as CheckedTextView
-//                    ctv.text = s
-//                    return v
-//                }
-//            }
-//            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-//            spnUnitFrom.adapter = adapter
-//            spnUnitTo.adapter = adapter
-//
-//            spnUnitFrom.setSelection(m.usunitfrom - 1)
-//            spnUnitTo.setSelection(m.usunitto - 1)
-//
-//            spnUnitFrom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(adapterView: AdapterView<*>, view: View, position: Int, id: Long) {
-//                    m.usunitfrom = position + 1
-//                    if (!chkUnitTo.isChecked || isInvalidUnitPart())
-//                        updateUnitPartTo()
-//                }
-//
-//                override fun onNothingSelected(adapterView: AdapterView<*>) {}
-//            }
-//            spnUnitTo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(adapterView: AdapterView<*>, view: View, position: Int, id: Long) {
-//                    m.usunitto = position + 1
-//                    if (isInvalidUnitPart())
-//                        updateUnitPartFrom()
-//                }
-//
-//                override fun onNothingSelected(adapterView: AdapterView<*>) {}
-//            }
-//        }
-//
-//        run {
-//            val lst = m.parts?.split(' ')!!
-//            val adapter = object : ArrayAdapter<String>(this,
-//                    android.R.layout.simple_spinner_item, lst) {
-//                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-//                    val v = super.getView(position, convertView, parent)
-//                    val s = lst[position]
-//                    val tv = v.findViewById<View>(android.R.id.text1) as TextView
-//                    tv.setText(s)
-//                    return v
-//                }
-//
-//                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-//                    val v = super.getDropDownView(position, convertView, parent)
-//                    val s = lst[position]
-//                    val ctv = v.findViewById<View>(android.R.id.text1) as CheckedTextView
-//                    ctv.setText(s)
-//                    return v
-//                }
-//            }
-//            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-//            spnPartFrom.adapter = adapter
-//            spnPartTo.adapter = adapter
-//
-//            spnPartFrom.setSelection(m.uspartfrom - 1)
-//            spnPartTo.setSelection(m.uspartto - 1)
-//
-//            spnPartFrom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(adapterView: AdapterView<*>, view: View, position: Int, id: Long) {
-//                    m.uspartfrom = position + 1
-//                    if (!chkUnitTo.isChecked || isInvalidUnitPart())
-//                        updateUnitPartTo()
-//                }
-//
-//                override fun onNothingSelected(adapterView: AdapterView<*>) {}
-//            }
-//            spnPartTo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(adapterView: AdapterView<*>, view: View, position: Int, id: Long) {
-//                    m.uspartto = position + 1
-//                    if (isInvalidUnitPart())
-//                        updateUnitPartFrom()
-//                }
-//
-//                override fun onNothingSelected(adapterView: AdapterView<*>) {}
-//            }
-//        }
+        val b = vm.usunitfrom != vm.usunitto
+        chkUnitTo.isChecked = b
+        chkUnitToCheckedChanged(b)
+
+        run {
+            val lst = vm.lstUnits
+            val adapter = object : ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, lst) {
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    val v = super.getView(position, convertView, parent)
+                    val s = lst[position]
+                    val tv = v.findViewById<View>(android.R.id.text1) as TextView
+                    tv.text = s
+                    return v
+                }
+
+                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    val v = super.getDropDownView(position, convertView, parent)
+                    val s = lst[position]
+                    val ctv = v.findViewById<View>(android.R.id.text1) as CheckedTextView
+                    ctv.text = s
+                    return v
+                }
+            }
+            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
+            spnUnitFrom.adapter = adapter
+            spnUnitTo.adapter = adapter
+
+            spnUnitFrom.setSelection(vm.usunitfrom - 1)
+            spnUnitTo.setSelection(vm.usunitto - 1)
+
+        }
+
+        run {
+            val lst = vm.lstParts
+            val adapter = object : ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, lst) {
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    val v = super.getView(position, convertView, parent)
+                    val s = lst[position]
+                    val tv = v.findViewById<View>(android.R.id.text1) as TextView
+                    tv.setText(s)
+                    return v
+                }
+
+                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                    val v = super.getDropDownView(position, convertView, parent)
+                    val s = lst[position]
+                    val ctv = v.findViewById<View>(android.R.id.text1) as CheckedTextView
+                    ctv.setText(s)
+                    return v
+                }
+            }
+            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
+            spnPartFrom.adapter = adapter
+            spnPartTo.adapter = adapter
+
+            spnPartFrom.setSelection(vm.uspartfrom - 1)
+            spnPartTo.setSelection(vm.uspartto - 1)
+
+        }
+    }
+
+    private fun isInvalidUnitPart() = vm.usunitpartfrom > vm.usunitpartto
+
+    @ItemSelect
+    fun spnUnitFromItemSelected(selected: Boolean, position: Int) {
+        vm.usunitfrom = position + 1
+        vm.updateUnitFrom {
+            if (!chkUnitTo.isChecked || isInvalidUnitPart())
+                updateUnitPartTo()
+        }
+    }
+
+    @ItemSelect
+    fun spnPartFromItemSelected(selected: Boolean, position: Int) {
+        vm.uspartfrom = position + 1
+        vm.updatePartFrom {
+            if (!chkUnitTo.isChecked || isInvalidUnitPart())
+                updateUnitPartTo()
+        }
+    }
+
+    @ItemSelect
+    fun spnUnitToItemSelected(selected: Boolean, position: Int) {
+        vm.usunitto = position + 1
+        vm.updateUnitTo {
+            if (isInvalidUnitPart())
+                updateUnitPartFrom()
+        }
+    }
+
+    @ItemSelect
+    fun spnPartToItemSelected(selected: Boolean, position: Int) {
+        vm.uspartto = position + 1
+        vm.updatePartTo {
+            if (isInvalidUnitPart())
+                updateUnitPartFrom()
+        }
     }
 
 }
