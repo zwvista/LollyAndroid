@@ -20,7 +20,7 @@ class SettingsViewModel : BaseViewModel1() {
 
     var lstUserSettings = listOf<UserSetting>()
     private var selectedUSUserIndex = 0
-    val selectedUSUser: UserSetting
+    private val selectedUSUser: UserSetting
         get() = lstUserSettings[selectedUSUserIndex]
     var uslangid: Int
         get() = selectedUSUser.value1?.toInt()!!
@@ -28,7 +28,7 @@ class SettingsViewModel : BaseViewModel1() {
             selectedUSUser.value1 = value.toString()
         }
     private var selectedUSLangIndex = 0
-    val selectedUSLang: UserSetting
+    private val selectedUSLang: UserSetting
         get() = lstUserSettings[selectedUSLangIndex]
     var ustextbookid: Int
         get() = selectedUSLang.value1?.toInt()!!
@@ -41,7 +41,7 @@ class SettingsViewModel : BaseViewModel1() {
             selectedUSLang.value2 = value.toString()
         }
     private var selectedUSTextbookIndex = 0
-    val selectedUSTextbook: UserSetting
+    private val selectedUSTextbook: UserSetting
         get() = lstUserSettings[selectedUSTextbookIndex]
     var usunitfrom: Int
         get() = selectedUSTextbook.value1?.toInt()!!
@@ -67,8 +67,10 @@ class SettingsViewModel : BaseViewModel1() {
         get() = usunitfrom * 10 + uspartfrom
     val usunitpartto: Int
         get() = usunitto * 10 + uspartto
-    val issingleunitpart: Boolean
+    val isSingleUnitPart: Boolean
         get() = usunitpartfrom == usunitpartto
+    val isInvalidUnitPart: Boolean
+        get() = usunitpartfrom > usunitpartto
 
     var lstLanguages = listOf<Language>()
     var selectedLangIndex: Int = 0
@@ -131,6 +133,7 @@ class SettingsViewModel : BaseViewModel1() {
             .subscribe {
                 lstTextbooks = it.lst!!
                 selectedTextbookIndex = lstTextbooks.indexOfFirst { it.id == ustextbookid }
+                onNext()
             }
     }
 

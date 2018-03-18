@@ -39,36 +39,46 @@ class SettingsActivity : DrawerActivity() {
     @AfterViews
     override fun afterViews() {
         super.afterViews()
-        initSpnLanguage()
+        vm.getData {
+            initSpnLanguage()
+        }
     }
 
     @CheckedChange
     fun chkUnitToCheckedChanged(selected: Boolean) {
         spnPartTo.isEnabled = selected
         spnUnitTo.isEnabled = selected
-        if (chkUnitTo.isChecked)
+        if (!chkUnitTo.isChecked)
             updateUnitPartTo()
     }
 
     private fun updateUnitPartFrom() {
-        vm.usunitfrom = vm.usunitto
-        vm.updateUnitFrom {
-            spnUnitFrom.setSelection(spnUnitTo.selectedItemPosition)
+        if (vm.usunitfrom != vm.usunitto) {
+            vm.usunitfrom = vm.usunitto
+            vm.updateUnitFrom {
+                spnUnitFrom.setSelection(spnUnitTo.selectedItemPosition)
+            }
         }
-        vm.uspartfrom = vm.uspartto
-        vm.updatePartFrom {
-            spnPartFrom.setSelection(spnPartTo.selectedItemPosition)
+        if (vm.uspartfrom != vm.uspartto) {
+            vm.uspartfrom = vm.uspartto
+            vm.updatePartFrom {
+                spnPartFrom.setSelection(spnPartTo.selectedItemPosition)
+            }
         }
     }
 
     private fun updateUnitPartTo() {
-        vm.usunitto = vm.usunitfrom
-        vm.updateUnitTo {
-            spnUnitTo.setSelection(spnUnitFrom.selectedItemPosition)
+        if (vm.usunitto != vm.usunitfrom) {
+            vm.usunitto = vm.usunitfrom
+            vm.updateUnitTo {
+                spnUnitTo.setSelection(spnUnitFrom.selectedItemPosition)
+            }
         }
-        vm.uspartto = vm.uspartfrom
-        vm.updatePartTo {
-            spnPartTo.setSelection(spnPartFrom.selectedItemPosition)
+        if (vm.uspartto != vm.uspartfrom) {
+            vm.uspartto = vm.uspartfrom
+            vm.updatePartTo {
+                spnPartTo.setSelection(spnPartFrom.selectedItemPosition)
+            }
         }
     }
 
@@ -101,6 +111,7 @@ class SettingsActivity : DrawerActivity() {
 
     @ItemSelect
     fun spnLanguageItemSelected(selected: Boolean, position: Int) {
+        if (vm.selectedLangIndex == position) return
         Log.d("", String.format("Checked position:%d", position))
         vm.setSelectedLangIndex(position) {
             vm.updateLang {
@@ -175,6 +186,7 @@ class SettingsActivity : DrawerActivity() {
 
     @ItemSelect
     fun spnDictionaryItemSelected(selected: Boolean, position: Int) {
+        if (vm.selectedDictIndex == position) return
         vm.selectedDictIndex = position
         Log.d("", String.format("Checked position:%d", position))
         (spnDictionary.adapter as ArrayAdapter<Dictionary>).notifyDataSetChanged()
@@ -183,6 +195,7 @@ class SettingsActivity : DrawerActivity() {
 
     @ItemSelect
     fun spnTextbookItemSelected(selected: Boolean, position: Int) {
+        if (vm.selectedTextbookIndex == position) return
         vm.selectedTextbookIndex = position
         Log.d("", String.format("Checked position:%d", position))
         (spnTextbook.adapter as ArrayAdapter<Textbook>).notifyDataSetChanged()
@@ -192,10 +205,6 @@ class SettingsActivity : DrawerActivity() {
     }
 
     private fun updateTextbook() {
-        val b = vm.usunitfrom != vm.usunitto
-        chkUnitTo.isChecked = b
-        chkUnitToCheckedChanged(b)
-
         run {
             val lst = vm.lstUnits
             val adapter = object : ArrayAdapter<String>(this,
@@ -253,42 +262,47 @@ class SettingsActivity : DrawerActivity() {
             spnPartTo.setSelection(vm.uspartto - 1)
 
         }
-    }
 
-    private fun isInvalidUnitPart() = vm.usunitpartfrom > vm.usunitpartto
+        val b = !vm.isSingleUnitPart
+        chkUnitTo.isChecked = b
+    }
 
     @ItemSelect
     fun spnUnitFromItemSelected(selected: Boolean, position: Int) {
+        if (vm.usunitfrom == position + 1) return
         vm.usunitfrom = position + 1
         vm.updateUnitFrom {
-            if (!chkUnitTo.isChecked || isInvalidUnitPart())
+            if (!chkUnitTo.isChecked || vm.isInvalidUnitPart)
                 updateUnitPartTo()
         }
     }
 
     @ItemSelect
     fun spnPartFromItemSelected(selected: Boolean, position: Int) {
+        if (vm.uspartfrom == position + 1) return
         vm.uspartfrom = position + 1
         vm.updatePartFrom {
-            if (!chkUnitTo.isChecked || isInvalidUnitPart())
+            if (!chkUnitTo.isChecked || vm.isInvalidUnitPart)
                 updateUnitPartTo()
         }
     }
 
     @ItemSelect
     fun spnUnitToItemSelected(selected: Boolean, position: Int) {
+        if (vm.usunitto == position + 1) return
         vm.usunitto = position + 1
         vm.updateUnitTo {
-            if (isInvalidUnitPart())
+            if (vm.isInvalidUnitPart)
                 updateUnitPartFrom()
         }
     }
 
     @ItemSelect
     fun spnPartToItemSelected(selected: Boolean, position: Int) {
+        if (vm.uspartto == position + 1) return
         vm.uspartto = position + 1
         vm.updatePartTo {
-            if (isInvalidUnitPart())
+            if (vm.isInvalidUnitPart)
                 updateUnitPartFrom()
         }
     }
