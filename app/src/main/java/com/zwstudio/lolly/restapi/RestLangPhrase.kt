@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.data
+package com.zwstudio.lolly.restapi
 
 import com.zwstudio.lolly.domain.LangPhrases
 import io.reactivex.Observable

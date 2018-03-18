@@ -1,22 +1,21 @@
 package com.zwstudio.lolly.data
 
-import com.zwstudio.lolly.android.LollyApplication
 import com.zwstudio.lolly.domain.Dictionary
 import com.zwstudio.lolly.domain.Language
 import com.zwstudio.lolly.domain.Textbook
 import com.zwstudio.lolly.domain.UserSetting
+import com.zwstudio.lolly.restapi.RestDictionary
+import com.zwstudio.lolly.restapi.RestLanguage
+import com.zwstudio.lolly.restapi.RestTextbook
+import com.zwstudio.lolly.restapi.RestUserSetting
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.androidannotations.annotations.App
 import org.androidannotations.annotations.EBean
 
 @EBean(scope = EBean.Scope.Singleton)
-class SettingsViewModel {
+class SettingsViewModel : BaseViewModel1() {
 
     val userid = 1
-
-    @App
-    lateinit var app: LollyApplication
 
     var lstUserSettings = listOf<UserSetting>()
     private var selectedUSUserIndex = 0
@@ -98,11 +97,11 @@ class SettingsViewModel {
     var lstParts = listOf<String>()
 
     fun getData(onNext: () -> Unit) {
-        app.retrofit.create(RestLanguage::class.java)
+        retrofit.create(RestLanguage::class.java)
             .getData()
             .flatMap {
                 lstLanguages = it.lst!!
-                app.retrofit.create(RestUserSetting::class.java)
+                retrofit.create(RestUserSetting::class.java)
                     .getDataByUser("USERID,eq,$userid")
             }
             .subscribeOn(Schedulers.io())
@@ -118,12 +117,12 @@ class SettingsViewModel {
         selectedLangIndex = langIndex
         uslangid = selectedLang.id
         selectedUSLangIndex = lstUserSettings.indexOfFirst { it.kind == 2 && it.entityid == uslangid }
-        app.retrofit.create(RestDictionary::class.java)
+        retrofit.create(RestDictionary::class.java)
             .getDataByLang("LANGIDFROM,eq,$uslangid")
             .flatMap {
                 lstDictionaries = it.lst!!
                 selectedDictIndex = lstDictionaries.indexOfFirst { it.id == usdictid }
-                app.retrofit.create(RestTextbook::class.java)
+                retrofit.create(RestTextbook::class.java)
                     .getDataByLang("LANGID,eq,$uslangid")
             }
             .subscribeOn(Schedulers.io())
