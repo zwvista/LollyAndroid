@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.android
 
 import android.graphics.Color
+import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,8 @@ import com.zwstudio.lolly.domain.Language
 import com.zwstudio.lolly.domain.Textbook
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.activity_settings)
-class SettingsActivity : DrawerActivity() {
+@EFragment(R.layout.content_settings)
+class SettingsFragment : Fragment() {
 
     @App
     lateinit var app: LollyApplication
@@ -37,8 +38,7 @@ class SettingsActivity : DrawerActivity() {
     lateinit var chkUnitTo: CheckBox
 
     @AfterViews
-    override fun afterViews() {
-        super.afterViews()
+    fun afterViews() {
         vm.getData {
             initSpnLanguage()
         }
@@ -84,7 +84,7 @@ class SettingsActivity : DrawerActivity() {
 
     private fun initSpnLanguage() {
         val lst = vm.lstLanguages
-        val adapter = object : ArrayAdapter<Language>(this,
+        val adapter = object : ArrayAdapter<Language>(activity,
             android.R.layout.simple_spinner_item, lst) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
@@ -123,7 +123,7 @@ class SettingsActivity : DrawerActivity() {
     private fun updateLang() {
         run {
             val lst = vm.lstDictionaries
-            val adapter = object : ArrayAdapter<Dictionary>(this,
+            val adapter = object : ArrayAdapter<Dictionary>(activity,
                 R.layout.spinner_item_2, android.R.id.text1, lst) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val v = super.getView(position, convertView, parent)
@@ -153,7 +153,7 @@ class SettingsActivity : DrawerActivity() {
         }
         run {
             val lst = vm.lstTextbooks
-            val adapter = object : ArrayAdapter<Textbook>(this,
+            val adapter = object : ArrayAdapter<Textbook>(activity,
                 R.layout.spinner_item_2, android.R.id.text1, lst) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val v = super.getView(position, convertView, parent)
@@ -207,7 +207,7 @@ class SettingsActivity : DrawerActivity() {
     private fun updateTextbook() {
         run {
             val lst = vm.lstUnits
-            val adapter = object : ArrayAdapter<String>(this,
+            val adapter = object : ArrayAdapter<String>(activity,
                     android.R.layout.simple_spinner_item, lst) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val v = super.getView(position, convertView, parent)
@@ -236,7 +236,7 @@ class SettingsActivity : DrawerActivity() {
 
         run {
             val lst = vm.lstParts
-            val adapter = object : ArrayAdapter<String>(this,
+            val adapter = object : ArrayAdapter<String>(activity,
                     android.R.layout.simple_spinner_item, lst) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val v = super.getView(position, convertView, parent)

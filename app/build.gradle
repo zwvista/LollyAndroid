@@ -59,4 +59,5 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    compile 'com.github.woxthebox:draglistview:1.5.3'
 }

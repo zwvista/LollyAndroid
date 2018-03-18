@@ -10,21 +10,20 @@ import com.zwstudio.lolly.data.WordsTextbookViewModel
 import com.zwstudio.lolly.domain.TextbookWord
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EActivity
+import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ItemClick
 
-@EActivity(R.layout.activity_words_textbook)
-class WordsTextbookActivity : DrawerListActivity() {
+@EFragment(R.layout.content_words_textbook)
+class WordsTextbookFragment : DrawerListFragment() {
 
     @Bean
     lateinit var vm: WordsTextbookViewModel
 
     @AfterViews
-    override fun afterViews() {
-        super.afterViews()
+    fun afterViews() {
         vm.getData {
             val lst = it.lst!!
-            val adapter = object : ArrayAdapter<TextbookWord>(this,
+            val adapter = object : ArrayAdapter<TextbookWord>(activity,
                 android.R.layout.simple_list_item_1, lst) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val v = super.getView(position, convertView, parent)
@@ -40,7 +39,7 @@ class WordsTextbookActivity : DrawerListActivity() {
 
     @ItemClick
     fun listViewItemClicked(item: TextbookWord) {
-        val intent = Intent(applicationContext, WordsDictActivity_::class.java)
+        val intent = Intent(activity, WordsDictActivity_::class.java)
         intent.putExtra("word", item.word)
         startActivity(intent)
     }

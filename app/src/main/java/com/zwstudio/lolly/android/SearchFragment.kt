@@ -1,19 +1,17 @@
 package com.zwstudio.lolly.android
 
+import android.support.v4.app.Fragment
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.SearchView
 import android.widget.Toast
 import com.zwstudio.lolly.data.SearchViewModel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ViewById
+import org.androidannotations.annotations.*
 
 
-@EActivity(R.layout.activity_search)
-class SearchActivity : DrawerActivity() {
+@EFragment(R.layout.content_search)
+class SearchFragment : Fragment() {
 
     @ViewById
     lateinit var svWord: SearchView
@@ -29,10 +27,9 @@ class SearchActivity : DrawerActivity() {
     var webViewFinished = false
 
     @AfterViews
-    override fun afterViews() {
-        super.afterViews()
+    fun afterViews() {
         // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
-        this.title = resources.getString(R.string.search)
+        activity?.title = resources.getString(R.string.search)
 
         configWebView(wvDictOnline)
         configWebView(wvDictOffline)
@@ -42,7 +39,7 @@ class SearchActivity : DrawerActivity() {
         svWord.setQuery(vm.word, false)
         svWord.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                searchDict(svWord)
+                searchDict()
                 return true
             }
 
@@ -55,7 +52,6 @@ class SearchActivity : DrawerActivity() {
 
     private fun configWebView(wv: WebView) {
         wv.settings.javaScriptEnabled = true // enable javascript
-        val activity = this
         wv.webViewClient = object : WebViewClient() {
             override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
                 Toast.makeText(activity, description, Toast.LENGTH_SHORT).show()
@@ -63,7 +59,8 @@ class SearchActivity : DrawerActivity() {
         }
     }
 
-    fun searchDict(view: View?) {
+    @Click(R.id.btnGo)
+    fun searchDict() {
         word = svWord.query.toString()
         wvDictOnline.visibility = View.VISIBLE
         wvDictOffline.visibility = View.INVISIBLE

@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.android
 
-import android.content.Intent
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
@@ -15,9 +15,10 @@ import android.view.View
 import android.widget.ListView
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.EActivity
+import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ViewById
 
-@EActivity
+@EActivity(R.layout.activity_drawer)
 open class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawerLayout: DrawerLayout
@@ -44,6 +45,12 @@ open class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
 
+        showFragment(SearchFragment_())
+    }
+
+    private fun showFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, fragment, "fragment").commit()
     }
 
     override fun onBackPressed() {
@@ -75,29 +82,14 @@ open class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-        val id = item.itemId
-
-        if (id == R.id.nav_search) {
-            val intent = Intent(this, SearchActivity_::class.java)
-            startActivityForResult(intent, 0)
-        } else if (id == R.id.nav_settings) {
-            val intent = Intent(this, SettingsActivity_::class.java)
-            startActivityForResult(intent, 0)
-        } else if (id == R.id.nav_words_unit) {
-            val intent = Intent(this, WordsUnitActivity_::class.java)
-            startActivityForResult(intent, 0)
-        } else if (id == R.id.nav_words_textbook) {
-            val intent = Intent(this, WordsTextbookActivity_::class.java)
-            startActivityForResult(intent, 0)
-        } else if (id == R.id.nav_words_lang) {
-            val intent = Intent(this, WordsLangActivity_::class.java)
-            startActivityForResult(intent, 0)
-        } else if (id == R.id.nav_phrases_unit) {
-            val intent = Intent(this, PhrasesUnitActivity_::class.java)
-            startActivityForResult(intent, 0)
-        } else if (id == R.id.nav_phrases_lang) {
-            val intent = Intent(this, PhrasesLangActivity_::class.java)
-            startActivityForResult(intent, 0)
+        when (item.itemId) {
+            R.id.nav_search -> showFragment(SearchFragment_())
+            R.id.nav_settings -> showFragment(SettingsFragment_())
+            R.id.nav_words_unit -> showFragment(WordsUnitFragment_())
+            R.id.nav_words_textbook -> showFragment(WordsTextbookFragment_())
+            R.id.nav_words_lang -> showFragment(WordsLangFragment_())
+            R.id.nav_phrases_unit -> showFragment(PhrasesUnitFragment_())
+            R.id.nav_phrases_lang -> showFragment(PhrasesLangFragment_())
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -105,8 +97,8 @@ open class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     }
 }
 
-@EActivity
-open class DrawerListActivity : DrawerActivity() {
+@EFragment
+open class DrawerListFragment : Fragment() {
 
     @ViewById
     lateinit var listView: ListView
