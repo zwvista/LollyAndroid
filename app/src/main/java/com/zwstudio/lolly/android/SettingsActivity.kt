@@ -9,44 +9,43 @@ import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.domain.Dictionary
 import com.zwstudio.lolly.domain.Language
 import com.zwstudio.lolly.domain.Textbook
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ViewById
+import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_settings)
 class SettingsActivity : DrawerActivity() {
-    
-    @Bean
-    internal lateinit var vm: SettingsViewModel
+
+    @App
+    lateinit var app: LollyApplication
+    val vm: SettingsViewModel
+        get() = app.vm
 
     @ViewById(R.id.spnLanguage)
-    internal lateinit var spnLanguage: Spinner
+    lateinit var spnLanguage: Spinner
     @ViewById(R.id.spnDictionary)
-    internal lateinit var spnDictionary: Spinner
+    lateinit var spnDictionary: Spinner
     @ViewById(R.id.spnTextbook)
-    internal lateinit var spnTextbook: Spinner
+    lateinit var spnTextbook: Spinner
     @ViewById(R.id.spnUnitFrom)
-    internal lateinit var spnUnitFrom: Spinner
+    lateinit var spnUnitFrom: Spinner
     @ViewById(R.id.spnUnitTo)
-    internal lateinit var spnUnitTo: Spinner
+    lateinit var spnUnitTo: Spinner
     @ViewById(R.id.spnPartFrom)
-    internal lateinit var spnPartFrom: Spinner
+    lateinit var spnPartFrom: Spinner
     @ViewById(R.id.spnPartTo)
-    internal lateinit var spnPartTo: Spinner
+    lateinit var spnPartTo: Spinner
     @ViewById(R.id.chkUnitTo)
-    internal lateinit var chkUnitTo: CheckBox
+    lateinit var chkUnitTo: CheckBox
 
     @AfterViews
     override fun afterViews() {
         super.afterViews()
-        chkUnitTo.setOnCheckedChangeListener { compoundButton, b -> chkUnitTo_onCheckedChanged(b) }
         initSpnLanguage()
     }
 
-    private fun chkUnitTo_onCheckedChanged(b: Boolean) {
-        spnPartTo.isEnabled = b
-        spnUnitTo.isEnabled = b
+    @CheckedChange
+    fun chkUnitToCheckedChanged(selected: Boolean) {
+        spnPartTo.isEnabled = selected
+        spnUnitTo.isEnabled = selected
         if (chkUnitTo.isChecked)
             updateUnitPartTo()
     }
@@ -70,7 +69,7 @@ class SettingsActivity : DrawerActivity() {
     private fun initSpnLanguage() {
         val lst = vm.lstLanguages
         val adapter = object : ArrayAdapter<Language>(this,
-                android.R.layout.simple_spinner_item, lst) {
+            android.R.layout.simple_spinner_item, lst) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
                 val tv = v.findViewById<View>(android.R.id.text1) as TextView
@@ -91,22 +90,20 @@ class SettingsActivity : DrawerActivity() {
         spnLanguage.adapter = adapter
 
         spnLanguage.setSelection(vm.selectedLangIndex)
-        spnLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                vm.selectedLangIndex = position
-                Log.d("", String.format("Checked position:%d", position))
-                initSpnDictionary()
-                initSpnTextbook()
-            }
+    }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
+    @ItemSelect
+    fun spnLanguageItemSelected(selected: Boolean, position: Int) {
+        vm.selectedLangIndex = position
+        Log.d("", String.format("Checked position:%d", position))
+        initSpnDictionary()
+        initSpnTextbook()
     }
 
     private fun initSpnDictionary() {
         val lst = vm.lstDictionaries
         val adapter = object : ArrayAdapter<Dictionary>(this,
-                R.layout.spinner_item_2, android.R.id.text1, lst) {
+            R.layout.spinner_item_2, android.R.id.text1, lst) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
                 val m = lst[position]
@@ -132,21 +129,19 @@ class SettingsActivity : DrawerActivity() {
         spnDictionary.adapter = adapter
 
         spnDictionary.setSelection(vm.selectedDictIndex)
-        spnDictionary.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                vm.selectedDictIndex = position
-                Log.d("", String.format("Checked position:%d", position))
-                adapter.notifyDataSetChanged()
-            }
+    }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
+    @ItemSelect
+    fun spnDictionaryItemSelected(selected: Boolean, position: Int) {
+        vm.selectedDictIndex = position
+        Log.d("", String.format("Checked position:%d", position))
+        (spnDictionary.adapter as ArrayAdapter<Dictionary>).notifyDataSetChanged()
     }
 
     private fun initSpnTextbook() {
         val lst = vm.lstTextbooks
         val adapter = object : ArrayAdapter<Textbook>(this,
-                R.layout.spinner_item_2, android.R.id.text1, lst) {
+            R.layout.spinner_item_2, android.R.id.text1, lst) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
                 val m = lst[position]
@@ -172,16 +167,14 @@ class SettingsActivity : DrawerActivity() {
         spnTextbook.adapter = adapter
 
         spnTextbook.setSelection(vm.selectedTextbookIndex)
-        spnTextbook.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                vm.selectedTextbookIndex = position
-                Log.d("", String.format("Checked position:%d", position))
-                adapter.notifyDataSetChanged()
-                initUnitsAndParts()
-            }
+    }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
+    @ItemSelect
+    fun spnTextbookItemSelected(selected: Boolean, position: Int) {
+        vm.selectedTextbookIndex = position
+        Log.d("", String.format("Checked position:%d", position))
+        (spnTextbook.adapter as ArrayAdapter<Textbook>).notifyDataSetChanged()
+        initUnitsAndParts()
     }
 
     private fun initUnitsAndParts() {

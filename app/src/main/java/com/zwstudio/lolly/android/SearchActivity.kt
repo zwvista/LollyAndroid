@@ -16,17 +16,17 @@ import org.androidannotations.annotations.ViewById
 class SearchActivity : DrawerActivity() {
 
     @ViewById
-    internal lateinit var svWord: SearchView
+    lateinit var svWord: SearchView
     @ViewById
-    internal lateinit var wvDictOnline: WebView
+    lateinit var wvDictOnline: WebView
     @ViewById
-    internal lateinit var wvDictOffline: WebView
+    lateinit var wvDictOffline: WebView
 
     @Bean
-    internal lateinit var vm: SettingsViewModel
+    lateinit var vm: SettingsViewModel
 
-    internal var word = ""
-    internal var webViewFinished = false
+    var word = ""
+    var webViewFinished = false
 
     @AfterViews
     override fun afterViews() {

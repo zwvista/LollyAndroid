@@ -10,7 +10,7 @@ import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.App
 import org.androidannotations.annotations.EBean
 
-@EBean
+@EBean(scope = EBean.Scope.Singleton)
 class SettingsViewModel {
 
     val userid = 1
@@ -24,31 +24,45 @@ class SettingsViewModel {
         get() = lstUserSettings[selectedUSUserIndex]
     var uslangid: Int
         get() = selectedUSUser.value1?.toInt()!!
-        set(value) { selectedUSUser.value1 = value.toString() }
+        set(value) {
+            selectedUSUser.value1 = value.toString()
+        }
     private var selectedUSLangIndex = 0
     val selectedUSLang: UserSetting
         get() = lstUserSettings[selectedUSLangIndex]
     var ustextbookid: Int
         get() = selectedUSLang.value1?.toInt()!!
-        set(value) { selectedUSLang.value1 = value.toString() }
+        set(value) {
+            selectedUSLang.value1 = value.toString()
+        }
     var usdictid: Int
         get() = selectedUSLang.value2?.toInt()!!
-        set(value) { selectedUSLang.value2 = value.toString() }
+        set(value) {
+            selectedUSLang.value2 = value.toString()
+        }
     private var selectedUSTextbookIndex = 0
     val selectedUSTextbook: UserSetting
         get() = lstUserSettings[selectedUSTextbookIndex]
     var usunitfrom: Int
         get() = selectedUSTextbook.value1?.toInt()!!
-        set(value) { selectedUSTextbook.value1 = value.toString() }
+        set(value) {
+            selectedUSTextbook.value1 = value.toString()
+        }
     var uspartfrom: Int
         get() = selectedUSTextbook.value2?.toInt()!!
-        set(value) { selectedUSTextbook.value2 = value.toString() }
+        set(value) {
+            selectedUSTextbook.value2 = value.toString()
+        }
     var usunitto: Int
         get() = selectedUSTextbook.value3?.toInt()!!
-        set(value) { selectedUSTextbook.value3 = value.toString() }
+        set(value) {
+            selectedUSTextbook.value3 = value.toString()
+        }
     var uspartto: Int
         get() = selectedUSTextbook.value4?.toInt()!!
-        set(value) { selectedUSTextbook.value4 = value.toString() }
+        set(value) {
+            selectedUSTextbook.value4 = value.toString()
+        }
     val usunitpartfrom: Int
         get() = usunitfrom * 10 + uspartfrom
     val usunitpartto: Int
@@ -85,19 +99,19 @@ class SettingsViewModel {
 
     fun getData(onNext: () -> Unit) {
         app.retrofit.create(RestLanguage::class.java)
-                .getData()
-                .flatMap {
-                    lstLanguages = it.lst!!
-                    app.retrofit.create(RestUserSetting::class.java)
-                            .getDataByUser("USERID,eq,$userid")
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    lstUserSettings = it.lst!!
-                    selectedUSUserIndex = lstUserSettings.indexOfFirst { it.kind == 1 }
-                    setSelectedLangIndex(lstLanguages.indexOfFirst { it.id ==  uslangid }, onNext)
-                }
+            .getData()
+            .flatMap {
+                lstLanguages = it.lst!!
+                app.retrofit.create(RestUserSetting::class.java)
+                    .getDataByUser("USERID,eq,$userid")
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                lstUserSettings = it.lst!!
+                selectedUSUserIndex = lstUserSettings.indexOfFirst { it.kind == 1 }
+                setSelectedLangIndex(lstLanguages.indexOfFirst { it.id == uslangid }, onNext)
+            }
     }
 
     fun setSelectedLangIndex(langIndex: Int, onNext: () -> Unit) {
@@ -105,19 +119,19 @@ class SettingsViewModel {
         uslangid = selectedLang.id
         selectedUSLangIndex = lstUserSettings.indexOfFirst { it.kind == 2 && it.entityid == uslangid }
         app.retrofit.create(RestDictionary::class.java)
-                .getDataByLang("LANGIDFROM,eq,$uslangid")
-                .flatMap {
-                    lstDictionaries = it.lst!!
-                    selectedDictIndex = lstDictionaries.indexOfFirst { it.id == usdictid }
-                    app.retrofit.create(RestTextbook::class.java)
-                            .getDataByLang("LANGID,eq,$uslangid")
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    lstTextbooks = it.lst!!
-                    selectedTextbookIndex = lstTextbooks.indexOfFirst { it.id == ustextbookid }
-                }
+            .getDataByLang("LANGIDFROM,eq,$uslangid")
+            .flatMap {
+                lstDictionaries = it.lst!!
+                selectedDictIndex = lstDictionaries.indexOfFirst { it.id == usdictid }
+                app.retrofit.create(RestTextbook::class.java)
+                    .getDataByLang("LANGID,eq,$uslangid")
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                lstTextbooks = it.lst!!
+                selectedTextbookIndex = lstTextbooks.indexOfFirst { it.id == ustextbookid }
+            }
     }
 
     fun setSelectedTextbookIndex() {

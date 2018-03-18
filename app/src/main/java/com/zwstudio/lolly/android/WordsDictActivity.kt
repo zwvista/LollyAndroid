@@ -12,10 +12,10 @@ import org.androidannotations.annotations.ViewById
 class WordsDictActivity : AppCompatActivity() {
 
     @Bean
-    internal lateinit var vm: SettingsViewModel
+    lateinit var vm: SettingsViewModel
 
     @ViewById(R.id.webView)
-    internal lateinit var wv: WebView
+    lateinit var wv: WebView
 
     @AfterViews
     fun afterViews() {
