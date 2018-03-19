@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ListView
+import android.widget.ProgressBar
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.EFragment
@@ -103,5 +104,7 @@ open class DrawerListFragment : Fragment() {
 
     @ViewById
     lateinit var listView: ListView
+    @ViewById
+    lateinit var progressBar1: ProgressBar
 
 }

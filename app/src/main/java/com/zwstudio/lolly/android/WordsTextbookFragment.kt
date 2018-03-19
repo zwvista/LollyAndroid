@@ -34,6 +34,7 @@ class WordsTextbookFragment : DrawerListFragment() {
                 }
             }
             listView.adapter = adapter
+            progressBar1.visibility = View.GONE
         }
     }
 
