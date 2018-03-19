@@ -20,13 +20,14 @@ class WordsLangFragment : DrawerListFragment() {
 
     @AfterViews
     fun afterViews() {
+        activity?.title = "Words in Language"
         vm.getData {
             val lst = it.lst!!
             val adapter = object : ArrayAdapter<LangWord>(activity,
                 android.R.layout.simple_list_item_1, lst) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val v = super.getView(position, convertView, parent)
-                    val tv = v.findViewById<View>(android.R.id.text1) as TextView
+                    val tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = lst[position].word
                     tv.setTextColor(Color.BLUE)
                     return v

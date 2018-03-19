@@ -51,10 +51,8 @@ open class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         showFragment(SearchFragment_())
     }
 
-    private fun showFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment, "fragment").commit()
-    }
+    private fun showFragment(fragment: Fragment) =
+        supportFragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

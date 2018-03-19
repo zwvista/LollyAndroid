@@ -19,16 +19,17 @@ class PhrasesLangFragment : DrawerListFragment() {
 
     @AfterViews
     fun afterViews() {
+        activity?.title = "Phrases in Language"
         vm.getData {
             val lst = it.lst!!
             val adapter = object : ArrayAdapter<LangPhrase>(activity,
                 android.R.layout.simple_list_item_2, android.R.id.text1, lst) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val v = super.getView(position, convertView, parent)
-                    var tv = v.findViewById<View>(android.R.id.text1) as TextView
+                    var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = lst[position].phrase
                     tv.setTextColor(Color.rgb(255, 165, 0))
-                    tv = v.findViewById<View>(android.R.id.text2) as TextView
+                    tv = v.findViewById<TextView>(android.R.id.text2)
                     tv.text = lst[position].translation
                     tv.setTextColor(Color.BLUE)
                     return v

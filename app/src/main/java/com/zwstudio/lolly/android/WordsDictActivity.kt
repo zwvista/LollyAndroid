@@ -20,7 +20,6 @@ class WordsDictActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-
         vm.word = intent.getStringExtra("word")
         title = vm.word
         val url = vm.urlString!!
