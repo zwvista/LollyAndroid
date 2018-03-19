@@ -21,28 +21,31 @@ import org.androidannotations.annotations.ViewById
 @EActivity(R.layout.activity_drawer)
 open class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private lateinit var drawerLayout: DrawerLayout
+    @ViewById
+    lateinit var toolbar: Toolbar
+    @ViewById
+    lateinit var fab: FloatingActionButton
+    @ViewById(R.id.drawer_layout)
+    lateinit var drawerLayout: DrawerLayout
+    @ViewById(R.id.nav_view)
+    lateinit var navigationView: NavigationView
+
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
     @AfterViews
     fun afterViews() {
-
-        val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
-        val fab = findViewById<View>(R.id.fab) as FloatingActionButton
         fab.setOnClickListener(View.OnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         })
 
-        drawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         drawerToggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawerLayout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 
-        val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
 
         showFragment(SearchFragment_())

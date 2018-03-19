@@ -15,41 +15,32 @@ import org.androidannotations.annotations.*
 @EFragment(R.layout.content_settings)
 class SettingsFragment : Fragment() {
 
-    @App
-    lateinit var app: LollyApplication
-    val vm: SettingsViewModel
-        get() = app.vm
+    @Bean
+    lateinit var vm: SettingsViewModel
 
-    @ViewById(R.id.spnLanguage)
+    @ViewById
     lateinit var spnLanguage: Spinner
-    @ViewById(R.id.spnDictionary)
+    @ViewById
     lateinit var spnDictionary: Spinner
-    @ViewById(R.id.spnTextbook)
+    @ViewById
     lateinit var spnTextbook: Spinner
-    @ViewById(R.id.spnUnitFrom)
+    @ViewById
     lateinit var spnUnitFrom: Spinner
-    @ViewById(R.id.spnUnitTo)
+    @ViewById
     lateinit var spnUnitTo: Spinner
-    @ViewById(R.id.spnPartFrom)
+    @ViewById
     lateinit var spnPartFrom: Spinner
-    @ViewById(R.id.spnPartTo)
+    @ViewById
     lateinit var spnPartTo: Spinner
-    @ViewById(R.id.chkUnitTo)
+    @ViewById
     lateinit var chkUnitTo: CheckBox
 
     @AfterViews
     fun afterViews() {
+        activity?.title = "Settings"
         vm.getData {
             initSpnLanguage()
         }
-    }
-
-    @CheckedChange
-    fun chkUnitToCheckedChanged(selected: Boolean) {
-        spnPartTo.isEnabled = selected
-        spnUnitTo.isEnabled = selected
-        if (!chkUnitTo.isChecked)
-            updateUnitPartTo()
     }
 
     private fun updateUnitPartFrom() {
@@ -190,7 +181,7 @@ class SettingsFragment : Fragment() {
         vm.selectedDictIndex = position
         Log.d("", String.format("Checked position:%d", position))
         (spnDictionary.adapter as ArrayAdapter<Dictionary>).notifyDataSetChanged()
-        vm.updateDict {  }
+        vm.updateDict { }
     }
 
     @ItemSelect
@@ -208,7 +199,7 @@ class SettingsFragment : Fragment() {
         run {
             val lst = vm.lstUnits
             val adapter = object : ArrayAdapter<String>(activity,
-                    android.R.layout.simple_spinner_item, lst) {
+                android.R.layout.simple_spinner_item, lst) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val v = super.getView(position, convertView, parent)
                     val s = lst[position]
@@ -237,7 +228,7 @@ class SettingsFragment : Fragment() {
         run {
             val lst = vm.lstParts
             val adapter = object : ArrayAdapter<String>(activity,
-                    android.R.layout.simple_spinner_item, lst) {
+                android.R.layout.simple_spinner_item, lst) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val v = super.getView(position, convertView, parent)
                     val s = lst[position]
@@ -265,6 +256,15 @@ class SettingsFragment : Fragment() {
 
         val b = !vm.isSingleUnitPart
         chkUnitTo.isChecked = b
+        chkUnitToCheckedChanged(b)
+    }
+
+    @CheckedChange
+    fun chkUnitToCheckedChanged(isChecked: Boolean) {
+        spnPartTo.isEnabled = isChecked
+        spnUnitTo.isEnabled = isChecked
+        if (!isChecked)
+            updateUnitPartTo()
     }
 
     @ItemSelect

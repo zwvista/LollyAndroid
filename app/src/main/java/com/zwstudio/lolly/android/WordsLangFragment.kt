@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.android
 
-import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
@@ -39,9 +38,7 @@ class WordsLangFragment : DrawerListFragment() {
 
     @ItemClick
     fun listViewItemClicked(item: LangWord) {
-        val intent = Intent(activity, WordsDictActivity_::class.java)
-        intent.putExtra("word", item.word)
-        startActivity(intent)
+        WordsDictActivity_.intent(activity).extra("word", item.word).start()
     }
 
 }
