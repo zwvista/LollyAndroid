@@ -4,6 +4,7 @@ package com.zwstudio.lolly.domain
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 class Dictionaries {
 
@@ -12,7 +13,7 @@ class Dictionaries {
     var lst: List<Dictionary>? = null
 }
 
-class Dictionary {
+class Dictionary: Serializable {
 
     @SerializedName("ID")
     @Expose

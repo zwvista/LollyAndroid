@@ -2,6 +2,7 @@ package com.zwstudio.lolly.domain
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 class UserSettings {
 
@@ -10,7 +11,7 @@ class UserSettings {
     var lst: List<UserSetting>? = null
 }
 
-class UserSetting {
+class UserSetting: Serializable {
 
     @SerializedName("ID")
     @Expose

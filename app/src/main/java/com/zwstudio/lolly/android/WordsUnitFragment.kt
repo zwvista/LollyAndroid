@@ -17,12 +17,13 @@ class WordsUnitFragment : DrawerListFragment() {
 
     @Bean
     lateinit var vm: WordsUnitViewModel
+    lateinit var lst: List<UnitWord>
 
     @AfterViews
     fun afterViews() {
         activity?.title = "Words in Unit"
         vm.getData {
-            val lst = it.lst!!
+            lst = it.lst!!
             val adapter = object : ArrayAdapter<UnitWord>(activity,
                 android.R.layout.simple_list_item_1, lst) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -40,7 +41,8 @@ class WordsUnitFragment : DrawerListFragment() {
 
     @ItemClick
     fun listViewItemClicked(item: UnitWord) {
-        WordsDictActivity_.intent(activity).extra("word", item.word).start()
+//        WordsDictActivity_.intent(activity).extra("word", item.word).start()
+        WordsEditActivity_.intent(activity).extra("lst", lst.toTypedArray()).start()
     }
 
 }

@@ -2,6 +2,7 @@ package com.zwstudio.lolly.domain
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 class UnitPhrases {
 
@@ -10,7 +11,7 @@ class UnitPhrases {
     var lst: List<UnitPhrase>? = null
 }
 
-class UnitPhrase {
+class UnitPhrase: Serializable {
 
     @SerializedName("ID")
     @Expose

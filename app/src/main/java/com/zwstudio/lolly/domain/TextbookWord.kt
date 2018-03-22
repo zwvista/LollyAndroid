@@ -4,6 +4,7 @@ package com.zwstudio.lolly.domain
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 class TextbookWords {
 
@@ -12,7 +13,7 @@ class TextbookWords {
     var lst: List<TextbookWord>? = null
 }
 
-class TextbookWord {
+class TextbookWord: Serializable {
 
     @SerializedName("ID")
     @Expose
