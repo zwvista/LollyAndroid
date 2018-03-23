@@ -10,11 +10,11 @@ interface RestUnitPhrase {
 
     @FormUrlEncoded
     @PUT("VUNITPHRASES/{id}")
-    fun updateSeqNum(id: Int, @Field("SEQNUM") seqnum: Int): Observable<Int>
+    fun updateSeqNum(@Path("id") id: Int, @Field("SEQNUM") seqnum: Int): Observable<Int>
 
     @FormUrlEncoded
     @PUT("VUNITPHRASES/{id}")
-    fun update(id: Int, @Field("UNIT") unit: Int, @Field("PART") part: Int,
+    fun update(@Path("id") id: Int, @Field("UNIT") unit: Int, @Field("PART") part: Int,
                @Field("SEQNUM") seqnum: Int, @Field("PHRASE") phrase: String,
                @Field("TRANSLATION") translation: String): Observable<Int>
 
@@ -25,6 +25,6 @@ interface RestUnitPhrase {
                @Field("TRANSLATION") translation: String): Observable<Int>
 
     @DELETE("VUNITPHRASES/{id}")
-    fun delete(id: Int): Observable<Int>
+    fun delete(@Path("id") id: Int): Observable<Int>
 
 }

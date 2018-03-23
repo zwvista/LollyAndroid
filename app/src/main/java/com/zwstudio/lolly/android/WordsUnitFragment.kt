@@ -22,6 +22,10 @@ class WordsUnitFragment : DrawerListFragment() {
     @AfterViews
     fun afterViews() {
         activity?.title = "Words in Unit"
+    }
+
+    override fun onResume() {
+        super.onResume()
         vm.getData {
             lst = it.lst!!
             val adapter = object : ArrayAdapter<UnitWord>(activity,

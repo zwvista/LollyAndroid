@@ -10,11 +10,11 @@ interface RestUnitWord {
 
     @FormUrlEncoded
     @PUT("UNITWORDS/{id}")
-    fun updateSeqNum(id: Int, @Field("SEQNUM") seqnum: Int): Observable<Int>
+    fun updateSeqNum(@Path("id") id: Int, @Field("SEQNUM") seqnum: Int): Observable<Int>
 
     @FormUrlEncoded
     @PUT("UNITWORDS/{id}")
-    fun update(id: Int, @Field("UNIT") unit: Int, @Field("PART") part: Int,
+    fun update(@Path("id") id: Int, @Field("UNIT") unit: Int, @Field("PART") part: Int,
                @Field("SEQNUM") seqnum: Int, @Field("WORD") word: String,
                @Field("NOTE") note: String): Observable<Int>
 
@@ -25,6 +25,6 @@ interface RestUnitWord {
                @Field("NOTE") note: String): Observable<Int>
 
     @DELETE("UNITWORDS/{id}")
-    fun delete(id: Int): Observable<Int>
+    fun delete(@Path("id") id: Int): Observable<Int>
 
 }
