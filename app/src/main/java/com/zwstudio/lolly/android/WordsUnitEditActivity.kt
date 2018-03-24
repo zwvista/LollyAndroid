@@ -79,15 +79,22 @@ class WordsUnitEditActivity : AppCompatActivity() {
             }
         })
 
-        setupListRecyclerView()
-    }
-
-    private fun setupListRecyclerView() {
         mDragListView.setLayoutManager(LinearLayoutManager(this))
         val listAdapter = WordsUnitEditItemAdapter(lst, R.layout.list_item_words_edit, R.id.image, false)
         mDragListView.setAdapter(listAdapter, true)
         mDragListView.setCanDragHorizontally(false)
         mDragListView.setCustomDragItem(WordsUnitEditDragItem(this, R.layout.list_item_words_edit))
+    }
+
+    @OptionsItem
+    fun menuAdd() {
+        val item = UnitWord()
+        // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
+        val maxItem = lst.maxWith(compareBy<UnitWord>({ it.unitpart }, { it.seqnum }))
+        item.unit = maxItem?.unit ?: vm.vm.usunitto
+        item.part = maxItem?.part ?: vm.vm.uspartto
+        item.seqnum = (maxItem?.seqnum ?: 0) + 1
+        WordsUnitDetailActivity_.intent(this).extra("word", item).start()
     }
 
     private class WordsUnitEditDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {

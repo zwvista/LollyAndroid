@@ -18,7 +18,7 @@
         android:id="@id/android:text2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="#D3D3D3"
         />
 

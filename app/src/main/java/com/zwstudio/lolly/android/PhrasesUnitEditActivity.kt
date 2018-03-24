@@ -19,12 +19,10 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.UnitPhrase
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ViewById
+import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_phrases_unit_edit)
+@OptionsMenu(R.menu.menu_add)
 class PhrasesUnitEditActivity : AppCompatActivity() {
 
     lateinit var lst: MutableList<UnitPhrase>
@@ -71,6 +69,7 @@ class PhrasesUnitEditActivity : AppCompatActivity() {
             override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                 mRefreshLayout.isEnabled = true
 
+                mDragListView.resetSwipedViews(null)
                 // Swipe to delete on left
                 if (swipedDirection == ListSwipeItem.SwipeDirection.LEFT) {
                     val adapterItem = item!!.tag as UnitPhrase
@@ -81,15 +80,22 @@ class PhrasesUnitEditActivity : AppCompatActivity() {
             }
         })
 
-        setupListRecyclerView()
-    }
-
-    private fun setupListRecyclerView() {
         mDragListView.setLayoutManager(LinearLayoutManager(this))
         val listAdapter = PhrasesUnitEditItemAdapter(lst, R.layout.list_item_phrases_edit, R.id.image, false)
         mDragListView.setAdapter(listAdapter, true)
         mDragListView.setCanDragHorizontally(false)
         mDragListView.setCustomDragItem(PhrasesUnitEditDragItem(this, R.layout.list_item_phrases_edit))
+    }
+
+    @OptionsItem
+    fun menuAdd() {
+        val item = UnitPhrase()
+        // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
+        val maxItem = lst.maxWith(compareBy<UnitPhrase>({ it.unitpart }, { it.seqnum }))
+        item.unit = maxItem?.unit ?: vm.vm.usunitto
+        item.part = maxItem?.part ?: vm.vm.uspartto
+        item.seqnum = (maxItem?.seqnum ?: 0) + 1
+        PhrasesUnitDetailActivity_.intent(this).extra("phrase", item).start()
     }
 
     private class PhrasesUnitEditDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {

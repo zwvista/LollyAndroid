@@ -36,5 +36,5 @@ class UnitWord: Serializable {
     var note: String? = null
     @SerializedName("UNITPART")
     @Expose
-    var unipart: Int = 0
+    var unitpart: Int = 0
 }

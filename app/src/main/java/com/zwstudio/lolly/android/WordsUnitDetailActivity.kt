@@ -4,12 +4,10 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.UnitWord
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ViewById
+import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_words_unit_detail)
+@OptionsMenu(R.menu.menu_save)
 class WordsUnitDetailActivity : AppCompatActivity() {
 
     @Bean
@@ -37,5 +35,10 @@ class WordsUnitDetailActivity : AppCompatActivity() {
         etSeqNum.text = "${item.seqnum}"
         etWord.text = item.word
         etNote.text = item.note
+    }
+
+    @OptionsItem
+    fun menuSave() {
+
     }
 }

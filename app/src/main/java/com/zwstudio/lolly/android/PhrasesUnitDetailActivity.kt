@@ -4,12 +4,10 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.UnitPhrase
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ViewById
+import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_phrases_unit_detail)
+@OptionsMenu(R.menu.menu_save)
 class PhrasesUnitDetailActivity : AppCompatActivity() {
 
     @Bean
@@ -37,5 +35,10 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
         etSeqNum.text = "${item.seqnum}"
         etPhrase.text = item.phrase
         etTranslation.text = item.translation
+    }
+
+    @OptionsItem
+    fun menuSave() {
+
     }
 }

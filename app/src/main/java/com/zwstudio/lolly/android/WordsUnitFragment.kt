@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.android
 
-import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -33,7 +32,7 @@ class WordsUnitFragment : DrawerListFragment() {
                     val v = super.getView(position, convertView, parent)
                     val tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = lst[position].word
-                    tv.setTextColor(Color.BLUE)
+                    tv.setTextColor(resources.getColor(R.color.color_text1))
                     return v
                 }
             }

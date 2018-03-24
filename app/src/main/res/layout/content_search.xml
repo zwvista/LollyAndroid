@@ -32,7 +32,7 @@
         <Button
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:text="Go"
+            android:text="@string/label_go"
             android:id="@+id/btnGo"
             android:layout_weight="0"/>
     </LinearLayout>
