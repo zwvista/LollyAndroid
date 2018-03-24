@@ -94,6 +94,7 @@ class WordsUnitEditActivity : AppCompatActivity() {
     @OptionsItem
     fun menuAdd() {
         val item = UnitWord()
+        item.textbookid = vm.vm.ustextbookid
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
         val maxItem = lst.maxWith(compareBy<UnitWord>({ it.unitpart }, { it.seqnum }))
         item.unit = maxItem?.unit ?: vm.vm.usunitto
