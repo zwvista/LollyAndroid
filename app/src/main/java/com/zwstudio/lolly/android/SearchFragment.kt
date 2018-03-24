@@ -29,7 +29,7 @@ class SearchFragment : Fragment() {
     @AfterViews
     fun afterViews() {
         // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
-        activity?.title = resources.getString(R.string.search)
+        activity!!.title = resources.getString(R.string.search)
 
         configWebView(wvDictOnline)
         configWebView(wvDictOffline)
@@ -48,6 +48,7 @@ class SearchFragment : Fragment() {
                 return false
             }
         })
+
     }
 
     private fun configWebView(wv: WebView) {

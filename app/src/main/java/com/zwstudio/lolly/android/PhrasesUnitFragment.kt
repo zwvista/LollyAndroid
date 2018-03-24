@@ -11,7 +11,7 @@ import org.androidannotations.annotations.*
 
 
 @EFragment(R.layout.content_phrases_unit)
-@OptionsMenu(R.menu.menu_words_phrases_edit)
+@OptionsMenu(R.menu.menu_edit)
 class PhrasesUnitFragment : DrawerListFragment() {
 
     @Bean
@@ -20,7 +20,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
 
     @AfterViews
     fun afterViews() {
-        activity?.title = "Phrases in Unit"
+        activity?.title = resources.getString(R.string.phrases_unit)
         vm.getData {
             lst = it.lst!!
             val adapter = object : ArrayAdapter<UnitPhrase>(activity,

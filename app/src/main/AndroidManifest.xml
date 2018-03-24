@@ -34,8 +34,20 @@
             android:screenOrientation="fullSensor">
         </activity>
         <activity
+            android:name=".WordsUnitDetailActivity_"
+            android:label="@string/words_unit_detail"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
+        <activity
             android:name=".PhrasesUnitEditActivity_"
             android:label="@string/phrases_unit_edit"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
+        <activity
+            android:name=".PhrasesUnitDetailActivity_"
+            android:label="@string/phrases_unit_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>

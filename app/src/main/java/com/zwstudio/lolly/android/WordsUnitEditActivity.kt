@@ -19,12 +19,10 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.UnitWord
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ViewById
+import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_words_unit_edit)
+@OptionsMenu(R.menu.menu_add)
 class WordsUnitEditActivity : AppCompatActivity() {
 
     lateinit var lst: MutableList<UnitWord>
@@ -131,7 +129,8 @@ class WordsUnitEditActivity : AppCompatActivity() {
             }
 
             override fun onItemClicked(view: View?) {
-                Toast.makeText(view!!.context, "Item clicked", Toast.LENGTH_SHORT).show()
+                val item = view!!.tag as UnitWord
+                WordsUnitDetailActivity_.intent(view.context).extra("word", item).start()
             }
 
             override fun onItemLongClicked(view: View?): Boolean {

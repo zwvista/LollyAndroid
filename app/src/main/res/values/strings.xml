@@ -8,7 +8,9 @@
     <string name="phrases_unit">Phrases in Unit</string>
     <string name="phrases_lang">Phrases in Language</string>
     <string name="words_unit_edit">Words in Unit(Edit)</string>
+    <string name="words_unit_detail">Words in Unit(Detail)</string>
     <string name="phrases_unit_edit">Phrases in Unit(Edit)</string>
+    <string name="phrases_unit_detail">Phrases in Unit(Detail)</string>
 
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -17,4 +19,12 @@
     <string name="action_settings">Settings</string>
     <string name="action_edit">Edit</string>
     <string name="action_add">Add</string>
+    <string name="label_id">ID:</string>
+    <string name="label_unit">Unit:</string>
+    <string name="label_part">Part:</string>
+    <string name="label_seqnum">SeqNum:</string>
+    <string name="label_word">Word:</string>
+    <string name="label_note">Note:</string>
+    <string name="label_phrase">Phrase:</string>
+    <string name="label_translation">Translation:</string>
 </resources>

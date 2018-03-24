@@ -5,11 +5,7 @@
     <item
         android:id="@+id/menuEdit"
         android:title="@string/action_edit"
+        android:icon="@android:drawable/ic_menu_edit"
         android:orderInCategory="100"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/menuAdd"
-        android:title="@string/action_add"
-        android:orderInCategory="100"
-        app:showAsAction="never"/>
+        app:showAsAction="always"/>
 </menu>

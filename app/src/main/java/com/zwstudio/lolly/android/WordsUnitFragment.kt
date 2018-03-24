@@ -10,7 +10,7 @@ import com.zwstudio.lolly.domain.UnitWord
 import org.androidannotations.annotations.*
 
 @EFragment(R.layout.content_words_unit)
-@OptionsMenu(R.menu.menu_words_phrases_edit)
+@OptionsMenu(R.menu.menu_edit)
 class WordsUnitFragment : DrawerListFragment() {
 
     @Bean

@@ -19,7 +19,7 @@ class PhrasesLangFragment : DrawerListFragment() {
 
     @AfterViews
     fun afterViews() {
-        activity?.title = "Phrases in Language"
+        activity?.title = resources.getString(R.string.phrases_lang)
         vm.getData {
             val lst = it.lst!!
             val adapter = object : ArrayAdapter<LangPhrase>(activity,

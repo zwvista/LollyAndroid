@@ -131,7 +131,8 @@ class PhrasesUnitEditActivity : AppCompatActivity() {
             }
 
             override fun onItemClicked(view: View?) {
-                Toast.makeText(view!!.context, "Item clicked", Toast.LENGTH_SHORT).show()
+                val item = view!!.tag as UnitPhrase
+                PhrasesUnitDetailActivity_.intent(view.context).extra("phrase", item).start()
             }
 
             override fun onItemLongClicked(view: View?): Boolean {
