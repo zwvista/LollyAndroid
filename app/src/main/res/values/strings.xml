@@ -7,11 +7,14 @@
     <string name="words_lang">Words in Language</string>
     <string name="phrases_unit">Phrases in Unit</string>
     <string name="phrases_lang">Phrases in Language</string>
-    <string name="word">Word</string>
+    <string name="words_unit_edit">Words in Unit(Edit)</string>
+    <string name="phrases_unit_edit">Phrases in Unit(Edit)</string>
 
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_add">Add</string>
 </resources>

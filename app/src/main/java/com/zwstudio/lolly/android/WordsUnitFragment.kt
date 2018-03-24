@@ -7,12 +7,10 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.UnitWord
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ItemClick
+import org.androidannotations.annotations.*
 
 @EFragment(R.layout.content_words_unit)
+@OptionsMenu(R.menu.menu_words_phrases_edit)
 class WordsUnitFragment : DrawerListFragment() {
 
     @Bean
@@ -22,6 +20,7 @@ class WordsUnitFragment : DrawerListFragment() {
     @AfterViews
     fun afterViews() {
         activity?.title = "Words in Unit"
+        setHasOptionsMenu(true)
     }
 
     override fun onResume() {
@@ -45,8 +44,12 @@ class WordsUnitFragment : DrawerListFragment() {
 
     @ItemClick
     fun listViewItemClicked(item: UnitWord) {
-//        WordsDictActivity_.intent(activity).extra("word", item.word).start()
-        WordsEditActivity_.intent(activity).extra("lst", lst.toTypedArray()).start()
+        WordDictActivity_.intent(activity).extra("word", item.word).start()
+    }
+
+    @OptionsItem
+    fun menuEdit() {
+        WordsUnitEditActivity_.intent(activity).extra("lst", lst.toTypedArray()).start()
     }
 
 }

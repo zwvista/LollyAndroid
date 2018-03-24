@@ -24,15 +24,15 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ViewById
 
-@EActivity(R.layout.activity_words_edit)
-class WordsEditActivity : AppCompatActivity() {
+@EActivity(R.layout.activity_words_unit_edit)
+class WordsUnitEditActivity : AppCompatActivity() {
 
     lateinit var lst: MutableList<UnitWord>
 
     @ViewById(R.id.drag_list_view)
     lateinit var mDragListView: DragListView
     @ViewById(R.id.swipe_refresh_layout)
-    lateinit var mRefreshLayout: WordsEditSwipeRefreshLayout
+    lateinit var mRefreshLayout: WordsUnitEditSwipeRefreshLayout
     @Bean
     lateinit var vm: WordsUnitViewModel
 
@@ -76,6 +76,7 @@ class WordsEditActivity : AppCompatActivity() {
                     val adapterItem = item!!.tag as UnitWord
                     val pos = mDragListView.adapter.getPositionForItem(adapterItem)
                     mDragListView.adapter.removeItem(pos)
+                    vm.delete(adapterItem.id) {}
                 }
             }
         })
@@ -83,16 +84,15 @@ class WordsEditActivity : AppCompatActivity() {
         setupListRecyclerView()
     }
 
-
     private fun setupListRecyclerView() {
         mDragListView.setLayoutManager(LinearLayoutManager(this))
-        val listAdapter = WordsEditItemAdapter(lst, R.layout.list_item, R.id.image, false)
+        val listAdapter = WordsUnitEditItemAdapter(lst, R.layout.list_item_words_edit, R.id.image, false)
         mDragListView.setAdapter(listAdapter, true)
         mDragListView.setCanDragHorizontally(false)
-        mDragListView.setCustomDragItem(WordsEditDragItem(this, R.layout.list_item))
+        mDragListView.setCustomDragItem(WordsUnitEditDragItem(this, R.layout.list_item_words_edit))
     }
 
-    private class WordsEditDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
+    private class WordsUnitEditDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
         override fun onBindDragView(clickedView: View, dragView: View) {
             val text = (clickedView.findViewById<View>(R.id.text) as TextView).text
@@ -101,7 +101,7 @@ class WordsEditActivity : AppCompatActivity() {
         }
     }
 
-    private class WordsEditItemAdapter(list: List<UnitWord>, private val mLayoutId: Int, private val mGrabHandleId: Int, private val mDragOnLongPress: Boolean) : DragItemAdapter<UnitWord, WordsEditItemAdapter.ViewHolder>() {
+    private class WordsUnitEditItemAdapter(list: List<UnitWord>, private val mLayoutId: Int, private val mGrabHandleId: Int, private val mDragOnLongPress: Boolean) : DragItemAdapter<UnitWord, WordsUnitEditItemAdapter.ViewHolder>() {
 
         init {
             itemList = list
@@ -143,7 +143,7 @@ class WordsEditActivity : AppCompatActivity() {
 
 }
 
-class WordsEditSwipeRefreshLayout : SwipeRefreshLayout {
+class WordsUnitEditSwipeRefreshLayout : SwipeRefreshLayout {
     private var mScrollingView: View? = null
 
     constructor(context: Context) : super(context) {}

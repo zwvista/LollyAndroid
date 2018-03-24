@@ -40,7 +40,7 @@ class WordsLangFragment : DrawerListFragment() {
 
     @ItemClick
     fun listViewItemClicked(item: LangWord) {
-        WordsDictActivity_.intent(activity).extra("word", item.word).start()
+        WordDictActivity_.intent(activity).extra("word", item.word).start()
     }
 
 }
