@@ -69,14 +69,18 @@ class PhrasesUnitEditActivity : AppCompatActivity() {
             override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                 mRefreshLayout.isEnabled = true
 
-                mDragListView.resetSwipedViews(null)
+                val adapterItem = item!!.tag as UnitPhrase
                 // Swipe to delete on left
-                if (swipedDirection == ListSwipeItem.SwipeDirection.LEFT) {
-                    val adapterItem = item!!.tag as UnitPhrase
-                    val pos = mDragListView.adapter.getPositionForItem(adapterItem)
-                    mDragListView.adapter.removeItem(pos)
-                    vm.delete(adapterItem.id) {}
-                }
+                if (swipedDirection == ListSwipeItem.SwipeDirection.LEFT)
+                    yesNoDialog("Are you sure you want to delete the phrase \"${adapterItem.phrase}\"?", {
+                        val pos = mDragListView.adapter.getPositionForItem(adapterItem)
+                        mDragListView.adapter.removeItem(pos)
+                        vm.delete(adapterItem.id) {}
+                    }, {
+                        mDragListView.resetSwipedViews(null)
+                    })
+                else
+                    mDragListView.resetSwipedViews(null)
             }
         })
 

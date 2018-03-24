@@ -69,13 +69,18 @@ class WordsUnitEditActivity : AppCompatActivity() {
             override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                 mRefreshLayout.isEnabled = true
 
+                val adapterItem = item!!.tag as UnitWord
                 // Swipe to delete on left
-                if (swipedDirection == ListSwipeItem.SwipeDirection.LEFT) {
-                    val adapterItem = item!!.tag as UnitWord
-                    val pos = mDragListView.adapter.getPositionForItem(adapterItem)
-                    mDragListView.adapter.removeItem(pos)
-                    vm.delete(adapterItem.id) {}
-                }
+                if (swipedDirection == ListSwipeItem.SwipeDirection.LEFT)
+                    yesNoDialog("Are you sure you want to delete the word \"${adapterItem.word}\"?", {
+                        val pos = mDragListView.adapter.getPositionForItem(adapterItem)
+                        mDragListView.adapter.removeItem(pos)
+                        vm.delete(adapterItem.id) {}
+                    }, {
+                        mDragListView.resetSwipedViews(null)
+                    })
+                else
+                    mDragListView.resetSwipedViews(null)
             }
         })
 
