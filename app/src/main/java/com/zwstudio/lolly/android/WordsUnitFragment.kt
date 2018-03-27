@@ -72,7 +72,6 @@ class WordsUnitFragment : DrawerListFragment() {
                 override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                     mRefreshLayout.isEnabled = true
 
-                    mDragListView.resetSwipedViews(null)
                     val adapterItem = item!!.tag as UnitWord
                     // Swipe to delete on left or to edit on right
                     if (swipedDirection == ListSwipeItem.SwipeDirection.LEFT)
@@ -80,7 +79,9 @@ class WordsUnitFragment : DrawerListFragment() {
                             val pos = mDragListView.adapter.getPositionForItem(adapterItem)
                             mDragListView.adapter.removeItem(pos)
                             vm.delete(adapterItem.id) {}
-                        }, {})
+                        }, {
+                            mDragListView.resetSwipedViews(null)
+                        })
                     else
                         WordsUnitDetailActivity_.intent(context!!).extra("word", adapterItem).start()
                 }
@@ -146,7 +147,7 @@ class WordsUnitFragment : DrawerListFragment() {
 
             override fun onItemClicked(view: View?) {
                 val item = view!!.tag as UnitWord
-                WordsUnitDetailActivity_.intent(view.context).extra("word", item).start()
+                WordDictActivity_.intent(view.context).extra("word", item.word).start()
             }
 
             override fun onItemLongClicked(view: View?): Boolean {
@@ -154,11 +155,6 @@ class WordsUnitFragment : DrawerListFragment() {
                 return true
             }
         }
-    }
-
-    @ItemClick
-    fun listViewItemClicked(item: UnitWord) {
-        WordDictActivity_.intent(activity).extra("word", item.word).start()
     }
 
 }

@@ -73,7 +73,6 @@ class PhrasesUnitFragment : DrawerListFragment() {
                 override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                     mRefreshLayout.isEnabled = true
 
-                    mDragListView.resetSwipedViews(null)
                     val adapterItem = item!!.tag as UnitPhrase
                     // Swipe to delete on left
                     if (swipedDirection == ListSwipeItem.SwipeDirection.LEFT)
@@ -81,7 +80,9 @@ class PhrasesUnitFragment : DrawerListFragment() {
                             val pos = mDragListView.adapter.getPositionForItem(adapterItem)
                             mDragListView.adapter.removeItem(pos)
                             vm.delete(adapterItem.id) {}
-                        }, {})
+                        }, {
+                            mDragListView.resetSwipedViews(null)
+                        })
                     else
                         PhrasesUnitDetailActivity_.intent(context!!).extra("phrase", adapterItem).start()
                 }
