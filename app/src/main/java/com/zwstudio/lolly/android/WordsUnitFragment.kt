@@ -116,7 +116,8 @@ class WordsUnitFragment : DrawerListFragment() {
     private class WordsUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
         override fun onBindDragView(clickedView: View, dragView: View) {
-            dragView.findViewById<TextView>(R.id.text).text = clickedView.findViewById<TextView>(R.id.text).text
+            dragView.findViewById<TextView>(R.id.text1).text = clickedView.findViewById<TextView>(R.id.text1).text
+            dragView.findViewById<TextView>(R.id.text2).text = clickedView.findViewById<TextView>(R.id.text2).text
             dragView.findViewById<View>(R.id.item_layout).setBackgroundColor(dragView.resources.getColor(R.color.list_item_background))
         }
     }
@@ -134,7 +135,8 @@ class WordsUnitFragment : DrawerListFragment() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
-            holder.mText.text = mItemList[position].wordnote
+            holder.mText1.text = mItemList[position].wordnote
+            holder.mText2.text = mItemList[position].unitpartseqnum
             holder.itemView.tag = mItemList[position]
         }
 
@@ -143,10 +145,12 @@ class WordsUnitFragment : DrawerListFragment() {
         }
 
         internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, mGrabHandleId, mDragOnLongPress) {
-            var mText: TextView
+            var mText1: TextView
+            var mText2: TextView
 
             init {
-                mText = itemView.findViewById<TextView>(R.id.text)
+                mText1 = itemView.findViewById<TextView>(R.id.text1)
+                mText2 = itemView.findViewById<TextView>(R.id.text2)
             }
 
             override fun onItemClicked(view: View?) {
