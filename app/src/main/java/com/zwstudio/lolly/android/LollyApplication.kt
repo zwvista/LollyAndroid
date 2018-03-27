@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.android
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.Application
+import android.content.Context
 import android.content.DialogInterface
 import com.zwstudio.lolly.data.SettingsViewModel
 import org.androidannotations.annotations.Bean
@@ -33,7 +33,7 @@ class LollyApplication : Application() {
     }
 }
 
-fun Activity.yesNoDialog(message: String, yesAction: () -> Unit, noAction: () -> Unit) {
+fun yesNoDialog(context: Context, message: String, yesAction: () -> Unit, noAction: () -> Unit) {
     val dialogClickListener = DialogInterface.OnClickListener { dialog, which ->
         when (which) {
             DialogInterface.BUTTON_POSITIVE ->
@@ -46,7 +46,7 @@ fun Activity.yesNoDialog(message: String, yesAction: () -> Unit, noAction: () ->
         }
     }
 
-    val builder = AlertDialog.Builder(this)
+    val builder = AlertDialog.Builder(context)
     builder.setMessage(message).setPositiveButton("Yes", dialogClickListener)
         .setNegativeButton("No", dialogClickListener).show()
 }
