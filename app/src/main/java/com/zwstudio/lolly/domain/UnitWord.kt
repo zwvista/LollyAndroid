@@ -30,11 +30,16 @@ class UnitWord: Serializable {
     var seqnum: Int = 0
     @SerializedName("WORD")
     @Expose
-    var word: String? = null
+    var word = ""
     @SerializedName("NOTE")
     @Expose
     var note: String? = null
     @SerializedName("UNITPART")
     @Expose
     var unitpart: Int = 0
+
+    val unitpartseqnum: String
+        get() = "$unit $part $seqnum"
+    val wordnote: String
+        get() = word + (if (note == null || note!!.isEmpty()) "" else "(${note!!})")
 }

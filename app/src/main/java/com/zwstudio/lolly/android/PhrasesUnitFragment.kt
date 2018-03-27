@@ -74,17 +74,22 @@ class PhrasesUnitFragment : DrawerListFragment() {
                     mRefreshLayout.isEnabled = true
 
                     val adapterItem = item!!.tag as UnitPhrase
-                    // Swipe to delete on left
-                    if (swipedDirection == ListSwipeItem.SwipeDirection.LEFT)
-                        yesNoDialog(context!!, "Are you sure you want to delete the phrase \"${adapterItem.phrase}\"?", {
-                            val pos = mDragListView.adapter.getPositionForItem(adapterItem)
-                            mDragListView.adapter.removeItem(pos)
-                            vm.delete(adapterItem.id) {}
-                        }, {
+                    // Swipe to delete on left or to edit on right
+                    when (swipedDirection) {
+                        ListSwipeItem.SwipeDirection.LEFT ->
+                            yesNoDialog(context!!, "Are you sure you want to delete the phrase \"${adapterItem.phrase}\"?", {
+                                val pos = mDragListView.adapter.getPositionForItem(adapterItem)
+                                mDragListView.adapter.removeItem(pos)
+                                vm.delete(adapterItem.id) {}
+                            }, {
+                                mDragListView.resetSwipedViews(null)
+                            })
+                        ListSwipeItem.SwipeDirection.RIGHT -> {
                             mDragListView.resetSwipedViews(null)
-                        })
-                    else
-                        PhrasesUnitDetailActivity_.intent(context!!).extra("phrase", adapterItem).start()
+                            PhrasesUnitDetailActivity_.intent(context!!).extra("phrase", adapterItem).start()
+                        }
+                        else -> {}
+                    }
                 }
             })
 

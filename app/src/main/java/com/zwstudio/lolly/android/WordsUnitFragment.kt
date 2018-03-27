@@ -74,16 +74,21 @@ class WordsUnitFragment : DrawerListFragment() {
 
                     val adapterItem = item!!.tag as UnitWord
                     // Swipe to delete on left or to edit on right
-                    if (swipedDirection == ListSwipeItem.SwipeDirection.LEFT)
-                        yesNoDialog(context!!, "Are you sure you want to delete the word \"${adapterItem.word}\"?", {
-                            val pos = mDragListView.adapter.getPositionForItem(adapterItem)
-                            mDragListView.adapter.removeItem(pos)
-                            vm.delete(adapterItem.id) {}
-                        }, {
+                    when (swipedDirection) {
+                        ListSwipeItem.SwipeDirection.LEFT ->
+                            yesNoDialog(context!!, "Are you sure you want to delete the word \"${adapterItem.word}\"?", {
+                                val pos = mDragListView.adapter.getPositionForItem(adapterItem)
+                                mDragListView.adapter.removeItem(pos)
+                                vm.delete(adapterItem.id) {}
+                            }, {
+                                mDragListView.resetSwipedViews(null)
+                            })
+                        ListSwipeItem.SwipeDirection.RIGHT -> {
                             mDragListView.resetSwipedViews(null)
-                        })
-                    else
-                        WordsUnitDetailActivity_.intent(context!!).extra("word", adapterItem).start()
+                            WordsUnitDetailActivity_.intent(context!!).extra("word", adapterItem).start()
+                        }
+                        else -> {}
+                    }
                 }
             })
 
@@ -129,8 +134,7 @@ class WordsUnitFragment : DrawerListFragment() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
-            val text = mItemList[position].word
-            holder.mText.text = text
+            holder.mText.text = mItemList[position].wordnote
             holder.itemView.tag = mItemList[position]
         }
 
