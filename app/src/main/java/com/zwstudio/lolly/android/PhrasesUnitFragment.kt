@@ -2,10 +2,7 @@ package com.zwstudio.lolly.android
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
-import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +30,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
     @ViewById(R.id.drag_list_view)
     lateinit var mDragListView: DragListView
     @ViewById(R.id.swipe_refresh_layout)
-    lateinit var mRefreshLayout: PhrasesUnitSwipeRefreshLayout
+    lateinit var mRefreshLayout: LollySwipeRefreshLayout
 
     @AfterViews
     fun afterViews() {
@@ -114,8 +111,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
     private class PhrasesUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
         override fun onBindDragView(clickedView: View, dragView: View) {
-            val text = (clickedView.findViewById<View>(R.id.text) as TextView).text
-            (dragView.findViewById<View>(R.id.text) as TextView).text = text
+            dragView.findViewById<TextView>(R.id.text).text = clickedView.findViewById<TextView>(R.id.text).text
             dragView.findViewById<View>(R.id.item_layout).setBackgroundColor(dragView.resources.getColor(R.color.list_item_background))
         }
     }
@@ -146,7 +142,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             var mText: TextView
 
             init {
-                mText = itemView.findViewById<View>(R.id.text) as TextView
+                mText = itemView.findViewById<TextView>(R.id.text)
             }
 
             override fun onItemClicked(view: View?) {
@@ -161,20 +157,4 @@ class PhrasesUnitFragment : DrawerListFragment() {
         }
     }
 
-}
-
-class PhrasesUnitSwipeRefreshLayout : SwipeRefreshLayout {
-    private var mScrollingView: View? = null
-
-    constructor(context: Context) : super(context) {}
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-
-    override fun canChildScrollUp(): Boolean {
-        return mScrollingView != null && ViewCompat.canScrollVertically(mScrollingView!!, -1)
-    }
-
-    fun setScrollingView(scrollingView: View) {
-        mScrollingView = scrollingView
-    }
 }

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <com.zwstudio.lolly.android.WordsUnitSwipeRefreshLayout
+    <com.zwstudio.lolly.android.LollySwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </FrameLayout>
-    </com.zwstudio.lolly.android.WordsUnitSwipeRefreshLayout>
+    </com.zwstudio.lolly.android.LollySwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progressBar1"

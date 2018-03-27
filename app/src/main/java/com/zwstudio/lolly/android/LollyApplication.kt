@@ -4,6 +4,10 @@ import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
+import android.support.v4.view.ViewCompat
+import android.support.v4.widget.SwipeRefreshLayout
+import android.util.AttributeSet
+import android.view.View
 import com.zwstudio.lolly.data.SettingsViewModel
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EApplication
@@ -49,4 +53,20 @@ fun yesNoDialog(context: Context, message: String, yesAction: () -> Unit, noActi
     val builder = AlertDialog.Builder(context)
     builder.setMessage(message).setPositiveButton("Yes", dialogClickListener)
         .setNegativeButton("No", dialogClickListener).show()
+}
+
+class LollySwipeRefreshLayout : SwipeRefreshLayout {
+    private var mScrollingView: View? = null
+
+    constructor(context: Context) : super(context) {}
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+
+    override fun canChildScrollUp(): Boolean {
+        return mScrollingView != null && ViewCompat.canScrollVertically(mScrollingView!!, -1)
+    }
+
+    fun setScrollingView(scrollingView: View) {
+        mScrollingView = scrollingView
+    }
 }
