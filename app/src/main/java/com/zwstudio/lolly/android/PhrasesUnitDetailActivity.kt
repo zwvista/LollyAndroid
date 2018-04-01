@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
-import com.zwstudio.lolly.data.WordsUnitViewModel
+import com.zwstudio.lolly.data.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.UnitPhrase
 import org.androidannotations.annotations.*
 
@@ -14,8 +14,8 @@ import org.androidannotations.annotations.*
 @OptionsMenu(R.menu.menu_save)
 class PhrasesUnitDetailActivity : AppCompatActivity() {
 
-    @Bean
-    lateinit var vm: WordsUnitViewModel
+    lateinit var vm: PhrasesUnitViewModel
+    lateinit var item: UnitPhrase
 
     @ViewById
     lateinit var tvID: TextView
@@ -32,7 +32,8 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        val item = intent.getSerializableExtra("phrase") as UnitPhrase
+        vm = intent.getSerializableExtra("vm") as PhrasesUnitViewModel
+        item = intent.getSerializableExtra("phrase") as UnitPhrase
         tvID.text = "ID: ${item.id}"
         run {
             val lst = vm.vmSettings.lstUnits
@@ -76,6 +77,15 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
 
     @OptionsItem
     fun menuSave() {
-
+        item.seqnum = etSeqNum.text.toString().toInt()
+        item.phrase = etPhrase.text.toString()
+        item.translation = etTranslation.text.toString()
+        if (item.id == 0) {
+            vm.lstPhrases.add(item)
+            vm.create(item.unit, item.part, item.seqnum, item.phrase, item.translation ?: "") {
+                item.id = it
+            }
+        } else
+            vm.update(item.id, item.unit, item.part, item.seqnum, item.phrase, item.translation ?: "") {}
     }
 }

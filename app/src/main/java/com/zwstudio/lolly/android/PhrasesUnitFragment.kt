@@ -26,8 +26,6 @@ class PhrasesUnitFragment : DrawerListFragment() {
     @Bean
     lateinit var vm: PhrasesUnitViewModel
 
-    lateinit var lst: MutableList<UnitPhrase>
-    
     @ViewById(R.id.drag_list_view)
     lateinit var mDragListView: DragListView
     @ViewById(R.id.swipe_refresh_layout)
@@ -41,7 +39,6 @@ class PhrasesUnitFragment : DrawerListFragment() {
     override fun onResume() {
         super.onResume()
         vm.getData {
-            lst = it.lst!!.toMutableList()
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
             mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
                 override fun onItemDragStarted(position: Int) {
@@ -53,12 +50,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                     mRefreshLayout.isEnabled = true
                     if (fromPosition == toPosition) return
                     Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
-                    for (i in 1..lst.size) {
-                        val item = lst[i - 1]
-                        if (item.seqnum == i) continue
-                        item.seqnum = i
-                        vm.updateSeqNum(item.id, i) {}
-                    }
+                    vm.reindex {}
                 }
             })
 
@@ -87,7 +79,8 @@ class PhrasesUnitFragment : DrawerListFragment() {
                             })
                         ListSwipeItem.SwipeDirection.RIGHT -> {
                             mDragListView.resetSwipedViews(null)
-                            PhrasesUnitDetailActivity_.intent(context!!).extra("phrase", adapterItem).start()
+                            PhrasesUnitDetailActivity_.intent(context!!)
+                                    .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", adapterItem).start()
                         }
                         else -> {}
                     }
@@ -95,7 +88,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = PhrasesUnitItemAdapter(lst, vm.vmSettings, R.layout.list_item_phrases_edit, R.id.image, false)
+            val listAdapter = PhrasesUnitItemAdapter(vm.lstPhrases, vm.vmSettings, R.layout.list_item_phrases_edit, R.id.image, false)
             mDragListView.setAdapter(listAdapter, true)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(PhrasesUnitDragItem(context!!, R.layout.list_item_phrases_edit))
@@ -105,14 +98,8 @@ class PhrasesUnitFragment : DrawerListFragment() {
 
     @OptionsItem
     fun menuAdd() {
-        val item = UnitPhrase()
-        item.textbookid = vm.vmSettings.ustextbookid
-        // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
-        val maxItem = lst.maxWith(compareBy<UnitPhrase>({ it.unitpart }, { it.seqnum }))
-        item.unit = maxItem?.unit ?: vm.vmSettings.usunitto
-        item.part = maxItem?.part ?: vm.vmSettings.uspartto
-        item.seqnum = (maxItem?.seqnum ?: 0) + 1
-        PhrasesUnitDetailActivity_.intent(this).extra("phrase", item).start()
+        PhrasesUnitDetailActivity_.intent(this)
+                .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", vm.newUnitPhrase()).start()
     }
 
     private class PhrasesUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {

@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.data
 
 import android.util.Log
-import com.zwstudio.lolly.domain.UnitPhrases
+import com.zwstudio.lolly.domain.UnitPhrase
 import com.zwstudio.lolly.restapi.RestUnitPhrase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -10,13 +10,18 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PhrasesUnitViewModel : BaseViewModel2() {
 
-    fun getData(onNext: (UnitPhrases) -> Unit) {
+    var lstPhrases = mutableListOf<UnitPhrase>()
+
+    fun getData(onNext: () -> Unit) {
         retrofit.create(RestUnitPhrase::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${vmSettings.selectedTextbook.id}",
                 "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(onNext)
+            .subscribe {
+                lstPhrases = it.lst!!.toMutableList()
+                onNext()
+            }
     }
 
     fun updateSeqNum(id: Int, seqnum: Int, onNext: () -> Unit) {
@@ -61,6 +66,28 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                 Log.d("", it.toString())
                 onNext()
             }
+    }
+
+    fun reindex(onNext: (Int) -> Unit) {
+        for (i in 1..lstPhrases.size) {
+            val item = lstPhrases[i - 1]
+            if (item.seqnum == i) continue
+            item.seqnum = i
+            updateSeqNum(item.id, i) {
+                onNext(i - 1)
+            }
+        }
+    }
+
+    fun newUnitPhrase(): UnitPhrase {
+        val item = UnitPhrase()
+        item.textbookid = vmSettings.ustextbookid
+        // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
+        val maxItem = lstPhrases.maxWith(compareBy({ it.unitpart }, { it.seqnum }))
+        item.unit = maxItem?.unit ?: vmSettings.usunitto
+        item.part = maxItem?.part ?: vmSettings.uspartto
+        item.seqnum = (maxItem?.seqnum ?: 0) + 1
+        return item
     }
 
 }
