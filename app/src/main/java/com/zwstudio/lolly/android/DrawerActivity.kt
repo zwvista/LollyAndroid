@@ -19,7 +19,7 @@ import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ViewById
 
 @EActivity(R.layout.activity_drawer)
-open class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     @ViewById
     lateinit var toolbar: Toolbar
@@ -80,7 +80,7 @@ open class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 }
 
 @EFragment
-open class DrawerListFragment : Fragment() {
+class DrawerListFragment : Fragment() {
 
     @ViewById
     lateinit var listView: ListView
