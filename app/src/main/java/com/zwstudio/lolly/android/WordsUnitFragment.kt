@@ -79,7 +79,7 @@ class WordsUnitFragment : DrawerListFragment() {
                         ListSwipeItem.SwipeDirection.RIGHT -> {
                             mDragListView.resetSwipedViews(null)
                             WordsUnitDetailActivity_.intent(context!!)
-                                    .extra("vm", vm).extra("word", adapterItem).start()
+                                    .extra("list", vm.lstWords.toTypedArray()).extra("word", adapterItem).start()
                         }
                         else -> {}
                     }
@@ -98,7 +98,7 @@ class WordsUnitFragment : DrawerListFragment() {
     @OptionsItem
     fun menuAdd() {
         WordsUnitDetailActivity_.intent(this)
-                .extra("vm", vm).extra("word", vm.newUnitWord()).start()
+                .extra("list", vm.lstWords.toTypedArray()).extra("word", vm.newUnitWord()).start()
     }
 
     private class WordsUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {

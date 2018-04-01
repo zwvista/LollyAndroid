@@ -14,6 +14,7 @@ import org.androidannotations.annotations.*
 @OptionsMenu(R.menu.menu_save)
 class PhrasesUnitDetailActivity : AppCompatActivity() {
 
+    @Bean
     lateinit var vm: PhrasesUnitViewModel
     lateinit var item: UnitPhrase
 
@@ -32,7 +33,7 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        vm = intent.getSerializableExtra("vm") as PhrasesUnitViewModel
+        vm.lstPhrases = (intent.getSerializableExtra("list") as Array<UnitPhrase>).toMutableList()
         item = intent.getSerializableExtra("phrase") as UnitPhrase
         tvID.text = "ID: ${item.id}"
         run {

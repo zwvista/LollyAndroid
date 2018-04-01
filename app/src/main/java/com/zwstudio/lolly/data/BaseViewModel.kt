@@ -5,10 +5,9 @@ import org.androidannotations.annotations.App
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 import retrofit2.Retrofit
-import java.io.Serializable
 
 @EBean
-class BaseViewModel1 : Serializable {
+class BaseViewModel1 {
     @App
     lateinit var app: LollyApplication
     val retrofit: Retrofit
