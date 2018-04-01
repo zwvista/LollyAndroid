@@ -38,8 +38,8 @@ class UnitWord: Serializable {
     @Expose
     var unitpart: Int = 0
 
-    val unitpartseqnum: String
-        get() = "$unit $part $seqnum"
+    fun unitpartseqnum(lstParts: List<String>) = "$unit ${lstParts[part - 1]} $seqnum"
+
     val wordnote: String
         get() = word + (if (note == null || note!!.isEmpty()) "" else "(${note!!})")
 }

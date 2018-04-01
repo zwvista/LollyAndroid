@@ -40,4 +40,6 @@ class UnitPhrase: Serializable {
     @SerializedName("UNITPART")
     @Expose
     var unitpart: Int = 0
+
+    fun unitpartseqnum(lstParts: List<String>) = "$unit ${lstParts[part - 1]} $seqnum"
 }

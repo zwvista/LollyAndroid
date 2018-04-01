@@ -12,8 +12,8 @@ class PhrasesUnitViewModel : BaseViewModel2() {
 
     fun getData(onNext: (UnitPhrases) -> Unit) {
         retrofit.create(RestUnitPhrase::class.java)
-            .getDataByTextbookUnitPart("TEXTBOOKID,eq,${vm.selectedTextbook.id}",
-                "UNITPART,bt,${vm.usunitpartfrom},${vm.usunitpartto}")
+            .getDataByTextbookUnitPart("TEXTBOOKID,eq,${vmSettings.selectedTextbook.id}",
+                "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(onNext)

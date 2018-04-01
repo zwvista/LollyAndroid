@@ -11,7 +11,7 @@ class PhrasesLangViewModel : BaseViewModel2() {
 
     fun getData(onNext: (LangPhrases) -> Unit) {
         retrofit.create(RestLangPhrase::class.java)
-            .getDataByLang("LANGID,eq,${vm.selectedLang.id}")
+            .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(onNext)

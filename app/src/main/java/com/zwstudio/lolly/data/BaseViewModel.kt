@@ -17,5 +17,5 @@ class BaseViewModel1 {
 @EBean
 class BaseViewModel2 : BaseViewModel1() {
     @Bean
-    lateinit var vm: SettingsViewModel
+    lateinit var vmSettings: SettingsViewModel
 }

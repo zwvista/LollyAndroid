@@ -35,10 +35,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/label_unit"/>
-    <EditText
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etUnit"
+        android:id="@+id/spnUnit"
         android:layout_gravity="center_horizontal"/>
     <Space
         android:layout_width="match_parent"
@@ -49,10 +49,10 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/label_part"/>
-    <EditText
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etPart"
+        android:id="@+id/spnPart"
         android:layout_gravity="center_horizontal"/>
     <Space
         android:layout_width="match_parent"

@@ -13,6 +13,7 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
+import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.UnitWord
 import org.androidannotations.annotations.*
@@ -93,7 +94,7 @@ class WordsUnitFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = WordsUnitItemAdapter(lst, R.layout.list_item_words_edit, R.id.image, false)
+            val listAdapter = WordsUnitItemAdapter(lst, vm.vmSettings, R.layout.list_item_words_edit, R.id.image, false)
             mDragListView.setAdapter(listAdapter, true)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(WordsUnitDragItem(context!!, R.layout.list_item_words_edit))
@@ -104,11 +105,11 @@ class WordsUnitFragment : DrawerListFragment() {
     @OptionsItem
     fun menuAdd() {
         val item = UnitWord()
-        item.textbookid = vm.vm.ustextbookid
+        item.textbookid = vm.vmSettings.ustextbookid
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
         val maxItem = lst.maxWith(compareBy<UnitWord>({ it.unitpart }, { it.seqnum }))
-        item.unit = maxItem?.unit ?: vm.vm.usunitto
-        item.part = maxItem?.part ?: vm.vm.uspartto
+        item.unit = maxItem?.unit ?: vm.vmSettings.usunitto
+        item.part = maxItem?.part ?: vm.vmSettings.uspartto
         item.seqnum = (maxItem?.seqnum ?: 0) + 1
         WordsUnitDetailActivity_.intent(this).extra("word", item).start()
     }
@@ -122,7 +123,7 @@ class WordsUnitFragment : DrawerListFragment() {
         }
     }
 
-    private class WordsUnitItemAdapter(list: List<UnitWord>, private val mLayoutId: Int, private val mGrabHandleId: Int, private val mDragOnLongPress: Boolean) : DragItemAdapter<UnitWord, WordsUnitItemAdapter.ViewHolder>() {
+    private class WordsUnitItemAdapter(list: List<UnitWord>, val vmSettings: SettingsViewModel, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean) : DragItemAdapter<UnitWord, WordsUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = list
@@ -136,7 +137,7 @@ class WordsUnitFragment : DrawerListFragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
             holder.mText1.text = mItemList[position].wordnote
-            holder.mText2.text = mItemList[position].unitpartseqnum
+            holder.mText2.text = mItemList[position].unitpartseqnum(vmSettings.lstParts)
             holder.itemView.tag = mItemList[position]
         }
 

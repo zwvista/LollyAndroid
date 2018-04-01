@@ -14,6 +14,7 @@ import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.PhrasesUnitViewModel
+import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.domain.UnitPhrase
 import org.androidannotations.annotations.*
 
@@ -94,7 +95,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = PhrasesUnitItemAdapter(lst, R.layout.list_item_phrases_edit, R.id.image, false)
+            val listAdapter = PhrasesUnitItemAdapter(lst, vm.vmSettings, R.layout.list_item_phrases_edit, R.id.image, false)
             mDragListView.setAdapter(listAdapter, true)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(PhrasesUnitDragItem(context!!, R.layout.list_item_phrases_edit))
@@ -105,11 +106,11 @@ class PhrasesUnitFragment : DrawerListFragment() {
     @OptionsItem
     fun menuAdd() {
         val item = UnitPhrase()
-        item.textbookid = vm.vm.ustextbookid
+        item.textbookid = vm.vmSettings.ustextbookid
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
         val maxItem = lst.maxWith(compareBy<UnitPhrase>({ it.unitpart }, { it.seqnum }))
-        item.unit = maxItem?.unit ?: vm.vm.usunitto
-        item.part = maxItem?.part ?: vm.vm.uspartto
+        item.unit = maxItem?.unit ?: vm.vmSettings.usunitto
+        item.part = maxItem?.part ?: vm.vmSettings.uspartto
         item.seqnum = (maxItem?.seqnum ?: 0) + 1
         PhrasesUnitDetailActivity_.intent(this).extra("phrase", item).start()
     }
@@ -123,7 +124,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
         }
     }
 
-    private class PhrasesUnitItemAdapter(list: List<UnitPhrase>, private val mLayoutId: Int, private val mGrabHandleId: Int, private val mDragOnLongPress: Boolean) : DragItemAdapter<UnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
+    private class PhrasesUnitItemAdapter(list: List<UnitPhrase>, val vmSettings: SettingsViewModel, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean) : DragItemAdapter<UnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = list
