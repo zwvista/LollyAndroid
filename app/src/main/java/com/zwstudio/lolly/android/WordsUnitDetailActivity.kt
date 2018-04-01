@@ -14,8 +14,8 @@ import org.androidannotations.annotations.*
 @OptionsMenu(R.menu.menu_save)
 class WordsUnitDetailActivity : AppCompatActivity() {
 
-    @Bean
     lateinit var vm: WordsUnitViewModel
+    lateinit var item: UnitWord
 
     @ViewById
     lateinit var tvID: TextView
@@ -32,7 +32,8 @@ class WordsUnitDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        val item = intent.getSerializableExtra("word") as UnitWord
+        vm = intent.getSerializableExtra("vm") as WordsUnitViewModel
+        item = intent.getSerializableExtra("word") as UnitWord
         tvID.text = "ID: ${item.id}"
         run {
             val lst = vm.vmSettings.lstUnits
@@ -76,6 +77,15 @@ class WordsUnitDetailActivity : AppCompatActivity() {
 
     @OptionsItem
     fun menuSave() {
-
+        item.seqnum = etSeqNum.text.toString().toInt()
+        item.word = etWord.text.toString()
+        item.note = etNote.text.toString()
+        if (item.id == 0) {
+            vm.lstWords.add(item)
+            vm.create(item.unit, item.part, item.seqnum, item.word, item.note ?: "") {
+                item.id = it
+            }
+        } else
+            vm.update(item.id, item.unit, item.part, item.seqnum, item.word, item.note ?: "") {}
     }
 }

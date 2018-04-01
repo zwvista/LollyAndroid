@@ -24,8 +24,6 @@ class WordsUnitFragment : DrawerListFragment() {
 
     @Bean
     lateinit var vm: WordsUnitViewModel
-    
-    lateinit var lst: MutableList<UnitWord>
 
     @ViewById(R.id.drag_list_view)
     lateinit var mDragListView: DragListView
@@ -40,7 +38,6 @@ class WordsUnitFragment : DrawerListFragment() {
     override fun onResume() {
         super.onResume()
         vm.getData {
-            lst = it.lst!!.toMutableList()
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
             mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
                 override fun onItemDragStarted(position: Int) {
@@ -52,12 +49,7 @@ class WordsUnitFragment : DrawerListFragment() {
                     mRefreshLayout.isEnabled = true
                     if (fromPosition == toPosition) return
                     Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
-                    for (i in 1..lst.size) {
-                        val item = lst[i - 1]
-                        if (item.seqnum == i) continue
-                        item.seqnum = i
-                        vm.updateSeqNum(item.id, i) {}
-                    }
+                    vm.reindex {}
                 }
             })
 
@@ -94,7 +86,7 @@ class WordsUnitFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = WordsUnitItemAdapter(lst, vm.vmSettings, R.layout.list_item_words_edit, R.id.image, false)
+            val listAdapter = WordsUnitItemAdapter(vm.lstWords, vm.vmSettings, R.layout.list_item_words_edit, R.id.image, false)
             mDragListView.setAdapter(listAdapter, true)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(WordsUnitDragItem(context!!, R.layout.list_item_words_edit))
@@ -104,14 +96,9 @@ class WordsUnitFragment : DrawerListFragment() {
 
     @OptionsItem
     fun menuAdd() {
-        val item = UnitWord()
-        item.textbookid = vm.vmSettings.ustextbookid
-        // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
-        val maxItem = lst.maxWith(compareBy<UnitWord>({ it.unitpart }, { it.seqnum }))
-        item.unit = maxItem?.unit ?: vm.vmSettings.usunitto
-        item.part = maxItem?.part ?: vm.vmSettings.uspartto
-        item.seqnum = (maxItem?.seqnum ?: 0) + 1
-        WordsUnitDetailActivity_.intent(this).extra("word", item).start()
+        WordsUnitDetailActivity_.intent(this)
+                .extra("vm", vm)
+                .extra("word", vm.newUnitWord()).start()
     }
 
     private class WordsUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
