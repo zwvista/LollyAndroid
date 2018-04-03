@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.android
 
+import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
@@ -88,5 +89,7 @@ class WordsUnitDetailActivity : AppCompatActivity() {
             }
         } else
             vm.update(item.id, item.unit, item.part, item.seqnum, item.word, item.note ?: "") {}
+        setResult(Activity.RESULT_OK);
+        finish()
     }
 }

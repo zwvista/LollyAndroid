@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.android
 
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -98,7 +99,12 @@ class WordsUnitFragment : DrawerListFragment() {
     @OptionsItem
     fun menuAdd() {
         WordsUnitDetailActivity_.intent(this)
-                .extra("list", vm.lstWords.toTypedArray()).extra("word", vm.newUnitWord()).start()
+                .extra("list", vm.lstWords.toTypedArray()).extra("word", vm.newUnitWord())
+                .startForResult(1);
+    }
+    @OnActivityResult(1)
+    fun onResult(resultCode: Int) {
+        if (resultCode == RESULT_OK) menuAdd()
     }
 
     private class WordsUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
