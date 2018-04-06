@@ -9,6 +9,7 @@ import android.widget.*
 import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.domain.Dictionary
 import com.zwstudio.lolly.domain.Language
+import com.zwstudio.lolly.domain.NoteSite
 import com.zwstudio.lolly.domain.Textbook
 import org.androidannotations.annotations.*
 
@@ -22,6 +23,8 @@ class SettingsFragment : Fragment() {
     lateinit var spnLanguage: Spinner
     @ViewById
     lateinit var spnDictionary: Spinner
+    @ViewById
+    lateinit var spnNoteSite: Spinner
     @ViewById
     lateinit var spnTextbook: Spinner
     @ViewById
@@ -135,6 +138,28 @@ class SettingsFragment : Fragment() {
             spnDictionary.setSelection(vm.selectedDictIndex)
         }
         run {
+            val lst = vm.lstNoteSites
+            val adapter = object : ArrayAdapter<NoteSite>(activity, R.layout.spinner_item_2, android.R.id.text1, lst) {
+                fun convert(v: View, position: Int): View {
+                    val m = getItem(position)
+                    var tv = v.findViewById<TextView>(android.R.id.text1)
+                    tv.text = m.dictname
+                    (tv as? CheckedTextView)?.isChecked = spnNoteSite.selectedItemPosition == position
+                    tv = v.findViewById<TextView>(android.R.id.text2)
+                    tv.text = m.url
+                    return v
+                }
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
+                        convert(super.getView(position, convertView, parent), position)
+                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
+                        convert(super.getDropDownView(position, convertView, parent), position)
+            }
+            adapter.setDropDownViewResource(R.layout.list_item_2)
+            spnNoteSite.adapter = adapter
+
+            spnNoteSite.setSelection(vm.selectedNoteSiteIndex)
+        }
+        run {
             val lst = vm.lstTextbooks
             val adapter = object : ArrayAdapter<Textbook>(activity, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
@@ -166,6 +191,15 @@ class SettingsFragment : Fragment() {
         Log.d("", String.format("Checked position:%d", position))
         (spnDictionary.adapter as ArrayAdapter<Dictionary>).notifyDataSetChanged()
         vm.updateDict { }
+    }
+
+    @ItemSelect
+    fun spnNoteSiteItemSelected(selected: Boolean, position: Int) {
+        if (vm.selectedNoteSiteIndex == position) return
+        vm.selectedNoteSiteIndex = position
+        Log.d("", String.format("Checked position:%d", position))
+        (spnNoteSite.adapter as ArrayAdapter<NoteSite>).notifyDataSetChanged()
+        vm.updateNoteSite { }
     }
 
     @ItemSelect

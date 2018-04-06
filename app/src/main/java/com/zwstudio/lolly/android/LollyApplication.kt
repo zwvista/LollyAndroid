@@ -24,7 +24,7 @@ class LollyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        retrofit = Retrofit.Builder().baseUrl("http://13.231.236.234/lolly/apimysql.php/")
+        retrofit = Retrofit.Builder().baseUrl("http://13.231.236.234/lolly/api.php/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()

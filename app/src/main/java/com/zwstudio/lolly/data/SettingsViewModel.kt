@@ -1,14 +1,8 @@
 package com.zwstudio.lolly.data
 
 import android.util.Log
-import com.zwstudio.lolly.domain.Dictionary
-import com.zwstudio.lolly.domain.Language
-import com.zwstudio.lolly.domain.Textbook
-import com.zwstudio.lolly.domain.UserSetting
-import com.zwstudio.lolly.restapi.RestDictionary
-import com.zwstudio.lolly.restapi.RestLanguage
-import com.zwstudio.lolly.restapi.RestTextbook
-import com.zwstudio.lolly.restapi.RestUserSetting
+import com.zwstudio.lolly.domain.*
+import com.zwstudio.lolly.restapi.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.EBean
@@ -39,6 +33,11 @@ class SettingsViewModel : BaseViewModel1() {
         get() = selectedUSLang.value2?.toInt()!!
         set(value) {
             selectedUSLang.value2 = value.toString()
+        }
+    var usnotesiteid: Int
+        get() = selectedUSLang.value3?.toInt()!!
+        set(value) {
+            selectedUSLang.value3 = value.toString()
         }
     private var selectedUSTextbookIndex = 0
     private val selectedUSTextbook: UserSetting
@@ -90,10 +89,19 @@ class SettingsViewModel : BaseViewModel1() {
     var selectedDictIndex: Int = 0
         set(value) {
             field = value
-            setSelectedDictIndex()
+            usdictid = selectedDict.id
         }
     val selectedDict: Dictionary
         get() = lstDictionaries[selectedDictIndex]
+
+    var lstNoteSites = listOf<NoteSite>()
+    var selectedNoteSiteIndex: Int = 0
+        set(value) {
+            field = value
+            usnotesiteid = selectedNoteSite.id
+        }
+    val selectedNoteSite: NoteSite
+        get() = lstNoteSites[selectedNoteSiteIndex]
 
     var lstUnits = listOf<String>()
     var lstParts = listOf<String>()
@@ -124,8 +132,14 @@ class SettingsViewModel : BaseViewModel1() {
             .flatMap {
                 lstDictionaries = it.lst!!
                 selectedDictIndex = lstDictionaries.indexOfFirst { it.id == usdictid }
+                retrofit.create(RestNoteSite::class.java)
+                    .getDataByLang("LANGIDFROM,eq,$uslangid")
+            }
+            .flatMap {
+                lstNoteSites = it.lst!!
+                selectedNoteSiteIndex = lstNoteSites.indexOfFirst { it.id == usnotesiteid }
                 retrofit.create(RestTextbook::class.java)
-                    .getDataByLang("LANGID,eq,$uslangid")
+                        .getDataByLang("LANGID,eq,$uslangid")
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -141,10 +155,6 @@ class SettingsViewModel : BaseViewModel1() {
         selectedUSTextbookIndex = lstUserSettings.indexOfFirst { it.kind == 3 && it.entityid == ustextbookid }
         lstUnits = (1..selectedTextbook.units).map { it.toString() }
         lstParts = selectedTextbook.parts?.split(' ')!!
-    }
-
-    fun setSelectedDictIndex() {
-        usdictid = selectedDict.id
     }
 
     fun updateLang(onNext: () -> Unit) {
@@ -172,6 +182,17 @@ class SettingsViewModel : BaseViewModel1() {
     fun updateDict(onNext: () -> Unit) {
         retrofit.create(RestUserSetting::class.java)
             .updateDict(selectedUSLang.id, usdictid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                Log.d("", it.toString())
+                onNext()
+            }
+    }
+
+    fun updateNoteSite(onNext: () -> Unit) {
+        retrofit.create(RestUserSetting::class.java)
+            .updateDict(selectedUSLang.id, usnotesiteid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
