@@ -43,6 +43,16 @@
         android:orientation="horizontal">
 
 
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_text2"
+            android:textSize="@dimen/text_size2"/>
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="0dp"/>
+
         <LinearLayout
             android:id="@id/item_layout"
             android:layout_width="wrap_content"
@@ -55,10 +65,10 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_text1"/>
             <TextView
-                android:id="@+id/text2"
+                android:id="@+id/text3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_text2"/>
+                android:textColor="@color/color_text3"/>
         </LinearLayout>
 
         <Space

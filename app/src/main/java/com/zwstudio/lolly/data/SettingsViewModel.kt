@@ -137,7 +137,8 @@ class SettingsViewModel : BaseViewModel1() {
             }
             .flatMap {
                 lstNoteSites = it.lst!!
-                selectedNoteSiteIndex = lstNoteSites.indexOfFirst { it.id == usnotesiteid }
+                if (lstNoteSites.isNotEmpty())
+                    selectedNoteSiteIndex = lstNoteSites.indexOfFirst { it.id == usnotesiteid }
                 retrofit.create(RestTextbook::class.java)
                         .getDataByLang("LANGID,eq,$uslangid")
             }

@@ -14,7 +14,6 @@ import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.PhrasesUnitViewModel
-import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.domain.UnitPhrase
 import org.androidannotations.annotations.*
 
@@ -88,7 +87,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = PhrasesUnitItemAdapter(vm.lstPhrases, vm.vmSettings, R.layout.list_item_phrases_edit, R.id.image, false)
+            val listAdapter = PhrasesUnitItemAdapter(vm.lstPhrases, vm, R.layout.list_item_phrases_edit, R.id.image, false)
             mDragListView.setAdapter(listAdapter, true)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(PhrasesUnitDragItem(context!!, R.layout.list_item_phrases_edit))
@@ -107,11 +106,12 @@ class PhrasesUnitFragment : DrawerListFragment() {
         override fun onBindDragView(clickedView: View, dragView: View) {
             dragView.findViewById<TextView>(R.id.text1).text = clickedView.findViewById<TextView>(R.id.text1).text
             dragView.findViewById<TextView>(R.id.text2).text = clickedView.findViewById<TextView>(R.id.text2).text
+            dragView.findViewById<TextView>(R.id.text3).text = clickedView.findViewById<TextView>(R.id.text3).text
             dragView.findViewById<View>(R.id.item_layout).setBackgroundColor(dragView.resources.getColor(R.color.list_item_background))
         }
     }
 
-    private class PhrasesUnitItemAdapter(list: List<UnitPhrase>, val vmSettings: SettingsViewModel, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean) : DragItemAdapter<UnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
+    private class PhrasesUnitItemAdapter(list: List<UnitPhrase>, val vm: PhrasesUnitViewModel, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean) : DragItemAdapter<UnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = list
@@ -125,7 +125,8 @@ class PhrasesUnitFragment : DrawerListFragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
             holder.mText1.text = mItemList[position].phrase
-            holder.mText2.text = mItemList[position].translation
+            holder.mText2.text = mItemList[position].unitpartseqnum(vm.vmSettings.lstParts)
+            holder.mText3.text = mItemList[position].translation
             holder.itemView.tag = mItemList[position]
         }
 
@@ -136,15 +137,18 @@ class PhrasesUnitFragment : DrawerListFragment() {
         internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, mGrabHandleId, mDragOnLongPress) {
             var mText1: TextView
             var mText2: TextView
+            var mText3: TextView
 
             init {
-                mText1 = itemView.findViewById<TextView>(R.id.text1)
-                mText2 = itemView.findViewById<TextView>(R.id.text2)
+                mText1 = itemView.findViewById(R.id.text1)
+                mText2 = itemView.findViewById(R.id.text2)
+                mText3 = itemView.findViewById(R.id.text3)
             }
 
             override fun onItemClicked(view: View?) {
                 val item = view!!.tag as UnitPhrase
-                PhrasesUnitDetailActivity_.intent(view.context).extra("phrase", item).start()
+                PhrasesUnitDetailActivity_.intent(view.context)
+                        .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
             }
 
             override fun onItemLongClicked(view: View?): Boolean {

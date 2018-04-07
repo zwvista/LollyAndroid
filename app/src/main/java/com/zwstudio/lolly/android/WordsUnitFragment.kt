@@ -143,8 +143,8 @@ class WordsUnitFragment : DrawerListFragment() {
             var mText2: TextView
 
             init {
-                mText1 = itemView.findViewById<TextView>(R.id.text1)
-                mText2 = itemView.findViewById<TextView>(R.id.text2)
+                mText1 = itemView.findViewById(R.id.text1)
+                mText2 = itemView.findViewById(R.id.text2)
             }
 
             override fun onItemClicked(view: View?) {

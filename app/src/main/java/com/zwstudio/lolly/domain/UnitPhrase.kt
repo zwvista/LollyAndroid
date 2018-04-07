@@ -41,5 +41,5 @@ class UnitPhrase: Serializable {
     @Expose
     var unitpart: Int = 0
 
-    fun unitpartseqnum(lstParts: List<String>) = "$unit ${lstParts[part - 1]} $seqnum"
+    fun unitpartseqnum(lstParts: List<String>) = "$unit $seqnum\n${lstParts[part - 1]}"
 }
