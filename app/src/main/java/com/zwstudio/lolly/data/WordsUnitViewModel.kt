@@ -11,6 +11,7 @@ import org.androidannotations.annotations.EBean
 class WordsUnitViewModel : BaseViewModel2() {
 
     var lstWords = mutableListOf<UnitWord>()
+    var isSwipeStarted = false
 
     fun getData(onNext: () -> Unit) {
         retrofit.create(RestUnitWord::class.java)

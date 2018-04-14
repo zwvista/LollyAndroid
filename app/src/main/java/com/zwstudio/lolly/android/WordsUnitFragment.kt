@@ -65,6 +65,11 @@ class WordsUnitFragment : DrawerListFragment() {
 
                 override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                     mRefreshLayout.isEnabled = true
+                    when (swipedDirection) {
+                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
+                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
+                        else -> {}
+                    }
                 }
             })
 
@@ -145,8 +150,10 @@ class WordsUnitFragment : DrawerListFragment() {
                             val pos = mDragListView.adapter.getPositionForItem(item)
                             mDragListView.adapter.removeItem(pos)
                             vm.delete(item.id) {}
+                            vm.isSwipeStarted = false
                         }, {
                             mDragListView.resetSwipedViews(null)
+                            vm.isSwipeStarted = false
                         })
                     }
                     true
@@ -154,8 +161,13 @@ class WordsUnitFragment : DrawerListFragment() {
             }
 
             override fun onItemClicked(view: View?) {
-                val item = view!!.tag as UnitWord
-                WordDictActivity_.intent(view.context).extra("word", item.word).start()
+                if (vm.isSwipeStarted) {
+                    mDragListView.resetSwipedViews(null)
+                    vm.isSwipeStarted = false
+                } else {
+                    val item = view!!.tag as UnitWord
+                    WordDictActivity_.intent(view.context).extra("word", item.word).start()
+                }
             }
 
             override fun onItemLongClicked(view: View?): Boolean {
