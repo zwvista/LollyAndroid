@@ -36,10 +36,10 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     fun afterViews() {
         setSupportActionBar(toolbar)
 
-        fab.setOnClickListener(View.OnClickListener { view ->
+        fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
-        })
+        }
 
         drawerToggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
