@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -64,30 +65,11 @@ class PhrasesUnitFragment : DrawerListFragment() {
 
                 override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                     mRefreshLayout.isEnabled = true
-
-                    val adapterItem = item!!.tag as UnitPhrase
-                    // Swipe to delete on left or to edit on right
-                    when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT ->
-                            yesNoDialog(context!!, "Are you sure you want to delete the phrase \"${adapterItem.phrase}\"?", {
-                                val pos = mDragListView.adapter.getPositionForItem(adapterItem)
-                                mDragListView.adapter.removeItem(pos)
-                                vm.delete(adapterItem.id) {}
-                            }, {
-                                mDragListView.resetSwipedViews(null)
-                            })
-                        ListSwipeItem.SwipeDirection.RIGHT -> {
-                            mDragListView.resetSwipedViews(null)
-                            PhrasesUnitDetailActivity_.intent(context!!)
-                                    .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", adapterItem).start()
-                        }
-                        else -> {}
-                    }
                 }
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = PhrasesUnitItemAdapter(vm.lstPhrases, vm, R.layout.list_item_phrases_edit, R.id.image, false)
+            val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, R.layout.list_item_phrases_edit, R.id.image, false)
             mDragListView.setAdapter(listAdapter, true)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(PhrasesUnitDragItem(context!!, R.layout.list_item_phrases_edit))
@@ -111,10 +93,10 @@ class PhrasesUnitFragment : DrawerListFragment() {
         }
     }
 
-    private class PhrasesUnitItemAdapter(list: List<UnitPhrase>, val vm: PhrasesUnitViewModel, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean) : DragItemAdapter<UnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
+    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean) : DragItemAdapter<UnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
 
         init {
-            itemList = list
+            itemList = vm.lstPhrases
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -138,11 +120,36 @@ class PhrasesUnitFragment : DrawerListFragment() {
             var mText1: TextView
             var mText2: TextView
             var mText3: TextView
+            var mEdit: TextView
+            var mDelete: TextView
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
                 mText2 = itemView.findViewById(R.id.text2)
                 mText3 = itemView.findViewById(R.id.text3)
+                mEdit = itemView.findViewById(R.id.item_edit)
+                mEdit.setOnTouchListener { v, event ->
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        val item = itemView.tag as UnitPhrase
+                        PhrasesUnitDetailActivity_.intent(itemView.context)
+                                .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
+                    }
+                    true
+                }
+                mDelete = itemView.findViewById(R.id.item_delete)
+                mDelete.setOnTouchListener { v, event ->
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        val item = itemView.tag as UnitPhrase
+                        yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
+                            val pos = mDragListView.adapter.getPositionForItem(item)
+                            mDragListView.adapter.removeItem(pos)
+                            vm.delete(item.id) {}
+                        }, {
+                            mDragListView.resetSwipedViews(null)
+                        })
+                    }
+                    true
+                }
             }
 
             override fun onItemClicked(view: View?) {

@@ -5,6 +5,7 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -14,7 +15,6 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
-import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.UnitWord
 import org.androidannotations.annotations.*
@@ -65,30 +65,11 @@ class WordsUnitFragment : DrawerListFragment() {
 
                 override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                     mRefreshLayout.isEnabled = true
-
-                    val adapterItem = item!!.tag as UnitWord
-                    // Swipe to delete on left or to edit on right
-                    when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT ->
-                            yesNoDialog(context!!, "Are you sure you want to delete the word \"${adapterItem.word}\"?", {
-                                val pos = mDragListView.adapter.getPositionForItem(adapterItem)
-                                mDragListView.adapter.removeItem(pos)
-                                vm.delete(adapterItem.id) {}
-                            }, {
-                                mDragListView.resetSwipedViews(null)
-                            })
-                        ListSwipeItem.SwipeDirection.RIGHT -> {
-                            mDragListView.resetSwipedViews(null)
-                            WordsUnitDetailActivity_.intent(context!!)
-                                    .extra("list", vm.lstWords.toTypedArray()).extra("word", adapterItem).start()
-                        }
-                        else -> {}
-                    }
                 }
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = WordsUnitItemAdapter(vm.lstWords, vm.vmSettings, R.layout.list_item_words_edit, R.id.image, false)
+            val listAdapter = WordsUnitItemAdapter(vm, mDragListView, R.layout.list_item_words_edit, R.id.image, false)
             mDragListView.setAdapter(listAdapter, true)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(WordsUnitDragItem(context!!, R.layout.list_item_words_edit))
@@ -116,10 +97,10 @@ class WordsUnitFragment : DrawerListFragment() {
         }
     }
 
-    private class WordsUnitItemAdapter(list: List<UnitWord>, val vmSettings: SettingsViewModel, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean) : DragItemAdapter<UnitWord, WordsUnitItemAdapter.ViewHolder>() {
+    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean) : DragItemAdapter<UnitWord, WordsUnitItemAdapter.ViewHolder>() {
 
         init {
-            itemList = list
+            itemList = vm.lstWords
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -130,7 +111,7 @@ class WordsUnitFragment : DrawerListFragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
             holder.mText1.text = mItemList[position].wordnote
-            holder.mText2.text = mItemList[position].unitpartseqnum(vmSettings.lstParts)
+            holder.mText2.text = mItemList[position].unitpartseqnum(vm.vmSettings.lstParts)
             holder.itemView.tag = mItemList[position]
         }
 
@@ -141,10 +122,35 @@ class WordsUnitFragment : DrawerListFragment() {
         internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, mGrabHandleId, mDragOnLongPress) {
             var mText1: TextView
             var mText2: TextView
+            var mEdit: TextView
+            var mDelete: TextView
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
                 mText2 = itemView.findViewById(R.id.text2)
+                mEdit = itemView.findViewById(R.id.item_edit)
+                mEdit.setOnTouchListener { v, event ->
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        val item = itemView.tag as UnitWord
+                        WordsUnitDetailActivity_.intent(itemView.context)
+                                .extra("list", vm.lstWords.toTypedArray()).extra("word", item).start()
+                    }
+                    true
+                }
+                mDelete = itemView.findViewById(R.id.item_delete)
+                mDelete.setOnTouchListener { v, event ->
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        val item = itemView.tag as UnitWord
+                        yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
+                            val pos = mDragListView.adapter.getPositionForItem(item)
+                            mDragListView.adapter.removeItem(pos)
+                            vm.delete(item.id) {}
+                        }, {
+                            mDragListView.resetSwipedViews(null)
+                        })
+                    }
+                    true
+                }
             }
 
             override fun onItemClicked(view: View?) {
