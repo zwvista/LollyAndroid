@@ -254,7 +254,9 @@ class WordsUnitFragment : DrawerListFragment() {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as UnitWord
-                    WordsDictActivity_.intent(view.context).extra("word", item.word).start()
+                    WordsDictActivity_.intent(view.context)
+                        .extra("list", vm.lstWords.map { it.word } .toTypedArray())
+                        .extra("index", vm.lstWords.indexOf(item)).start()
                 }
             }
 

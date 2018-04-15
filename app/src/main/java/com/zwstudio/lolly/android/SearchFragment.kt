@@ -36,7 +36,7 @@ class SearchFragment : Fragment() {
 
         wvDictOnline.visibility = View.INVISIBLE
         wvDictOffline.visibility = View.INVISIBLE
-        svWord.setQuery(vm.word, false)
+        svWord.setQuery(word, false)
         svWord.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 searchDict()
@@ -44,7 +44,7 @@ class SearchFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                vm.word = newText
+                word = newText
                 return false
             }
         })

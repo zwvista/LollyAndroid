@@ -7,13 +7,16 @@ import java.net.URLEncoder
 
 @EBean
 class SearchViewModel : BaseViewModel2() {
-    var word = ""
+    var lstWords = mutableListOf<String>()
+    var selectedWordIndex = 0
+    val selectWord: String
+        get() = lstWords[selectedWordIndex]
 
     val urlString: String?
         get() {
             var wordUrl: String? = null
             try {
-                wordUrl = vmSettings.selectedDict.url!!.replace("{0}", URLEncoder.encode(word, "UTF-8"))
+                wordUrl = vmSettings.selectedDict.url!!.replace("{0}", URLEncoder.encode(selectWord, "UTF-8"))
             } catch (e: UnsupportedEncodingException) {
                 e.printStackTrace()
             }
