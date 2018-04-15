@@ -36,9 +36,9 @@ class PhrasesUnitViewModel : BaseViewModel2() {
             }
     }
 
-    fun update(id: Int, unit: Int, part: Int, seqnum: Int, phrase: String, translation: String, onNext: () -> Unit) {
+    fun update(id: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, phrase: String, translation: String, onNext: () -> Unit) {
         retrofitJson.create(RestUnitPhrase::class.java)
-            .update(id, unit, part, seqnum, phrase, translation)
+            .update(id, textbookid, unit, part, seqnum, phrase, translation)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -47,9 +47,9 @@ class PhrasesUnitViewModel : BaseViewModel2() {
             }
     }
 
-    fun create(unit: Int, part: Int, seqnum: Int, phrase: String, translation: String, onNext: (Int) -> Unit) {
+    fun create(textbookid: Int, unit: Int, part: Int, seqnum: Int, phrase: String, translation: String, onNext: (Int) -> Unit) {
         retrofitJson.create(RestUnitPhrase::class.java)
-            .create(unit, part, seqnum, phrase, translation)
+            .create(textbookid, unit, part, seqnum, phrase, translation)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {

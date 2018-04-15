@@ -98,10 +98,14 @@ class SettingsViewModel : BaseViewModel1() {
     var selectedNoteSiteIndex: Int = 0
         set(value) {
             field = value
-            usnotesiteid = selectedNoteSite.id
+            usnotesiteid = selectedNoteSite?.id ?: 0
         }
-    val selectedNoteSite: NoteSite
-        get() = lstNoteSites[selectedNoteSiteIndex]
+    val selectedNoteSite: NoteSite?
+        get() =
+            if (lstNoteSites.isEmpty())
+                null
+            else
+                lstNoteSites[selectedNoteSiteIndex]
 
     var lstUnits = listOf<String>()
     var lstParts = listOf<String>()

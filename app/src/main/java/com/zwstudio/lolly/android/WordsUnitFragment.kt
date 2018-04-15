@@ -3,6 +3,7 @@ package com.zwstudio.lolly.android
 import android.app.Activity.RESULT_OK
 import android.content.*
 import android.net.Uri
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -18,14 +19,14 @@ import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.WordsUnitViewModel
-import com.zwstudio.lolly.data.extractTextFrom
 import com.zwstudio.lolly.domain.UnitWord
 import org.androidannotations.annotations.*
 import java.net.URLEncoder
+import java.util.*
 
 
 @EFragment(R.layout.content_words_unit)
-@OptionsMenu(R.menu.menu_add)
+@OptionsMenu(R.menu.menu_words_unit)
 class WordsUnitFragment : DrawerListFragment() {
 
     @Bean
@@ -53,7 +54,6 @@ class WordsUnitFragment : DrawerListFragment() {
 
                 override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
                     mRefreshLayout.isEnabled = true
-                    if (fromPosition == toPosition) return
                     Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
                     vm.reindex {}
                 }
@@ -96,6 +96,31 @@ class WordsUnitFragment : DrawerListFragment() {
     @OnActivityResult(1)
     fun onResult(resultCode: Int) {
         if (resultCode == RESULT_OK) menuAdd()
+    }
+
+    @OptionsItem
+    fun menuNotesAll() = getNotes(false)
+    @OptionsItem
+    fun menuNotesEmpty() = getNotes(true)
+    private fun getNotes(ifEmpty: Boolean) {
+        val handler = Handler()
+        vm.getNotes(ifEmpty) {
+            val task = object : TimerTask() {
+                override fun run() {
+                    vm.getNextNote(onNextRow = {}, onNext = {
+                        cancel()
+                        handler.post(object : Runnable {
+                            override fun run() {
+                                mDragListView.adapter.notifyDataSetChanged()
+                                progressBar1.visibility = View.GONE
+                            }
+                        })
+                    })
+                }
+            }
+            progressBar1.visibility = View.VISIBLE
+            Timer().scheduleAtFixedRate(task, 0, it.toLong())
+        }
     }
 
     private class WordsUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
@@ -155,14 +180,6 @@ class WordsUnitFragment : DrawerListFragment() {
                         vm.isSwipeStarted = false
                     })
                 }
-                fun getNote(item: UnitWord, onNext: (String) -> Unit) {
-                    val noteSite = vm.vmSettings.selectedNoteSite
-                    val url = noteSite.url!!.replace("{0}", URLEncoder.encode(item.word, "UTF-8"))
-                    vm.getHtml(url) {
-                        val result = extractTextFrom(it, noteSite.transformMac!!, noteSite.template!!) { _,_ -> "" }
-                        onNext(result)
-                    }
-                }
                 fun copy(item: UnitWord) {
                     // https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
                     val clipboard = itemView.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -214,10 +231,10 @@ class WordsUnitFragment : DrawerListFragment() {
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
-                                    2 -> getNote(item) {
-                                        vm.updateNote(item.id, it) {
-                                            item.note = it
-                                            mDragListView.adapter.notifyItemChanged(itemList.indexOf(item))
+                                    2 -> {
+                                        val index = itemList.indexOf(item)
+                                        vm.getNote(index) {
+                                            mDragListView.adapter.notifyItemChanged(index)
                                         }
                                     }
                                     3 -> copy(item)

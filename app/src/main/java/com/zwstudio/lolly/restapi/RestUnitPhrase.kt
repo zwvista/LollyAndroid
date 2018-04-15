@@ -14,13 +14,15 @@ interface RestUnitPhrase {
 
     @FormUrlEncoded
     @PUT("VUNITPHRASES/{id}")
-    fun update(@Path("id") id: Int, @Field("UNIT") unit: Int, @Field("PART") part: Int,
+    fun update(@Path("id") id: Int, @Field("TEXTBOOKID") textbookid: Int,
+               @Field("UNIT") unit: Int, @Field("PART") part: Int,
                @Field("SEQNUM") seqnum: Int, @Field("PHRASE") phrase: String,
                @Field("TRANSLATION") translation: String): Observable<Int>
 
     @FormUrlEncoded
     @POST("VUNITPHRASES")
-    fun create(@Field("UNIT") unit: Int, @Field("PART") part: Int,
+    fun create(@Field("TEXTBOOKID") textbookid: Int,
+               @Field("UNIT") unit: Int, @Field("PART") part: Int,
                @Field("SEQNUM") seqnum: Int, @Field("PHRASE") phrase: String,
                @Field("TRANSLATION") translation: String): Observable<Int>
 

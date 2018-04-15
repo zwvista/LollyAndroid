@@ -1,17 +1,24 @@
 package com.zwstudio.lolly.data
 
 import android.util.Log
+import com.zwstudio.lolly.domain.NoteSite
 import com.zwstudio.lolly.domain.UnitWord
 import com.zwstudio.lolly.restapi.RestUnitWord
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.EBean
+import java.net.URLEncoder
 
 @EBean
 class WordsUnitViewModel : BaseViewModel2() {
 
     var lstWords = mutableListOf<UnitWord>()
     var isSwipeStarted = false
+    var noteFromIndex = 0
+    var noteToIndex = 0
+    var noteIfEmpty = true
+    val noteSite: NoteSite?
+        get() = vmSettings.selectedNoteSite
 
     fun getData(onNext: () -> Unit) {
         retrofitJson.create(RestUnitWord::class.java)
@@ -47,9 +54,9 @@ class WordsUnitViewModel : BaseViewModel2() {
             }
     }
 
-    fun update(id: Int, unit: Int, part: Int, seqnum: Int, word: String, note: String, onNext: () -> Unit) {
+    fun update(id: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, word: String, note: String, onNext: () -> Unit) {
         retrofitJson.create(RestUnitWord::class.java)
-            .update(id, unit, part, seqnum, word, note)
+            .update(id, textbookid, unit, part, seqnum, word, note)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -58,9 +65,9 @@ class WordsUnitViewModel : BaseViewModel2() {
             }
     }
 
-    fun create(unit: Int, part: Int, seqnum: Int, word: String, note: String, onNext: (Int) -> Unit) {
+    fun create(textbookid: Int, unit: Int, part: Int, seqnum: Int, word: String, note: String, onNext: (Int) -> Unit) {
         retrofitJson.create(RestUnitWord::class.java)
-            .create(unit, part, seqnum, word, note)
+            .create(textbookid, unit, part, seqnum, word, note)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -102,4 +109,36 @@ class WordsUnitViewModel : BaseViewModel2() {
         return item
     }
 
+    fun getNote(index: Int, onNext: () -> Unit) {
+        val noteSite = noteSite ?: return
+        val item = lstWords[index]
+        val url = noteSite.url!!.replace("{0}", URLEncoder.encode(item.word, "UTF-8"))
+        getHtml(url) {
+            Log.d("", it)
+            val result = extractTextFrom(it, noteSite.transformMac!!, noteSite.template!!) { _,_ -> "" }
+            item.note = result
+            updateNote(item.id, result) {
+                onNext()
+            }
+        }
+    }
+
+    fun getNotes(ifEmpty: Boolean, onNext: (Int) -> Unit) {
+        val noteSite = noteSite ?: return
+        noteFromIndex = 0; noteToIndex = lstWords.size; noteIfEmpty = ifEmpty
+        onNext(noteSite.wait!!)
+    }
+
+    fun getNextNote(onNextRow: (Int) -> Unit, onNext: () -> Unit) {
+        if (noteIfEmpty)
+            while (noteFromIndex < noteToIndex && !(lstWords[noteFromIndex].note ?: "").isEmpty())
+                noteFromIndex++
+        if (noteFromIndex >= noteToIndex)
+            onNext()
+        else {
+            val i = noteFromIndex
+            getNote(i) { onNextRow(i) }
+            noteFromIndex++
+        }
+    }
 }

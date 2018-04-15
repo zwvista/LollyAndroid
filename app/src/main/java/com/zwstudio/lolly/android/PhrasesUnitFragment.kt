@@ -20,7 +20,7 @@ import org.androidannotations.annotations.*
 
 
 @EFragment(R.layout.content_phrases_unit)
-@OptionsMenu(R.menu.menu_add)
+@OptionsMenu(R.menu.menu_words_unit)
 class PhrasesUnitFragment : DrawerListFragment() {
 
     @Bean
@@ -48,7 +48,6 @@ class PhrasesUnitFragment : DrawerListFragment() {
 
                 override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
                     mRefreshLayout.isEnabled = true
-                    if (fromPosition == toPosition) return
                     Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
                     vm.reindex {}
                 }
