@@ -14,7 +14,7 @@ class PhrasesUnitViewModel : BaseViewModel2() {
     var isSwipeStarted = false
 
     fun getData(onNext: () -> Unit) {
-        retrofit.create(RestUnitPhrase::class.java)
+        retrofitJson.create(RestUnitPhrase::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${vmSettings.selectedTextbook.id}",
                 "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
             .subscribeOn(Schedulers.io())
@@ -26,7 +26,7 @@ class PhrasesUnitViewModel : BaseViewModel2() {
     }
 
     fun updateSeqNum(id: Int, seqnum: Int, onNext: () -> Unit) {
-        retrofit.create(RestUnitPhrase::class.java)
+        retrofitJson.create(RestUnitPhrase::class.java)
             .updateSeqNum(id, seqnum)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -37,7 +37,7 @@ class PhrasesUnitViewModel : BaseViewModel2() {
     }
 
     fun update(id: Int, unit: Int, part: Int, seqnum: Int, phrase: String, translation: String, onNext: () -> Unit) {
-        retrofit.create(RestUnitPhrase::class.java)
+        retrofitJson.create(RestUnitPhrase::class.java)
             .update(id, unit, part, seqnum, phrase, translation)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -48,7 +48,7 @@ class PhrasesUnitViewModel : BaseViewModel2() {
     }
 
     fun create(unit: Int, part: Int, seqnum: Int, phrase: String, translation: String, onNext: (Int) -> Unit) {
-        retrofit.create(RestUnitPhrase::class.java)
+        retrofitJson.create(RestUnitPhrase::class.java)
             .create(unit, part, seqnum, phrase, translation)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -59,7 +59,7 @@ class PhrasesUnitViewModel : BaseViewModel2() {
     }
 
     fun delete(id: Int, onNext: () -> Unit) {
-        retrofit.create(RestUnitPhrase::class.java)
+        retrofitJson.create(RestUnitPhrase::class.java)
             .delete(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

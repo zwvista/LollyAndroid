@@ -14,19 +14,25 @@ import org.androidannotations.annotations.EApplication
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 @EApplication
 class LollyApplication : Application() {
 
-    lateinit var retrofit: Retrofit
+    lateinit var retrofitJson: Retrofit
+    lateinit var retrofitHtml: Retrofit
     @Bean
     lateinit var vm: SettingsViewModel
 
     override fun onCreate() {
         super.onCreate()
-        retrofit = Retrofit.Builder().baseUrl("http://13.231.236.234/lolly/api.php/")
+        retrofitJson = Retrofit.Builder().baseUrl("http://13.231.236.234/lolly/api.php/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        // https://futurestud.io/tutorials/retrofit-2-receive-plain-string-responses
+        retrofitHtml = Retrofit.Builder().baseUrl("http://13.231.236.234/lolly/api.php/")
+            .addConverterFactory(ScalarsConverterFactory.create())
             .build()
         vm.getData { }
 

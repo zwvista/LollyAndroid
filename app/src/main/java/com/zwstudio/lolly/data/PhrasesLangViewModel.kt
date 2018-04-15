@@ -10,7 +10,7 @@ import org.androidannotations.annotations.EBean
 class PhrasesLangViewModel : BaseViewModel2() {
 
     fun getData(onNext: (LangPhrases) -> Unit) {
-        retrofit.create(RestLangPhrase::class.java)
+        retrofitJson.create(RestLangPhrase::class.java)
             .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

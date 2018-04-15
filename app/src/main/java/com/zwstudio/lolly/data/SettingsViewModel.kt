@@ -107,11 +107,11 @@ class SettingsViewModel : BaseViewModel1() {
     var lstParts = listOf<String>()
 
     fun getData(onNext: () -> Unit) {
-        retrofit.create(RestLanguage::class.java)
+        retrofitJson.create(RestLanguage::class.java)
             .getData()
             .flatMap {
                 lstLanguages = it.lst!!
-                retrofit.create(RestUserSetting::class.java)
+                retrofitJson.create(RestUserSetting::class.java)
                     .getDataByUser("USERID,eq,$userid")
             }
             .subscribeOn(Schedulers.io())
@@ -127,19 +127,19 @@ class SettingsViewModel : BaseViewModel1() {
         selectedLangIndex = langIndex
         uslangid = selectedLang.id
         selectedUSLangIndex = lstUserSettings.indexOfFirst { it.kind == 2 && it.entityid == uslangid }
-        retrofit.create(RestDictionary::class.java)
+        retrofitJson.create(RestDictionary::class.java)
             .getDataByLang("LANGIDFROM,eq,$uslangid")
             .flatMap {
                 lstDictionaries = it.lst!!
                 selectedDictIndex = lstDictionaries.indexOfFirst { it.id == usdictid }
-                retrofit.create(RestNoteSite::class.java)
+                retrofitJson.create(RestNoteSite::class.java)
                     .getDataByLang("LANGIDFROM,eq,$uslangid")
             }
             .flatMap {
                 lstNoteSites = it.lst!!
                 if (lstNoteSites.isNotEmpty())
                     selectedNoteSiteIndex = lstNoteSites.indexOfFirst { it.id == usnotesiteid }
-                retrofit.create(RestTextbook::class.java)
+                retrofitJson.create(RestTextbook::class.java)
                         .getDataByLang("LANGID,eq,$uslangid")
             }
             .subscribeOn(Schedulers.io())
@@ -159,7 +159,7 @@ class SettingsViewModel : BaseViewModel1() {
     }
 
     fun updateLang(onNext: () -> Unit) {
-        retrofit.create(RestUserSetting::class.java)
+        retrofitJson.create(RestUserSetting::class.java)
             .updateLang(selectedUSUser.id, uslangid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -170,7 +170,7 @@ class SettingsViewModel : BaseViewModel1() {
     }
 
     fun updateTextbook(onNext: () -> Unit) {
-        retrofit.create(RestUserSetting::class.java)
+        retrofitJson.create(RestUserSetting::class.java)
             .updateTextbook(selectedUSLang.id, ustextbookid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -181,7 +181,7 @@ class SettingsViewModel : BaseViewModel1() {
     }
 
     fun updateDict(onNext: () -> Unit) {
-        retrofit.create(RestUserSetting::class.java)
+        retrofitJson.create(RestUserSetting::class.java)
             .updateDict(selectedUSLang.id, usdictid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -192,7 +192,7 @@ class SettingsViewModel : BaseViewModel1() {
     }
 
     fun updateNoteSite(onNext: () -> Unit) {
-        retrofit.create(RestUserSetting::class.java)
+        retrofitJson.create(RestUserSetting::class.java)
             .updateDict(selectedUSLang.id, usnotesiteid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -203,7 +203,7 @@ class SettingsViewModel : BaseViewModel1() {
     }
 
     fun updateUnitFrom(onNext: () -> Unit) {
-        retrofit.create(RestUserSetting::class.java)
+        retrofitJson.create(RestUserSetting::class.java)
             .updateUnitFrom(selectedUSTextbook.id, usunitfrom)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -214,7 +214,7 @@ class SettingsViewModel : BaseViewModel1() {
     }
 
     fun updatePartFrom(onNext: () -> Unit) {
-        retrofit.create(RestUserSetting::class.java)
+        retrofitJson.create(RestUserSetting::class.java)
             .updatePartFrom(selectedUSTextbook.id, uspartfrom)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -225,7 +225,7 @@ class SettingsViewModel : BaseViewModel1() {
     }
 
     fun updateUnitTo(onNext: () -> Unit) {
-        retrofit.create(RestUserSetting::class.java)
+        retrofitJson.create(RestUserSetting::class.java)
             .updateUnitTo(selectedUSTextbook.id, usunitto)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -236,7 +236,7 @@ class SettingsViewModel : BaseViewModel1() {
     }
 
     fun updatePartTo(onNext: () -> Unit) {
-        retrofit.create(RestUserSetting::class.java)
+        retrofitJson.create(RestUserSetting::class.java)
             .updatePartTo(selectedUSTextbook.id, uspartto)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

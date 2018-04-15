@@ -14,7 +14,7 @@ class WordsUnitViewModel : BaseViewModel2() {
     var isSwipeStarted = false
 
     fun getData(onNext: () -> Unit) {
-        retrofit.create(RestUnitWord::class.java)
+        retrofitJson.create(RestUnitWord::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${vmSettings.selectedTextbook.id}",
                 "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
             .subscribeOn(Schedulers.io())
@@ -26,7 +26,7 @@ class WordsUnitViewModel : BaseViewModel2() {
     }
 
     fun updateSeqNum(id: Int, seqnum: Int, onNext: () -> Unit) {
-        retrofit.create(RestUnitWord::class.java)
+        retrofitJson.create(RestUnitWord::class.java)
             .updateSeqNum(id, seqnum)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -36,8 +36,19 @@ class WordsUnitViewModel : BaseViewModel2() {
             }
     }
 
+    fun updateNote(id: Int, note: String, onNext: () -> Unit) {
+        retrofitJson.create(RestUnitWord::class.java)
+            .updateNote(id, note)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                Log.d("", it.toString())
+                onNext()
+            }
+    }
+
     fun update(id: Int, unit: Int, part: Int, seqnum: Int, word: String, note: String, onNext: () -> Unit) {
-        retrofit.create(RestUnitWord::class.java)
+        retrofitJson.create(RestUnitWord::class.java)
             .update(id, unit, part, seqnum, word, note)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -48,7 +59,7 @@ class WordsUnitViewModel : BaseViewModel2() {
     }
 
     fun create(unit: Int, part: Int, seqnum: Int, word: String, note: String, onNext: (Int) -> Unit) {
-        retrofit.create(RestUnitWord::class.java)
+        retrofitJson.create(RestUnitWord::class.java)
             .create(unit, part, seqnum, word, note)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -59,7 +70,7 @@ class WordsUnitViewModel : BaseViewModel2() {
     }
 
     fun delete(id: Int, onNext: () -> Unit) {
-        retrofit.create(RestUnitWord::class.java)
+        retrofitJson.create(RestUnitWord::class.java)
             .delete(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

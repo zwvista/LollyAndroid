@@ -18,6 +18,7 @@ import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.WordsUnitViewModel
+import com.zwstudio.lolly.data.extractTextFrom
 import com.zwstudio.lolly.domain.UnitWord
 import org.androidannotations.annotations.*
 import java.net.URLEncoder
@@ -154,6 +155,14 @@ class WordsUnitFragment : DrawerListFragment() {
                         vm.isSwipeStarted = false
                     })
                 }
+                fun getNote(item: UnitWord, onNext: (String) -> Unit) {
+                    val noteSite = vm.vmSettings.selectedNoteSite
+                    val url = noteSite.url!!.replace("{0}", URLEncoder.encode(item.word, "UTF-8"))
+                    vm.getHtml(url) {
+                        val result = extractTextFrom(it, noteSite.transformMac!!, noteSite.template!!) { _,_ -> "" }
+                        onNext(result)
+                    }
+                }
                 fun copy(item: UnitWord) {
                     // https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
                     val clipboard = itemView.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -162,7 +171,7 @@ class WordsUnitFragment : DrawerListFragment() {
                 }
                 fun google(item: UnitWord) {
                     // https://stackoverflow.com/questions/12013416/is-there-any-way-in-android-to-force-open-a-link-to-open-in-chrome
-                    val urlString = "http://www.google.com/search&q=" + URLEncoder.encode(item.word, "UTF-8")
+                    val urlString = "https://www.google.com/search?q=" + URLEncoder.encode(item.word, "UTF-8")
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(urlString))
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     intent.`package` = "com.android.chrome"
@@ -205,7 +214,12 @@ class WordsUnitFragment : DrawerListFragment() {
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
-                                    2 -> {}
+                                    2 -> getNote(item) {
+                                        vm.updateNote(item.id, it) {
+                                            item.note = it
+                                            mDragListView.adapter.notifyItemChanged(itemList.indexOf(item))
+                                        }
+                                    }
                                     3 -> copy(item)
                                     4 -> google(item)
                                     else -> {}
