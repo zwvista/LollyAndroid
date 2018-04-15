@@ -39,7 +39,7 @@ class WordsTextbookFragment : DrawerListFragment() {
 
     @ItemClick
     fun listViewItemClicked(item: TextbookWord) {
-        WordDictActivity_.intent(activity).extra("word", item.word).start()
+        WordsDictActivity_.intent(activity).extra("word", item.word).start()
     }
 
 }

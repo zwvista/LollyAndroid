@@ -10,7 +10,7 @@ import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ViewById
 
 @EActivity(R.layout.activity_word_dict)
-class WordDictActivity : AppCompatActivity() {
+class WordsDictActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: SearchViewModel
