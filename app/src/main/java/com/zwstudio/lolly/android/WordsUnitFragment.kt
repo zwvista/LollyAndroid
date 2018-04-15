@@ -3,6 +3,7 @@ package com.zwstudio.lolly.android
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -18,6 +19,7 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.UnitWord
 import org.androidannotations.annotations.*
+
 
 @EFragment(R.layout.content_words_unit)
 @OptionsMenu(R.menu.menu_add)
@@ -129,16 +131,33 @@ class WordsUnitFragment : DrawerListFragment() {
             var mText2: TextView
             var mEdit: TextView
             var mDelete: TextView
+            var mMore: TextView
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
                 mText2 = itemView.findViewById(R.id.text2)
+
+                fun edit(item: UnitWord) {
+                    WordsUnitDetailActivity_.intent(itemView.context)
+                            .extra("list", vm.lstWords.toTypedArray()).extra("word", item).start()
+                }
+                fun delete(item: UnitWord) {
+                    yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
+                        val pos = mDragListView.adapter.getPositionForItem(item)
+                        mDragListView.adapter.removeItem(pos)
+                        vm.delete(item.id) {}
+                        vm.isSwipeStarted = false
+                    }, {
+                        mDragListView.resetSwipedViews(null)
+                        vm.isSwipeStarted = false
+                    })
+                }
+
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mEdit.setOnTouchListener { v, event ->
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitWord
-                        WordsUnitDetailActivity_.intent(itemView.context)
-                                .extra("list", vm.lstWords.toTypedArray()).extra("word", item).start()
+                        edit(item)
                     }
                     true
                 }
@@ -146,15 +165,28 @@ class WordsUnitFragment : DrawerListFragment() {
                 mDelete.setOnTouchListener { v, event ->
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitWord
-                        yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
-                            val pos = mDragListView.adapter.getPositionForItem(item)
-                            mDragListView.adapter.removeItem(pos)
-                            vm.delete(item.id) {}
-                            vm.isSwipeStarted = false
-                        }, {
-                            mDragListView.resetSwipedViews(null)
-                            vm.isSwipeStarted = false
-                        })
+                        delete(item)
+                    }
+                    true
+                }
+                mMore = itemView.findViewById(R.id.item_more)
+                mMore.setOnTouchListener { v, event ->
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        mDragListView.resetSwipedViews(null)
+                        vm.isSwipeStarted = false
+
+                        val item = itemView.tag as UnitWord
+                        // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
+                        val builder = AlertDialog.Builder(itemView.context)
+                            .setTitle(item.wordnote)
+                            .setItems(arrayOf("Delete", "Edit", "Retrieve Note", "Copy Word", "Copy Note", "Cancel")) { dialog, which ->
+                                when (which) {
+                                    0 -> delete(item)
+                                    1 -> edit(item)
+                                    else -> {}
+                                }
+                            }
+                        builder.show()
                     }
                     true
                 }
