@@ -102,7 +102,7 @@ class WordsUnitViewModel : BaseViewModel2() {
         val item = UnitWord()
         item.textbookid = vmSettings.ustextbookid
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
-        val maxItem = lstWords.maxWith(compareBy({ it.unitpart }, { it.seqnum }))
+        val maxItem = lstWords.maxWith(compareBy({ it.unit }, { it.part }, { it.seqnum }))
         item.unit = maxItem?.unit ?: vmSettings.usunitto
         item.part = maxItem?.part ?: vmSettings.uspartto
         item.seqnum = (maxItem?.seqnum ?: 0) + 1
