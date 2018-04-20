@@ -41,8 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Dictionary:"
-        android:id="@+id/tvDictionary"/>
+        android:text="Dictionary(Online):"
+        android:id="@+id/tvDictOnline"/>
 
     <Spinner
         android:layout_width="match_parent"
@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Note Site:"
+        android:text="Dictionary(Note):"
         android:id="@+id/tvDictNote"/>
 
     <Spinner

@@ -27,7 +27,7 @@ class DictsNote {
     var lst: List<DictNote>? = null
 }
 
-open abstract class Dictionary: Serializable {
+abstract class Dictionary: Serializable {
 
     @SerializedName("ID")
     @Expose

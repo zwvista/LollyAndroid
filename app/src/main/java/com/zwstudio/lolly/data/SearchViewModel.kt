@@ -20,7 +20,7 @@ class SearchViewModel : BaseViewModel2() {
             } catch (e: UnsupportedEncodingException) {
                 e.printStackTrace()
             }
-            Log.d("RepoDictionary", "urlString: " + wordUrl!!)
+            Log.d("", "urlString: " + wordUrl!!)
             return wordUrl
         }
 
