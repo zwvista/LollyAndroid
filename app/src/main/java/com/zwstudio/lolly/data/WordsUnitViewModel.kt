@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.data
 
 import android.util.Log
-import com.zwstudio.lolly.domain.NoteSite
+import com.zwstudio.lolly.domain.DictNote
 import com.zwstudio.lolly.domain.UnitWord
 import com.zwstudio.lolly.restapi.RestUnitWord
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,8 +17,8 @@ class WordsUnitViewModel : BaseViewModel2() {
     var noteFromIndex = 0
     var noteToIndex = 0
     var noteIfEmpty = true
-    val noteSite: NoteSite?
-        get() = vmSettings.selectedNoteSite
+    val noteSite: DictNote?
+        get() = vmSettings.selectedDictNote
 
     fun getData(onNext: () -> Unit) {
         retrofitJson.create(RestUnitWord::class.java)

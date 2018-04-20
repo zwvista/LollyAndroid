@@ -29,12 +29,12 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             selectedUSLang.value1 = value.toString()
         }
-    var usdictid: Int
+    var usdictonlineid: Int
         get() = selectedUSLang.value2?.toInt()!!
         set(value) {
             selectedUSLang.value2 = value.toString()
         }
-    var usnotesiteid: Int
+    var usdictnoteid: Int
         get() = selectedUSLang.value3?.toInt()!!
         set(value) {
             selectedUSLang.value3 = value.toString()
@@ -85,27 +85,27 @@ class SettingsViewModel : BaseViewModel1() {
     val selectedTextbook: Textbook
         get() = lstTextbooks[selectedTextbookIndex]
 
-    var lstDictionaries = listOf<Dictionary>()
-    var selectedDictIndex: Int = 0
+    var lstDictsOnline = listOf<DictOnline>()
+    var selectedDictOnlineIndex: Int = 0
         set(value) {
             field = value
-            usdictid = selectedDict.id
+            usdictonlineid = selectedDictOnline.id
         }
-    val selectedDict: Dictionary
-        get() = lstDictionaries[selectedDictIndex]
+    val selectedDictOnline: DictOnline
+        get() = lstDictsOnline[selectedDictOnlineIndex]
 
-    var lstNoteSites = listOf<NoteSite>()
-    var selectedNoteSiteIndex: Int = 0
+    var lstDictsNote = listOf<DictNote>()
+    var selectedDictNoteIndex: Int = 0
         set(value) {
             field = value
-            usnotesiteid = selectedNoteSite?.id ?: 0
+            usdictnoteid = selectedDictNote?.id ?: 0
         }
-    val selectedNoteSite: NoteSite?
+    val selectedDictNote: DictNote?
         get() =
-            if (lstNoteSites.isEmpty())
+            if (lstDictsNote.isEmpty())
                 null
             else
-                lstNoteSites[selectedNoteSiteIndex]
+                lstDictsNote[selectedDictNoteIndex]
 
     var lstUnits = listOf<String>()
     var lstParts = listOf<String>()
@@ -131,18 +131,18 @@ class SettingsViewModel : BaseViewModel1() {
         selectedLangIndex = langIndex
         uslangid = selectedLang.id
         selectedUSLangIndex = lstUserSettings.indexOfFirst { it.kind == 2 && it.entityid == uslangid }
-        retrofitJson.create(RestDictionary::class.java)
+        retrofitJson.create(RestDictOnline::class.java)
             .getDataByLang("LANGIDFROM,eq,$uslangid")
             .flatMap {
-                lstDictionaries = it.lst!!
-                selectedDictIndex = lstDictionaries.indexOfFirst { it.id == usdictid }
-                retrofitJson.create(RestNoteSite::class.java)
+                lstDictsOnline = it.lst!!
+                selectedDictOnlineIndex = lstDictsOnline.indexOfFirst { it.id == usdictonlineid }
+                retrofitJson.create(RestDictNote::class.java)
                     .getDataByLang("LANGIDFROM,eq,$uslangid")
             }
             .flatMap {
-                lstNoteSites = it.lst!!
-                if (lstNoteSites.isNotEmpty())
-                    selectedNoteSiteIndex = lstNoteSites.indexOfFirst { it.id == usnotesiteid }
+                lstDictsNote = it.lst!!
+                if (lstDictsNote.isNotEmpty())
+                    selectedDictNoteIndex = lstDictsNote.indexOfFirst { it.id == usdictnoteid }
                 retrofitJson.create(RestTextbook::class.java)
                         .getDataByLang("LANGID,eq,$uslangid")
             }
@@ -186,7 +186,7 @@ class SettingsViewModel : BaseViewModel1() {
 
     fun updateDict(onNext: () -> Unit) {
         retrofitJson.create(RestUserSetting::class.java)
-            .updateDict(selectedUSLang.id, usdictid)
+            .updateDict(selectedUSLang.id, usdictonlineid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -195,9 +195,9 @@ class SettingsViewModel : BaseViewModel1() {
             }
     }
 
-    fun updateNoteSite(onNext: () -> Unit) {
+    fun updateDictNote(onNext: () -> Unit) {
         retrofitJson.create(RestUserSetting::class.java)
-            .updateDict(selectedUSLang.id, usnotesiteid)
+            .updateDict(selectedUSLang.id, usdictnoteid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {

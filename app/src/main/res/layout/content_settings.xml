@@ -47,7 +47,7 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spnDictionary"
+        android:id="@+id/spnDictOnline"
         android:layout_gravity="center_horizontal"/>
 
     <Space
@@ -60,12 +60,12 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Note Site:"
-        android:id="@+id/tvNoteSite"/>
+        android:id="@+id/tvDictNote"/>
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spnNoteSite"
+        android:id="@+id/spnDictNote"
         android:layout_gravity="center_horizontal"/>
 
     <Space

@@ -16,7 +16,7 @@ class SearchViewModel : BaseViewModel2() {
         get() {
             var wordUrl: String? = null
             try {
-                wordUrl = vmSettings.selectedDict.url!!.replace("{0}", URLEncoder.encode(selectWord, "UTF-8"))
+                wordUrl = vmSettings.selectedDictOnline.url!!.replace("{0}", URLEncoder.encode(selectWord, "UTF-8"))
             } catch (e: UnsupportedEncodingException) {
                 e.printStackTrace()
             }

@@ -11,7 +11,7 @@ import android.widget.CheckedTextView
 import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.data.SearchViewModel
-import com.zwstudio.lolly.domain.Dictionary
+import com.zwstudio.lolly.domain.DictOnline
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_words_dict)
@@ -23,7 +23,7 @@ class WordsDictActivity : AppCompatActivity() {
     @ViewById
     lateinit var spnWord: Spinner
     @ViewById
-    lateinit var spnDictionary: Spinner
+    lateinit var spnDictOnline: Spinner
     @ViewById(R.id.webView)
     lateinit var wv: WebView
 
@@ -53,13 +53,13 @@ class WordsDictActivity : AppCompatActivity() {
         }
 
         run {
-            val lst = vm.vmSettings.lstDictionaries
-            val adapter = object : ArrayAdapter<Dictionary>(this, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val lst = vm.vmSettings.lstDictsOnline
+            val adapter = object : ArrayAdapter<DictOnline>(this, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictionary.selectedItemPosition == position
+                    (tv as? CheckedTextView)?.isChecked = spnDictOnline.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
                     tv.text = m.url
                     return v
@@ -70,9 +70,9 @@ class WordsDictActivity : AppCompatActivity() {
                     convert(super.getDropDownView(position, convertView, parent), position)
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnDictionary.adapter = adapter
+            spnDictOnline.adapter = adapter
 
-            spnDictionary.setSelection(vm.vmSettings.selectedDictIndex)
+            spnDictOnline.setSelection(vm.vmSettings.selectedDictOnlineIndex)
         }
 
     }
@@ -85,11 +85,11 @@ class WordsDictActivity : AppCompatActivity() {
     }
 
     @ItemSelect
-    fun spnDictionaryItemSelected(selected: Boolean, position: Int) {
-        if (vm.vmSettings.selectedDictIndex == position) return
-        vm.vmSettings.selectedDictIndex = position
+    fun spnDictOnlineItemSelected(selected: Boolean, position: Int) {
+        if (vm.vmSettings.selectedDictOnlineIndex == position) return
+        vm.vmSettings.selectedDictOnlineIndex = position
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictionary.adapter as ArrayAdapter<Dictionary>).notifyDataSetChanged()
+        (spnDictOnline.adapter as ArrayAdapter<DictOnline>).notifyDataSetChanged()
         vm.vmSettings.updateDict { }
         selectDictChanged()
     }

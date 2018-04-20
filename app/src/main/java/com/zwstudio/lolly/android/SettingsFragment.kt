@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.domain.Dictionary
+import com.zwstudio.lolly.domain.DictNote
+import com.zwstudio.lolly.domain.DictOnline
 import com.zwstudio.lolly.domain.Language
-import com.zwstudio.lolly.domain.NoteSite
 import com.zwstudio.lolly.domain.Textbook
 import org.androidannotations.annotations.*
 
@@ -22,9 +22,9 @@ class SettingsFragment : Fragment() {
     @ViewById
     lateinit var spnLanguage: Spinner
     @ViewById
-    lateinit var spnDictionary: Spinner
+    lateinit var spnDictOnline: Spinner
     @ViewById
-    lateinit var spnNoteSite: Spinner
+    lateinit var spnDictNote: Spinner
     @ViewById
     lateinit var spnTextbook: Spinner
     @ViewById
@@ -116,13 +116,13 @@ class SettingsFragment : Fragment() {
 
     private fun updateLang() {
         run {
-            val lst = vm.lstDictionaries
-            val adapter = object : ArrayAdapter<Dictionary>(activity, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val lst = vm.lstDictsOnline
+            val adapter = object : ArrayAdapter<DictOnline>(activity, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictionary.selectedItemPosition == position
+                    (tv as? CheckedTextView)?.isChecked = spnDictOnline.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
                     tv.text = m.url
                     return v
@@ -133,18 +133,18 @@ class SettingsFragment : Fragment() {
                     convert(super.getDropDownView(position, convertView, parent), position)
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnDictionary.adapter = adapter
+            spnDictOnline.adapter = adapter
 
-            spnDictionary.setSelection(vm.selectedDictIndex)
+            spnDictOnline.setSelection(vm.selectedDictOnlineIndex)
         }
         run {
-            val lst = vm.lstNoteSites
-            val adapter = object : ArrayAdapter<NoteSite>(activity, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val lst = vm.lstDictsNote
+            val adapter = object : ArrayAdapter<DictNote>(activity, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnNoteSite.selectedItemPosition == position
+                    (tv as? CheckedTextView)?.isChecked = spnDictNote.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
                     tv.text = m.url
                     return v
@@ -155,9 +155,9 @@ class SettingsFragment : Fragment() {
                         convert(super.getDropDownView(position, convertView, parent), position)
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnNoteSite.adapter = adapter
+            spnDictNote.adapter = adapter
 
-            spnNoteSite.setSelection(vm.selectedNoteSiteIndex)
+            spnDictNote.setSelection(vm.selectedDictNoteIndex)
         }
         run {
             val lst = vm.lstTextbooks
@@ -185,21 +185,21 @@ class SettingsFragment : Fragment() {
     }
 
     @ItemSelect
-    fun spnDictionaryItemSelected(selected: Boolean, position: Int) {
-        if (vm.selectedDictIndex == position) return
-        vm.selectedDictIndex = position
+    fun spnDictOnlineItemSelected(selected: Boolean, position: Int) {
+        if (vm.selectedDictOnlineIndex == position) return
+        vm.selectedDictOnlineIndex = position
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictionary.adapter as ArrayAdapter<Dictionary>).notifyDataSetChanged()
+        (spnDictOnline.adapter as ArrayAdapter<DictOnline>).notifyDataSetChanged()
         vm.updateDict { }
     }
 
     @ItemSelect
-    fun spnNoteSiteItemSelected(selected: Boolean, position: Int) {
-        if (vm.selectedNoteSiteIndex == position) return
-        vm.selectedNoteSiteIndex = position
+    fun spnDictNoteItemSelected(selected: Boolean, position: Int) {
+        if (vm.selectedDictNoteIndex == position) return
+        vm.selectedDictNoteIndex = position
         Log.d("", String.format("Checked position:%d", position))
-        (spnNoteSite.adapter as ArrayAdapter<NoteSite>).notifyDataSetChanged()
-        vm.updateNoteSite { }
+        (spnDictNote.adapter as ArrayAdapter<DictNote>).notifyDataSetChanged()
+        vm.updateDictNote { }
     }
 
     @ItemSelect

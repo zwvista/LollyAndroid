@@ -6,14 +6,28 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class Dictionaries {
+class DictsOnline {
 
-    @SerializedName("VDICTIONARIES")
+    @SerializedName("VDICTSONLINE")
     @Expose
-    var lst: List<Dictionary>? = null
+    var lst: List<DictOnline>? = null
 }
 
-class Dictionary: Serializable {
+class DictsOffline {
+
+    @SerializedName("VDICTSOFFLINE")
+    @Expose
+    var lst: List<DictOffline>? = null
+}
+
+class DictsNote {
+
+    @SerializedName("VDICTSNOTE")
+    @Expose
+    var lst: List<DictNote>? = null
+}
+
+open abstract class Dictionary: Serializable {
 
     @SerializedName("ID")
     @Expose
@@ -62,3 +76,7 @@ class Dictionary: Serializable {
     var template: String? = null
 
 }
+
+class DictOnline: Dictionary()
+class DictOffline: Dictionary()
+class DictNote: Dictionary()
