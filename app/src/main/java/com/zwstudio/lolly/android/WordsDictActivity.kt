@@ -90,7 +90,7 @@ class WordsDictActivity : AppCompatActivity() {
         vm.vmSettings.selectedDictOnlineIndex = position
         Log.d("", String.format("Checked position:%d", position))
         (spnDictOnline.adapter as ArrayAdapter<DictOnline>).notifyDataSetChanged()
-        vm.vmSettings.updateDict { }
+        vm.vmSettings.updateDict().subscribe()
         selectDictChanged()
     }
 

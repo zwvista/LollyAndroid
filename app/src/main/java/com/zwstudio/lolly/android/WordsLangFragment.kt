@@ -20,7 +20,7 @@ class WordsLangFragment : DrawerListFragment() {
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.phrases_lang)
-        vm.getData {
+        vm.getData().subscribe {
             val lst = it.lst!!
             val adapter = object : ArrayAdapter<LangWord>(activity,
                 android.R.layout.simple_list_item_1, lst) {

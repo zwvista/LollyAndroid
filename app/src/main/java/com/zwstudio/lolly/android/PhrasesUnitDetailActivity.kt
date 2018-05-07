@@ -83,10 +83,10 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
         item.translation = etTranslation.text.toString()
         if (item.id == 0) {
             vm.lstPhrases.add(item)
-            vm.create(item.textbookid, item.unit, item.part, item.seqnum, item.phrase, item.translation ?: "") {
+            vm.create(item.textbookid, item.unit, item.part, item.seqnum, item.phrase, item.translation ?: "").subscribe {
                 item.id = it
             }
         } else
-            vm.update(item.id, item.textbookid, item.unit, item.part, item.seqnum, item.phrase, item.translation ?: "") {}
+            vm.update(item.id, item.textbookid, item.unit, item.part, item.seqnum, item.phrase, item.translation ?: "").subscribe()
     }
 }

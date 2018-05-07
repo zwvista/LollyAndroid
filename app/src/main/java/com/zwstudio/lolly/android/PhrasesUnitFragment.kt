@@ -38,7 +38,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
 
     override fun onResume() {
         super.onResume()
-        vm.getData {
+        vm.getData().subscribe {
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
             mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
                 override fun onItemDragStarted(position: Int) {
@@ -147,7 +147,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                         yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
                             val pos = mDragListView.adapter.getPositionForItem(item)
                             mDragListView.adapter.removeItem(pos)
-                            vm.delete(item.id) {}
+                            vm.delete(item.id).subscribe()
                             vm.isSwipeStarted = false
                         }, {
                             mDragListView.resetSwipedViews(null)

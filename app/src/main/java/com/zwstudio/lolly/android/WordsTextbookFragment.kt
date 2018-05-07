@@ -20,7 +20,7 @@ class WordsTextbookFragment : DrawerListFragment() {
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.words_textbook)
-        vm.getData {
+        vm.getData().subscribe {
             val lst = it.lst!!
             val adapter = object : ArrayAdapter<TextbookWord>(activity,
                 android.R.layout.simple_list_item_1, lst) {

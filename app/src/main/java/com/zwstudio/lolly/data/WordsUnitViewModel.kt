@@ -20,79 +20,55 @@ class WordsUnitViewModel : BaseViewModel2() {
     val noteSite: DictNote?
         get() = vmSettings.selectedDictNote
 
-    fun getData(onNext: () -> Unit) {
+    fun getData() =
         retrofitJson.create(RestUnitWord::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${vmSettings.selectedTextbook.id}",
                 "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
+            .map { lstWords = it.lst!!.toMutableList() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                lstWords = it.lst!!.toMutableList()
-                onNext()
-            }
-    }
 
-    fun updateSeqNum(id: Int, seqnum: Int, onNext: () -> Unit) {
+    fun updateSeqNum(id: Int, seqnum: Int) =
         retrofitJson.create(RestUnitWord::class.java)
             .updateSeqNum(id, seqnum)
+            .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Log.d("", it.toString())
-                onNext()
-            }
-    }
 
-    fun updateNote(id: Int, note: String, onNext: () -> Unit) {
+    fun updateNote(id: Int, note: String) =
         retrofitJson.create(RestUnitWord::class.java)
             .updateNote(id, note)
+            .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Log.d("", it.toString())
-                onNext()
-            }
-    }
 
-    fun update(id: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, word: String, note: String, onNext: () -> Unit) {
+    fun update(id: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, word: String, note: String) =
         retrofitJson.create(RestUnitWord::class.java)
             .update(id, textbookid, unit, part, seqnum, word, note)
+            .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Log.d("", it.toString())
-                onNext()
-            }
-    }
 
-    fun create(textbookid: Int, unit: Int, part: Int, seqnum: Int, word: String, note: String, onNext: (Int) -> Unit) {
+    fun create(textbookid: Int, unit: Int, part: Int, seqnum: Int, word: String, note: String) =
         retrofitJson.create(RestUnitWord::class.java)
             .create(textbookid, unit, part, seqnum, word, note)
+            .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Log.d("", it.toString())
-                onNext(it)
-            }
-    }
 
-    fun delete(id: Int, onNext: () -> Unit) {
+    fun delete(id: Int) =
         retrofitJson.create(RestUnitWord::class.java)
             .delete(id)
+            .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Log.d("", it.toString())
-                onNext()
-            }
-    }
 
     fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstWords.size) {
             val item = lstWords[i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
-            updateSeqNum(item.id, i) {
+            updateSeqNum(item.id, i).subscribe {
                 onNext(i - 1)
             }
         }
@@ -117,7 +93,7 @@ class WordsUnitViewModel : BaseViewModel2() {
             Log.d("", it)
             val result = extractTextFrom(it, noteSite.transformMac!!, noteSite.template!!) { _,_ -> "" }
             item.note = result
-            updateNote(item.id, result) {
+            updateNote(item.id, result).subscribe {
                 onNext()
             }
         }

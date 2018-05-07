@@ -34,7 +34,7 @@ class LollyApplication : Application() {
         retrofitHtml = Retrofit.Builder().baseUrl("http://13.231.236.234/lolly/api.php/")
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
-        vm.getData { }
+        vm.getData().subscribe()
 
     }
 

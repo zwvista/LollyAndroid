@@ -41,7 +41,7 @@ class SettingsFragment : Fragment() {
     @AfterViews
     fun afterViews() {
         activity?.title = "Settings"
-        vm.getData {
+        vm.getData().subscribe {
             initSpnLanguage()
         }
     }
@@ -49,13 +49,13 @@ class SettingsFragment : Fragment() {
     private fun updateUnitPartFrom() {
         if (vm.usunitfrom != vm.usunitto) {
             vm.usunitfrom = vm.usunitto
-            vm.updateUnitFrom {
+            vm.updateUnitFrom().subscribe {
                 spnUnitFrom.setSelection(spnUnitTo.selectedItemPosition)
             }
         }
         if (vm.uspartfrom != vm.uspartto) {
             vm.uspartfrom = vm.uspartto
-            vm.updatePartFrom {
+            vm.updatePartFrom().subscribe {
                 spnPartFrom.setSelection(spnPartTo.selectedItemPosition)
             }
         }
@@ -64,13 +64,13 @@ class SettingsFragment : Fragment() {
     private fun updateUnitPartTo() {
         if (vm.usunitto != vm.usunitfrom) {
             vm.usunitto = vm.usunitfrom
-            vm.updateUnitTo {
+            vm.updateUnitTo().subscribe {
                 spnUnitTo.setSelection(spnUnitFrom.selectedItemPosition)
             }
         }
         if (vm.uspartto != vm.uspartfrom) {
             vm.uspartto = vm.uspartfrom
-            vm.updatePartTo {
+            vm.updatePartTo().subscribe {
                 spnPartTo.setSelection(spnPartFrom.selectedItemPosition)
             }
         }
@@ -107,10 +107,10 @@ class SettingsFragment : Fragment() {
     fun spnLanguageItemSelected(selected: Boolean, position: Int) {
         if (vm.selectedLangIndex == position) return
         Log.d("", String.format("Checked position:%d", position))
-        vm.setSelectedLangIndex(position) {
-            vm.updateLang {
-                updateLang()
-            }
+        vm.setSelectedLangIndex(position).concatMap {
+            vm.updateLang()
+        }.subscribe {
+            updateLang()
         }
     }
 
@@ -190,7 +190,7 @@ class SettingsFragment : Fragment() {
         vm.selectedDictOnlineIndex = position
         Log.d("", String.format("Checked position:%d", position))
         (spnDictOnline.adapter as ArrayAdapter<DictOnline>).notifyDataSetChanged()
-        vm.updateDict { }
+        vm.updateDict().subscribe()
     }
 
     @ItemSelect
@@ -199,7 +199,7 @@ class SettingsFragment : Fragment() {
         vm.selectedDictNoteIndex = position
         Log.d("", String.format("Checked position:%d", position))
         (spnDictNote.adapter as ArrayAdapter<DictNote>).notifyDataSetChanged()
-        vm.updateDictNote { }
+        vm.updateDictNote().subscribe()
     }
 
     @ItemSelect
@@ -208,7 +208,7 @@ class SettingsFragment : Fragment() {
         vm.selectedTextbookIndex = position
         Log.d("", String.format("Checked position:%d", position))
         (spnTextbook.adapter as ArrayAdapter<Textbook>).notifyDataSetChanged()
-        vm.updateTextbook {
+        vm.updateTextbook().subscribe {
             updateTextbook()
         }
     }
@@ -273,7 +273,7 @@ class SettingsFragment : Fragment() {
     fun spnUnitFromItemSelected(selected: Boolean, position: Int) {
         if (vm.usunitfrom == position + 1) return
         vm.usunitfrom = position + 1
-        vm.updateUnitFrom {
+        vm.updateUnitFrom().subscribe {
             if (!chkUnitTo.isChecked || vm.isInvalidUnitPart)
                 updateUnitPartTo()
         }
@@ -283,7 +283,7 @@ class SettingsFragment : Fragment() {
     fun spnPartFromItemSelected(selected: Boolean, position: Int) {
         if (vm.uspartfrom == position + 1) return
         vm.uspartfrom = position + 1
-        vm.updatePartFrom {
+        vm.updatePartFrom().subscribe {
             if (!chkUnitTo.isChecked || vm.isInvalidUnitPart)
                 updateUnitPartTo()
         }
@@ -293,7 +293,7 @@ class SettingsFragment : Fragment() {
     fun spnUnitToItemSelected(selected: Boolean, position: Int) {
         if (vm.usunitto == position + 1) return
         vm.usunitto = position + 1
-        vm.updateUnitTo {
+        vm.updateUnitTo().subscribe {
             if (vm.isInvalidUnitPart)
                 updateUnitPartFrom()
         }
@@ -303,7 +303,7 @@ class SettingsFragment : Fragment() {
     fun spnPartToItemSelected(selected: Boolean, position: Int) {
         if (vm.uspartto == position + 1) return
         vm.uspartto = position + 1
-        vm.updatePartTo {
+        vm.updatePartTo().subscribe {
             if (vm.isInvalidUnitPart)
                 updateUnitPartFrom()
         }

@@ -13,68 +13,48 @@ class PhrasesUnitViewModel : BaseViewModel2() {
     var lstPhrases = mutableListOf<UnitPhrase>()
     var isSwipeStarted = false
 
-    fun getData(onNext: () -> Unit) {
+    fun getData() =
         retrofitJson.create(RestUnitPhrase::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${vmSettings.selectedTextbook.id}",
                 "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
+            .map { lstPhrases = it.lst!!.toMutableList() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                lstPhrases = it.lst!!.toMutableList()
-                onNext()
-            }
-    }
 
-    fun updateSeqNum(id: Int, seqnum: Int, onNext: () -> Unit) {
+    fun updateSeqNum(id: Int, seqnum: Int) =
         retrofitJson.create(RestUnitPhrase::class.java)
             .updateSeqNum(id, seqnum)
+            .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Log.d("", it.toString())
-                onNext()
-            }
-    }
 
-    fun update(id: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, phrase: String, translation: String, onNext: () -> Unit) {
+    fun update(id: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, phrase: String, translation: String) =
         retrofitJson.create(RestUnitPhrase::class.java)
             .update(id, textbookid, unit, part, seqnum, phrase, translation)
+            .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Log.d("", it.toString())
-                onNext()
-            }
-    }
 
-    fun create(textbookid: Int, unit: Int, part: Int, seqnum: Int, phrase: String, translation: String, onNext: (Int) -> Unit) {
+    fun create(textbookid: Int, unit: Int, part: Int, seqnum: Int, phrase: String, translation: String) =
         retrofitJson.create(RestUnitPhrase::class.java)
             .create(textbookid, unit, part, seqnum, phrase, translation)
+            .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Log.d("", it.toString())
-                onNext(it)
-            }
-    }
 
-    fun delete(id: Int, onNext: () -> Unit) {
+    fun delete(id: Int) =
         retrofitJson.create(RestUnitPhrase::class.java)
             .delete(id)
+            .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Log.d("", it.toString())
-                onNext()
-            }
-    }
 
     fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstPhrases.size) {
             val item = lstPhrases[i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
-            updateSeqNum(item.id, i) {
+            updateSeqNum(item.id, i).subscribe {
                 onNext(i - 1)
             }
         }

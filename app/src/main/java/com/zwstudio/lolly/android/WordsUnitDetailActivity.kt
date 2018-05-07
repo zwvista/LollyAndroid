@@ -84,11 +84,11 @@ class WordsUnitDetailActivity : AppCompatActivity() {
         item.note = etNote.text.toString()
         if (item.id == 0) {
             vm.lstWords.add(item)
-            vm.create(item.textbookid, item.unit, item.part, item.seqnum, item.word, item.note ?: "") {
+            vm.create(item.textbookid, item.unit, item.part, item.seqnum, item.word, item.note ?: "").subscribe {
                 item.id = it
             }
         } else
-            vm.update(item.id, item.textbookid, item.unit, item.part, item.seqnum, item.word, item.note ?: "") {}
+            vm.update(item.id, item.textbookid, item.unit, item.part, item.seqnum, item.word, item.note ?: "").subscribe()
         setResult(Activity.RESULT_OK);
         finish()
     }
