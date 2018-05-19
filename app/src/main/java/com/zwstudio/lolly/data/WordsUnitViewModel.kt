@@ -4,6 +4,7 @@ import android.util.Log
 import com.zwstudio.lolly.domain.DictNote
 import com.zwstudio.lolly.domain.UnitWord
 import com.zwstudio.lolly.restapi.RestUnitWord
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.EBean
@@ -85,17 +86,15 @@ class WordsUnitViewModel : BaseViewModel2() {
         return item
     }
 
-    fun getNote(index: Int, onNext: () -> Unit) {
-        val noteSite = noteSite ?: return
+    fun getNote(index: Int): Observable<Int> {
+        val noteSite = noteSite ?: return Observable.empty()
         val item = lstWords[index]
         val url = noteSite.url!!.replace("{0}", URLEncoder.encode(item.word, "UTF-8"))
-        getHtml(url) {
+        return getHtml(url).concatMap {
             Log.d("", it)
             val result = extractTextFrom(it, noteSite.transformMac!!, noteSite.template!!) { _,_ -> "" }
             item.note = result
-            updateNote(item.id, result).subscribe {
-                onNext()
-            }
+            updateNote(item.id, result)
         }
     }
 
@@ -113,7 +112,7 @@ class WordsUnitViewModel : BaseViewModel2() {
             onNext()
         else {
             val i = noteFromIndex
-            getNote(i) { onNextRow(i) }
+            getNote(i).subscribe { onNextRow(i) }
             noteFromIndex++
         }
     }

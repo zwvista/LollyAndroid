@@ -31,7 +31,8 @@ class LollyApplication : Application() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         // https://futurestud.io/tutorials/retrofit-2-receive-plain-string-responses
-        retrofitHtml = Retrofit.Builder().baseUrl("http://13.231.236.234/lolly/api.php/")
+        retrofitHtml = Retrofit.Builder().baseUrl("http://www.google.com")
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
         vm.getData().subscribe()

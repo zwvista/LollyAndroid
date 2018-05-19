@@ -2,12 +2,11 @@ package com.zwstudio.lolly.data
 
 import com.zwstudio.lolly.android.LollyApplication
 import com.zwstudio.lolly.restapi.RestHtml
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.App
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 
 @EBean
@@ -20,20 +19,11 @@ class BaseViewModel1 {
         get() = app.retrofitHtml
 
     // https://futurestud.io/tutorials/retrofit-2-receive-plain-string-responses
-    fun getHtml(url: String, onNext: (String) -> Unit) {
+    fun getHtml(url: String) =
         retrofitHtml.create(RestHtml::class.java)
             .getStringResponse(url)
-            .enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>?, response: Response<String>?) {
-                    if (response!!.isSuccessful())
-                        onNext(response.body()!!)
-                }
-
-                override fun onFailure(call: Call<String>?, t: Throwable?) {
-
-                }
-            })
-    }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
 }
 
 @EBean
