@@ -233,7 +233,7 @@ class WordsUnitFragment : DrawerListFragment() {
                                     1 -> edit(item)
                                     2 -> {
                                         val index = itemList.indexOf(item)
-                                        vm.getNote(index) {
+                                        vm.getNote(index).subscribe {
                                             mDragListView.adapter.notifyItemChanged(index)
                                         }
                                     }
