@@ -26,12 +26,12 @@ class LollyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        retrofitJson = Retrofit.Builder().baseUrl("http://13.115.166.91/lolly/api.php/")
+        retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         // https://futurestud.io/tutorials/retrofit-2-receive-plain-string-responses
-        retrofitHtml = Retrofit.Builder().baseUrl("http://www.google.com")
+        retrofitHtml = Retrofit.Builder().baseUrl("https://www.google.com")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
