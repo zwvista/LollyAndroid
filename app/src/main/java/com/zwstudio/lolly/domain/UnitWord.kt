@@ -41,5 +41,5 @@ class UnitWord: Serializable {
     fun unitpartseqnum(lstParts: List<String>) = "$unit $seqnum\n${lstParts[part - 1]}"
 
     val wordnote: String
-        get() = word + (if (note == null || note!!.isEmpty()) "" else "(${note!!})")
+        get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
 }

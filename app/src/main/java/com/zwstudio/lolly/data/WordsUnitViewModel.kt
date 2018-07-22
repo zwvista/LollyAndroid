@@ -75,15 +75,13 @@ class WordsUnitViewModel : BaseViewModel2() {
         }
     }
 
-    fun newUnitWord(): UnitWord {
-        val item = UnitWord()
-        item.textbookid = vmSettings.ustextbookid
+    fun newUnitWord() = UnitWord().apply {
+        textbookid = vmSettings.ustextbookid
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
         val maxItem = lstWords.maxWith(compareBy({ it.unit }, { it.part }, { it.seqnum }))
-        item.unit = maxItem?.unit ?: vmSettings.usunitto
-        item.part = maxItem?.part ?: vmSettings.uspartto
-        item.seqnum = (maxItem?.seqnum ?: 0) + 1
-        return item
+        unit = maxItem?.unit ?: vmSettings.usunitto
+        part = maxItem?.part ?: vmSettings.uspartto
+        seqnum = (maxItem?.seqnum ?: 0) + 1
     }
 
     fun getNote(index: Int): Observable<Int> {
@@ -106,7 +104,7 @@ class WordsUnitViewModel : BaseViewModel2() {
 
     fun getNextNote(onNextRow: (Int) -> Unit, onNext: () -> Unit) {
         if (noteIfEmpty)
-            while (noteFromIndex < noteToIndex && !(lstWords[noteFromIndex].note ?: "").isEmpty())
+            while (noteFromIndex < noteToIndex && !lstWords[noteFromIndex].note.isNullOrEmpty())
                 noteFromIndex++
         if (noteFromIndex >= noteToIndex)
             onNext()

@@ -20,9 +20,14 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.UnitWord
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.*
 import java.net.URLEncoder
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 @EFragment(R.layout.content_words_unit)
@@ -104,22 +109,19 @@ class WordsUnitFragment : DrawerListFragment() {
     fun menuNotesEmpty() = getNotes(true)
     private fun getNotes(ifEmpty: Boolean) {
         val handler = Handler()
+        var subscription: Disposable? = null
         vm.getNotes(ifEmpty) {
-            val task = object : TimerTask() {
-                override fun run() {
+            progressBar1.visibility = View.VISIBLE
+            subscription = Observable.interval(it.toLong(), TimeUnit.MILLISECONDS, Schedulers.io())
+                .subscribe {
                     vm.getNextNote(onNextRow = {}, onNext = {
-                        cancel()
-                        handler.post(object : Runnable {
-                            override fun run() {
-                                mDragListView.adapter.notifyDataSetChanged()
-                                progressBar1.visibility = View.GONE
-                            }
-                        })
+                        subscription?.dispose()
+                        handler.post {
+                            mDragListView.adapter.notifyDataSetChanged()
+                            progressBar1.visibility = View.GONE
+                        }
                     })
                 }
-            }
-            progressBar1.visibility = View.VISIBLE
-            Timer().scheduleAtFixedRate(task, 0, it.toLong())
         }
     }
 
