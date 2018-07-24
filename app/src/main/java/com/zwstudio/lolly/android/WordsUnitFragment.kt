@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.android
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.*
 import android.net.Uri
@@ -21,12 +22,10 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.UnitWord
 import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.*
 import java.net.URLEncoder
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -166,7 +165,14 @@ class WordsUnitFragment : DrawerListFragment() {
             init {
                 mText1 = itemView.findViewById(R.id.text1)
                 mText2 = itemView.findViewById(R.id.text2)
+                mEdit = itemView.findViewById(R.id.item_edit)
+                mDelete = itemView.findViewById(R.id.item_delete)
+                mMore = itemView.findViewById(R.id.item_more)
+                initButtons()
+            }
 
+            @SuppressLint("ClickableViewAccessibility")
+            private fun initButtons() {
                 fun edit(item: UnitWord) {
                     WordsUnitDetailActivity_.intent(itemView.context)
                             .extra("list", vm.lstWords.toTypedArray()).extra("word", item).start()
@@ -203,25 +209,22 @@ class WordsUnitFragment : DrawerListFragment() {
                     }
                 }
 
-                mEdit = itemView.findViewById(R.id.item_edit)
                 mEdit.setOnTouchListener { v, event ->
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitWord
                         edit(item)
                     }
                     true
                 }
-                mDelete = itemView.findViewById(R.id.item_delete)
                 mDelete.setOnTouchListener { v, event ->
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitWord
                         delete(item)
                     }
                     true
                 }
-                mMore = itemView.findViewById(R.id.item_more)
                 mMore.setOnTouchListener { v, event ->
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (event.action == MotionEvent.ACTION_DOWN) {
                         mDragListView.resetSwipedViews(null)
                         vm.isSwipeStarted = false
 

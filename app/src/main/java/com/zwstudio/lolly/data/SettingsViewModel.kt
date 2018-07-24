@@ -5,8 +5,7 @@ import com.zwstudio.lolly.domain.*
 import com.zwstudio.lolly.restapi.*
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function3
+import io.reactivex.rxkotlin.Observables
 import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.EBean
 
@@ -114,9 +113,8 @@ class SettingsViewModel : BaseViewModel1() {
     var lstParts = listOf<String>()
 
     fun getData() =
-        Observable.zip(retrofitJson.create(RestLanguage::class.java).getData(),
-            retrofitJson.create(RestUserSetting::class.java).getDataByUser("USERID,eq,$userid"),
-            BiFunction { a: Languages, b: UserSettings -> Pair(a, b) })
+        Observables.zip(retrofitJson.create(RestLanguage::class.java).getData(),
+            retrofitJson.create(RestUserSetting::class.java).getDataByUser("USERID,eq,$userid"))
         .concatMap {
             lstLanguages = it.first.lst!!
             lstUserSettings = it.second.lst!!
@@ -130,10 +128,9 @@ class SettingsViewModel : BaseViewModel1() {
         selectedLangIndex = langIndex
         uslangid = selectedLang.id
         selectedUSLangIndex = lstUserSettings.indexOfFirst { it.kind == 2 && it.entityid == uslangid }
-        return Observable.zip(retrofitJson.create(RestDictOnline::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
+        return Observables.zip(retrofitJson.create(RestDictOnline::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestDictNote::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
-            retrofitJson.create(RestTextbook::class.java).getDataByLang("LANGID,eq,$uslangid"),
-            Function3 { a: DictsOnline, b: DictsNote, c: Textbooks -> Triple(a, b, c) })
+            retrofitJson.create(RestTextbook::class.java).getDataByLang("LANGID,eq,$uslangid"))
         .map {
             lstDictsOnline = it.first.lst!!
             selectedDictOnlineIndex = lstDictsOnline.indexOfFirst { it.id == usdictonlineid }
