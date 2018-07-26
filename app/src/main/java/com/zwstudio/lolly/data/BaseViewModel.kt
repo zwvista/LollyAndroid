@@ -2,6 +2,7 @@ package com.zwstudio.lolly.data
 
 import com.zwstudio.lolly.android.LollyApplication
 import com.zwstudio.lolly.restapi.RestHtml
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.App
@@ -19,7 +20,7 @@ class BaseViewModel1 {
         get() = app.retrofitHtml
 
     // https://futurestud.io/tutorials/retrofit-2-receive-plain-string-responses
-    fun getHtml(url: String) =
+    fun getHtml(url: String): Observable<String> =
         retrofitHtml.create(RestHtml::class.java)
             .getStringResponse(url)
             .subscribeOn(Schedulers.io())

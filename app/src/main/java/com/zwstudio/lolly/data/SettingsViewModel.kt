@@ -151,56 +151,56 @@ class SettingsViewModel : BaseViewModel1() {
         lstParts = selectedTextbook.parts?.split(' ')!!
     }
 
-    fun updateLang() =
+    fun updateLang(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
             .updateLang(selectedUSUser.id, uslangid)
             .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun updateTextbook() =
+    fun updateTextbook(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
             .updateTextbook(selectedUSLang.id, ustextbookid)
             .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun updateDict() =
+    fun updateDict(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
             .updateDict(selectedUSLang.id, usdictonlineid)
             .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun updateDictNote() =
+    fun updateDictNote(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
             .updateDict(selectedUSLang.id, usdictnoteid)
             .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun updateUnitFrom() =
+    fun updateUnitFrom(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
             .updateUnitFrom(selectedUSTextbook.id, usunitfrom)
             .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun updatePartFrom() =
+    fun updatePartFrom(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
             .updatePartFrom(selectedUSTextbook.id, uspartfrom)
             .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun updateUnitTo() =
+    fun updateUnitTo(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
             .updateUnitTo(selectedUSTextbook.id, usunitto)
             .map { Log.d("", it.toString()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun updatePartTo() =
+    fun updatePartTo(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
             .updatePartTo(selectedUSTextbook.id, uspartto)
             .map { Log.d("", it.toString()) }
