@@ -13,7 +13,6 @@ class WordsTextbookViewModel : BaseViewModel2() {
     fun getData(): Observable<TextbookWords> =
         retrofitJson.create(RestTextbookWord::class.java)
             .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applyIO()
 
 }

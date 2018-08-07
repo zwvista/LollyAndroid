@@ -19,36 +19,31 @@ class PhrasesUnitViewModel : BaseViewModel2() {
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${vmSettings.selectedTextbook.id}",
                 "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
             .map { lstPhrases = it.lst!!.toMutableList() }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applyIO()
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Int> =
         retrofitJson.create(RestUnitPhrase::class.java)
             .updateSeqNum(id, seqnum)
             .map { Log.d("", it.toString()) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applyIO()
 
     fun update(id: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, phrase: String, translation: String): Observable<Int> =
         retrofitJson.create(RestUnitPhrase::class.java)
             .update(id, textbookid, unit, part, seqnum, phrase, translation)
             .map { Log.d("", it.toString()) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applyIO()
 
     fun create(textbookid: Int, unit: Int, part: Int, seqnum: Int, phrase: String, translation: String): Observable<Int> =
         retrofitJson.create(RestUnitPhrase::class.java)
             .create(textbookid, unit, part, seqnum, phrase, translation)
             .map { Log.d("", it.toString()) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applyIO()
 
     fun delete(id: Int): Observable<Int> =
         retrofitJson.create(RestUnitPhrase::class.java)
             .delete(id)
             .map { Log.d("", it.toString()) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstPhrases.size) {

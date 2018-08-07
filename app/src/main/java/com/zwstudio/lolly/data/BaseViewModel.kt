@@ -10,6 +10,10 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 import retrofit2.Retrofit
 
+fun <T> Observable<T>.applyIO(): Observable<T> =
+    this.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
 @EBean
 class BaseViewModel1 {
     @App
@@ -23,8 +27,7 @@ class BaseViewModel1 {
     fun getHtml(url: String): Observable<String> =
         retrofitHtml.create(RestHtml::class.java)
             .getStringResponse(url)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .applyIO()
 }
 
 @EBean

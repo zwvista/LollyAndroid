@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.android
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -132,15 +133,20 @@ class PhrasesUnitFragment : DrawerListFragment() {
                 mText2 = itemView.findViewById(R.id.text2)
                 mText3 = itemView.findViewById(R.id.text3)
                 mEdit = itemView.findViewById(R.id.item_edit)
+                mDelete = itemView.findViewById(R.id.item_delete)
+                initButtons()
+            }
+
+            @SuppressLint("ClickableViewAccessibility")
+            private fun initButtons() {
                 mEdit.setOnTouchListener { v, event ->
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitPhrase
                         PhrasesUnitDetailActivity_.intent(itemView.context)
-                                .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
+                            .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
                     }
                     true
                 }
-                mDelete = itemView.findViewById(R.id.item_delete)
                 mDelete.setOnTouchListener { v, event ->
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitPhrase
