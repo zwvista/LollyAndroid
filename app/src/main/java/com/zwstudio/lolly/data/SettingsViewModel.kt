@@ -112,6 +112,8 @@ class SettingsViewModel : BaseViewModel1() {
     var lstUnits = listOf<String>()
     var lstParts = listOf<String>()
 
+    var lstAutoCorrect = listOf<AutoCorrect>()
+
     fun getData() =
         Observables.zip(retrofitJson.create(RestLanguage::class.java).getData(),
             retrofitJson.create(RestUserSetting::class.java).getDataByUser("USERID,eq,$userid"))
@@ -129,15 +131,17 @@ class SettingsViewModel : BaseViewModel1() {
         selectedUSLangIndex = lstUserSettings.indexOfFirst { it.kind == 2 && it.entityid == uslangid }
         return Observables.zip(retrofitJson.create(RestDictOnline::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestDictNote::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
-            retrofitJson.create(RestTextbook::class.java).getDataByLang("LANGID,eq,$uslangid"))
-        .map {
-            lstDictsOnline = it.first.lst!!
+            retrofitJson.create(RestTextbook::class.java).getDataByLang("LANGID,eq,$uslangid"),
+            retrofitJson.create(RestAutoCorrect::class.java).getDataByLang("LANGID,eq,$uslangid")) {
+            res1, res2, res3, res4 ->
+            lstDictsOnline = res1.lst!!
             selectedDictOnlineIndex = lstDictsOnline.indexOfFirst { it.id == usdictonlineid }
-            lstDictsNote = it.second.lst!!
+            lstDictsNote = res2.lst!!
             if (lstDictsNote.isNotEmpty())
                 selectedDictNoteIndex = lstDictsNote.indexOfFirst { it.id == usdictnoteid }
-            lstTextbooks = it.third.lst!!
+            lstTextbooks = res3.lst!!
             selectedTextbookIndex = lstTextbooks.indexOfFirst { it.id == ustextbookid }
+            lstAutoCorrect = res4.lst!!
         }
         .applyIO()
     }

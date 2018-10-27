@@ -2,9 +2,12 @@ package com.zwstudio.lolly.domain
 
 // Generated 2014-10-12 21:44:14 by Hibernate Tools 4.3.1
 
+import android.util.Log
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+import java.io.UnsupportedEncodingException
+import java.net.URLEncoder
 
 class DictsOnline {
 
@@ -75,6 +78,21 @@ abstract class Dictionary: Serializable {
     @Expose
     var template: String? = null
 
+    fun urlString(word: String, lstAutoCorrects: List<AutoCorrect>): String {
+        val word2 =
+            if (chconv == "BASIC")
+                autoCorrect(word, lstAutoCorrects, { it.extended }, { it.basic })
+            else
+                URLEncoder.encode(word, "UTF-8")
+        var wordUrl: String? = null
+        try {
+            wordUrl = url!!.replace("{0}", word2)
+        } catch (e: UnsupportedEncodingException) {
+            e.printStackTrace()
+        }
+        Log.d("", "urlString: " + wordUrl!!)
+        return wordUrl
+    }
 }
 
 class DictOnline: Dictionary()

@@ -13,15 +13,6 @@ class SearchViewModel : BaseViewModel2() {
         get() = lstWords[selectedWordIndex]
 
     val urlString: String?
-        get() {
-            var wordUrl: String? = null
-            try {
-                wordUrl = vmSettings.selectedDictOnline.url!!.replace("{0}", URLEncoder.encode(selectWord, "UTF-8"))
-            } catch (e: UnsupportedEncodingException) {
-                e.printStackTrace()
-            }
-            Log.d("", "urlString: " + wordUrl!!)
-            return wordUrl
-        }
+        get() = vmSettings.selectedDictOnline.urlString(selectWord, vmSettings.lstAutoCorrect)
 
 }
