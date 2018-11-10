@@ -119,7 +119,11 @@ class WordsDictActivity : AppCompatActivity() {
                 override fun onPageFinished(view: WebView, url: String) {
                     if (status != DictWebViewStatus.Navigating) return
                     wv.evaluateJavascript("document.documentElement.outerHTML.toString()") {
-                        val html = it.replace("\\u003C", "<").replace("\\\"", "\"")
+                        val html = it.replace("\\u003C", "<")
+                            .replace("\\\"", "\"")
+                            .replace("\\n", "\n")
+                            .replace("\\r", "\r")
+                            .replace("\\t", "\t")
                         Log.d("HTML", html)
                         val str = item.htmlString(html, vm.selectWord, true)
                         wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")

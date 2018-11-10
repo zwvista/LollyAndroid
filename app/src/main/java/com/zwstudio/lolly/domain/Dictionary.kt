@@ -100,7 +100,7 @@ val cssFolder = "https://zwvista.tk/lolly/css/"
 
 class DictOnline: Dictionary() {
     fun htmlString(html: String, word: String, useTemplate2: Boolean): String {
-        val t = if (useTemplate2 && template2 != null) template2!! else template!!
+        val t = if (useTemplate2 && !template2.isNullOrEmpty()) template2!! else template!!
         return extractTextFrom(html, transform!!, t) { text, t ->
             t.replace( "{0}", word)
                 .replace("{1}", cssFolder)
