@@ -5,6 +5,7 @@ package com.zwstudio.lolly.domain
 import android.util.Log
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.zwstudio.lolly.data.extractTextFrom
 import java.io.Serializable
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
@@ -65,18 +66,18 @@ abstract class Dictionary: Serializable {
     @SerializedName("DICTTABLE")
     @Expose
     var dicttable: String? = null
-    @SerializedName("TRANSFORM_WIN")
+    @SerializedName("TRANSFORM")
     @Expose
-    var transformWin: String? = null
-    @SerializedName("TRANSFORM_MAC")
-    @Expose
-    var transformMac: String? = null
+    var transform: String? = null
     @SerializedName("WAIT")
     @Expose
     var wait: Int? = null
     @SerializedName("TEMPLATE")
     @Expose
     var template: String? = null
+    @SerializedName("TEMPLATE2")
+    @Expose
+    var template2: String? = null
 
     fun urlString(word: String, lstAutoCorrects: List<AutoCorrect>): String {
         val word2 =
@@ -95,6 +96,18 @@ abstract class Dictionary: Serializable {
     }
 }
 
-class DictOnline: Dictionary()
+val cssFolder = "https://zwvista.tk/lolly/css/"
+
+class DictOnline: Dictionary() {
+    fun htmlString(html: String, word: String, useTemplate2: Boolean): String {
+        val t = if (useTemplate2 && template2 != null) template2!! else template!!
+        return extractTextFrom(html, transform!!, t) { text, t ->
+            t.replace( "{0}", word)
+                .replace("{1}", cssFolder)
+                .replace("{2}", text)
+        }
+    }
+}
+
 class DictOffline: Dictionary()
 class DictNote: Dictionary()

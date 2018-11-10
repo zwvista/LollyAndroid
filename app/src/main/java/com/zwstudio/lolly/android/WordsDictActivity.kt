@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.Spinner
 import android.widget.TextView
+import com.zwstudio.lolly.data.DictWebViewStatus
 import com.zwstudio.lolly.data.SearchViewModel
 import com.zwstudio.lolly.domain.DictOnline
 import org.androidannotations.annotations.*
@@ -26,6 +27,8 @@ class WordsDictActivity : AppCompatActivity() {
     lateinit var spnDictOnline: Spinner
     @ViewById(R.id.webView)
     lateinit var wv: WebView
+
+    var status = DictWebViewStatus.Ready
 
     @AfterViews
     fun afterViews() {
@@ -75,6 +78,7 @@ class WordsDictActivity : AppCompatActivity() {
             spnDictOnline.setSelection(vm.vmSettings.selectedDictOnlineIndex)
         }
 
+        wv.settings.javaScriptEnabled = true
     }
 
     @ItemSelect
@@ -101,8 +105,30 @@ class WordsDictActivity : AppCompatActivity() {
 
     private fun selectDictChanged() {
         val url = vm.urlString!!
-        // http://stackoverflow.com/questions/7746409/android-webview-launches-browser-when-calling-loadurl
-        wv.webViewClient = WebViewClient()
-        wv.loadUrl(url)
+        val item = vm.vmSettings.selectedDictOnline
+        if (item.dicttypename == "OFFLINE") {
+            wv.loadUrl("about:blank")
+            vm.getHtml(url).subscribe {
+                Log.d("HTML", it)
+                val str = item.htmlString(it, vm.selectWord, true)
+                wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
+            }
+        } else {
+            // http://stackoverflow.com/questions/7746409/android-webview-launches-browser-when-calling-loadurl
+            wv.setWebViewClient(object : WebViewClient() {
+                override fun onPageFinished(view: WebView, url: String) {
+                    if (status != DictWebViewStatus.Navigating) return
+                    wv.evaluateJavascript("document.documentElement.outerHTML.toString()") {
+                        val html = it.replace("\\u003C", "<").replace("\\\"", "\"")
+                        Log.d("HTML", html)
+                        val str = item.htmlString(html, vm.selectWord, true)
+                        wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
+                        status = DictWebViewStatus.Ready
+                    }
+                }
+            })
+            wv.loadUrl(url)
+            if (item.dicttypename == "OFFLINE-ONLINE") status = DictWebViewStatus.Navigating
+        }
     }
 }

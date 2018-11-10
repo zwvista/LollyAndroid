@@ -84,7 +84,7 @@ class WordsUnitViewModel : BaseViewModel2() {
         val url = noteSite.url!!.replace("{0}", URLEncoder.encode(item.word, "UTF-8"))
         return getHtml(url).concatMap {
             Log.d("", it)
-            val result = extractTextFrom(it, noteSite.transformMac!!, noteSite.template!!) { _,_ -> "" }
+            val result = extractTextFrom(it, noteSite.transform!!, noteSite.template!!) { _,_ -> "" }
             item.note = result
             updateNote(item.id, result)
         }
