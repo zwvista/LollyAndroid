@@ -7,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.domain.DictNote
-import com.zwstudio.lolly.domain.DictWord
-import com.zwstudio.lolly.domain.Language
-import com.zwstudio.lolly.domain.Textbook
+import com.zwstudio.lolly.domain.*
 import org.androidannotations.annotations.*
 
 @EFragment(R.layout.content_settings)
@@ -116,15 +113,16 @@ class SettingsFragment : Fragment() {
 
     private fun updateLang() {
         run {
-            val lst = vm.lstDictsWord
-            val adapter = object : ArrayAdapter<DictWord>(activity, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val lst = vm.lstDictsPicker
+            val adapter = object : ArrayAdapter<DictPicker>(activity, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
                     (tv as? CheckedTextView)?.isChecked = spnDictPicker.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
-                    tv.text = m.url
+                    val item2 = vm.lstDictsWord.firstOrNull { it.dictname == m.dictname }
+                    tv.text = item2?.url ?: ""
                     return v
                 }
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
@@ -189,7 +187,7 @@ class SettingsFragment : Fragment() {
         if (vm.selectedDictPickerIndex == position) return
         vm.selectedDictPickerIndex = position
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictPicker.adapter as ArrayAdapter<DictWord>).notifyDataSetChanged()
+        (spnDictPicker.adapter as ArrayAdapter<DictPicker>).notifyDataSetChanged()
         vm.updateDictPicker().subscribe()
     }
 

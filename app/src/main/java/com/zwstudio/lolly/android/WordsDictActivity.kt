@@ -12,6 +12,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.data.DictWebViewStatus
 import com.zwstudio.lolly.data.SearchViewModel
+import com.zwstudio.lolly.domain.DictPicker
 import com.zwstudio.lolly.domain.DictWord
 import org.androidannotations.annotations.*
 
@@ -56,15 +57,16 @@ class WordsDictActivity : AppCompatActivity() {
         }
 
         run {
-            val lst = vm.vmSettings.lstDictsWord
-            val adapter = object : ArrayAdapter<DictWord>(this, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val lst = vm.vmSettings.lstDictsPicker
+            val adapter = object : ArrayAdapter<DictPicker>(this, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
                     (tv as? CheckedTextView)?.isChecked = spnDictPicker.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
-                    tv.text = m.url
+                    val item2 = vm.vmSettings.lstDictsWord.firstOrNull { it.dictname == m.dictname }
+                    tv.text = item2?.url ?: ""
                     return v
                 }
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
@@ -93,7 +95,7 @@ class WordsDictActivity : AppCompatActivity() {
         if (vm.vmSettings.selectedDictPickerIndex == position) return
         vm.vmSettings.selectedDictPickerIndex = position
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictPicker.adapter as ArrayAdapter<DictWord>).notifyDataSetChanged()
+        (spnDictPicker.adapter as ArrayAdapter<DictPicker>).notifyDataSetChanged()
         vm.vmSettings.updateDictPicker().subscribe()
         selectedDictChanged()
     }

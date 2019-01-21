@@ -12,7 +12,7 @@ import java.net.URLEncoder
 
 class DictsWord {
 
-    @SerializedName("VDICTSONLINE")
+    @SerializedName("VDICTSWORD")
     @Expose
     var lst: List<DictWord>? = null
 }

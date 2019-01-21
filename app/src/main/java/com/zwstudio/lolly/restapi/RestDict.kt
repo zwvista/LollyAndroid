@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RestDictWord {
-    @GET("VDICTSONLINE?transform=1")
+    @GET("VDICTSWORD?transform=1")
     fun getDataByLang(@Query("filter") filter: String): Observable<DictsWord>
 
 }
