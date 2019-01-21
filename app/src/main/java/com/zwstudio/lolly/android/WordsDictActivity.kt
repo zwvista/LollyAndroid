@@ -12,7 +12,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.data.DictWebViewStatus
 import com.zwstudio.lolly.data.SearchViewModel
-import com.zwstudio.lolly.domain.DictOnline
+import com.zwstudio.lolly.domain.DictWord
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_words_dict)
@@ -24,7 +24,7 @@ class WordsDictActivity : AppCompatActivity() {
     @ViewById
     lateinit var spnWord: Spinner
     @ViewById
-    lateinit var spnDictOnline: Spinner
+    lateinit var spnDictPicker: Spinner
     @ViewById(R.id.webView)
     lateinit var wv: WebView
 
@@ -34,7 +34,7 @@ class WordsDictActivity : AppCompatActivity() {
     fun afterViews() {
         vm.lstWords = (intent.getSerializableExtra("list") as Array<String>).toMutableList()
         vm.selectedWordIndex = intent.getIntExtra("index", 0)
-        selectWordChanged()
+        selectedWordChanged()
 
         run {
             val lst = vm.lstWords
@@ -56,13 +56,13 @@ class WordsDictActivity : AppCompatActivity() {
         }
 
         run {
-            val lst = vm.vmSettings.lstDictsOnline
-            val adapter = object : ArrayAdapter<DictOnline>(this, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val lst = vm.vmSettings.lstDictsWord
+            val adapter = object : ArrayAdapter<DictWord>(this, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictOnline.selectedItemPosition == position
+                    (tv as? CheckedTextView)?.isChecked = spnDictPicker.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
                     tv.text = m.url
                     return v
@@ -73,9 +73,9 @@ class WordsDictActivity : AppCompatActivity() {
                     convert(super.getDropDownView(position, convertView, parent), position)
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnDictOnline.adapter = adapter
+            spnDictPicker.adapter = adapter
 
-            spnDictOnline.setSelection(vm.vmSettings.selectedDictOnlineIndex)
+            spnDictPicker.setSelection(vm.vmSettings.selectedDictPickerIndex)
         }
 
         wv.settings.javaScriptEnabled = true
@@ -85,54 +85,60 @@ class WordsDictActivity : AppCompatActivity() {
     fun spnWordItemSelected(selected: Boolean, position: Int) {
         if (vm.selectedWordIndex == position) return
         vm.selectedWordIndex = position
-        selectWordChanged()
+        selectedWordChanged()
     }
 
     @ItemSelect
-    fun spnDictOnlineItemSelected(selected: Boolean, position: Int) {
-        if (vm.vmSettings.selectedDictOnlineIndex == position) return
-        vm.vmSettings.selectedDictOnlineIndex = position
+    fun spnDictPickerItemSelected(selected: Boolean, position: Int) {
+        if (vm.vmSettings.selectedDictPickerIndex == position) return
+        vm.vmSettings.selectedDictPickerIndex = position
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictOnline.adapter as ArrayAdapter<DictOnline>).notifyDataSetChanged()
-        vm.vmSettings.updateDict().subscribe()
-        selectDictChanged()
+        (spnDictPicker.adapter as ArrayAdapter<DictWord>).notifyDataSetChanged()
+        vm.vmSettings.updateDictPicker().subscribe()
+        selectedDictChanged()
     }
 
-    private fun selectWordChanged() {
-        title = vm.selectWord
-        selectDictChanged()
+    private fun selectedWordChanged() {
+        title = vm.selectedWord
+        selectedDictChanged()
     }
 
-    private fun selectDictChanged() {
-        val url = vm.urlString!!
-        val item = vm.vmSettings.selectedDictOnline
-        if (item.dicttypename == "OFFLINE") {
-            wv.loadUrl("about:blank")
-            vm.getHtml(url).subscribe {
-                Log.d("HTML", it)
-                val str = item.htmlString(it, vm.selectWord, true)
-                wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
-            }
+    private fun selectedDictChanged() {
+        val item = vm.vmSettings.selectedDictPicker
+        if (item.dictname.startsWith("Custom")) {
+            val str = vm.vmSettings.dictHtml(vm.selectedWord, item.dictids())
+            wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
         } else {
-            // http://stackoverflow.com/questions/7746409/android-webview-launches-browser-when-calling-loadurl
-            wv.setWebViewClient(object : WebViewClient() {
-                override fun onPageFinished(view: WebView, url: String) {
-                    if (status != DictWebViewStatus.Navigating) return
-                    wv.evaluateJavascript("document.documentElement.outerHTML.toString()") {
-                        val html = it.replace("\\u003C", "<")
-                            .replace("\\\"", "\"")
-                            .replace("\\n", "\n")
-                            .replace("\\r", "\r")
-                            .replace("\\t", "\t")
-                        Log.d("HTML", html)
-                        val str = item.htmlString(html, vm.selectWord, true)
-                        wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
-                        status = DictWebViewStatus.Ready
-                    }
+            val item2 = vm.vmSettings.lstDictsWord.first { it.dictname == item.dictname }
+            val url = item2.urlString(vm.selectedWord, vm.vmSettings.lstAutoCorrect)
+            if (item2.dicttypename == "OFFLINE") {
+                wv.loadUrl("about:blank")
+                vm.getHtml(url).subscribe {
+                    Log.d("HTML", it)
+                    val str = item2.htmlString(it, vm.selectedWord, true)
+                    wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
                 }
-            })
-            wv.loadUrl(url)
-            if (item.dicttypename == "OFFLINE-ONLINE") status = DictWebViewStatus.Navigating
+            } else {
+                // http://stackoverflow.com/questions/7746409/android-webview-launches-browser-when-calling-loadurl
+                wv.setWebViewClient(object : WebViewClient() {
+                    override fun onPageFinished(view: WebView, url: String) {
+                        if (status != DictWebViewStatus.Navigating) return
+                        wv.evaluateJavascript("document.documentElement.outerHTML.toString()") {
+                            val html = it.replace("\\u003C", "<")
+                                .replace("\\\"", "\"")
+                                .replace("\\n", "\n")
+                                .replace("\\r", "\r")
+                                .replace("\\t", "\t")
+                            Log.d("HTML", html)
+                            val str = item2.htmlString(html, vm.selectedWord, true)
+                            wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
+                            status = DictWebViewStatus.Ready
+                        }
+                    }
+                })
+                wv.loadUrl(url)
+                if (item2.dicttypename == "OFFLINE-ONLINE") status = DictWebViewStatus.Navigating
+            }
         }
     }
 }

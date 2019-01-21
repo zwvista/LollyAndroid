@@ -10,18 +10,11 @@ import java.io.Serializable
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
-class DictsOnline {
+class DictsWord {
 
     @SerializedName("VDICTSONLINE")
     @Expose
-    var lst: List<DictOnline>? = null
-}
-
-class DictsOffline {
-
-    @SerializedName("VDICTSOFFLINE")
-    @Expose
-    var lst: List<DictOffline>? = null
+    var lst: List<DictWord>? = null
 }
 
 class DictsNote {
@@ -36,6 +29,9 @@ abstract class Dictionary: Serializable {
     @SerializedName("ID")
     @Expose
     var id: Int = 0
+    @SerializedName("DICTID")
+    @Expose
+    var dictid: Int = 0
     @SerializedName("LANGIDFROM")
     @Expose
     var langidfrom: Int? = null
@@ -98,7 +94,7 @@ abstract class Dictionary: Serializable {
 
 val cssFolder = "https://zwvista.tk/lolly/css/"
 
-class DictOnline: Dictionary() {
+class DictWord: Dictionary() {
     fun htmlString(html: String, word: String, useTemplate2: Boolean): String {
         val t = if (useTemplate2 && !template2.isNullOrEmpty()) template2!! else template!!
         return extractTextFrom(html, transform!!, t) { text, t ->
@@ -109,5 +105,8 @@ class DictOnline: Dictionary() {
     }
 }
 
-class DictOffline: Dictionary()
+class DictPicker(val dictid: String, val dictname: String) {
+    fun dictids(): List<String> = dictid.split(",")
+}
+
 class DictNote: Dictionary()

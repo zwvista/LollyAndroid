@@ -41,13 +41,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Dictionary(Online):"
-        android:id="@+id/tvDictOnline"/>
+        android:text="Dictionary(Word):"
+        android:id="@+id/tvDictPicker"/>
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spnDictOnline"
+        android:id="@+id/spnDictPicker"
         android:layout_gravity="center_horizontal"/>
 
     <Space

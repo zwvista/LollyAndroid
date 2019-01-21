@@ -4,9 +4,7 @@ import android.util.Log
 import com.zwstudio.lolly.domain.*
 import com.zwstudio.lolly.restapi.*
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.Observables
-import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.EBean
 
 @EBean(scope = EBean.Scope.Singleton)
@@ -31,15 +29,20 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             selectedUSLang.value1 = value.toString()
         }
-    var usdictonlineid: Int
-        get() = selectedUSLang.value2?.toInt()!!
+    var usdictpicker: String
+        get() = selectedUSLang.value2!!
         set(value) {
-            selectedUSLang.value2 = value.toString()
+            selectedUSLang.value2 = value
         }
     var usdictnoteid: Int
         get() = selectedUSLang.value3?.toInt()!!
         set(value) {
             selectedUSLang.value3 = value.toString()
+        }
+    var usdictspicker: String
+        get() = selectedUSLang.value4 ?: "0"
+        set(value) {
+            selectedUSLang.value4 = value
         }
     private var selectedUSTextbookIndex = 0
     private val selectedUSTextbook: UserSetting
@@ -87,14 +90,15 @@ class SettingsViewModel : BaseViewModel1() {
     val selectedTextbook: Textbook
         get() = lstTextbooks[selectedTextbookIndex]
 
-    var lstDictsOnline = listOf<DictOnline>()
-    var selectedDictOnlineIndex: Int = 0
+    var lstDictsWord = listOf<DictWord>()
+    var lstDictsPicker = listOf<DictPicker>()
+    var selectedDictPickerIndex: Int = 0
         set(value) {
             field = value
-            usdictonlineid = selectedDictOnline.id
+            usdictpicker = selectedDictPicker.dictid
         }
-    val selectedDictOnline: DictOnline
-        get() = lstDictsOnline[selectedDictOnlineIndex]
+    val selectedDictPicker: DictPicker
+        get() = lstDictsPicker[selectedDictPickerIndex]
 
     var lstDictsNote = listOf<DictNote>()
     var selectedDictNoteIndex: Int = 0
@@ -129,13 +133,23 @@ class SettingsViewModel : BaseViewModel1() {
         selectedLangIndex = langIndex
         uslangid = selectedLang.id
         selectedUSLangIndex = lstUserSettings.indexOfFirst { it.kind == 2 && it.entityid == uslangid }
-        return Observables.zip(retrofitJson.create(RestDictOnline::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
+        val lstDicts = usdictspicker.split("\r\n")
+        return Observables.zip(retrofitJson.create(RestDictWord::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestDictNote::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestTextbook::class.java).getDataByLang("LANGID,eq,$uslangid"),
             retrofitJson.create(RestAutoCorrect::class.java).getDataByLang("LANGID,eq,$uslangid")) {
             res1, res2, res3, res4 ->
-            lstDictsOnline = res1.lst!!
-            selectedDictOnlineIndex = lstDictsOnline.indexOfFirst { it.id == usdictonlineid }
+            lstDictsWord = res1.lst!!
+            var i = 0
+            lstDictsPicker = lstDicts.flatMap { d ->
+                if (d == "0")
+                    lstDictsWord.map { DictPicker(it.dictid.toString(), it.dictname!!) }
+                else {
+                    i++;
+                    listOf<DictPicker>(DictPicker(d, "Custom$i"))
+                }
+            }
+            selectedDictPickerIndex = lstDictsPicker.indexOfFirst { it.dictid == usdictpicker }
             lstDictsNote = res2.lst!!
             if (lstDictsNote.isNotEmpty())
                 selectedDictNoteIndex = lstDictsNote.indexOfFirst { it.id == usdictnoteid }
@@ -153,6 +167,18 @@ class SettingsViewModel : BaseViewModel1() {
         lstParts = selectedTextbook.parts?.split(' ')!!
     }
 
+    fun dictHtml(word: String, dictids: List<String>): String {
+        var s = "<html><body>\n"
+        dictids.forEachIndexed { i, dictid ->
+            val item = lstDictsWord.first { it.dictid.toString() == dictid }
+            val ifrId = "ifr${i + 1}"
+            val url = item.urlString(word, lstAutoCorrect)
+            s += "<iframe id='$ifrId' frameborder='1' style='width:100%; height:500px; display:block' src='$url'></iframe>\n"
+        }
+        s += "</body></html>\n"
+        return s
+    }
+
     fun updateLang(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
             .updateLang(selectedUSUser.id, uslangid)
@@ -165,15 +191,15 @@ class SettingsViewModel : BaseViewModel1() {
             .map { Log.d("", it.toString()) }
             .applyIO()
 
-    fun updateDict(): Observable<Int> =
+    fun updateDictPicker(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
-            .updateDict(selectedUSLang.id, usdictonlineid)
+            .updateDictPicker(selectedUSLang.id, usdictpicker)
             .map { Log.d("", it.toString()) }
             .applyIO()
 
     fun updateDictNote(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
-            .updateDict(selectedUSLang.id, usdictnoteid)
+            .updateDictNote(selectedUSLang.id, usdictnoteid)
             .map { Log.d("", it.toString()) }
             .applyIO()
 
