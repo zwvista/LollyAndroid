@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.zwstudio.lolly.data.WordsTextbookViewModel
 import com.zwstudio.lolly.domain.TextbookWord
+import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EFragment
@@ -17,10 +18,12 @@ class WordsTextbookFragment : DrawerListFragment() {
     @Bean
     lateinit var vm: WordsTextbookViewModel
 
+    val compositeDisposable = CompositeDisposable();
+
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.words_textbook)
-        vm.getData().subscribe {
+        compositeDisposable.add(vm.getData().subscribe {
             val lst = it.lst!!
             val adapter = object : ArrayAdapter<TextbookWord>(activity,
                 android.R.layout.simple_list_item_1, lst) {
@@ -34,7 +37,7 @@ class WordsTextbookFragment : DrawerListFragment() {
             }
             listView.adapter = adapter
             progressBar1.visibility = View.GONE
-        }
+        })
     }
 
     @ItemClick

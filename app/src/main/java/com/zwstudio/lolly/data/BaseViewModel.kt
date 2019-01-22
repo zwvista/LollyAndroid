@@ -4,6 +4,7 @@ import com.zwstudio.lolly.android.LollyApplication
 import com.zwstudio.lolly.restapi.RestHtml
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.App
 import org.androidannotations.annotations.Bean

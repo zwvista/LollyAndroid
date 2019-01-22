@@ -8,6 +8,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.data.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.UnitPhrase
+import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_phrases_unit_detail)
@@ -30,6 +31,8 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
     lateinit var etPhrase: TextView
     @ViewById
     lateinit var etTranslation: TextView
+
+    val compositeDisposable = CompositeDisposable();
 
     @AfterViews
     fun afterViews() {
@@ -83,10 +86,10 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
         item.translation = etTranslation.text.toString()
         if (item.id == 0) {
             vm.lstPhrases.add(item)
-            vm.create(item.textbookid, item.unit, item.part, item.seqnum, item.phrase, item.translation ?: "").subscribe {
+            compositeDisposable.add(vm.create(item.textbookid, item.unit, item.part, item.seqnum, item.phrase, item.translation ?: "").subscribe {
                 item.id = it
-            }
+            })
         } else
-            vm.update(item.id, item.textbookid, item.unit, item.part, item.seqnum, item.phrase, item.translation ?: "").subscribe()
+            compositeDisposable.add(vm.update(item.id, item.textbookid, item.unit, item.part, item.seqnum, item.phrase, item.translation ?: "").subscribe())
     }
 }

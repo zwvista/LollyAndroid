@@ -22,6 +22,7 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.UnitWord
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.*
@@ -41,14 +42,17 @@ class WordsUnitFragment : DrawerListFragment() {
     @ViewById(R.id.swipe_refresh_layout)
     lateinit var mRefreshLayout: LollySwipeRefreshLayout
 
+    val compositeDisposable = CompositeDisposable();
+
     @AfterViews
     fun afterViews() {
         activity?.title = "Words in Unit"
+        vm.compositeDisposable = compositeDisposable
     }
 
     override fun onResume() {
         super.onResume()
-        vm.getData().subscribe {
+        compositeDisposable.add(vm.getData().subscribe {
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
             mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
                 override fun onItemDragStarted(position: Int) {
@@ -83,12 +87,12 @@ class WordsUnitFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = WordsUnitItemAdapter(vm, mDragListView, R.layout.list_item_words_edit, R.id.image, false)
+            val listAdapter = WordsUnitItemAdapter(vm, mDragListView, R.layout.list_item_words_edit, R.id.image, false, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(WordsUnitDragItem(context!!, R.layout.list_item_words_edit))
             progressBar1.visibility = View.GONE
-        }
+        })
     }
 
     @OptionsItem
@@ -133,7 +137,7 @@ class WordsUnitFragment : DrawerListFragment() {
         }
     }
 
-    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean) : DragItemAdapter<UnitWord, WordsUnitItemAdapter.ViewHolder>() {
+    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean, val compositeDisposable: CompositeDisposable) : DragItemAdapter<UnitWord, WordsUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -181,7 +185,7 @@ class WordsUnitFragment : DrawerListFragment() {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
-                        vm.delete(item.id).subscribe()
+                        compositeDisposable.add(vm.delete(item.id).subscribe())
                         vm.isSwipeStarted = false
                     }, {
                         mDragListView.resetSwipedViews(null)
@@ -238,9 +242,9 @@ class WordsUnitFragment : DrawerListFragment() {
                                     1 -> edit(item)
                                     2 -> {
                                         val index = itemList.indexOf(item)
-                                        vm.getNote(index).subscribe {
+                                        compositeDisposable.add(vm.getNote(index).subscribe {
                                             mDragListView.adapter.notifyItemChanged(index)
-                                        }
+                                        })
                                     }
                                     3 -> copy(item)
                                     4 -> google(item)

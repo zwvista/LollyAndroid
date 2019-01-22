@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.*
 import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.domain.*
+import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EFragment(R.layout.content_settings)
@@ -35,41 +36,43 @@ class SettingsFragment : Fragment() {
     @ViewById
     lateinit var chkUnitTo: CheckBox
 
+    val compositeDisposable = CompositeDisposable();
+
     @AfterViews
     fun afterViews() {
         activity?.title = "Settings"
-        vm.getData().subscribe {
+        compositeDisposable.add(vm.getData().subscribe {
             initSpnLanguage()
-        }
+        })
     }
 
     private fun updateUnitPartFrom() {
         if (vm.usunitfrom != vm.usunitto) {
             vm.usunitfrom = vm.usunitto
-            vm.updateUnitFrom().subscribe {
+            compositeDisposable.add(vm.updateUnitFrom().subscribe {
                 spnUnitFrom.setSelection(spnUnitTo.selectedItemPosition)
-            }
+            })
         }
         if (vm.uspartfrom != vm.uspartto) {
             vm.uspartfrom = vm.uspartto
-            vm.updatePartFrom().subscribe {
+            compositeDisposable.add(vm.updatePartFrom().subscribe {
                 spnPartFrom.setSelection(spnPartTo.selectedItemPosition)
-            }
+            })
         }
     }
 
     private fun updateUnitPartTo() {
         if (vm.usunitto != vm.usunitfrom) {
             vm.usunitto = vm.usunitfrom
-            vm.updateUnitTo().subscribe {
+            compositeDisposable.add(vm.updateUnitTo().subscribe {
                 spnUnitTo.setSelection(spnUnitFrom.selectedItemPosition)
-            }
+            })
         }
         if (vm.uspartto != vm.uspartfrom) {
             vm.uspartto = vm.uspartfrom
-            vm.updatePartTo().subscribe {
+            compositeDisposable.add(vm.updatePartTo().subscribe {
                 spnPartTo.setSelection(spnPartFrom.selectedItemPosition)
-            }
+            })
         }
     }
 
@@ -104,11 +107,11 @@ class SettingsFragment : Fragment() {
     fun spnLanguageItemSelected(selected: Boolean, position: Int) {
         if (vm.selectedLangIndex == position) return
         Log.d("", String.format("Checked position:%d", position))
-        vm.setSelectedLangIndex(position).concatMap {
+        compositeDisposable.add(vm.setSelectedLangIndex(position).concatMap {
             vm.updateLang()
         }.subscribe {
             updateLang()
-        }
+        })
     }
 
     private fun updateLang() {
@@ -188,7 +191,7 @@ class SettingsFragment : Fragment() {
         vm.selectedDictPickerIndex = position
         Log.d("", String.format("Checked position:%d", position))
         (spnDictPicker.adapter as ArrayAdapter<DictPicker>).notifyDataSetChanged()
-        vm.updateDictPicker().subscribe()
+        compositeDisposable.add(vm.updateDictPicker().subscribe())
     }
 
     @ItemSelect
@@ -197,7 +200,7 @@ class SettingsFragment : Fragment() {
         vm.selectedDictNoteIndex = position
         Log.d("", String.format("Checked position:%d", position))
         (spnDictNote.adapter as ArrayAdapter<DictNote>).notifyDataSetChanged()
-        vm.updateDictNote().subscribe()
+        compositeDisposable.add(vm.updateDictNote().subscribe())
     }
 
     @ItemSelect
@@ -206,9 +209,9 @@ class SettingsFragment : Fragment() {
         vm.selectedTextbookIndex = position
         Log.d("", String.format("Checked position:%d", position))
         (spnTextbook.adapter as ArrayAdapter<Textbook>).notifyDataSetChanged()
-        vm.updateTextbook().subscribe {
+        compositeDisposable.add(vm.updateTextbook().subscribe {
             updateTextbook()
-        }
+        })
     }
 
     private fun updateTextbook() {
@@ -271,40 +274,40 @@ class SettingsFragment : Fragment() {
     fun spnUnitFromItemSelected(selected: Boolean, position: Int) {
         if (vm.usunitfrom == position + 1) return
         vm.usunitfrom = position + 1
-        vm.updateUnitFrom().subscribe {
+        compositeDisposable.add(vm.updateUnitFrom().subscribe {
             if (!chkUnitTo.isChecked || vm.isInvalidUnitPart)
                 updateUnitPartTo()
-        }
+        })
     }
 
     @ItemSelect
     fun spnPartFromItemSelected(selected: Boolean, position: Int) {
         if (vm.uspartfrom == position + 1) return
         vm.uspartfrom = position + 1
-        vm.updatePartFrom().subscribe {
+        compositeDisposable.add(vm.updatePartFrom().subscribe {
             if (!chkUnitTo.isChecked || vm.isInvalidUnitPart)
                 updateUnitPartTo()
-        }
+        })
     }
 
     @ItemSelect
     fun spnUnitToItemSelected(selected: Boolean, position: Int) {
         if (vm.usunitto == position + 1) return
         vm.usunitto = position + 1
-        vm.updateUnitTo().subscribe {
+        compositeDisposable.add(vm.updateUnitTo().subscribe {
             if (vm.isInvalidUnitPart)
                 updateUnitPartFrom()
-        }
+        })
     }
 
     @ItemSelect
     fun spnPartToItemSelected(selected: Boolean, position: Int) {
         if (vm.uspartto == position + 1) return
         vm.uspartto = position + 1
-        vm.updatePartTo().subscribe {
+        compositeDisposable.add(vm.updatePartTo().subscribe {
             if (vm.isInvalidUnitPart)
                 updateUnitPartFrom()
-        }
+        })
     }
 
 }

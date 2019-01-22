@@ -17,6 +17,7 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.UnitPhrase
+import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 
@@ -32,14 +33,17 @@ class PhrasesUnitFragment : DrawerListFragment() {
     @ViewById(R.id.swipe_refresh_layout)
     lateinit var mRefreshLayout: LollySwipeRefreshLayout
 
+    val compositeDisposable = CompositeDisposable();
+
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.phrases_unit)
+        vm.compositeDisposable = compositeDisposable
     }
 
     override fun onResume() {
         super.onResume()
-        vm.getData().subscribe {
+        compositeDisposable.add(vm.getData().subscribe {
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
             mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
                 override fun onItemDragStarted(position: Int) {
@@ -74,12 +78,12 @@ class PhrasesUnitFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, R.layout.list_item_phrases_edit, R.id.image, false)
+            val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, R.layout.list_item_phrases_edit, R.id.image, false, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(PhrasesUnitDragItem(context!!, R.layout.list_item_phrases_edit))
             progressBar1.visibility = View.GONE
-        }
+        })
     }
 
     @OptionsItem
@@ -98,7 +102,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
         }
     }
 
-    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean) : DragItemAdapter<UnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
+    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean, val compositeDisposable: CompositeDisposable) : DragItemAdapter<UnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases
@@ -153,7 +157,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                         yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
                             val pos = mDragListView.adapter.getPositionForItem(item)
                             mDragListView.adapter.removeItem(pos)
-                            vm.delete(item.id).subscribe()
+                            compositeDisposable.add(vm.delete(item.id).subscribe())
                             vm.isSwipeStarted = false
                         }, {
                             mDragListView.resetSwipedViews(null)

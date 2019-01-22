@@ -5,6 +5,7 @@ import com.zwstudio.lolly.domain.UnitPhrase
 import com.zwstudio.lolly.restapi.RestUnitPhrase
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.EBean
 
@@ -13,6 +14,8 @@ class PhrasesUnitViewModel : BaseViewModel2() {
 
     var lstPhrases = mutableListOf<UnitPhrase>()
     var isSwipeStarted = false
+
+    lateinit var compositeDisposable: CompositeDisposable
 
     fun getData(): Observable<Unit> =
         retrofitJson.create(RestUnitPhrase::class.java)
@@ -50,9 +53,9 @@ class PhrasesUnitViewModel : BaseViewModel2() {
             val item = lstPhrases[i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
-            updateSeqNum(item.id, i).subscribe {
+            compositeDisposable.add(updateSeqNum(item.id, i).subscribe {
                 onNext(i - 1)
-            }
+            })
         }
     }
 

@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.zwstudio.lolly.data.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.LangPhrase
+import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EFragment
@@ -17,10 +18,12 @@ class PhrasesLangFragment : DrawerListFragment() {
     @Bean
     lateinit var vm: PhrasesLangViewModel
 
+    val compositeDisposable = CompositeDisposable();
+
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.phrases_lang)
-        vm.getData().subscribe {
+        compositeDisposable.add(vm.getData().subscribe {
             val lst = it.lst!!
             val adapter = object : ArrayAdapter<LangPhrase>(activity,
                 android.R.layout.simple_list_item_2, android.R.id.text1, lst) {
@@ -37,7 +40,7 @@ class PhrasesLangFragment : DrawerListFragment() {
             }
             listView.adapter = adapter
             progressBar1.visibility = View.GONE
-        }
+        })
     }
 
 }

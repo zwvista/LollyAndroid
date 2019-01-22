@@ -14,6 +14,7 @@ import com.zwstudio.lolly.data.DictWebViewStatus
 import com.zwstudio.lolly.data.SearchViewModel
 import com.zwstudio.lolly.domain.DictPicker
 import com.zwstudio.lolly.domain.DictWord
+import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_words_dict)
@@ -30,6 +31,8 @@ class WordsDictActivity : AppCompatActivity() {
     lateinit var wv: WebView
 
     var status = DictWebViewStatus.Ready
+
+    val compositeDisposable = CompositeDisposable();
 
     @AfterViews
     fun afterViews() {
@@ -96,7 +99,7 @@ class WordsDictActivity : AppCompatActivity() {
         vm.vmSettings.selectedDictPickerIndex = position
         Log.d("", String.format("Checked position:%d", position))
         (spnDictPicker.adapter as ArrayAdapter<DictPicker>).notifyDataSetChanged()
-        vm.vmSettings.updateDictPicker().subscribe()
+        compositeDisposable.add(vm.vmSettings.updateDictPicker().subscribe())
         selectedDictChanged()
     }
 
@@ -115,11 +118,11 @@ class WordsDictActivity : AppCompatActivity() {
             val url = item2.urlString(vm.selectedWord, vm.vmSettings.lstAutoCorrect)
             if (item2.dicttypename == "OFFLINE") {
                 wv.loadUrl("about:blank")
-                vm.getHtml(url).subscribe {
+                compositeDisposable.add(vm.getHtml(url).subscribe {
                     Log.d("HTML", it)
                     val str = item2.htmlString(it, vm.selectedWord, true)
                     wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
-                }
+                })
             } else {
                 // http://stackoverflow.com/questions/7746409/android-webview-launches-browser-when-calling-loadurl
                 wv.setWebViewClient(object : WebViewClient() {

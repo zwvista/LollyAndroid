@@ -9,6 +9,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.UnitWord
+import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_words_unit_detail)
@@ -31,6 +32,8 @@ class WordsUnitDetailActivity : AppCompatActivity() {
     lateinit var etWord: TextView
     @ViewById
     lateinit var etNote: TextView
+
+    val compositeDisposable = CompositeDisposable();
 
     @AfterViews
     fun afterViews() {
@@ -84,11 +87,11 @@ class WordsUnitDetailActivity : AppCompatActivity() {
         item.note = etNote.text.toString()
         if (item.id == 0) {
             vm.lstWords.add(item)
-            vm.create(item.textbookid, item.unit, item.part, item.seqnum, item.word, item.note ?: "").subscribe {
+            compositeDisposable.add(vm.create(item.textbookid, item.unit, item.part, item.seqnum, item.word, item.note ?: "").subscribe {
                 item.id = it
-            }
+            })
         } else
-            vm.update(item.id, item.textbookid, item.unit, item.part, item.seqnum, item.word, item.note ?: "").subscribe()
+            compositeDisposable.add(vm.update(item.id, item.textbookid, item.unit, item.part, item.seqnum, item.word, item.note ?: "").subscribe())
         setResult(Activity.RESULT_OK);
         finish()
     }
