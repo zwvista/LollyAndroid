@@ -146,7 +146,7 @@ class SettingsViewModel : BaseViewModel1() {
                     lstDictsWord.map { DictPicker(it.dictid.toString(), it.dictname!!) }
                 else {
                     i++;
-                    listOf<DictPicker>(DictPicker(d, "Custom$i"))
+                    listOf(DictPicker(d, "Custom$i"))
                 }
             }
             selectedDictPickerIndex = lstDictsPicker.indexOfFirst { it.dictid == usdictpicker }
