@@ -63,7 +63,7 @@ class WordsDictActivity : AppCompatActivity() {
             val lst = vm.vmSettings.lstDictsPicker
             val adapter = object : ArrayAdapter<DictPicker>(this, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
-                    val m = getItem(position)
+                    val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
                     (tv as? CheckedTextView)?.isChecked = spnDictPicker.selectedItemPosition == position

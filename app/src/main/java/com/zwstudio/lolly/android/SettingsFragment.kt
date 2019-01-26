@@ -78,7 +78,7 @@ class SettingsFragment : Fragment() {
 
     private fun initSpnLanguage() {
         val lst = vm.lstLanguages
-        val adapter = object : ArrayAdapter<Language>(activity,
+        val adapter = object : ArrayAdapter<Language>(activity!!,
             android.R.layout.simple_spinner_item, lst) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
@@ -117,9 +117,9 @@ class SettingsFragment : Fragment() {
     private fun updateLang() {
         run {
             val lst = vm.lstDictsPicker
-            val adapter = object : ArrayAdapter<DictPicker>(activity, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val adapter = object : ArrayAdapter<DictPicker>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
-                    val m = getItem(position)
+                    val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
                     (tv as? CheckedTextView)?.isChecked = spnDictPicker.selectedItemPosition == position
@@ -140,9 +140,9 @@ class SettingsFragment : Fragment() {
         }
         run {
             val lst = vm.lstDictsNote
-            val adapter = object : ArrayAdapter<DictNote>(activity, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val adapter = object : ArrayAdapter<DictNote>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
-                    val m = getItem(position)
+                    val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
                     (tv as? CheckedTextView)?.isChecked = spnDictNote.selectedItemPosition == position
@@ -162,9 +162,9 @@ class SettingsFragment : Fragment() {
         }
         run {
             val lst = vm.lstTextbooks
-            val adapter = object : ArrayAdapter<Textbook>(activity, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val adapter = object : ArrayAdapter<Textbook>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
-                    val m = getItem(position)
+                    val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.textbookname
                     (tv as? CheckedTextView)?.isChecked = spnTextbook.selectedItemPosition == position

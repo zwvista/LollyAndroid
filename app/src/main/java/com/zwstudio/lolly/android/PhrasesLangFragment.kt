@@ -25,7 +25,7 @@ class PhrasesLangFragment : DrawerListFragment() {
         activity?.title = resources.getString(R.string.phrases_lang)
         compositeDisposable.add(vm.getData().subscribe {
             val lst = it.lst!!
-            val adapter = object : ArrayAdapter<LangPhrase>(activity,
+            val adapter = object : ArrayAdapter<LangPhrase>(activity!!,
                 android.R.layout.simple_list_item_2, android.R.id.text1, lst) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val v = super.getView(position, convertView, parent)

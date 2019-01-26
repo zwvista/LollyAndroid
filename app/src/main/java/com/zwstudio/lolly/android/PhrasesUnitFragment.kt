@@ -143,7 +143,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
-                mEdit.setOnTouchListener { v, event ->
+                mEdit.setOnTouchListener { _, event ->
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitPhrase
                         PhrasesUnitDetailActivity_.intent(itemView.context)
@@ -151,7 +151,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                     }
                     true
                 }
-                mDelete.setOnTouchListener { v, event ->
+                mDelete.setOnTouchListener { _, event ->
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitPhrase
                         yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {

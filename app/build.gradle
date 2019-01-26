@@ -23,6 +23,14 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        // https://github.com/androidannotations/androidannotations/issues/2034
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "androidManifestFile": "$projectDir/src/main/AndroidManifest.xml".toString()
+                ]
+            }
+        }
     }
     buildTypes {
         release {
@@ -42,7 +50,7 @@ allOpen {
     annotation("org.androidannotations.api.KotlinOpen")
 }
 
-def AAVersion = '4.4.0'
+def AAVersion = '4.5.2'
 def retrofit_version = '2.4.0'
 dependencies {
     kapt "org.androidannotations:androidannotations:$AAVersion"
