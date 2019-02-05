@@ -2,8 +2,7 @@ package com.zwstudio.lolly.restapi
 
 import com.zwstudio.lolly.domain.LangPhrases
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface RestLangPhrase {
     @GET("LANGPHRASES?transform=1")
@@ -14,4 +13,23 @@ interface RestLangPhrase {
 
     @GET("LANGPHRASES?transform=1")
     fun getDataById(@Query("filter") filter: String): Observable<LangPhrases>
+
+    @FormUrlEncoded
+    @PUT("LANGWORDS/{id}")
+    fun updateTranslation(@Path("id") id: Int, @Field("TRANSLATION") translation: String?): Observable<Int>
+
+    @FormUrlEncoded
+    @PUT("LANGPHRASES/{id}")
+    fun update(@Path("id") id: Int, @Field("LANGID") langid: Int,
+               @Field("PHRASE") phrase: String,
+               @Field("TRANSLATION") translation: String?): Observable<Int>
+
+    @FormUrlEncoded
+    @POST("LANGPHRASES")
+    fun create(@Field("LANGID") langid: Int,
+               @Field("PHRASE") phrase: String,
+               @Field("TRANSLATION") translation: String?): Observable<Int>
+
+    @DELETE("LANGPHRASES/{id}")
+    fun delete(@Path("id") id: Int): Observable<Int>
 }

@@ -2,12 +2,16 @@ package com.zwstudio.lolly.data
 
 import android.util.Log
 import com.zwstudio.lolly.domain.UnitPhrase
+import com.zwstudio.lolly.restapi.RestLangPhrase
+import com.zwstudio.lolly.restapi.RestLangWord
 import com.zwstudio.lolly.restapi.RestUnitPhrase
+import com.zwstudio.lolly.restapi.RestUnitWord
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.EBean
+import java.net.URLEncoder
 
 @EBean
 class PhrasesUnitViewModel : BaseViewModel2() {
@@ -30,17 +34,72 @@ class PhrasesUnitViewModel : BaseViewModel2() {
             .map { Log.d("", it.toString()) }
             .applyIO()
 
-    fun update(id: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, phrase: String, translation: String): Observable<Int> =
+    fun update(id: Int, langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, langphraseid: Int, phrase: String, translation: String?): Observable<Int> =
         retrofitJson.create(RestUnitPhrase::class.java)
-            .update(id, textbookid, unit, part, seqnum, phrase, translation)
-            .map { Log.d("", it.toString()) }
-            .applyIO()
+            .getDataByLangPhrase("LANGPHRASEID,eq,$langphraseid")
+            .concatMap {
+                val lstUnit = it.lst!!
+                if (lstUnit.isEmpty())
+                    Observable.empty<Int>()
+                else
+                    retrofitJson.create(RestLangPhrase::class.java)
+                        .getDataById("ID,eq,$langphraseid")
+                        .concatMap {
+                            val lstLangOld = it.lst!!
+                            if (!lstLangOld.isEmpty() && lstLangOld[0].phrase == phrase)
+                                retrofitJson.create(RestLangPhrase::class.java).updateTranslation(langphraseid, translation)
+                            else
+                                retrofitJson.create(RestLangPhrase::class.java)
+                                    .getDataByLangPhrase("LANGID,eq,$langid", "PHRASE,eq,${URLEncoder.encode(phrase, "UTF-8")}")
+                                    .concatMap {
+                                        val lstLangNew = it.lst!!
+                                        fun f(): Observable<Int> {
+                                            val itemLang = lstLangNew[0]
+                                            val langphraseid = itemLang.id
+                                            return if (itemLang.combinetranslation(translation))
+                                                retrofitJson.create(RestLangWord::class.java).updateNote(langphraseid, itemLang.translation)
+                                            else
+                                                Observable.just(langphraseid)
+                                        }
+                                        if (lstUnit.size == 1)
+                                            if (lstLangNew.isEmpty())
+                                                retrofitJson.create(RestLangPhrase::class.java).update(langphraseid, langid, phrase, translation)
+                                            else
+                                                retrofitJson.create(RestLangPhrase::class.java).delete(langphraseid).concatMap { f() }
+                                        else
+                                            if (lstLangNew.isEmpty())
+                                                retrofitJson.create(RestLangPhrase::class.java).create(langid, phrase, translation)
+                                            else
+                                                f()
+                                    }
+                        }
+            }.map {
+                retrofitJson.create(RestUnitPhrase::class.java).update(id, textbookid, unit, part, seqnum, it)
+            }.map {
+                Log.d("", it.toString())
+            }.applyIO()
 
-    fun create(textbookid: Int, unit: Int, part: Int, seqnum: Int, phrase: String, translation: String): Observable<Int> =
-        retrofitJson.create(RestUnitPhrase::class.java)
-            .create(textbookid, unit, part, seqnum, phrase, translation)
-            .map { Log.d("", it.toString()) }
-            .applyIO()
+    fun create(langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, langphraseid: Int, phrase: String, translation: String?): Observable<Int> =
+        retrofitJson.create(RestLangPhrase::class.java)
+            .getDataByLangPhrase("LANGID,eq,$langid", "PHRASE,eq,${URLEncoder.encode(phrase, "UTF-8")}")
+            .concatMap {
+                val lstLang = it.lst!!
+                if (lstLang.isEmpty())
+                    retrofitJson.create(RestLangPhrase::class.java).create(langid, phrase, translation)
+                else {
+                    val itemLang = lstLang[0]
+                    val langphraseid = itemLang.id
+                    val b = itemLang.combinetranslation(translation)
+                    if (b)
+                        retrofitJson.create(RestLangPhrase::class.java)
+                            .update(langphraseid, langid, phrase, itemLang.translation)
+                            .map { langphraseid }
+                    else
+                        Observable.just(langphraseid)
+                }
+            }.concatMap {
+                retrofitJson.create(RestUnitPhrase::class.java).create(textbookid, unit, part, seqnum, it)
+            }.applyIO()
 
     fun delete(id: Int): Observable<Int> =
         retrofitJson.create(RestUnitPhrase::class.java)

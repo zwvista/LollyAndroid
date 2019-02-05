@@ -13,7 +13,7 @@ class LangWords {
     var lst: List<LangWord>? = null
 }
 
-class LangWord(): Serializable {
+class LangWord: Serializable {
 
     @SerializedName("ID")
     @Expose
@@ -30,13 +30,6 @@ class LangWord(): Serializable {
     @SerializedName("NOTE")
     @Expose
     var note: String? = null
-
-    constructor(item: UnitWord) : this() {
-        id = item.langwordid
-        langid = item.langid
-        word = item.word
-        note = item.note
-    }
 
     fun combineNote(note2: String?): Boolean {
         val oldNote = note

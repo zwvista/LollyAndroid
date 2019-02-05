@@ -26,11 +26,11 @@ class LangPhrase(): Serializable {
     @Expose
     var translation: String? = null
 
-    constructor(item: UnitPhrase) : this() {
-        id = item.langphraseid
-        langid = item.langid
-        phrase = item.phrase
-        translation = item.translation
+    constructor(langphraseid: Int, langid: Int, phrase: String, translation: String?) : this() {
+        this.id = langphraseid
+        this.langid = langid
+        this.phrase = phrase
+        this.translation = translation
     }
 
     fun combinetranslation(translation2: String?): Boolean {
