@@ -16,6 +16,9 @@ class UnitPhrase: Serializable {
     @SerializedName("ID")
     @Expose
     var id: Int = 0
+    @SerializedName("LANGID")
+    @Expose
+    var langid: Int = 0
     @SerializedName("TEXTBOOKID")
     @Expose
     var textbookid: Int = 0
@@ -30,7 +33,7 @@ class UnitPhrase: Serializable {
     var seqnum: Int = 0
     @SerializedName("LANGPHRASEID")
     @Expose
-    var langphraseid: Int? = null
+    var langphraseid: Int = 0
     @SerializedName("PHRASE")
     @Expose
     var phrase = ""

@@ -8,6 +8,9 @@ interface RestUnitWord {
     @GET("VUNITWORDS?transform=1&order[]=UNITPART&order[]=SEQNUM")
     fun getDataByTextbookUnitPart(@Query("filter[]") vararg filters: String): Observable<UnitWords>
 
+    @GET("VUNITWORDS?transform=1")
+    fun getDataByLangWord(@Query("filter") filter: String): Observable<UnitWords>
+
     @FormUrlEncoded
     @PUT("UNITWORDS/{id}")
     fun updateSeqNum(@Path("id") id: Int, @Field("SEQNUM") seqnum: Int): Observable<Int>

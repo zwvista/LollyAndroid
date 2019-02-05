@@ -13,7 +13,7 @@ class LangWords {
     var lst: List<LangWord>? = null
 }
 
-class LangWord: Serializable {
+class LangWord(): Serializable {
 
     @SerializedName("ID")
     @Expose
@@ -27,4 +27,29 @@ class LangWord: Serializable {
     @SerializedName("LEVEL")
     @Expose
     var level: Int = 0
+    @SerializedName("NOTE")
+    @Expose
+    var note: String? = null
+
+    constructor(item: UnitWord) : this() {
+        id = item.langwordid
+        langid = item.langid
+        word = item.word
+        note = item.note
+    }
+
+    fun combineNote(note2: String?): Boolean {
+        val oldNote = note
+        if (!note2.isNullOrEmpty())
+            if (note.isNullOrEmpty())
+                note = note2
+            else {
+                val lst = note!!.split(',').toMutableList()
+                if (!lst.contains(note2)) {
+                    lst.add(note2)
+                    note = lst.joinToString(",")
+                }
+            }
+        return oldNote != note
+    }
 }

@@ -11,7 +11,7 @@ class LangPhrases {
     var lst: List<LangPhrase>? = null
 }
 
-class LangPhrase: Serializable {
+class LangPhrase(): Serializable {
 
     @SerializedName("ID")
     @Expose
@@ -25,4 +25,26 @@ class LangPhrase: Serializable {
     @SerializedName("TRANSLATION")
     @Expose
     var translation: String? = null
+
+    constructor(item: UnitPhrase) : this() {
+        id = item.langphraseid
+        langid = item.langid
+        phrase = item.phrase
+        translation = item.translation
+    }
+
+    fun combinetranslation(translation2: String?): Boolean {
+        val oldTranslation = translation
+        if (!translation2.isNullOrEmpty())
+            if (translation.isNullOrEmpty())
+                translation = translation2
+            else {
+                val lst = translation!!.split(',').toMutableList()
+                if (!lst.contains(translation2)) {
+                    lst.add(translation2)
+                    translation = lst.joinToString(",")
+                }
+            }
+        return oldTranslation != translation
+    }
 }

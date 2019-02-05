@@ -66,9 +66,9 @@ class WordsUnitViewModel : BaseViewModel2() {
             val item = lstWords[i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
-            updateSeqNum(item.id, i).subscribe {
+            compositeDisposable.add(updateSeqNum(item.id, i).subscribe {
                 onNext(i - 1)
-            }
+            })
         }
     }
 
@@ -107,7 +107,7 @@ class WordsUnitViewModel : BaseViewModel2() {
             onNext()
         else {
             val i = noteFromIndex
-            getNote(i).subscribe { onNextRow(i) }
+            compositeDisposable.add(getNote(i).subscribe { onNextRow(i) })
             noteFromIndex++
         }
     }

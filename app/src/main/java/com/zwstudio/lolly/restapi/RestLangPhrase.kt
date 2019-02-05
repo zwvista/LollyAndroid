@@ -9,4 +9,9 @@ interface RestLangPhrase {
     @GET("LANGPHRASES?transform=1")
     fun getDataByLang(@Query("filter") filter: String): Observable<LangPhrases>
 
+    @GET("LANGPHRASES?transform=1")
+    fun getDataByLangPhrase(@Query("filter[]") vararg filters: String): Observable<LangPhrases>
+
+    @GET("LANGPHRASES?transform=1")
+    fun getDataById(@Query("filter") filter: String): Observable<LangPhrases>
 }

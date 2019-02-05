@@ -16,6 +16,9 @@ class UnitWord: Serializable {
     @SerializedName("ID")
     @Expose
     var id: Int = 0
+    @SerializedName("LANGID")
+    @Expose
+    var langid: Int = 0
     @SerializedName("TEXTBOOKID")
     @Expose
     var textbookid: Int = 0
@@ -34,6 +37,9 @@ class UnitWord: Serializable {
     @SerializedName("NOTE")
     @Expose
     var note: String? = null
+    @SerializedName("LANGWORDID")
+    @Expose
+    var langwordid: Int = 0
     @SerializedName("UNITPART")
     @Expose
     var unitpart: Int = 0
