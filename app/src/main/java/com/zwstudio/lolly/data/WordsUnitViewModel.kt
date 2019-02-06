@@ -18,12 +18,8 @@ class WordsUnitViewModel : BaseViewModel2() {
 
     var lstWords = mutableListOf<UnitWord>()
     var isSwipeStarted = false
-    var noteFromIndex = 0
-    var noteToIndex = 0
-    var noteIfEmpty = true
-    val noteSite: DictNote?
-        get() = vmSettings.selectedDictNote
 
+    lateinit var vmNote: NoteViewModel
     lateinit var compositeDisposable: CompositeDisposable
 
     fun getData(): Observable<Unit> =
@@ -140,33 +136,18 @@ class WordsUnitViewModel : BaseViewModel2() {
     }
 
     fun getNote(index: Int): Observable<Int> {
-        val noteSite = noteSite ?: return Observable.empty()
         val item = lstWords[index]
-        val url = noteSite.url!!.replace("{0}", URLEncoder.encode(item.word, "UTF-8"))
-        return getHtml(url).concatMap {
-            Log.d("", it)
-            val result = extractTextFrom(it, noteSite.transform!!, noteSite.template!!) { _,_ -> "" }
-            item.note = result
-            updateNote(item.id, result)
+        return vmNote.getNote(item.word).concatMap {
+            item.note = it
+            retrofitJson.create(WordsUnitViewModel::class.java).updateNote(item.id, it)
         }
     }
 
-    fun getNotes(ifEmpty: Boolean, onNext: (Int) -> Unit) {
-        val noteSite = noteSite ?: return
-        noteFromIndex = 0; noteToIndex = lstWords.size; noteIfEmpty = ifEmpty
-        onNext(noteSite.wait!!)
-    }
-
-    fun getNextNote(onNextRow: (Int) -> Unit, onNext: () -> Unit) {
-        if (noteIfEmpty)
-            while (noteFromIndex < noteToIndex && !lstWords[noteFromIndex].note.isNullOrEmpty())
-                noteFromIndex++
-        if (noteFromIndex >= noteToIndex)
-            onNext()
-        else {
-            val i = noteFromIndex
-            compositeDisposable.add(getNote(i).subscribe { onNextRow(i) })
-            noteFromIndex++
-        }
+    fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
+        vmNote.getNotes(lstWords.size, isNoteEmpty = {
+            !ifEmpty || lstWords[it].note.isNullOrEmpty()
+        }, getOne = { i ->
+            compositeDisposable.add(getNote(i).subscribe { oneComplete(i) })
+        }, allComplete = allComplete)
     }
 }

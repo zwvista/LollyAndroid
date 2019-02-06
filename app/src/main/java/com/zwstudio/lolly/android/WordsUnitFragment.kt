@@ -113,19 +113,13 @@ class WordsUnitFragment : DrawerListFragment() {
     private fun getNotes(ifEmpty: Boolean) {
         val handler = Handler()
         var subscription: Disposable? = null
-        vm.getNotes(ifEmpty) {
-            progressBar1.visibility = View.VISIBLE
-            subscription = Observable.interval(it.toLong(), TimeUnit.MILLISECONDS, Schedulers.io())
-                .subscribe {
-                    vm.getNextNote(onNextRow = {}, onNext = {
-                        subscription?.dispose()
-                        handler.post {
-                            mDragListView.adapter.notifyDataSetChanged()
-                            progressBar1.visibility = View.GONE
-                        }
-                    })
-                }
-        }
+        progressBar1.visibility = View.VISIBLE
+        vm.getNotes(ifEmpty, oneComplete = {}, allComplete = {
+            handler.post {
+                mDragListView.adapter.notifyDataSetChanged()
+                progressBar1.visibility = View.GONE
+            }
+        })
     }
 
     private class WordsUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
