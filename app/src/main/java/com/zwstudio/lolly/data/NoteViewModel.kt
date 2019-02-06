@@ -13,11 +13,9 @@ import java.util.concurrent.TimeUnit
 class NoteViewModel : BaseViewModel2() {
 
     lateinit var compositeDisposable: CompositeDisposable
-    val dictNote: DictNote?
-        get() = vmSettings.selectedDictNote
 
     fun getNote(word: String): Observable<String> {
-        val dictNote = dictNote ?: return Observable.empty()
+        val dictNote = vmSettings.selectedDictNote ?: return Observable.empty()
         val url = dictNote.urlString(word, vmSettings.lstAutoCorrect)
         return getHtml(url).map {
             Log.d("", it)
@@ -26,7 +24,7 @@ class NoteViewModel : BaseViewModel2() {
     }
 
     fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
-        val dictNote = dictNote ?: return
+        val dictNote = vmSettings.selectedDictNote ?: return
         var i = 0
         var subscription: Disposable? = null
         subscription = Observable.interval(dictNote.wait!!.toLong(), TimeUnit.MILLISECONDS, Schedulers.io()).subscribe {

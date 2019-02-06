@@ -99,7 +99,7 @@ class WordsUnitViewModel : BaseViewModel2() {
                     val b = itemLang.combineNote(note)
                     if (b)
                         retrofitJson.create(RestLangWord::class.java)
-                            .update(langwordid, langid, word, itemLang.level, itemLang.note)
+                            .updateNote(langwordid, itemLang.note)
                             .map { langwordid }
                     else
                         Observable.just(langwordid)

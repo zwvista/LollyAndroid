@@ -57,7 +57,7 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                                             val itemLang = lstLangNew[0]
                                             val langphraseid = itemLang.id
                                             return if (itemLang.combinetranslation(translation))
-                                                retrofitJson.create(RestLangWord::class.java).updateNote(langphraseid, itemLang.translation)
+                                                retrofitJson.create(RestLangPhrase::class.java).updateTranslation(langphraseid, itemLang.translation)
                                             else
                                                 Observable.just(langphraseid)
                                         }
@@ -92,7 +92,7 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                     val b = itemLang.combinetranslation(translation)
                     if (b)
                         retrofitJson.create(RestLangPhrase::class.java)
-                            .update(langphraseid, langid, phrase, itemLang.translation)
+                            .updateTranslation(langphraseid, itemLang.translation)
                             .map { langphraseid }
                     else
                         Observable.just(langphraseid)
