@@ -112,7 +112,6 @@ class WordsUnitFragment : DrawerListFragment() {
     fun menuNotesEmpty() = getNotes(true)
     private fun getNotes(ifEmpty: Boolean) {
         val handler = Handler()
-        var subscription: Disposable? = null
         progressBar1.visibility = View.VISIBLE
         vm.getNotes(ifEmpty, oneComplete = {}, allComplete = {
             handler.post {
@@ -207,21 +206,21 @@ class WordsUnitFragment : DrawerListFragment() {
                     }
                 }
 
-                mEdit.setOnTouchListener { v, event ->
+                mEdit.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitWord
                         edit(item)
                     }
                     true
                 }
-                mDelete.setOnTouchListener { v, event ->
+                mDelete.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitWord
                         delete(item)
                     }
                     true
                 }
-                mMore.setOnTouchListener { v, event ->
+                mMore.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         mDragListView.resetSwipedViews(null)
                         vm.isSwipeStarted = false
@@ -230,7 +229,7 @@ class WordsUnitFragment : DrawerListFragment() {
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                         val builder = AlertDialog.Builder(itemView.context)
                             .setTitle(item.wordnote)
-                            .setItems(arrayOf("Delete", "Edit", "Retrieve Note", "Copy Word", "Google Word", "Cancel")) { dialog, which ->
+                            .setItems(arrayOf("Delete", "Edit", "Retrieve Note", "Copy Word", "Google Word", "Cancel")) { _, which ->
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)

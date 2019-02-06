@@ -217,7 +217,7 @@ class SettingsFragment : Fragment() {
     private fun updateTextbook() {
         run {
             val lst = vm.lstUnits
-            val adapter = object : ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, lst) {
+            val adapter = object : ArrayAdapter<String>(activity!!, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = getItem(position)
@@ -238,7 +238,7 @@ class SettingsFragment : Fragment() {
 
         run {
             val lst = vm.lstParts
-            val adapter = object : ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, lst) {
+            val adapter = object : ArrayAdapter<String>(activity!!, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = getItem(position)

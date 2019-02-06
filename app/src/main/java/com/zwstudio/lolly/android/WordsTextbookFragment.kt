@@ -25,7 +25,7 @@ class WordsTextbookFragment : DrawerListFragment() {
         activity?.title = resources.getString(R.string.words_textbook)
         compositeDisposable.add(vm.getData().subscribe {
             val lst = it.lst!!
-            val adapter = object : ArrayAdapter<TextbookWord>(activity,
+            val adapter = object : ArrayAdapter<TextbookWord>(activity!!,
                 android.R.layout.simple_list_item_1, lst) {
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                     val v = super.getView(position, convertView, parent)

@@ -48,7 +48,7 @@ class LollyApplication : Application() {
 }
 
 fun yesNoDialog(context: Context, message: String, yesAction: () -> Unit, noAction: () -> Unit) {
-    val dialogClickListener = DialogInterface.OnClickListener { dialog, which ->
+    val dialogClickListener = DialogInterface.OnClickListener { _, which ->
         when (which) {
             DialogInterface.BUTTON_POSITIVE ->
                 //Yes button clicked
@@ -73,7 +73,7 @@ class LollySwipeRefreshLayout : SwipeRefreshLayout {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
 
     override fun canChildScrollUp(): Boolean {
-        return mScrollingView != null && ViewCompat.canScrollVertically(mScrollingView!!, -1)
+        return mScrollingView != null && mScrollingView!!.canScrollVertically(-1)
     }
 
     fun setScrollingView(scrollingView: View) {
