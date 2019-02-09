@@ -33,7 +33,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
     @ViewById(R.id.swipe_refresh_layout)
     lateinit var mRefreshLayout: LollySwipeRefreshLayout
 
-    val compositeDisposable = CompositeDisposable();
+    val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
@@ -144,7 +144,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
                 mEdit.setOnTouchListener { _, event ->
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitPhrase
                         PhrasesUnitDetailActivity_.intent(itemView.context)
                             .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
@@ -152,7 +152,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                     true
                 }
                 mDelete.setOnTouchListener { _, event ->
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitPhrase
                         yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
                             val pos = mDragListView.adapter.getPositionForItem(item)

@@ -32,7 +32,7 @@ class WordsDictActivity : AppCompatActivity() {
 
     var status = DictWebViewStatus.Ready
 
-    val compositeDisposable = CompositeDisposable();
+    val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
@@ -125,7 +125,7 @@ class WordsDictActivity : AppCompatActivity() {
                 })
             } else {
                 // http://stackoverflow.com/questions/7746409/android-webview-launches-browser-when-calling-loadurl
-                wv.setWebViewClient(object : WebViewClient() {
+                wv.webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView, url: String) {
                         if (status != DictWebViewStatus.Navigating) return
                         wv.evaluateJavascript("document.documentElement.outerHTML.toString()") {
@@ -140,7 +140,7 @@ class WordsDictActivity : AppCompatActivity() {
                             status = DictWebViewStatus.Ready
                         }
                     }
-                })
+                }
                 wv.loadUrl(url)
                 if (item2.dicttypename == "OFFLINE-ONLINE") status = DictWebViewStatus.Navigating
             }

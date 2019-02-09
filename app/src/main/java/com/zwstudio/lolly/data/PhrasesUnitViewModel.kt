@@ -3,13 +3,9 @@ package com.zwstudio.lolly.data
 import android.util.Log
 import com.zwstudio.lolly.domain.UnitPhrase
 import com.zwstudio.lolly.restapi.RestLangPhrase
-import com.zwstudio.lolly.restapi.RestLangWord
 import com.zwstudio.lolly.restapi.RestUnitPhrase
-import com.zwstudio.lolly.restapi.RestUnitWord
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.EBean
 import java.net.URLEncoder
 
@@ -73,10 +69,9 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                                                 f()
                                     }
                         }
-            }.map {
+            }.concatMap {
                 retrofitJson.create(RestUnitPhrase::class.java).update(id, textbookid, unit, part, seqnum, it)
-            }.map {
-                Log.d("", it.toString())
+                    .map { Log.d("", it.toString()) }
             }.applyIO()
 
     fun create(langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, langphraseid: Int, phrase: String, translation: String?): Observable<Int> =

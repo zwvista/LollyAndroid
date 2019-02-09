@@ -36,7 +36,7 @@ class SettingsFragment : Fragment() {
     @ViewById
     lateinit var chkUnitTo: CheckBox
 
-    val compositeDisposable = CompositeDisposable();
+    val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {

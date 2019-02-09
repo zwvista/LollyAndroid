@@ -145,7 +145,7 @@ class SettingsViewModel : BaseViewModel1() {
                 if (d == "0")
                     lstDictsWord.map { DictPicker(it.dictid.toString(), it.dictname!!) }
                 else {
-                    i++;
+                    i++
                     listOf(DictPicker(d, "Custom$i"))
                 }
             }

@@ -33,7 +33,7 @@ class WordsUnitDetailActivity : AppCompatActivity() {
     @ViewById
     lateinit var etNote: TextView
 
-    val compositeDisposable = CompositeDisposable();
+    val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
@@ -92,7 +92,7 @@ class WordsUnitDetailActivity : AppCompatActivity() {
             })
         } else
             compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.langwordid, item.word, item.note).subscribe())
-        setResult(Activity.RESULT_OK);
+        setResult(Activity.RESULT_OK)
         finish()
     }
 }

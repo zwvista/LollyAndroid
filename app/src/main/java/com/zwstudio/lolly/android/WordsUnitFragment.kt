@@ -42,7 +42,7 @@ class WordsUnitFragment : DrawerListFragment() {
     @ViewById(R.id.swipe_refresh_layout)
     lateinit var mRefreshLayout: LollySwipeRefreshLayout
 
-    val compositeDisposable = CompositeDisposable();
+    val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
@@ -99,7 +99,7 @@ class WordsUnitFragment : DrawerListFragment() {
     fun menuAdd() {
         WordsUnitDetailActivity_.intent(this)
                 .extra("list", vm.lstWords.toTypedArray()).extra("word", vm.newUnitWord())
-                .startForResult(1);
+                .startForResult(1)
     }
     @OnActivityResult(1)
     fun onResult(resultCode: Int) {

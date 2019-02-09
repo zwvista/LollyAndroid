@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.data
 
 import android.util.Log
-import com.zwstudio.lolly.domain.DictNote
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -29,14 +28,14 @@ class NoteViewModel : BaseViewModel2() {
         var subscription: Disposable? = null
         subscription = Observable.interval(dictNote.wait!!.toLong(), TimeUnit.MILLISECONDS, Schedulers.io()).subscribe {
             while (i < wordCount && !isNoteEmpty(i))
-                i++;
+                i++
             if (i > wordCount) {
                 allComplete()
                 subscription?.dispose()
             } else {
                 if (i < wordCount)
                     getOne(i)
-                i++;
+                i++
             }
         }
         compositeDisposable.add(subscription)

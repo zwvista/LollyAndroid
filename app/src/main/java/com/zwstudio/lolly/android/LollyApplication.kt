@@ -25,7 +25,7 @@ class LollyApplication : Application() {
     @Bean
     lateinit var vm: SettingsViewModel
 
-    val compositeDisposable = CompositeDisposable();
+    val compositeDisposable = CompositeDisposable()
 
     override fun onCreate() {
         super.onCreate()
@@ -42,9 +42,6 @@ class LollyApplication : Application() {
 
     }
 
-    override fun onTerminate() {
-        super.onTerminate()
-    }
 }
 
 fun yesNoDialog(context: Context, message: String, yesAction: () -> Unit, noAction: () -> Unit) {
@@ -68,9 +65,9 @@ fun yesNoDialog(context: Context, message: String, yesAction: () -> Unit, noActi
 class LollySwipeRefreshLayout : SwipeRefreshLayout {
     private var mScrollingView: View? = null
 
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
     override fun canChildScrollUp(): Boolean {
         return mScrollingView != null && mScrollingView!!.canScrollVertically(-1)

@@ -32,7 +32,7 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
     @ViewById
     lateinit var etTranslation: TextView
 
-    val compositeDisposable = CompositeDisposable();
+    val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {

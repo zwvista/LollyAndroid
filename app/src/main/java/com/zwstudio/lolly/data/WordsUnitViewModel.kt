@@ -1,15 +1,11 @@
 package com.zwstudio.lolly.data
 
 import android.util.Log
-import com.zwstudio.lolly.domain.DictNote
-import com.zwstudio.lolly.domain.LangWord
 import com.zwstudio.lolly.domain.UnitWord
 import com.zwstudio.lolly.restapi.RestLangWord
 import com.zwstudio.lolly.restapi.RestUnitWord
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.EBean
 import java.net.URLEncoder
 
@@ -80,10 +76,9 @@ class WordsUnitViewModel : BaseViewModel2() {
                                                 f()
                                     }
                         }
-            }.map {
+            }.concatMap {
                 retrofitJson.create(RestUnitWord::class.java).update(id, textbookid, unit, part, seqnum, it)
-            }.map {
-                Log.d("", it.toString())
+                    .map { Log.d("", it.toString()) }
             }.applyIO()
 
     fun create(langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, langwordid: Int, word: String, note: String?): Observable<Int> =

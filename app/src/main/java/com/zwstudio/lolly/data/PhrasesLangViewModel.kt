@@ -3,8 +3,6 @@ package com.zwstudio.lolly.data
 import com.zwstudio.lolly.domain.LangPhrases
 import com.zwstudio.lolly.restapi.RestLangPhrase
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.androidannotations.annotations.EBean
 
 @EBean

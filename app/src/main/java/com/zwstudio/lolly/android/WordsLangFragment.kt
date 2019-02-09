@@ -18,7 +18,7 @@ class WordsLangFragment : DrawerListFragment() {
     @Bean
     lateinit var vm: WordsLangViewModel
 
-    val compositeDisposable = CompositeDisposable();
+    val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
