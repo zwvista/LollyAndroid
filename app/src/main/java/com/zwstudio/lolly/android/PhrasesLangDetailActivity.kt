@@ -1,24 +1,23 @@
 package com.zwstudio.lolly.android
 
-import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
-import com.zwstudio.lolly.data.WordsUnitViewModel
-import com.zwstudio.lolly.domain.UnitWord
+import com.zwstudio.lolly.data.PhrasesUnitViewModel
+import com.zwstudio.lolly.domain.UnitPhrase
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.activity_words_unit_detail)
+@EActivity(R.layout.activity_phrases_unit_detail)
 @OptionsMenu(R.menu.menu_save)
-class WordsUnitDetailActivity : AppCompatActivity() {
+class PhrasesLangDetailActivity : AppCompatActivity() {
 
     @Bean
-    lateinit var vm: WordsUnitViewModel
-    lateinit var item: UnitWord
+    lateinit var vm: PhrasesUnitViewModel
+    lateinit var item: UnitPhrase
 
     @ViewById
     lateinit var tvID: TextView
@@ -29,16 +28,16 @@ class WordsUnitDetailActivity : AppCompatActivity() {
     @ViewById
     lateinit var etSeqNum: TextView
     @ViewById
-    lateinit var etWord: TextView
+    lateinit var etPhrase: TextView
     @ViewById
-    lateinit var etNote: TextView
+    lateinit var etTranslation: TextView
 
     val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
-        vm.lstWords = (intent.getSerializableExtra("list") as Array<UnitWord>).toMutableList()
-        item = intent.getSerializableExtra("word") as UnitWord
+        vm.lstPhrases = (intent.getSerializableExtra("list") as Array<UnitPhrase>).toMutableList()
+        item = intent.getSerializableExtra("phrase") as UnitPhrase
         tvID.text = "ID: ${item.id}"
         run {
             val lst = vm.vmSettings.lstUnits
@@ -76,24 +75,21 @@ class WordsUnitDetailActivity : AppCompatActivity() {
             spnPart.setSelection(item.part - 1)
         }
         etSeqNum.text = "${item.seqnum}"
-        etWord.text = item.word
-        etNote.text = item.note
+        etPhrase.text = item.phrase
+        etTranslation.text = item.translation
     }
 
     @OptionsItem
     fun menuSave() {
         item.seqnum = etSeqNum.text.toString().toInt()
-        item.word = etWord.text.toString()
-        item.note = etNote.text.toString()
-        val word = vm.vmSettings.autoCorrectInput(item.word)
+        item.phrase = etPhrase.text.toString()
+        item.translation = etTranslation.text.toString()
         if (item.id == 0) {
-            vm.lstWords.add(item)
-            compositeDisposable.add(vm.create(item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.langwordid, word, item.note).subscribe {
+            vm.lstPhrases.add(item)
+            compositeDisposable.add(vm.create(item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.langphraseid, item.phrase, item.translation).subscribe {
                 item.id = it
             })
         } else
-            compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.langwordid, word, item.note).subscribe())
-        setResult(Activity.RESULT_OK)
-        finish()
+            compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.langphraseid, item.phrase, item.translation).subscribe())
     }
 }

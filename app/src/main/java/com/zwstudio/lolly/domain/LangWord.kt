@@ -23,7 +23,7 @@ class LangWord: Serializable {
     var langid: Int = 0
     @SerializedName("WORD")
     @Expose
-    var word: String? = null
+    var word = ""
     @SerializedName("LEVEL")
     @Expose
     var level: Int = 0
@@ -45,4 +45,7 @@ class LangWord: Serializable {
             }
         return oldNote != note
     }
+
+    val wordnote: String
+        get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
 }

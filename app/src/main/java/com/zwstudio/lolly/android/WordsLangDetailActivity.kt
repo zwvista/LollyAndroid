@@ -14,7 +14,7 @@ import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_words_unit_detail)
 @OptionsMenu(R.menu.menu_save)
-class WordsUnitDetailActivity : AppCompatActivity() {
+class WordsLangDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: WordsUnitViewModel

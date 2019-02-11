@@ -40,6 +40,18 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
+        <activity
+            android:name=".WordsLangDetailActivity_"
+            android:label="@string/words_lang_detail"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
+        <activity
+            android:name=".PhrasesLangDetailActivity_"
+            android:label="@string/phrases_lang_detail"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
     </application>
 
 </manifest>

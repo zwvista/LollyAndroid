@@ -226,4 +226,7 @@ class SettingsViewModel : BaseViewModel1() {
             .updatePartTo(selectedUSTextbook.id, uspartto)
             .map { Log.d("", it.toString()) }
             .applyIO()
+
+    fun autoCorrectInput(text: String): String =
+        autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
 }

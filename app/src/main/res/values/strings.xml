@@ -11,6 +11,10 @@
     <string name="words_unit_detail">Words in Unit(Detail)</string>
     <string name="phrases_unit_edit">Phrases in Unit(Edit)</string>
     <string name="phrases_unit_detail">Phrases in Unit(Detail)</string>
+    <string name="words_lang_edit">Words in Language(Edit)</string>
+    <string name="words_lang_detail">Words in Language(Detail)</string>
+    <string name="phrases_lang_edit">Phrases in Language(Edit)</string>
+    <string name="phrases_lang_detail">Phrases in Language(Detail)</string>
 
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
