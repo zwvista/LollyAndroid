@@ -55,7 +55,8 @@ class WordsUnitViewModel : BaseViewModel2() {
                                 retrofitJson.create(RestLangWord::class.java)
                                     .getDataByLangWord("LANGID,eq,$langid", "WORD,eq,${URLEncoder.encode(word, "UTF-8")}")
                                     .concatMap {
-                                        val lstLangNew = it.lst!!
+                                        // Api is case insensitive
+                                        val lstLangNew = it.lst!!.filter { it.word == word }
                                         fun f(): Observable<Int> {
                                             val itemLang = lstLangNew[0]
                                             val langwordid = itemLang.id
@@ -85,7 +86,8 @@ class WordsUnitViewModel : BaseViewModel2() {
         retrofitJson.create(RestLangWord::class.java)
             .getDataByLangWord("LANGID,eq,$langid", "WORD,eq,${URLEncoder.encode(word, "UTF-8")}")
             .concatMap {
-                val lstLang = it.lst!!
+                // Api is case insensitive
+                val lstLang = it.lst!!.filter { it.word == word }
                 if (lstLang.isEmpty())
                     retrofitJson.create(RestLangWord::class.java).create(langid, word, 0, note)
                 else {

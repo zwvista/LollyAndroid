@@ -2,7 +2,6 @@ package com.zwstudio.lolly.data
 
 import android.util.Log
 import com.zwstudio.lolly.domain.LangPhrase
-import com.zwstudio.lolly.domain.LangWord
 import com.zwstudio.lolly.restapi.RestLangPhrase
 import io.reactivex.Observable
 import org.androidannotations.annotations.EBean
@@ -37,7 +36,7 @@ class PhrasesLangViewModel : BaseViewModel2() {
             .map { Log.d("", it.toString()) }
             .applyIO()
 
-    fun newLangPhrase() = LangWord().apply {
+    fun newLangPhrase() = LangPhrase().apply {
         langid = vmSettings.selectedLang.id
     }
 }

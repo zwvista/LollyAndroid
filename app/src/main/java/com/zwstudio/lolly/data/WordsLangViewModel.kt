@@ -16,7 +16,7 @@ class WordsLangViewModel : BaseViewModel2() {
 
     fun getData(): Observable<Unit> =
         retrofitJson.create(RestLangWord::class.java)
-            .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
+            .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}&order=WORD")
             .map { lstWords = it.lst!!.toMutableList() }
             .applyIO()
 

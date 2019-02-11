@@ -41,7 +41,8 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                     retrofitJson.create(RestLangPhrase::class.java)
                         .getDataById("ID,eq,$langphraseid")
                         .concatMap {
-                            val lstLangOld = it.lst!!
+                            // Api is case insensitive
+                            val lstLangOld = it.lst!!.filter { it.phrase == phrase }
                             if (!lstLangOld.isEmpty() && lstLangOld[0].phrase == phrase)
                                 retrofitJson.create(RestLangPhrase::class.java).updateTranslation(langphraseid, translation)
                             else
@@ -78,7 +79,8 @@ class PhrasesUnitViewModel : BaseViewModel2() {
         retrofitJson.create(RestLangPhrase::class.java)
             .getDataByLangPhrase("LANGID,eq,$langid", "PHRASE,eq,${URLEncoder.encode(phrase, "UTF-8")}")
             .concatMap {
-                val lstLang = it.lst!!
+                // Api is case insensitive
+                val lstLang = it.lst!!.filter { it.phrase == phrase }
                 if (lstLang.isEmpty())
                     retrofitJson.create(RestLangPhrase::class.java).create(langid, phrase, translation)
                 else {
