@@ -83,7 +83,7 @@ class WordsUnitFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = WordsUnitItemAdapter(vm, mDragListView, R.layout.list_item_words_unit_edit, false, compositeDisposable)
+            val listAdapter = WordsUnitItemAdapter(vm, mDragListView, R.layout.list_item_words_unit_edit, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(WordsUnitDragItem(context!!, R.layout.list_item_words_unit_edit))
@@ -126,7 +126,7 @@ class WordsUnitFragment : DrawerListFragment() {
         }
     }
 
-    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val mLayoutId: Int, val mDragOnLongPress: Boolean, val compositeDisposable: CompositeDisposable) : DragItemAdapter<UnitWord, WordsUnitItemAdapter.ViewHolder>() {
+    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val mLayoutId: Int, val compositeDisposable: CompositeDisposable) : DragItemAdapter<UnitWord, WordsUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -148,7 +148,7 @@ class WordsUnitFragment : DrawerListFragment() {
             return mItemList[position].id.toLong()
         }
 
-        internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image, mDragOnLongPress) {
+        internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image, false) {
             var mText1: TextView
             var mText2: TextView
             var mEdit: TextView

@@ -23,7 +23,7 @@ import org.androidannotations.annotations.*
 import java.net.URLEncoder
 
 @EFragment(R.layout.content_words_lang)
-@OptionsMenu(R.menu.menu_words_lang)
+@OptionsMenu(R.menu.menu_add)
 class WordsLangFragment : DrawerListFragment() {
 
     @Bean
@@ -100,7 +100,7 @@ class WordsLangFragment : DrawerListFragment() {
             return mItemList[position].id.toLong()
         }
 
-        internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.text1, false) {
+        internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image, false) {
             var mText1: TextView
             var mEdit: TextView
             var mDelete: TextView
@@ -117,7 +117,7 @@ class WordsLangFragment : DrawerListFragment() {
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
                 fun edit(item: LangWord) {
-                    WordsUnitDetailActivity_.intent(itemView.context)
+                    WordsLangDetailActivity_.intent(itemView.context)
                         .extra("list", vm.lstWords.toTypedArray()).extra("word", item).start()
                 }
                 fun delete(item: LangWord) {

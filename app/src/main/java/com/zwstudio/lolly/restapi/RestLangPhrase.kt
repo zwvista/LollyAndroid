@@ -15,7 +15,7 @@ interface RestLangPhrase {
     fun getDataById(@Query("filter") filter: String): Observable<LangPhrases>
 
     @FormUrlEncoded
-    @PUT("LANGWORDS/{id}")
+    @PUT("LANGPHRASES/{id}")
     fun updateTranslation(@Path("id") id: Int, @Field("TRANSLATION") translation: String?): Observable<Int>
 
     @FormUrlEncoded

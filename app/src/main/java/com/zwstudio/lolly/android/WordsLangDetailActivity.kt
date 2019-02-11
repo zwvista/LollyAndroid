@@ -2,34 +2,26 @@ package com.zwstudio.lolly.android
 
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.TextView
-import com.zwstudio.lolly.data.WordsUnitViewModel
-import com.zwstudio.lolly.domain.UnitWord
+import com.zwstudio.lolly.data.WordsLangViewModel
+import com.zwstudio.lolly.domain.LangWord
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.activity_words_unit_detail)
+@EActivity(R.layout.activity_words_lang_detail)
 @OptionsMenu(R.menu.menu_save)
 class WordsLangDetailActivity : AppCompatActivity() {
 
     @Bean
-    lateinit var vm: WordsUnitViewModel
-    lateinit var item: UnitWord
+    lateinit var vm: WordsLangViewModel
+    lateinit var item: LangWord
 
     @ViewById
     lateinit var tvID: TextView
     @ViewById
-    lateinit var spnUnit: Spinner
-    @ViewById
-    lateinit var spnPart: Spinner
-    @ViewById
-    lateinit var etSeqNum: TextView
-    @ViewById
     lateinit var etWord: TextView
+    @ViewById
+    lateinit var etLevel: TextView
     @ViewById
     lateinit var etNote: TextView
 
@@ -37,62 +29,27 @@ class WordsLangDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        vm.lstWords = (intent.getSerializableExtra("list") as Array<UnitWord>).toMutableList()
-        item = intent.getSerializableExtra("word") as UnitWord
+        vm.lstWords = (intent.getSerializableExtra("list") as Array<LangWord>).toMutableList()
+        item = intent.getSerializableExtra("word") as LangWord
         tvID.text = "ID: ${item.id}"
-        run {
-            val lst = vm.vmSettings.lstUnits
-            val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lst) {
-                fun convert(v: View, position: Int): View {
-                    val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position)
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                        convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                        convert(super.getDropDownView(position, convertView, parent), position)
-            }
-            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-            spnUnit.adapter = adapter
-            spnUnit.setSelection(item.unit - 1)
-        }
-
-        run {
-            val lst = vm.vmSettings.lstParts
-            val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lst) {
-                fun convert(v: View, position: Int): View {
-                    val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position)
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                        convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                        convert(super.getDropDownView(position, convertView, parent), position)
-            }
-            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-            spnPart.adapter = adapter
-            spnPart.setSelection(item.part - 1)
-        }
-        etSeqNum.text = "${item.seqnum}"
         etWord.text = item.word
+        etLevel.text = item.level.toString()
         etNote.text = item.note
     }
 
     @OptionsItem
     fun menuSave() {
-        item.seqnum = etSeqNum.text.toString().toInt()
         item.word = etWord.text.toString()
+        item.level = Integer.parseInt(etLevel.text.toString())
         item.note = etNote.text.toString()
         val word = vm.vmSettings.autoCorrectInput(item.word)
         if (item.id == 0) {
             vm.lstWords.add(item)
-            compositeDisposable.add(vm.create(item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.langwordid, word, item.note).subscribe {
+            compositeDisposable.add(vm.create(item.langid, word, item.level, item.note).subscribe {
                 item.id = it
             })
         } else
-            compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.langwordid, word, item.note).subscribe())
+            compositeDisposable.add(vm.update(item.id, item.langid, word, item.level, item.note).subscribe())
         setResult(Activity.RESULT_OK)
         finish()
     }

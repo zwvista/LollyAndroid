@@ -1,8 +1,10 @@
 package com.zwstudio.lolly.android
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.content.*
+import android.net.Uri
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -19,10 +21,11 @@ import com.zwstudio.lolly.data.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.UnitPhrase
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
+import java.net.URLEncoder
 
 
 @EFragment(R.layout.content_phrases_unit)
-@OptionsMenu(R.menu.menu_words_unit)
+@OptionsMenu(R.menu.menu_add)
 class PhrasesUnitFragment : DrawerListFragment() {
 
     @Bean
@@ -78,7 +81,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, R.layout.list_item_phrases_unit_edit, R.id.image, false, compositeDisposable)
+            val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, R.layout.list_item_phrases_unit_edit, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(PhrasesUnitDragItem(context!!, R.layout.list_item_phrases_unit_edit))
@@ -102,7 +105,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
         }
     }
 
-    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val mLayoutId: Int, val mGrabHandleId: Int, val mDragOnLongPress: Boolean, val compositeDisposable: CompositeDisposable) : DragItemAdapter<UnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
+    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val mLayoutId: Int, val compositeDisposable: CompositeDisposable) : DragItemAdapter<UnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases
@@ -125,12 +128,13 @@ class PhrasesUnitFragment : DrawerListFragment() {
             return mItemList[position].id.toLong()
         }
 
-        internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, mGrabHandleId, mDragOnLongPress) {
+        internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image, false) {
             var mText1: TextView
             var mText2: TextView
             var mText3: TextView
             var mEdit: TextView
             var mDelete: TextView
+            var mMore: TextView
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
@@ -138,31 +142,81 @@ class PhrasesUnitFragment : DrawerListFragment() {
                 mText3 = itemView.findViewById(R.id.text3)
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
+                mMore = itemView.findViewById(R.id.item_more)
                 initButtons()
             }
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
+                fun edit(item: UnitPhrase) {
+                    PhrasesUnitDetailActivity_.intent(itemView.context)
+                        .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
+                }
+                fun delete(item: UnitPhrase) {
+                    yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
+                        val pos = mDragListView.adapter.getPositionForItem(item)
+                        mDragListView.adapter.removeItem(pos)
+                        compositeDisposable.add(vm.delete(item.id).subscribe())
+                        vm.isSwipeStarted = false
+                    }, {
+                        mDragListView.resetSwipedViews(null)
+                        vm.isSwipeStarted = false
+                    })
+                }
+                fun copy(item: UnitPhrase) {
+                    // https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
+                    val clipboard = itemView.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("", item.phrase)
+                    clipboard.primaryClip = clip
+                }
+                fun google(item: UnitPhrase) {
+                    // https://stackoverflow.com/questions/12013416/is-there-any-way-in-android-to-force-open-a-link-to-open-in-chrome
+                    val urlString = "https://www.google.com/search?q=" + URLEncoder.encode(item.phrase, "UTF-8")
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(urlString))
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    intent.`package` = "com.android.chrome"
+                    try {
+                        itemView.context.startActivity(intent)
+                    } catch (ex: ActivityNotFoundException) {
+                        // Chrome browser presumably not installed so allow user to choose instead
+                        intent.`package` = null
+                        itemView.context.startActivity(intent)
+                    }
+                }
+
                 mEdit.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitPhrase
-                        PhrasesUnitDetailActivity_.intent(itemView.context)
-                            .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
+                        edit(item)
                     }
                     true
                 }
                 mDelete.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitPhrase
-                        yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
-                            val pos = mDragListView.adapter.getPositionForItem(item)
-                            mDragListView.adapter.removeItem(pos)
-                            compositeDisposable.add(vm.delete(item.id).subscribe())
-                            vm.isSwipeStarted = false
-                        }, {
-                            mDragListView.resetSwipedViews(null)
-                            vm.isSwipeStarted = false
-                        })
+                        delete(item)
+                    }
+                    true
+                }
+                mMore.setOnTouchListener { _, event ->
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        mDragListView.resetSwipedViews(null)
+                        vm.isSwipeStarted = false
+
+                        val item = itemView.tag as UnitPhrase
+                        // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
+                        val builder = AlertDialog.Builder(itemView.context)
+                            .setTitle(item.phrase)
+                            .setItems(arrayOf("Delete", "Edit", "Copy Phrase", "Google Phrase", "Cancel")) { _, which ->
+                                when (which) {
+                                    0 -> delete(item)
+                                    1 -> edit(item)
+                                    2 -> copy(item)
+                                    3 -> google(item)
+                                    else -> {}
+                                }
+                            }
+                        builder.show()
                     }
                     true
                 }
