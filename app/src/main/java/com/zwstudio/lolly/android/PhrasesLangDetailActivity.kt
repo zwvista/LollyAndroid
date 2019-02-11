@@ -82,7 +82,7 @@ class PhrasesLangDetailActivity : AppCompatActivity() {
     @OptionsItem
     fun menuSave() {
         item.seqnum = etSeqNum.text.toString().toInt()
-        item.phrase = etPhrase.text.toString()
+        item.phrase = vm.vmSettings.autoCorrectInput(etPhrase.text.toString())
         item.translation = etTranslation.text.toString()
         if (item.id == 0) {
             vm.lstPhrases.add(item)

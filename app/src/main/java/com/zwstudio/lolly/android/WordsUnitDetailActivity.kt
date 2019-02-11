@@ -83,7 +83,7 @@ class WordsUnitDetailActivity : AppCompatActivity() {
     @OptionsItem
     fun menuSave() {
         item.seqnum = etSeqNum.text.toString().toInt()
-        item.word = etWord.text.toString()
+        item.word = vm.vmSettings.autoCorrectInput(etWord.text.toString())
         item.note = etNote.text.toString()
         val word = vm.vmSettings.autoCorrectInput(item.word)
         if (item.id == 0) {

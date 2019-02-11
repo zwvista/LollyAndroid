@@ -39,7 +39,7 @@ class WordsLangDetailActivity : AppCompatActivity() {
 
     @OptionsItem
     fun menuSave() {
-        item.word = etWord.text.toString()
+        item.word = vm.vmSettings.autoCorrectInput(etWord.text.toString())
         item.level = Integer.parseInt(etLevel.text.toString())
         item.note = etNote.text.toString()
         val word = vm.vmSettings.autoCorrectInput(item.word)
