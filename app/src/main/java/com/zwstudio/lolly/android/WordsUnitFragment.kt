@@ -2,8 +2,7 @@ package com.zwstudio.lolly.android
 
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
-import android.content.*
-import android.net.Uri
+import android.content.Context
 import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
@@ -20,10 +19,11 @@ import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.WordsUnitViewModel
+import com.zwstudio.lolly.data.copyText
+import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.domain.UnitWord
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
-import java.net.URLEncoder
 
 
 @EFragment(R.layout.content_words_unit)
@@ -181,27 +181,6 @@ class WordsUnitFragment : DrawerListFragment() {
                         vm.isSwipeStarted = false
                     })
                 }
-                fun copy(item: UnitWord) {
-                    // https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
-                    val clipboard = itemView.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    val clip = ClipData.newPlainText("", item.word)
-                    clipboard.primaryClip = clip
-                }
-                fun google(item: UnitWord) {
-                    // https://stackoverflow.com/questions/12013416/is-there-any-way-in-android-to-force-open-a-link-to-open-in-chrome
-                    val urlString = "https://www.google.com/search?q=" + URLEncoder.encode(item.word, "UTF-8")
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(urlString))
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    intent.`package` = "com.android.chrome"
-                    try {
-                        itemView.context.startActivity(intent)
-                    } catch (ex: ActivityNotFoundException) {
-                        // Chrome browser presumably not installed so allow user to choose instead
-                        intent.`package` = null
-                        itemView.context.startActivity(intent)
-                    }
-                }
-
                 mEdit.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as UnitWord
@@ -235,8 +214,8 @@ class WordsUnitFragment : DrawerListFragment() {
                                             mDragListView.adapter.notifyItemChanged(index)
                                         })
                                     }
-                                    3 -> copy(item)
-                                    4 -> google(item)
+                                    3 -> itemView.copyText(item.word)
+                                    4 -> itemView.googleString(item.word)
                                     else -> {}
                                 }
                             }

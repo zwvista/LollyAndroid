@@ -21,7 +21,7 @@ class LangPhrase(): Serializable {
     var langid: Int = 0
     @SerializedName("PHRASE")
     @Expose
-    var phrase: String? = null
+    var phrase = ""
     @SerializedName("TRANSLATION")
     @Expose
     var translation: String? = null

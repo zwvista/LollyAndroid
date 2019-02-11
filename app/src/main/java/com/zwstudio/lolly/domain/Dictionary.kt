@@ -80,10 +80,10 @@ abstract class Dictionary: Serializable {
             if (chconv == "BASIC")
                 autoCorrect(word, lstAutoCorrects, { it.extended }, { it.basic })
             else
-                URLEncoder.encode(word, "UTF-8")
+                word
         var wordUrl: String? = null
         try {
-            wordUrl = url!!.replace("{0}", word2)
+            wordUrl = url!!.replace("{0}", URLEncoder.encode(word2, "UTF-8"))
         } catch (e: UnsupportedEncodingException) {
             e.printStackTrace()
         }
