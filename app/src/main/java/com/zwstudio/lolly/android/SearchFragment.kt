@@ -16,7 +16,7 @@ class SearchFragment : Fragment() {
     @ViewById
     lateinit var svWord: SearchView
     @ViewById
-    lateinit var wvDictWord: WebView
+    lateinit var wvDictMean: WebView
     @ViewById
     lateinit var wvDictOffline: WebView
 
@@ -31,10 +31,10 @@ class SearchFragment : Fragment() {
         // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
         activity!!.title = resources.getString(R.string.search)
 
-        configWebView(wvDictWord)
+        configWebView(wvDictMean)
         configWebView(wvDictOffline)
 
-        wvDictWord.visibility = View.INVISIBLE
+        wvDictMean.visibility = View.INVISIBLE
         wvDictOffline.visibility = View.INVISIBLE
         svWord.setQuery(word, false)
         svWord.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -63,13 +63,13 @@ class SearchFragment : Fragment() {
     @Click(R.id.btnGo)
     fun searchDict() {
         word = svWord.query.toString()
-        wvDictWord.visibility = View.VISIBLE
+        wvDictMean.visibility = View.VISIBLE
         wvDictOffline.visibility = View.INVISIBLE
         val item = vm.vmSettings.selectedDictPicker
-        val item2 = vm.vmSettings.lstDictsWord.first { it.dictname == item.dictname }
+        val item2 = vm.vmSettings.lstDictsMean.first { it.dictname == item.dictname }
         val url = item2.urlString(word, vm.vmSettings.lstAutoCorrect)
         svWord.post { svWord.clearFocus() }
-        wvDictWord.loadUrl(url)
+        wvDictMean.loadUrl(url)
     }
 
 }

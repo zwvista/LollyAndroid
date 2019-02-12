@@ -10,11 +10,11 @@ import java.io.Serializable
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
-class DictsWord {
+class DictsMean {
 
-    @SerializedName("VDICTSWORD")
+    @SerializedName("VDICTSMEAN")
     @Expose
-    var lst: List<DictWord>? = null
+    var lst: List<DictMean>? = null
 }
 
 class DictsNote {
@@ -94,7 +94,7 @@ abstract class Dictionary: Serializable {
 
 val cssFolder = "https://zwvista.tk/lolly/css/"
 
-class DictWord: Dictionary() {
+class DictMean: Dictionary() {
     fun htmlString(html: String, word: String, useTemplate2: Boolean): String {
         val t = if (useTemplate2 && !template2.isNullOrEmpty()) template2!! else template!!
         return extractTextFrom(html, transform!!, t) { text, t ->

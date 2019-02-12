@@ -13,7 +13,7 @@ import android.widget.TextView
 import com.zwstudio.lolly.data.DictWebViewStatus
 import com.zwstudio.lolly.data.SearchViewModel
 import com.zwstudio.lolly.domain.DictPicker
-import com.zwstudio.lolly.domain.DictWord
+import com.zwstudio.lolly.domain.DictMean
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -68,7 +68,7 @@ class WordsDictActivity : AppCompatActivity() {
                     tv.text = m.dictname
                     (tv as? CheckedTextView)?.isChecked = spnDictPicker.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
-                    val item2 = vm.vmSettings.lstDictsWord.firstOrNull { it.dictname == m.dictname }
+                    val item2 = vm.vmSettings.lstDictsMean.firstOrNull { it.dictname == m.dictname }
                     tv.text = item2?.url ?: ""
                     return v
                 }
@@ -114,7 +114,7 @@ class WordsDictActivity : AppCompatActivity() {
             val str = vm.vmSettings.dictHtml(vm.selectedWord, item.dictids())
             wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
         } else {
-            val item2 = vm.vmSettings.lstDictsWord.first { it.dictname == item.dictname }
+            val item2 = vm.vmSettings.lstDictsMean.first { it.dictname == item.dictname }
             val url = item2.urlString(vm.selectedWord, vm.vmSettings.lstAutoCorrect)
             if (item2.dicttypename == "OFFLINE") {
                 wv.loadUrl("about:blank")

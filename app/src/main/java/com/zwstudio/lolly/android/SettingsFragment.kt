@@ -124,7 +124,7 @@ class SettingsFragment : Fragment() {
                     tv.text = m.dictname
                     (tv as? CheckedTextView)?.isChecked = spnDictPicker.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
-                    val item2 = vm.lstDictsWord.firstOrNull { it.dictname == m.dictname }
+                    val item2 = vm.lstDictsMean.firstOrNull { it.dictname == m.dictname }
                     tv.text = item2?.url ?: ""
                     return v
                 }

@@ -90,7 +90,7 @@ class SettingsViewModel : BaseViewModel1() {
     val selectedTextbook: Textbook
         get() = lstTextbooks[selectedTextbookIndex]
 
-    var lstDictsWord = listOf<DictWord>()
+    var lstDictsMean = listOf<DictMean>()
     var lstDictsPicker = listOf<DictPicker>()
     var selectedDictPickerIndex: Int = 0
         set(value) {
@@ -134,16 +134,16 @@ class SettingsViewModel : BaseViewModel1() {
         uslangid = selectedLang.id
         selectedUSLangIndex = lstUserSettings.indexOfFirst { it.kind == 2 && it.entityid == uslangid }
         val lstDicts = usdictspicker.split("\r\n")
-        return Observables.zip(retrofitJson.create(RestDictWord::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
+        return Observables.zip(retrofitJson.create(RestDictMean::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestDictNote::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestTextbook::class.java).getDataByLang("LANGID,eq,$uslangid"),
             retrofitJson.create(RestAutoCorrect::class.java).getDataByLang("LANGID,eq,$uslangid")) {
             res1, res2, res3, res4 ->
-            lstDictsWord = res1.lst!!
+            lstDictsMean = res1.lst!!
             var i = 0
             lstDictsPicker = lstDicts.flatMap { d ->
                 if (d == "0")
-                    lstDictsWord.map { DictPicker(it.dictid.toString(), it.dictname!!) }
+                    lstDictsMean.map { DictPicker(it.dictid.toString(), it.dictname!!) }
                 else {
                     i++
                     listOf(DictPicker(d, "Custom$i"))
@@ -170,7 +170,7 @@ class SettingsViewModel : BaseViewModel1() {
     fun dictHtml(word: String, dictids: List<String>): String {
         var s = "<html><body>\n"
         dictids.forEachIndexed { i, dictid ->
-            val item = lstDictsWord.first { it.dictid.toString() == dictid }
+            val item = lstDictsMean.first { it.dictid.toString() == dictid }
             val ifrId = "ifr${i + 1}"
             val url = item.urlString(word, lstAutoCorrect)
             s += "<iframe id='$ifrId' frameborder='1' style='width:100%; height:500px; display:block' src='$url'></iframe>\n"
