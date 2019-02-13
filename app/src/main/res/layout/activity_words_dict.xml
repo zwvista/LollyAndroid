@@ -16,7 +16,7 @@
         <Spinner
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/spnDictPicker"
+            android:id="@+id/spnDictGroup"
             android:layout_weight="1"/>
 
     </LinearLayout>

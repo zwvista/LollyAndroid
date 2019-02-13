@@ -65,7 +65,7 @@ class SearchFragment : Fragment() {
         word = svWord.query.toString()
         wvDictMean.visibility = View.VISIBLE
         wvDictOffline.visibility = View.INVISIBLE
-        val item = vm.vmSettings.selectedDictPicker
+        val item = vm.vmSettings.selectedDictGroup
         val item2 = vm.vmSettings.lstDictsMean.first { it.dictname == item.dictname }
         val url = item2.urlString(word, vm.vmSettings.lstAutoCorrect)
         svWord.post { svWord.clearFocus() }

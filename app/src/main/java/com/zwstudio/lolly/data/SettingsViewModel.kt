@@ -29,7 +29,7 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             selectedUSLang.value1 = value.toString()
         }
-    var usdictpicker: String
+    var usdictgroup: String
         get() = selectedUSLang.value2!!
         set(value) {
             selectedUSLang.value2 = value
@@ -39,7 +39,7 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             selectedUSLang.value3 = value.toString()
         }
-    var usdictspicker: String
+    var usdictsgroup: String
         get() = selectedUSLang.value4 ?: "0"
         set(value) {
             selectedUSLang.value4 = value
@@ -91,14 +91,14 @@ class SettingsViewModel : BaseViewModel1() {
         get() = lstTextbooks[selectedTextbookIndex]
 
     var lstDictsMean = listOf<DictMean>()
-    var lstDictsPicker = listOf<DictPicker>()
-    var selectedDictPickerIndex: Int = 0
+    var lstDictsGroup = listOf<DictGroup>()
+    var selectedDictGroupIndex: Int = 0
         set(value) {
             field = value
-            usdictpicker = selectedDictPicker.dictid
+            usdictgroup = selectedDictGroup.dictid
         }
-    val selectedDictPicker: DictPicker
-        get() = lstDictsPicker[selectedDictPickerIndex]
+    val selectedDictGroup: DictGroup
+        get() = lstDictsGroup[selectedDictGroupIndex]
 
     var lstDictsNote = listOf<DictNote>()
     var selectedDictNoteIndex: Int = 0
@@ -133,7 +133,7 @@ class SettingsViewModel : BaseViewModel1() {
         selectedLangIndex = langIndex
         uslangid = selectedLang.id
         selectedUSLangIndex = lstUserSettings.indexOfFirst { it.kind == 2 && it.entityid == uslangid }
-        val lstDicts = usdictspicker.split("\r\n")
+        val lstDicts = usdictsgroup.split("\r\n")
         return Observables.zip(retrofitJson.create(RestDictMean::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestDictNote::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestTextbook::class.java).getDataByLang("LANGID,eq,$uslangid"),
@@ -141,15 +141,15 @@ class SettingsViewModel : BaseViewModel1() {
             res1, res2, res3, res4 ->
             lstDictsMean = res1.lst!!
             var i = 0
-            lstDictsPicker = lstDicts.flatMap { d ->
+            lstDictsGroup = lstDicts.flatMap { d ->
                 if (d == "0")
-                    lstDictsMean.map { DictPicker(it.dictid.toString(), it.dictname!!) }
+                    lstDictsMean.map { DictGroup(it.dictid.toString(), it.dictname!!) }
                 else {
                     i++
-                    listOf(DictPicker(d, "Custom$i"))
+                    listOf(DictGroup(d, "Custom$i"))
                 }
             }
-            selectedDictPickerIndex = lstDictsPicker.indexOfFirst { it.dictid == usdictpicker }
+            selectedDictGroupIndex = lstDictsGroup.indexOfFirst { it.dictid == usdictgroup }
             lstDictsNote = res2.lst!!
             if (lstDictsNote.isNotEmpty())
                 selectedDictNoteIndex = lstDictsNote.indexOfFirst { it.id == usdictnoteid }
@@ -191,9 +191,9 @@ class SettingsViewModel : BaseViewModel1() {
             .map { Log.d("", it.toString()) }
             .applyIO()
 
-    fun updateDictPicker(): Observable<Int> =
+    fun updateDictGroup(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
-            .updateDictPicker(selectedUSLang.id, usdictpicker)
+            .updateDictGroup(selectedUSLang.id, usdictgroup)
             .map { Log.d("", it.toString()) }
             .applyIO()
 

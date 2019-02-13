@@ -105,7 +105,7 @@ class DictMean: Dictionary() {
     }
 }
 
-class DictPicker(val dictid: String, val dictname: String) {
+class DictGroup(val dictid: String, val dictname: String) {
     fun dictids(): List<String> = dictid.split(",")
 }
 

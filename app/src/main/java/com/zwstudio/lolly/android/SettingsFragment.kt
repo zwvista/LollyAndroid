@@ -20,7 +20,7 @@ class SettingsFragment : Fragment() {
     @ViewById
     lateinit var spnLanguage: Spinner
     @ViewById
-    lateinit var spnDictPicker: Spinner
+    lateinit var spnDictGroup: Spinner
     @ViewById
     lateinit var spnDictNote: Spinner
     @ViewById
@@ -116,13 +116,13 @@ class SettingsFragment : Fragment() {
 
     private fun updateLang() {
         run {
-            val lst = vm.lstDictsPicker
-            val adapter = object : ArrayAdapter<DictPicker>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val lst = vm.lstDictsGroup
+            val adapter = object : ArrayAdapter<DictGroup>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictPicker.selectedItemPosition == position
+                    (tv as? CheckedTextView)?.isChecked = spnDictGroup.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
                     val item2 = vm.lstDictsMean.firstOrNull { it.dictname == m.dictname }
                     tv.text = item2?.url ?: ""
@@ -134,9 +134,9 @@ class SettingsFragment : Fragment() {
                     convert(super.getDropDownView(position, convertView, parent), position)
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnDictPicker.adapter = adapter
+            spnDictGroup.adapter = adapter
 
-            spnDictPicker.setSelection(vm.selectedDictPickerIndex)
+            spnDictGroup.setSelection(vm.selectedDictGroupIndex)
         }
         run {
             val lst = vm.lstDictsNote
@@ -186,12 +186,12 @@ class SettingsFragment : Fragment() {
     }
 
     @ItemSelect
-    fun spnDictPickerItemSelected(selected: Boolean, position: Int) {
-        if (vm.selectedDictPickerIndex == position) return
-        vm.selectedDictPickerIndex = position
+    fun spnDictGroupItemSelected(selected: Boolean, position: Int) {
+        if (vm.selectedDictGroupIndex == position) return
+        vm.selectedDictGroupIndex = position
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictPicker.adapter as ArrayAdapter<DictPicker>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateDictPicker().subscribe())
+        (spnDictGroup.adapter as ArrayAdapter<DictGroup>).notifyDataSetChanged()
+        compositeDisposable.add(vm.updateDictGroup().subscribe())
     }
 
     @ItemSelect

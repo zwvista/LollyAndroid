@@ -12,7 +12,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.data.DictWebViewStatus
 import com.zwstudio.lolly.data.SearchViewModel
-import com.zwstudio.lolly.domain.DictPicker
+import com.zwstudio.lolly.domain.DictGroup
 import com.zwstudio.lolly.domain.DictMean
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
@@ -26,7 +26,7 @@ class WordsDictActivity : AppCompatActivity() {
     @ViewById
     lateinit var spnWord: Spinner
     @ViewById
-    lateinit var spnDictPicker: Spinner
+    lateinit var spnDictGroup: Spinner
     @ViewById(R.id.webView)
     lateinit var wv: WebView
 
@@ -60,13 +60,13 @@ class WordsDictActivity : AppCompatActivity() {
         }
 
         run {
-            val lst = vm.vmSettings.lstDictsPicker
-            val adapter = object : ArrayAdapter<DictPicker>(this, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val lst = vm.vmSettings.lstDictsGroup
+            val adapter = object : ArrayAdapter<DictGroup>(this, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictPicker.selectedItemPosition == position
+                    (tv as? CheckedTextView)?.isChecked = spnDictGroup.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
                     val item2 = vm.vmSettings.lstDictsMean.firstOrNull { it.dictname == m.dictname }
                     tv.text = item2?.url ?: ""
@@ -78,9 +78,9 @@ class WordsDictActivity : AppCompatActivity() {
                     convert(super.getDropDownView(position, convertView, parent), position)
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnDictPicker.adapter = adapter
+            spnDictGroup.adapter = adapter
 
-            spnDictPicker.setSelection(vm.vmSettings.selectedDictPickerIndex)
+            spnDictGroup.setSelection(vm.vmSettings.selectedDictGroupIndex)
         }
 
         wv.settings.javaScriptEnabled = true
@@ -94,12 +94,12 @@ class WordsDictActivity : AppCompatActivity() {
     }
 
     @ItemSelect
-    fun spnDictPickerItemSelected(selected: Boolean, position: Int) {
-        if (vm.vmSettings.selectedDictPickerIndex == position) return
-        vm.vmSettings.selectedDictPickerIndex = position
+    fun spnDictGroupItemSelected(selected: Boolean, position: Int) {
+        if (vm.vmSettings.selectedDictGroupIndex == position) return
+        vm.vmSettings.selectedDictGroupIndex = position
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictPicker.adapter as ArrayAdapter<DictPicker>).notifyDataSetChanged()
-        compositeDisposable.add(vm.vmSettings.updateDictPicker().subscribe())
+        (spnDictGroup.adapter as ArrayAdapter<DictGroup>).notifyDataSetChanged()
+        compositeDisposable.add(vm.vmSettings.updateDictGroup().subscribe())
         selectedDictChanged()
     }
 
@@ -109,7 +109,7 @@ class WordsDictActivity : AppCompatActivity() {
     }
 
     private fun selectedDictChanged() {
-        val item = vm.vmSettings.selectedDictPicker
+        val item = vm.vmSettings.selectedDictGroup
         if (item.dictname.startsWith("Custom")) {
             val str = vm.vmSettings.dictHtml(vm.selectedWord, item.dictids())
             wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
