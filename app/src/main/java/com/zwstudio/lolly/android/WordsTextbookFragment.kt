@@ -22,7 +22,6 @@ import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ViewById
 
 @EFragment(R.layout.content_words_textbook)
 class WordsTextbookFragment : DrawerListFragment() {
@@ -61,7 +60,7 @@ class WordsTextbookFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = WordsTextbookItemAdapter(vm, mDragListView, R.layout.list_item_words_unit_edit, compositeDisposable)
+            val listAdapter = WordsTextbookItemAdapter(vm, mDragListView, R.layout.list_item_words_textbook_edit, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
             progressBar1.visibility = View.GONE
         })
@@ -108,8 +107,7 @@ class WordsTextbookFragment : DrawerListFragment() {
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
                 fun edit(item: TextbookWord) {
-                    WordsTextbookDetailActivity_.intent(itemView.context)
-                        .extra("list", vm.lstWords.toTypedArray()).extra("word", item).start()
+                    WordsTextbookDetailActivity_.intent(itemView.context).extra("word", item).start()
                 }
                 fun delete(item: TextbookWord) {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {

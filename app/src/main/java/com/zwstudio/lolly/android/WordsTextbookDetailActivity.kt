@@ -45,7 +45,6 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        vm.lstWords = (intent.getSerializableExtra("list") as Array<TextbookWord>).toMutableList()
         item = intent.getSerializableExtra("word") as TextbookWord
         tvTextbookName.text = "${getResources().getString(R.string.label_textbook)} ${item.textbookname}"
         tvEntryID.text = "${getResources().getString(R.string.label_entryid)} ${item.entryid}"

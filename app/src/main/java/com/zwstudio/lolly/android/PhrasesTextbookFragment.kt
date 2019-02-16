@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -11,31 +10,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
-import com.zwstudio.lolly.data.PhrasesUnitViewModel
+import com.zwstudio.lolly.data.PhrasesTextbookViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
-import com.zwstudio.lolly.domain.UnitPhrase
+import com.zwstudio.lolly.domain.TextbookPhrase
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.OptionsItem
 
 
 @EFragment(R.layout.content_phrases_textbook)
 class PhrasesTextbookFragment : DrawerListFragment() {
 
     @Bean
-    lateinit var vm: PhrasesUnitViewModel
+    lateinit var vm: PhrasesTextbookViewModel
 
     @AfterViews
     fun afterViews() {
-        activity?.title = resources.getString(R.string.phrases_unit)
+        activity?.title = resources.getString(R.string.phrases_textbook)
         vm.compositeDisposable = compositeDisposable
     }
 
@@ -43,18 +40,6 @@ class PhrasesTextbookFragment : DrawerListFragment() {
         super.onResume()
         compositeDisposable.add(vm.getData().subscribe {
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
-            mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
-                override fun onItemDragStarted(position: Int) {
-                    mRefreshLayout.isEnabled = false
-                    Toast.makeText(mDragListView.context, "Start - position: $position", Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
-                    mRefreshLayout.isEnabled = true
-                    Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
-                    vm.reindex {}
-                }
-            })
 
             mRefreshLayout.setScrollingView(mDragListView.recyclerView)
             mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.app_color))
@@ -76,31 +61,13 @@ class PhrasesTextbookFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, R.layout.list_item_phrases_unit_edit, compositeDisposable)
+            val listAdapter = PhrasesTextbookItemAdapter(vm, mDragListView, R.layout.list_item_phrases_textbook_edit, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
-            mDragListView.setCanDragHorizontally(false)
-            mDragListView.setCustomDragItem(PhrasesUnitDragItem(context!!, R.layout.list_item_phrases_unit_edit))
             progressBar1.visibility = View.GONE
         })
     }
 
-    @OptionsItem
-    fun menuAdd() {
-        PhrasesUnitDetailActivity_.intent(this)
-                .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", vm.newUnitPhrase()).start()
-    }
-
-    private class PhrasesUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
-
-        override fun onBindDragView(clickedView: View, dragView: View) {
-            dragView.findViewById<TextView>(R.id.text1).text = clickedView.findViewById<TextView>(R.id.text1).text
-            dragView.findViewById<TextView>(R.id.text2).text = clickedView.findViewById<TextView>(R.id.text2).text
-            dragView.findViewById<TextView>(R.id.text3).text = clickedView.findViewById<TextView>(R.id.text3).text
-            dragView.findViewById<View>(R.id.item_layout).setBackgroundColor(dragView.resources.getColor(R.color.list_item_background))
-        }
-    }
-
-    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val mLayoutId: Int, val compositeDisposable: CompositeDisposable) : DragItemAdapter<UnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
+    private class PhrasesTextbookItemAdapter(val vm: PhrasesTextbookViewModel, val mDragListView: DragListView, val mLayoutId: Int, val compositeDisposable: CompositeDisposable) : DragItemAdapter<TextbookPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases
@@ -114,13 +81,13 @@ class PhrasesTextbookFragment : DrawerListFragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
             holder.mText1.text = mItemList[position].phrase
-            holder.mText2.text = mItemList[position].unitpartseqnum(vm.vmSettings.lstParts)
+            holder.mText2.text = mItemList[position].unitpartseqnum
             holder.mText3.text = mItemList[position].translation
             holder.itemView.tag = mItemList[position]
         }
 
         override fun getUniqueItemId(position: Int): Long {
-            return mItemList[position].id.toLong()
+            return mItemList[position].entryid.toLong()
         }
 
         internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image, false) {
@@ -143,15 +110,14 @@ class PhrasesTextbookFragment : DrawerListFragment() {
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
-                fun edit(item: UnitPhrase) {
-                    PhrasesUnitDetailActivity_.intent(itemView.context)
-                        .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
+                fun edit(item: TextbookPhrase) {
+                    PhrasesTextbookDetailActivity_.intent(itemView.context).extra("phrase", item).start()
                 }
-                fun delete(item: UnitPhrase) {
+                fun delete(item: TextbookPhrase) {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
-                        compositeDisposable.add(vm.delete(item.id).subscribe())
+//                        compositeDisposable.add(vm.delete(item.id).subscribe())
                         vm.isSwipeStarted = false
                     }, {
                         mDragListView.resetSwipedViews(null)
@@ -160,14 +126,14 @@ class PhrasesTextbookFragment : DrawerListFragment() {
                 }
                 mEdit.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as UnitPhrase
+                        val item = itemView.tag as TextbookPhrase
                         edit(item)
                     }
                     true
                 }
                 mDelete.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as UnitPhrase
+                        val item = itemView.tag as TextbookPhrase
                         delete(item)
                     }
                     true
@@ -177,7 +143,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
                         mDragListView.resetSwipedViews(null)
                         vm.isSwipeStarted = false
 
-                        val item = itemView.tag as UnitPhrase
+                        val item = itemView.tag as TextbookPhrase
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                         val builder = AlertDialog.Builder(itemView.context)
                             .setTitle(item.phrase)
@@ -201,8 +167,8 @@ class PhrasesTextbookFragment : DrawerListFragment() {
                     mDragListView.resetSwipedViews(null)
                     vm.isSwipeStarted = false
                 } else {
-                    val item = view!!.tag as UnitPhrase
-                    PhrasesUnitDetailActivity_.intent(view.context)
+                    val item = view!!.tag as TextbookPhrase
+                    PhrasesTextbookDetailActivity_.intent(view.context)
                             .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
                 }
             }

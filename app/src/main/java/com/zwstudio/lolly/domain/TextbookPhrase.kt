@@ -56,4 +56,7 @@ class TextbookPhrase: Serializable {
         get() = (1..units).map { it.toString() }
     val lstParts: List<String>
         get() = parts.split(' ')
+
+    val unitpartseqnum: String
+        get() = "$unit $seqnum\n${lstParts[part - 1]}"
 }
