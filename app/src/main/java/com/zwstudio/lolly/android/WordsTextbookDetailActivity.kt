@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
-import com.zwstudio.lolly.data.WordsUnitViewModel
-import com.zwstudio.lolly.domain.UnitWord
+import com.zwstudio.lolly.data.WordsTextbookViewModel
+import com.zwstudio.lolly.domain.TextbookWord
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -17,11 +17,13 @@ import org.androidannotations.annotations.*
 class WordsTextbookDetailActivity : AppCompatActivity() {
 
     @Bean
-    lateinit var vm: WordsUnitViewModel
-    lateinit var item: UnitWord
+    lateinit var vm: WordsTextbookViewModel
+    lateinit var item: TextbookWord
 
     @ViewById
-    lateinit var tvID: TextView
+    lateinit var tvTextbookName: TextView
+    @ViewById
+    lateinit var tvEntryID: TextView
     @ViewById
     lateinit var spnUnit: Spinner
     @ViewById
@@ -29,19 +31,26 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
     @ViewById
     lateinit var etSeqNum: TextView
     @ViewById
+    lateinit var tvWordID: TextView
+    @ViewById
     lateinit var etWord: TextView
     @ViewById
     lateinit var etNote: TextView
+    @ViewById
+    lateinit var tvFamiID: TextView
+    @ViewById
+    lateinit var etLevel: TextView
 
     val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
-        vm.lstWords = (intent.getSerializableExtra("list") as Array<UnitWord>).toMutableList()
-        item = intent.getSerializableExtra("word") as UnitWord
-        tvID.text = "ID: ${item.id}"
+        vm.lstWords = (intent.getSerializableExtra("list") as Array<TextbookWord>).toMutableList()
+        item = intent.getSerializableExtra("word") as TextbookWord
+        tvTextbookName.text = "${getResources().getString(R.string.label_textbook)} ${item.textbookname}"
+        tvEntryID.text = "${getResources().getString(R.string.label_entryid)} ${item.entryid}"
         run {
-            val lst = vm.vmSettings.lstUnits
+            val lst = item.lstUnits
             val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
@@ -59,7 +68,7 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
         }
 
         run {
-            val lst = vm.vmSettings.lstParts
+            val lst = item.lstParts
             val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
@@ -76,8 +85,11 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
             spnPart.setSelection(item.part - 1)
         }
         etSeqNum.text = "${item.seqnum}"
+        tvWordID.text = "${getResources().getString(R.string.label_wordid)} ${item.wordid}"
         etWord.text = item.word
         etNote.text = item.note
+        tvFamiID.text = "${getResources().getString(R.string.label_famiid)} ${item.famiid}"
+        etLevel.text = item.level.toString()
     }
 
     @OptionsItem
@@ -86,13 +98,6 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
         item.word = vm.vmSettings.autoCorrectInput(etWord.text.toString())
         item.note = etNote.text.toString()
         val word = vm.vmSettings.autoCorrectInput(item.word)
-        if (item.id == 0) {
-            vm.lstWords.add(item)
-            compositeDisposable.add(vm.create(item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, word, item.note).subscribe {
-                item.id = it
-            })
-        } else
-            compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, word, item.note).subscribe())
         setResult(Activity.RESULT_OK)
         finish()
     }

@@ -33,13 +33,6 @@ class WordsUnitFragment : DrawerListFragment() {
     @Bean
     lateinit var vm: WordsUnitViewModel
 
-    @ViewById(R.id.drag_list_view)
-    lateinit var mDragListView: DragListView
-    @ViewById(R.id.swipe_refresh_layout)
-    lateinit var mRefreshLayout: LollySwipeRefreshLayout
-
-    val compositeDisposable = CompositeDisposable()
-
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.words_unit)

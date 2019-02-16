@@ -24,8 +24,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_id"
-        android:id="@+id/tvID"/>
+        android:text="@string/label_textbook"
+        android:id="@+id/tvTextbookName"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/label_entryid"
+        android:id="@+id/tvEntryID"/>
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -76,6 +86,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/label_wordid"
+        android:id="@+id/tvWordID"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/label_word"/>
     <EditText
         android:layout_width="match_parent"
@@ -95,6 +115,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/etNote"
+        android:layout_gravity="center_horizontal"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/label_famiid"
+        android:id="@+id/tvFamiID"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/label_level"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etLevel"
         android:layout_gravity="center_horizontal"/>
     <Space
         android:layout_width="match_parent"

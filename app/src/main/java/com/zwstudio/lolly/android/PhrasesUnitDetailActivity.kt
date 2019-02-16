@@ -28,6 +28,8 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
     @ViewById
     lateinit var etSeqNum: TextView
     @ViewById
+    lateinit var tvPhraseID: TextView
+    @ViewById
     lateinit var etPhrase: TextView
     @ViewById
     lateinit var etTranslation: TextView
@@ -38,7 +40,7 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
     fun afterViews() {
         vm.lstPhrases = (intent.getSerializableExtra("list") as Array<UnitPhrase>).toMutableList()
         item = intent.getSerializableExtra("phrase") as UnitPhrase
-        tvID.text = "ID: ${item.id}"
+        tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         run {
             val lst = vm.vmSettings.lstUnits
             val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lst) {
@@ -75,6 +77,7 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
             spnPart.setSelection(item.part - 1)
         }
         etSeqNum.text = "${item.seqnum}"
+        tvPhraseID.text = "${getResources().getString(R.string.label_phraseid)} ${item.phraseid}"
         etPhrase.text = item.phrase
         etTranslation.text = item.translation
     }

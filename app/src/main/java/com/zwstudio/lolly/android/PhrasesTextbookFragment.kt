@@ -21,7 +21,10 @@ import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.domain.UnitPhrase
 import io.reactivex.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.Bean
+import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.OptionsItem
 
 
 @EFragment(R.layout.content_phrases_textbook)
@@ -29,13 +32,6 @@ class PhrasesTextbookFragment : DrawerListFragment() {
 
     @Bean
     lateinit var vm: PhrasesUnitViewModel
-
-    @ViewById(R.id.drag_list_view)
-    lateinit var mDragListView: DragListView
-    @ViewById(R.id.swipe_refresh_layout)
-    lateinit var mRefreshLayout: LollySwipeRefreshLayout
-
-    val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {

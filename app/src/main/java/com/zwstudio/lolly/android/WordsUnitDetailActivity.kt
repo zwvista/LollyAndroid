@@ -29,9 +29,15 @@ class WordsUnitDetailActivity : AppCompatActivity() {
     @ViewById
     lateinit var etSeqNum: TextView
     @ViewById
+    lateinit var tvWordID: TextView
+    @ViewById
     lateinit var etWord: TextView
     @ViewById
     lateinit var etNote: TextView
+    @ViewById
+    lateinit var tvFamiID: TextView
+    @ViewById
+    lateinit var etLevel: TextView
 
     val compositeDisposable = CompositeDisposable()
 
@@ -39,7 +45,7 @@ class WordsUnitDetailActivity : AppCompatActivity() {
     fun afterViews() {
         vm.lstWords = (intent.getSerializableExtra("list") as Array<UnitWord>).toMutableList()
         item = intent.getSerializableExtra("word") as UnitWord
-        tvID.text = "ID: ${item.id}"
+        tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         run {
             val lst = vm.vmSettings.lstUnits
             val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lst) {
@@ -76,8 +82,11 @@ class WordsUnitDetailActivity : AppCompatActivity() {
             spnPart.setSelection(item.part - 1)
         }
         etSeqNum.text = "${item.seqnum}"
+        tvWordID.text = "${getResources().getString(R.string.label_wordid)} ${item.wordid}"
         etWord.text = item.word
         etNote.text = item.note
+        tvFamiID.text = "${getResources().getString(R.string.label_famiid)} ${item.famiid}"
+        etLevel.text = item.level.toString()
     }
 
     @OptionsItem

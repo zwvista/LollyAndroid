@@ -27,6 +27,10 @@
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/phrases_unit"/>
         <item
+            android:id="@+id/nav_phrases_textbook"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="@string/phrases_textbook"/>
+        <item
             android:id="@+id/nav_phrases_lang"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/phrases_lang"/>

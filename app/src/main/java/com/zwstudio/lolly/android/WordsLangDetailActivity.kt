@@ -21,9 +21,11 @@ class WordsLangDetailActivity : AppCompatActivity() {
     @ViewById
     lateinit var etWord: TextView
     @ViewById
-    lateinit var etLevel: TextView
-    @ViewById
     lateinit var etNote: TextView
+    @ViewById
+    lateinit var tvFamiID: TextView
+    @ViewById
+    lateinit var etLevel: TextView
 
     val compositeDisposable = CompositeDisposable()
 
@@ -31,10 +33,11 @@ class WordsLangDetailActivity : AppCompatActivity() {
     fun afterViews() {
         vm.lstWords = (intent.getSerializableExtra("list") as Array<LangWord>).toMutableList()
         item = intent.getSerializableExtra("word") as LangWord
-        tvID.text = "ID: ${item.id}"
+        tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         etWord.text = item.word
-        etLevel.text = item.level.toString()
         etNote.text = item.note
+        tvFamiID.text = "${getResources().getString(R.string.label_famiid)} ${item.famiid}"
+        etLevel.text = item.level.toString()
     }
 
     @OptionsItem

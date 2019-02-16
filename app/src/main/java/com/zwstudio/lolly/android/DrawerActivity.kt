@@ -10,8 +10,9 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
-import android.widget.ListView
 import android.widget.ProgressBar
+import com.woxthebox.draglistview.DragListView
+import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.EFragment
@@ -81,9 +82,13 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 @EFragment
 class DrawerListFragment : Fragment() {
 
-    @ViewById
-    lateinit var listView: ListView
+    @ViewById(R.id.drag_list_view)
+    lateinit var mDragListView: DragListView
+    @ViewById(R.id.swipe_refresh_layout)
+    lateinit var mRefreshLayout: LollySwipeRefreshLayout
     @ViewById
     lateinit var progressBar1: ProgressBar
+
+    val compositeDisposable = CompositeDisposable()
 
 }
