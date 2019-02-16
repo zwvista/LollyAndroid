@@ -8,7 +8,7 @@ import java.io.Serializable
 
 class LangWords {
 
-    @SerializedName("LANGWORDS")
+    @SerializedName("VLANGWORDS")
     @Expose
     var lst: List<LangWord>? = null
 }

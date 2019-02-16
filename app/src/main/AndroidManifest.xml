@@ -52,6 +52,18 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
+        <activity
+            android:name=".WordsTextbookDetailActivity_"
+            android:label="@string/words_textbook_detail"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
+        <activity
+            android:name=".PhrasesTextbookDetailActivity_"
+            android:label="@string/phrases_textbook_detail"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
     </application>
 
 </manifest>
