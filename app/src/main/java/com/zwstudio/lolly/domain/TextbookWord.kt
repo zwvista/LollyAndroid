@@ -15,15 +15,18 @@ class TextbookWords {
 
 class TextbookWord: Serializable {
 
-    @SerializedName("ID")
+    @SerializedName("TEXTBOOKID")
     @Expose
-    var id: Int = 0
+    var textbookid: Int = 0
     @SerializedName("LANGID")
     @Expose
     var langid: Int = 0
     @SerializedName("TEXTBOOKNAME")
     @Expose
     var textbookname: String? = null
+    @SerializedName("ENTRYID")
+    @Expose
+    var entryid: Int = 0
     @SerializedName("UNIT")
     @Expose
     var unit: Int = 0
@@ -33,10 +36,30 @@ class TextbookWord: Serializable {
     @SerializedName("SEQNUM")
     @Expose
     var seqnum: Int = 0
+    @SerializedName("WORDID")
+    @Expose
+    var wordid: Int = 0
     @SerializedName("WORD")
     @Expose
-    var word: String? = null
+    var word = ""
     @SerializedName("NOTE")
     @Expose
     var note: String? = null
+    @SerializedName("FAMIID")
+    @Expose
+    var famiid: Int = 0
+    @SerializedName("LEVEL")
+    @Expose
+    var level: Int = 0
+    @SerializedName("UNITS")
+    @Expose
+    var units: Int = 0
+    @SerializedName("PARTS")
+    @Expose
+    var parts = ""
+
+    val lstUnits: List<String>
+        get() = (1..units).map { it.toString() }
+    val lstParts: List<String>
+        get() = parts.split(' ')
 }

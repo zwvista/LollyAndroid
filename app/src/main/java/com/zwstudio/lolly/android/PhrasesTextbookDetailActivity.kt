@@ -86,10 +86,10 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
         item.translation = etTranslation.text.toString()
         if (item.id == 0) {
             vm.lstPhrases.add(item)
-            compositeDisposable.add(vm.create(item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.langphraseid, item.phrase, item.translation).subscribe {
+            compositeDisposable.add(vm.create(item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation).subscribe {
                 item.id = it
             })
         } else
-            compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.langphraseid, item.phrase, item.translation).subscribe())
+            compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation).subscribe())
     }
 }

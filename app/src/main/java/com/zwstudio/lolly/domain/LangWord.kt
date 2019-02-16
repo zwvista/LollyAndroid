@@ -24,12 +24,15 @@ class LangWord: Serializable {
     @SerializedName("WORD")
     @Expose
     var word = ""
-    @SerializedName("LEVEL")
-    @Expose
-    var level: Int = 0
     @SerializedName("NOTE")
     @Expose
     var note: String? = null
+    @SerializedName("FAMIID")
+    @Expose
+    var famiid: Int = 0
+    @SerializedName("LEVEL")
+    @Expose
+    var level: Int = 0
 
     fun combineNote(note2: String?): Boolean {
         val oldNote = note

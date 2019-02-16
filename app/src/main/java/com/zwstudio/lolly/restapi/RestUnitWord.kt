@@ -23,13 +23,13 @@ interface RestUnitWord {
     @PUT("UNITWORDS/{id}")
     fun update(@Path("id") id: Int, @Field("TEXTBOOKID") textbookid: Int,
                @Field("UNIT") unit: Int, @Field("PART") part: Int,
-               @Field("SEQNUM") seqnum: Int, @Field("LANGWORDID") langwordid: Int): Observable<Int>
+               @Field("SEQNUM") seqnum: Int, @Field("WORDID") wordid: Int): Observable<Int>
 
     @FormUrlEncoded
     @POST("UNITWORDS")
     fun create(@Field("TEXTBOOKID") textbookid: Int,
                @Field("UNIT") unit: Int, @Field("PART") part: Int,
-               @Field("SEQNUM") seqnum: Int, @Field("LANGWORDID") langwordid: Int): Observable<Int>
+               @Field("SEQNUM") seqnum: Int, @Field("WORDID") wordid: Int): Observable<Int>
 
     @DELETE("UNITWORDS/{id}")
     fun delete(@Path("id") id: Int): Observable<Int>

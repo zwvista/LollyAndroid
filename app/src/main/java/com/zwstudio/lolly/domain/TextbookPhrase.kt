@@ -15,15 +15,18 @@ class TextbookPhrases {
 
 class TextbookPhrase: Serializable {
 
-    @SerializedName("ID")
+    @SerializedName("TEXTBOOKID")
     @Expose
-    var id: Int = 0
+    var textbookid: Int = 0
     @SerializedName("LANGID")
     @Expose
     var langid: Int = 0
     @SerializedName("TEXTBOOKNAME")
     @Expose
     var textbookname: String? = null
+    @SerializedName("ENTRYID")
+    @Expose
+    var entryid: Int = 0
     @SerializedName("UNIT")
     @Expose
     var unit: Int = 0
@@ -33,10 +36,24 @@ class TextbookPhrase: Serializable {
     @SerializedName("SEQNUM")
     @Expose
     var seqnum: Int = 0
+    @SerializedName("PHRASEID")
+    @Expose
+    var phraseid: Int = 0
     @SerializedName("PHRASE")
     @Expose
-    var phrase: String? = null
+    var phrase = ""
     @SerializedName("TRANSLATION")
     @Expose
     var translation: String? = null
+    @SerializedName("UNITS")
+    @Expose
+    var units: Int = 0
+    @SerializedName("PARTS")
+    @Expose
+    var parts = ""
+
+    val lstUnits: List<String>
+        get() = (1..units).map { it.toString() }
+    val lstParts: List<String>
+        get() = parts.split(' ')
 }

@@ -31,9 +31,9 @@ class UnitPhrase: Serializable {
     @SerializedName("SEQNUM")
     @Expose
     var seqnum: Int = 0
-    @SerializedName("LANGPHRASEID")
+    @SerializedName("PHRASEID")
     @Expose
-    var langphraseid: Int = 0
+    var phraseid: Int = 0
     @SerializedName("PHRASE")
     @Expose
     var phrase = ""

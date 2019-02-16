@@ -30,21 +30,21 @@ class PhrasesUnitViewModel : BaseViewModel2() {
             .map { Log.d("", it.toString()) }
             .applyIO()
 
-    fun update(id: Int, langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, langphraseid: Int, phrase: String, translation: String?): Observable<Int> =
+    fun update(id: Int, langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, phraseid: Int, phrase: String, translation: String?): Observable<Int> =
         retrofitJson.create(RestUnitPhrase::class.java)
-            .getDataByLangPhrase("LANGPHRASEID,eq,$langphraseid")
+            .getDataByLangPhrase("PHRASEID,eq,$phraseid")
             .concatMap {
                 val lstUnit = it.lst!!
                 if (lstUnit.isEmpty())
                     Observable.empty<Int>()
                 else
                     retrofitJson.create(RestLangPhrase::class.java)
-                        .getDataById("ID,eq,$langphraseid")
+                        .getDataById("ID,eq,$phraseid")
                         .concatMap {
                             // Api is case insensitive
                             val lstLangOld = it.lst!!.filter { it.phrase == phrase }
                             if (!lstLangOld.isEmpty() && lstLangOld[0].phrase == phrase)
-                                retrofitJson.create(RestLangPhrase::class.java).updateTranslation(langphraseid, translation)
+                                retrofitJson.create(RestLangPhrase::class.java).updateTranslation(phraseid, translation)
                             else
                                 retrofitJson.create(RestLangPhrase::class.java)
                                     .getDataByLangPhrase("LANGID,eq,$langid", "PHRASE,eq,${URLEncoder.encode(phrase, "UTF-8")}")
@@ -52,17 +52,17 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                                         val lstLangNew = it.lst!!
                                         fun f(): Observable<Int> {
                                             val itemLang = lstLangNew[0]
-                                            val langphraseid = itemLang.id
+                                            val phraseid = itemLang.id
                                             return if (itemLang.combinetranslation(translation))
-                                                retrofitJson.create(RestLangPhrase::class.java).updateTranslation(langphraseid, itemLang.translation)
+                                                retrofitJson.create(RestLangPhrase::class.java).updateTranslation(phraseid, itemLang.translation)
                                             else
-                                                Observable.just(langphraseid)
+                                                Observable.just(phraseid)
                                         }
                                         if (lstUnit.size == 1)
                                             if (lstLangNew.isEmpty())
-                                                retrofitJson.create(RestLangPhrase::class.java).update(langphraseid, langid, phrase, translation)
+                                                retrofitJson.create(RestLangPhrase::class.java).update(phraseid, langid, phrase, translation)
                                             else
-                                                retrofitJson.create(RestLangPhrase::class.java).delete(langphraseid).concatMap { f() }
+                                                retrofitJson.create(RestLangPhrase::class.java).delete(phraseid).concatMap { f() }
                                         else
                                             if (lstLangNew.isEmpty())
                                                 retrofitJson.create(RestLangPhrase::class.java).create(langid, phrase, translation)
@@ -75,7 +75,7 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                     .map { Log.d("", it.toString()) }
             }.applyIO()
 
-    fun create(langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, langphraseid: Int, phrase: String, translation: String?): Observable<Int> =
+    fun create(langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, phraseid: Int, phrase: String, translation: String?): Observable<Int> =
         retrofitJson.create(RestLangPhrase::class.java)
             .getDataByLangPhrase("LANGID,eq,$langid", "PHRASE,eq,${URLEncoder.encode(phrase, "UTF-8")}")
             .concatMap {
@@ -85,14 +85,14 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                     retrofitJson.create(RestLangPhrase::class.java).create(langid, phrase, translation)
                 else {
                     val itemLang = lstLang[0]
-                    val langphraseid = itemLang.id
+                    val phraseid = itemLang.id
                     val b = itemLang.combinetranslation(translation)
                     if (b)
                         retrofitJson.create(RestLangPhrase::class.java)
-                            .updateTranslation(langphraseid, itemLang.translation)
-                            .map { langphraseid }
+                            .updateTranslation(phraseid, itemLang.translation)
+                            .map { phraseid }
                     else
-                        Observable.just(langphraseid)
+                        Observable.just(phraseid)
                 }
             }.concatMap {
                 retrofitJson.create(RestUnitPhrase::class.java).create(textbookid, unit, part, seqnum, it)

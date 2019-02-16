@@ -26,8 +26,8 @@ class LangPhrase(): Serializable {
     @Expose
     var translation: String? = null
 
-    constructor(langphraseid: Int, langid: Int, phrase: String, translation: String?) : this() {
-        this.id = langphraseid
+    constructor(phraseid: Int, langid: Int, phrase: String, translation: String?) : this() {
+        this.id = phraseid
         this.langid = langid
         this.phrase = phrase
         this.translation = translation
