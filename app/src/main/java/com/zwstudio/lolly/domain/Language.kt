@@ -15,7 +15,7 @@ class Language: Serializable {
 
     @SerializedName("ID")
     @Expose
-    var id: Int = 0
+    var id = 0
     @SerializedName("NAME")
     @Expose
     var langname: String? = null

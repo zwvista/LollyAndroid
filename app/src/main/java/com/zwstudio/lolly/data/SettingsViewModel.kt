@@ -77,12 +77,12 @@ class SettingsViewModel : BaseViewModel1() {
         get() = usunitpartfrom > usunitpartto
 
     var lstLanguages = listOf<Language>()
-    var selectedLangIndex: Int = 0
+    var selectedLangIndex = 0
     val selectedLang: Language
         get() = lstLanguages[selectedLangIndex]
 
     var lstTextbooks = listOf<Textbook>()
-    var selectedTextbookIndex: Int = 0
+    var selectedTextbookIndex = 0
         set(value) {
             field = value
             setSelectedTextbookIndex()
@@ -92,7 +92,7 @@ class SettingsViewModel : BaseViewModel1() {
 
     var lstDictsMean = listOf<DictMean>()
     var lstDictsGroup = listOf<DictGroup>()
-    var selectedDictGroupIndex: Int = 0
+    var selectedDictGroupIndex = 0
         set(value) {
             field = value
             usdictgroup = selectedDictGroup.dictid
@@ -101,7 +101,7 @@ class SettingsViewModel : BaseViewModel1() {
         get() = lstDictsGroup[selectedDictGroupIndex]
 
     var lstDictsNote = listOf<DictNote>()
-    var selectedDictNoteIndex: Int = 0
+    var selectedDictNoteIndex = 0
         set(value) {
             field = value
             usdictnoteid = selectedDictNote?.id ?: 0

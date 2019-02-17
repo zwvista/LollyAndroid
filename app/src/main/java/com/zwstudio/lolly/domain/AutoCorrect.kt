@@ -15,13 +15,13 @@ class AutoCorrect: Serializable {
 
     @SerializedName("ID")
     @Expose
-    var id: Int = 0
+    var id = 0
     @SerializedName("LANGID")
     @Expose
-    var langid: Int = 0
+    var langid = 0
     @SerializedName("SEQNUM")
     @Expose
-    var seqnum: Int = 0
+    var seqnum = 0
     @SerializedName("INPUT")
     @Expose
     var input: String = ""

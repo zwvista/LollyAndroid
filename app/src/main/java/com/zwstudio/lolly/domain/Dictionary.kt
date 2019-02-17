@@ -28,10 +28,10 @@ abstract class Dictionary: Serializable {
 
     @SerializedName("ID")
     @Expose
-    var id: Int = 0
+    var id = 0
     @SerializedName("DICTID")
     @Expose
-    var dictid: Int = 0
+    var dictid = 0
     @SerializedName("LANGIDFROM")
     @Expose
     var langidfrom: Int? = null

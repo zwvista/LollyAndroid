@@ -17,16 +17,16 @@ class Textbook: Serializable {
 
     @SerializedName("ID")
     @Expose
-    var id: Int = 0
+    var id = 0
     @SerializedName("LANGID")
     @Expose
-    var langid: Int = 0
+    var langid = 0
     @SerializedName("NAME")
     @Expose
     var textbookname: String? = null
     @SerializedName("UNITS")
     @Expose
-    var units: Int = 0
+    var units = 0
     @SerializedName("PARTS")
     @Expose
     var parts: String? = null

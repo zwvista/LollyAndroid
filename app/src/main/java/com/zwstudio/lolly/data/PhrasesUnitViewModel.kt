@@ -42,14 +42,14 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                         .getDataById("ID,eq,$phraseid")
                         .concatMap {
                             // Api is case insensitive
-                            val lstLangOld = it.lst!!.filter { it.phrase == phrase }
+                            val lstLangOld = it.lst!!
                             if (!lstLangOld.isEmpty() && lstLangOld[0].phrase == phrase)
                                 retrofitJson.create(RestLangPhrase::class.java).updateTranslation(phraseid, translation).map { phraseid }
                             else
                                 retrofitJson.create(RestLangPhrase::class.java)
                                     .getDataByLangPhrase("LANGID,eq,$langid", "PHRASE,eq,${URLEncoder.encode(phrase, "UTF-8")}")
                                     .concatMap {
-                                        val lstLangNew = it.lst!!
+                                        val lstLangNew = it.lst!!.filter { it.phrase == phrase }
                                         fun f(): Observable<Int> {
                                             val itemLang = lstLangNew[0]
                                             val phraseid = itemLang.id

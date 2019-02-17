@@ -15,22 +15,22 @@ class UnitWord: Serializable {
 
     @SerializedName("ID")
     @Expose
-    var id: Int = 0
+    var id = 0
     @SerializedName("LANGID")
     @Expose
-    var langid: Int = 0
+    var langid = 0
     @SerializedName("TEXTBOOKID")
     @Expose
-    var textbookid: Int = 0
+    var textbookid = 0
     @SerializedName("UNIT")
     @Expose
-    var unit: Int = 0
+    var unit = 0
     @SerializedName("PART")
     @Expose
-    var part: Int = 0
+    var part = 0
     @SerializedName("SEQNUM")
     @Expose
-    var seqnum: Int = 0
+    var seqnum = 0
     @SerializedName("WORD")
     @Expose
     var word = ""
@@ -39,13 +39,13 @@ class UnitWord: Serializable {
     var note: String? = null
     @SerializedName("WORDID")
     @Expose
-    var wordid: Int = 0
+    var wordid = 0
     @SerializedName("FAMIID")
     @Expose
-    var famiid: Int = 0
+    var famiid = 0
     @SerializedName("LEVEL")
     @Expose
-    var level: Int = 0
+    var level = 0
 
     fun unitpartseqnum(lstParts: List<String>) = "$unit $seqnum\n${lstParts[part - 1]}"
 

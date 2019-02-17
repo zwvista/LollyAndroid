@@ -15,16 +15,16 @@ class UserSetting: Serializable {
 
     @SerializedName("ID")
     @Expose
-    var id: Int = 0
+    var id = 0
     @SerializedName("USERID")
     @Expose
-    var userid: Int = 0
+    var userid = 0
     @SerializedName("KIND")
     @Expose
-    var kind: Int = 0
+    var kind = 0
     @SerializedName("ENTITYID")
     @Expose
-    var entityid: Int = 0
+    var entityid = 0
     @SerializedName("VALUE1")
     @Expose
     var value1: String? = null

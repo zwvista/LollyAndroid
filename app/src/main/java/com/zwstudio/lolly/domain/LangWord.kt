@@ -17,10 +17,10 @@ class LangWord: Serializable {
 
     @SerializedName("ID")
     @Expose
-    var id: Int = 0
+    var id = 0
     @SerializedName("LANGID")
     @Expose
-    var langid: Int = 0
+    var langid = 0
     @SerializedName("WORD")
     @Expose
     var word = ""
@@ -29,10 +29,10 @@ class LangWord: Serializable {
     var note: String? = null
     @SerializedName("FAMIID")
     @Expose
-    var famiid: Int = 0
+    var famiid = 0
     @SerializedName("LEVEL")
     @Expose
-    var level: Int = 0
+    var level = 0
 
     fun combineNote(note2: String?): Boolean {
         val oldNote = note

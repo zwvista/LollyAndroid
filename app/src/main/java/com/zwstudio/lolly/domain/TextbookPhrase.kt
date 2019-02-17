@@ -17,28 +17,28 @@ class TextbookPhrase: Serializable {
 
     @SerializedName("TEXTBOOKID")
     @Expose
-    var textbookid: Int = 0
+    var textbookid = 0
     @SerializedName("LANGID")
     @Expose
-    var langid: Int = 0
+    var langid = 0
     @SerializedName("TEXTBOOKNAME")
     @Expose
     var textbookname: String? = null
     @SerializedName("ID")
     @Expose
-    var id: Int = 0
+    var id = 0
     @SerializedName("UNIT")
     @Expose
-    var unit: Int = 0
+    var unit = 0
     @SerializedName("PART")
     @Expose
-    var part: Int = 0
+    var part = 0
     @SerializedName("SEQNUM")
     @Expose
-    var seqnum: Int = 0
+    var seqnum = 0
     @SerializedName("PHRASEID")
     @Expose
-    var phraseid: Int = 0
+    var phraseid = 0
     @SerializedName("PHRASE")
     @Expose
     var phrase = ""
@@ -47,7 +47,7 @@ class TextbookPhrase: Serializable {
     var translation: String? = null
     @SerializedName("UNITS")
     @Expose
-    var units: Int = 0
+    var units = 0
     @SerializedName("PARTS")
     @Expose
     var parts = ""

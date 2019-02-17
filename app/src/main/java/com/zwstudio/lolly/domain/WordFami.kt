@@ -15,14 +15,14 @@ class WordFami: Serializable {
 
     @SerializedName("ID")
     @Expose
-    var id: Int = 0
+    var id = 0
     @SerializedName("USERID")
     @Expose
-    var userid: Int = 0
+    var userid = 0
     @SerializedName("WORDID")
     @Expose
-    var wordid: Int = 0
+    var wordid = 0
     @SerializedName("LEVEL")
     @Expose
-    var level: Int = 0
+    var level = 0
 }

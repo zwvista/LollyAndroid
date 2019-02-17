@@ -20,12 +20,6 @@ class WordsLangViewModel : BaseViewModel2() {
             .map { lstWords = it.lst!!.toMutableList() }
             .applyIO()
 
-    fun updateNote(id: Int, note: String): Observable<Int> =
-        retrofitJson.create(RestLangWord::class.java)
-            .updateNote(id, note)
-            .map { Log.d("", it.toString()) }
-            .applyIO()
-
     fun update(id: Int, langid: Int, word: String, level: Int, note: String?): Observable<Int> =
         retrofitJson.create(RestLangWord::class.java)
             .update(id, langid, word, level, note)
