@@ -38,7 +38,6 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        vm.lstPhrases = (intent.getSerializableExtra("list") as Array<UnitPhrase>).toMutableList()
         item = intent.getSerializableExtra("phrase") as UnitPhrase
         tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         run {
@@ -87,12 +86,11 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
         item.seqnum = etSeqNum.text.toString().toInt()
         item.phrase = vm.vmSettings.autoCorrectInput(etPhrase.text.toString())
         item.translation = etTranslation.text.toString()
-        if (item.id == 0) {
-            vm.lstPhrases.add(item)
+        if (item.id == 0)
             compositeDisposable.add(vm.create(item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation).subscribe {
                 item.id = it
             })
-        } else
+        else
             compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation).subscribe())
     }
 }

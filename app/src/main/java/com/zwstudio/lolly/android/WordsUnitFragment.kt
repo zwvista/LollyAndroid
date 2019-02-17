@@ -26,6 +26,8 @@ import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 
+private const val REQUEST_CODE = 1
+
 @EFragment(R.layout.content_words_unit)
 @OptionsMenu(R.menu.menu_words_unit)
 class WordsUnitFragment : DrawerListFragment() {
@@ -87,12 +89,13 @@ class WordsUnitFragment : DrawerListFragment() {
     @OptionsItem
     fun menuAdd() {
         WordsUnitDetailActivity_.intent(this)
-                .extra("list", vm.lstWords.toTypedArray()).extra("word", vm.newUnitWord())
-                .startForResult(1)
+            .extra("word", vm.newUnitWord()).startForResult(REQUEST_CODE)
     }
-    @OnActivityResult(1)
+
+    @OnActivityResult(REQUEST_CODE)
     fun onResult(resultCode: Int) {
-        if (resultCode == RESULT_OK) menuAdd()
+        if (resultCode == RESULT_OK)
+            menuAdd()
     }
 
     @OptionsItem
@@ -161,7 +164,7 @@ class WordsUnitFragment : DrawerListFragment() {
             private fun initButtons() {
                 fun edit(item: UnitWord) {
                     WordsUnitDetailActivity_.intent(itemView.context)
-                            .extra("list", vm.lstWords.toTypedArray()).extra("word", item).start()
+                        .extra("word", item).startForResult(REQUEST_CODE)
                 }
                 fun delete(item: UnitWord) {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {

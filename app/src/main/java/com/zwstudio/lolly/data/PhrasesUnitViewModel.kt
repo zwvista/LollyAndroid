@@ -44,7 +44,7 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                             // Api is case insensitive
                             val lstLangOld = it.lst!!.filter { it.phrase == phrase }
                             if (!lstLangOld.isEmpty() && lstLangOld[0].phrase == phrase)
-                                retrofitJson.create(RestLangPhrase::class.java).updateTranslation(phraseid, translation)
+                                retrofitJson.create(RestLangPhrase::class.java).updateTranslation(phraseid, translation).map { phraseid }
                             else
                                 retrofitJson.create(RestLangPhrase::class.java)
                                     .getDataByLangPhrase("LANGID,eq,$langid", "PHRASE,eq,${URLEncoder.encode(phrase, "UTF-8")}")
@@ -55,17 +55,20 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                                             val phraseid = itemLang.id
                                             return if (itemLang.combinetranslation(translation))
                                                 retrofitJson.create(RestLangPhrase::class.java).updateTranslation(phraseid, itemLang.translation)
+                                                    .map { Log.d("", it.toString()); phraseid }
                                             else
                                                 Observable.just(phraseid)
                                         }
                                         if (lstUnit.size == 1)
                                             if (lstLangNew.isEmpty())
                                                 retrofitJson.create(RestLangPhrase::class.java).update(phraseid, langid, phrase, translation)
+                                                    .map { Log.d("", it.toString()); phraseid }
                                             else
                                                 retrofitJson.create(RestLangPhrase::class.java).delete(phraseid).concatMap { f() }
                                         else
                                             if (lstLangNew.isEmpty())
                                                 retrofitJson.create(RestLangPhrase::class.java).create(langid, phrase, translation)
+                                                    .map { Log.d("", it.toString()); phraseid }
                                             else
                                                 f()
                                     }

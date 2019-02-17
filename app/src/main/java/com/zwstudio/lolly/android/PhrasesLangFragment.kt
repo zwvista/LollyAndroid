@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.android
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -20,6 +21,8 @@ import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.domain.LangPhrase
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
+
+private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_phrases_lang)
 @OptionsMenu(R.menu.menu_add)
@@ -67,7 +70,14 @@ class PhrasesLangFragment : DrawerListFragment() {
     @OptionsItem
     fun menuAdd() {
         PhrasesLangDetailActivity_.intent(this)
-            .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", vm.newLangPhrase()).start()
+            .extra("phrase", vm.newLangPhrase()).startForResult(REQUEST_CODE)
+    }
+
+
+    @OnActivityResult(REQUEST_CODE)
+    fun onResult(resultCode: Int) {
+        if (resultCode == Activity.RESULT_OK)
+            mDragListView.resetSwipedViews(null)
     }
 
     private class PhrasesLangItemAdapter(val vm: PhrasesLangViewModel, val mDragListView: DragListView, val mLayoutId: Int, val compositeDisposable: CompositeDisposable) : DragItemAdapter<LangPhrase, PhrasesLangItemAdapter.ViewHolder>() {
@@ -112,7 +122,7 @@ class PhrasesLangFragment : DrawerListFragment() {
             private fun initButtons() {
                 fun edit(item: LangPhrase) {
                     PhrasesLangDetailActivity_.intent(itemView.context)
-                        .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
+                        .extra("phrase", item).startForResult(REQUEST_CODE)
                 }
                 fun delete(item: LangPhrase) {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
@@ -170,7 +180,7 @@ class PhrasesLangFragment : DrawerListFragment() {
                 } else {
                     val item = view!!.tag as LangPhrase
                     PhrasesLangDetailActivity_.intent(view.context)
-                        .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
+                        .extra("phrase", item).startForResult(REQUEST_CODE)
                 }
             }
 

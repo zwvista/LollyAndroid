@@ -27,7 +27,6 @@ class PhrasesLangDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        vm.lstPhrases = (intent.getSerializableExtra("list") as Array<LangPhrase>).toMutableList()
         item = intent.getSerializableExtra("phrase") as LangPhrase
         tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         etPhrase.text = item.phrase
@@ -38,12 +37,11 @@ class PhrasesLangDetailActivity : AppCompatActivity() {
     fun menuSave() {
         item.phrase = vm.vmSettings.autoCorrectInput(etPhrase.text.toString())
         item.translation = etTranslation.text.toString()
-        if (item.id == 0) {
-            vm.lstPhrases.add(item)
+        if (item.id == 0)
             compositeDisposable.add(vm.create(item.langid, item.phrase, item.translation).subscribe {
                 item.id = it
             })
-        } else
+        else
             compositeDisposable.add(vm.update(item.id, item.langid, item.phrase, item.translation).subscribe())
         setResult(Activity.RESULT_OK)
         finish()

@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.android
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
@@ -23,6 +24,7 @@ import com.zwstudio.lolly.domain.UnitPhrase
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
+private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_phrases_unit)
 @OptionsMenu(R.menu.menu_add)
@@ -85,7 +87,13 @@ class PhrasesUnitFragment : DrawerListFragment() {
     @OptionsItem
     fun menuAdd() {
         PhrasesUnitDetailActivity_.intent(this)
-                .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", vm.newUnitPhrase()).start()
+            .extra("phrase", vm.newUnitPhrase()).startForResult(REQUEST_CODE)
+    }
+
+    @OnActivityResult(REQUEST_CODE)
+    fun onResult(resultCode: Int) {
+        if (resultCode == Activity.RESULT_OK)
+            mDragListView.resetSwipedViews(null)
     }
 
     private class PhrasesUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
@@ -143,7 +151,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             private fun initButtons() {
                 fun edit(item: UnitPhrase) {
                     PhrasesUnitDetailActivity_.intent(itemView.context)
-                        .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
+                        .extra("phrase", item).startForResult(REQUEST_CODE)
                 }
                 fun delete(item: UnitPhrase) {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
@@ -201,7 +209,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                 } else {
                     val item = view!!.tag as UnitPhrase
                     PhrasesUnitDetailActivity_.intent(view.context)
-                            .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
+                        .extra("phrase", item).startForResult(REQUEST_CODE)
                 }
             }
 

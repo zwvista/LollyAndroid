@@ -50,7 +50,7 @@ class WordsUnitViewModel : BaseViewModel2() {
                         .concatMap {
                             val lstLangOld = it.lst!!
                             if (!lstLangOld.isEmpty() && lstLangOld[0].word == word)
-                                retrofitJson.create(RestLangWord::class.java).updateNote(wordid, note)
+                                retrofitJson.create(RestLangWord::class.java).updateNote(wordid, note).map { wordid }
                             else
                                 retrofitJson.create(RestLangWord::class.java)
                                     .getDataByLangWord("LANGID,eq,$langid", "WORD,eq,${URLEncoder.encode(word, "UTF-8")}")
@@ -62,12 +62,14 @@ class WordsUnitViewModel : BaseViewModel2() {
                                             val wordid = itemLang.id
                                             return if (itemLang.combineNote(note))
                                                 retrofitJson.create(RestLangWord::class.java).updateNote(wordid, itemLang.note)
+                                                    .map { Log.d("", it.toString()); wordid }
                                             else
                                                 Observable.just(wordid)
                                         }
                                         if (lstUnit.size == 1)
                                             if (lstLangNew.isEmpty())
                                                 retrofitJson.create(RestLangWord::class.java).update(wordid, langid, word, 0, note)
+                                                    .map { Log.d("", it.toString()); wordid }
                                             else
                                                 retrofitJson.create(RestLangWord::class.java).delete(wordid).concatMap { f() }
                                         else

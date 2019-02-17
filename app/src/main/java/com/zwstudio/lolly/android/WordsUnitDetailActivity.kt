@@ -43,7 +43,6 @@ class WordsUnitDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        vm.lstWords = (intent.getSerializableExtra("list") as Array<UnitWord>).toMutableList()
         item = intent.getSerializableExtra("word") as UnitWord
         tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         run {
@@ -95,12 +94,11 @@ class WordsUnitDetailActivity : AppCompatActivity() {
         item.word = vm.vmSettings.autoCorrectInput(etWord.text.toString())
         item.note = etNote.text.toString()
         val word = vm.vmSettings.autoCorrectInput(item.word)
-        if (item.id == 0) {
-            vm.lstWords.add(item)
+        if (item.id == 0)
             compositeDisposable.add(vm.create(item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, word, item.note).subscribe {
                 item.id = it
             })
-        } else
+        else
             compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, word, item.note).subscribe())
         setResult(Activity.RESULT_OK)
         finish()

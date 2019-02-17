@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.android
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -20,6 +21,8 @@ import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.domain.LangWord
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
+
+private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_words_lang)
 @OptionsMenu(R.menu.menu_add)
@@ -67,8 +70,13 @@ class WordsLangFragment : DrawerListFragment() {
     @OptionsItem
     fun menuAdd() {
         WordsLangDetailActivity_.intent(this)
-            .extra("list", vm.lstWords.toTypedArray()).extra("word", vm.newLangWord())
-            .startForResult(1)
+            .extra("word", vm.newLangWord()).startForResult(1)
+    }
+
+    @OnActivityResult(REQUEST_CODE)
+    fun onResult(resultCode: Int) {
+        if (resultCode == Activity.RESULT_OK)
+            mDragListView.resetSwipedViews(null)
     }
 
     private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView, val mLayoutId: Int, val compositeDisposable: CompositeDisposable) : DragItemAdapter<LangWord, WordsLangItemAdapter.ViewHolder>() {
@@ -110,7 +118,7 @@ class WordsLangFragment : DrawerListFragment() {
             private fun initButtons() {
                 fun edit(item: LangWord) {
                     WordsLangDetailActivity_.intent(itemView.context)
-                        .extra("list", vm.lstWords.toTypedArray()).extra("word", item).start()
+                        .extra("word", item).startForResult(REQUEST_CODE)
                 }
                 fun delete(item: LangWord) {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
