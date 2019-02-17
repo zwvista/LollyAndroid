@@ -24,9 +24,9 @@ class TextbookWord: Serializable {
     @SerializedName("TEXTBOOKNAME")
     @Expose
     var textbookname: String? = null
-    @SerializedName("ENTRYID")
+    @SerializedName("ID")
     @Expose
-    var entryid: Int = 0
+    var id: Int = 0
     @SerializedName("UNIT")
     @Expose
     var unit: Int = 0

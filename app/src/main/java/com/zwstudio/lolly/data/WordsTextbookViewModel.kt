@@ -25,7 +25,7 @@ class WordsTextbookViewModel : BaseViewModel2() {
         val item = lstWords[index]
         return vmNote.getNote(item.word).concatMap {
             item.note = it
-            retrofitJson.create(WordsUnitViewModel::class.java).updateNote(item.entryid, it)
+            retrofitJson.create(WordsUnitViewModel::class.java).updateNote(item.id, it)
         }
     }
 

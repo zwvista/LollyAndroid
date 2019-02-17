@@ -85,7 +85,7 @@ class WordsTextbookFragment : DrawerListFragment() {
         }
 
         override fun getUniqueItemId(position: Int): Long {
-            return mItemList[position].entryid.toLong()
+            return mItemList[position].id.toLong()
         }
 
         internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image, false) {

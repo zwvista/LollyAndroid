@@ -24,8 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_textbook"
-        android:id="@+id/tvTextbookName"/>
+        android:text="@string/label_id"
+        android:id="@+id/tvID"/>
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,8 +34,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_entryid"
-        android:id="@+id/tvEntryID"/>
+        android:text="@string/label_textbook"
+        android:id="@+id/tvTextbookName"/>
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

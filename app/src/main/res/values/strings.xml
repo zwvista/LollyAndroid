@@ -40,7 +40,6 @@
     <string name="label_phrase">PHRASE:</string>
     <string name="label_translation">TRANSLATION:</string>
     <string name="label_textbook">TEXTBOOK:</string>
-    <string name="label_entryid">ENTRYID:</string>
     <string name="label_go">Go</string>
     <string name="action_save">Save</string>
 </resources>

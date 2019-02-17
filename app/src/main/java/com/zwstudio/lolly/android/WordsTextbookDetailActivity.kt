@@ -23,7 +23,7 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
     @ViewById
     lateinit var tvTextbookName: TextView
     @ViewById
-    lateinit var tvEntryID: TextView
+    lateinit var tvID: TextView
     @ViewById
     lateinit var spnUnit: Spinner
     @ViewById
@@ -47,7 +47,7 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
     fun afterViews() {
         item = intent.getSerializableExtra("word") as TextbookWord
         tvTextbookName.text = "${getResources().getString(R.string.label_textbook)} ${item.textbookname}"
-        tvEntryID.text = "${getResources().getString(R.string.label_entryid)} ${item.entryid}"
+        tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         run {
             val lst = item.lstUnits
             val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lst) {
