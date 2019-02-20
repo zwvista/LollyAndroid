@@ -42,4 +42,9 @@
     <string name="label_textbook">TEXTBOOK:</string>
     <string name="label_go">Go</string>
     <string name="action_save">Save</string>
+    <string name="label_to">To:</string>
+    <string name="label_previous">Previous</string>
+    <string name="label_next">Next</string>
+    <string name="label_units">Units:</string>
+    <string name="label_textbook2">Textbook:</string>
 </resources>

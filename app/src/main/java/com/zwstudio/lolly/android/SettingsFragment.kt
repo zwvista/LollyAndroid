@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.domain.*
+import com.zwstudio.lolly.domain.DictGroup
+import com.zwstudio.lolly.domain.DictNote
+import com.zwstudio.lolly.domain.Language
+import com.zwstudio.lolly.domain.Textbook
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -35,6 +38,10 @@ class SettingsFragment : Fragment() {
     lateinit var spnPartTo: Spinner
     @ViewById
     lateinit var chkUnitTo: CheckBox
+    @ViewById
+    lateinit var btnPrevious: Button
+    @ViewById
+    lateinit var btnNext: Button
 
     val compositeDisposable = CompositeDisposable()
 
@@ -266,6 +273,8 @@ class SettingsFragment : Fragment() {
     fun chkUnitToCheckedChanged(isChecked: Boolean) {
         spnPartTo.isEnabled = isChecked
         spnUnitTo.isEnabled = isChecked
+        btnPrevious.isEnabled = !isChecked
+        btnNext.isEnabled = !isChecked
         if (!isChecked)
             updateUnitPartTo()
     }
@@ -310,4 +319,41 @@ class SettingsFragment : Fragment() {
         })
     }
 
+    @Click
+    fun btnPrevious() {
+        if (vm.uspartfrom > 1) {
+            vm.uspartfrom--
+            compositeDisposable.add(vm.updatePartFrom().subscribe {
+                spnPartFrom.setSelection(vm.uspartfrom - 1)
+                updateUnitPartTo()
+            })
+        } else {
+            vm.usunitfrom--
+            vm.uspartfrom = vm.lstParts.size
+            compositeDisposable.add(vm.updateUnitFrom().concatMap { vm.updatePartFrom() }.subscribe {
+                spnUnitFrom.setSelection(vm.usunitfrom - 1)
+                spnPartFrom.setSelection(vm.uspartfrom - 1)
+            })
+            updateUnitPartTo()
+        }
+    }
+
+    @Click
+    fun btnNext() {
+        if (vm.uspartfrom < vm.lstParts.size) {
+            vm.uspartfrom++
+            compositeDisposable.add(vm.updatePartFrom().subscribe {
+                spnPartFrom.setSelection(vm.uspartfrom - 1)
+            })
+            updateUnitPartTo()
+        } else {
+            vm.usunitfrom++
+            vm.uspartfrom = 1
+            compositeDisposable.add(vm.updateUnitFrom().concatMap { vm.updatePartFrom() }.subscribe {
+                spnUnitFrom.setSelection(vm.usunitfrom - 1)
+                spnPartFrom.setSelection(vm.uspartfrom - 1)
+            })
+            updateUnitPartTo()
+        }
+    }
 }
