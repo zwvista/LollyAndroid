@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.domain.DictGroup
+import com.zwstudio.lolly.domain.DictItem
 import com.zwstudio.lolly.domain.DictNote
 import com.zwstudio.lolly.domain.Language
 import com.zwstudio.lolly.domain.Textbook
@@ -23,7 +23,7 @@ class SettingsFragment : Fragment() {
     @ViewById
     lateinit var spnLanguage: Spinner
     @ViewById
-    lateinit var spnDictGroup: Spinner
+    lateinit var spnDictItem: Spinner
     @ViewById
     lateinit var spnDictNote: Spinner
     @ViewById
@@ -123,13 +123,13 @@ class SettingsFragment : Fragment() {
 
     private fun updateLang() {
         run {
-            val lst = vm.lstDictsGroup
-            val adapter = object : ArrayAdapter<DictGroup>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val lst = vm.lstDictItems
+            val adapter = object : ArrayAdapter<DictItem>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictGroup.selectedItemPosition == position
+                    (tv as? CheckedTextView)?.isChecked = spnDictItem.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
                     val item2 = vm.lstDictsMean.firstOrNull { it.dictname == m.dictname }
                     tv.text = item2?.url ?: ""
@@ -141,9 +141,9 @@ class SettingsFragment : Fragment() {
                     convert(super.getDropDownView(position, convertView, parent), position)
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnDictGroup.adapter = adapter
+            spnDictItem.adapter = adapter
 
-            spnDictGroup.setSelection(vm.selectedDictGroupIndex)
+            spnDictItem.setSelection(vm.selectedDictItemIndex)
         }
         run {
             val lst = vm.lstDictsNote
@@ -193,12 +193,12 @@ class SettingsFragment : Fragment() {
     }
 
     @ItemSelect
-    fun spnDictGroupItemSelected(selected: Boolean, position: Int) {
-        if (vm.selectedDictGroupIndex == position) return
-        vm.selectedDictGroupIndex = position
+    fun spnDictItemItemSelected(selected: Boolean, position: Int) {
+        if (vm.selectedDictItemIndex == position) return
+        vm.selectedDictItemIndex = position
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictGroup.adapter as ArrayAdapter<DictGroup>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateDictGroup().subscribe())
+        (spnDictItem.adapter as ArrayAdapter<DictItem>).notifyDataSetChanged()
+        compositeDisposable.add(vm.updateDictItem().subscribe())
     }
 
     @ItemSelect

@@ -42,12 +42,12 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Dictionary(Word):"
-        android:id="@+id/tvDictGroup"/>
+        android:id="@+id/tvDictItem"/>
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spnDictGroup"
+        android:id="@+id/spnDictItem"
         android:layout_gravity="center_horizontal"/>
 
     <Space

@@ -10,6 +10,6 @@ class SearchViewModel : BaseViewModel2() {
         get() = lstWords[selectedWordIndex]
 
 //    val urlString: String?
-//        get() = vmSettings.selectedDictGroup.urlString(selectedWord, vmSettings.lstAutoCorrect)
+//        get() = vmSettings.selectedDictItem.urlString(selectedWord, vmSettings.lstAutoCorrect)
 
 }

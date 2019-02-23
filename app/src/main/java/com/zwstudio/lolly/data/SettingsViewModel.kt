@@ -29,7 +29,7 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             selectedUSLang.value1 = value.toString()
         }
-    var usdictgroup: String
+    var usdictitem: String
         get() = selectedUSLang.value2!!
         set(value) {
             selectedUSLang.value2 = value
@@ -39,7 +39,7 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             selectedUSLang.value3 = value.toString()
         }
-    var usdictsgroup: String
+    var usdictitems: String
         get() = selectedUSLang.value4 ?: "0"
         set(value) {
             selectedUSLang.value4 = value
@@ -91,14 +91,14 @@ class SettingsViewModel : BaseViewModel1() {
         get() = lstTextbooks[selectedTextbookIndex]
 
     var lstDictsMean = listOf<DictMean>()
-    var lstDictsGroup = listOf<DictGroup>()
-    var selectedDictGroupIndex = 0
+    var lstDictItems = listOf<DictItem>()
+    var selectedDictItemIndex = 0
         set(value) {
             field = value
-            usdictgroup = selectedDictGroup.dictid
+            usdictitem = selectedDictItem.dictid
         }
-    val selectedDictGroup: DictGroup
-        get() = lstDictsGroup[selectedDictGroupIndex]
+    val selectedDictItem: DictItem
+        get() = lstDictItems[selectedDictItemIndex]
 
     var lstDictsNote = listOf<DictNote>()
     var selectedDictNoteIndex = 0
@@ -133,7 +133,7 @@ class SettingsViewModel : BaseViewModel1() {
         selectedLangIndex = langIndex
         uslangid = selectedLang.id
         selectedUSLangIndex = lstUserSettings.indexOfFirst { it.kind == 2 && it.entityid == uslangid }
-        val lstDicts = usdictsgroup.split("\r\n")
+        val lstDicts = usdictitems.split("\r\n")
         return Observables.zip(retrofitJson.create(RestDictMean::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestDictNote::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestTextbook::class.java).getDataByLang("LANGID,eq,$uslangid"),
@@ -141,15 +141,15 @@ class SettingsViewModel : BaseViewModel1() {
             res1, res2, res3, res4 ->
             lstDictsMean = res1.lst!!
             var i = 0
-            lstDictsGroup = lstDicts.flatMap { d ->
+            lstDictItems = lstDicts.flatMap { d ->
                 if (d == "0")
-                    lstDictsMean.map { DictGroup(it.dictid.toString(), it.dictname!!) }
+                    lstDictsMean.map { DictItem(it.dictid.toString(), it.dictname!!) }
                 else {
                     i++
-                    listOf(DictGroup(d, "Custom$i"))
+                    listOf(DictItem(d, "Custom$i"))
                 }
             }
-            selectedDictGroupIndex = lstDictsGroup.indexOfFirst { it.dictid == usdictgroup }
+            selectedDictItemIndex = lstDictItems.indexOfFirst { it.dictid == usdictitem }
             lstDictsNote = res2.lst!!
             if (lstDictsNote.isNotEmpty())
                 selectedDictNoteIndex = lstDictsNote.indexOfFirst { it.id == usdictnoteid }
@@ -191,9 +191,9 @@ class SettingsViewModel : BaseViewModel1() {
             .map { Log.d("", it.toString()) }
             .applyIO()
 
-    fun updateDictGroup(): Observable<Int> =
+    fun updateDictItem(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
-            .updateDictGroup(selectedUSLang.id, usdictgroup)
+            .updateDictItem(selectedUSLang.id, usdictitem)
             .map { Log.d("", it.toString()) }
             .applyIO()
 

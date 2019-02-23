@@ -19,7 +19,7 @@ interface RestUserSetting {
 
     @FormUrlEncoded
     @PUT("USERSETTINGS/{id}")
-    fun updateDictGroup(@Path("id") id: Int, @Field("VALUE2") dictgroup: String): Observable<Int>
+    fun updateDictItem(@Path("id") id: Int, @Field("VALUE2") dictitem: String): Observable<Int>
 
     @FormUrlEncoded
     @PUT("USERSETTINGS/{id}")
