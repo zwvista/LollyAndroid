@@ -17,6 +17,12 @@ class PhrasesTextbookViewModel : BaseViewModel2() {
     fun getData(): Observable<Unit> =
         retrofitJson.create(RestTextbookPhrase::class.java)
             .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
-            .map { lstPhrases = it.lst!!.toMutableList() }
+            .map {
+                lstPhrases = it.lst!!.toMutableList()
+                for (o in lstPhrases) {
+                    o.lstUnits = unitsFrom(o.unitinfo)
+                    o.lstParts = partsFrom(o.parts)
+                }
+            }
             .applyIO()
 }

@@ -163,8 +163,9 @@ class SettingsViewModel : BaseViewModel1() {
     fun setSelectedTextbookIndex() {
         ustextbookid = selectedTextbook.id
         selectedUSTextbookIndex = lstUserSettings.indexOfFirst { it.kind == 3 && it.entityid == ustextbookid }
-        lstUnits = (1..selectedTextbook.units).map { it.toString() }
-        lstParts = selectedTextbook.parts?.split(' ')!!
+        lstUnits = unitsFrom(selectedTextbook.unitinfo)
+        selectedTextbook.units = lstUnits.size
+        lstParts = partsFrom(selectedTextbook.parts)
     }
 
     fun dictHtml(word: String, dictids: List<String>): String {

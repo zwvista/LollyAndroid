@@ -26,3 +26,24 @@ fun View.googleString(text: String) {
         context.startActivity(intent)
     }
 }
+
+fun unitsFrom(unitinfo: String): List<String> {
+    var m = Regex("UNITS,(\\d+)").find(unitinfo)
+    if (m != null) {
+        val units = m.groupValues[1].toInt()
+        return (1..units).map { it.toString() }
+    }
+    m = Regex("PAGES,(\\d+),(\\d+)").find(unitinfo)
+    if (m != null) {
+        val n1 = m.groupValues[1].toInt()
+        val n2 = m.groupValues[2].toInt()
+        val units = (n1 + n2 - 1) / n2
+        return (1..units).map { "${it * n2 - n2 + 1}~${it * n2}" }
+    }
+    m = Regex("CUSTOM,(.+)").find(unitinfo)
+    if (m != null)
+        return m.groupValues[1].split(",")
+    return listOf()
+}
+
+fun partsFrom(parts: String) = parts.split(" ")

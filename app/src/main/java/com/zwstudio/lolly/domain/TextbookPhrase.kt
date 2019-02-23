@@ -45,18 +45,16 @@ class TextbookPhrase: Serializable {
     @SerializedName("TRANSLATION")
     @Expose
     var translation: String? = null
-    @SerializedName("UNITS")
+    @SerializedName("UNITINFO")
     @Expose
-    var units = 0
+    var unitinfo = ""
     @SerializedName("PARTS")
     @Expose
     var parts = ""
 
-    val lstUnits: List<String>
-        get() = (1..units).map { it.toString() }
-    val lstParts: List<String>
-        get() = parts.split(' ')
+    var lstUnits = listOf<String>()
+    var lstParts = listOf<String>()
 
     val unitpartseqnum: String
-        get() = "$unit $seqnum\n${lstParts[part - 1]}"
+        get() = "${lstUnits[unit - 1]} $seqnum\n${lstParts[part - 1]}"
 }

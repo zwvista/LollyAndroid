@@ -24,10 +24,11 @@ class Textbook: Serializable {
     @SerializedName("NAME")
     @Expose
     var textbookname: String? = null
-    @SerializedName("UNITS")
+    @SerializedName("UNITINFO")
     @Expose
-    var units = 0
+    var unitinfo = ""
     @SerializedName("PARTS")
     @Expose
-    var parts: String? = null
+    var parts = ""
+    var units = 0
 }
