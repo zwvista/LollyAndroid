@@ -112,6 +112,8 @@ class SettingsViewModel : BaseViewModel1() {
                 null
             else
                 lstDictsNote[selectedDictNoteIndex]
+    val hasNote: Boolean
+        get() = !lstDictsNote.isEmpty()
 
     var lstUnits = listOf<String>()
     var lstParts = listOf<String>()

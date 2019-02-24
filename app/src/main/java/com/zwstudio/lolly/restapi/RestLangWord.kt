@@ -5,7 +5,7 @@ import io.reactivex.Observable
 import retrofit2.http.*
 
 interface RestLangWord {
-    @GET("VLANGWORDS?transform=1")
+    @GET("VLANGWORDS?transform=1&order=WORD")
     fun getDataByLang(@Query("filter") filter: String): Observable<LangWords>
 
     @GET("VLANGWORDS?transform=1")
