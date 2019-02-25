@@ -323,18 +323,16 @@ class SettingsFragment : Fragment() {
     fun btnPrevious() {
         if (vm.uspartfrom > 1) {
             vm.uspartfrom--
-            compositeDisposable.add(vm.updatePartFrom().subscribe {
-                spnPartFrom.setSelection(vm.uspartfrom - 1)
-                updateUnitPartTo()
-            })
+            spnPartFrom.setSelection(vm.uspartfrom - 1)
+            updateUnitPartTo()
+            compositeDisposable.add(vm.updatePartFrom().subscribe())
         } else {
             vm.usunitfrom--
             vm.uspartfrom = vm.lstParts.size
-            compositeDisposable.add(vm.updateUnitFrom().concatMap { vm.updatePartFrom() }.subscribe {
-                spnUnitFrom.setSelection(vm.usunitfrom - 1)
-                spnPartFrom.setSelection(vm.uspartfrom - 1)
-            })
+            spnUnitFrom.setSelection(vm.usunitfrom - 1)
+            spnPartFrom.setSelection(vm.uspartfrom - 1)
             updateUnitPartTo()
+            compositeDisposable.add(vm.updateUnitFrom().concatMap { vm.updatePartFrom() }.subscribe())
         }
     }
 
@@ -342,18 +340,17 @@ class SettingsFragment : Fragment() {
     fun btnNext() {
         if (vm.uspartfrom < vm.lstParts.size) {
             vm.uspartfrom++
-            compositeDisposable.add(vm.updatePartFrom().subscribe {
-                spnPartFrom.setSelection(vm.uspartfrom - 1)
-            })
+            spnPartFrom.setSelection(vm.uspartfrom - 1)
             updateUnitPartTo()
+            compositeDisposable.add(vm.updatePartFrom().subscribe {
+            })
         } else {
             vm.usunitfrom++
             vm.uspartfrom = 1
-            compositeDisposable.add(vm.updateUnitFrom().concatMap { vm.updatePartFrom() }.subscribe {
-                spnUnitFrom.setSelection(vm.usunitfrom - 1)
-                spnPartFrom.setSelection(vm.uspartfrom - 1)
-            })
+            spnUnitFrom.setSelection(vm.usunitfrom - 1)
+            spnPartFrom.setSelection(vm.uspartfrom - 1)
             updateUnitPartTo()
+            compositeDisposable.add(vm.updateUnitFrom().concatMap { vm.updatePartFrom() }.subscribe())
         }
     }
 }
