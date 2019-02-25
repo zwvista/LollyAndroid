@@ -46,4 +46,4 @@ fun unitsFrom(unitinfo: String): List<String> {
     return listOf()
 }
 
-fun partsFrom(parts: String) = parts.split(" ")
+fun partsFrom(parts: String) = parts.split(",")
