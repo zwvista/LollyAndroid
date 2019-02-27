@@ -73,6 +73,8 @@ class SettingsViewModel : BaseViewModel1() {
         get() = usunitto * 10 + uspartto
     val isSingleUnitPart: Boolean
         get() = usunitpartfrom == usunitpartto
+    val isSingleUnit: Boolean
+        get() = usunitfrom == usunitto && uspartfrom == 1 && uspartto == lstParts.size
     val isInvalidUnitPart: Boolean
         get() = usunitpartfrom > usunitpartto
 

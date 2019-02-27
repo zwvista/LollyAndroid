@@ -37,7 +37,7 @@ class SettingsFragment : Fragment() {
     @ViewById
     lateinit var spnPartTo: Spinner
     @ViewById
-    lateinit var chkUnitTo: CheckBox
+    lateinit var spnToType: Spinner
     @ViewById
     lateinit var btnPrevious: Button
     @ViewById
@@ -51,36 +51,6 @@ class SettingsFragment : Fragment() {
         compositeDisposable.add(vm.getData().subscribe {
             initSpnLanguage()
         })
-    }
-
-    private fun updateUnitPartFrom() {
-        if (vm.usunitfrom != vm.usunitto) {
-            vm.usunitfrom = vm.usunitto
-            compositeDisposable.add(vm.updateUnitFrom().subscribe {
-                spnUnitFrom.setSelection(spnUnitTo.selectedItemPosition)
-            })
-        }
-        if (vm.uspartfrom != vm.uspartto) {
-            vm.uspartfrom = vm.uspartto
-            compositeDisposable.add(vm.updatePartFrom().subscribe {
-                spnPartFrom.setSelection(spnPartTo.selectedItemPosition)
-            })
-        }
-    }
-
-    private fun updateUnitPartTo() {
-        if (vm.usunitto != vm.usunitfrom) {
-            vm.usunitto = vm.usunitfrom
-            compositeDisposable.add(vm.updateUnitTo().subscribe {
-                spnUnitTo.setSelection(spnUnitFrom.selectedItemPosition)
-            })
-        }
-        if (vm.uspartto != vm.uspartfrom) {
-            vm.uspartto = vm.uspartfrom
-            compositeDisposable.add(vm.updatePartTo().subscribe {
-                spnPartTo.setSelection(spnPartFrom.selectedItemPosition)
-            })
-        }
     }
 
     private fun initSpnLanguage() {
@@ -222,8 +192,8 @@ class SettingsFragment : Fragment() {
     }
 
     private fun updateTextbook() {
-        run {
-            val lst = vm.lstUnits
+
+        fun makeAdapter(lst: List<String>): ArrayAdapter<String> {
             val adapter = object : ArrayAdapter<String>(activity!!, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
@@ -236,6 +206,12 @@ class SettingsFragment : Fragment() {
                     convert(super.getDropDownView(position, convertView, parent), position)
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
+            return adapter
+        }
+
+        run {
+            val lst = vm.lstUnits
+            val adapter = makeAdapter(lst)
             spnUnitFrom.adapter = adapter
             spnUnitTo.adapter = adapter
 
@@ -245,18 +221,7 @@ class SettingsFragment : Fragment() {
 
         run {
             val lst = vm.lstParts
-            val adapter = object : ArrayAdapter<String>(activity!!, android.R.layout.simple_spinner_item, lst) {
-                fun convert(v: View, position: Int): View {
-                    val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position)
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getDropDownView(position, convertView, parent), position)
-            }
-            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
+            val adapter = makeAdapter(lst)
             spnPartFrom.adapter = adapter
             spnPartTo.adapter = adapter
 
@@ -264,93 +229,141 @@ class SettingsFragment : Fragment() {
             spnPartTo.setSelection(vm.uspartto - 1)
         }
 
-        val b = !vm.isSingleUnitPart
-        chkUnitTo.isChecked = b
-        chkUnitToCheckedChanged(b)
-    }
-
-    @CheckedChange
-    fun chkUnitToCheckedChanged(isChecked: Boolean) {
-        spnPartTo.isEnabled = isChecked
-        spnUnitTo.isEnabled = isChecked
-        btnPrevious.isEnabled = !isChecked
-        btnNext.isEnabled = !isChecked
-        if (!isChecked)
-            updateUnitPartTo()
+        run {
+            val lst = listOf("Unit", "Part", "To")
+            val adapter = makeAdapter(lst)
+            spnToType.adapter = adapter
+            val toType =
+                if (vm.isSingleUnitPart) 1
+                else if (vm.isSingleUnit) 0
+                else 2
+            spnToType.setSelection(toType);
+        }
     }
 
     @ItemSelect
     fun spnUnitFromItemSelected(selected: Boolean, position: Int) {
-        if (vm.usunitfrom == position + 1) return
-        vm.usunitfrom = position + 1
-        compositeDisposable.add(vm.updateUnitFrom().subscribe {
-            if (!chkUnitTo.isChecked || vm.isInvalidUnitPart)
-                updateUnitPartTo()
-        })
+        if (!updateUnitFrom(position + 1)) return
+        if (spnToType.selectedItemPosition == 0)
+            updateSingleUnit()
+        else if (spnToType.selectedItemPosition == 1 || vm.isInvalidUnitPart)
+            updateUnitPartTo()
     }
 
     @ItemSelect
     fun spnPartFromItemSelected(selected: Boolean, position: Int) {
-        if (vm.uspartfrom == position + 1) return
-        vm.uspartfrom = position + 1
-        compositeDisposable.add(vm.updatePartFrom().subscribe {
-            if (!chkUnitTo.isChecked || vm.isInvalidUnitPart)
-                updateUnitPartTo()
-        })
+        if (!updatePartFrom(position + 1)) return
+        if (spnToType.selectedItemPosition == 1 || vm.isInvalidUnitPart)
+            updateUnitPartTo()
+    }
+
+    @ItemSelect
+    fun spnToTypeItemSelected(selected: Boolean, position: Int) {
+        val b = position == 2
+        spnPartTo.isEnabled = b
+        spnUnitTo.isEnabled = b
+        btnPrevious.isEnabled = !b
+        btnNext.isEnabled = !b
+        spnPartFrom.isEnabled = position != 0
+        if (position == 0)
+            updateSingleUnit()
+        else if (position == 1)
+            updateUnitPartTo()
     }
 
     @ItemSelect
     fun spnUnitToItemSelected(selected: Boolean, position: Int) {
-        if (vm.usunitto == position + 1) return
-        vm.usunitto = position + 1
-        compositeDisposable.add(vm.updateUnitTo().subscribe {
-            if (vm.isInvalidUnitPart)
-                updateUnitPartFrom()
-        })
+        if (!updateUnitTo(position + 1)) return
+        if (vm.isInvalidUnitPart)
+            updateUnitPartFrom()
     }
 
     @ItemSelect
     fun spnPartToItemSelected(selected: Boolean, position: Int) {
-        if (vm.uspartto == position + 1) return
-        vm.uspartto = position + 1
-        compositeDisposable.add(vm.updatePartTo().subscribe {
-            if (vm.isInvalidUnitPart)
-                updateUnitPartFrom()
-        })
+        if (!updatePartTo(position + 1)) return
+        if (vm.isInvalidUnitPart)
+            updateUnitPartFrom()
     }
 
     @Click
     fun btnPrevious() {
-        if (vm.uspartfrom > 1) {
-            vm.uspartfrom--
-            spnPartFrom.setSelection(vm.uspartfrom - 1)
+        if (spnToType.selectedItemPosition == 0) {
+            if (vm.usunitfrom > 1) {
+                updateUnitFrom(vm.usunitfrom - 1)
+                updateUnitTo(vm.usunitfrom)
+            }
+        } else if (vm.uspartfrom > 1) {
+            updatePartFrom(vm.uspartfrom - 1)
             updateUnitPartTo()
-            compositeDisposable.add(vm.updatePartFrom().subscribe())
-        } else {
-            vm.usunitfrom--
-            vm.uspartfrom = vm.lstParts.size
-            spnUnitFrom.setSelection(vm.usunitfrom - 1)
-            spnPartFrom.setSelection(vm.uspartfrom - 1)
+        } else if (vm.usunitfrom > 1) {
+            updateUnitFrom(vm.usunitfrom - 1)
+            updatePartFrom(vm.lstParts.size)
             updateUnitPartTo()
-            compositeDisposable.add(vm.updateUnitFrom().concatMap { vm.updatePartFrom() }.subscribe())
         }
     }
 
     @Click
     fun btnNext() {
-        if (vm.uspartfrom < vm.lstParts.size) {
-            vm.uspartfrom++
-            spnPartFrom.setSelection(vm.uspartfrom - 1)
+        if (spnToType.selectedItemPosition == 0) {
+            if (vm.usunitfrom < vm.lstUnits.size) {
+                updateUnitFrom(vm.usunitfrom + 1)
+                updateUnitTo(vm.usunitfrom)
+            }
+        } else if (vm.uspartfrom < vm.lstParts.size) {
+            updatePartFrom(vm.uspartfrom + 1)
             updateUnitPartTo()
-            compositeDisposable.add(vm.updatePartFrom().subscribe {
-            })
-        } else {
-            vm.usunitfrom++
-            vm.uspartfrom = 1
-            spnUnitFrom.setSelection(vm.usunitfrom - 1)
-            spnPartFrom.setSelection(vm.uspartfrom - 1)
+        } else if (vm.usunitfrom < vm.lstUnits.size) {
+            updateUnitFrom(vm.usunitfrom + 1)
+            updatePartFrom(1)
             updateUnitPartTo()
-            compositeDisposable.add(vm.updateUnitFrom().concatMap { vm.updatePartFrom() }.subscribe())
         }
+    }
+
+    fun updateUnitPartFrom() {
+        updateUnitFrom(vm.usunitto)
+        updatePartFrom(vm.uspartto)
+    }
+
+    fun updateUnitPartTo() {
+        updateUnitTo(vm.usunitfrom)
+        updatePartTo(vm.uspartfrom)
+    }
+
+    fun updateSingleUnit() {
+        updateUnitTo(vm.usunitfrom)
+        updatePartFrom(1)
+        updatePartTo(vm.lstParts.size)
+    }
+
+    fun updateUnitFrom(v: Int): Boolean {
+        if (vm.usunitfrom == v) return false
+        vm.usunitfrom = v
+        spnUnitFrom.setSelection(v - 1)
+        compositeDisposable.add(vm.updateUnitFrom().subscribe())
+        return true
+    }
+
+    fun updatePartFrom(v: Int): Boolean {
+        if (vm.uspartfrom == v) return false
+        vm.uspartfrom = v
+        spnPartFrom.setSelection(v - 1)
+        compositeDisposable.add(vm.updatePartFrom().subscribe())
+        return true
+    }
+
+    fun updateUnitTo(v: Int): Boolean {
+        if (vm.usunitto == v) return false
+        vm.usunitto = v
+        spnUnitTo.setSelection(v - 1)
+        compositeDisposable.add(vm.updateUnitTo().subscribe())
+        return true
+    }
+
+    fun updatePartTo(v: Int): Boolean {
+        if (vm.uspartto == v) return false
+        vm.uspartto = v
+        spnPartTo.setSelection(v - 1)
+        compositeDisposable.add(vm.updatePartTo().subscribe())
+        return true
     }
 }
