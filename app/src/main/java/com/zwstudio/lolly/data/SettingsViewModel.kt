@@ -74,7 +74,7 @@ class SettingsViewModel : BaseViewModel1() {
     val isSingleUnitPart: Boolean
         get() = usunitpartfrom == usunitpartto
     val isSingleUnit: Boolean
-        get() = usunitfrom == usunitto && uspartfrom == 1 && uspartto == lstParts.size
+        get() = usunitfrom == usunitto && uspartfrom == 1 && uspartto == partCount
     val isInvalidUnitPart: Boolean
         get() = usunitpartfrom > usunitpartto
 
@@ -118,7 +118,11 @@ class SettingsViewModel : BaseViewModel1() {
         get() = !lstDictsNote.isEmpty()
 
     var lstUnits = listOf<String>()
+    val unitCount: Int
+        get() = lstUnits.size
     var lstParts = listOf<String>()
+    val partCount: Int
+        get() = lstParts.size
 
     var lstAutoCorrect = listOf<AutoCorrect>()
 
@@ -168,7 +172,7 @@ class SettingsViewModel : BaseViewModel1() {
         ustextbookid = selectedTextbook.id
         selectedUSTextbookIndex = lstUserSettings.indexOfFirst { it.kind == 3 && it.entityid == ustextbookid }
         lstUnits = unitsFrom(selectedTextbook.unitinfo)
-        selectedTextbook.units = lstUnits.size
+        selectedTextbook.units = unitCount
         lstParts = partsFrom(selectedTextbook.parts)
     }
 

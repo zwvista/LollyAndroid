@@ -297,7 +297,7 @@ class SettingsFragment : Fragment() {
             updateUnitPartTo()
         } else if (vm.usunitfrom > 1) {
             updateUnitFrom(vm.usunitfrom - 1)
-            updatePartFrom(vm.lstParts.size)
+            updatePartFrom(vm.partCount)
             updateUnitPartTo()
         }
     }
@@ -305,14 +305,14 @@ class SettingsFragment : Fragment() {
     @Click
     fun btnNext() {
         if (spnToType.selectedItemPosition == 0) {
-            if (vm.usunitfrom < vm.lstUnits.size) {
+            if (vm.usunitfrom < vm.unitCount) {
                 updateUnitFrom(vm.usunitfrom + 1)
                 updateUnitTo(vm.usunitfrom)
             }
-        } else if (vm.uspartfrom < vm.lstParts.size) {
+        } else if (vm.uspartfrom < vm.partCount) {
             updatePartFrom(vm.uspartfrom + 1)
             updateUnitPartTo()
-        } else if (vm.usunitfrom < vm.lstUnits.size) {
+        } else if (vm.usunitfrom < vm.unitCount) {
             updateUnitFrom(vm.usunitfrom + 1)
             updatePartFrom(1)
             updateUnitPartTo()
@@ -332,7 +332,7 @@ class SettingsFragment : Fragment() {
     fun updateSingleUnit() {
         updateUnitTo(vm.usunitfrom)
         updatePartFrom(1)
-        updatePartTo(vm.lstParts.size)
+        updatePartTo(vm.partCount)
     }
 
     fun updateUnitFrom(v: Int): Boolean {
