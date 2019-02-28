@@ -7,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.domain.DictItem
-import com.zwstudio.lolly.domain.DictNote
-import com.zwstudio.lolly.domain.Language
-import com.zwstudio.lolly.domain.Textbook
+import com.zwstudio.lolly.domain.*
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -193,11 +190,11 @@ class SettingsFragment : Fragment() {
 
     private fun updateTextbook() {
 
-        fun makeAdapter(lst: List<String>): ArrayAdapter<String> {
-            val adapter = object : ArrayAdapter<String>(activity!!, android.R.layout.simple_spinner_item, lst) {
+        fun makeAdapter(lst: List<SelectItem>): ArrayAdapter<SelectItem> {
+            val adapter = object : ArrayAdapter<SelectItem>(activity!!, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position)
+                    tv.text = getItem(position).label
                     return v
                 }
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
@@ -210,8 +207,7 @@ class SettingsFragment : Fragment() {
         }
 
         run {
-            val lst = vm.lstUnits
-            val adapter = makeAdapter(lst)
+            val adapter = makeAdapter(vm.lstUnits)
             spnUnitFrom.adapter = adapter
             spnUnitTo.adapter = adapter
 
@@ -220,8 +216,7 @@ class SettingsFragment : Fragment() {
         }
 
         run {
-            val lst = vm.lstParts
-            val adapter = makeAdapter(lst)
+            val adapter = makeAdapter(vm.lstParts)
             spnPartFrom.adapter = adapter
             spnPartTo.adapter = adapter
 
@@ -230,7 +225,7 @@ class SettingsFragment : Fragment() {
         }
 
         run {
-            val lst = listOf("Unit", "Part", "To")
+            val lst = listOf("Unit", "Part", "To").mapIndexed { index, s -> SelectItem(index, s) }
             val adapter = makeAdapter(lst)
             spnToType.adapter = adapter
             val toType =

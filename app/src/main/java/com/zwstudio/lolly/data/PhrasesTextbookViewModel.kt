@@ -9,7 +9,7 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PhrasesTextbookViewModel : BaseViewModel2() {
 
-    var lstPhrases = mutableListOf<TextbookPhrase>()
+    var lstPhrases = listOf<TextbookPhrase>()
     var isSwipeStarted = false
 
     lateinit var compositeDisposable: CompositeDisposable
@@ -18,9 +18,9 @@ class PhrasesTextbookViewModel : BaseViewModel2() {
         retrofitJson.create(RestTextbookPhrase::class.java)
             .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
             .map {
-                lstPhrases = it.lst!!.toMutableList()
+                lstPhrases = it.lst!!
                 for (o in lstPhrases) {
-                    o.lstUnits = unitsFrom(o.unitinfo)
+                    o.lstUnits = unitsFrom(o.units)
                     o.lstParts = partsFrom(o.parts)
                 }
             }

@@ -136,7 +136,7 @@ class WordsUnitFragment : DrawerListFragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
             holder.mText1.text = mItemList[position].wordnote
-            holder.mText2.text = mItemList[position].unitpartseqnum(vm.vmSettings.lstParts)
+            holder.mText2.text = mItemList[position].unitpartseqnum
             holder.itemView.tag = mItemList[position]
         }
 

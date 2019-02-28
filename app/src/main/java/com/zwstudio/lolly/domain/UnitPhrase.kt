@@ -40,6 +40,19 @@ class UnitPhrase: Serializable {
     @SerializedName("TRANSLATION")
     @Expose
     var translation: String? = null
+    @SerializedName("UNITS")
+    @Expose
+    var units = ""
+    @SerializedName("PARTS")
+    @Expose
+    var parts = ""
 
-    fun unitpartseqnum(lstParts: List<String>) = "$unit $seqnum\n${lstParts[part - 1]}"
+    var lstUnits = listOf<SelectItem>()
+    var lstParts = listOf<SelectItem>()
+    val unitstr: String
+        get() = lstUnits.first { it.value == unit }.label
+    val partstr: String
+        get() = lstParts.first { it.value == part }.label
+    val unitpartseqnum: String
+        get() = "$unitstr $seqnum\n$partstr"
 }

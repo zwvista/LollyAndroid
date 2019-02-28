@@ -120,7 +120,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
             holder.mText1.text = mItemList[position].phrase
-            holder.mText2.text = mItemList[position].unitpartseqnum(vm.vmSettings.lstParts)
+            holder.mText2.text = mItemList[position].unitpartseqnum
             holder.mText3.text = mItemList[position].translation
             holder.itemView.tag = mItemList[position]
         }

@@ -21,7 +21,13 @@ class PhrasesUnitViewModel : BaseViewModel2() {
         retrofitJson.create(RestUnitPhrase::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${vmSettings.selectedTextbook.id}",
                 "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
-            .map { lstPhrases = it.lst!!.toMutableList() }
+            .map {
+                lstPhrases = it.lst!!.toMutableList()
+                for (o in lstPhrases) {
+                    o.lstUnits = unitsFrom(o.units)
+                    o.lstParts = partsFrom(o.parts)
+                }
+            }
             .applyIO()
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Int> =

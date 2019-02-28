@@ -9,7 +9,7 @@ import org.androidannotations.annotations.EBean
 @EBean
 class WordsTextbookViewModel : BaseViewModel2() {
 
-    var lstWords = mutableListOf<TextbookWord>()
+    var lstWords = listOf<TextbookWord>()
     var isSwipeStarted = false
 
     lateinit var vmNote: NoteViewModel
@@ -19,9 +19,9 @@ class WordsTextbookViewModel : BaseViewModel2() {
         retrofitJson.create(RestTextbookWord::class.java)
             .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
             .map {
-                lstWords = it.lst!!.toMutableList()
+                lstWords = it.lst!!
                 for (o in lstWords) {
-                    o.lstUnits = unitsFrom(o.unitinfo)
+                    o.lstUnits = unitsFrom(o.units)
                     o.lstParts = partsFrom(o.parts)
                 }
             }

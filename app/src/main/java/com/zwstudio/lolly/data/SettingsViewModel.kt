@@ -117,10 +117,10 @@ class SettingsViewModel : BaseViewModel1() {
     val hasNote: Boolean
         get() = !lstDictsNote.isEmpty()
 
-    var lstUnits = listOf<String>()
+    var lstUnits = listOf<SelectItem>()
     val unitCount: Int
         get() = lstUnits.size
-    var lstParts = listOf<String>()
+    var lstParts = listOf<SelectItem>()
     val partCount: Int
         get() = lstParts.size
     val isSinglePart: Boolean
@@ -173,7 +173,7 @@ class SettingsViewModel : BaseViewModel1() {
     fun setSelectedTextbookIndex() {
         ustextbookid = selectedTextbook.id
         selectedUSTextbookIndex = lstUserSettings.indexOfFirst { it.kind == 3 && it.entityid == ustextbookid }
-        lstUnits = unitsFrom(selectedTextbook.unitinfo)
+        lstUnits = unitsFrom(selectedTextbook.units)
         lstParts = partsFrom(selectedTextbook.parts)
     }
 
