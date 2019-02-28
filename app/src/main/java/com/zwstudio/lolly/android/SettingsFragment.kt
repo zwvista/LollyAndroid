@@ -146,7 +146,7 @@ class SettingsFragment : Fragment() {
                     tv.text = m.textbookname
                     (tv as? CheckedTextView)?.isChecked = spnTextbook.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
-                    tv.text = m.units.toString() + " units"
+                    tv.text = "${vm.unitCount} units"
                     return v
                 }
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
@@ -234,8 +234,8 @@ class SettingsFragment : Fragment() {
             val adapter = makeAdapter(lst)
             spnToType.adapter = adapter
             val toType =
-                if (vm.isSingleUnitPart) 1
-                else if (vm.isSingleUnit) 0
+                if (vm.isSingleUnit) 0
+                else if (vm.isSingleUnitPart) 1
                 else 2
             spnToType.setSelection(toType);
         }
@@ -260,11 +260,11 @@ class SettingsFragment : Fragment() {
     @ItemSelect
     fun spnToTypeItemSelected(selected: Boolean, position: Int) {
         val b = position == 2
-        spnPartTo.isEnabled = b
         spnUnitTo.isEnabled = b
+        spnPartTo.isEnabled = b && !vm.isSinglePart
         btnPrevious.isEnabled = !b
         btnNext.isEnabled = !b
-        spnPartFrom.isEnabled = position != 0
+        spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
         if (position == 0)
             updateSingleUnit()
         else if (position == 1)

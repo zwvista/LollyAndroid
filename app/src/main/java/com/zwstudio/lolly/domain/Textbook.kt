@@ -30,5 +30,4 @@ class Textbook: Serializable {
     @SerializedName("PARTS")
     @Expose
     var parts = ""
-    var units = 0
 }

@@ -123,6 +123,8 @@ class SettingsViewModel : BaseViewModel1() {
     var lstParts = listOf<String>()
     val partCount: Int
         get() = lstParts.size
+    val isSinglePart: Boolean
+        get() = partCount == 1
 
     var lstAutoCorrect = listOf<AutoCorrect>()
 
@@ -172,7 +174,6 @@ class SettingsViewModel : BaseViewModel1() {
         ustextbookid = selectedTextbook.id
         selectedUSTextbookIndex = lstUserSettings.indexOfFirst { it.kind == 3 && it.entityid == ustextbookid }
         lstUnits = unitsFrom(selectedTextbook.unitinfo)
-        selectedTextbook.units = unitCount
         lstParts = partsFrom(selectedTextbook.parts)
     }
 
