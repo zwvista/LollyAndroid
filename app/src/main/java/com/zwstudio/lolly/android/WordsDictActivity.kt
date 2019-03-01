@@ -96,7 +96,7 @@ class WordsDictActivity : AppCompatActivity() {
     @ItemSelect
     fun spnDictItemItemSelected(selected: Boolean, position: Int) {
         if (vm.vmSettings.selectedDictItemIndex == position) return
-        vm.vmSettings.selectedDictItemIndex = position
+        vm.vmSettings.selectedDictItem = vm.vmSettings.lstDictItems[position]
         Log.d("", String.format("Checked position:%d", position))
         (spnDictItem.adapter as ArrayAdapter<DictItem>).notifyDataSetChanged()
         compositeDisposable.add(vm.vmSettings.updateDictItem().subscribe())

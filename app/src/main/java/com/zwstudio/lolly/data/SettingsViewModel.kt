@@ -13,17 +13,13 @@ class SettingsViewModel : BaseViewModel1() {
     val userid = 1
 
     var lstUserSettings = listOf<UserSetting>()
-    private var selectedUSUserIndex = 0
-    private val selectedUSUser: UserSetting
-        get() = lstUserSettings[selectedUSUserIndex]
+    private lateinit var selectedUSUser: UserSetting
     var uslangid: Int
         get() = selectedUSUser.value1?.toInt()!!
         set(value) {
             selectedUSUser.value1 = value.toString()
         }
-    private var selectedUSLangIndex = 0
-    private val selectedUSLang: UserSetting
-        get() = lstUserSettings[selectedUSLangIndex]
+    private lateinit var selectedUSLang: UserSetting
     var ustextbookid: Int
         get() = selectedUSLang.value1?.toInt()!!
         set(value) {
@@ -44,9 +40,7 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             selectedUSLang.value4 = value
         }
-    private var selectedUSTextbookIndex = 0
-    private val selectedUSTextbook: UserSetting
-        get() = lstUserSettings[selectedUSTextbookIndex]
+    private lateinit var selectedUSTextbook: UserSetting
     var usunitfrom: Int
         get() = selectedUSTextbook.value1?.toInt()!!
         set(value) {
@@ -79,41 +73,45 @@ class SettingsViewModel : BaseViewModel1() {
         get() = usunitpartfrom > usunitpartto
 
     var lstLanguages = listOf<Language>()
-    var selectedLangIndex = 0
-    val selectedLang: Language
-        get() = lstLanguages[selectedLangIndex]
+    lateinit var selectedLang: Language
+    val selectedLangIndex: Int
+        get() = lstLanguages.indexOf(selectedLang)
 
     var lstTextbooks = listOf<Textbook>()
-    var selectedTextbookIndex = 0
+    // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter
+    private var _selectedTextbook: Textbook? = null
+    var selectedTextbook: Textbook
+        get() = _selectedTextbook!!
         set(value) {
-            field = value
-            setSelectedTextbookIndex()
+            _selectedTextbook = value
+            setSelectedTextbook()
         }
-    val selectedTextbook: Textbook
-        get() = lstTextbooks[selectedTextbookIndex]
+    val selectedTextbookIndex: Int
+        get() = lstTextbooks.indexOf(selectedTextbook)
 
     var lstDictsMean = listOf<DictMean>()
     var lstDictItems = listOf<DictItem>()
-    var selectedDictItemIndex = 0
+    // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter
+    private var _selectedDictItem: DictItem? = null
+    var selectedDictItem: DictItem
+        get() = _selectedDictItem!!
         set(value) {
-            field = value
+            _selectedDictItem = value
             usdictitem = selectedDictItem.dictid
         }
-    val selectedDictItem: DictItem
-        get() = lstDictItems[selectedDictItemIndex]
+    val selectedDictItemIndex: Int
+        get() = lstDictItems.indexOf(selectedDictItem)
 
     var lstDictsNote = listOf<DictNote>()
-    var selectedDictNoteIndex = 0
+    var selectedDictNote: DictNote? = null
         set(value) {
             field = value
             usdictnoteid = selectedDictNote?.id ?: 0
         }
-    val selectedDictNote: DictNote?
+    val selectedDictNoteIndex: Int
         get() =
-            if (lstDictsNote.isEmpty())
-                null
-            else
-                lstDictsNote[selectedDictNoteIndex]
+            if (selectedDictNote == null) 0
+            else lstDictsNote.indexOf(selectedDictNote!!)
     val hasNote: Boolean
         get() = !lstDictsNote.isEmpty()
 
@@ -134,15 +132,15 @@ class SettingsViewModel : BaseViewModel1() {
         .concatMap {
             lstLanguages = it.first.lst!!
             lstUserSettings = it.second.lst!!
-            selectedUSUserIndex = lstUserSettings.indexOfFirst { it.kind == 1 }
-            setSelectedLangIndex(lstLanguages.indexOfFirst { it.id == uslangid })
+            selectedUSUser = lstUserSettings.first { it.kind == 1 }
+            setSelectedLang(lstLanguages.first { it.id == uslangid })
         }
         .applyIO()
 
-    fun setSelectedLangIndex(langIndex: Int): Observable<Unit> {
-        selectedLangIndex = langIndex
+    fun setSelectedLang(lang: Language): Observable<Unit> {
+        selectedLang = lang
         uslangid = selectedLang.id
-        selectedUSLangIndex = lstUserSettings.indexOfFirst { it.kind == 2 && it.entityid == uslangid }
+        selectedUSLang = lstUserSettings.first { it.kind == 2 && it.entityid == uslangid }
         val lstDicts = usdictitems.split("\r\n")
         return Observables.zip(retrofitJson.create(RestDictMean::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestDictNote::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
@@ -159,20 +157,21 @@ class SettingsViewModel : BaseViewModel1() {
                     listOf(DictItem(d, "Custom$i"))
                 }
             }
-            selectedDictItemIndex = lstDictItems.indexOfFirst { it.dictid == usdictitem }
+            selectedDictItem = lstDictItems.first { it.dictid == usdictitem }
             lstDictsNote = res2.lst!!
-            if (lstDictsNote.isNotEmpty())
-                selectedDictNoteIndex = lstDictsNote.indexOfFirst { it.id == usdictnoteid }
+            selectedDictNote =
+                if (lstDictsNote.isEmpty()) null
+                else lstDictsNote.first { it.id == usdictnoteid }
             lstTextbooks = res3.lst!!
-            selectedTextbookIndex = lstTextbooks.indexOfFirst { it.id == ustextbookid }
+            selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
             lstAutoCorrect = res4.lst!!
         }
         .applyIO()
     }
 
-    fun setSelectedTextbookIndex() {
+    fun setSelectedTextbook() {
         ustextbookid = selectedTextbook.id
-        selectedUSTextbookIndex = lstUserSettings.indexOfFirst { it.kind == 3 && it.entityid == ustextbookid }
+        selectedUSTextbook = lstUserSettings.first { it.kind == 3 && it.entityid == ustextbookid }
         lstUnits = unitsFrom(selectedTextbook.units)
         lstParts = partsFrom(selectedTextbook.parts)
     }

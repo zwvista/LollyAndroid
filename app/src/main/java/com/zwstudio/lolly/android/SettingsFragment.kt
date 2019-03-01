@@ -81,7 +81,7 @@ class SettingsFragment : Fragment() {
     fun spnLanguageItemSelected(selected: Boolean, position: Int) {
         if (vm.selectedLangIndex == position) return
         Log.d("", String.format("Checked position:%d", position))
-        compositeDisposable.add(vm.setSelectedLangIndex(position).concatMap {
+        compositeDisposable.add(vm.setSelectedLang(vm.lstLanguages[position]).concatMap {
             vm.updateLang()
         }.subscribe {
             updateLang()
@@ -162,7 +162,7 @@ class SettingsFragment : Fragment() {
     @ItemSelect
     fun spnDictItemItemSelected(selected: Boolean, position: Int) {
         if (vm.selectedDictItemIndex == position) return
-        vm.selectedDictItemIndex = position
+        vm.selectedDictItem = vm.lstDictItems[position]
         Log.d("", String.format("Checked position:%d", position))
         (spnDictItem.adapter as ArrayAdapter<DictItem>).notifyDataSetChanged()
         compositeDisposable.add(vm.updateDictItem().subscribe())
@@ -171,7 +171,7 @@ class SettingsFragment : Fragment() {
     @ItemSelect
     fun spnDictNoteItemSelected(selected: Boolean, position: Int) {
         if (vm.selectedDictNoteIndex == position) return
-        vm.selectedDictNoteIndex = position
+        vm.selectedDictNote = vm.lstDictsNote[position]
         Log.d("", String.format("Checked position:%d", position))
         (spnDictNote.adapter as ArrayAdapter<DictNote>).notifyDataSetChanged()
         compositeDisposable.add(vm.updateDictNote().subscribe())
@@ -180,7 +180,7 @@ class SettingsFragment : Fragment() {
     @ItemSelect
     fun spnTextbookItemSelected(selected: Boolean, position: Int) {
         if (vm.selectedTextbookIndex == position) return
-        vm.selectedTextbookIndex = position
+        vm.selectedTextbook = vm.lstTextbooks[position]
         Log.d("", String.format("Checked position:%d", position))
         (spnTextbook.adapter as ArrayAdapter<Textbook>).notifyDataSetChanged()
         compositeDisposable.add(vm.updateTextbook().subscribe {
@@ -238,7 +238,7 @@ class SettingsFragment : Fragment() {
 
     @ItemSelect
     fun spnUnitFromItemSelected(selected: Boolean, position: Int) {
-        if (!updateUnitFrom(position + 1)) return
+        if (!updateUnitFrom(vm.lstUnits[position].value)) return
         if (spnToType.selectedItemPosition == 0)
             updateSingleUnit()
         else if (spnToType.selectedItemPosition == 1 || vm.isInvalidUnitPart)
@@ -247,7 +247,7 @@ class SettingsFragment : Fragment() {
 
     @ItemSelect
     fun spnPartFromItemSelected(selected: Boolean, position: Int) {
-        if (!updatePartFrom(position + 1)) return
+        if (!updatePartFrom(vm.lstParts[position].value)) return
         if (spnToType.selectedItemPosition == 1 || vm.isInvalidUnitPart)
             updateUnitPartTo()
     }
@@ -264,20 +264,6 @@ class SettingsFragment : Fragment() {
             updateSingleUnit()
         else if (position == 1)
             updateUnitPartTo()
-    }
-
-    @ItemSelect
-    fun spnUnitToItemSelected(selected: Boolean, position: Int) {
-        if (!updateUnitTo(position + 1)) return
-        if (vm.isInvalidUnitPart)
-            updateUnitPartFrom()
-    }
-
-    @ItemSelect
-    fun spnPartToItemSelected(selected: Boolean, position: Int) {
-        if (!updatePartTo(position + 1)) return
-        if (vm.isInvalidUnitPart)
-            updateUnitPartFrom()
     }
 
     @Click
@@ -314,6 +300,20 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    @ItemSelect
+    fun spnUnitToItemSelected(selected: Boolean, position: Int) {
+        if (!updateUnitTo(vm.lstUnits[position].value)) return
+        if (vm.isInvalidUnitPart)
+            updateUnitPartFrom()
+    }
+
+    @ItemSelect
+    fun spnPartToItemSelected(selected: Boolean, position: Int) {
+        if (!updatePartTo(vm.lstParts[position].value)) return
+        if (vm.isInvalidUnitPart)
+            updateUnitPartFrom()
+    }
+
     fun updateUnitPartFrom() {
         updateUnitFrom(vm.usunitto)
         updatePartFrom(vm.uspartto)
@@ -333,7 +333,7 @@ class SettingsFragment : Fragment() {
     fun updateUnitFrom(v: Int): Boolean {
         if (vm.usunitfrom == v) return false
         vm.usunitfrom = v
-        spnUnitFrom.setSelection(v - 1)
+        spnUnitFrom.setSelection(vm.lstUnits.indexOfFirst { it.value == v })
         compositeDisposable.add(vm.updateUnitFrom().subscribe())
         return true
     }
@@ -341,7 +341,7 @@ class SettingsFragment : Fragment() {
     fun updatePartFrom(v: Int): Boolean {
         if (vm.uspartfrom == v) return false
         vm.uspartfrom = v
-        spnPartFrom.setSelection(v - 1)
+        spnPartFrom.setSelection(vm.lstParts.indexOfFirst { it.value == v })
         compositeDisposable.add(vm.updatePartFrom().subscribe())
         return true
     }
@@ -349,7 +349,7 @@ class SettingsFragment : Fragment() {
     fun updateUnitTo(v: Int): Boolean {
         if (vm.usunitto == v) return false
         vm.usunitto = v
-        spnUnitTo.setSelection(v - 1)
+        spnUnitTo.setSelection(vm.lstUnits.indexOfFirst { it.value == v })
         compositeDisposable.add(vm.updateUnitTo().subscribe())
         return true
     }
@@ -357,7 +357,7 @@ class SettingsFragment : Fragment() {
     fun updatePartTo(v: Int): Boolean {
         if (vm.uspartto == v) return false
         vm.uspartto = v
-        spnPartTo.setSelection(v - 1)
+        spnPartTo.setSelection(vm.lstParts.indexOfFirst { it.value == v })
         compositeDisposable.add(vm.updatePartTo().subscribe())
         return true
     }
