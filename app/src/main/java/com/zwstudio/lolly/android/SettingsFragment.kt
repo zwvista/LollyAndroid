@@ -211,8 +211,8 @@ class SettingsFragment : Fragment() {
             spnUnitFrom.adapter = adapter
             spnUnitTo.adapter = adapter
 
-            spnUnitFrom.setSelection(vm.usunitfrom - 1)
-            spnUnitTo.setSelection(vm.usunitto - 1)
+            spnUnitFrom.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitfrom })
+            spnUnitTo.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitto })
         }
 
         run {
@@ -220,8 +220,8 @@ class SettingsFragment : Fragment() {
             spnPartFrom.adapter = adapter
             spnPartTo.adapter = adapter
 
-            spnPartFrom.setSelection(vm.uspartfrom - 1)
-            spnPartTo.setSelection(vm.uspartto - 1)
+            spnPartFrom.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartfrom })
+            spnPartTo.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartto })
         }
 
         run {

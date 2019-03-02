@@ -64,7 +64,7 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             spnUnit.adapter = adapter
-            spnUnit.setSelection(item.unit - 1)
+            spnUnit.setSelection(vm.vmSettings.lstUnits.indexOfFirst { it.value == item.unit })
         }
 
         run {
@@ -82,7 +82,7 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             spnPart.adapter = adapter
-            spnPart.setSelection(item.part - 1)
+            spnPart.setSelection(vm.vmSettings.lstParts.indexOfFirst { it.value == item.part })
         }
         etSeqNum.text = "${item.seqnum}"
         tvWordID.text = "${getResources().getString(R.string.label_wordid)} ${item.wordid}"
@@ -90,6 +90,16 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
         etNote.text = item.note
         tvFamiID.text = "${getResources().getString(R.string.label_famiid)} ${item.famiid}"
         etLevel.text = item.level.toString()
+    }
+
+    @ItemSelect
+    fun spnUnitItemSelected(selected: Boolean, position: Int) {
+        item.unit = vm.vmSettings.lstUnits[position].value
+    }
+
+    @ItemSelect
+    fun spnPartItemSelected(selected: Boolean, position: Int) {
+        item.part = vm.vmSettings.lstParts[position].value
     }
 
     @OptionsItem
