@@ -68,11 +68,11 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             R.id.nav_search -> showFragment(SearchFragment_())
             R.id.nav_settings -> showFragment(SettingsFragment_())
             R.id.nav_words_unit -> showFragment(WordsUnitFragment_())
-            R.id.nav_words_textbook -> showFragment(WordsTextbookFragment_())
-            R.id.nav_words_lang -> showFragment(WordsLangFragment_())
             R.id.nav_phrases_unit -> showFragment(PhrasesUnitFragment_())
-            R.id.nav_phrases_textbook -> showFragment(PhrasesTextbookFragment_())
+            R.id.nav_words_lang -> showFragment(WordsLangFragment_())
             R.id.nav_phrases_lang -> showFragment(PhrasesLangFragment_())
+            R.id.nav_words_textbook -> showFragment(WordsTextbookFragment_())
+            R.id.nav_phrases_textbook -> showFragment(PhrasesTextbookFragment_())
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
