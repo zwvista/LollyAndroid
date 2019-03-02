@@ -13,11 +13,12 @@ class SettingsViewModel : BaseViewModel1() {
     val userid = 1
 
     var lstUserSettings = listOf<UserSetting>()
-    private lateinit var selectedUSUser: UserSetting
+    private lateinit var selectedUSUser0: UserSetting
+    private lateinit var selectedUSUser1: UserSetting
     var uslangid: Int
-        get() = selectedUSUser.value1?.toInt()!!
+        get() = selectedUSUser0.value1?.toInt()!!
         set(value) {
-            selectedUSUser.value1 = value.toString()
+            selectedUSUser0.value1 = value.toString()
         }
     private lateinit var selectedUSLang: UserSetting
     var ustextbookid: Int
@@ -132,7 +133,8 @@ class SettingsViewModel : BaseViewModel1() {
         .concatMap {
             lstLanguages = it.first.lst!!
             lstUserSettings = it.second.lst!!
-            selectedUSUser = lstUserSettings.first { it.kind == 1 }
+            selectedUSUser0 = lstUserSettings.first { it.kind == 1 && it.entityid == 0 }
+            selectedUSUser1 = lstUserSettings.first { it.kind == 1 && it.entityid == 1 }
             setSelectedLang(lstLanguages.first { it.id == uslangid })
         }
         .applyIO()
@@ -190,7 +192,7 @@ class SettingsViewModel : BaseViewModel1() {
 
     fun updateLang(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
-            .updateLang(selectedUSUser.id, uslangid)
+            .updateLang(selectedUSUser0.id, uslangid)
             .map { Log.d("", it.toString()) }
             .applyIO()
 
