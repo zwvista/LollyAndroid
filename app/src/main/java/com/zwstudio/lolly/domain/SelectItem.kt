@@ -1,3 +1,5 @@
 package com.zwstudio.lolly.domain
 
-class SelectItem(val value: Int, val label: String)
+import java.io.Serializable
+
+class SelectItem(val value: Int, val label: String): Serializable
