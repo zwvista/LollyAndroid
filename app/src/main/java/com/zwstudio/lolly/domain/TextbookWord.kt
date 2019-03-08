@@ -51,15 +51,9 @@ class TextbookWord: Serializable {
     @SerializedName("LEVEL")
     @Expose
     var level = 0
-    @SerializedName("UNITS")
-    @Expose
-    var units = ""
-    @SerializedName("PARTS")
-    @Expose
-    var parts = ""
 
-    var lstUnits = listOf<SelectItem>()
-    var lstParts = listOf<SelectItem>()
+    lateinit var lstUnits: List<SelectItem>
+    lateinit var lstParts: List<SelectItem>
     val unitstr: String
         get() = lstUnits.first { it.value == unit }.label
     val partstr: String

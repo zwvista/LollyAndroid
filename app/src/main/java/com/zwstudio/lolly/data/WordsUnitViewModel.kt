@@ -25,8 +25,8 @@ class WordsUnitViewModel : BaseViewModel2() {
             .map {
                 lstWords = it.lst!!.toMutableList()
                 for (o in lstWords) {
-                    o.lstUnits = unitsFrom(o.units)
-                    o.lstParts = partsFrom(o.parts)
+                    o.lstUnits = vmSettings.lstUnits
+                    o.lstParts = vmSettings.lstParts
                 }
             }.applyIO()
 

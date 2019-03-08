@@ -85,7 +85,8 @@ class SettingsViewModel : BaseViewModel1() {
         get() = _selectedTextbook!!
         set(value) {
             _selectedTextbook = value
-            setSelectedTextbook()
+            ustextbookid = value.id
+            selectedUSTextbook = lstUserSettings.first { it.kind == 3 && it.entityid == value.id }
         }
     val selectedTextbookIndex: Int
         get() = lstTextbooks.indexOf(selectedTextbook)
@@ -116,10 +117,12 @@ class SettingsViewModel : BaseViewModel1() {
     val hasNote: Boolean
         get() = !lstDictsNote.isEmpty()
 
-    var lstUnits = listOf<SelectItem>()
+    val lstUnits: List<SelectItem>
+        get() = selectedTextbook.lstUnits
     val unitCount: Int
         get() = lstUnits.size
-    var lstParts = listOf<SelectItem>()
+    val lstParts: List<SelectItem>
+        get() = selectedTextbook.lstParts
     val partCount: Int
         get() = lstParts.size
     val isSinglePart: Boolean
@@ -164,18 +167,34 @@ class SettingsViewModel : BaseViewModel1() {
             selectedDictNote =
                 if (lstDictsNote.isEmpty()) null
                 else lstDictsNote.first { it.id == usdictnoteid }
+
+            fun f(units: String): List<String> {
+                var m = Regex("UNITS,(\\d+)").find(units)
+                if (m != null) {
+                    val units = m.groupValues[1].toInt()
+                    return (1..units).map { it.toString() }
+                }
+                m = Regex("PAGES,(\\d+),(\\d+)").find(units)
+                if (m != null) {
+                    val n1 = m.groupValues[1].toInt()
+                    val n2 = m.groupValues[2].toInt()
+                    val units = (n1 + n2 - 1) / n2
+                    return (1..units).map { "${it * n2 - n2 + 1}~${it * n2}" }
+                }
+                m = Regex("CUSTOM,(.+)").find(units)
+                if (m != null)
+                    return m.groupValues[1].split(",")
+                return listOf()
+            }
             lstTextbooks = res3.lst!!
+            for (o in lstTextbooks) {
+                o.lstUnits = f(o.units).mapIndexed { index, s -> SelectItem(index + 1, s) }
+                o.lstParts = o.parts.split(",").mapIndexed { index, s -> SelectItem(index + 1, s) }
+            }
             selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
             lstAutoCorrect = res4.lst!!
         }
         .applyIO()
-    }
-
-    fun setSelectedTextbook() {
-        ustextbookid = selectedTextbook.id
-        selectedUSTextbook = lstUserSettings.first { it.kind == 3 && it.entityid == ustextbookid }
-        lstUnits = unitsFrom(selectedTextbook.units)
-        lstParts = partsFrom(selectedTextbook.parts)
     }
 
     fun dictHtml(word: String, dictids: List<String>): String {

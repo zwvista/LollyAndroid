@@ -24,8 +24,8 @@ class PhrasesUnitViewModel : BaseViewModel2() {
             .map {
                 lstPhrases = it.lst!!.toMutableList()
                 for (o in lstPhrases) {
-                    o.lstUnits = unitsFrom(o.units)
-                    o.lstParts = partsFrom(o.parts)
+                    o.lstUnits = vmSettings.lstUnits
+                    o.lstParts = vmSettings.lstParts
                 }
             }
             .applyIO()

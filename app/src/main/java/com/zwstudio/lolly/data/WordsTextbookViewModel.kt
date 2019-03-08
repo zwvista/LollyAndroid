@@ -21,8 +21,9 @@ class WordsTextbookViewModel : BaseViewModel2() {
             .map {
                 lstWords = it.lst!!
                 for (o in lstWords) {
-                    o.lstUnits = unitsFrom(o.units)
-                    o.lstParts = partsFrom(o.parts)
+                    val o2 = vmSettings.lstTextbooks.first { it.id == o.textbookid }
+                    o.lstUnits = o2.lstUnits
+                    o.lstParts = o2.lstParts
                 }
             }
             .applyIO()

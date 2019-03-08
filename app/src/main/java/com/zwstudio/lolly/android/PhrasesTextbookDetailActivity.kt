@@ -60,7 +60,7 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             spnUnit.adapter = adapter
-            spnUnit.setSelection(vm.vmSettings.lstUnits.indexOfFirst { it.value == item.unit })
+            spnUnit.setSelection(item.lstUnits.indexOfFirst { it.value == item.unit })
         }
 
         run {
@@ -88,12 +88,12 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
 
     @ItemSelect
     fun spnUnitItemSelected(selected: Boolean, position: Int) {
-        item.unit = vm.vmSettings.lstUnits[position].value
+        item.unit = item.lstUnits[position].value
     }
 
     @ItemSelect
     fun spnPartItemSelected(selected: Boolean, position: Int) {
-        item.part = vm.vmSettings.lstParts[position].value
+        item.part = item.lstParts[position].value
     }
 
     @OptionsItem

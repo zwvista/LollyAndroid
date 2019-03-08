@@ -30,4 +30,7 @@ class Textbook: Serializable {
     @SerializedName("PARTS")
     @Expose
     var parts = ""
+
+    lateinit var lstUnits: List<SelectItem>
+    lateinit var lstParts: List<SelectItem>
 }
