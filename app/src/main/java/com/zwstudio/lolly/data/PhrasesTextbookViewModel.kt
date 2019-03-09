@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.data
 
-import com.zwstudio.lolly.domain.MTextbookPhrase
-import com.zwstudio.lolly.restapi.RestTextbookPhrase
+import com.zwstudio.lolly.domain.MUnitPhrase
+import com.zwstudio.lolly.restapi.RestUnitPhrase
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.EBean
@@ -9,13 +9,13 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PhrasesTextbookViewModel : BaseViewModel2() {
 
-    var lstPhrases = listOf<MTextbookPhrase>()
+    var lstPhrases = listOf<MUnitPhrase>()
     var isSwipeStarted = false
 
     lateinit var compositeDisposable: CompositeDisposable
 
     fun getData(): Observable<Unit> =
-        retrofitJson.create(RestTextbookPhrase::class.java)
+        retrofitJson.create(RestUnitPhrase::class.java)
             .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
             .map {
                 lstPhrases = it.lst!!

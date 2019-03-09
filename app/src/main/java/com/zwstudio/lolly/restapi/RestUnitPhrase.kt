@@ -8,6 +8,9 @@ interface RestUnitPhrase {
     @GET("VUNITPHRASES?transform=1&order[]=UNITPART&order[]=SEQNUM")
     fun getDataByTextbookUnitPart(@Query("filter[]") vararg filters: String): Observable<MUnitPhrases>
 
+    @GET("VUNITPHRASES?transform=1&order[]=TEXTBOOKID&order[]=UNIT&order[]=PART&order[]=SEQNUM")
+    fun getDataByLang(@Query("filter") filter: String): Observable<MUnitPhrases>
+
     @GET("VUNITPHRASES?transform=1")
     fun getDataByLangPhrase(@Query("filter") filter: String): Observable<MUnitPhrases>
 

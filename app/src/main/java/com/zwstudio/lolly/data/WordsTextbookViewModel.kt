@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.data
 
-import com.zwstudio.lolly.domain.MTextbookWord
-import com.zwstudio.lolly.restapi.RestTextbookWord
+import com.zwstudio.lolly.domain.MUnitWord
+import com.zwstudio.lolly.restapi.RestUnitWord
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.EBean
@@ -9,14 +9,14 @@ import org.androidannotations.annotations.EBean
 @EBean
 class WordsTextbookViewModel : BaseViewModel2() {
 
-    var lstWords = listOf<MTextbookWord>()
+    var lstWords = listOf<MUnitWord>()
     var isSwipeStarted = false
 
     lateinit var vmNote: NoteViewModel
     lateinit var compositeDisposable: CompositeDisposable
 
     fun getData(): Observable<Unit> =
-        retrofitJson.create(RestTextbookWord::class.java)
+        retrofitJson.create(RestUnitWord::class.java)
             .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
             .map {
                 lstWords = it.lst!!

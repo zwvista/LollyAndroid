@@ -9,7 +9,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.data.WordsTextbookViewModel
 import com.zwstudio.lolly.domain.MSelectItem
-import com.zwstudio.lolly.domain.MTextbookWord
+import com.zwstudio.lolly.domain.MUnitWord
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -19,7 +19,7 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: WordsTextbookViewModel
-    lateinit var item: MTextbookWord
+    lateinit var item: MUnitWord
 
     @ViewById
     lateinit var tvTextbookName: TextView
@@ -46,7 +46,7 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        item = intent.getSerializableExtra("word") as MTextbookWord
+        item = intent.getSerializableExtra("word") as MUnitWord
         tvTextbookName.text = "${getResources().getString(R.string.label_textbook)} ${item.textbookname}"
         tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         run {

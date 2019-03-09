@@ -22,6 +22,9 @@ class MUnitWord: Serializable {
     @SerializedName("TEXTBOOKID")
     @Expose
     var textbookid = 0
+    @SerializedName("TEXTBOOKNAME")
+    @Expose
+    var textbookname = ""
     @SerializedName("UNIT")
     @Expose
     var unit = 0
