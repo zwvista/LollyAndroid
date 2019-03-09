@@ -6,14 +6,14 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class TextbookWords {
+class MTextbookPhrases {
 
-    @SerializedName("VTEXTBOOKWORDS")
+    @SerializedName("VTEXTBOOKPHRASES")
     @Expose
-    var lst: List<TextbookWord>? = null
+    var lst: List<MTextbookPhrase>? = null
 }
 
-class TextbookWord: Serializable {
+class MTextbookPhrase: Serializable {
 
     @SerializedName("TEXTBOOKID")
     @Expose
@@ -36,30 +36,22 @@ class TextbookWord: Serializable {
     @SerializedName("SEQNUM")
     @Expose
     var seqnum = 0
-    @SerializedName("WORDID")
+    @SerializedName("PHRASEID")
     @Expose
-    var wordid = 0
-    @SerializedName("WORD")
+    var phraseid = 0
+    @SerializedName("PHRASE")
     @Expose
-    var word = ""
-    @SerializedName("NOTE")
+    var phrase = ""
+    @SerializedName("TRANSLATION")
     @Expose
-    var note: String? = null
-    @SerializedName("FAMIID")
-    @Expose
-    var famiid = 0
-    @SerializedName("LEVEL")
-    @Expose
-    var level = 0
+    var translation: String? = null
 
-    lateinit var lstUnits: List<SelectItem>
-    lateinit var lstParts: List<SelectItem>
+    lateinit var lstUnits: List<MSelectItem>
+    lateinit var lstParts: List<MSelectItem>
     val unitstr: String
         get() = lstUnits.first { it.value == unit }.label
     val partstr: String
         get() = lstParts.first { it.value == part }.label
     val unitpartseqnum: String
         get() = "$unitstr $seqnum\n$partstr"
-    val wordnote: String
-        get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
 }

@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.data
 
 import android.util.Log
-import com.zwstudio.lolly.domain.WordFami
+import com.zwstudio.lolly.domain.MWordFami
 import com.zwstudio.lolly.restapi.RestWordFami
 import io.reactivex.Observable
 import org.androidannotations.annotations.EBean
@@ -11,7 +11,7 @@ class WordsFamiViewModel : BaseViewModel1() {
 
     val userid = 1
 
-    private fun getDataByUserWord(userid: Int, wordid: Int): Observable<List<WordFami>> =
+    private fun getDataByUserWord(userid: Int, wordid: Int): Observable<List<MWordFami>> =
         retrofitJson.create(RestWordFami::class.java)
             .getDataByUserWord("USERID,eq,$userid", "WORDID,eq,$wordid")
             .map { it.lst!! }

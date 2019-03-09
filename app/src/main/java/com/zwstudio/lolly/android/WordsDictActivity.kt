@@ -12,8 +12,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.data.DictWebViewStatus
 import com.zwstudio.lolly.data.SearchViewModel
-import com.zwstudio.lolly.domain.DictItem
-import com.zwstudio.lolly.domain.DictMean
+import com.zwstudio.lolly.domain.MDictItem
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -61,7 +60,7 @@ class WordsDictActivity : AppCompatActivity() {
 
         run {
             val lst = vm.vmSettings.lstDictItems
-            val adapter = object : ArrayAdapter<DictItem>(this, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val adapter = object : ArrayAdapter<MDictItem>(this, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
@@ -98,7 +97,7 @@ class WordsDictActivity : AppCompatActivity() {
         if (vm.vmSettings.selectedDictItemIndex == position) return
         vm.vmSettings.selectedDictItem = vm.vmSettings.lstDictItems[position]
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictItem.adapter as ArrayAdapter<DictItem>).notifyDataSetChanged()
+        (spnDictItem.adapter as ArrayAdapter<MDictItem>).notifyDataSetChanged()
         compositeDisposable.add(vm.vmSettings.updateDictItem().subscribe())
         selectedDictChanged()
     }

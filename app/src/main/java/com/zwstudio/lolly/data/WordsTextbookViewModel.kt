@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.data
 
-import com.zwstudio.lolly.domain.TextbookWord
+import com.zwstudio.lolly.domain.MTextbookWord
 import com.zwstudio.lolly.restapi.RestTextbookWord
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -9,7 +9,7 @@ import org.androidannotations.annotations.EBean
 @EBean
 class WordsTextbookViewModel : BaseViewModel2() {
 
-    var lstWords = listOf<TextbookWord>()
+    var lstWords = listOf<MTextbookWord>()
     var isSwipeStarted = false
 
     lateinit var vmNote: NoteViewModel

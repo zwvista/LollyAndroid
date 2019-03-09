@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.data
 
-import com.zwstudio.lolly.domain.TextbookPhrase
+import com.zwstudio.lolly.domain.MTextbookPhrase
 import com.zwstudio.lolly.restapi.RestTextbookPhrase
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -9,7 +9,7 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PhrasesTextbookViewModel : BaseViewModel2() {
 
-    var lstPhrases = listOf<TextbookPhrase>()
+    var lstPhrases = listOf<MTextbookPhrase>()
     var isSwipeStarted = false
 
     lateinit var compositeDisposable: CompositeDisposable

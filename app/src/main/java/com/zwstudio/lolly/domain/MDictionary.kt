@@ -10,21 +10,21 @@ import java.io.Serializable
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
-class DictsMean {
+class MDictsMean {
 
     @SerializedName("VDICTSMEAN")
     @Expose
-    var lst: List<DictMean>? = null
+    var lst: List<MDictMean>? = null
 }
 
-class DictsNote {
+class MDictsNote {
 
     @SerializedName("VDICTSNOTE")
     @Expose
-    var lst: List<DictNote>? = null
+    var lst: List<MDictNote>? = null
 }
 
-abstract class Dictionary: Serializable {
+abstract class MDictionary: Serializable {
 
     @SerializedName("ID")
     @Expose
@@ -75,7 +75,7 @@ abstract class Dictionary: Serializable {
     @Expose
     var template2: String? = null
 
-    fun urlString(word: String, lstAutoCorrects: List<AutoCorrect>): String {
+    fun urlString(word: String, lstAutoCorrects: List<MAutoCorrect>): String {
         val word2 =
             if (chconv == "BASIC")
                 autoCorrect(word, lstAutoCorrects, { it.extended }, { it.basic })
@@ -94,7 +94,7 @@ abstract class Dictionary: Serializable {
 
 val cssFolder = "https://zwvista.tk/lolly/css/"
 
-class DictMean: Dictionary() {
+class MDictMean: MDictionary() {
     fun htmlString(html: String, word: String, useTemplate2: Boolean): String {
         val t = if (useTemplate2 && !template2.isNullOrEmpty()) template2!! else template!!
         return extractTextFrom(html, transform!!, t) { text, t ->
@@ -105,8 +105,8 @@ class DictMean: Dictionary() {
     }
 }
 
-class DictItem(val dictid: String, val dictname: String) {
+class MDictItem(val dictid: String, val dictname: String) {
     fun dictids(): List<String> = dictid.split(",")
 }
 
-class DictNote: Dictionary()
+class MDictNote: MDictionary()

@@ -1,32 +1,27 @@
 package com.zwstudio.lolly.domain
 
-// Generated 2014-10-12 21:44:14 by Hibernate Tools 4.3.1
-
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class TextbookPhrases {
+class MUnitPhrases {
 
-    @SerializedName("VTEXTBOOKPHRASES")
+    @SerializedName("VUNITPHRASES")
     @Expose
-    var lst: List<TextbookPhrase>? = null
+    var lst: List<MUnitPhrase>? = null
 }
 
-class TextbookPhrase: Serializable {
+class MUnitPhrase: Serializable {
 
-    @SerializedName("TEXTBOOKID")
-    @Expose
-    var textbookid = 0
-    @SerializedName("LANGID")
-    @Expose
-    var langid = 0
-    @SerializedName("TEXTBOOKNAME")
-    @Expose
-    var textbookname: String? = null
     @SerializedName("ID")
     @Expose
     var id = 0
+    @SerializedName("LANGID")
+    @Expose
+    var langid = 0
+    @SerializedName("TEXTBOOKID")
+    @Expose
+    var textbookid = 0
     @SerializedName("UNIT")
     @Expose
     var unit = 0
@@ -46,8 +41,8 @@ class TextbookPhrase: Serializable {
     @Expose
     var translation: String? = null
 
-    lateinit var lstUnits: List<SelectItem>
-    lateinit var lstParts: List<SelectItem>
+    lateinit var lstUnits: List<MSelectItem>
+    lateinit var lstParts: List<MSelectItem>
     val unitstr: String
         get() = lstUnits.first { it.value == unit }.label
     val partstr: String

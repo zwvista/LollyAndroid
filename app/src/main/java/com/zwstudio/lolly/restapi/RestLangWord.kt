@@ -1,18 +1,18 @@
 package com.zwstudio.lolly.restapi
 
-import com.zwstudio.lolly.domain.LangWords
+import com.zwstudio.lolly.domain.MLangWords
 import io.reactivex.Observable
 import retrofit2.http.*
 
 interface RestLangWord {
     @GET("VLANGWORDS?transform=1&order=WORD")
-    fun getDataByLang(@Query("filter") filter: String): Observable<LangWords>
+    fun getDataByLang(@Query("filter") filter: String): Observable<MLangWords>
 
     @GET("VLANGWORDS?transform=1")
-    fun getDataByLangWord(@Query("filter[]") vararg filters: String): Observable<LangWords>
+    fun getDataByLangWord(@Query("filter[]") vararg filters: String): Observable<MLangWords>
 
     @GET("VLANGWORDS?transform=1")
-    fun getDataById(@Query("filter") filter: String): Observable<LangWords>
+    fun getDataById(@Query("filter") filter: String): Observable<MLangWords>
 
     @FormUrlEncoded
     @PUT("LANGWORDS/{id}")

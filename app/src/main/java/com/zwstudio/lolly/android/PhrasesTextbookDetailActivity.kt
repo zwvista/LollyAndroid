@@ -8,8 +8,8 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.data.PhrasesTextbookViewModel
-import com.zwstudio.lolly.domain.SelectItem
-import com.zwstudio.lolly.domain.TextbookPhrase
+import com.zwstudio.lolly.domain.MSelectItem
+import com.zwstudio.lolly.domain.MTextbookPhrase
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -19,7 +19,7 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: PhrasesTextbookViewModel
-    lateinit var item: TextbookPhrase
+    lateinit var item: MTextbookPhrase
 
     @ViewById
     lateinit var tvTextbookName: TextView
@@ -42,12 +42,12 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        item = intent.getSerializableExtra("phrase") as TextbookPhrase
+        item = intent.getSerializableExtra("phrase") as MTextbookPhrase
         tvTextbookName.text = "${getResources().getString(R.string.label_textbook)} ${item.textbookname}"
         tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         run {
             val lst = item.lstUnits
-            val adapter = object : ArrayAdapter<SelectItem>(this, android.R.layout.simple_spinner_item, lst) {
+            val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = getItem(position).label
@@ -65,7 +65,7 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
 
         run {
             val lst = item.lstParts
-            val adapter = object : ArrayAdapter<SelectItem>(this, android.R.layout.simple_spinner_item, lst) {
+            val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = getItem(position).label

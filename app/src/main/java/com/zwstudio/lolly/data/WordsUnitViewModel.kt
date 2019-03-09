@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.data
 
 import android.util.Log
-import com.zwstudio.lolly.domain.UnitWord
+import com.zwstudio.lolly.domain.MUnitWord
 import com.zwstudio.lolly.restapi.RestLangWord
 import com.zwstudio.lolly.restapi.RestUnitWord
 import io.reactivex.Observable
@@ -12,7 +12,7 @@ import java.net.URLEncoder
 @EBean
 class WordsUnitViewModel : BaseViewModel2() {
 
-    var lstWords = mutableListOf<UnitWord>()
+    var lstWords = mutableListOf<MUnitWord>()
     var isSwipeStarted = false
 
     lateinit var vmNote: NoteViewModel
@@ -129,7 +129,7 @@ class WordsUnitViewModel : BaseViewModel2() {
         }
     }
 
-    fun newUnitWord() = UnitWord().apply {
+    fun newUnitWord() = MUnitWord().apply {
         langid = vmSettings.selectedLang.id
         textbookid = vmSettings.ustextbookid
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin

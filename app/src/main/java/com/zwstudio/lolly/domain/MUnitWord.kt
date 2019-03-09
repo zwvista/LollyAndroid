@@ -4,14 +4,14 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class UnitPhrases {
+class MUnitWords {
 
-    @SerializedName("VUNITPHRASES")
+    @SerializedName("VUNITWORDS")
     @Expose
-    var lst: List<UnitPhrase>? = null
+    var lst: List<MUnitWord>? = null
 }
 
-class UnitPhrase: Serializable {
+class MUnitWord: Serializable {
 
     @SerializedName("ID")
     @Expose
@@ -31,22 +31,30 @@ class UnitPhrase: Serializable {
     @SerializedName("SEQNUM")
     @Expose
     var seqnum = 0
-    @SerializedName("PHRASEID")
+    @SerializedName("WORD")
     @Expose
-    var phraseid = 0
-    @SerializedName("PHRASE")
+    var word = ""
+    @SerializedName("NOTE")
     @Expose
-    var phrase = ""
-    @SerializedName("TRANSLATION")
+    var note: String? = null
+    @SerializedName("WORDID")
     @Expose
-    var translation: String? = null
+    var wordid = 0
+    @SerializedName("FAMIID")
+    @Expose
+    var famiid = 0
+    @SerializedName("LEVEL")
+    @Expose
+    var level = 0
 
-    lateinit var lstUnits: List<SelectItem>
-    lateinit var lstParts: List<SelectItem>
+    lateinit var lstUnits: List<MSelectItem>
+    lateinit var lstParts: List<MSelectItem>
     val unitstr: String
         get() = lstUnits.first { it.value == unit }.label
     val partstr: String
         get() = lstParts.first { it.value == part }.label
     val unitpartseqnum: String
         get() = "$unitstr $seqnum\n$partstr"
+    val wordnote: String
+        get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
 }

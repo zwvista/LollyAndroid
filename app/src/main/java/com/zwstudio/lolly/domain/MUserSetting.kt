@@ -4,14 +4,14 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class UserSettings {
+class MUserSettings {
 
     @SerializedName("USERSETTINGS")
     @Expose
-    var lst: List<UserSetting>? = null
+    var lst: List<MUserSetting>? = null
 }
 
-class UserSetting: Serializable {
+class MUserSetting: Serializable {
 
     @SerializedName("ID")
     @Expose

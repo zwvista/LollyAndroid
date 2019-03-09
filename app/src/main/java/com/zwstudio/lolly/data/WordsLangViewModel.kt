@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.data
 
 import android.util.Log
-import com.zwstudio.lolly.domain.LangWord
+import com.zwstudio.lolly.domain.MLangWord
 import com.zwstudio.lolly.restapi.RestLangWord
 import io.reactivex.Observable
 import org.androidannotations.annotations.EBean
@@ -9,7 +9,7 @@ import org.androidannotations.annotations.EBean
 @EBean
 class WordsLangViewModel : BaseViewModel2() {
 
-    var lstWords = mutableListOf<LangWord>()
+    var lstWords = mutableListOf<MLangWord>()
     var isSwipeStarted = false
 
     lateinit var vmNote: NoteViewModel
@@ -38,7 +38,7 @@ class WordsLangViewModel : BaseViewModel2() {
             .map { Log.d("", it.toString()) }
             .applyIO()
 
-    fun newLangWord() = LangWord().apply {
+    fun newLangWord() = MLangWord().apply {
         langid = vmSettings.selectedLang.id
     }
 

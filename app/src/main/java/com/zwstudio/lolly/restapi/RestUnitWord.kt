@@ -1,15 +1,15 @@
 package com.zwstudio.lolly.restapi
 
-import com.zwstudio.lolly.domain.UnitWords
+import com.zwstudio.lolly.domain.MUnitWords
 import io.reactivex.Observable
 import retrofit2.http.*
 
 interface RestUnitWord {
     @GET("VUNITWORDS?transform=1&order[]=UNITPART&order[]=SEQNUM")
-    fun getDataByTextbookUnitPart(@Query("filter[]") vararg filters: String): Observable<UnitWords>
+    fun getDataByTextbookUnitPart(@Query("filter[]") vararg filters: String): Observable<MUnitWords>
 
     @GET("VUNITWORDS?transform=1")
-    fun getDataByLangWord(@Query("filter") filter: String): Observable<UnitWords>
+    fun getDataByLangWord(@Query("filter") filter: String): Observable<MUnitWords>
 
     @FormUrlEncoded
     @PUT("UNITWORDS/{id}")

@@ -4,14 +4,14 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class WordsFami {
+class MWordsFami {
 
     @SerializedName("WORDSFAMI")
     @Expose
-    var lst: List<WordFami>? = null
+    var lst: List<MWordFami>? = null
 }
 
-class WordFami: Serializable {
+class MWordFami: Serializable {
 
     @SerializedName("ID")
     @Expose

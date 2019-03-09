@@ -52,7 +52,7 @@ class SettingsFragment : Fragment() {
 
     private fun initSpnLanguage() {
         val lst = vm.lstLanguages
-        val adapter = object : ArrayAdapter<Language>(activity!!,
+        val adapter = object : ArrayAdapter<MLanguage>(activity!!,
             android.R.layout.simple_spinner_item, lst) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v = super.getView(position, convertView, parent)
@@ -91,7 +91,7 @@ class SettingsFragment : Fragment() {
     private fun updateLang() {
         run {
             val lst = vm.lstDictItems
-            val adapter = object : ArrayAdapter<DictItem>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val adapter = object : ArrayAdapter<MDictItem>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
@@ -114,7 +114,7 @@ class SettingsFragment : Fragment() {
         }
         run {
             val lst = vm.lstDictsNote
-            val adapter = object : ArrayAdapter<DictNote>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val adapter = object : ArrayAdapter<MDictNote>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
@@ -136,7 +136,7 @@ class SettingsFragment : Fragment() {
         }
         run {
             val lst = vm.lstTextbooks
-            val adapter = object : ArrayAdapter<Textbook>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val adapter = object : ArrayAdapter<MTextbook>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
@@ -164,7 +164,7 @@ class SettingsFragment : Fragment() {
         if (vm.selectedDictItemIndex == position) return
         vm.selectedDictItem = vm.lstDictItems[position]
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictItem.adapter as ArrayAdapter<DictItem>).notifyDataSetChanged()
+        (spnDictItem.adapter as ArrayAdapter<MDictItem>).notifyDataSetChanged()
         compositeDisposable.add(vm.updateDictItem().subscribe())
     }
 
@@ -173,7 +173,7 @@ class SettingsFragment : Fragment() {
         if (vm.selectedDictNoteIndex == position) return
         vm.selectedDictNote = vm.lstDictsNote[position]
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictNote.adapter as ArrayAdapter<DictNote>).notifyDataSetChanged()
+        (spnDictNote.adapter as ArrayAdapter<MDictNote>).notifyDataSetChanged()
         compositeDisposable.add(vm.updateDictNote().subscribe())
     }
 
@@ -182,7 +182,7 @@ class SettingsFragment : Fragment() {
         if (vm.selectedTextbookIndex == position) return
         vm.selectedTextbook = vm.lstTextbooks[position]
         Log.d("", String.format("Checked position:%d", position))
-        (spnTextbook.adapter as ArrayAdapter<Textbook>).notifyDataSetChanged()
+        (spnTextbook.adapter as ArrayAdapter<MTextbook>).notifyDataSetChanged()
         compositeDisposable.add(vm.updateTextbook().subscribe {
             updateTextbook()
         })
@@ -190,8 +190,8 @@ class SettingsFragment : Fragment() {
 
     private fun updateTextbook() {
 
-        fun makeAdapter(lst: List<SelectItem>): ArrayAdapter<SelectItem> {
-            val adapter = object : ArrayAdapter<SelectItem>(activity!!, android.R.layout.simple_spinner_item, lst) {
+        fun makeAdapter(lst: List<MSelectItem>): ArrayAdapter<MSelectItem> {
+            val adapter = object : ArrayAdapter<MSelectItem>(activity!!, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = getItem(position).label
@@ -225,7 +225,7 @@ class SettingsFragment : Fragment() {
         }
 
         run {
-            val lst = listOf("Unit", "Part", "To").mapIndexed { index, s -> SelectItem(index, s) }
+            val lst = listOf("Unit", "Part", "To").mapIndexed { index, s -> MSelectItem(index, s) }
             val adapter = makeAdapter(lst)
             spnToType.adapter = adapter
             val toType =

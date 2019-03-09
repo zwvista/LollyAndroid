@@ -1,27 +1,32 @@
 package com.zwstudio.lolly.domain
 
+// Generated 2014-10-12 21:44:14 by Hibernate Tools 4.3.1
+
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class UnitWords {
+class MTextbookWords {
 
-    @SerializedName("VUNITWORDS")
+    @SerializedName("VTEXTBOOKWORDS")
     @Expose
-    var lst: List<UnitWord>? = null
+    var lst: List<MTextbookWord>? = null
 }
 
-class UnitWord: Serializable {
+class MTextbookWord: Serializable {
 
-    @SerializedName("ID")
-    @Expose
-    var id = 0
-    @SerializedName("LANGID")
-    @Expose
-    var langid = 0
     @SerializedName("TEXTBOOKID")
     @Expose
     var textbookid = 0
+    @SerializedName("LANGID")
+    @Expose
+    var langid = 0
+    @SerializedName("TEXTBOOKNAME")
+    @Expose
+    var textbookname: String? = null
+    @SerializedName("ID")
+    @Expose
+    var id = 0
     @SerializedName("UNIT")
     @Expose
     var unit = 0
@@ -31,15 +36,15 @@ class UnitWord: Serializable {
     @SerializedName("SEQNUM")
     @Expose
     var seqnum = 0
+    @SerializedName("WORDID")
+    @Expose
+    var wordid = 0
     @SerializedName("WORD")
     @Expose
     var word = ""
     @SerializedName("NOTE")
     @Expose
     var note: String? = null
-    @SerializedName("WORDID")
-    @Expose
-    var wordid = 0
     @SerializedName("FAMIID")
     @Expose
     var famiid = 0
@@ -47,8 +52,8 @@ class UnitWord: Serializable {
     @Expose
     var level = 0
 
-    lateinit var lstUnits: List<SelectItem>
-    lateinit var lstParts: List<SelectItem>
+    lateinit var lstUnits: List<MSelectItem>
+    lateinit var lstParts: List<MSelectItem>
     val unitstr: String
         get() = lstUnits.first { it.value == unit }.label
     val partstr: String

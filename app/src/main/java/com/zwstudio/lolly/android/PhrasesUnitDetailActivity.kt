@@ -7,8 +7,8 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.data.PhrasesUnitViewModel
-import com.zwstudio.lolly.domain.SelectItem
-import com.zwstudio.lolly.domain.UnitPhrase
+import com.zwstudio.lolly.domain.MSelectItem
+import com.zwstudio.lolly.domain.MUnitPhrase
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -18,7 +18,7 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: PhrasesUnitViewModel
-    lateinit var item: UnitPhrase
+    lateinit var item: MUnitPhrase
 
     @ViewById
     lateinit var tvID: TextView
@@ -39,11 +39,11 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        item = intent.getSerializableExtra("phrase") as UnitPhrase
+        item = intent.getSerializableExtra("phrase") as MUnitPhrase
         tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         run {
             val lst = vm.vmSettings.lstUnits
-            val adapter = object : ArrayAdapter<SelectItem>(this, android.R.layout.simple_spinner_item, lst) {
+            val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = getItem(position).label
@@ -61,7 +61,7 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
 
         run {
             val lst = vm.vmSettings.lstParts
-            val adapter = object : ArrayAdapter<SelectItem>(this, android.R.layout.simple_spinner_item, lst) {
+            val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = getItem(position).label

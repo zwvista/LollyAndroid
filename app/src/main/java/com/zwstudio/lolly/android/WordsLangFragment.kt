@@ -18,7 +18,7 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.WordsLangViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
-import com.zwstudio.lolly.domain.LangWord
+import com.zwstudio.lolly.domain.MLangWord
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -79,7 +79,7 @@ class WordsLangFragment : DrawerListFragment() {
             mDragListView.resetSwipedViews(null)
     }
 
-    private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView, val mLayoutId: Int, val compositeDisposable: CompositeDisposable) : DragItemAdapter<LangWord, WordsLangItemAdapter.ViewHolder>() {
+    private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView, val mLayoutId: Int, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangWord, WordsLangItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -116,11 +116,11 @@ class WordsLangFragment : DrawerListFragment() {
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
-                fun edit(item: LangWord) {
+                fun edit(item: MLangWord) {
                     WordsLangDetailActivity_.intent(itemView.context)
                         .extra("word", item).startForResult(REQUEST_CODE)
                 }
-                fun delete(item: LangWord) {
+                fun delete(item: MLangWord) {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
@@ -133,14 +133,14 @@ class WordsLangFragment : DrawerListFragment() {
                 }
                 mEdit.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as LangWord
+                        val item = itemView.tag as MLangWord
                         edit(item)
                     }
                     true
                 }
                 mDelete.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as LangWord
+                        val item = itemView.tag as MLangWord
                         delete(item)
                     }
                     true
@@ -150,7 +150,7 @@ class WordsLangFragment : DrawerListFragment() {
                         mDragListView.resetSwipedViews(null)
                         vm.isSwipeStarted = false
 
-                        val item = itemView.tag as LangWord
+                        val item = itemView.tag as MLangWord
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                         val builder = AlertDialog.Builder(itemView.context)
                             .setTitle(item.wordnote)
@@ -180,7 +180,7 @@ class WordsLangFragment : DrawerListFragment() {
                     mDragListView.resetSwipedViews(null)
                     vm.isSwipeStarted = false
                 } else {
-                    val item = view!!.tag as LangWord
+                    val item = view!!.tag as MLangWord
                     WordsDictActivity_.intent(view.context)
                         .extra("list", vm.lstWords.map { it.word } .toTypedArray())
                         .extra("index", vm.lstWords.indexOf(item)).start()

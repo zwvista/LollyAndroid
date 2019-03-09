@@ -4,7 +4,7 @@ import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
 import com.zwstudio.lolly.data.WordsLangViewModel
-import com.zwstudio.lolly.domain.LangWord
+import com.zwstudio.lolly.domain.MLangWord
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -14,7 +14,7 @@ class WordsLangDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: WordsLangViewModel
-    lateinit var item: LangWord
+    lateinit var item: MLangWord
 
     @ViewById
     lateinit var tvID: TextView
@@ -31,7 +31,7 @@ class WordsLangDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        item = intent.getSerializableExtra("word") as LangWord
+        item = intent.getSerializableExtra("word") as MLangWord
         tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         etWord.text = item.word
         etNote.text = item.note

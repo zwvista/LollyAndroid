@@ -12,15 +12,15 @@ class SettingsViewModel : BaseViewModel1() {
 
     val userid = 1
 
-    var lstUserSettings = listOf<UserSetting>()
-    private lateinit var selectedUSUser0: UserSetting
-    private lateinit var selectedUSUser1: UserSetting
+    var lstUserSettings = listOf<MUserSetting>()
+    private lateinit var selectedUSUser0: MUserSetting
+    private lateinit var selectedUSUser1: MUserSetting
     var uslangid: Int
         get() = selectedUSUser0.value1?.toInt()!!
         set(value) {
             selectedUSUser0.value1 = value.toString()
         }
-    private lateinit var selectedUSLang: UserSetting
+    private lateinit var selectedUSLang: MUserSetting
     var ustextbookid: Int
         get() = selectedUSLang.value1?.toInt()!!
         set(value) {
@@ -41,7 +41,7 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             selectedUSLang.value4 = value
         }
-    private lateinit var selectedUSTextbook: UserSetting
+    private lateinit var selectedUSTextbook: MUserSetting
     var usunitfrom: Int
         get() = selectedUSTextbook.value1?.toInt()!!
         set(value) {
@@ -73,15 +73,15 @@ class SettingsViewModel : BaseViewModel1() {
     val isInvalidUnitPart: Boolean
         get() = usunitpartfrom > usunitpartto
 
-    var lstLanguages = listOf<Language>()
-    lateinit var selectedLang: Language
+    var lstLanguages = listOf<MLanguage>()
+    lateinit var selectedLang: MLanguage
     val selectedLangIndex: Int
         get() = lstLanguages.indexOf(selectedLang)
 
-    var lstTextbooks = listOf<Textbook>()
+    var lstTextbooks = listOf<MTextbook>()
     // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter
-    private var _selectedTextbook: Textbook? = null
-    var selectedTextbook: Textbook
+    private var _selectedTextbook: MTextbook? = null
+    var selectedTextbook: MTextbook
         get() = _selectedTextbook!!
         set(value) {
             _selectedTextbook = value
@@ -91,11 +91,11 @@ class SettingsViewModel : BaseViewModel1() {
     val selectedTextbookIndex: Int
         get() = lstTextbooks.indexOf(selectedTextbook)
 
-    var lstDictsMean = listOf<DictMean>()
-    var lstDictItems = listOf<DictItem>()
+    var lstDictsMean = listOf<MDictMean>()
+    var lstDictItems = listOf<MDictItem>()
     // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter
-    private var _selectedDictItem: DictItem? = null
-    var selectedDictItem: DictItem
+    private var _selectedDictItem: MDictItem? = null
+    var selectedDictItem: MDictItem
         get() = _selectedDictItem!!
         set(value) {
             _selectedDictItem = value
@@ -104,8 +104,8 @@ class SettingsViewModel : BaseViewModel1() {
     val selectedDictItemIndex: Int
         get() = lstDictItems.indexOf(selectedDictItem)
 
-    var lstDictsNote = listOf<DictNote>()
-    var selectedDictNote: DictNote? = null
+    var lstDictsNote = listOf<MDictNote>()
+    var selectedDictNote: MDictNote? = null
         set(value) {
             field = value
             usdictnoteid = selectedDictNote?.id ?: 0
@@ -117,18 +117,18 @@ class SettingsViewModel : BaseViewModel1() {
     val hasNote: Boolean
         get() = !lstDictsNote.isEmpty()
 
-    val lstUnits: List<SelectItem>
+    val lstUnits: List<MSelectItem>
         get() = selectedTextbook.lstUnits
     val unitCount: Int
         get() = lstUnits.size
-    val lstParts: List<SelectItem>
+    val lstParts: List<MSelectItem>
         get() = selectedTextbook.lstParts
     val partCount: Int
         get() = lstParts.size
     val isSinglePart: Boolean
         get() = partCount == 1
 
-    var lstAutoCorrect = listOf<AutoCorrect>()
+    var lstAutoCorrect = listOf<MAutoCorrect>()
 
     fun getData() =
         Observables.zip(retrofitJson.create(RestLanguage::class.java).getData(),
@@ -142,7 +142,7 @@ class SettingsViewModel : BaseViewModel1() {
         }
         .applyIO()
 
-    fun setSelectedLang(lang: Language): Observable<Unit> {
+    fun setSelectedLang(lang: MLanguage): Observable<Unit> {
         selectedLang = lang
         uslangid = selectedLang.id
         selectedUSLang = lstUserSettings.first { it.kind == 2 && it.entityid == uslangid }
@@ -156,10 +156,10 @@ class SettingsViewModel : BaseViewModel1() {
             var i = 0
             lstDictItems = lstDicts.flatMap { d ->
                 if (d == "0")
-                    lstDictsMean.map { DictItem(it.dictid.toString(), it.dictname!!) }
+                    lstDictsMean.map { MDictItem(it.dictid.toString(), it.dictname!!) }
                 else {
                     i++
-                    listOf(DictItem(d, "Custom$i"))
+                    listOf(MDictItem(d, "Custom$i"))
                 }
             }
             selectedDictItem = lstDictItems.first { it.dictid == usdictitem }
@@ -188,8 +188,8 @@ class SettingsViewModel : BaseViewModel1() {
             }
             lstTextbooks = res3.lst!!
             for (o in lstTextbooks) {
-                o.lstUnits = f(o.units).mapIndexed { index, s -> SelectItem(index + 1, s) }
-                o.lstParts = o.parts.split(",").mapIndexed { index, s -> SelectItem(index + 1, s) }
+                o.lstUnits = f(o.units).mapIndexed { index, s -> MSelectItem(index + 1, s) }
+                o.lstParts = o.parts.split(",").mapIndexed { index, s -> MSelectItem(index + 1, s) }
             }
             selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
             lstAutoCorrect = res4.lst!!

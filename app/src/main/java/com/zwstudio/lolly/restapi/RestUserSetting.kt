@@ -1,13 +1,13 @@
 package com.zwstudio.lolly.restapi
 
-import com.zwstudio.lolly.domain.UserSettings
+import com.zwstudio.lolly.domain.MUserSettings
 import io.reactivex.Observable
 import retrofit2.http.*
 
 // https://stackoverflow.com/questions/46892100/how-to-use-rxjava2-with-retrofit-in-android
 interface RestUserSetting {
     @GET("USERSETTINGS?transform=1")
-    fun getDataByUser(@Query("filter") filter: String): Observable<UserSettings>
+    fun getDataByUser(@Query("filter") filter: String): Observable<MUserSettings>
 
     @FormUrlEncoded
     @PUT("USERSETTINGS/{id}")

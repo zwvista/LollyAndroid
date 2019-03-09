@@ -1,18 +1,18 @@
 package com.zwstudio.lolly.restapi
 
-import com.zwstudio.lolly.domain.LangPhrases
+import com.zwstudio.lolly.domain.MLangPhrases
 import io.reactivex.Observable
 import retrofit2.http.*
 
 interface RestLangPhrase {
     @GET("LANGPHRASES?transform=1&order=PHRASE")
-    fun getDataByLang(@Query("filter") filter: String): Observable<LangPhrases>
+    fun getDataByLang(@Query("filter") filter: String): Observable<MLangPhrases>
 
     @GET("LANGPHRASES?transform=1")
-    fun getDataByLangPhrase(@Query("filter[]") vararg filters: String): Observable<LangPhrases>
+    fun getDataByLangPhrase(@Query("filter[]") vararg filters: String): Observable<MLangPhrases>
 
     @GET("LANGPHRASES?transform=1")
-    fun getDataById(@Query("filter") filter: String): Observable<LangPhrases>
+    fun getDataById(@Query("filter") filter: String): Observable<MLangPhrases>
 
     @FormUrlEncoded
     @PUT("LANGPHRASES/{id}")

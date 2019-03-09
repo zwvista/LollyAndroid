@@ -4,14 +4,14 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class LangPhrases {
+class MLangPhrases {
 
     @SerializedName("LANGPHRASES")
     @Expose
-    var lst: List<LangPhrase>? = null
+    var lst: List<MLangPhrase>? = null
 }
 
-class LangPhrase(): Serializable {
+class MLangPhrase(): Serializable {
 
     @SerializedName("ID")
     @Expose

@@ -1,12 +1,12 @@
 package com.zwstudio.lolly.restapi
 
-import com.zwstudio.lolly.domain.WordsFami
+import com.zwstudio.lolly.domain.MWordsFami
 import io.reactivex.Observable
 import retrofit2.http.*
 
 interface RestWordFami {
     @GET("WORDSFAMI?transform=1")
-    fun getDataByUserWord(@Query("filter[]") vararg filters: String): Observable<WordsFami>
+    fun getDataByUserWord(@Query("filter[]") vararg filters: String): Observable<MWordsFami>
 
     @FormUrlEncoded
     @PUT("WORDSFAMI/{id}")

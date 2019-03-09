@@ -8,8 +8,8 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.data.WordsUnitViewModel
-import com.zwstudio.lolly.domain.SelectItem
-import com.zwstudio.lolly.domain.UnitWord
+import com.zwstudio.lolly.domain.MSelectItem
+import com.zwstudio.lolly.domain.MUnitWord
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -19,7 +19,7 @@ class WordsUnitDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: WordsUnitViewModel
-    lateinit var item: UnitWord
+    lateinit var item: MUnitWord
 
     @ViewById
     lateinit var tvID: TextView
@@ -44,11 +44,11 @@ class WordsUnitDetailActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        item = intent.getSerializableExtra("word") as UnitWord
+        item = intent.getSerializableExtra("word") as MUnitWord
         tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         run {
             val lst = vm.vmSettings.lstUnits
-            val adapter = object : ArrayAdapter<SelectItem>(this, android.R.layout.simple_spinner_item, lst) {
+            val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = getItem(position).label
@@ -66,7 +66,7 @@ class WordsUnitDetailActivity : AppCompatActivity() {
 
         run {
             val lst = vm.vmSettings.lstParts
-            val adapter = object : ArrayAdapter<SelectItem>(this, android.R.layout.simple_spinner_item, lst) {
+            val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = getItem(position).label

@@ -17,7 +17,7 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.data.PhrasesTextbookViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
-import com.zwstudio.lolly.domain.TextbookPhrase
+import com.zwstudio.lolly.domain.MTextbookPhrase
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.Bean
@@ -67,7 +67,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
         })
     }
 
-    private class PhrasesTextbookItemAdapter(val vm: PhrasesTextbookViewModel, val mDragListView: DragListView, val mLayoutId: Int, val compositeDisposable: CompositeDisposable) : DragItemAdapter<TextbookPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
+    private class PhrasesTextbookItemAdapter(val vm: PhrasesTextbookViewModel, val mDragListView: DragListView, val mLayoutId: Int, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MTextbookPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases
@@ -110,10 +110,10 @@ class PhrasesTextbookFragment : DrawerListFragment() {
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
-                fun edit(item: TextbookPhrase) {
+                fun edit(item: MTextbookPhrase) {
                     PhrasesTextbookDetailActivity_.intent(itemView.context).extra("phrase", item).start()
                 }
-                fun delete(item: TextbookPhrase) {
+                fun delete(item: MTextbookPhrase) {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
@@ -126,14 +126,14 @@ class PhrasesTextbookFragment : DrawerListFragment() {
                 }
                 mEdit.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as TextbookPhrase
+                        val item = itemView.tag as MTextbookPhrase
                         edit(item)
                     }
                     true
                 }
                 mDelete.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as TextbookPhrase
+                        val item = itemView.tag as MTextbookPhrase
                         delete(item)
                     }
                     true
@@ -143,7 +143,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
                         mDragListView.resetSwipedViews(null)
                         vm.isSwipeStarted = false
 
-                        val item = itemView.tag as TextbookPhrase
+                        val item = itemView.tag as MTextbookPhrase
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                         val builder = AlertDialog.Builder(itemView.context)
                             .setTitle(item.phrase)
@@ -167,7 +167,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
                     mDragListView.resetSwipedViews(null)
                     vm.isSwipeStarted = false
                 } else {
-                    val item = view!!.tag as TextbookPhrase
+                    val item = view!!.tag as MTextbookPhrase
                     PhrasesTextbookDetailActivity_.intent(view.context)
                             .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
                 }

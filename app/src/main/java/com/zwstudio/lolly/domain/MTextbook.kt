@@ -6,14 +6,14 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class Textbooks {
+class MTextbooks {
 
     @SerializedName("TEXTBOOKS")
     @Expose
-    var lst: List<Textbook>? = null
+    var lst: List<MTextbook>? = null
 }
 
-class Textbook: Serializable {
+class MTextbook: Serializable {
 
     @SerializedName("ID")
     @Expose
@@ -31,6 +31,6 @@ class Textbook: Serializable {
     @Expose
     var parts = ""
 
-    lateinit var lstUnits: List<SelectItem>
-    lateinit var lstParts: List<SelectItem>
+    lateinit var lstUnits: List<MSelectItem>
+    lateinit var lstParts: List<MSelectItem>
 }
