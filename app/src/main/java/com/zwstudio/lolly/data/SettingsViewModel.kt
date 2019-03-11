@@ -20,26 +20,32 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             selectedUSUser0.value1 = value.toString()
         }
-    private lateinit var selectedUSLang: MUserSetting
+    private lateinit var selectedUSLang2: MUserSetting
     var ustextbookid: Int
-        get() = selectedUSLang.value1?.toInt()!!
+        get() = selectedUSLang2.value1?.toInt()!!
         set(value) {
-            selectedUSLang.value1 = value.toString()
+            selectedUSLang2.value1 = value.toString()
         }
     var usdictitem: String
-        get() = selectedUSLang.value2!!
+        get() = selectedUSLang2.value2!!
         set(value) {
-            selectedUSLang.value2 = value
+            selectedUSLang2.value2 = value
         }
     var usdictnoteid: Int
-        get() = selectedUSLang.value3?.toInt()!!
+        get() = (selectedUSLang2.value3 ?: "0").toInt()
         set(value) {
-            selectedUSLang.value3 = value.toString()
+            selectedUSLang2.value3 = value.toString()
         }
     var usdictitems: String
-        get() = selectedUSLang.value4 ?: "0"
+        get() = selectedUSLang2.value4 ?: "0"
         set(value) {
-            selectedUSLang.value4 = value
+            selectedUSLang2.value4 = value
+        }
+    private lateinit var selectedUSLang3: MUserSetting
+    var usvoiceid: Int
+        get() = (selectedUSLang3.value4 ?: "0").toInt()
+        set(value) {
+            selectedUSLang3.value4 = value.toString()
         }
     private lateinit var selectedUSTextbook: MUserSetting
     var usunitfrom: Int
@@ -78,6 +84,13 @@ class SettingsViewModel : BaseViewModel1() {
     val selectedLangIndex: Int
         get() = lstLanguages.indexOf(selectedLang)
 
+    var lstVoices = listOf<MVoice>()
+    var selectedVoice: MVoice? = null
+        set(value) {
+            field = value
+            usvoiceid = field?.id ?: 0
+        }
+
     var lstTextbooks = listOf<MTextbook>()
     // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter
     private var _selectedTextbook: MTextbook? = null
@@ -86,7 +99,7 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             _selectedTextbook = value
             ustextbookid = value.id
-            selectedUSTextbook = lstUserSettings.first { it.kind == 3 && it.entityid == value.id }
+            selectedUSTextbook = lstUserSettings.first { it.kind == 11 && it.entityid == value.id }
         }
     val selectedTextbookIndex: Int
         get() = lstTextbooks.indexOf(selectedTextbook)
@@ -145,13 +158,15 @@ class SettingsViewModel : BaseViewModel1() {
     fun setSelectedLang(lang: MLanguage): Observable<Unit> {
         selectedLang = lang
         uslangid = selectedLang.id
-        selectedUSLang = lstUserSettings.first { it.kind == 2 && it.entityid == uslangid }
+        selectedUSLang2 = lstUserSettings.first { it.kind == 2 && it.entityid == uslangid }
+        selectedUSLang3 = lstUserSettings.first { it.kind == 3 && it.entityid == uslangid }
         val lstDicts = usdictitems.split("\r\n")
         return Observables.zip(retrofitJson.create(RestDictMean::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestDictNote::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
             retrofitJson.create(RestTextbook::class.java).getDataByLang("LANGID,eq,$uslangid"),
-            retrofitJson.create(RestAutoCorrect::class.java).getDataByLang("LANGID,eq,$uslangid")) {
-            res1, res2, res3, res4 ->
+            retrofitJson.create(RestAutoCorrect::class.java).getDataByLang("LANGID,eq,$uslangid"),
+            retrofitJson.create(RestVoice::class.java).getDataByLang("LANGID,eq,$uslangid", "VOICETYPEID,eq,4")) {
+            res1, res2, res3, res4, res5 ->
             lstDictsMean = res1.lst!!
             var i = 0
             lstDictItems = lstDicts.flatMap { d ->
@@ -193,6 +208,8 @@ class SettingsViewModel : BaseViewModel1() {
             }
             selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
             lstAutoCorrect = res4.lst!!
+            lstVoices = res5.lst!!
+            selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: (if (lstVoices.isEmpty()) null else lstVoices[0])
         }
         .applyIO()
     }
@@ -217,19 +234,19 @@ class SettingsViewModel : BaseViewModel1() {
 
     fun updateTextbook(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
-            .updateTextbook(selectedUSLang.id, ustextbookid)
+            .updateTextbook(selectedUSLang2.id, ustextbookid)
             .map { Log.d("", it.toString()) }
             .applyIO()
 
     fun updateDictItem(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
-            .updateDictItem(selectedUSLang.id, usdictitem)
+            .updateDictItem(selectedUSLang2.id, usdictitem)
             .map { Log.d("", it.toString()) }
             .applyIO()
 
     fun updateDictNote(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
-            .updateDictNote(selectedUSLang.id, usdictnoteid)
+            .updateDictNote(selectedUSLang2.id, usdictnoteid)
             .map { Log.d("", it.toString()) }
             .applyIO()
 
@@ -254,6 +271,12 @@ class SettingsViewModel : BaseViewModel1() {
     fun updatePartTo(): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
             .updatePartTo(selectedUSTextbook.id, uspartto)
+            .map { Log.d("", it.toString()) }
+            .applyIO()
+
+    fun updateVoice(): Observable<Int> =
+        retrofitJson.create(RestUserSetting::class.java)
+            .updateVoice(selectedUSLang3.id, usvoiceid)
             .map { Log.d("", it.toString()) }
             .applyIO()
 

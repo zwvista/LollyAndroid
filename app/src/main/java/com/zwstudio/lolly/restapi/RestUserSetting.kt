@@ -40,4 +40,8 @@ interface RestUserSetting {
     @FormUrlEncoded
     @PUT("USERSETTINGS/{id}")
     fun updatePartTo(@Path("id") id: Int, @Field("VALUE4") partto: Int): Observable<Int>
+
+    @FormUrlEncoded
+    @PUT("USERSETTINGS/{id}")
+    fun updateVoice(@Path("id") id: Int, @Field("VALUE4") voiceid: Int): Observable<Int>
 }

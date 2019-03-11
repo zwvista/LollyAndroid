@@ -6,9 +6,9 @@ import java.io.Serializable
 
 class MVoices {
 
-    @SerializedName("LANGUAGES")
+    @SerializedName("VVOICES")
     @Expose
-    var lst: List<MLanguage>? = null
+    var lst: List<MVoice>? = null
 }
 
 class MVoice: Serializable {
