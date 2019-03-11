@@ -177,9 +177,7 @@ class SettingsViewModel : BaseViewModel1() {
             }
             selectedDictItem = lstDictItems.first { it.dictid == usdictitem }
             lstDictsNote = res2.lst!!
-            selectedDictNote =
-                if (lstDictsNote.isEmpty()) null
-                else lstDictsNote.first { it.id == usdictnoteid }
+            selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
 
             fun f(units: String): List<String> {
                 var m = Regex("UNITS,(\\d+)").find(units)
@@ -207,7 +205,7 @@ class SettingsViewModel : BaseViewModel1() {
             selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
             lstAutoCorrect = res4.lst!!
             lstVoices = res5.lst!!
-            selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: (if (lstVoices.isEmpty()) null else lstVoices[0])
+            selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
         }
         .applyIO()
     }
