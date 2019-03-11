@@ -88,6 +88,10 @@ class SettingsViewModel : BaseViewModel1() {
             field = value
             usvoiceid = field?.id ?: 0
         }
+    val selectedVoiceIndex: Int
+        get() =
+            if (selectedVoice == null) 0
+            else lstVoices.indexOf(selectedVoice!!)
 
     var lstTextbooks = listOf<MTextbook>()
     // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter

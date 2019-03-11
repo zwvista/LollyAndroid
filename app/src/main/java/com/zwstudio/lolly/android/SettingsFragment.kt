@@ -20,6 +20,8 @@ class SettingsFragment : Fragment() {
     @ViewById
     lateinit var spnLanguage: Spinner
     @ViewById
+    lateinit var spnVoice: Spinner
+    @ViewById
     lateinit var spnDictItem: Spinner
     @ViewById
     lateinit var spnDictNote: Spinner
@@ -90,6 +92,29 @@ class SettingsFragment : Fragment() {
 
     private fun updateLang() {
         run {
+            val lst = vm.lstVoices
+            val adapter = object : ArrayAdapter<MVoice>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
+                fun convert(v: View, position: Int): View {
+                    val m = getItem(position)!!
+                    var tv = v.findViewById<TextView>(android.R.id.text1)
+                    tv.text = m.voicelang
+                    (tv as? CheckedTextView)?.isChecked = spnVoice.selectedItemPosition == position
+                    tv = v.findViewById<TextView>(android.R.id.text2)
+                    val item2 = vm.lstVoices.firstOrNull { it.voicelang == m.voicelang }
+                    tv.text = item2?.voicename ?: ""
+                    return v
+                }
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
+                    convert(super.getView(position, convertView, parent), position)
+                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
+                    convert(super.getDropDownView(position, convertView, parent), position)
+            }
+            adapter.setDropDownViewResource(R.layout.list_item_2)
+            spnVoice.adapter = adapter
+
+            spnVoice.setSelection(vm.selectedVoiceIndex)
+        }
+        run {
             val lst = vm.lstDictItems
             val adapter = object : ArrayAdapter<MDictItem>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
@@ -157,6 +182,15 @@ class SettingsFragment : Fragment() {
             spnTextbook.setSelection(vm.selectedTextbookIndex)
             updateTextbook()
         }
+    }
+
+    @ItemSelect
+    fun spnVoiceItemSelected(selected: Boolean, position: Int) {
+        if (vm.selectedVoiceIndex == position) return
+        vm.selectedVoice = vm.lstVoices[position]
+        Log.d("", String.format("Checked position:%d", position))
+        (spnVoice.adapter as ArrayAdapter<MVoice>).notifyDataSetChanged()
+        compositeDisposable.add(vm.updateVoice().subscribe())
     }
 
     @ItemSelect
