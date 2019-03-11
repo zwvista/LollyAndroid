@@ -5,6 +5,10 @@ import android.net.Uri
 import android.view.View
 import java.net.URLEncoder
 
+object GlobalConstants {
+    val userid = 1
+}
+
 fun View.copyText(text: String) {
     // https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

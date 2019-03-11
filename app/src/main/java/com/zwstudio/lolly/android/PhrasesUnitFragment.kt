@@ -3,6 +3,7 @@ package com.zwstudio.lolly.android
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.speech.tts.TextToSpeech
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.woxthebox.draglistview.DragItem
@@ -23,20 +25,32 @@ import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.domain.MUnitPhrase
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
+import java.util.*
 
 private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_phrases_unit)
 @OptionsMenu(R.menu.menu_add)
-class PhrasesUnitFragment : DrawerListFragment() {
+class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @Bean
     lateinit var vm: PhrasesUnitViewModel
+    lateinit var tts: TextToSpeech
 
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.phrases_unit)
         vm.compositeDisposable = compositeDisposable
+        tts = TextToSpeech(context!!, this);
+    }
+
+    override fun onInit(status: Int) {
+        if (status != TextToSpeech.SUCCESS) return
+        val locale = Locale.getAvailableLocales().find {
+            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
+        }
+        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
+        tts.language = locale
     }
 
     override fun onResume() {
@@ -76,7 +90,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, R.layout.list_item_phrases_unit_edit, compositeDisposable)
+            val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, tts, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(PhrasesUnitDragItem(context!!, R.layout.list_item_phrases_unit_edit))
@@ -106,14 +120,14 @@ class PhrasesUnitFragment : DrawerListFragment() {
         }
     }
 
-    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val mLayoutId: Int, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
+    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(mLayoutId, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_phrases_unit_edit, parent, false)
             return ViewHolder(view)
         }
 
@@ -136,6 +150,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
+            var mSpeak: ImageView
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
@@ -144,6 +159,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
+                mSpeak = itemView.findViewById(R.id.image_speak)
                 initButtons()
             }
 
@@ -198,6 +214,12 @@ class PhrasesUnitFragment : DrawerListFragment() {
                             }
                         builder.show()
                     }
+                    true
+                }
+                mSpeak.setOnTouchListener { _, event ->
+                    val item = itemView.tag as MUnitPhrase
+                    if (event.action == MotionEvent.ACTION_DOWN)
+                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null)
                     true
                 }
             }

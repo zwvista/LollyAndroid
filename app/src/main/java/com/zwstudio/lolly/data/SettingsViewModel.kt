@@ -10,8 +10,6 @@ import org.androidannotations.annotations.EBean
 @EBean(scope = EBean.Scope.Singleton)
 class SettingsViewModel : BaseViewModel1() {
 
-    val userid = 1
-
     var lstUserSettings = listOf<MUserSetting>()
     private lateinit var selectedUSUser0: MUserSetting
     private lateinit var selectedUSUser1: MUserSetting
@@ -145,7 +143,7 @@ class SettingsViewModel : BaseViewModel1() {
 
     fun getData() =
         Observables.zip(retrofitJson.create(RestLanguage::class.java).getData(),
-            retrofitJson.create(RestUserSetting::class.java).getDataByUser("USERID,eq,$userid"))
+            retrofitJson.create(RestUserSetting::class.java).getDataByUser("USERID,eq,${GlobalConstants.userid}"))
         .concatMap {
             lstLanguages = it.first.lst!!
             lstUserSettings = it.second.lst!!

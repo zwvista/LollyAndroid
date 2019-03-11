@@ -2,6 +2,7 @@ package com.zwstudio.lolly.android
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.speech.tts.TextToSpeech
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.woxthebox.draglistview.DragItemAdapter
@@ -21,19 +23,31 @@ import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.domain.MLangWord
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
+import java.util.*
 
 private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_words_lang)
 @OptionsMenu(R.menu.menu_add)
-class WordsLangFragment : DrawerListFragment() {
+class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @Bean
     lateinit var vm: WordsLangViewModel
+    lateinit var tts: TextToSpeech
 
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.words_lang)
+        tts = TextToSpeech(context!!, this);
+    }
+
+    override fun onInit(status: Int) {
+        if (status != TextToSpeech.SUCCESS) return
+        val locale = Locale.getAvailableLocales().find {
+            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
+        }
+        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
+        tts.language = locale
     }
 
     override fun onResume() {
@@ -61,7 +75,7 @@ class WordsLangFragment : DrawerListFragment() {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = WordsLangItemAdapter(vm, mDragListView, R.layout.list_item_words_lang_edit, compositeDisposable)
+            val listAdapter = WordsLangItemAdapter(vm, mDragListView, tts, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
             progressBar1.visibility = View.GONE
         })
@@ -79,14 +93,14 @@ class WordsLangFragment : DrawerListFragment() {
             mDragListView.resetSwipedViews(null)
     }
 
-    private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView, val mLayoutId: Int, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangWord, WordsLangItemAdapter.ViewHolder>() {
+    private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangWord, WordsLangItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(mLayoutId, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_words_lang_edit, parent, false)
             return ViewHolder(view)
         }
 
@@ -105,12 +119,14 @@ class WordsLangFragment : DrawerListFragment() {
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
+            var mSpeak: ImageView
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
+                mSpeak = itemView.findViewById(R.id.image_speak)
                 initButtons()
             }
 
@@ -171,6 +187,12 @@ class WordsLangFragment : DrawerListFragment() {
                             }
                         builder.show()
                     }
+                    true
+                }
+                mSpeak.setOnTouchListener { _, event ->
+                    val item = itemView.tag as MLangWord
+                    if (event.action == MotionEvent.ACTION_DOWN)
+                        tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null)
                     true
                 }
             }

@@ -28,12 +28,22 @@ import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 import java.util.*
 
-
 private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_words_unit)
 @OptionsMenu(R.menu.menu_words_unit)
 class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
+
+    @Bean
+    lateinit var vm: WordsUnitViewModel
+    lateinit var tts: TextToSpeech
+
+    @AfterViews
+    fun afterViews() {
+        activity?.title = resources.getString(R.string.words_unit)
+        vm.compositeDisposable = compositeDisposable
+        tts = TextToSpeech(context!!, this);
+    }
 
     override fun onInit(status: Int) {
         if (status != TextToSpeech.SUCCESS) return
@@ -42,18 +52,6 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         }
         if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
         tts.language = locale
-    }
-
-    @Bean
-    lateinit var vm: WordsUnitViewModel
-
-    lateinit var tts: TextToSpeech
-
-    @AfterViews
-    fun afterViews() {
-        activity?.title = resources.getString(R.string.words_unit)
-        vm.compositeDisposable = compositeDisposable
-        tts = TextToSpeech(context!!, this);
     }
 
     override fun onDestroy() {
