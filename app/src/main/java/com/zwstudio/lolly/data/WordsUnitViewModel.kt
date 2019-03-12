@@ -112,11 +112,20 @@ class WordsUnitViewModel : BaseViewModel2() {
                 retrofitJson.create(RestUnitWord::class.java).create(textbookid, unit, part, seqnum, it)
             }.applyIO()
 
-    fun delete(id: Int): Observable<Int> =
+    fun delete(id: Int, wordid: Int): Observable<Int> =
         retrofitJson.create(RestUnitWord::class.java)
-            .delete(id)
-            .map { Log.d("", it.toString()) }
-            .applyIO()
+            .delete(id).concatMap {
+                Log.d("", it.toString())
+                retrofitJson.create(RestUnitWord::class.java)
+                    .getDataByLangWord("WORDID,eq,$wordid")
+            }.concatMap {
+                val lst = it.lst!!
+                if (!lst.isEmpty())
+                    Observable.empty<Int>()
+                else
+                    retrofitJson.create(RestLangWord::class.java)
+                        .delete(wordid).map { Log.d("", it.toString()) }
+            }.applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstWords.size) {

@@ -107,11 +107,20 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                 retrofitJson.create(RestUnitPhrase::class.java).create(textbookid, unit, part, seqnum, it)
             }.applyIO()
 
-    fun delete(id: Int): Observable<Int> =
+    fun delete(id: Int, phraseid: Int): Observable<Int> =
         retrofitJson.create(RestUnitPhrase::class.java)
-            .delete(id)
-            .map { Log.d("", it.toString()) }
-            .applyIO()
+            .delete(id).concatMap {
+                Log.d("", it.toString())
+                retrofitJson.create(RestUnitPhrase::class.java)
+                    .getDataByLangPhrase("PHRASEID,eq,$phraseid")
+            }.concatMap {
+                val lst = it.lst!!
+                if (!lst.isEmpty())
+                    Observable.empty<Int>()
+                else
+                    retrofitJson.create(RestLangPhrase::class.java)
+                        .delete(phraseid).map { Log.d("", it.toString()) }
+            }.applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstPhrases.size) {
