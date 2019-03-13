@@ -12,20 +12,33 @@ import java.net.URLEncoder
 @EBean
 class PhrasesUnitViewModel : BaseViewModel2() {
 
-    var lstPhrases = mutableListOf<MUnitPhrase>()
+    var lstPhrases = listOf<MUnitPhrase>()
     var isSwipeStarted = false
 
     lateinit var compositeDisposable: CompositeDisposable
 
-    fun getData(): Observable<Unit> =
+    fun getDataInTextbook(): Observable<Unit> =
         retrofitJson.create(RestUnitPhrase::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${vmSettings.selectedTextbook.id}",
                 "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
             .map {
-                lstPhrases = it.lst!!.toMutableList()
+                lstPhrases = it.lst!!
                 for (o in lstPhrases) {
                     o.lstUnits = vmSettings.lstUnits
                     o.lstParts = vmSettings.lstParts
+                }
+            }
+            .applyIO()
+
+    fun getDataInLang(): Observable<Unit> =
+        retrofitJson.create(RestUnitPhrase::class.java)
+            .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
+            .map {
+                lstPhrases = it.lst!!
+                for (o in lstPhrases) {
+                    val o2 = vmSettings.lstTextbooks.first { it.id == o.textbookid }
+                    o.lstUnits = o2.lstUnits
+                    o.lstParts = o2.lstParts
                 }
             }
             .applyIO()

@@ -16,7 +16,7 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
-import com.zwstudio.lolly.data.WordsTextbookViewModel
+import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.domain.MUnitWord
@@ -30,7 +30,7 @@ import java.util.*
 class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @Bean
-    lateinit var vm: WordsTextbookViewModel
+    lateinit var vm: WordsUnitViewModel
     lateinit var tts: TextToSpeech
 
     @AfterViews
@@ -51,7 +51,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
 
     override fun onResume() {
         super.onResume()
-        compositeDisposable.add(vm.getData().subscribe {
+        compositeDisposable.add(vm.getDataInSelectedLang().subscribe {
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
             mRefreshLayout.setScrollingView(mDragListView.recyclerView)
@@ -80,7 +80,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
         })
     }
 
-    private class WordsTextbookItemAdapter(val vm: WordsTextbookViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {
+    private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords

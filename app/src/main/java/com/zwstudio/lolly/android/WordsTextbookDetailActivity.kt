@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
-import com.zwstudio.lolly.data.WordsTextbookViewModel
+import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.MUnitWord
 import io.reactivex.disposables.CompositeDisposable
@@ -18,7 +18,7 @@ import org.androidannotations.annotations.*
 class WordsTextbookDetailActivity : AppCompatActivity() {
 
     @Bean
-    lateinit var vm: WordsTextbookViewModel
+    lateinit var vm: WordsUnitViewModel
     lateinit var item: MUnitWord
 
     @ViewById

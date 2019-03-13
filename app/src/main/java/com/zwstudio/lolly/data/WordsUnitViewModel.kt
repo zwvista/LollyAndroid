@@ -12,23 +12,36 @@ import java.net.URLEncoder
 @EBean
 class WordsUnitViewModel : BaseViewModel2() {
 
-    var lstWords = mutableListOf<MUnitWord>()
+    var lstWords = listOf<MUnitWord>()
     var isSwipeStarted = false
 
     lateinit var vmNote: NoteViewModel
     lateinit var compositeDisposable: CompositeDisposable
 
-    fun getData(): Observable<Unit> =
+    fun getDataInTextbook(): Observable<Unit> =
         retrofitJson.create(RestUnitWord::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${vmSettings.selectedTextbook.id}",
                 "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
             .map {
-                lstWords = it.lst!!.toMutableList()
+                lstWords = it.lst!!
                 for (o in lstWords) {
                     o.lstUnits = vmSettings.lstUnits
                     o.lstParts = vmSettings.lstParts
                 }
             }.applyIO()
+
+    fun getDataInLang(): Observable<Unit> =
+        retrofitJson.create(RestUnitWord::class.java)
+            .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
+            .map {
+                lstWords = it.lst!!
+                for (o in lstWords) {
+                    val o2 = vmSettings.lstTextbooks.first { it.id == o.textbookid }
+                    o.lstUnits = o2.lstUnits
+                    o.lstParts = o2.lstParts
+                }
+            }
+            .applyIO()
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Int> =
         retrofitJson.create(RestUnitWord::class.java)

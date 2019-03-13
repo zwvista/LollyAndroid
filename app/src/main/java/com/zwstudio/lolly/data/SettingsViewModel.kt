@@ -129,8 +129,6 @@ class SettingsViewModel : BaseViewModel1() {
         get() =
             if (selectedDictNote == null) 0
             else lstDictsNote.indexOf(selectedDictNote!!)
-    val hasNote: Boolean
-        get() = !lstDictsNote.isEmpty()
 
     val lstUnits: List<MSelectItem>
         get() = selectedTextbook.lstUnits

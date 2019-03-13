@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
-import com.zwstudio.lolly.data.PhrasesTextbookViewModel
+import com.zwstudio.lolly.data.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.MUnitPhrase
 import io.reactivex.disposables.CompositeDisposable
@@ -18,7 +18,7 @@ import org.androidannotations.annotations.*
 class PhrasesTextbookDetailActivity : AppCompatActivity() {
 
     @Bean
-    lateinit var vm: PhrasesTextbookViewModel
+    lateinit var vm: PhrasesUnitViewModel
     lateinit var item: MUnitPhrase
 
     @ViewById
