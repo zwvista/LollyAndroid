@@ -52,7 +52,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
 
     override fun onResume() {
         super.onResume()
-        compositeDisposable.add(vm.getDataInSelectedLang().subscribe {
+        compositeDisposable.add(vm.getDataInLang().subscribe {
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
             mRefreshLayout.setScrollingView(mDragListView.recyclerView)

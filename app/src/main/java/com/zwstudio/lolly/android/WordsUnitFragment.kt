@@ -61,7 +61,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     override fun onResume() {
         super.onResume()
-        compositeDisposable.add(vm.getDataInSelectedTextbook().subscribe {
+        compositeDisposable.add(vm.getDataInTextbook().subscribe {
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
             mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
                 override fun onItemDragStarted(position: Int) {
