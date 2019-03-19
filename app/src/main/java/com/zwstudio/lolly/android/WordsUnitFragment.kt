@@ -169,6 +169,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             var mDelete: TextView
             var mMore: TextView
             var mSpeak: ImageView
+            var mHamburger: ImageView
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
@@ -177,6 +178,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
                 mSpeak = itemView.findViewById(R.id.image_speak)
+                mHamburger = itemView.findViewById(R.id.image_hamburger)
                 initButtons()
             }
 
@@ -245,6 +247,8 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                         tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null)
                     true
                 }
+                if (!vm.vmSettings.isSingleUnitPart)
+                    mHamburger.visibility = View.GONE
             }
 
             override fun onItemClicked(view: View?) {
