@@ -2,6 +2,7 @@ package com.zwstudio.lolly.android
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.graphics.Color
 import android.speech.tts.TextToSpeech
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
@@ -106,8 +107,13 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
-            holder.mText1.text = mItemList[position].wordnote
-            holder.itemView.tag = mItemList[position]
+            val item = mItemList[position]
+            holder.mText1.text = item.wordnote
+            holder.itemView.tag = item
+            if (item.level == 0) return
+            val lst = vm.vmSettings.uslevelcolors[item.level]!!
+            holder.mItemSwipe.setBackgroundColor(Color.parseColor("#" + lst[0]))
+            holder.mText1.setTextColor(Color.parseColor("#" + lst[1]))
         }
 
         override fun getUniqueItemId(position: Int): Long {
@@ -120,6 +126,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             var mDelete: TextView
             var mMore: TextView
             var mSpeak: ImageView
+            var mItemSwipe: View
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
@@ -127,6 +134,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
                 mSpeak = itemView.findViewById(R.id.image_speak)
+                mItemSwipe = itemView.findViewById(R.id.item_swipe)
                 initButtons()
             }
 

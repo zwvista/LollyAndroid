@@ -6,14 +6,14 @@
     android:layout_height="wrap_content"
     app:leftViewId="@+id/item_left"
     app:rightViewId="@+id/item_right"
-    app:swipeViewId="@+id/item_layout">
+    app:swipeViewId="@+id/item_swipe">
 
     <RelativeLayout
         android:id="@id/item_left"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/item_layout"
-        android:layout_alignTop="@+id/item_layout"
+        android:layout_alignBottom="@+id/item_swipe"
+        android:layout_alignTop="@+id/item_swipe"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/item_edit"
@@ -32,8 +32,8 @@
         android:id="@id/item_right"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/item_layout"
-        android:layout_alignTop="@+id/item_layout"
+        android:layout_alignBottom="@+id/item_swipe"
+        android:layout_alignTop="@+id/item_swipe"
         android:orientation="horizontal">
         <LinearLayout
             android:id="@id/item_right"
@@ -68,7 +68,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@id/item_layout"
+        android:id="@id/item_swipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
@@ -87,7 +87,7 @@
             android:layout_height="0dp"/>
 
         <LinearLayout
-            android:id="@id/item_layout"
+            android:id="@id/item_swipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"

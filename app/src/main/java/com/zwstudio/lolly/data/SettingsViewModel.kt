@@ -18,6 +18,7 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             selectedUSUser0.value1 = value.toString()
         }
+    var uslevelcolors = mapOf<Int, List<String>>()
     private lateinit var selectedUSLang2: MUserSetting
     var ustextbookid: Int
         get() = selectedUSLang2.value1?.toInt()!!
@@ -151,6 +152,9 @@ class SettingsViewModel : BaseViewModel1() {
             lstUserSettings = it.second.lst!!
             selectedUSUser0 = lstUserSettings.first { it.kind == 1 && it.entityid == 0 }
             selectedUSUser1 = lstUserSettings.first { it.kind == 1 && it.entityid == 1 }
+            val lst = selectedUSUser0.value4!!.split("\r\n").map { it.split(',') }
+            // https://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
+            uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
             setSelectedLang(lstLanguages.first { it.id == uslangid })
         }
         .applyIO()

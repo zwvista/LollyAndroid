@@ -107,9 +107,10 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
-            holder.mText1.text = mItemList[position].phrase
-            holder.mText2.text = mItemList[position].translation
-            holder.itemView.tag = mItemList[position]
+            val item = mItemList[position]
+            holder.mText1.text = item.phrase
+            holder.mText2.text = item.translation
+            holder.itemView.tag = item
         }
 
         override fun getUniqueItemId(position: Int): Long {

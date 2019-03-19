@@ -116,7 +116,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             dragView.findViewById<TextView>(R.id.text1).text = clickedView.findViewById<TextView>(R.id.text1).text
             dragView.findViewById<TextView>(R.id.text2).text = clickedView.findViewById<TextView>(R.id.text2).text
             dragView.findViewById<TextView>(R.id.text3).text = clickedView.findViewById<TextView>(R.id.text3).text
-            dragView.findViewById<View>(R.id.item_layout).setBackgroundColor(dragView.resources.getColor(R.color.list_item_background))
+            dragView.findViewById<View>(R.id.item_swipe).setBackgroundColor(dragView.resources.getColor(R.color.list_item_background))
         }
     }
 
@@ -133,10 +133,11 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
-            holder.mText1.text = mItemList[position].phrase
-            holder.mText2.text = mItemList[position].unitpartseqnum
-            holder.mText3.text = mItemList[position].translation
-            holder.itemView.tag = mItemList[position]
+            val item = mItemList[position]
+            holder.mText1.text = item.phrase
+            holder.mText2.text = item.unitpartseqnum
+            holder.mText3.text = item.translation
+            holder.itemView.tag = item
         }
 
         override fun getUniqueItemId(position: Int): Long {

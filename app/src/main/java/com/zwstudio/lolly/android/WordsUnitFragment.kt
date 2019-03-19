@@ -3,6 +3,7 @@ package com.zwstudio.lolly.android
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Context
+import android.graphics.Color
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.support.v4.content.ContextCompat
@@ -136,7 +137,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         override fun onBindDragView(clickedView: View, dragView: View) {
             dragView.findViewById<TextView>(R.id.text1).text = clickedView.findViewById<TextView>(R.id.text1).text
             dragView.findViewById<TextView>(R.id.text2).text = clickedView.findViewById<TextView>(R.id.text2).text
-            dragView.findViewById<View>(R.id.item_layout).setBackgroundColor(dragView.resources.getColor(R.color.list_item_background))
+            dragView.findViewById<View>(R.id.item_swipe).setBackgroundColor(dragView.resources.getColor(R.color.list_item_background))
         }
     }
 
@@ -153,9 +154,15 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
-            holder.mText1.text = mItemList[position].wordnote
-            holder.mText2.text = mItemList[position].unitpartseqnum
-            holder.itemView.tag = mItemList[position]
+            val item = mItemList[position]
+            holder.mText1.text = item.wordnote
+            holder.mText2.text = item.unitpartseqnum
+            holder.itemView.tag = item
+            if (item.level == 0) return
+            val lst = vm.vmSettings.uslevelcolors[item.level]!!
+            holder.mItemSwipe.setBackgroundColor(Color.parseColor("#" + lst[0]))
+            holder.mText1.setTextColor(Color.parseColor("#" + lst[1]))
+            holder.mText2.setTextColor(Color.parseColor("#" + lst[1]))
         }
 
         override fun getUniqueItemId(position: Int): Long {
@@ -170,6 +177,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             var mMore: TextView
             var mSpeak: ImageView
             var mHamburger: ImageView
+            var mItemSwipe: View
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
@@ -179,6 +187,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mMore = itemView.findViewById(R.id.item_more)
                 mSpeak = itemView.findViewById(R.id.image_speak)
                 mHamburger = itemView.findViewById(R.id.image_hamburger)
+                mItemSwipe = itemView.findViewById(R.id.item_swipe)
                 initButtons()
             }
 
