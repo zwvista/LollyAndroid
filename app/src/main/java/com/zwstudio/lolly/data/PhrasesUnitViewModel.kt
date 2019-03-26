@@ -23,10 +23,8 @@ class PhrasesUnitViewModel : BaseViewModel2() {
                 "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
             .map {
                 lstPhrases = it.lst!!
-                for (o in lstPhrases) {
-                    o.lstUnits = vmSettings.lstUnits
-                    o.lstParts = vmSettings.lstParts
-                }
+                for (o in lstPhrases)
+                    o.textbook = vmSettings.selectedTextbook
             }
             .applyIO()
 
@@ -35,11 +33,8 @@ class PhrasesUnitViewModel : BaseViewModel2() {
             .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
             .map {
                 lstPhrases = it.lst!!
-                for (o in lstPhrases) {
-                    val o2 = vmSettings.lstTextbooks.first { it.id == o.textbookid }
-                    o.lstUnits = o2.lstUnits
-                    o.lstParts = o2.lstParts
-                }
+                for (o in lstPhrases)
+                    o.textbook = vmSettings.lstTextbooks.first { it.id == o.textbookid }
             }
             .applyIO()
 

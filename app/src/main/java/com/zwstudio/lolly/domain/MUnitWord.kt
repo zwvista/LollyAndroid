@@ -50,12 +50,11 @@ class MUnitWord: Serializable {
     @Expose
     var level = 0
 
-    lateinit var lstUnits: List<MSelectItem>
-    lateinit var lstParts: List<MSelectItem>
+    lateinit var textbook: MTextbook
     val unitstr: String
-        get() = lstUnits.first { it.value == unit }.label
+        get() = textbook.unitstr(unit)
     val partstr: String
-        get() = lstParts.first { it.value == part }.label
+        get() = textbook.partstr(part)
     val unitpartseqnum: String
         get() = "$unitstr $seqnum\n$partstr"
     val wordnote: String

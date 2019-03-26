@@ -50,7 +50,7 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
         tvTextbookName.text = "${getResources().getString(R.string.label_textbook)} ${item.textbookname}"
         tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         run {
-            val lst = item.lstUnits
+            val lst = item.textbook.lstUnits
             val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
@@ -64,11 +64,11 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             spnUnit.adapter = adapter
-            spnUnit.setSelection(item.lstUnits.indexOfFirst { it.value == item.unit })
+            spnUnit.setSelection(item.textbook.lstUnits.indexOfFirst { it.value == item.unit })
         }
 
         run {
-            val lst = item.lstParts
+            val lst = item.textbook.lstParts
             val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
@@ -94,12 +94,12 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
 
     @ItemSelect
     fun spnUnitItemSelected(selected: Boolean, position: Int) {
-        item.unit = item.lstUnits[position].value
+        item.unit = item.textbook.lstUnits[position].value
     }
 
     @ItemSelect
     fun spnPartItemSelected(selected: Boolean, position: Int) {
-        item.part = item.lstParts[position].value
+        item.part = item.textbook.lstParts[position].value
     }
 
     @OptionsItem

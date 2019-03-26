@@ -32,5 +32,7 @@ class MTextbook: Serializable {
     var parts = ""
 
     lateinit var lstUnits: List<MSelectItem>
+    fun unitstr(unit: Int) = lstUnits.first { it.value == unit }.label
     lateinit var lstParts: List<MSelectItem>
+    fun partstr(part: Int) = lstParts.first { it.value == part }.label
 }

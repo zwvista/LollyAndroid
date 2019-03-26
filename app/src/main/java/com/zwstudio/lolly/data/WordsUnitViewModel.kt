@@ -24,10 +24,8 @@ class WordsUnitViewModel : BaseViewModel2() {
                 "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
             .map {
                 lstWords = it.lst!!
-                for (o in lstWords) {
-                    o.lstUnits = vmSettings.lstUnits
-                    o.lstParts = vmSettings.lstParts
-                }
+                for (o in lstWords)
+                    o.textbook = vmSettings.selectedTextbook
             }.applyIO()
 
     fun getDataInLang(): Observable<Unit> =
@@ -35,11 +33,8 @@ class WordsUnitViewModel : BaseViewModel2() {
             .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
             .map {
                 lstWords = it.lst!!
-                for (o in lstWords) {
-                    val o2 = vmSettings.lstTextbooks.first { it.id == o.textbookid }
-                    o.lstUnits = o2.lstUnits
-                    o.lstParts = o2.lstParts
-                }
+                for (o in lstWords)
+                    o.textbook = vmSettings.lstTextbooks.first { it.id == o.textbookid }
             }
             .applyIO()
 
