@@ -1,10 +1,12 @@
 package com.zwstudio.lolly.data
 
 import android.util.Log
+import com.zwstudio.lolly.service.HtmlService
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit
 
@@ -13,10 +15,13 @@ class NoteViewModel : BaseViewModel2() {
 
     lateinit var compositeDisposable: CompositeDisposable
 
+    @Bean
+    lateinit var htmlService: HtmlService;
+
     fun getNote(word: String): Observable<String> {
         val dictNote = vmSettings.selectedDictNote ?: return Observable.empty()
         val url = dictNote.urlString(word, vmSettings.lstAutoCorrect)
-        return getHtml(url).map {
+        return htmlService.getHtml(url).map {
             Log.d("", it)
             extractTextFrom(it, dictNote.transform!!, "") { text, _ -> text }
         }
