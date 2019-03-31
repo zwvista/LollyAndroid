@@ -1,13 +1,12 @@
 package com.zwstudio.lolly.data
 
-import android.util.Log
 import com.zwstudio.lolly.domain.MUnitWord
-import com.zwstudio.lolly.restapi.RestLangWord
-import com.zwstudio.lolly.restapi.RestUnitWord
+import com.zwstudio.lolly.service.LangWordService
+import com.zwstudio.lolly.service.UnitWordService
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
-import java.net.URLEncoder
 
 @EBean
 class WordsUnitViewModel : BaseViewModel2() {
@@ -18,121 +17,99 @@ class WordsUnitViewModel : BaseViewModel2() {
     lateinit var vmNote: NoteViewModel
     lateinit var compositeDisposable: CompositeDisposable
 
+    @Bean
+    lateinit var unitWordService: UnitWordService;
+    @Bean
+    lateinit var langWordService: LangWordService;
+
     fun getDataInTextbook(): Observable<Unit> =
-        retrofitJson.create(RestUnitWord::class.java)
-            .getDataByTextbookUnitPart("TEXTBOOKID,eq,${vmSettings.selectedTextbook.id}",
-                "UNITPART,bt,${vmSettings.usunitpartfrom},${vmSettings.usunitpartto}")
-            .map {
-                lstWords = it.lst!!
-                for (o in lstWords)
-                    o.textbook = vmSettings.selectedTextbook
-            }.applyIO()
+        unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
+            vmSettings.usunitpartfrom, vmSettings.usunitpartto)
+            .map { lstWords = it }
+            .applyIO()
 
     fun getDataInLang(): Observable<Unit> =
-        retrofitJson.create(RestUnitWord::class.java)
-            .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
-            .map {
-                lstWords = it.lst!!
-                for (o in lstWords)
-                    o.textbook = vmSettings.lstTextbooks.first { it.id == o.textbookid }
-            }
+        unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+            .map { lstWords = it }
             .applyIO()
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Int> =
-        retrofitJson.create(RestUnitWord::class.java)
-            .updateSeqNum(id, seqnum)
-            .map { Log.d("", it.toString()) }
+        unitWordService.updateSeqNum(id, seqnum)
             .applyIO()
 
-    fun updateNote(id: Int, note: String): Observable<Int> =
-        retrofitJson.create(RestUnitWord::class.java)
-            .updateNote(id, note)
-            .map { Log.d("", it.toString()) }
+    fun updateNote(id: Int, note: String?): Observable<Int> =
+        unitWordService.updateNote(id, note)
             .applyIO()
 
     fun update(id: Int, langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, wordid: Int, word: String, note: String?): Observable<Int> =
-        retrofitJson.create(RestUnitWord::class.java)
-            .getDataByLangWord("WORDID,eq,$wordid")
+        unitWordService.getDataByLangWord(wordid)
             .concatMap {
-                val lstUnit = it.lst!!
+                val lstUnit = it
                 if (lstUnit.isEmpty())
                     Observable.empty<Int>()
                 else
-                    retrofitJson.create(RestLangWord::class.java)
-                        .getDataById("ID,eq,$wordid")
+                    langWordService.getDataById(wordid)
                         .concatMap {
-                            val lstLangOld = it.lst!!
+                            val lstLangOld = it
                             if (!lstLangOld.isEmpty() && lstLangOld[0].word == word)
-                                retrofitJson.create(RestLangWord::class.java).updateNote(wordid, note).map { wordid }
+                                langWordService.updateNote(wordid, note).map { wordid }
                             else
-                                retrofitJson.create(RestLangWord::class.java)
-                                    .getDataByLangWord("LANGID,eq,$langid", "WORD,eq,${URLEncoder.encode(word, "UTF-8")}")
+                                langWordService.getDataByLangWord(langid, word)
                                     .concatMap {
-                                        // Api is case insensitive
-                                        val lstLangNew = it.lst!!.filter { it.word == word }
+                                        val lstLangNew = it
                                         fun f(): Observable<Int> {
                                             val itemLang = lstLangNew[0]
                                             val wordid = itemLang.id
                                             return if (itemLang.combineNote(note))
-                                                retrofitJson.create(RestLangWord::class.java).updateNote(wordid, itemLang.note)
-                                                    .map { Log.d("", it.toString()); wordid }
+                                                langWordService.updateNote(wordid, itemLang.note).map { wordid }
                                             else
                                                 Observable.just(wordid)
                                         }
                                         if (lstUnit.size == 1)
                                             if (lstLangNew.isEmpty())
-                                                retrofitJson.create(RestLangWord::class.java).update(wordid, langid, word, 0, note)
-                                                    .map { Log.d("", it.toString()); wordid }
+                                                langWordService.update(wordid, langid, word, note).map { wordid }
                                             else
-                                                retrofitJson.create(RestLangWord::class.java).delete(wordid).concatMap { f() }
+                                                langWordService.delete(wordid).concatMap { f() }
                                         else
                                             if (lstLangNew.isEmpty())
-                                                retrofitJson.create(RestLangWord::class.java).create(langid, word, 0, note)
+                                                langWordService.create(langid, word, note)
                                             else
                                                 f()
                                     }
                         }
             }.concatMap {
-                retrofitJson.create(RestUnitWord::class.java).update(id, textbookid, unit, part, seqnum, it)
-                    .map { Log.d("", it.toString()) }
+                unitWordService.update(id, textbookid, unit, part, seqnum, it)
             }.applyIO()
 
     fun create(langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, wordid: Int, word: String, note: String?): Observable<Int> =
-        retrofitJson.create(RestLangWord::class.java)
-            .getDataByLangWord("LANGID,eq,$langid", "WORD,eq,${URLEncoder.encode(word, "UTF-8")}")
+        langWordService.getDataByLangWord(langid, word)
             .concatMap {
-                // Api is case insensitive
-                val lstLang = it.lst!!.filter { it.word == word }
+                val lstLang = it
                 if (lstLang.isEmpty())
-                    retrofitJson.create(RestLangWord::class.java).create(langid, word, 0, note)
+                    langWordService.create(langid, word, note)
                 else {
                     val itemLang = lstLang[0]
                     val wordid = itemLang.id
                     val b = itemLang.combineNote(note)
                     if (b)
-                        retrofitJson.create(RestLangWord::class.java)
-                            .updateNote(wordid, itemLang.note)
-                            .map { wordid }
+                        langWordService.updateNote(wordid, itemLang.note).map { wordid }
                     else
                         Observable.just(wordid)
                 }
             }.concatMap {
-                retrofitJson.create(RestUnitWord::class.java).create(textbookid, unit, part, seqnum, it)
+                unitWordService.create(textbookid, unit, part, seqnum, it)
             }.applyIO()
 
     fun delete(id: Int, wordid: Int): Observable<Int> =
-        retrofitJson.create(RestUnitWord::class.java)
-            .delete(id).concatMap {
-                Log.d("", it.toString())
-                retrofitJson.create(RestUnitWord::class.java)
-                    .getDataByLangWord("WORDID,eq,$wordid")
+        unitWordService.delete(id)
+            .concatMap {
+                unitWordService.getDataByLangWord(wordid)
             }.concatMap {
-                val lst = it.lst!!
+                val lst = it
                 if (!lst.isEmpty())
                     Observable.empty<Int>()
                 else
-                    retrofitJson.create(RestLangWord::class.java)
-                        .delete(wordid).map { Log.d("", it.toString()) }
+                    langWordService.delete(wordid)
             }.applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
@@ -160,7 +137,7 @@ class WordsUnitViewModel : BaseViewModel2() {
         val item = lstWords[index]
         return vmNote.getNote(item.word).concatMap {
             item.note = it
-            retrofitJson.create(WordsUnitViewModel::class.java).updateNote(item.id, it)
+            unitWordService.updateNote(item.id, it)
         }
     }
 

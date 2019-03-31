@@ -21,14 +21,12 @@ interface RestLangWord {
     @FormUrlEncoded
     @PUT("LANGWORDS/{id}")
     fun update(@Path("id") id: Int, @Field("LANGID") langid: Int,
-               @Field("WORD") word: String, @Field("LEVEL") level: Int,
-               @Field("NOTE") note: String?): Observable<Int>
+               @Field("WORD") word: String, @Field("NOTE") note: String?): Observable<Int>
 
     @FormUrlEncoded
     @POST("LANGWORDS")
     fun create(@Field("LANGID") langid: Int,
-               @Field("WORD") word: String, @Field("LEVEL") level: Int,
-               @Field("NOTE") note: String?): Observable<Int>
+               @Field("WORD") word: String, @Field("NOTE") note: String?): Observable<Int>
 
     @DELETE("LANGWORDS/{id}")
     fun delete(@Path("id") id: Int): Observable<Int>

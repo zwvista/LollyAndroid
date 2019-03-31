@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.data
 
-import android.util.Log
 import com.zwstudio.lolly.domain.MLangWord
-import com.zwstudio.lolly.restapi.RestLangWord
+import com.zwstudio.lolly.service.LangWordService
 import io.reactivex.Observable
+import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
@@ -14,28 +14,24 @@ class WordsLangViewModel : BaseViewModel2() {
 
     lateinit var vmNote: NoteViewModel
 
+    @Bean
+    lateinit var langWordService: LangWordService;
+
     fun getData(): Observable<Unit> =
-        retrofitJson.create(RestLangWord::class.java)
-            .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}&order=WORD")
-            .map { lstWords = it.lst!!.toMutableList() }
+        langWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+            .map { lstWords = it.toMutableList() }
             .applyIO()
 
     fun update(id: Int, langid: Int, word: String, level: Int, note: String?): Observable<Int> =
-        retrofitJson.create(RestLangWord::class.java)
-            .update(id, langid, word, level, note)
-            .map { Log.d("", it.toString()) }
+        langWordService.update(id, langid, word, note)
             .applyIO()
 
     fun create(langid: Int, word: String, level: Int, note: String?): Observable<Int> =
-        retrofitJson.create(RestLangWord::class.java)
-            .create(langid, word, level, note)
-            .map { Log.d("", it.toString()) }
+        langWordService.create(langid, word, note)
             .applyIO()
 
     fun delete(id: Int): Observable<Int> =
-        retrofitJson.create(RestLangWord::class.java)
-            .delete(id)
-            .map { Log.d("", it.toString()) }
+        langWordService.delete(id)
             .applyIO()
 
     fun newLangWord() = MLangWord().apply {
@@ -46,7 +42,7 @@ class WordsLangViewModel : BaseViewModel2() {
         val item = lstWords[index]
         return vmNote.getNote(item.word).concatMap {
             item.note = it
-            retrofitJson.create(WordsUnitViewModel::class.java).updateNote(item.id, it)
+            langWordService.updateNote(item.id, it)
         }
     }
 }

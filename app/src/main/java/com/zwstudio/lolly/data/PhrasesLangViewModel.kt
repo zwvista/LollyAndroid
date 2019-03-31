@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.data
 
-import android.util.Log
 import com.zwstudio.lolly.domain.MLangPhrase
-import com.zwstudio.lolly.restapi.RestLangPhrase
+import com.zwstudio.lolly.service.LangPhraseService
 import io.reactivex.Observable
+import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
@@ -12,28 +12,24 @@ class PhrasesLangViewModel : BaseViewModel2() {
     var lstPhrases = mutableListOf<MLangPhrase>()
     var isSwipeStarted = false
 
+    @Bean
+    lateinit var langPhraseService: LangPhraseService;
+
     fun getData(): Observable<Unit> =
-        retrofitJson.create(RestLangPhrase::class.java)
-            .getDataByLang("LANGID,eq,${vmSettings.selectedLang.id}")
-            .map { lstPhrases = it.lst!!.toMutableList() }
+        langPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+            .map { lstPhrases = it.toMutableList() }
             .applyIO()
 
     fun update(id: Int, langid: Int, phrase: String, translation: String?): Observable<Int> =
-        retrofitJson.create(RestLangPhrase::class.java)
-            .update(id, langid, phrase, translation)
-            .map { Log.d("", it.toString()) }
+        langPhraseService.update(id, langid, phrase, translation)
             .applyIO()
 
     fun create(langid: Int, phrase: String, translation: String?): Observable<Int> =
-        retrofitJson.create(RestLangPhrase::class.java)
-            .create(langid, phrase, translation)
-            .map { Log.d("", it.toString()) }
+        langPhraseService.create(langid, phrase, translation)
             .applyIO()
 
     fun delete(id: Int): Observable<Int> =
-        retrofitJson.create(RestLangPhrase::class.java)
-            .delete(id)
-            .map { Log.d("", it.toString()) }
+        langPhraseService.delete(id)
             .applyIO()
 
     fun newLangPhrase() = MLangPhrase().apply {

@@ -1,10 +1,10 @@
 package com.zwstudio.lolly.data
 
-import android.util.Log
 import com.zwstudio.lolly.domain.*
-import com.zwstudio.lolly.restapi.*
+import com.zwstudio.lolly.service.*
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.Observables
+import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean(scope = EBean.Scope.Singleton)
@@ -144,12 +144,27 @@ class SettingsViewModel : BaseViewModel1() {
 
     var lstAutoCorrect = listOf<MAutoCorrect>()
 
+    @Bean
+    lateinit var languageService: LanguageService;
+    @Bean
+    lateinit var userSettingService: UserSettingService;
+    @Bean
+    lateinit var dictMeanService: DictMeanService;
+    @Bean
+    lateinit var dictNoteService: DictNoteService;
+    @Bean
+    lateinit var textbookService: TextbookService;
+    @Bean
+    lateinit var autoCorrectService: AutoCorrectService;
+    @Bean
+    lateinit var voiceService: VoiceService;
+
     fun getData() =
-        Observables.zip(retrofitJson.create(RestLanguage::class.java).getData(),
-            retrofitJson.create(RestUserSetting::class.java).getDataByUser("USERID,eq,${GlobalConstants.userid}"))
+        Observables.zip(languageService.getData(),
+            userSettingService.getDataByUser(GlobalConstants.userid))
         .concatMap {
-            lstLanguages = it.first.lst!!
-            lstUserSettings = it.second.lst!!
+            lstLanguages = it.first
+            lstUserSettings = it.second
             selectedUSUser0 = lstUserSettings.first { it.kind == 1 && it.entityid == 0 }
             selectedUSUser1 = lstUserSettings.first { it.kind == 1 && it.entityid == 1 }
             val lst = selectedUSUser0.value4!!.split("\r\n").map { it.split(',') }
@@ -165,13 +180,13 @@ class SettingsViewModel : BaseViewModel1() {
         selectedUSLang2 = lstUserSettings.first { it.kind == 2 && it.entityid == uslangid }
         selectedUSLang3 = lstUserSettings.first { it.kind == 3 && it.entityid == uslangid }
         val lstDicts = usdictitems.split("\r\n")
-        return Observables.zip(retrofitJson.create(RestDictMean::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
-            retrofitJson.create(RestDictNote::class.java).getDataByLang("LANGIDFROM,eq,$uslangid"),
-            retrofitJson.create(RestTextbook::class.java).getDataByLang("LANGID,eq,$uslangid"),
-            retrofitJson.create(RestAutoCorrect::class.java).getDataByLang("LANGID,eq,$uslangid"),
-            retrofitJson.create(RestVoice::class.java).getDataByLang("LANGID,eq,$uslangid", "VOICETYPEID,eq,4")) {
+        return Observables.zip(dictMeanService.getDataByLang(uslangid),
+            dictNoteService.getDataByLang(uslangid),
+            textbookService.getDataByLang(uslangid),
+            autoCorrectService.getDataByLang(uslangid),
+            voiceService.getDataByLang(uslangid)) {
             res1, res2, res3, res4, res5 ->
-            lstDictsMean = res1.lst!!
+            lstDictsMean = res1
             var i = 0
             lstDictItems = lstDicts.flatMap { d ->
                 if (d == "0")
@@ -182,35 +197,12 @@ class SettingsViewModel : BaseViewModel1() {
                 }
             }
             selectedDictItem = lstDictItems.first { it.dictid == usdictitem }
-            lstDictsNote = res2.lst!!
+            lstDictsNote = res2
             selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
-
-            fun f(units: String): List<String> {
-                var m = Regex("UNITS,(\\d+)").find(units)
-                if (m != null) {
-                    val units = m.groupValues[1].toInt()
-                    return (1..units).map { it.toString() }
-                }
-                m = Regex("PAGES,(\\d+),(\\d+)").find(units)
-                if (m != null) {
-                    val n1 = m.groupValues[1].toInt()
-                    val n2 = m.groupValues[2].toInt()
-                    val units = (n1 + n2 - 1) / n2
-                    return (1..units).map { "${it * n2 - n2 + 1}~${it * n2}" }
-                }
-                m = Regex("CUSTOM,(.+)").find(units)
-                if (m != null)
-                    return m.groupValues[1].split(",")
-                return listOf()
-            }
-            lstTextbooks = res3.lst!!
-            for (o in lstTextbooks) {
-                o.lstUnits = f(o.units).mapIndexed { index, s -> MSelectItem(index + 1, s) }
-                o.lstParts = o.parts.split(",").mapIndexed { index, s -> MSelectItem(index + 1, s) }
-            }
+            lstTextbooks = res3
             selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
-            lstAutoCorrect = res4.lst!!
-            lstVoices = res5.lst!!
+            lstAutoCorrect = res4
+            lstVoices = res5
             selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
         }
         .applyIO()
@@ -229,57 +221,39 @@ class SettingsViewModel : BaseViewModel1() {
     }
 
     fun updateLang(): Observable<Int> =
-        retrofitJson.create(RestUserSetting::class.java)
-            .updateLang(selectedUSUser0.id, uslangid)
-            .map { Log.d("", it.toString()) }
+        userSettingService.updateLang(selectedUSUser0.id, uslangid)
             .applyIO()
 
     fun updateTextbook(): Observable<Int> =
-        retrofitJson.create(RestUserSetting::class.java)
-            .updateTextbook(selectedUSLang2.id, ustextbookid)
-            .map { Log.d("", it.toString()) }
+        userSettingService.updateTextbook(selectedUSLang2.id, ustextbookid)
             .applyIO()
 
     fun updateDictItem(): Observable<Int> =
-        retrofitJson.create(RestUserSetting::class.java)
-            .updateDictItem(selectedUSLang2.id, usdictitem)
-            .map { Log.d("", it.toString()) }
+        userSettingService.updateDictItem(selectedUSLang2.id, usdictitem)
             .applyIO()
 
     fun updateDictNote(): Observable<Int> =
-        retrofitJson.create(RestUserSetting::class.java)
-            .updateDictNote(selectedUSLang2.id, usdictnoteid)
-            .map { Log.d("", it.toString()) }
+        userSettingService.updateDictNote(selectedUSLang2.id, usdictnoteid)
             .applyIO()
 
     fun updateUnitFrom(): Observable<Int> =
-        retrofitJson.create(RestUserSetting::class.java)
-            .updateUnitFrom(selectedUSTextbook.id, usunitfrom)
-            .map { Log.d("", it.toString()) }
+        userSettingService.updateUnitFrom(selectedUSTextbook.id, usunitfrom)
             .applyIO()
 
     fun updatePartFrom(): Observable<Int> =
-        retrofitJson.create(RestUserSetting::class.java)
-            .updatePartFrom(selectedUSTextbook.id, uspartfrom)
-            .map { Log.d("", it.toString()) }
+        userSettingService.updatePartFrom(selectedUSTextbook.id, uspartfrom)
             .applyIO()
 
     fun updateUnitTo(): Observable<Int> =
-        retrofitJson.create(RestUserSetting::class.java)
-            .updateUnitTo(selectedUSTextbook.id, usunitto)
-            .map { Log.d("", it.toString()) }
+        userSettingService.updateUnitTo(selectedUSTextbook.id, usunitto)
             .applyIO()
 
     fun updatePartTo(): Observable<Int> =
-        retrofitJson.create(RestUserSetting::class.java)
-            .updatePartTo(selectedUSTextbook.id, uspartto)
-            .map { Log.d("", it.toString()) }
+        userSettingService.updatePartTo(selectedUSTextbook.id, uspartto)
             .applyIO()
 
     fun updateVoice(): Observable<Int> =
-        retrofitJson.create(RestUserSetting::class.java)
-            .updateVoice(selectedUSLang3.id, usvoiceid)
-            .map { Log.d("", it.toString()) }
+        userSettingService.updateVoice(selectedUSLang3.id, usvoiceid)
             .applyIO()
 
     fun autoCorrectInput(text: String): String =

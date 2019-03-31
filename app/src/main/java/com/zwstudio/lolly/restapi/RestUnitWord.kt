@@ -20,7 +20,7 @@ interface RestUnitWord {
 
     @FormUrlEncoded
     @PUT("UNITWORDS/{id}")
-    fun updateNote(@Path("id") id: Int, @Field("NOTE") note: String): Observable<Int>
+    fun updateNote(@Path("id") id: Int, @Field("NOTE") note: String?): Observable<Int>
 
     @FormUrlEncoded
     @PUT("UNITWORDS/{id}")
