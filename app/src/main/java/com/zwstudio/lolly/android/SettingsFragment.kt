@@ -1,18 +1,20 @@
 package com.zwstudio.lolly.android
 
 import android.graphics.Color
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.zwstudio.lolly.data.SettingsListener
 import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.domain.*
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EFragment(R.layout.content_settings)
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(), SettingsListener {
 
     @Bean
     lateinit var vm: SettingsViewModel
@@ -47,17 +49,12 @@ class SettingsFragment : Fragment() {
     @AfterViews
     fun afterViews() {
         activity?.title = "Settings"
-        compositeDisposable.add(vm.onGetData.subscribe { onGetData() })
-        compositeDisposable.add(vm.onUpdateLang.subscribe { onUpdateLang() })
-        compositeDisposable.add(vm.onUpdateTextbook.subscribe { onUpdateTextbook() })
-        compositeDisposable.add(vm.onUpdateUnitFrom.subscribe { onUpdateUnitFrom() })
-        compositeDisposable.add(vm.onUpdatePartFrom.subscribe { onUpdatePartFrom() })
-        compositeDisposable.add(vm.onUpdateUnitTo.subscribe { onUpdateUnitTo() })
-        compositeDisposable.add(vm.onUpdatePartTo.subscribe { onUpdatePartTo() })
+        vm.handler = Handler()
+        vm.settingsListener = this
         compositeDisposable.add(vm.getData().subscribe())
     }
 
-    fun onGetData() {
+    override fun onGetData() {
         val lst = vm.lstLanguages
         val adapter = object : ArrayAdapter<MLanguage>(activity!!,
             android.R.layout.simple_spinner_item, lst) {
@@ -90,7 +87,7 @@ class SettingsFragment : Fragment() {
         compositeDisposable.add(vm.setSelectedLang(vm.lstLanguages[position]).subscribe())
     }
 
-    fun onUpdateLang() {
+    override fun onUpdateLang() {
         run {
             val lst = vm.lstVoices
             val adapter = object : ArrayAdapter<MVoice>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
@@ -113,6 +110,7 @@ class SettingsFragment : Fragment() {
             spnVoice.adapter = adapter
 
             spnVoice.setSelection(vm.selectedVoiceIndex)
+            onUpdateVoice()
         }
         run {
             val lst = vm.lstDictItems
@@ -136,6 +134,7 @@ class SettingsFragment : Fragment() {
             spnDictItem.adapter = adapter
 
             spnDictItem.setSelection(vm.selectedDictItemIndex)
+            onUpdateDictItem()
         }
         run {
             val lst = vm.lstDictsNote
@@ -158,6 +157,7 @@ class SettingsFragment : Fragment() {
             spnDictNote.adapter = adapter
 
             spnDictNote.setSelection(vm.selectedDictNoteIndex)
+            onUpdateDictNote()
         }
         run {
             val lst = vm.lstTextbooks
@@ -180,6 +180,7 @@ class SettingsFragment : Fragment() {
             spnTextbook.adapter = adapter
 
             spnTextbook.setSelection(vm.selectedTextbookIndex)
+            onUpdateTextbook()
         }
     }
 
@@ -219,7 +220,7 @@ class SettingsFragment : Fragment() {
         compositeDisposable.add(vm.updateTextbook().subscribe())
     }
 
-    fun onUpdateTextbook() {
+    override fun onUpdateTextbook() {
 
         fun makeAdapter(lst: List<MSelectItem>): ArrayAdapter<MSelectItem> {
             val adapter = object : ArrayAdapter<MSelectItem>(activity!!, android.R.layout.simple_spinner_item, lst) {
@@ -242,8 +243,8 @@ class SettingsFragment : Fragment() {
             spnUnitFrom.adapter = adapter
             spnUnitTo.adapter = adapter
 
-            spnUnitFrom.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitfrom })
-            spnUnitTo.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitto })
+            onUpdateUnitFrom()
+            onUpdateUnitTo()
         }
 
         run {
@@ -251,8 +252,8 @@ class SettingsFragment : Fragment() {
             spnPartFrom.adapter = adapter
             spnPartTo.adapter = adapter
 
-            spnPartFrom.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartfrom })
-            spnPartTo.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartto })
+            onUpdatePartFrom()
+            onUpdatePartTo()
         }
 
         run {
@@ -264,11 +265,13 @@ class SettingsFragment : Fragment() {
 
     @ItemSelect
     fun spnUnitFromItemSelected(selected: Boolean, position: Int) {
+        if (vm.lstUnits.indexOfFirst { it.value == vm.usunitfrom } == position) return
         compositeDisposable.add(vm.updateUnitFrom(vm.lstUnits[position].value).subscribe())
     }
 
     @ItemSelect
     fun spnPartFromItemSelected(selected: Boolean, position: Int) {
+        if (vm.lstParts.indexOfFirst { it.value == vm.uspartfrom } == position) return
         compositeDisposable.add(vm.updatePartFrom(vm.lstParts[position].value).subscribe())
     }
 
@@ -295,27 +298,38 @@ class SettingsFragment : Fragment() {
 
     @ItemSelect
     fun spnUnitToItemSelected(selected: Boolean, position: Int) {
+        if (vm.lstUnits.indexOfFirst { it.value == vm.usunitto } == position) return
         compositeDisposable.add(vm.updateUnitTo(vm.lstUnits[position].value).subscribe())
     }
 
     @ItemSelect
     fun spnPartToItemSelected(selected: Boolean, position: Int) {
+        if (vm.lstParts.indexOfFirst { it.value == vm.uspartto } == position) return
         compositeDisposable.add(vm.updatePartTo(vm.lstParts[position].value).subscribe())
     }
 
-    fun onUpdateUnitFrom() {
+    override fun onUpdateDictItem() {
+    }
+
+    override fun onUpdateDictNote() {
+    }
+
+    override fun onUpdateUnitFrom() {
         spnUnitFrom.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitfrom })
     }
 
-    fun onUpdatePartFrom() {
+    override fun onUpdatePartFrom() {
         spnPartFrom.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartfrom })
     }
 
-    fun onUpdateUnitTo() {
+    override fun onUpdateUnitTo() {
         spnUnitTo.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitto })
     }
 
-    fun onUpdatePartTo() {
+    override fun onUpdatePartTo() {
         spnPartTo.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartto })
+    }
+
+    override fun onUpdateVoice() {
     }
 }

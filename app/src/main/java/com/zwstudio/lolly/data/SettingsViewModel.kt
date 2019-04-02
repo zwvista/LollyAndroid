@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.data
 
+import android.os.Handler
 import com.zwstudio.lolly.domain.*
 import com.zwstudio.lolly.service.*
 import io.reactivex.Observable
@@ -166,7 +167,8 @@ class SettingsViewModel : BaseViewModel1() {
     @Bean
     lateinit var voiceService: VoiceService;
 
-    var onGetData = Observable.just(Unit)
+    var handler: Handler? = null
+    var settingsListener: SettingsListener? = null
     fun getData(): Observable<Unit> =
         Observables.zip(languageService.getData(),
             userSettingService.getDataByUser(GlobalConstants.userid))
@@ -178,12 +180,10 @@ class SettingsViewModel : BaseViewModel1() {
             val lst = selectedUSUser0.value4!!.split("\r\n").map { it.split(',') }
             // https://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
             uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
-            onGetData
-        }.concatMap {
+            handler?.post { settingsListener?.onGetData() }
             setSelectedLang(lstLanguages.first { it.id == uslangid })
         }.applyIO()
 
-    var onUpdateLang = Observable.just(Unit)
     fun setSelectedLang(lang: MLanguage): Observable<Unit> {
         val isinit = lang.id == uslangid
         selectedLang = lang
@@ -216,9 +216,10 @@ class SettingsViewModel : BaseViewModel1() {
             lstVoices = res5
             selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
         }.concatMap {
-            if (isinit)
-                onUpdateLang
-            else
+            if (isinit) {
+                handler?.post { settingsListener?.onUpdateLang() }
+                Observable.just(Unit)
+            } else
                 updateLang()
         }.applyIO()
     }
@@ -237,31 +238,27 @@ class SettingsViewModel : BaseViewModel1() {
 
     fun updateLang(): Observable<Unit> =
         userSettingService.updateLang(selectedUSUser0.id, uslangid)
-            .concatMap { onUpdateLang }
+            .map { handler?.post { settingsListener?.onUpdateLang() }; Unit }
             .applyIO()
 
-    var onUpdateTextbook = Observable.just(Unit)
     fun updateTextbook(): Observable<Unit> =
         userSettingService.updateTextbook(selectedUSLang2.id, ustextbookid)
-            .concatMap { onUpdateTextbook }
+            .map { handler?.post { settingsListener?.onUpdateTextbook() }; Unit }
             .applyIO()
 
-    var onUpdateDictItem = Observable.just(Unit)
     fun updateDictItem(): Observable<Unit> =
         userSettingService.updateDictItem(selectedUSLang2.id, usdictitem)
-            .concatMap { onUpdateDictItem }
+            .map { handler?.post { settingsListener?.onUpdateDictItem() }; Unit }
             .applyIO()
 
-    var onUpdateDictNote = Observable.just(Unit)
     fun updateDictNote(): Observable<Unit> =
         userSettingService.updateDictNote(selectedUSLang2.id, usdictnoteid)
-            .concatMap { onUpdateDictNote }
+            .map { handler?.post { settingsListener?.onUpdateDictNote() }; Unit }
             .applyIO()
 
-    var onUpdateVoice = Observable.just(Unit)
     fun updateVoice(): Observable<Unit> =
         userSettingService.updateVoice(selectedUSLang3.id, usvoiceid)
-            .concatMap { onUpdateVoice }
+            .map { handler?.post { settingsListener?.onUpdateVoice() }; Unit }
             .applyIO()
 
     fun autoCorrectInput(text: String): String =
@@ -346,39 +343,48 @@ class SettingsViewModel : BaseViewModel1() {
     private fun doUpdateSingleUnit(): Observable<Unit> =
         Observables.zip(doUpdateUnitTo(usunitfrom), doUpdatePartFrom(1), doUpdatePartTo(partCount)).map { Unit }
 
-    var onUpdateUnitFrom = Observable.just(Unit)
     private fun doUpdateUnitFrom(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && usunitfrom == v) return Observable.empty()
         usunitfrom = v
         return userSettingService.updateUnitFrom(selectedUSTextbook.id, usunitfrom)
-            .concatMap { onUpdateUnitFrom }
+            .map { handler?.post { settingsListener?.onUpdateUnitFrom() }; Unit }
             .applyIO()
     }
 
-    var onUpdatePartFrom = Observable.just(Unit)
     private fun doUpdatePartFrom(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && uspartfrom == v) return Observable.empty()
         uspartfrom = v
         return userSettingService.updatePartFrom(selectedUSTextbook.id, uspartfrom)
-            .concatMap { onUpdatePartFrom }
+            .map { handler?.post { settingsListener?.onUpdatePartFrom() }; Unit }
             .applyIO()
     }
 
-    var onUpdateUnitTo = Observable.just(Unit)
     private fun doUpdateUnitTo(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && usunitto == v) return Observable.empty()
         usunitto = v
         return userSettingService.updateUnitTo(selectedUSTextbook.id, usunitto)
-            .concatMap { onUpdateUnitTo }
+            .map { handler?.post { settingsListener?.onUpdateUnitTo() }; Unit }
             .applyIO()
     }
 
-    var onUpdatePartTo = Observable.just(Unit)
     private fun doUpdatePartTo(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && uspartto == v) return Observable.empty()
         uspartto = v
         return userSettingService.updatePartTo(selectedUSTextbook.id, uspartto)
-            .concatMap { onUpdatePartTo }
+            .map { handler?.post { settingsListener?.onUpdatePartTo() }; Unit }
             .applyIO()
     }
+}
+
+interface SettingsListener {
+    fun onGetData()
+    fun onUpdateLang()
+    fun onUpdateTextbook()
+    fun onUpdateDictItem()
+    fun onUpdateDictNote()
+    fun onUpdateVoice()
+    fun onUpdateUnitFrom()
+    fun onUpdatePartFrom()
+    fun onUpdateUnitTo()
+    fun onUpdatePartTo()
 }
