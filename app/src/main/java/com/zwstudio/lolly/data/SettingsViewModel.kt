@@ -103,6 +103,10 @@ class SettingsViewModel : BaseViewModel1() {
             _selectedTextbook = value
             ustextbookid = value.id
             selectedUSTextbook = lstUserSettings.first { it.kind == 11 && it.entityid == value.id }
+            toType =
+                if (isSingleUnit) 0
+                else if (isSingleUnitPart) 1
+                else 2
         }
     val selectedTextbookIndex: Int
         get() = lstTextbooks.indexOf(selectedTextbook)
@@ -144,6 +148,9 @@ class SettingsViewModel : BaseViewModel1() {
 
     var lstAutoCorrect = listOf<MAutoCorrect>()
 
+    val lstToTypes = listOf("Unit", "Part", "To").mapIndexed { index, s -> MSelectItem(index, s) }
+    var toType = 0
+
     @Bean
     lateinit var languageService: LanguageService;
     @Bean
@@ -159,7 +166,8 @@ class SettingsViewModel : BaseViewModel1() {
     @Bean
     lateinit var voiceService: VoiceService;
 
-    fun getData() =
+    var onGetData = Observable.just(Unit)
+    fun getData(): Observable<Unit> =
         Observables.zip(languageService.getData(),
             userSettingService.getDataByUser(GlobalConstants.userid))
         .concatMap {
@@ -170,11 +178,14 @@ class SettingsViewModel : BaseViewModel1() {
             val lst = selectedUSUser0.value4!!.split("\r\n").map { it.split(',') }
             // https://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
             uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
+            onGetData
+        }.concatMap {
             setSelectedLang(lstLanguages.first { it.id == uslangid })
-        }
-        .applyIO()
+        }.applyIO()
 
+    var onUpdateLang = Observable.just(Unit)
     fun setSelectedLang(lang: MLanguage): Observable<Unit> {
+        val isinit = lang.id == uslangid
         selectedLang = lang
         uslangid = selectedLang.id
         selectedUSLang2 = lstUserSettings.first { it.kind == 2 && it.entityid == uslangid }
@@ -204,8 +215,12 @@ class SettingsViewModel : BaseViewModel1() {
             lstAutoCorrect = res4
             lstVoices = res5
             selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
-        }
-        .applyIO()
+        }.concatMap {
+            if (isinit)
+                onUpdateLang
+            else
+                updateLang()
+        }.applyIO()
     }
 
     fun dictHtml(word: String, dictids: List<String>): String {
@@ -220,42 +235,150 @@ class SettingsViewModel : BaseViewModel1() {
         return s
     }
 
-    fun updateLang(): Observable<Int> =
+    fun updateLang(): Observable<Unit> =
         userSettingService.updateLang(selectedUSUser0.id, uslangid)
+            .concatMap { onUpdateLang }
             .applyIO()
 
-    fun updateTextbook(): Observable<Int> =
+    var onUpdateTextbook = Observable.just(Unit)
+    fun updateTextbook(): Observable<Unit> =
         userSettingService.updateTextbook(selectedUSLang2.id, ustextbookid)
+            .concatMap { onUpdateTextbook }
             .applyIO()
 
-    fun updateDictItem(): Observable<Int> =
+    var onUpdateDictItem = Observable.just(Unit)
+    fun updateDictItem(): Observable<Unit> =
         userSettingService.updateDictItem(selectedUSLang2.id, usdictitem)
+            .concatMap { onUpdateDictItem }
             .applyIO()
 
-    fun updateDictNote(): Observable<Int> =
+    var onUpdateDictNote = Observable.just(Unit)
+    fun updateDictNote(): Observable<Unit> =
         userSettingService.updateDictNote(selectedUSLang2.id, usdictnoteid)
+            .concatMap { onUpdateDictNote }
             .applyIO()
 
-    fun updateUnitFrom(): Observable<Int> =
-        userSettingService.updateUnitFrom(selectedUSTextbook.id, usunitfrom)
-            .applyIO()
-
-    fun updatePartFrom(): Observable<Int> =
-        userSettingService.updatePartFrom(selectedUSTextbook.id, uspartfrom)
-            .applyIO()
-
-    fun updateUnitTo(): Observable<Int> =
-        userSettingService.updateUnitTo(selectedUSTextbook.id, usunitto)
-            .applyIO()
-
-    fun updatePartTo(): Observable<Int> =
-        userSettingService.updatePartTo(selectedUSTextbook.id, uspartto)
-            .applyIO()
-
-    fun updateVoice(): Observable<Int> =
+    var onUpdateVoice = Observable.just(Unit)
+    fun updateVoice(): Observable<Unit> =
         userSettingService.updateVoice(selectedUSLang3.id, usvoiceid)
+            .concatMap { onUpdateVoice }
             .applyIO()
 
     fun autoCorrectInput(text: String): String =
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
+
+    fun updateUnitFrom(v: Int): Observable<Unit> =
+        doUpdateUnitFrom(v, false).concatMap {
+            if (toType == 0)
+                doUpdateSingleUnit()
+            else if (toType == 1 || isInvalidUnitPart)
+                doUpdateUnitPartTo()
+            else
+                Observable.empty()
+        }
+
+    fun updatePartFrom(v: Int): Observable<Unit> =
+        doUpdatePartFrom(v, false).concatMap {
+            if (toType == 1 || isInvalidUnitPart)
+                doUpdateUnitPartTo()
+            else
+                Observable.empty()
+        }
+
+    fun updateToType(v: Int): Observable<Unit> {
+        toType = v
+        return if (toType == 0)
+            doUpdateSingleUnit()
+        else if (toType == 1)
+            doUpdateUnitPartTo()
+        else
+            Observable.empty()
+    }
+
+    fun previousUnitPart(): Observable<Unit> =
+        if (toType == 0)
+            if (usunitfrom > 1)
+                Observables.zip(doUpdateUnitFrom(usunitfrom - 1), doUpdateUnitTo(usunitfrom)).map { Unit }
+            else
+                Observable.empty()
+        else if (uspartfrom > 1)
+            Observables.zip(doUpdatePartFrom(uspartfrom - 1), doUpdateUnitPartTo()).map { Unit }
+        else if (usunitfrom > 1)
+            Observables.zip(doUpdateUnitFrom(usunitfrom - 1), doUpdatePartFrom(partCount), doUpdateUnitPartTo()).map { Unit }
+        else
+            Observable.empty()
+
+    fun nextUnitPart(): Observable<Unit> =
+        if (toType == 0)
+            if (usunitfrom < unitCount)
+                Observables.zip(doUpdateUnitFrom(usunitfrom + 1), doUpdateUnitTo(usunitfrom)).map { Unit }
+            else
+                Observable.empty()
+        else if (uspartfrom < partCount)
+            Observables.zip(doUpdatePartFrom(uspartfrom + 1), doUpdateUnitPartTo()).map { Unit }
+        else if (usunitfrom < unitCount)
+            Observables.zip(doUpdateUnitFrom(usunitfrom + 1), doUpdatePartFrom(1), doUpdateUnitPartTo()).map { Unit }
+        else
+            Observable.empty()
+
+    fun updateUnitTo(v: Int): Observable<Unit> =
+        doUpdateUnitTo(v, false).concatMap {
+            if (isInvalidUnitPart)
+                doUpdateUnitPartFrom()
+            else
+                Observable.empty()
+        }
+
+    fun updatePartTo(v: Int): Observable<Unit> =
+        doUpdatePartTo(v, false).concatMap {
+            if (isInvalidUnitPart)
+                doUpdateUnitPartFrom()
+            else
+                Observable.empty()
+        }
+
+    private fun doUpdateUnitPartFrom(): Observable<Unit> =
+        Observables.zip(doUpdateUnitFrom(usunitto), doUpdatePartFrom(uspartto)).map { Unit }
+
+    private fun doUpdateUnitPartTo(): Observable<Unit> =
+        Observables.zip(doUpdateUnitTo(usunitfrom), doUpdatePartTo(uspartfrom)).map { Unit }
+
+    private fun doUpdateSingleUnit(): Observable<Unit> =
+        Observables.zip(doUpdateUnitTo(usunitfrom), doUpdatePartFrom(1), doUpdatePartTo(partCount)).map { Unit }
+
+    var onUpdateUnitFrom = Observable.just(Unit)
+    private fun doUpdateUnitFrom(v: Int, check: Boolean = true): Observable<Unit> {
+        if (check && usunitfrom == v) return Observable.empty()
+        usunitfrom = v
+        return userSettingService.updateUnitFrom(selectedUSTextbook.id, usunitfrom)
+            .concatMap { onUpdateUnitFrom }
+            .applyIO()
+    }
+
+    var onUpdatePartFrom = Observable.just(Unit)
+    private fun doUpdatePartFrom(v: Int, check: Boolean = true): Observable<Unit> {
+        if (check && uspartfrom == v) return Observable.empty()
+        uspartfrom = v
+        return userSettingService.updatePartFrom(selectedUSTextbook.id, uspartfrom)
+            .concatMap { onUpdatePartFrom }
+            .applyIO()
+    }
+
+    var onUpdateUnitTo = Observable.just(Unit)
+    private fun doUpdateUnitTo(v: Int, check: Boolean = true): Observable<Unit> {
+        if (check && usunitto == v) return Observable.empty()
+        usunitto = v
+        return userSettingService.updateUnitTo(selectedUSTextbook.id, usunitto)
+            .concatMap { onUpdateUnitTo }
+            .applyIO()
+    }
+
+    var onUpdatePartTo = Observable.just(Unit)
+    private fun doUpdatePartTo(v: Int, check: Boolean = true): Observable<Unit> {
+        if (check && uspartto == v) return Observable.empty()
+        uspartto = v
+        return userSettingService.updatePartTo(selectedUSTextbook.id, uspartto)
+            .concatMap { onUpdatePartTo }
+            .applyIO()
+    }
 }
