@@ -10,11 +10,11 @@ import java.io.Serializable
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
-class MDictsMean {
+class MDictsReference {
 
-    @SerializedName("VDICTSMEAN")
+    @SerializedName("VDICTSREFERENCE")
     @Expose
-    var lst: List<MDictMean>? = null
+    var lst: List<MDictReference>? = null
 }
 
 class MDictsNote {
@@ -94,7 +94,7 @@ abstract class MDictionary: Serializable {
 
 val cssFolder = "https://zwvista.tk/lolly/css/"
 
-class MDictMean: MDictionary() {
+class MDictReference: MDictionary() {
     fun htmlString(html: String, word: String, useTemplate2: Boolean): String {
         val t = if (useTemplate2 && !template2.isNullOrEmpty()) template2!! else template!!
         return extractTextFrom(html, transform!!, t) { text, t ->

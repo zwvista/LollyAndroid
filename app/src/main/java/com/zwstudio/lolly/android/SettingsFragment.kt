@@ -121,7 +121,7 @@ class SettingsFragment : Fragment(), SettingsListener {
                     tv.text = m.dictname
                     (tv as? CheckedTextView)?.isChecked = spnDictItem.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
-                    val item2 = vm.lstDictsMean.firstOrNull { it.dictname == m.dictname }
+                    val item2 = vm.lstDictsReference.firstOrNull { it.dictname == m.dictname }
                     tv.text = item2?.url ?: ""
                     return v
                 }

@@ -67,7 +67,7 @@ class WordsDictActivity : AppCompatActivity() {
                     tv.text = m.dictname
                     (tv as? CheckedTextView)?.isChecked = spnDictItem.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
-                    val item2 = vm.vmSettings.lstDictsMean.firstOrNull { it.dictname == m.dictname }
+                    val item2 = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
                     tv.text = item2?.url ?: ""
                     return v
                 }
@@ -113,7 +113,7 @@ class WordsDictActivity : AppCompatActivity() {
             val str = vm.vmSettings.dictHtml(vm.selectedWord, item.dictids())
             wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
         } else {
-            val item2 = vm.vmSettings.lstDictsMean.first { it.dictname == item.dictname }
+            val item2 = vm.vmSettings.lstDictsReference.first { it.dictname == item.dictname }
             val url = item2.urlString(vm.selectedWord, vm.vmSettings.lstAutoCorrect)
             if (item2.dicttypename == "OFFLINE") {
                 wv.loadUrl("about:blank")

@@ -112,7 +112,7 @@ class SettingsViewModel : BaseViewModel1() {
     val selectedTextbookIndex: Int
         get() = lstTextbooks.indexOf(selectedTextbook)
 
-    var lstDictsMean = listOf<MDictMean>()
+    var lstDictsReference = listOf<MDictReference>()
     var lstDictItems = listOf<MDictItem>()
     // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter
     private var _selectedDictItem: MDictItem? = null
@@ -157,7 +157,7 @@ class SettingsViewModel : BaseViewModel1() {
     @Bean
     lateinit var userSettingService: UserSettingService;
     @Bean
-    lateinit var dictMeanService: DictMeanService;
+    lateinit var dictReferenceService: DictReferenceService;
     @Bean
     lateinit var dictNoteService: DictNoteService;
     @Bean
@@ -191,17 +191,17 @@ class SettingsViewModel : BaseViewModel1() {
         selectedUSLang2 = lstUserSettings.first { it.kind == 2 && it.entityid == uslangid }
         selectedUSLang3 = lstUserSettings.first { it.kind == 3 && it.entityid == uslangid }
         val lstDicts = usdictitems.split("\r\n")
-        return Observables.zip(dictMeanService.getDataByLang(uslangid),
+        return Observables.zip(dictReferenceService.getDataByLang(uslangid),
             dictNoteService.getDataByLang(uslangid),
             textbookService.getDataByLang(uslangid),
             autoCorrectService.getDataByLang(uslangid),
             voiceService.getDataByLang(uslangid)) {
             res1, res2, res3, res4, res5 ->
-            lstDictsMean = res1
+            lstDictsReference = res1
             var i = 0
             lstDictItems = lstDicts.flatMap { d ->
                 if (d == "0")
-                    lstDictsMean.map { MDictItem(it.dictid.toString(), it.dictname!!) }
+                    lstDictsReference.map { MDictItem(it.dictid.toString(), it.dictname!!) }
                 else {
                     i++
                     listOf(MDictItem(d, "Custom$i"))
@@ -227,7 +227,7 @@ class SettingsViewModel : BaseViewModel1() {
     fun dictHtml(word: String, dictids: List<String>): String {
         var s = "<html><body>\n"
         dictids.forEachIndexed { i, dictid ->
-            val item = lstDictsMean.first { it.dictid.toString() == dictid }
+            val item = lstDictsReference.first { it.dictid.toString() == dictid }
             val ifrId = "ifr${i + 1}"
             val url = item.urlString(word, lstAutoCorrect)
             s += "<iframe id='$ifrId' frameborder='1' style='width:100%; height:500px; display:block' src='$url'></iframe>\n"
