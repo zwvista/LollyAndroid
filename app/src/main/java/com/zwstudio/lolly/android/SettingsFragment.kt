@@ -28,6 +28,8 @@ class SettingsFragment : Fragment(), SettingsListener {
     @ViewById
     lateinit var spnDictNote: Spinner
     @ViewById
+    lateinit var spnDictTranslation: Spinner
+    @ViewById
     lateinit var spnTextbook: Spinner
     @ViewById
     lateinit var spnUnitFrom: Spinner
@@ -160,6 +162,29 @@ class SettingsFragment : Fragment(), SettingsListener {
             onUpdateDictNote()
         }
         run {
+            val lst = vm.lstDictsTranslation
+            val adapter = object : ArrayAdapter<MDictTranslation>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
+                fun convert(v: View, position: Int): View {
+                    val m = getItem(position)!!
+                    var tv = v.findViewById<TextView>(android.R.id.text1)
+                    tv.text = m.dictname
+                    (tv as? CheckedTextView)?.isChecked = spnDictTranslation.selectedItemPosition == position
+                    tv = v.findViewById<TextView>(android.R.id.text2)
+                    tv.text = m.url
+                    return v
+                }
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
+                    convert(super.getView(position, convertView, parent), position)
+                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
+                    convert(super.getDropDownView(position, convertView, parent), position)
+            }
+            adapter.setDropDownViewResource(R.layout.list_item_2)
+            spnDictTranslation.adapter = adapter
+
+            spnDictTranslation.setSelection(vm.selectedDictTranslationIndex)
+            onUpdateDictTranslation()
+        }
+        run {
             val lst = vm.lstTextbooks
             val adapter = object : ArrayAdapter<MTextbook>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
@@ -209,6 +234,15 @@ class SettingsFragment : Fragment(), SettingsListener {
         Log.d("", String.format("Checked position:%d", position))
         (spnDictNote.adapter as ArrayAdapter<MDictNote>).notifyDataSetChanged()
         compositeDisposable.add(vm.updateDictNote().subscribe())
+    }
+
+    @ItemSelect
+    fun spnDictTranslationItemSelected(selected: Boolean, position: Int) {
+        if (vm.selectedDictTranslationIndex == position) return
+        vm.selectedDictTranslation = vm.lstDictsTranslation[position]
+        Log.d("", String.format("Checked position:%d", position))
+        (spnDictTranslation.adapter as ArrayAdapter<MDictTranslation>).notifyDataSetChanged()
+        compositeDisposable.add(vm.updateDictTranslation().subscribe())
     }
 
     @ItemSelect
@@ -312,6 +346,9 @@ class SettingsFragment : Fragment(), SettingsListener {
     }
 
     override fun onUpdateDictNote() {
+    }
+
+    override fun onUpdateDictTranslation() {
     }
 
     override fun onUpdateUnitFrom() {

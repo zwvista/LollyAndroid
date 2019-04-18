@@ -33,6 +33,11 @@ class UserSettingService: BaseService() {
             .updateDictNote(id, dictnodeid)
             .map { Log.d("", it.toString()) }
 
+    fun updateDictTranslation(id: Int, dicttranslationid: Int): Observable<Int> =
+        retrofitJson.create(RestUserSetting::class.java)
+            .updateDictTranslation(id, dicttranslationid)
+            .map { Log.d("", it.toString()) }
+
     fun updateUnitFrom(id: Int, unitfrom: Int): Observable<Int> =
         retrofitJson.create(RestUserSetting::class.java)
             .updateUnitFrom(id, unitfrom)

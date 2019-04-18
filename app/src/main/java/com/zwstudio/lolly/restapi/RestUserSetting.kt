@@ -27,6 +27,10 @@ interface RestUserSetting {
 
     @FormUrlEncoded
     @PUT("USERSETTINGS/{id}")
+    fun updateDictTranslation(@Path("id") id: Int, @Field("VALUE1") dictnodeid: Int): Observable<Int>
+
+    @FormUrlEncoded
+    @PUT("USERSETTINGS/{id}")
     fun updateUnitFrom(@Path("id") id: Int, @Field("VALUE1") unitfrom: Int): Observable<Int>
 
     @FormUrlEncoded

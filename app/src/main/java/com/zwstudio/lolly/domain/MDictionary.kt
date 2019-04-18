@@ -24,6 +24,13 @@ class MDictsNote {
     var lst: List<MDictNote>? = null
 }
 
+class MDictsTranslation {
+
+    @SerializedName("VDICTSTRANSLATION")
+    @Expose
+    var lst: List<MDictTranslation>? = null
+}
+
 abstract class MDictionary: Serializable {
 
     @SerializedName("ID")
@@ -110,3 +117,5 @@ class MDictItem(val dictid: String, val dictname: String) {
 }
 
 class MDictNote: MDictionary()
+
+class MDictTranslation: MDictionary()
