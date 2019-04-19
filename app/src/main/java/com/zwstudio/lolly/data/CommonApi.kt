@@ -34,28 +34,25 @@ fun View.googleString(text: String) {
 fun extractTextFrom(html: String, transform: String, template: String, templateHandler: (String, String) -> String): String {
     val dic = mapOf("<delete>" to "", "\\t" to "\t", "\\r" to "\r", "\\n" to "\n")
 
-    var text = ""
+    var text = html
     do {
         if (transform.isEmpty()) break
-        val arr = transform.split("\r\n")
-        var regex = Regex(arr[0])
-        val m = regex.find(html)
-        if (m == null) break
-        text = m.groupValues[0]
+        var lst = transform.split("\r\n")
+        if (lst.size % 2 == 1) lst = lst.dropLast(1)
 
-        fun f(replacer: String) {
-            var replacer = replacer
+        for (i in 0 until lst.size step 2) {
+            val regex = Regex(lst[i])
+            var replacer = lst[i + 1]
+            if (replacer.startsWith("<extract>")) {
+                replacer.drop("<extract>".length)
+                val ms = regex.findAll(html)
+                text = ms.joinToString { m -> m.groupValues[0] }
+                if (text.isEmpty()) break
+            }
             for ((key, value) in dic)
                 replacer = replacer.replace(key, value)
             text = regex.replace(text, replacer)
         }
-
-        f(arr[1])
-        for (i in 2 until arr.size)
-            if (i % 2 == 0)
-                regex = Regex(arr[i])
-            else
-                f(arr[i])
 
         if (template.isEmpty()) break
         text = templateHandler(text, template)
