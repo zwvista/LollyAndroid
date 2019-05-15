@@ -33,6 +33,12 @@ class MLangWord: Serializable {
     @SerializedName("LEVEL")
     @Expose
     var level = 0
+    @SerializedName("CORRECT")
+    @Expose
+    var correct = 0
+    @SerializedName("TOTAL")
+    @Expose
+    var total = 0
 
     fun combineNote(note2: String?): Boolean {
         val oldNote = note
@@ -51,4 +57,6 @@ class MLangWord: Serializable {
 
     val wordnote: String
         get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
+    val accuracy: String
+        get() = if (total == 0) "N/A" else "${Math.floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
 }

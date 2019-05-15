@@ -25,4 +25,10 @@ class MWordFami: Serializable {
     @SerializedName("LEVEL")
     @Expose
     var level = 0
+    @SerializedName("CORRECT")
+    @Expose
+    var correct = 0
+    @SerializedName("TOTAL")
+    @Expose
+    var total = 0
 }

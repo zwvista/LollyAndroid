@@ -26,6 +26,8 @@ class WordsLangDetailActivity : AppCompatActivity() {
     lateinit var tvFamiID: TextView
     @ViewById
     lateinit var etLevel: TextView
+    @ViewById
+    lateinit var tvAccuracy: TextView
 
     val compositeDisposable = CompositeDisposable()
 
@@ -37,6 +39,7 @@ class WordsLangDetailActivity : AppCompatActivity() {
         etNote.text = item.note
         tvFamiID.text = "${getResources().getString(R.string.label_famiid)} ${item.famiid}"
         etLevel.text = item.level.toString()
+        tvAccuracy.text = "${getResources().getString(R.string.label_accuracy)} ${item.accuracy}"
     }
 
     @OptionsItem

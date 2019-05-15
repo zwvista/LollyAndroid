@@ -38,6 +38,7 @@
     <string name="label_note">NOTE:</string>
     <string name="label_famiid">FAMIID:</string>
     <string name="label_level">LEVEL:</string>
+    <string name="label_accuracy">ACCURACY:</string>
     <string name="label_phraseid">PHRASEID:</string>
     <string name="label_phrase">PHRASE:</string>
     <string name="label_translation">TRANSLATION:</string>

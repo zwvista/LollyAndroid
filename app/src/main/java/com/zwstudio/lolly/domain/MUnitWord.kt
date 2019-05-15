@@ -49,6 +49,12 @@ class MUnitWord: Serializable {
     @SerializedName("LEVEL")
     @Expose
     var level = 0
+    @SerializedName("CORRECT")
+    @Expose
+    var correct = 0
+    @SerializedName("TOTAL")
+    @Expose
+    var total = 0
 
     lateinit var textbook: MTextbook
     val unitstr: String
@@ -59,4 +65,6 @@ class MUnitWord: Serializable {
         get() = "$unitstr $seqnum\n$partstr"
     val wordnote: String
         get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
+    val accuracy: String
+        get() = if (total == 0) "N/A" else "${Math.floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
 }
