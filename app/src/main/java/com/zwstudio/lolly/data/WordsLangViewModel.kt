@@ -2,6 +2,7 @@ package com.zwstudio.lolly.data
 
 import com.zwstudio.lolly.domain.MLangWord
 import com.zwstudio.lolly.service.LangWordService
+import com.zwstudio.lolly.service.WordFamiService
 import io.reactivex.Observable
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
@@ -16,6 +17,8 @@ class WordsLangViewModel : BaseViewModel2() {
 
     @Bean
     lateinit var langWordService: LangWordService;
+    @Bean
+    lateinit var wordFamiService: WordFamiService;
 
     fun getData(): Observable<Unit> =
         langWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
@@ -30,9 +33,11 @@ class WordsLangViewModel : BaseViewModel2() {
         langWordService.create(langid, word, note)
             .applyIO()
 
-    fun delete(id: Int): Observable<Int> =
+    fun delete(id: Int, famiid: Int): Observable<Int> =
         langWordService.delete(id)
-            .applyIO()
+            .concatMap {
+                wordFamiService.delete(famiid)
+            }.applyIO()
 
     fun newLangWord() = MLangWord().apply {
         langid = vmSettings.selectedLang.id

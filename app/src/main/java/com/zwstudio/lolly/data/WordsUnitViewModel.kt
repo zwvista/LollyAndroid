@@ -3,6 +3,7 @@ package com.zwstudio.lolly.data
 import com.zwstudio.lolly.domain.MUnitWord
 import com.zwstudio.lolly.service.LangWordService
 import com.zwstudio.lolly.service.UnitWordService
+import com.zwstudio.lolly.service.WordFamiService
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.Bean
@@ -21,6 +22,8 @@ class WordsUnitViewModel : BaseViewModel2() {
     lateinit var unitWordService: UnitWordService;
     @Bean
     lateinit var langWordService: LangWordService;
+    @Bean
+    lateinit var wordFamiService: WordFamiService;
 
     fun getDataInTextbook(): Observable<Unit> =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
@@ -100,16 +103,12 @@ class WordsUnitViewModel : BaseViewModel2() {
                 unitWordService.create(textbookid, unit, part, seqnum, it)
             }.applyIO()
 
-    fun delete(id: Int, wordid: Int): Observable<Int> =
+    fun delete(id: Int, wordid: Int, famiid: Int): Observable<Int> =
         unitWordService.delete(id)
             .concatMap {
-                unitWordService.getDataByLangWord(wordid)
+                langWordService.delete(wordid)
             }.concatMap {
-                val lst = it
-                if (!lst.isEmpty())
-                    Observable.empty<Int>()
-                else
-                    langWordService.delete(wordid)
+                wordFamiService.delete(famiid)
             }.applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
