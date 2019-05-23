@@ -1,8 +1,9 @@
-package com.zwstudio.lolly.android
+package com.zwstudio.lolly.android.words
 
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.widget.TextView
+import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.WordsLangViewModel
 import com.zwstudio.lolly.domain.MLangWord
 import io.reactivex.disposables.CompositeDisposable

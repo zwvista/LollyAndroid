@@ -1,7 +1,10 @@
-package com.zwstudio.lolly.android
+package com.zwstudio.lolly.android.words
 
 import android.annotation.SuppressLint
+import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.graphics.Color
+import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
@@ -13,22 +16,27 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
+import com.zwstudio.lolly.android.DrawerListFragment
+import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.domain.MUnitWord
 import io.reactivex.disposables.CompositeDisposable
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.*
 import java.util.*
 
-@EFragment(R.layout.content_words_textbook)
-class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
+private const val REQUEST_CODE = 1
+
+@EFragment(R.layout.content_words_unit)
+@OptionsMenu(R.menu.menu_words_unit)
+class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @Bean
     lateinit var vm: WordsUnitViewModel
@@ -36,7 +44,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
 
     @AfterViews
     fun afterViews() {
-        activity?.title = resources.getString(R.string.words_textbook)
+        activity?.title = resources.getString(R.string.words_unit)
         vm.compositeDisposable = compositeDisposable
         tts = TextToSpeech(context!!, this);
     }
@@ -50,10 +58,27 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
         tts.language = locale
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        tts.shutdown()
+    }
+
     override fun onResume() {
         super.onResume()
-        compositeDisposable.add(vm.getDataInLang().subscribe {
+        compositeDisposable.add(vm.getDataInTextbook().subscribe {
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
+            mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
+                override fun onItemDragStarted(position: Int) {
+                    mRefreshLayout.isEnabled = false
+                    Toast.makeText(mDragListView.context, "Start - position: $position", Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
+                    mRefreshLayout.isEnabled = true
+                    Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
+                    vm.reindex {}
+                }
+            })
 
             mRefreshLayout.setScrollingView(mDragListView.recyclerView)
             mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.app_color))
@@ -75,24 +100,69 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = WordsTextbookItemAdapter(vm, mDragListView, tts, compositeDisposable)
+            val listAdapter = WordsUnitItemAdapter(vm, mDragListView, tts, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
+            mDragListView.setCanDragHorizontally(false)
+            mDragListView.setCustomDragItem(WordsUnitDragItem(context!!, R.layout.list_item_words_unit_edit))
             progressBar1.visibility = View.GONE
         })
     }
 
-    private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {
+    @OptionsItem
+    fun menuAdd() {
+        WordsUnitDetailActivity_.intent(this)
+            .extra("word", vm.newUnitWord()).startForResult(REQUEST_CODE)
+    }
+
+    @OnActivityResult(REQUEST_CODE)
+    fun onResult(resultCode: Int) {
+        if (resultCode == RESULT_OK)
+            menuAdd()
+    }
+
+    @OptionsItem
+    fun menuNotesAll() = getNotes(false)
+    @OptionsItem
+    fun menuNotesEmpty() = getNotes(true)
+    private fun getNotes(ifEmpty: Boolean) {
+        val handler = Handler()
+        progressBar1.visibility = View.VISIBLE
+        vm.getNotes(ifEmpty, oneComplete = {}, allComplete = {
+            handler.post {
+                mDragListView.adapter.notifyDataSetChanged()
+                progressBar1.visibility = View.GONE
+            }
+        })
+    }
+
+    @OptionsItem
+    fun menuBatch() {
+        WordsUnitBatchActivity_.intent(this)
+            .extra("list", vm.lstWords.toTypedArray()).start();
+    }
+
+    private class WordsUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
+
+        override fun onBindDragView(clickedView: View, dragView: View) {
+            dragView.findViewById<TextView>(R.id.text1).text = clickedView.findViewById<TextView>(R.id.text1).text
+            dragView.findViewById<TextView>(R.id.text2).text = clickedView.findViewById<TextView>(R.id.text2).text
+            dragView.findViewById<View>(R.id.item_swipe).setBackgroundColor(dragView.resources.getColor(R.color.list_item_background))
+        }
+    }
+
+    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_words_textbook_edit, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_words_unit_edit, parent, false)
             return ViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            super.onBindViewHolder(holder, position)
             val item = mItemList[position]
             holder.mText1.text = item.wordnote
             holder.mText2.text = item.unitpartseqnum
@@ -115,6 +185,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
             var mDelete: TextView
             var mMore: TextView
             var mSpeak: ImageView
+            var mHamburger: ImageView
             var mItemSwipe: View
 
             init {
@@ -124,6 +195,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
                 mSpeak = itemView.findViewById(R.id.image_speak)
+                mHamburger = itemView.findViewById(R.id.image_hamburger)
                 mItemSwipe = itemView.findViewById(R.id.item_swipe)
                 initButtons()
             }
@@ -131,7 +203,8 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
                 fun edit(item: MUnitWord) {
-                    WordsTextbookDetailActivity_.intent(itemView.context).extra("word", item).start()
+                    WordsUnitDetailActivity_.intent(itemView.context)
+                        .extra("word", item).startForResult(REQUEST_CODE)
                 }
                 fun delete(item: MUnitWord) {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
@@ -192,6 +265,8 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
                         tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null)
                     true
                 }
+                if (!vm.vmSettings.isSingleUnitPart)
+                    mHamburger.visibility = View.GONE
             }
 
             override fun onItemClicked(view: View?) {

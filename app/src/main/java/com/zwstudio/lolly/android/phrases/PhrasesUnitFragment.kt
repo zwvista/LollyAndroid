@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.android
+package com.zwstudio.lolly.android.phrases
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -19,6 +19,7 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
+import com.zwstudio.lolly.android.*
 import com.zwstudio.lolly.data.PhrasesUnitViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString

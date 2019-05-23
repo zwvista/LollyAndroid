@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.android
+package com.zwstudio.lolly.android.words
 
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.Spinner
 import android.widget.TextView
+import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.DictWebViewStatus
 import com.zwstudio.lolly.data.SearchViewModel
 import com.zwstudio.lolly.domain.MDictItem

@@ -12,6 +12,14 @@ import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.widget.ProgressBar
 import com.woxthebox.draglistview.DragListView
+import com.zwstudio.lolly.android.phrases.PhrasesLangFragment_
+import com.zwstudio.lolly.android.phrases.PhrasesReviewFragment_
+import com.zwstudio.lolly.android.phrases.PhrasesTextbookFragment_
+import com.zwstudio.lolly.android.phrases.PhrasesUnitFragment_
+import com.zwstudio.lolly.android.words.WordsLangFragment_
+import com.zwstudio.lolly.android.words.WordsReviewFragment_
+import com.zwstudio.lolly.android.words.WordsTextbookFragment_
+import com.zwstudio.lolly.android.words.WordsUnitFragment_
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.EActivity
@@ -69,6 +77,8 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             R.id.nav_settings -> showFragment(SettingsFragment_())
             R.id.nav_words_unit -> showFragment(WordsUnitFragment_())
             R.id.nav_phrases_unit -> showFragment(PhrasesUnitFragment_())
+            R.id.nav_words_review -> showFragment(WordsReviewFragment_())
+            R.id.nav_phrases_review -> showFragment(PhrasesReviewFragment_())
             R.id.nav_words_lang -> showFragment(WordsLangFragment_())
             R.id.nav_phrases_lang -> showFragment(PhrasesLangFragment_())
             R.id.nav_words_textbook -> showFragment(WordsTextbookFragment_())

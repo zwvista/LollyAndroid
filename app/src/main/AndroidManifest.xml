@@ -23,55 +23,55 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WordsDictActivity_"
+            android:name=".words.WordsDictActivity_"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordsUnitDetailActivity_"
+            android:name=".words.WordsUnitDetailActivity_"
             android:label="@string/words_unit_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordsUnitBatchActivity_"
+            android:name=".words.WordsUnitBatchActivity_"
             android:label="@string/words_unit_batch"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".PhrasesUnitDetailActivity_"
+            android:name=".phrases.PhrasesUnitDetailActivity_"
             android:label="@string/phrases_unit_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".PhrasesUnitBatchActivity_"
+            android:name=".phrases.PhrasesUnitBatchActivity_"
             android:label="@string/phrases_unit_batch"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordsLangDetailActivity_"
+            android:name=".words.WordsLangDetailActivity_"
             android:label="@string/words_lang_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".PhrasesLangDetailActivity_"
+            android:name=".phrases.PhrasesLangDetailActivity_"
             android:label="@string/phrases_lang_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".WordsTextbookDetailActivity_"
+            android:name=".words.WordsTextbookDetailActivity_"
             android:label="@string/words_textbook_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".PhrasesTextbookDetailActivity_"
+            android:name=".phrases.PhrasesTextbookDetailActivity_"
             android:label="@string/phrases_textbook_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">

@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.android
+package com.zwstudio.lolly.android.words
 
 import android.content.Context
 import android.graphics.Color
@@ -12,6 +12,8 @@ import android.widget.*
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
+import com.zwstudio.lolly.android.LollySwipeRefreshLayout
+import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.MUnitWord

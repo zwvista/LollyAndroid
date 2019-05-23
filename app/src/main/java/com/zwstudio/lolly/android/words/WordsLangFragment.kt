@@ -1,6 +1,8 @@
-package com.zwstudio.lolly.android
+package com.zwstudio.lolly.android.words
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.graphics.Color
 import android.speech.tts.TextToSpeech
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
@@ -16,28 +18,28 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
-import com.zwstudio.lolly.data.PhrasesUnitViewModel
+import com.zwstudio.lolly.android.*
+import com.zwstudio.lolly.data.WordsLangViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
-import com.zwstudio.lolly.domain.MUnitPhrase
+import com.zwstudio.lolly.domain.MLangWord
 import io.reactivex.disposables.CompositeDisposable
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.*
 import java.util.*
 
+private const val REQUEST_CODE = 1
 
-@EFragment(R.layout.content_phrases_textbook)
-class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
+@EFragment(R.layout.content_words_lang)
+@OptionsMenu(R.menu.menu_add)
+class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @Bean
-    lateinit var vm: PhrasesUnitViewModel
+    lateinit var vm: WordsLangViewModel
     lateinit var tts: TextToSpeech
 
     @AfterViews
     fun afterViews() {
-        activity?.title = resources.getString(R.string.phrases_textbook)
-        vm.compositeDisposable = compositeDisposable
+        activity?.title = resources.getString(R.string.words_lang)
         tts = TextToSpeech(context!!, this);
     }
 
@@ -52,7 +54,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
 
     override fun onResume() {
         super.onResume()
-        compositeDisposable.add(vm.getDataInLang().subscribe {
+        compositeDisposable.add(vm.getData().subscribe {
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
             mRefreshLayout.setScrollingView(mDragListView.recyclerView)
@@ -75,30 +77,44 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = PhrasesTextbookItemAdapter(vm, mDragListView, tts, compositeDisposable)
+            val listAdapter = WordsLangItemAdapter(vm, mDragListView, tts, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
             progressBar1.visibility = View.GONE
         })
     }
 
-    private class PhrasesTextbookItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
+    @OptionsItem
+    fun menuAdd() {
+        WordsLangDetailActivity_.intent(this)
+            .extra("word", vm.newLangWord()).startForResult(1)
+    }
+
+    @OnActivityResult(REQUEST_CODE)
+    fun onResult(resultCode: Int) {
+        if (resultCode == Activity.RESULT_OK)
+            mDragListView.resetSwipedViews(null)
+    }
+
+    private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangWord, WordsLangItemAdapter.ViewHolder>() {
 
         init {
-            itemList = vm.lstPhrases
+            itemList = vm.lstWords
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_phrases_textbook_edit, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_words_lang_edit, parent, false)
             return ViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
             val item = mItemList[position]
-            holder.mText1.text = item.phrase
-            holder.mText2.text = item.unitpartseqnum
-            holder.mText3.text = item.translation
+            holder.mText1.text = item.wordnote
             holder.itemView.tag = item
+            if (item.level == 0) return
+            val lst = vm.vmSettings.uslevelcolors[item.level]!!
+            holder.mItemSwipe.setBackgroundColor(Color.parseColor("#" + lst[0]))
+            holder.mText1.setTextColor(Color.parseColor("#" + lst[1]))
         }
 
         override fun getUniqueItemId(position: Int): Long {
@@ -107,34 +123,33 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
 
         internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView
-            var mText2: TextView
-            var mText3: TextView
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
             var mSpeak: ImageView
+            var mItemSwipe: View
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
-                mText2 = itemView.findViewById(R.id.text2)
-                mText3 = itemView.findViewById(R.id.text3)
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
                 mSpeak = itemView.findViewById(R.id.image_speak)
+                mItemSwipe = itemView.findViewById(R.id.item_swipe)
                 initButtons()
             }
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
-                fun edit(item: MUnitPhrase) {
-                    PhrasesTextbookDetailActivity_.intent(itemView.context).extra("phrase", item).start()
+                fun edit(item: MLangWord) {
+                    WordsLangDetailActivity_.intent(itemView.context)
+                        .extra("word", item).startForResult(REQUEST_CODE)
                 }
-                fun delete(item: MUnitPhrase) {
-                    yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
+                fun delete(item: MLangWord) {
+                    yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
-//                        compositeDisposable.add(vm.delete(item.id).subscribe())
+                        compositeDisposable.add(vm.delete(item.id, item.famiid).subscribe())
                         vm.isSwipeStarted = false
                     }, {
                         mDragListView.resetSwipedViews(null)
@@ -143,14 +158,14 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
                 }
                 mEdit.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MUnitPhrase
+                        val item = itemView.tag as MLangWord
                         edit(item)
                     }
                     true
                 }
                 mDelete.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MUnitPhrase
+                        val item = itemView.tag as MLangWord
                         delete(item)
                     }
                     true
@@ -160,16 +175,22 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
                         mDragListView.resetSwipedViews(null)
                         vm.isSwipeStarted = false
 
-                        val item = itemView.tag as MUnitPhrase
+                        val item = itemView.tag as MLangWord
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                         val builder = AlertDialog.Builder(itemView.context)
-                            .setTitle(item.phrase)
-                            .setItems(arrayOf("Delete", "Edit", "Copy Phrase", "Google Phrase", "Cancel")) { _, which ->
+                            .setTitle(item.wordnote)
+                            .setItems(arrayOf("Delete", "Edit", "Retrieve Note", "Copy Word", "Google Word", "Cancel")) { _, which ->
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
-                                    2 -> itemView.copyText(item.phrase)
-                                    3 -> itemView.googleString(item.phrase)
+                                    2 -> {
+                                        val index = itemList.indexOf(item)
+                                        compositeDisposable.add(vm.getNote(index).subscribe {
+                                            mDragListView.adapter.notifyItemChanged(index)
+                                        })
+                                    }
+                                    3 -> itemView.copyText(item.word)
+                                    4 -> itemView.googleString(item.word)
                                     else -> {}
                                 }
                             }
@@ -178,9 +199,9 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
                     true
                 }
                 mSpeak.setOnTouchListener { _, event ->
-                    val item = itemView.tag as MUnitPhrase
+                    val item = itemView.tag as MLangWord
                     if (event.action == MotionEvent.ACTION_DOWN)
-                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null)
+                        tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null)
                     true
                 }
             }
@@ -190,9 +211,10 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
                     mDragListView.resetSwipedViews(null)
                     vm.isSwipeStarted = false
                 } else {
-                    val item = view!!.tag as MUnitPhrase
-                    PhrasesTextbookDetailActivity_.intent(view.context)
-                            .extra("phrase", item).start()
+                    val item = view!!.tag as MLangWord
+                    WordsDictActivity_.intent(view.context)
+                        .extra("list", vm.lstWords.map { it.word } .toTypedArray())
+                        .extra("index", vm.lstWords.indexOf(item)).start()
                 }
             }
 

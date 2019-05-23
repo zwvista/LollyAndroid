@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.android
+package com.zwstudio.lolly.android.phrases
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -11,6 +11,8 @@ import android.widget.*
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
+import com.zwstudio.lolly.android.LollySwipeRefreshLayout
+import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.MUnitPhrase

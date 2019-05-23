@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.android
+package com.zwstudio.lolly.android.words
 
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.MUnitWord
