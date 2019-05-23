@@ -134,7 +134,8 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @OptionsItem
     fun menuBatch() {
-        WordsUnitBatchActivity_.intent(this).start();
+        WordsUnitBatchActivity_.intent(this)
+            .extra("list", vm.lstWords.toTypedArray()).start();
     }
 
     private class WordsUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {

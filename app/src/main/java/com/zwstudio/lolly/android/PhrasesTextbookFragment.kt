@@ -192,7 +192,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
                 } else {
                     val item = view!!.tag as MUnitPhrase
                     PhrasesTextbookDetailActivity_.intent(view.context)
-                            .extra("list", vm.lstPhrases.toTypedArray()).extra("phrase", item).start()
+                            .extra("phrase", item).start()
                 }
             }
 

@@ -112,7 +112,8 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @OptionsItem
     fun menuBatch() {
-        PhrasesUnitBatchActivity_.intent(this).start();
+        PhrasesUnitBatchActivity_.intent(this)
+            .extra("list", vm.lstPhrases.toTypedArray()).start();
     }
 
     private class PhrasesUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
