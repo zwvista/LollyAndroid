@@ -30,7 +30,7 @@ import java.util.*
 private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_phrases_unit)
-@OptionsMenu(R.menu.menu_add)
+@OptionsMenu(R.menu.menu_phrases_unit)
 class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @Bean
@@ -108,6 +108,11 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     fun onResult(resultCode: Int) {
         if (resultCode == Activity.RESULT_OK)
             mDragListView.resetSwipedViews(null)
+    }
+
+    @OptionsItem
+    fun menuBatch() {
+        PhrasesUnitBatchActivity_.intent(this).start();
     }
 
     private class PhrasesUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {

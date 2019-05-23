@@ -5,9 +5,11 @@
     <string name="words_unit">Words in Unit</string>
     <string name="words_unit_edit">Words in Unit(Edit)</string>
     <string name="words_unit_detail">Words in Unit(Detail)</string>
+    <string name="words_unit_batch">Words in Unit(Batch)</string>
     <string name="phrases_unit">Phrases in Unit</string>
     <string name="phrases_unit_edit">Phrases in Unit(Edit)</string>
     <string name="phrases_unit_detail">Phrases in Unit(Detail)</string>
+    <string name="phrases_unit_batch">Phrases in Unit(Batch)</string>
     <string name="words_lang">Words in Language</string>
     <string name="words_lang_edit">Words in Language(Edit)</string>
     <string name="words_lang_detail">Words in Language(Detail)</string>
@@ -29,10 +31,12 @@
     <string name="action_add">Add</string>
     <string name="action_notes_all">Retrieve All Notes</string>
     <string name="action_notes_empty">Retrieve Notes If Empty</string>
+    <string name="action_batch">Batch Edit</string>
     <string name="label_id">ID:</string>
     <string name="label_unit">UNIT:</string>
     <string name="label_part">PART:</string>
     <string name="label_seqnum">SEQNUM:</string>
+    <string name="label_seqnum_add">SEQNUM(+):</string>
     <string name="label_wordid">WORDID:</string>
     <string name="label_word">WORD:</string>
     <string name="label_note">NOTE:</string>

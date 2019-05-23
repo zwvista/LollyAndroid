@@ -35,8 +35,20 @@
             android:screenOrientation="fullSensor">
         </activity>
         <activity
+            android:name=".WordsUnitBatchActivity_"
+            android:label="@string/words_unit_batch"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
+        <activity
             android:name=".PhrasesUnitDetailActivity_"
             android:label="@string/phrases_unit_detail"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
+        <activity
+            android:name=".PhrasesUnitBatchActivity_"
+            android:label="@string/phrases_unit_batch"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>

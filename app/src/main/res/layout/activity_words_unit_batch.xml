@@ -23,21 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_id"
-        android:id="@+id/tvID"/>
-    <Space
+        android:text="@string/label_unit"/>
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_word"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/etWord"
+        android:id="@+id/spnUnit"
         android:layout_gravity="center_horizontal"/>
     <Space
         android:layout_width="match_parent"
@@ -47,11 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_note"/>
-    <EditText
+        android:text="@string/label_part"/>
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etNote"
+        android:id="@+id/spnPart"
         android:layout_gravity="center_horizontal"/>
     <Space
         android:layout_width="match_parent"
@@ -61,8 +51,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_famiid"
-        android:id="@+id/tvFamiID"/>
+        android:text="@string/label_seqnum_add"/>
+    <EditText
+        android:id="@+id/etSeqNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="0" />
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,10 +68,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/label_level"/>
     <EditText
+        android:id="@+id/etLevel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etLevel"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:text="-1" />
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,6 +83,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/label_accuracy"
         android:id="@+id/tvAccuracy"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"/>
 
 </LinearLayout>
 </ScrollView>

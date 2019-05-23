@@ -1,25 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context=".WordsUnitFragment">
+      tools:context=".PhrasesUnitFragment">
     <item
         android:id="@+id/menuAdd"
         android:title="@string/action_add"
         android:orderInCategory="100"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/menuNotesAll"
-        android:title="@string/action_notes_all"
-        android:orderInCategory="101"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/menuNotesEmpty"
-        android:title="@string/action_notes_empty"
-        android:orderInCategory="102"
-        app:showAsAction="never"/>
-    <item
         android:id="@+id/menuBatch"
         android:title="@string/action_batch"
-        android:orderInCategory="103"
+        android:orderInCategory="101"
         app:showAsAction="never"/>
 </menu>
