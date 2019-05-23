@@ -46,6 +46,7 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
     @AfterViews
     fun afterViews() {
         vm.lstPhrases = (intent.getSerializableExtra("list") as Array<MUnitPhrase>).toList()
+        chkUnit(); chkPart(); chkSeqNum()
         run {
             val lst = vm.vmSettings.lstUnits
             val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
@@ -93,6 +94,21 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
         mDragListView.setAdapter(listAdapter, true)
         mDragListView.setCanDragHorizontally(false)
         mDragListView.setCustomDragItem(PhrasesUnitBatchDragItem(this, R.layout.list_item_phrases_unit_batch))
+    }
+
+    @CheckedChange
+    fun chkUnit() {
+        spnUnit.isEnabled = chkUnit.isChecked
+    }
+
+    @CheckedChange
+    fun chkPart() {
+        spnPart.isEnabled = chkPart.isChecked
+    }
+
+    @CheckedChange
+    fun chkSeqNum() {
+        etSeqNum.isEnabled = chkSeqNum.isChecked
     }
 
     @OptionsItem

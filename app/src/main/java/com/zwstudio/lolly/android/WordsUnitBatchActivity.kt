@@ -38,6 +38,8 @@ class WordsUnitBatchActivity : AppCompatActivity() {
     @ViewById
     lateinit var etSeqNum: EditText
     @ViewById
+    lateinit var chkLevel: CheckBox
+    @ViewById
     lateinit var etLevel: EditText
     @ViewById(R.id.drag_list_view)
     lateinit var mDragListView: DragListView
@@ -49,6 +51,7 @@ class WordsUnitBatchActivity : AppCompatActivity() {
     @AfterViews
     fun afterViews() {
         vm.lstWords = (intent.getSerializableExtra("list") as Array<MUnitWord>).toList()
+        chkUnit(); chkPart(); chkSeqNum(); chkLevel()
         run {
             val lst = vm.vmSettings.lstUnits
             val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
@@ -96,6 +99,26 @@ class WordsUnitBatchActivity : AppCompatActivity() {
         mDragListView.setAdapter(listAdapter, true)
         mDragListView.setCanDragHorizontally(false)
         mDragListView.setCustomDragItem(WordsUnitBatchDragItem(this, R.layout.list_item_words_unit_batch))
+    }
+
+    @CheckedChange
+    fun chkUnit() {
+        spnUnit.isEnabled = chkUnit.isChecked
+    }
+
+    @CheckedChange
+    fun chkPart() {
+        spnPart.isEnabled = chkPart.isChecked
+    }
+
+    @CheckedChange
+    fun chkSeqNum() {
+        etSeqNum.isEnabled = chkSeqNum.isChecked
+    }
+
+    @CheckedChange
+    fun chkLevel() {
+        etLevel.isEnabled = chkLevel.isChecked
     }
 
     @OptionsItem
