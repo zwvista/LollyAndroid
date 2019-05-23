@@ -22,6 +22,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/chkUnit"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/label_unit"/>
     <Spinner
@@ -36,6 +37,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/chkPart"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/label_part"/>
     <Spinner
@@ -50,6 +52,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/chkSeqNum"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/label_seqnum_add"/>
     <EditText

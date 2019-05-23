@@ -107,13 +107,12 @@ class WordsUnitDetailActivity : AppCompatActivity() {
         item.seqnum = etSeqNum.text.toString().toInt()
         item.word = vm.vmSettings.autoCorrectInput(etWord.text.toString())
         item.note = etNote.text.toString()
-        val word = vm.vmSettings.autoCorrectInput(item.word)
         if (item.id == 0)
-            compositeDisposable.add(vm.create(item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, word, item.note).subscribe {
+            compositeDisposable.add(vm.create(item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, item.word, item.note).subscribe {
                 item.id = it
             })
         else
-            compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, word, item.note).subscribe())
+            compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, item.word, item.note).subscribe())
         setResult(Activity.RESULT_OK)
         finish()
     }

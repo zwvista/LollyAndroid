@@ -7,10 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -28,11 +25,17 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
     lateinit var vm: PhrasesUnitViewModel
 
     @ViewById
+    lateinit var chkUnit: CheckBox
+    @ViewById
     lateinit var spnUnit: Spinner
+    @ViewById
+    lateinit var chkPart: CheckBox
     @ViewById
     lateinit var spnPart: Spinner
     @ViewById
-    lateinit var etSeqNum: TextView
+    lateinit var chkSeqNum: CheckBox
+    @ViewById
+    lateinit var etSeqNum: EditText
     @ViewById(R.id.drag_list_view)
     lateinit var mDragListView: DragListView
     @ViewById(R.id.swipe_refresh_layout)
@@ -94,8 +97,15 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
 
     @OptionsItem
     fun menuSave() {
-//        item.unit = vm.vmSettings.lstUnits[position].value
-//        item.part = vm.vmSettings.lstParts[position].value
+        if (!chkUnit.isChecked && !chkPart.isChecked && !chkSeqNum.isChecked) return
+        for ((i, item) in vm.lstPhrases.withIndex()) {
+            val v = mDragListView.recyclerView.findViewHolderForAdapterPosition(i) as PhrasesUnitBatchItemAdapter.ViewHolder;
+            if (v.mCheckmark.visibility == View.INVISIBLE) continue
+            if (chkUnit.isChecked) item.unit = (spnUnit.selectedItem as MSelectItem).value
+            if (chkPart.isChecked) item.part = (spnPart.selectedItem as MSelectItem).value
+            if (chkSeqNum.isChecked) item.seqnum += etSeqNum.text.toString().toInt()
+            compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation).subscribe())
+        }
         finish()
     }
 
@@ -137,16 +147,17 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
             var mText1: TextView
             var mText2: TextView
             var mText3: TextView
-            var mHamburger: ImageView
+            var mCheckmark: ImageView
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
                 mText2 = itemView.findViewById(R.id.text2)
                 mText3 = itemView.findViewById(R.id.text3)
-                mHamburger = itemView.findViewById(R.id.image_hamburger)
+                mCheckmark = itemView.findViewById(R.id.image_checkmark)
             }
 
             override fun onItemClicked(view: View?) {
+                mCheckmark.visibility = if (mCheckmark.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
             }
 
         }
