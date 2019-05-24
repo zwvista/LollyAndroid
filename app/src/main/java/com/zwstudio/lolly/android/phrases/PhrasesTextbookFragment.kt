@@ -41,7 +41,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
     fun afterViews() {
         activity?.title = resources.getString(R.string.phrases_textbook)
         vm.compositeDisposable = compositeDisposable
-        tts = TextToSpeech(context!!, this);
+        tts = TextToSpeech(context!!, this)
     }
 
     override fun onInit(status: Int) {

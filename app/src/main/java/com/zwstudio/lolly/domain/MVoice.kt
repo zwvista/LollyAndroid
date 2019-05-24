@@ -27,5 +27,5 @@ class MVoice: Serializable {
     var voicelang: String? = null
     @SerializedName("VOICENAME")
     @Expose
-    var voicename = "";
+    var voicename = ""
 }

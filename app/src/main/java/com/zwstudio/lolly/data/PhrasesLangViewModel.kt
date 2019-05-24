@@ -13,7 +13,7 @@ class PhrasesLangViewModel : BaseViewModel2() {
     var isSwipeStarted = false
 
     @Bean
-    lateinit var langPhraseService: LangPhraseService;
+    lateinit var langPhraseService: LangPhraseService
 
     fun getData(): Observable<Unit> =
         langPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)

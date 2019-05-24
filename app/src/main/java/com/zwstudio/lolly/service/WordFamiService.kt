@@ -14,14 +14,14 @@ class WordFamiService: BaseService() {
             .map { it.lst!! }
     }
 
-    fun update(id: Int, userid: Int, wordid: Int, level: Int): Observable<Int> =
+    fun update(id: Int, userid: Int, wordid: Int, level: Int, correct: Int, total: Int): Observable<Int> =
         retrofitJson.create(RestWordFami::class.java)
-            .update(id, userid, wordid, level)
+            .update(id, userid, wordid, level, correct, total)
             .map { Log.d("", it.toString()) }
 
-    fun create(userid: Int, wordid: Int, level: Int): Observable<Int> =
+    fun create(userid: Int, wordid: Int, level: Int, correct: Int, total: Int): Observable<Int> =
         retrofitJson.create(RestWordFami::class.java)
-            .create(userid, wordid, level)
+            .create(userid, wordid, level, correct, total)
             .map { Log.d("", it.toString()) }
 
     fun delete(id: Int): Observable<Int> =

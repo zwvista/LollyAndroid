@@ -169,21 +169,21 @@ class SettingsViewModel : BaseViewModel1() {
     var toType = 0
 
     @Bean
-    lateinit var languageService: LanguageService;
+    lateinit var languageService: LanguageService
     @Bean
-    lateinit var userSettingService: UserSettingService;
+    lateinit var userSettingService: UserSettingService
     @Bean
-    lateinit var dictReferenceService: DictReferenceService;
+    lateinit var dictReferenceService: DictReferenceService
     @Bean
-    lateinit var dictNoteService: DictNoteService;
+    lateinit var dictNoteService: DictNoteService
     @Bean
-    lateinit var dictTranslationService: DictTranslationService;
+    lateinit var dictTranslationService: DictTranslationService
     @Bean
-    lateinit var textbookService: TextbookService;
+    lateinit var textbookService: TextbookService
     @Bean
-    lateinit var autoCorrectService: AutoCorrectService;
+    lateinit var autoCorrectService: AutoCorrectService
     @Bean
-    lateinit var voiceService: VoiceService;
+    lateinit var voiceService: VoiceService
 
     var handler: Handler? = null
     var settingsListener: SettingsListener? = null

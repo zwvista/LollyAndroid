@@ -13,7 +13,7 @@ class SearchViewModel : BaseViewModel2() {
         get() = lstWords[selectedWordIndex]
 
     @Bean
-    lateinit var htmlService: HtmlService;
+    lateinit var htmlService: HtmlService
 
     fun getHtml(url: String): Observable<String> =
         htmlService.getHtml(url)

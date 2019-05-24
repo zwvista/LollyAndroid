@@ -41,7 +41,7 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.phrases_lang)
-        tts = TextToSpeech(context!!, this);
+        tts = TextToSpeech(context!!, this)
     }
 
     override fun onInit(status: Int) {

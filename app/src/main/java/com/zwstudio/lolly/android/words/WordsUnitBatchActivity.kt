@@ -127,7 +127,7 @@ class WordsUnitBatchActivity : AppCompatActivity() {
     fun menuSave() {
         if (!chkUnit.isChecked && !chkPart.isChecked && !chkSeqNum.isChecked) return
         for ((i, item) in vm.lstWords.withIndex()) {
-            val v = mDragListView.recyclerView.findViewHolderForAdapterPosition(i) as WordsUnitBatchItemAdapter.ViewHolder;
+            val v = mDragListView.recyclerView.findViewHolderForAdapterPosition(i) as WordsUnitBatchItemAdapter.ViewHolder
             if (v.mCheckmark.visibility == View.INVISIBLE) continue
             if (chkUnit.isChecked) item.unit = (spnUnit.selectedItem as MSelectItem).value
             if (chkPart.isChecked) item.part = (spnPart.selectedItem as MSelectItem).value

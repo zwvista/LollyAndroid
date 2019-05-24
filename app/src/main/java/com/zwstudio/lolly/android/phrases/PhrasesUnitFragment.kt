@@ -19,7 +19,9 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
-import com.zwstudio.lolly.android.*
+import com.zwstudio.lolly.android.DrawerListFragment
+import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.PhrasesUnitViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
@@ -42,7 +44,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     fun afterViews() {
         activity?.title = resources.getString(R.string.phrases_unit)
         vm.compositeDisposable = compositeDisposable
-        tts = TextToSpeech(context!!, this);
+        tts = TextToSpeech(context!!, this)
     }
 
     override fun onInit(status: Int) {
@@ -114,7 +116,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuBatch() {
         PhrasesUnitBatchActivity_.intent(this)
-            .extra("list", vm.lstPhrases.toTypedArray()).start();
+            .extra("list", vm.lstPhrases.toTypedArray()).start()
     }
 
     private class PhrasesUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {

@@ -19,11 +19,11 @@ class WordsUnitViewModel : BaseViewModel2() {
     lateinit var compositeDisposable: CompositeDisposable
 
     @Bean
-    lateinit var unitWordService: UnitWordService;
+    lateinit var unitWordService: UnitWordService
     @Bean
-    lateinit var langWordService: LangWordService;
+    lateinit var langWordService: LangWordService
     @Bean
-    lateinit var wordFamiService: WordFamiService;
+    lateinit var wordFamiService: WordFamiService
 
     fun getDataInTextbook(): Observable<Unit> =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,

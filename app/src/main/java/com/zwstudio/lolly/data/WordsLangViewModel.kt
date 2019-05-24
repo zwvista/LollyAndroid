@@ -16,9 +16,9 @@ class WordsLangViewModel : BaseViewModel2() {
     lateinit var vmNote: NoteViewModel
 
     @Bean
-    lateinit var langWordService: LangWordService;
+    lateinit var langWordService: LangWordService
     @Bean
-    lateinit var wordFamiService: WordFamiService;
+    lateinit var wordFamiService: WordFamiService
 
     fun getData(): Observable<Unit> =
         langWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)

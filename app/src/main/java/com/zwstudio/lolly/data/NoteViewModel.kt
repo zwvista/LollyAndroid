@@ -16,7 +16,7 @@ class NoteViewModel : BaseViewModel2() {
     lateinit var compositeDisposable: CompositeDisposable
 
     @Bean
-    lateinit var htmlService: HtmlService;
+    lateinit var htmlService: HtmlService
 
     fun getNote(word: String): Observable<String> {
         val dictNote = vmSettings.selectedDictNote ?: return Observable.empty()

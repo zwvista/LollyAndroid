@@ -17,9 +17,9 @@ class PhrasesUnitViewModel : BaseViewModel2() {
     lateinit var compositeDisposable: CompositeDisposable
 
     @Bean
-    lateinit var unitPhraseService: UnitPhraseService;
+    lateinit var unitPhraseService: UnitPhraseService
     @Bean
-    lateinit var langPhraseService: LangPhraseService;
+    lateinit var langPhraseService: LangPhraseService
 
     fun getDataInTextbook(): Observable<Unit> =
         unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
