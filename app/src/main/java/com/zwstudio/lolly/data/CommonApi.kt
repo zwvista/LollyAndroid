@@ -16,10 +16,9 @@ fun View.copyText(text: String) {
     clipboard.primaryClip = clip
 }
 
-fun View.googleString(text: String) {
+fun View.openPage(url: String) {
     // https://stackoverflow.com/questions/12013416/is-there-any-way-in-android-to-force-open-a-link-to-open-in-chrome
-    val urlString = "https://www.google.com/search?q=" + URLEncoder.encode(text, "UTF-8")
-    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(urlString))
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     intent.`package` = "com.android.chrome"
     try {
@@ -29,6 +28,11 @@ fun View.googleString(text: String) {
         intent.`package` = null
         context.startActivity(intent)
     }
+}
+
+fun View.googleString(text: String) {
+    val url = "https://www.google.com/search?q=" + URLEncoder.encode(text, "UTF-8")
+    openPage(url)
 }
 
 fun extractTextFrom(html: String, transform: String, template: String, templateHandler: (String, String) -> String): String {

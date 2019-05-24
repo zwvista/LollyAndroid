@@ -27,6 +27,7 @@ import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
+import com.zwstudio.lolly.data.openPage
 import com.zwstudio.lolly.domain.MUnitWord
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
@@ -240,7 +241,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                         val builder = AlertDialog.Builder(itemView.context)
                             .setTitle(item.wordnote)
-                            .setItems(arrayOf("Delete", "Edit", "Retrieve Note", "Copy Word", "Google Word", "Cancel")) { _, which ->
+                            .setItems(arrayOf("Delete", "Edit", "Retrieve Note", "Copy Word", "Google Word", "Online Dictionary", "Cancel")) { _, which ->
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
@@ -252,6 +253,13 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                                     }
                                     3 -> itemView.copyText(item.word)
                                     4 -> itemView.googleString(item.word)
+                                    5 -> {
+                                        if (!vm.vmSettings.selectedDictItem.dictname.startsWith("Custom")) {
+                                            val itemDict = vm.vmSettings.lstDictsReference.find { it.dictname == vm.vmSettings.selectedDictItem.dictname }!!
+                                            val url = itemDict.urlString(item.word, vm.vmSettings.lstAutoCorrect)
+                                            itemView.openPage(url)
+                                        }
+                                    }
                                     else -> {}
                                 }
                             }
