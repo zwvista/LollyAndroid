@@ -25,9 +25,8 @@ class WordsReviewModel : BaseViewModel2() {
     val isTestMode: Boolean
         get() = mode == ReviewMode.Test
 
-    fun newTest(mode: ReviewMode, shuffled: Boolean, levelge0only: Boolean): Observable<Unit> {
-        this.mode = mode
-        return unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
+    fun newTest(shuffled: Boolean, levelge0only: Boolean): Observable<Unit> =
+        unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
             .map {
                 lstWords = it
                 lstCorrectIDs = mutableListOf()
@@ -35,7 +34,7 @@ class WordsReviewModel : BaseViewModel2() {
                 if (shuffled) lstWords = lstWords.shuffled()
                 index = 0
             }
-    }
+            .applyIO()
 
     val hasNext: Boolean
         get() = index < lstWords.size
@@ -59,6 +58,7 @@ class WordsReviewModel : BaseViewModel2() {
             .map {
                 extractTextFrom(it, mDictTranslation.transform!!, "") { text, _ -> text }
             }
+            .applyIO()
     }
 
     fun check(wordInput: String): Observable<Unit> {
@@ -66,6 +66,7 @@ class WordsReviewModel : BaseViewModel2() {
         val o = currentItem!!
         val isCorrect = o.word == wordInput
         if (isCorrect) lstCorrectIDs.add(o.id)
-        return vmWordFami.update(o.wordid, isCorrect).map {  }
+        return vmWordFami.update(o.wordid, isCorrect).map {  }.applyIO()
+
     }
 }

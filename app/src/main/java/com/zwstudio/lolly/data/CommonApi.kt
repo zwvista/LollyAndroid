@@ -48,8 +48,8 @@ fun extractTextFrom(html: String, transform: String, template: String, templateH
             val regex = Regex(lst[i])
             var replacer = lst[i + 1]
             if (replacer.startsWith("<extract>")) {
-                replacer.drop("<extract>".length)
-                val ms = regex.findAll(html)
+                replacer = replacer.drop("<extract>".length)
+                val ms = regex.findAll(text)
                 text = ms.joinToString { m -> m.groupValues[0] }
                 if (text.isEmpty()) break
             }

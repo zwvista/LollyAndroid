@@ -7,5 +7,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="text_size1">16sp</dimen>
     <dimen name="text_size2">11sp</dimen>
+    <dimen name="text_size3">30sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 </resources>

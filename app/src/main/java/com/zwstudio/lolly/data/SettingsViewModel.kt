@@ -20,6 +20,10 @@ class SettingsViewModel : BaseViewModel1() {
             selectedUSUser0.value1 = value.toString()
         }
     var uslevelcolors = mapOf<Int, List<String>>()
+    val usreadinterval: Int
+        get() = selectedUSUser1.value1?.toInt()!!
+    val usreviewinterval: Int
+        get() = selectedUSUser1.value2?.toInt()!!
     private lateinit var selectedUSLang2: MUserSetting
     var ustextbookid: Int
         get() = selectedUSLang2.value1?.toInt()!!
@@ -167,6 +171,8 @@ class SettingsViewModel : BaseViewModel1() {
 
     val lstToTypes = listOf("Unit", "Part", "To").mapIndexed { index, s -> MSelectItem(index, s) }
     var toType = 0
+
+    val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
 
     @Bean
     lateinit var languageService: LanguageService

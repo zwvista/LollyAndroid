@@ -20,16 +20,14 @@ class PhrasesReviewModel : BaseViewModel2() {
     val isTestMode: Boolean
         get() = mode == ReviewMode.Test
 
-    fun newTest(mode: ReviewMode, shuffled: Boolean): Observable<Unit> {
-        this.mode = mode
-        return unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
+    fun newTest(shuffled: Boolean): Observable<Unit> =
+        unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
             .map {
                 lstPhrase = it
                 lstCorrectIDs = mutableListOf()
                 if (shuffled) lstPhrase = lstPhrase.shuffled()
                 index = 0
             }
-    }
 
     val hasNext: Boolean
         get() = index < lstPhrase.size

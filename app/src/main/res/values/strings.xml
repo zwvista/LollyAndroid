@@ -34,6 +34,7 @@
     <string name="action_notes_all">Retrieve All Notes</string>
     <string name="action_notes_empty">Retrieve Notes If Empty</string>
     <string name="action_batch">Batch Edit</string>
+    <string name="action_save">Save</string>
     <string name="label_id">ID:</string>
     <string name="label_unit">UNIT:</string>
     <string name="label_part">PART:</string>
@@ -50,12 +51,16 @@
     <string name="label_translation">TRANSLATION:</string>
     <string name="label_textbook">TEXTBOOK:</string>
     <string name="label_go">Go</string>
-    <string name="action_save">Save</string>
     <string name="label_to">To:</string>
     <string name="label_previous">Previous</string>
     <string name="label_next">Next</string>
     <string name="label_units">Units:</string>
     <string name="label_textbook2">Textbook:</string>
-    <string name="label_correct">Correct</string>
-    <string name="label_incorrect">Incorrect</string>
+    <string name="text_correct">Correct</string>
+    <string name="text_incorrect">Incorrect</string>
+    <string name="text_new_test">New Test</string>
+    <string name="text_check">Check</string>
+    <string name="text_speak">Speak</string>
+    <string name="text_shuffled">Shuffled</string>
+    <string name="text_levelge0">Level >= 0</string>
 </resources>
