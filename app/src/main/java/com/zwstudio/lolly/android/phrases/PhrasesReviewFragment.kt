@@ -2,12 +2,20 @@ package com.zwstudio.lolly.android.phrases
 
 import android.speech.tts.TextToSpeech
 import android.support.v4.app.Fragment
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.PhrasesReviewModel
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EFragment
+import com.zwstudio.lolly.data.applyIO
+import com.zwstudio.lolly.domain.MSelectItem
+import com.zwstudio.lolly.domain.ReviewMode
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import org.androidannotations.annotations.*
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 @EFragment(R.layout.content_phrases_review)
 class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
@@ -16,10 +24,53 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
     lateinit var vm: PhrasesReviewModel
     lateinit var tts: TextToSpeech
 
+    @ViewById
+    lateinit var progressBar1: ProgressBar
+    @ViewById
+    lateinit var tvIndex: TextView
+    @ViewById
+    lateinit var tvCorrect: TextView
+    @ViewById
+    lateinit var tvIncorrect: TextView
+    @ViewById
+    lateinit var spnReviewMode: Spinner
+    @ViewById
+    lateinit var btnCheck: Button
+    @ViewById
+    lateinit var tvPhraseTarget: TextView
+    @ViewById
+    lateinit var tvTranslation: TextView
+    @ViewById
+    lateinit var etPhraseInput: EditText
+
+    val compositeDisposable = CompositeDisposable()
+    var speakOrNot = false
+    var shuffled = true
+    var subscription: Disposable? = null
+
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.phrases_review)
         tts = TextToSpeech(context!!, this)
+
+        run {
+            val lst = vm.vmSettings.lstReviewModes
+            val adapter = object : ArrayAdapter<MSelectItem>(context!!, android.R.layout.simple_spinner_item, lst) {
+                fun convert(v: View, position: Int): View {
+                    val tv = v.findViewById<TextView>(android.R.id.text1)
+                    tv.text = getItem(position).label
+                    return v
+                }
+                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
+                    convert(super.getView(position, convertView, parent), position)
+                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
+                    convert(super.getDropDownView(position, convertView, parent), position)
+            }
+            adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
+            spnReviewMode.adapter = adapter
+        }
+
+        btnNewTest()
     }
 
     override fun onInit(status: Int) {
@@ -29,6 +80,85 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         }
         if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
         tts.language = locale
+    }
+
+    private fun doTest() {
+        val b = vm.hasNext
+        tvIndex.visibility = if (b) View.VISIBLE else View.INVISIBLE
+        tvCorrect.visibility = View.INVISIBLE
+        tvIncorrect.visibility = View.INVISIBLE
+        btnCheck.isEnabled = b
+        tvPhraseTarget.text = if (vm.isTestMode) "" else vm.currentItem?.phrase ?: ""
+        tvTranslation.visibility = View.VISIBLE
+        tvTranslation.text = ""
+        etPhraseInput.setText("", TextView.BufferType.NORMAL)
+        etPhraseInput.visibility = if (vm.mode != ReviewMode.ReviewAuto) View.VISIBLE else View.INVISIBLE
+        if (b) {
+            tvIndex.text = "${vm.index + 1}/${vm.lstPhrases.size}"
+            if (speakOrNot)
+                tts.speak(vm.currentPhrase, TextToSpeech.QUEUE_FLUSH, null)
+            tvTranslation.text = vm.currentItem?.translation ?: ""
+        } else {
+            subscription?.dispose()
+            tvTranslation.visibility = View.INVISIBLE
+            etPhraseInput.visibility = View.INVISIBLE
+        }
+    }
+
+    @Click
+    fun btnNewTest() {
+        progressBar1.visibility = View.VISIBLE
+        compositeDisposable.add(vm.newTest(shuffled).subscribe {
+            doTest()
+            progressBar1.visibility = View.INVISIBLE
+        })
+        btnCheck.text = if (vm.isTestMode) "Check" else "Next"
+        if (vm.mode == ReviewMode.ReviewAuto) {
+            subscription?.dispose()
+            subscription = Observable.interval(vm.vmSettings.usreviewinterval.toLong(), TimeUnit.MILLISECONDS).applyIO().subscribe {
+                btnCheck()
+            }
+            compositeDisposable.add(subscription!!)
+        }
+    }
+
+    @Click
+    fun btnCheck() {
+        if (!vm.isTestMode) {
+            vm.next()
+            doTest()
+        } else if (tvCorrect.visibility == View.INVISIBLE && tvIncorrect.visibility == View.INVISIBLE) {
+            etPhraseInput.setText(vm.vmSettings.autoCorrectInput(etPhraseInput.text.toString()), TextView.BufferType.NORMAL)
+            tvPhraseTarget.visibility = View.VISIBLE
+            tvPhraseTarget.text = vm.currentPhrase
+            if (etPhraseInput.text.toString() == vm.currentPhrase)
+                tvCorrect.visibility = View.VISIBLE
+            else
+                tvIncorrect.visibility = View.VISIBLE
+            btnCheck.text = "Next"
+            vm.check(etPhraseInput.text.toString())
+        } else {
+            vm.next()
+            doTest()
+            btnCheck.text = "Check"
+        }
+    }
+
+    @CheckedChange
+    fun chkSpeak(isChecked: Boolean) {
+        speakOrNot = isChecked
+        if (speakOrNot)
+            tts.speak(vm.currentPhrase, TextToSpeech.QUEUE_FLUSH, null)
+    }
+    @CheckedChange
+    fun chkShuffled(isChecked: Boolean) {
+        shuffled = isChecked
+    }
+
+    @ItemSelect
+    fun spnReviewModeItemSelected(selected: Boolean, position: Int) {
+        vm.mode = ReviewMode.values()[position]
+        btnNewTest()
     }
 
 }

@@ -13,7 +13,7 @@ class PhrasesReviewModel : BaseViewModel2() {
     @Bean
     lateinit var unitPhraseService: UnitPhraseService
 
-    var lstPhrase = listOf<MUnitPhrase>()
+    var lstPhrases = listOf<MUnitPhrase>()
     var lstCorrectIDs = mutableListOf<Int>()
     var index = 0
     var mode = ReviewMode.ReviewAuto
@@ -23,26 +23,27 @@ class PhrasesReviewModel : BaseViewModel2() {
     fun newTest(shuffled: Boolean): Observable<Unit> =
         unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
             .map {
-                lstPhrase = it
+                lstPhrases = it
                 lstCorrectIDs = mutableListOf()
-                if (shuffled) lstPhrase = lstPhrase.shuffled()
+                if (shuffled) lstPhrases = lstPhrases.shuffled()
                 index = 0
             }
+            .applyIO()
 
     val hasNext: Boolean
-        get() = index < lstPhrase.size
+        get() = index < lstPhrases.size
     fun next() {
         index++
         if (isTestMode && !hasNext) {
             index = 0
-            lstPhrase = lstPhrase.filter { !lstCorrectIDs.contains(it.id) }
+            lstPhrases = lstPhrases.filter { !lstCorrectIDs.contains(it.id) }
         }
     }
 
     val currentItem: MUnitPhrase?
-        get() = if (hasNext) lstPhrase[index] else null
+        get() = if (hasNext) lstPhrases[index] else null
     val currentPhrase: String
-        get() = if (hasNext) lstPhrase[index].phrase else ""
+        get() = if (hasNext) lstPhrases[index].phrase else ""
 
     fun check(phraseInput: String) {
         if (!hasNext) return
