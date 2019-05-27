@@ -30,7 +30,7 @@ class WordsDictActivity : AppCompatActivity() {
     @ViewById(R.id.webView)
     lateinit var wv: WebView
 
-    var status = DictWebViewStatus.Ready
+    var dictStatus = DictWebViewStatus.Ready
 
     val compositeDisposable = CompositeDisposable()
 
@@ -127,22 +127,34 @@ class WordsDictActivity : AppCompatActivity() {
                 // http://stackoverflow.com/questions/7746409/android-webview-launches-browser-when-calling-loadurl
                 wv.webViewClient = object : WebViewClient() {
                     override fun onPageFinished(view: WebView, url: String) {
-                        if (status != DictWebViewStatus.Navigating) return
-                        wv.evaluateJavascript("document.documentElement.outerHTML.toString()") {
-                            val html = it.replace("\\u003C", "<")
-                                .replace("\\\"", "\"")
-                                .replace("\\n", "\n")
-                                .replace("\\r", "\r")
-                                .replace("\\t", "\t")
-                            Log.d("HTML", html)
-                            val str = item2.htmlString(html, vm.selectedWord, true)
-                            wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
-                            status = DictWebViewStatus.Ready
+                        if (dictStatus == DictWebViewStatus.Ready) return
+                        if (dictStatus == DictWebViewStatus.Automating) {
+                            val s = item2.automation!!.replace("{0}", vm.selectedWord)
+                            wv.evaluateJavascript(s) {
+                                dictStatus = DictWebViewStatus.Ready
+                                if (item2.dicttypename == "OFFLINE-ONLINE")
+                                    dictStatus = DictWebViewStatus.Navigating
+                            }
+                        } else if (dictStatus == DictWebViewStatus.Navigating) {
+                            wv.evaluateJavascript("document.documentElement.outerHTML.toString()") {
+                                val html = it.replace("\\u003C", "<")
+                                    .replace("\\\"", "\"")
+                                    .replace("\\n", "\n")
+                                    .replace("\\r", "\r")
+                                    .replace("\\t", "\t")
+                                Log.d("HTML", html)
+                                val str = item2.htmlString(html, vm.selectedWord, true)
+                                wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
+                                dictStatus = DictWebViewStatus.Ready
+                            }
                         }
                     }
                 }
                 wv.loadUrl(url)
-                if (item2.dicttypename == "OFFLINE-ONLINE") status = DictWebViewStatus.Navigating
+                if (item2.automation != null)
+                    dictStatus = DictWebViewStatus.Automating
+                else if (item2.dicttypename == "OFFLINE-ONLINE")
+                    dictStatus = DictWebViewStatus.Navigating
             }
         }
     }

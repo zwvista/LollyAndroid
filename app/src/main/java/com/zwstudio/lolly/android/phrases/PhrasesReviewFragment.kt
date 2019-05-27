@@ -73,6 +73,11 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         btnNewTest()
     }
 
+    override fun onDestroy() {
+        subscription?.dispose()
+        super.onDestroy()
+    }
+
     override fun onInit(status: Int) {
         if (status != TextToSpeech.SUCCESS) return
         val locale = Locale.getAvailableLocales().find {
