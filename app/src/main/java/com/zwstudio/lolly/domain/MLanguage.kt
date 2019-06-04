@@ -6,7 +6,7 @@ import java.io.Serializable
 
 class MLanguages {
 
-    @SerializedName("LANGUAGES")
+    @SerializedName("records")
     @Expose
     var lst: List<MLanguage>? = null
 }

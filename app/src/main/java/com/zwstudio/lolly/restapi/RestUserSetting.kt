@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 // https://stackoverflow.com/questions/46892100/how-to-use-rxjava2-with-retrofit-in-android
 interface RestUserSetting {
-    @GET("USERSETTINGS?transform=1")
+    @GET("USERSETTINGS")
     fun getDataByUser(@Query("filter") filter: String): Observable<MUserSettings>
 
     @FormUrlEncoded

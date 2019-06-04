@@ -12,21 +12,21 @@ import java.net.URLEncoder
 
 class MDictsReference {
 
-    @SerializedName("VDICTSREFERENCE")
+    @SerializedName("records")
     @Expose
     var lst: List<MDictReference>? = null
 }
 
 class MDictsNote {
 
-    @SerializedName("VDICTSNOTE")
+    @SerializedName("records")
     @Expose
     var lst: List<MDictNote>? = null
 }
 
 class MDictsTranslation {
 
-    @SerializedName("VDICTSTRANSLATION")
+    @SerializedName("records")
     @Expose
     var lst: List<MDictTranslation>? = null
 }

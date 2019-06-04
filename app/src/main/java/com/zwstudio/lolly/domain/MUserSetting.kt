@@ -6,7 +6,7 @@ import java.io.Serializable
 
 class MUserSettings {
 
-    @SerializedName("USERSETTINGS")
+    @SerializedName("records")
     @Expose
     var lst: List<MUserSetting>? = null
 }

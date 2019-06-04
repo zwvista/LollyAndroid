@@ -6,7 +6,7 @@ import java.io.Serializable
 
 class MUnitWords {
 
-    @SerializedName("VUNITWORDS")
+    @SerializedName("records")
     @Expose
     var lst: List<MUnitWord>? = null
 }

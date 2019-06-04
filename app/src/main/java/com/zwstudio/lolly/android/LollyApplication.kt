@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
-import android.support.v4.view.ViewCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.util.AttributeSet
 import android.view.View
@@ -29,7 +28,7 @@ class LollyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/")
+        retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/records/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()

@@ -5,13 +5,13 @@ import io.reactivex.Observable
 import retrofit2.http.*
 
 interface RestLangPhrase {
-    @GET("LANGPHRASES?transform=1&order=PHRASE")
+    @GET("LANGPHRASES?order=PHRASE")
     fun getDataByLang(@Query("filter") filter: String): Observable<MLangPhrases>
 
-    @GET("LANGPHRASES?transform=1")
-    fun getDataByLangPhrase(@Query("filter[]") vararg filters: String): Observable<MLangPhrases>
+    @GET("LANGPHRASES")
+    fun getDataByLangPhrase(@Query("filter") vararg filters: String): Observable<MLangPhrases>
 
-    @GET("LANGPHRASES?transform=1")
+    @GET("LANGPHRASES")
     fun getDataById(@Query("filter") filter: String): Observable<MLangPhrases>
 
     @FormUrlEncoded

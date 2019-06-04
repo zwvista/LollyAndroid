@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RestAutoCorrect {
-    @GET("AUTOCORRECT?transform=1")
+    @GET("AUTOCORRECT")
     fun getDataByLang(@Query("filter") filter: String): Observable<MAutoCorrects>
 
 }

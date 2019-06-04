@@ -5,13 +5,13 @@ import io.reactivex.Observable
 import retrofit2.http.*
 
 interface RestUnitWord {
-    @GET("VUNITWORDS?transform=1&order[]=UNITPART&order[]=SEQNUM")
-    fun getDataByTextbookUnitPart(@Query("filter[]") vararg filters: String): Observable<MUnitWords>
+    @GET("VUNITWORDS?order=UNITPART&order=SEQNUM")
+    fun getDataByTextbookUnitPart(@Query("filter") vararg filters: String): Observable<MUnitWords>
 
-    @GET("VUNITWORDS?transform=1&order[]=TEXTBOOKID&order[]=UNIT&order[]=PART&order[]=SEQNUM")
+    @GET("VUNITWORDS?order=TEXTBOOKID&order=UNIT&order=PART&order=SEQNUM")
     fun getDataByLang(@Query("filter") filter: String): Observable<MUnitWords>
 
-    @GET("VUNITWORDS?transform=1")
+    @GET("VUNITWORDS")
     fun getDataByLangWord(@Query("filter") filter: String): Observable<MUnitWords>
 
     @FormUrlEncoded

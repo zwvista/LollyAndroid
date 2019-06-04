@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RestTextbook {
-    @GET("TEXTBOOKS?transform=1")
+    @GET("TEXTBOOKS")
     fun getDataByLang(@Query("filter") filter: String): Observable<MTextbooks>
 
 }

@@ -6,7 +6,7 @@ import java.io.Serializable
 
 class MVoices {
 
-    @SerializedName("VVOICES")
+    @SerializedName("records")
     @Expose
     var lst: List<MVoice>? = null
 }

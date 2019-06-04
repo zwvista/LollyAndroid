@@ -5,8 +5,8 @@ import io.reactivex.Observable
 import retrofit2.http.*
 
 interface RestWordFami {
-    @GET("WORDSFAMI?transform=1")
-    fun getDataByUserWord(@Query("filter[]") vararg filters: String): Observable<MWordsFami>
+    @GET("WORDSFAMI")
+    fun getDataByUserWord(@Query("filter") vararg filters: String): Observable<MWordsFami>
 
     @FormUrlEncoded
     @PUT("WORDSFAMI/{id}")

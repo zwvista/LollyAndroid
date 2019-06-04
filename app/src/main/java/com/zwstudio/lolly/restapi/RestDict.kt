@@ -8,19 +8,19 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RestDictReference {
-    @GET("VDICTSREFERENCE?transform=1")
+    @GET("VDICTSREFERENCE")
     fun getDataByLang(@Query("filter") filter: String): Observable<MDictsReference>
 
 }
 
 interface RestDictNote {
-    @GET("VDICTSNOTE?transform=1")
+    @GET("VDICTSNOTE")
     fun getDataByLang(@Query("filter") filter: String): Observable<MDictsNote>
 
 }
 
 interface RestDictTranslation {
-    @GET("VDICTSTRANSLATION?transform=1")
+    @GET("VDICTSTRANSLATION")
     fun getDataByLang(@Query("filter") filter: String): Observable<MDictsTranslation>
 
 }

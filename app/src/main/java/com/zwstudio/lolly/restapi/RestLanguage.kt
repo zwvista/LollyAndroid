@@ -5,6 +5,6 @@ import io.reactivex.Observable
 import retrofit2.http.GET
 
 interface RestLanguage {
-    @GET("LANGUAGES?transform=1&filter=ID,neq,0")
+    @GET("LANGUAGES?filter=ID,neq,0")
     fun getData(): Observable<MLanguages>
 }

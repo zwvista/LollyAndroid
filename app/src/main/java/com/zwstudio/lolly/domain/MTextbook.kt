@@ -8,7 +8,7 @@ import java.io.Serializable
 
 class MTextbooks {
 
-    @SerializedName("TEXTBOOKS")
+    @SerializedName("records")
     @Expose
     var lst: List<MTextbook>? = null
 }

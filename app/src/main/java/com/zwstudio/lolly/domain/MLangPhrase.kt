@@ -6,7 +6,7 @@ import java.io.Serializable
 
 class MLangPhrases {
 
-    @SerializedName("LANGPHRASES")
+    @SerializedName("records")
     @Expose
     var lst: List<MLangPhrase>? = null
 }

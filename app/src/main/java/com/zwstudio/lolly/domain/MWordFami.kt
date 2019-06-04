@@ -6,7 +6,7 @@ import java.io.Serializable
 
 class MWordsFami {
 
-    @SerializedName("WORDSFAMI")
+    @SerializedName("records")
     @Expose
     var lst: List<MWordFami>? = null
 }

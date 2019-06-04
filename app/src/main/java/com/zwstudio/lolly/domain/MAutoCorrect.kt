@@ -6,7 +6,7 @@ import java.io.Serializable
 
 class MAutoCorrects {
 
-    @SerializedName("AUTOCORRECT")
+    @SerializedName("records")
     @Expose
     var lst: List<MAutoCorrect>? = null
 }

@@ -6,7 +6,7 @@ import java.io.Serializable
 
 class MUnitPhrases {
 
-    @SerializedName("VUNITPHRASES")
+    @SerializedName("records")
     @Expose
     var lst: List<MUnitPhrase>? = null
 }
