@@ -59,7 +59,7 @@ class WordsUnitBatchActivity : AppCompatActivity() {
             val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position).label
+                    tv.text = getItem(position)!!.label
                     return v
                 }
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
@@ -77,7 +77,7 @@ class WordsUnitBatchActivity : AppCompatActivity() {
             val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position).label
+                    tv.text = getItem(position)!!.label
                     return v
                 }
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup) =

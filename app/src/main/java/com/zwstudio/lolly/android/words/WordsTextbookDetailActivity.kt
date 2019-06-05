@@ -57,7 +57,7 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
             val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position).label
+                    tv.text = getItem(position)!!.label
                     return v
                 }
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
@@ -75,7 +75,7 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
             val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position).label
+                    tv.text = getItem(position)!!.label
                     return v
                 }
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
@@ -111,7 +111,6 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
         item.seqnum = etSeqNum.text.toString().toInt()
         item.word = vm.vmSettings.autoCorrectInput(etWord.text.toString())
         item.note = etNote.text.toString()
-        val word = vm.vmSettings.autoCorrectInput(item.word)
         setResult(Activity.RESULT_OK)
         finish()
     }

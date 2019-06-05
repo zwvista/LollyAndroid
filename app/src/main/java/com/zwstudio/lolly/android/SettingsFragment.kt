@@ -214,7 +214,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         if (vm.selectedVoiceIndex == position) return
         vm.selectedVoice = vm.lstVoices[position]
         Log.d("", String.format("Checked position:%d", position))
-        (spnVoice.adapter as ArrayAdapter<MVoice>).notifyDataSetChanged()
+        (spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
         compositeDisposable.add(vm.updateVoice().subscribe())
     }
 
@@ -223,7 +223,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         if (vm.selectedDictItemIndex == position) return
         vm.selectedDictItem = vm.lstDictItems[position]
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictItem.adapter as ArrayAdapter<MDictItem>).notifyDataSetChanged()
+        (spnDictItem.adapter as ArrayAdapter<*>).notifyDataSetChanged()
         compositeDisposable.add(vm.updateDictItem().subscribe())
     }
 
@@ -232,7 +232,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         if (vm.selectedDictNoteIndex == position) return
         vm.selectedDictNote = vm.lstDictsNote[position]
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictNote.adapter as ArrayAdapter<MDictNote>).notifyDataSetChanged()
+        (spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
         compositeDisposable.add(vm.updateDictNote().subscribe())
     }
 
@@ -241,7 +241,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         if (vm.selectedDictTranslationIndex == position) return
         vm.selectedDictTranslation = vm.lstDictsTranslation[position]
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictTranslation.adapter as ArrayAdapter<MDictTranslation>).notifyDataSetChanged()
+        (spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
         compositeDisposable.add(vm.updateDictTranslation().subscribe())
     }
 
@@ -250,7 +250,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         if (vm.selectedTextbookIndex == position) return
         vm.selectedTextbook = vm.lstTextbooks[position]
         Log.d("", String.format("Checked position:%d", position))
-        (spnTextbook.adapter as ArrayAdapter<MTextbook>).notifyDataSetChanged()
+        (spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
         compositeDisposable.add(vm.updateTextbook().subscribe())
     }
 
@@ -260,7 +260,7 @@ class SettingsFragment : Fragment(), SettingsListener {
             val adapter = object : ArrayAdapter<MSelectItem>(activity!!, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position).label
+                    tv.text = getItem(position)!!.label
                     return v
                 }
                 override fun getView(position: Int, convertView: View?, parent: ViewGroup) =

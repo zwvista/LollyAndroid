@@ -63,9 +63,6 @@ abstract class MDictionary: Serializable {
     @SerializedName("AUTOMATION")
     @Expose
     var automation: String? = null
-    @SerializedName("AUTOJUMP")
-    @Expose
-    var autojump: Int? = null
     @SerializedName("DICTTABLE")
     @Expose
     var dicttable: String? = null
