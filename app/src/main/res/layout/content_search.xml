@@ -22,19 +22,18 @@
         android:layout_weight="0">
 
         <SearchView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/svWord"
             android:queryHint="Enter a word here"
             android:iconifiedByDefault="false"
-            android:layout_weight="1"/>
+            android:layout_weight="2"/>
 
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:text="@string/label_go"
-            android:id="@+id/btnGo"
-            android:layout_weight="0"/>
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/spnDictItem"
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <android.support.design.internal.ScrimInsetsFrameLayout

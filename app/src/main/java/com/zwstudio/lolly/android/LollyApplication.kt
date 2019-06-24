@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.zwstudio.lolly.data.SettingsViewModel
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.ReplaySubject
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EApplication
 import retrofit2.Retrofit
@@ -25,6 +26,8 @@ class LollyApplication : Application() {
     lateinit var vm: SettingsViewModel
 
     val compositeDisposable = CompositeDisposable()
+    val initializeObject = ReplaySubject.createWithSize<Unit>(1)
+    var initialized = false
 
     override fun onCreate() {
         super.onCreate()
@@ -37,8 +40,11 @@ class LollyApplication : Application() {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
-        compositeDisposable.add(vm.getData().subscribe())
-
+        compositeDisposable.add(vm.getData().subscribe {
+            initialized = true
+            initializeObject.onNext(Unit)
+            initializeObject.onComplete()
+        })
     }
 
 }

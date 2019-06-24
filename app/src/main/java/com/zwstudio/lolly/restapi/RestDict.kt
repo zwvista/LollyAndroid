@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface RestDictReference {
-    @GET("VDICTSREFERENCE")
+    @GET("VDICTSREFERENCE?order=SEQNUM&order=DICTNAME")
     fun getDataByLang(@Query("filter") filter: String): Observable<MDictsReference>
 
 }
