@@ -11,6 +11,7 @@ import org.androidannotations.annotations.EBean
 @EBean(scope = EBean.Scope.Singleton)
 class SettingsViewModel : BaseViewModel1() {
 
+    var lstUSMappings = listOf<MUSMapping>()
     var lstUserSettings = listOf<MUserSetting>()
     private lateinit var selectedUSUser0: MUserSetting
     private lateinit var selectedUSUser1: MUserSetting
@@ -177,6 +178,8 @@ class SettingsViewModel : BaseViewModel1() {
     @Bean
     lateinit var languageService: LanguageService
     @Bean
+    lateinit var usMappingService: USMappingService
+    @Bean
     lateinit var userSettingService: UserSettingService
     @Bean
     lateinit var dictReferenceService: DictReferenceService
@@ -195,10 +198,12 @@ class SettingsViewModel : BaseViewModel1() {
     var settingsListener: SettingsListener? = null
     fun getData(): Observable<Unit> =
         Observables.zip(languageService.getData(),
+            usMappingService.getData(),
             userSettingService.getDataByUser(GlobalConstants.userid))
         .concatMap {
             lstLanguages = it.first
-            lstUserSettings = it.second
+            lstUSMappings = it.second
+            lstUserSettings = it.third
             selectedUSUser0 = lstUserSettings.first { it.kind == 1 && it.entityid == 0 }
             selectedUSUser1 = lstUserSettings.first { it.kind == 1 && it.entityid == 1 }
             val lst = selectedUSUser0.value4!!.split("\r\n").map { it.split(',') }
