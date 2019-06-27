@@ -13,70 +13,99 @@ class SettingsViewModel : BaseViewModel1() {
 
     var lstUSMappings = listOf<MUSMapping>()
     var lstUserSettings = listOf<MUserSetting>()
-    private lateinit var selectedUSUser0: MUserSetting
-    private lateinit var selectedUSUser1: MUserSetting
+    private fun getUSValue(info: MUserSettingInfo): String? {
+        val o = lstUserSettings.find { it.id == info.usersettingid }!!
+        return when (info.valueid) {
+            1 -> o.value1
+            2 -> o.value2
+            3 -> o.value3
+            4 -> o.value4
+            else -> null
+        }
+    }
+    private fun setUSValue(info: MUserSettingInfo, value: String) {
+        val o = lstUserSettings.find { it.id == info.usersettingid }!!
+        when (info.valueid) {
+            1 -> o.value1 = value
+            2 -> o.value2 = value
+            3 -> o.value3 = value
+            4 -> o.value4 = value
+            else -> {}
+        }
+    }
+    private var INFO_USLANGID = MUserSettingInfo()
     var uslangid: Int
-        get() = selectedUSUser0.value1?.toInt()!!
+        get() = getUSValue(INFO_USLANGID)!!.toInt()
         set(value) {
-            selectedUSUser0.value1 = value.toString()
+            setUSValue(INFO_USLANGID, value.toString())
         }
+    private var INFO_USLEVELCOLORS = MUserSettingInfo()
     var uslevelcolors = mapOf<Int, List<String>>()
-    val usreadinterval: Int
-        get() = selectedUSUser1.value1?.toInt()!!
+    private var INFO_USSCANINTERVAL = MUserSettingInfo()
+    val usscaninterval: Int
+        get() = getUSValue(INFO_USSCANINTERVAL)!!.toInt()
+    private var INFO_USREVIEWINTERVAL = MUserSettingInfo()
     val usreviewinterval: Int
-        get() = selectedUSUser1.value2?.toInt()!!
-    private lateinit var selectedUSLang2: MUserSetting
+        get() = getUSValue(INFO_USREVIEWINTERVAL)!!.toInt()
+    private var INFO_USTEXTBOOKID = MUserSettingInfo()
     var ustextbookid: Int
-        get() = selectedUSLang2.value1?.toInt()!!
+        get() = getUSValue(INFO_USTEXTBOOKID)!!.toInt()
         set(value) {
-            selectedUSLang2.value1 = value.toString()
+            setUSValue(INFO_USTEXTBOOKID, value.toString())
         }
+    private var INFO_USDICTITEM = MUserSettingInfo()
     var usdictitem: String
-        get() = selectedUSLang2.value2!!
+        get() = getUSValue(INFO_USDICTITEM)!!
         set(value) {
-            selectedUSLang2.value2 = value
+            setUSValue(INFO_USDICTITEM, value)
         }
+    private var INFO_USDICTNOTEID = MUserSettingInfo()
     var usdictnoteid: Int
-        get() = (selectedUSLang2.value3 ?: "0").toInt()
+        get() = (getUSValue(INFO_USDICTNOTEID) ?: "0").toInt()
         set(value) {
-            selectedUSLang2.value3 = value.toString()
+            setUSValue(INFO_USDICTNOTEID, value.toString())
         }
+    private var INFO_USDICTITEMS = MUserSettingInfo()
     var usdictitems: String
-        get() = selectedUSLang2.value4 ?: "0"
+        get() = getUSValue(INFO_USDICTITEMS) ?: "0"
         set(value) {
-            selectedUSLang2.value4 = value
+            setUSValue(INFO_USDICTITEMS, value)
         }
-    private lateinit var selectedUSLang3: MUserSetting
+    private var INFO_USDICTTRANSLATIONID = MUserSettingInfo()
     var usdicttranslationid: Int
-        get() = (selectedUSLang3.value1 ?: "0").toInt()
+        get() = (getUSValue(INFO_USDICTTRANSLATIONID) ?: "0").toInt()
         set(value) {
-            selectedUSLang3.value1 = value.toString()
+            setUSValue(INFO_USDICTTRANSLATIONID, value.toString())
         }
+    private var INFO_USANDROIDVOICEID = MUserSettingInfo()
     var usvoiceid: Int
-        get() = (selectedUSLang3.value4 ?: "0").toInt()
+        get() = (getUSValue(INFO_USANDROIDVOICEID) ?: "0").toInt()
         set(value) {
-            selectedUSLang3.value4 = value.toString()
+            setUSValue(INFO_USANDROIDVOICEID, value.toString())
         }
-    private lateinit var selectedUSTextbook: MUserSetting
+    private var INFO_USUNITFROM = MUserSettingInfo()
     var usunitfrom: Int
-        get() = selectedUSTextbook.value1?.toInt()!!
+        get() = getUSValue(INFO_USUNITFROM)!!.toInt()
         set(value) {
-            selectedUSTextbook.value1 = value.toString()
+            setUSValue(INFO_USUNITFROM, value.toString())
         }
+    private var INFO_USPARTFROM = MUserSettingInfo()
     var uspartfrom: Int
-        get() = selectedUSTextbook.value2?.toInt()!!
+        get() = getUSValue(INFO_USPARTFROM)!!.toInt()
         set(value) {
-            selectedUSTextbook.value2 = value.toString()
+            setUSValue(INFO_USPARTFROM, value.toString())
         }
+    private var INFO_USUNITTO = MUserSettingInfo()
     var usunitto: Int
-        get() = selectedUSTextbook.value3?.toInt()!!
+        get() = getUSValue(INFO_USUNITTO)!!.toInt()
         set(value) {
-            selectedUSTextbook.value3 = value.toString()
+            setUSValue(INFO_USUNITTO, value.toString())
         }
+    private var INFO_USPARTTO = MUserSettingInfo()
     var uspartto: Int
-        get() = selectedUSTextbook.value4?.toInt()!!
+        get() = getUSValue(INFO_USPARTTO)!!.toInt()
         set(value) {
-            selectedUSTextbook.value4 = value.toString()
+            setUSValue(INFO_USPARTTO, value.toString())
         }
     val usunitpartfrom: Int
         get() = usunitfrom * 10 + uspartfrom
@@ -113,7 +142,10 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             _selectedTextbook = value
             ustextbookid = value.id
-            selectedUSTextbook = lstUserSettings.first { it.kind == 11 && it.entityid == value.id }
+            INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
+            INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
+            INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
+            INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
             toType =
                 if (isSingleUnit) 0
                 else if (isSingleUnitPart) 1
@@ -194,6 +226,18 @@ class SettingsViewModel : BaseViewModel1() {
     @Bean
     lateinit var voiceService: VoiceService
 
+    private fun getUSInfo(name: String): MUserSettingInfo {
+        val o = lstUSMappings.find { it.name == name }!!
+        val entityid = when {
+            o.entityid != -1 -> o.entityid
+            o.level == 1 -> selectedLang.id
+            o.level == 2 -> selectedTextbook.id
+            else -> 0
+        }
+        val o2 = lstUserSettings.find { it.kind == o.kind && it.entityid == entityid }!!
+        return MUserSettingInfo(o2.id, o.valueid)
+    }
+
     var handler: Handler? = null
     var settingsListener: SettingsListener? = null
     fun getData(): Observable<Unit> =
@@ -204,9 +248,11 @@ class SettingsViewModel : BaseViewModel1() {
             lstLanguages = it.first
             lstUSMappings = it.second
             lstUserSettings = it.third
-            selectedUSUser0 = lstUserSettings.first { it.kind == 1 && it.entityid == 0 }
-            selectedUSUser1 = lstUserSettings.first { it.kind == 1 && it.entityid == 1 }
-            val lst = selectedUSUser0.value4!!.split("\r\n").map { it.split(',') }
+            INFO_USLANGID = getUSInfo(MUSMapping.NAME_USLANGID)
+            INFO_USLEVELCOLORS = getUSInfo(MUSMapping.NAME_USLEVELCOLORS)
+            INFO_USSCANINTERVAL = getUSInfo(MUSMapping.NAME_USSCANINTERVAL)
+            INFO_USREVIEWINTERVAL = getUSInfo(MUSMapping.NAME_USREVIEWINTERVAL)
+            val lst = getUSValue(INFO_USLEVELCOLORS)!!.split("\r\n").map { it.split(',') }
             // https://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
             uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
             handler?.post { settingsListener?.onGetData() }
@@ -217,8 +263,12 @@ class SettingsViewModel : BaseViewModel1() {
         val isinit = lang.id == uslangid
         selectedLang = lang
         uslangid = selectedLang.id
-        selectedUSLang2 = lstUserSettings.first { it.kind == 2 && it.entityid == uslangid }
-        selectedUSLang3 = lstUserSettings.first { it.kind == 3 && it.entityid == uslangid }
+        INFO_USTEXTBOOKID = getUSInfo(MUSMapping.NAME_USTEXTBOOKID)
+        INFO_USDICTITEM = getUSInfo(MUSMapping.NAME_USDICTITEM)
+        INFO_USDICTNOTEID = getUSInfo(MUSMapping.NAME_USDICTNOTEID)
+        INFO_USDICTITEMS = getUSInfo(MUSMapping.NAME_USDICTITEMS)
+        INFO_USDICTTRANSLATIONID = getUSInfo(MUSMapping.NAME_USDICTTRANSLATIONID)
+        INFO_USANDROIDVOICEID = getUSInfo(MUSMapping.NAME_USANDROIDVOICEID)
         val lstDicts = usdictitems.split("\r\n")
         return Observables.zip(dictReferenceService.getDataByLang(uslangid),
             dictNoteService.getDataByLang(uslangid),
@@ -269,32 +319,32 @@ class SettingsViewModel : BaseViewModel1() {
     }
 
     fun updateLang(): Observable<Unit> =
-        userSettingService.updateLang(selectedUSUser0.id, uslangid)
+        userSettingService.update(INFO_USLANGID, uslangid)
             .map { handler?.post { settingsListener?.onUpdateLang() }; Unit }
             .applyIO()
 
     fun updateTextbook(): Observable<Unit> =
-        userSettingService.updateTextbook(selectedUSLang2.id, ustextbookid)
+        userSettingService.update(INFO_USTEXTBOOKID, ustextbookid)
             .map { handler?.post { settingsListener?.onUpdateTextbook() }; Unit }
             .applyIO()
 
     fun updateDictItem(): Observable<Unit> =
-        userSettingService.updateDictItem(selectedUSLang2.id, usdictitem)
+        userSettingService.update(INFO_USDICTITEM, usdictitem)
             .map { handler?.post { settingsListener?.onUpdateDictItem() }; Unit }
             .applyIO()
 
     fun updateDictNote(): Observable<Unit> =
-        userSettingService.updateDictNote(selectedUSLang2.id, usdictnoteid)
+        userSettingService.update(INFO_USDICTNOTEID, usdictnoteid)
             .map { handler?.post { settingsListener?.onUpdateDictNote() }; Unit }
             .applyIO()
 
     fun updateDictTranslation(): Observable<Unit> =
-        userSettingService.updateDictTranslation(selectedUSLang3.id, usdicttranslationid)
+        userSettingService.update(INFO_USDICTTRANSLATIONID, usdicttranslationid)
             .map { handler?.post { settingsListener?.onUpdateDictTranslation() }; Unit }
             .applyIO()
 
     fun updateVoice(): Observable<Unit> =
-        userSettingService.updateVoice(selectedUSLang3.id, usvoiceid)
+        userSettingService.update(INFO_USANDROIDVOICEID, usvoiceid)
             .map { handler?.post { settingsListener?.onUpdateVoice() }; Unit }
             .applyIO()
 
@@ -383,7 +433,7 @@ class SettingsViewModel : BaseViewModel1() {
     private fun doUpdateUnitFrom(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && usunitfrom == v) return Observable.empty()
         usunitfrom = v
-        return userSettingService.updateUnitFrom(selectedUSTextbook.id, usunitfrom)
+        return userSettingService.update(INFO_USUNITFROM, usunitfrom)
             .map { handler?.post { settingsListener?.onUpdateUnitFrom() }; Unit }
             .applyIO()
     }
@@ -391,7 +441,7 @@ class SettingsViewModel : BaseViewModel1() {
     private fun doUpdatePartFrom(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && uspartfrom == v) return Observable.empty()
         uspartfrom = v
-        return userSettingService.updatePartFrom(selectedUSTextbook.id, uspartfrom)
+        return userSettingService.update(INFO_USPARTFROM, uspartfrom)
             .map { handler?.post { settingsListener?.onUpdatePartFrom() }; Unit }
             .applyIO()
     }
@@ -399,7 +449,7 @@ class SettingsViewModel : BaseViewModel1() {
     private fun doUpdateUnitTo(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && usunitto == v) return Observable.empty()
         usunitto = v
-        return userSettingService.updateUnitTo(selectedUSTextbook.id, usunitto)
+        return userSettingService.update(INFO_USUNITTO, usunitto)
             .map { handler?.post { settingsListener?.onUpdateUnitTo() }; Unit }
             .applyIO()
     }
@@ -407,7 +457,7 @@ class SettingsViewModel : BaseViewModel1() {
     private fun doUpdatePartTo(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && uspartto == v) return Observable.empty()
         uspartto = v
-        return userSettingService.updatePartTo(selectedUSTextbook.id, uspartto)
+        return userSettingService.update(INFO_USPARTTO, uspartto)
             .map { handler?.post { settingsListener?.onUpdatePartTo() }; Unit }
             .applyIO()
     }

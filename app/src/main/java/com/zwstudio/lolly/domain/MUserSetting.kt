@@ -38,3 +38,5 @@ class MUserSetting: Serializable {
     @Expose
     var value4: String? = null
 }
+
+class MUserSettingInfo(var usersettingid: Int = 0, var valueid: Int = 0)

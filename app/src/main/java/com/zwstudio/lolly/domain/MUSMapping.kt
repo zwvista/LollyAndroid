@@ -28,8 +28,11 @@ class MUSMapping: Serializable {
     @SerializedName("VALUEID")
     @Expose
     var valueid = 0
+    @SerializedName("LEVEL")
+    @Expose
+    var level = 0
 
-    companion object Object {
+    companion object Companion {
 
         val NAME_USLANGID = "USLANGID"
         val NAME_USROWSPERPAGEOPTIONS = "USROWSPERPAGEOPTIONS"
@@ -37,6 +40,22 @@ class MUSMapping: Serializable {
         val NAME_USLEVELCOLORS = "USLEVELCOLORS"
         val NAME_USSCANINTERVAL = "USSCANINTERVAL"
         val NAME_USREVIEWINTERVAL = "USREVIEWINTERVAL"
+
+        val NAME_USTEXTBOOKID = "USTEXTBOOKID"
+        val NAME_USDICTITEM = "USDICTITEM"
+        val NAME_USDICTNOTEID = "USDICTNOTEID"
+        val NAME_USDICTITEMS = "USDICTITEMS"
+        val NAME_USDICTTRANSLATIONID = "USDICTTRANSLATIONID"
+        val NAME_USMACVOICEID = "USMACVOICEID"
+        val NAME_USIOSVOICEID = "USIOSVOICEID"
+        val NAME_USANDROIDVOICEID = "USANDROIDVOICEID"
+        val NAME_USWEBVOICEID = "USWEBVOICEID"
+        val NAME_USWINDOWSVOICEID = "USWINDOWSVOICEID"
+
+        val NAME_USUNITFROM = "USUNITFROM"
+        val NAME_USPARTFROM = "USPARTFROM"
+        val NAME_USUNITTO = "USUNITTO"
+        val NAME_USPARTTO = "USPARTTO"
     }
 }
 

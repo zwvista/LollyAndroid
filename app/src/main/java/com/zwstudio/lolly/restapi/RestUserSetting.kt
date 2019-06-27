@@ -11,41 +11,17 @@ interface RestUserSetting {
 
     @FormUrlEncoded
     @PUT("USERSETTINGS/{id}")
-    fun updateLang(@Path("id") id: Int, @Field("VALUE1") langid: Int): Observable<Int>
+    fun updateValue1(@Path("id") id: Int, @Field("VALUE1") v: String): Observable<Int>
 
     @FormUrlEncoded
     @PUT("USERSETTINGS/{id}")
-    fun updateTextbook(@Path("id") id: Int, @Field("VALUE1") textbookid: Int): Observable<Int>
+    fun updateValue2(@Path("id") id: Int, @Field("VALUE2") v: String): Observable<Int>
 
     @FormUrlEncoded
     @PUT("USERSETTINGS/{id}")
-    fun updateDictItem(@Path("id") id: Int, @Field("VALUE2") dictitem: String): Observable<Int>
+    fun updateValue3(@Path("id") id: Int, @Field("VALUE3") v: String): Observable<Int>
 
     @FormUrlEncoded
     @PUT("USERSETTINGS/{id}")
-    fun updateDictNote(@Path("id") id: Int, @Field("VALUE3") dictnodeid: Int): Observable<Int>
-
-    @FormUrlEncoded
-    @PUT("USERSETTINGS/{id}")
-    fun updateDictTranslation(@Path("id") id: Int, @Field("VALUE1") dictnodeid: Int): Observable<Int>
-
-    @FormUrlEncoded
-    @PUT("USERSETTINGS/{id}")
-    fun updateUnitFrom(@Path("id") id: Int, @Field("VALUE1") unitfrom: Int): Observable<Int>
-
-    @FormUrlEncoded
-    @PUT("USERSETTINGS/{id}")
-    fun updatePartFrom(@Path("id") id: Int, @Field("VALUE2") partfrom: Int): Observable<Int>
-
-    @FormUrlEncoded
-    @PUT("USERSETTINGS/{id}")
-    fun updateUnitTo(@Path("id") id: Int, @Field("VALUE3") unitto: Int): Observable<Int>
-
-    @FormUrlEncoded
-    @PUT("USERSETTINGS/{id}")
-    fun updatePartTo(@Path("id") id: Int, @Field("VALUE4") partto: Int): Observable<Int>
-
-    @FormUrlEncoded
-    @PUT("USERSETTINGS/{id}")
-    fun updateVoice(@Path("id") id: Int, @Field("VALUE4") voiceid: Int): Observable<Int>
+    fun updateValue4(@Path("id") id: Int, @Field("VALUE4") v: String): Observable<Int>
 }
