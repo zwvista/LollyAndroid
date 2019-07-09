@@ -96,7 +96,7 @@ abstract class MDictionary: Serializable {
     }
 }
 
-val cssFolder = "https://zwvista.tk/lolly/css/"
+val cssFolder = "https://zwvista2.tk/lolly/css/"
 
 class MDictReference: MDictionary() {
     fun htmlString(html: String, word: String, useTemplate2: Boolean): String {
