@@ -3,9 +3,9 @@ package com.zwstudio.lolly.android.phrases
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.speech.tts.TextToSpeech
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View

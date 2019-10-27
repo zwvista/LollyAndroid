@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.android.phrases
 
 import android.speech.tts.TextToSpeech
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
