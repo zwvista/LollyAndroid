@@ -58,7 +58,7 @@ class SearchFragment : Fragment() {
 
         compositeDisposable.add(vm.app.initializeObject.subscribe {
             val lst = vm.vmSettings.lstDictItems
-            val adapter = object : ArrayAdapter<MDictItem>(context, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val adapter = object : ArrayAdapter<MDictItem>(context!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)

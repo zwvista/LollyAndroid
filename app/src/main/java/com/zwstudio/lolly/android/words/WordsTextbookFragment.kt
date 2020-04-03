@@ -95,14 +95,16 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = mItemList[position]
-            holder.mText1.text = item.wordnote
+            holder.mText1.text = item.word
             holder.mText2.text = item.unitpartseqnum
+            holder.mText3.text = item.note
             holder.itemView.tag = item
             if (item.level == 0) return
             val lst = vm.vmSettings.uslevelcolors[item.level]!!
             holder.mItemSwipe.setBackgroundColor(Color.parseColor("#" + lst[0]))
             holder.mText1.setTextColor(Color.parseColor("#" + lst[1]))
             holder.mText2.setTextColor(Color.parseColor("#" + lst[1]))
+            holder.mText3.setTextColor(Color.parseColor("#" + lst[1]))
         }
 
         override fun getUniqueItemId(position: Int): Long {
@@ -112,6 +114,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
         internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView
             var mText2: TextView
+            var mText3: TextView
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
@@ -121,6 +124,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
                 mText2 = itemView.findViewById(R.id.text2)
+                mText3 = itemView.findViewById(R.id.text3)
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)

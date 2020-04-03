@@ -109,12 +109,14 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
             val item = mItemList[position]
-            holder.mText1.text = item.wordnote
+            holder.mText1.text = item.word
+            holder.mText2.text = item.note
             holder.itemView.tag = item
             if (item.level == 0) return
             val lst = vm.vmSettings.uslevelcolors[item.level]!!
             holder.mItemSwipe.setBackgroundColor(Color.parseColor("#" + lst[0]))
             holder.mText1.setTextColor(Color.parseColor("#" + lst[1]))
+            holder.mText2.setTextColor(Color.parseColor("#" + lst[1]))
         }
 
         override fun getUniqueItemId(position: Int): Long {
@@ -123,6 +125,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
         internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView
+            var mText2: TextView
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
@@ -131,6 +134,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
+                mText2 = itemView.findViewById(R.id.text2)
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
