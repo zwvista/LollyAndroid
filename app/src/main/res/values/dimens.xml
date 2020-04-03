@@ -9,5 +9,6 @@
     <dimen name="text_size2">11sp</dimen>
     <dimen name="text_size3">30sp</dimen>
     <dimen name="text_size4">20sp</dimen>
+    <dimen name="text_size5">25sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 </resources>

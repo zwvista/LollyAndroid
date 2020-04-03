@@ -95,13 +95,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_text1"
-                android:textSize="@dimen/text_size4"/>
+                android:textSize="@dimen/text_size5"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="8dp"/>
             <TextView
                 android:id="@+id/text3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_text3"
-                android:textSize="@dimen/text_size1"/>
+                android:textSize="@dimen/text_size4"/>
         </LinearLayout>
 
         <Space
