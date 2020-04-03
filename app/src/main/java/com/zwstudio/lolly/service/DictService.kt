@@ -11,27 +11,24 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class DictReferenceService: BaseService() {
-    fun getDataByLang(langid: Int): Observable<List<MDictReference>> {
-        return retrofitJson.create(RestDictReference::class.java)
+    fun getDataByLang(langid: Int): Observable<List<MDictReference>> =
+        retrofitJson.create(RestDictReference::class.java)
             .getDataByLang("LANGIDFROM,eq,${langid}")
             .map { it.lst!! }
-    }
 }
 
 @EBean
 class DictNoteService: BaseService() {
-    fun getDataByLang(langid: Int): Observable<List<MDictNote>> {
-        return retrofitJson.create(RestDictNote::class.java)
+    fun getDataByLang(langid: Int): Observable<List<MDictNote>> =
+        retrofitJson.create(RestDictNote::class.java)
             .getDataByLang("LANGIDFROM,eq,${langid}")
             .map { it.lst!! }
-    }
 }
 
 @EBean
 class DictTranslationService: BaseService() {
-    fun getDataByLang(langid: Int): Observable<List<MDictTranslation>> {
-        return retrofitJson.create(RestDictTranslation::class.java)
+    fun getDataByLang(langid: Int): Observable<List<MDictTranslation>> =
+        retrofitJson.create(RestDictTranslation::class.java)
             .getDataByLang("LANGIDFROM,eq,${langid}")
             .map { it.lst!! }
-    }
 }

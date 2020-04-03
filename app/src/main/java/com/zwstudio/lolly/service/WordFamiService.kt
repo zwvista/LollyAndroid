@@ -8,11 +8,10 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class WordFamiService: BaseService() {
-    fun getDataByUserWord(userid: Int, wordid: Int): Observable<List<MWordFami>> {
-        return retrofitJson.create(RestWordFami::class.java)
+    fun getDataByUserWord(userid: Int, wordid: Int): Observable<List<MWordFami>> =
+        retrofitJson.create(RestWordFami::class.java)
             .getDataByUserWord("USERID,eq,$userid", "WORDID,eq,$wordid")
             .map { it.lst!! }
-    }
 
     fun update(id: Int, userid: Int, wordid: Int, level: Int, correct: Int, total: Int): Observable<Int> =
         retrofitJson.create(RestWordFami::class.java)

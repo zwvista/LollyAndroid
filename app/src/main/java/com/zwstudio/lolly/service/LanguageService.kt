@@ -7,9 +7,8 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class LanguageService: BaseService() {
-    fun getData(): Observable<List<MLanguage>> {
-        return retrofitJson.create(RestLanguage::class.java)
+    fun getData(): Observable<List<MLanguage>> =
+        retrofitJson.create(RestLanguage::class.java)
             .getData()
             .map { it.lst!!}
-    }
 }

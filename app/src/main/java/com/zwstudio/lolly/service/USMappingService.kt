@@ -7,9 +7,8 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class USMappingService: BaseService() {
-    fun getData(): Observable<List<MUSMapping>> {
-        return retrofitJson.create(RestUSMapping::class.java)
+    fun getData(): Observable<List<MUSMapping>> =
+        retrofitJson.create(RestUSMapping::class.java)
             .getData()
-            .map { it.lst!!}
-    }
+            .map { it.lst!! }
 }
