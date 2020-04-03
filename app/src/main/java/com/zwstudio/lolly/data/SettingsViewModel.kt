@@ -269,7 +269,6 @@ class SettingsViewModel : BaseViewModel1() {
         INFO_USDICTITEMS = getUSInfo(MUSMapping.NAME_USDICTITEMS)
         INFO_USDICTTRANSLATIONID = getUSInfo(MUSMapping.NAME_USDICTTRANSLATIONID)
         INFO_USANDROIDVOICEID = getUSInfo(MUSMapping.NAME_USANDROIDVOICEID)
-        val lstDicts = usdictitems.split("\r\n")
         return Observables.zip(dictReferenceService.getDataByLang(uslangid),
             dictNoteService.getDataByLang(uslangid),
             dictTranslationService.getDataByLang(uslangid),
@@ -278,15 +277,7 @@ class SettingsViewModel : BaseViewModel1() {
             voiceService.getDataByLang(uslangid)) {
             res1, res2, res3, res4, res5, res6 ->
             lstDictsReference = res1
-            var i = 0
-            lstDictItems = lstDicts.flatMap { d ->
-                if (d == "0")
-                    lstDictsReference.map { MDictItem(it.dictid.toString(), it.dictname!!) }
-                else {
-                    i++
-                    listOf(MDictItem(d, "Custom$i"))
-                }
-            }
+            lstDictItems = lstDictsReference.map { MDictItem(it.dictid.toString(), it.dictname!!) }
             selectedDictItem = lstDictItems.first { it.dictid == usdictitem }
             lstDictsNote = res2
             selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
@@ -304,18 +295,6 @@ class SettingsViewModel : BaseViewModel1() {
             } else
                 updateLang()
         }.applyIO()
-    }
-
-    fun dictHtml(word: String, dictids: List<String>): String {
-        var s = "<html><body>\n"
-        dictids.forEachIndexed { i, dictid ->
-            val item = lstDictsReference.first { it.dictid.toString() == dictid }
-            val ifrId = "ifr${i + 1}"
-            val url = item.urlString(word, lstAutoCorrect)
-            s += "<iframe id='$ifrId' frameborder='1' style='width:100%; height:500px; display:block' src='$url'></iframe>\n"
-        }
-        s += "</body></html>\n"
-        return s
     }
 
     fun updateLang(): Observable<Unit> =
