@@ -25,7 +25,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:textColor="@android:color/white"
-            android:textSize="20sp"/>
+            android:textSize="@dimen/text_size4"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -52,7 +52,7 @@
             android:paddingRight="16dp"
             android:text="Delete"
             android:textColor="@android:color/white"
-            android:textSize="20sp"/>
+            android:textSize="@dimen/text_size4"/>
         <TextView
             android:id="@+id/item_more"
             android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
             android:paddingRight="16dp"
             android:text="More"
             android:textColor="@android:color/white"
-            android:textSize="20sp"/>
+            android:textSize="@dimen/text_size4"/>
         </LinearLayout>
     </RelativeLayout>
 
