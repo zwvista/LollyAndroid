@@ -24,7 +24,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     @ViewById
     lateinit var spnVoice: Spinner
     @ViewById
-    lateinit var spnDictItem: Spinner
+    lateinit var spnDictReference: Spinner
     @ViewById
     lateinit var spnDictNote: Spinner
     @ViewById
@@ -115,13 +115,13 @@ class SettingsFragment : Fragment(), SettingsListener {
             onUpdateVoice()
         }
         run {
-            val lst = vm.lstDictItems
-            val adapter = object : ArrayAdapter<MDictItem>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val lst = vm.lstDictsReference
+            val adapter = object : ArrayAdapter<MDictionary>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictItem.selectedItemPosition == position
+                    (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
                     val item2 = vm.lstDictsReference.firstOrNull { it.dictname == m.dictname }
                     tv.text = item2?.url ?: ""
@@ -133,14 +133,14 @@ class SettingsFragment : Fragment(), SettingsListener {
                     convert(super.getDropDownView(position, convertView, parent), position)
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnDictItem.adapter = adapter
+            spnDictReference.adapter = adapter
 
-            spnDictItem.setSelection(vm.selectedDictItemIndex)
-            onUpdateDictItem()
+            spnDictReference.setSelection(vm.selectedDictReferenceIndex)
+            onUpdateDictReference()
         }
         run {
             val lst = vm.lstDictsNote
-            val adapter = object : ArrayAdapter<MDictNote>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val adapter = object : ArrayAdapter<MDictionary>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
@@ -163,7 +163,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
         run {
             val lst = vm.lstDictsTranslation
-            val adapter = object : ArrayAdapter<MDictTranslation>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val adapter = object : ArrayAdapter<MDictionary>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
@@ -219,12 +219,12 @@ class SettingsFragment : Fragment(), SettingsListener {
     }
 
     @ItemSelect
-    fun spnDictItemItemSelected(selected: Boolean, position: Int) {
-        if (vm.selectedDictItemIndex == position) return
-        vm.selectedDictItem = vm.lstDictItems[position]
+    fun spnDictReferenceItemSelected(selected: Boolean, position: Int) {
+        if (vm.selectedDictReferenceIndex == position) return
+        vm.selectedDictReference = vm.lstDictsReference[position]
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictItem.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateDictItem().subscribe())
+        (spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+        compositeDisposable.add(vm.updateDictReference().subscribe())
     }
 
     @ItemSelect
@@ -342,7 +342,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         compositeDisposable.add(vm.updatePartTo(vm.lstParts[position].value).subscribe())
     }
 
-    override fun onUpdateDictItem() {
+    override fun onUpdateDictReference() {
     }
 
     override fun onUpdateDictNote() {

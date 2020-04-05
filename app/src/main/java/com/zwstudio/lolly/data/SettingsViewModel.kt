@@ -53,29 +53,29 @@ class SettingsViewModel : BaseViewModel1() {
         set(value) {
             setUSValue(INFO_USTEXTBOOKID, value.toString())
         }
-    private var INFO_USDICTITEM = MUserSettingInfo()
-    var usdictitem: String
-        get() = getUSValue(INFO_USDICTITEM)!!
+    private var INFO_USDICTREFERENCE = MUserSettingInfo()
+    var usdictreference: String
+        get() = getUSValue(INFO_USDICTREFERENCE)!!
         set(value) {
-            setUSValue(INFO_USDICTITEM, value)
+            setUSValue(INFO_USDICTREFERENCE, value)
         }
-    private var INFO_USDICTNOTEID = MUserSettingInfo()
+    private var INFO_USDICTNOTE = MUserSettingInfo()
     var usdictnoteid: Int
-        get() = (getUSValue(INFO_USDICTNOTEID) ?: "0").toInt()
+        get() = (getUSValue(INFO_USDICTNOTE) ?: "0").toInt()
         set(value) {
-            setUSValue(INFO_USDICTNOTEID, value.toString())
+            setUSValue(INFO_USDICTNOTE, value.toString())
         }
-    private var INFO_USDICTITEMS = MUserSettingInfo()
-    var usdictitems: String
-        get() = getUSValue(INFO_USDICTITEMS) ?: "0"
+    private var INFO_USDICTSREFERENCE = MUserSettingInfo()
+    var usdictsreference: String
+        get() = getUSValue(INFO_USDICTSREFERENCE) ?: ""
         set(value) {
-            setUSValue(INFO_USDICTITEMS, value)
+            setUSValue(INFO_USDICTSREFERENCE, value)
         }
-    private var INFO_USDICTTRANSLATIONID = MUserSettingInfo()
+    private var INFO_USDICTTRANSLATION = MUserSettingInfo()
     var usdicttranslationid: Int
-        get() = (getUSValue(INFO_USDICTTRANSLATIONID) ?: "0").toInt()
+        get() = (getUSValue(INFO_USDICTTRANSLATION) ?: "0").toInt()
         set(value) {
-            setUSValue(INFO_USDICTTRANSLATIONID, value.toString())
+            setUSValue(INFO_USDICTTRANSLATION, value.toString())
         }
     private var INFO_USANDROIDVOICEID = MUserSettingInfo()
     var usvoiceid: Int
@@ -154,21 +154,20 @@ class SettingsViewModel : BaseViewModel1() {
     val selectedTextbookIndex: Int
         get() = lstTextbooks.indexOf(selectedTextbook)
 
-    var lstDictsReference = listOf<MDictReference>()
-    var lstDictItems = listOf<MDictItem>()
+    var lstDictsReference = listOf<MDictionary>()
     // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter
-    private var _selectedDictItem: MDictItem? = null
-    var selectedDictItem: MDictItem
-        get() = _selectedDictItem!!
+    private var _selectedDictReference: MDictionary? = null
+    var selectedDictReference: MDictionary
+        get() = _selectedDictReference!!
         set(value) {
-            _selectedDictItem = value
-            usdictitem = selectedDictItem.dictid
+            _selectedDictReference = value
+            usdictreference = selectedDictReference.dictid.toString()
         }
-    val selectedDictItemIndex: Int
-        get() = lstDictItems.indexOf(selectedDictItem)
+    val selectedDictReferenceIndex: Int
+        get() = lstDictsReference.indexOf(selectedDictReference)
 
-    var lstDictsNote = listOf<MDictNote>()
-    var selectedDictNote: MDictNote? = null
+    var lstDictsNote = listOf<MDictionary>()
+    var selectedDictNote: MDictionary? = null
         set(value) {
             field = value
             usdictnoteid = selectedDictNote?.id ?: 0
@@ -178,8 +177,8 @@ class SettingsViewModel : BaseViewModel1() {
             if (selectedDictNote == null) 0
             else lstDictsNote.indexOf(selectedDictNote!!)
 
-    var lstDictsTranslation = listOf<MDictTranslation>()
-    var selectedDictTranslation: MDictTranslation? = null
+    var lstDictsTranslation = listOf<MDictionary>()
+    var selectedDictTranslation: MDictionary? = null
         set(value) {
             field = value
             usdicttranslationid = selectedDictTranslation?.id ?: 0
@@ -214,11 +213,7 @@ class SettingsViewModel : BaseViewModel1() {
     @Bean
     lateinit var userSettingService: UserSettingService
     @Bean
-    lateinit var dictReferenceService: DictReferenceService
-    @Bean
-    lateinit var dictNoteService: DictNoteService
-    @Bean
-    lateinit var dictTranslationService: DictTranslationService
+    lateinit var dictionaryService: DictionaryService
     @Bean
     lateinit var textbookService: TextbookService
     @Bean
@@ -264,21 +259,20 @@ class SettingsViewModel : BaseViewModel1() {
         selectedLang = lang
         uslangid = selectedLang.id
         INFO_USTEXTBOOKID = getUSInfo(MUSMapping.NAME_USTEXTBOOKID)
-        INFO_USDICTITEM = getUSInfo(MUSMapping.NAME_USDICTITEM)
-        INFO_USDICTNOTEID = getUSInfo(MUSMapping.NAME_USDICTNOTEID)
-        INFO_USDICTITEMS = getUSInfo(MUSMapping.NAME_USDICTITEMS)
-        INFO_USDICTTRANSLATIONID = getUSInfo(MUSMapping.NAME_USDICTTRANSLATIONID)
+        INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
+        INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
+        INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
+        INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
         INFO_USANDROIDVOICEID = getUSInfo(MUSMapping.NAME_USANDROIDVOICEID)
-        return Observables.zip(dictReferenceService.getDataByLang(uslangid),
-            dictNoteService.getDataByLang(uslangid),
-            dictTranslationService.getDataByLang(uslangid),
+        return Observables.zip(dictionaryService.getDictsReferenceByLang(uslangid),
+            dictionaryService.getDictsNoteByLang(uslangid),
+            dictionaryService.getDictsTranslationByLang(uslangid),
             textbookService.getDataByLang(uslangid),
             autoCorrectService.getDataByLang(uslangid),
             voiceService.getDataByLang(uslangid)) {
             res1, res2, res3, res4, res5, res6 ->
             lstDictsReference = res1
-            lstDictItems = lstDictsReference.map { MDictItem(it.dictid.toString(), it.dictname!!) }
-            selectedDictItem = lstDictItems.first { it.dictid == usdictitem }
+            selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
             lstDictsNote = res2
             selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
             lstDictsTranslation = res3
@@ -307,18 +301,18 @@ class SettingsViewModel : BaseViewModel1() {
             .map { handler?.post { settingsListener?.onUpdateTextbook() }; Unit }
             .applyIO()
 
-    fun updateDictItem(): Observable<Unit> =
-        userSettingService.update(INFO_USDICTITEM, usdictitem)
-            .map { handler?.post { settingsListener?.onUpdateDictItem() }; Unit }
+    fun updateDictReference(): Observable<Unit> =
+        userSettingService.update(INFO_USDICTREFERENCE, usdictreference)
+            .map { handler?.post { settingsListener?.onUpdateDictReference() }; Unit }
             .applyIO()
 
     fun updateDictNote(): Observable<Unit> =
-        userSettingService.update(INFO_USDICTNOTEID, usdictnoteid)
+        userSettingService.update(INFO_USDICTNOTE, usdictnoteid)
             .map { handler?.post { settingsListener?.onUpdateDictNote() }; Unit }
             .applyIO()
 
     fun updateDictTranslation(): Observable<Unit> =
-        userSettingService.update(INFO_USDICTTRANSLATIONID, usdicttranslationid)
+        userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslationid)
             .map { handler?.post { settingsListener?.onUpdateDictTranslation() }; Unit }
             .applyIO()
 
@@ -446,7 +440,7 @@ interface SettingsListener {
     fun onGetData()
     fun onUpdateLang()
     fun onUpdateTextbook()
-    fun onUpdateDictItem()
+    fun onUpdateDictReference()
     fun onUpdateDictNote()
     fun onUpdateDictTranslation()
     fun onUpdateVoice()

@@ -60,12 +60,12 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Dictionary(Reference):"
-        android:id="@+id/tvDictItem"/>
+        android:id="@+id/tvDictReference"/>
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spnDictItem"
+        android:id="@+id/spnDictReference"
         android:layout_gravity="center_horizontal"/>
 
     <Space

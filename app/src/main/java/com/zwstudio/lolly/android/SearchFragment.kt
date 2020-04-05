@@ -8,7 +8,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.*
 import com.zwstudio.lolly.data.SearchViewModel
-import com.zwstudio.lolly.domain.MDictItem
+import com.zwstudio.lolly.domain.MDictionary
 import io.reactivex.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -19,7 +19,7 @@ class SearchFragment : Fragment() {
     @ViewById
     lateinit var svWord: SearchView
     @ViewById
-    lateinit var spnDictItem: Spinner
+    lateinit var spnDictReference: Spinner
     @ViewById
     lateinit var wvDictReference: WebView
     @ViewById
@@ -57,13 +57,13 @@ class SearchFragment : Fragment() {
         })
 
         compositeDisposable.add(vm.app.initializeObject.subscribe {
-            val lst = vm.vmSettings.lstDictItems
-            val adapter = object : ArrayAdapter<MDictItem>(context!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
+            val lst = vm.vmSettings.lstDictsReference
+            val adapter = object : ArrayAdapter<MDictionary>(context!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {
                     val m = getItem(position)!!
                     var tv = v.findViewById<TextView>(android.R.id.text1)
                     tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictItem.selectedItemPosition == position
+                    (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
                     tv = v.findViewById<TextView>(android.R.id.text2)
                     val item2 = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
                     tv.text = item2?.url ?: ""
@@ -75,9 +75,9 @@ class SearchFragment : Fragment() {
                     convert(super.getDropDownView(position, convertView, parent), position)
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnDictItem.adapter = adapter
+            spnDictReference.adapter = adapter
 
-            spnDictItem.setSelection(vm.vmSettings.selectedDictItemIndex)
+            spnDictReference.setSelection(vm.vmSettings.selectedDictReferenceIndex)
         })
 
     }
@@ -92,12 +92,12 @@ class SearchFragment : Fragment() {
     }
 
     @ItemSelect
-    fun spnDictItemItemSelected(selected: Boolean, position: Int) {
-        if (vm.vmSettings.selectedDictItemIndex == position) return
-        vm.vmSettings.selectedDictItem = vm.vmSettings.lstDictItems[position]
+    fun spnDictReferenceItemSelected(selected: Boolean, position: Int) {
+        if (vm.vmSettings.selectedDictReferenceIndex == position) return
+        vm.vmSettings.selectedDictReference = vm.vmSettings.lstDictsReference[position]
         Log.d("", String.format("Checked position:%d", position))
-        (spnDictItem.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.vmSettings.updateDictItem().subscribe())
+        (spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+        compositeDisposable.add(vm.vmSettings.updateDictReference().subscribe())
         searchDict()
     }
 
@@ -105,7 +105,7 @@ class SearchFragment : Fragment() {
         word = svWord.query.toString()
         wvDictReference.visibility = View.VISIBLE
         wvDictOffline.visibility = View.INVISIBLE
-        val item = vm.vmSettings.selectedDictItem
+        val item = vm.vmSettings.selectedDictReference
         val item2 = vm.vmSettings.lstDictsReference.first { it.dictname == item.dictname }
         val url = item2.urlString(word, vm.vmSettings.lstAutoCorrect)
         svWord.post { svWord.clearFocus() }

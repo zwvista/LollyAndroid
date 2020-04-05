@@ -14,24 +14,24 @@ class MDictsReference {
 
     @SerializedName("records")
     @Expose
-    var lst: List<MDictReference>? = null
+    var lst: List<MDictionary>? = null
 }
 
 class MDictsNote {
 
     @SerializedName("records")
     @Expose
-    var lst: List<MDictNote>? = null
+    var lst: List<MDictionary>? = null
 }
 
 class MDictsTranslation {
 
     @SerializedName("records")
     @Expose
-    var lst: List<MDictTranslation>? = null
+    var lst: List<MDictionary>? = null
 }
 
-abstract class MDictionary: Serializable {
+class MDictionary: Serializable {
 
     @SerializedName("ID")
     @Expose
@@ -94,11 +94,7 @@ abstract class MDictionary: Serializable {
         Log.d("", "urlString: " + wordUrl!!)
         return wordUrl
     }
-}
 
-val cssFolder = "https://zwvista2.tk/lolly/css/"
-
-class MDictReference: MDictionary() {
     fun htmlString(html: String, word: String, useTemplate2: Boolean): String {
         val t = if (useTemplate2 && !template2.isNullOrEmpty()) template2!! else template!!
         return extractTextFrom(html, transform!!, t) { text, t ->
@@ -109,10 +105,4 @@ class MDictReference: MDictionary() {
     }
 }
 
-class MDictItem(val dictid: String, val dictname: String) {
-    fun dictids(): List<String> = dictid.split(",")
-}
-
-class MDictNote: MDictionary()
-
-class MDictTranslation: MDictionary()
+val cssFolder = "https://zwvista2.tk/lolly/css/"

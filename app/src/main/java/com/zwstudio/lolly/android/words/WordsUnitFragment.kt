@@ -259,11 +259,9 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                                     3 -> itemView.copyText(item.word)
                                     4 -> itemView.googleString(item.word)
                                     5 -> {
-                                        if (!vm.vmSettings.selectedDictItem.dictname.startsWith("Custom")) {
-                                            val itemDict = vm.vmSettings.lstDictsReference.find { it.dictname == vm.vmSettings.selectedDictItem.dictname }!!
-                                            val url = itemDict.urlString(item.word, vm.vmSettings.lstAutoCorrect)
-                                            itemView.openPage(url)
-                                        }
+                                        val itemDict = vm.vmSettings.lstDictsReference.find { it.dictname == vm.vmSettings.selectedDictReference.dictname }!!
+                                        val url = itemDict.urlString(item.word, vm.vmSettings.lstAutoCorrect)
+                                        itemView.openPage(url)
                                     }
                                     else -> {}
                                 }
