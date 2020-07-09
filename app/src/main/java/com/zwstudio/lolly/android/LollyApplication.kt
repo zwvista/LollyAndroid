@@ -31,7 +31,7 @@ class LollyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        retrofitJson = Retrofit.Builder().baseUrl("https://zwvista2.tk/lolly/api.php/records/")
+        retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/records/")
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()

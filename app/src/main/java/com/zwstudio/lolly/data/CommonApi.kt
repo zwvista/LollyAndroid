@@ -13,7 +13,8 @@ fun View.copyText(text: String) {
     // https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     val clip = ClipData.newPlainText("", text)
-    clipboard.primaryClip = clip
+    // https://stackoverflow.com/questions/57128725/kotlin-android-studio-var-is-seen-as-val-in-sdk-29
+    clipboard.setPrimaryClip(clip)
 }
 
 fun View.openPage(url: String) {
@@ -44,7 +45,7 @@ fun extractTextFrom(html: String, transform: String, template: String, templateH
         var lst = transform.split("\r\n")
         if (lst.size % 2 == 1) lst = lst.dropLast(1)
 
-        for (i in 0 until lst.size step 2) {
+        for (i in lst.indices step 2) {
             val regex = Regex(lst[i])
             var replacer = lst[i + 1]
             if (replacer.startsWith("<extract>")) {
