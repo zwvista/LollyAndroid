@@ -44,72 +44,14 @@ class WordsUnitViewModel : BaseViewModel2() {
         unitWordService.updateNote(id, note)
             .applyIO()
 
-    fun update(id: Int, langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, wordid: Int, word: String, note: String?): Observable<Int> =
-        unitWordService.getDataByLangWord(wordid)
-            .concatMap {
-                val lstUnit = it
-                if (lstUnit.isEmpty())
-                    Observable.empty<Int>()
-                else
-                    langWordService.getDataById(wordid)
-                        .concatMap {
-                            val lstLangOld = it
-                            if (!lstLangOld.isEmpty() && lstLangOld[0].word == word)
-                                langWordService.updateNote(wordid, note).map { wordid }
-                            else
-                                langWordService.getDataByLangWord(langid, word)
-                                    .concatMap {
-                                        val lstLangNew = it
-                                        fun f(): Observable<Int> {
-                                            val itemLang = lstLangNew[0]
-                                            val wordid = itemLang.id
-                                            return if (itemLang.combineNote(note))
-                                                langWordService.updateNote(wordid, itemLang.note).map { wordid }
-                                            else
-                                                Observable.just(wordid)
-                                        }
-                                        if (lstUnit.size == 1)
-                                            if (lstLangNew.isEmpty())
-                                                langWordService.update(wordid, langid, word, note).map { wordid }
-                                            else
-                                                langWordService.delete(wordid).concatMap { f() }
-                                        else
-                                            if (lstLangNew.isEmpty())
-                                                langWordService.create(langid, word, note)
-                                            else
-                                                f()
-                                    }
-                        }
-            }.concatMap {
-                unitWordService.update(id, textbookid, unit, part, seqnum, it)
-            }.applyIO()
+    fun update(item: MUnitWord): Observable<Int> =
+        unitWordService.update(item).applyIO()
 
-    fun create(langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, wordid: Int, word: String, note: String?): Observable<Int> =
-        langWordService.getDataByLangWord(langid, word)
-            .concatMap {
-                val lstLang = it
-                if (lstLang.isEmpty())
-                    langWordService.create(langid, word, note)
-                else {
-                    val itemLang = lstLang[0]
-                    val wordid = itemLang.id
-                    val b = itemLang.combineNote(note)
-                    if (b)
-                        langWordService.updateNote(wordid, itemLang.note).map { wordid }
-                    else
-                        Observable.just(wordid)
-                }
-            }.concatMap {
-                unitWordService.create(textbookid, unit, part, seqnum, it)
-            }.applyIO()
+    fun create(item: MUnitWord): Observable<Int> =
+        unitWordService.create(item).applyIO()
 
-    fun delete(id: Int, wordid: Int, famiid: Int): Observable<Int> =
-        unitWordService.delete(id)
-            .concatMap {
-                langWordService.delete(wordid)
-            }.concatMap {
-                wordFamiService.delete(famiid)
-            }.applyIO()
+    fun delete(item: MUnitWord): Observable<Int> =
+        unitWordService.delete(item).applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstWords.size) {

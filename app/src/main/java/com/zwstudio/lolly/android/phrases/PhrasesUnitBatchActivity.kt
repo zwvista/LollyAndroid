@@ -122,7 +122,7 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
             if (chkUnit.isChecked) item.unit = (spnUnit.selectedItem as MSelectItem).value
             if (chkPart.isChecked) item.part = (spnPart.selectedItem as MSelectItem).value
             if (chkSeqNum.isChecked) item.seqnum += etSeqNum.text.toString().toInt()
-            compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation).subscribe())
+            compositeDisposable.add(vm.update(item).subscribe())
         }
         finish()
     }

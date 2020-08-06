@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.data
 
 import com.zwstudio.lolly.domain.MUnitPhrase
+import com.zwstudio.lolly.domain.MUnitWord
 import com.zwstudio.lolly.service.LangPhraseService
 import com.zwstudio.lolly.service.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
@@ -36,76 +37,14 @@ class PhrasesUnitViewModel : BaseViewModel2() {
         unitPhraseService.updateSeqNum(id, seqnum)
             .applyIO()
 
-    fun update(id: Int, langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, phraseid: Int, phrase: String, translation: String?): Observable<Int> =
-        unitPhraseService.getDataByLangPhrase(phraseid)
-            .concatMap {
-                val lstUnit = it
-                if (lstUnit.isEmpty())
-                    Observable.empty<Int>()
-                else
-                    langPhraseService.getDataById(phraseid)
-                        .concatMap {
-                            val lstLangOld = it
-                            if (!lstLangOld.isEmpty() && lstLangOld[0].phrase == phrase)
-                                langPhraseService.updateTranslation(phraseid, translation).map { phraseid }
-                            else
-                                langPhraseService.getDataByLangPhrase(langid, phrase)
-                                    .concatMap {
-                                        val lstLangNew = it
-                                        fun f(): Observable<Int> {
-                                            val itemLang = lstLangNew[0]
-                                            val phraseid = itemLang.id
-                                            return if (itemLang.combinetranslation(translation))
-                                                langPhraseService.updateTranslation(phraseid, itemLang.translation).map { phraseid }
-                                            else
-                                                Observable.just(phraseid)
-                                        }
-                                        if (lstUnit.size == 1)
-                                            if (lstLangNew.isEmpty())
-                                                langPhraseService.update(phraseid, langid, phrase, translation).map { phraseid }
-                                            else
-                                                langPhraseService.delete(phraseid).concatMap { f() }
-                                        else
-                                            if (lstLangNew.isEmpty())
-                                                langPhraseService.create(langid, phrase, translation)
-                                            else
-                                                f()
-                                    }
-                        }
-            }.concatMap {
-                unitPhraseService.update(id, textbookid, unit, part, seqnum, it)
-            }.applyIO()
+    fun update(item: MUnitPhrase): Observable<Int> =
+        unitPhraseService.update(item).applyIO()
 
-    fun create(langid: Int, textbookid: Int, unit: Int, part: Int, seqnum: Int, phraseid: Int, phrase: String, translation: String?): Observable<Int> =
-        langPhraseService.getDataByLangPhrase(langid, phrase)
-            .concatMap {
-                val lstLang = it
-                if (lstLang.isEmpty())
-                    langPhraseService.create(langid, phrase, translation)
-                else {
-                    val itemLang = lstLang[0]
-                    val phraseid = itemLang.id
-                    val b = itemLang.combinetranslation(translation)
-                    if (b)
-                        langPhraseService.updateTranslation(phraseid, itemLang.translation).map { phraseid }
-                    else
-                        Observable.just(phraseid)
-                }
-            }.concatMap {
-                unitPhraseService.create(textbookid, unit, part, seqnum, it)
-            }.applyIO()
+    fun create(item: MUnitPhrase): Observable<Int> =
+        unitPhraseService.create(item).applyIO()
 
-    fun delete(id: Int, phraseid: Int): Observable<Int> =
-        unitPhraseService.delete(id)
-            .concatMap {
-                unitPhraseService.getDataByLangPhrase(phraseid)
-            }.concatMap {
-                val lst = it
-                if (!lst.isEmpty())
-                    Observable.empty<Int>()
-                else
-                    langPhraseService.delete(phraseid)
-            }.applyIO()
+    fun delete(item: MUnitPhrase): Observable<Int> =
+        unitPhraseService.delete(item).applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstPhrases.size) {

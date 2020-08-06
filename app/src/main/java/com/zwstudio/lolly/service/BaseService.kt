@@ -11,6 +11,8 @@ class BaseService {
     lateinit var app: LollyApplication
     val retrofitJson: Retrofit
         get() = app.retrofitJson
+    val retrofitSP: Retrofit
+        get() = app.retrofitSP
     val retrofitHtml: Retrofit
         get() = app.retrofitHtml
 }

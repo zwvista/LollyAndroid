@@ -153,7 +153,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
-                        compositeDisposable.add(vm.delete(item.id, item.famiid).subscribe())
+                        compositeDisposable.add(vm.delete(item).subscribe())
                         vm.isSwipeStarted = false
                     }, {
                         mDragListView.resetSwipedViews(null)

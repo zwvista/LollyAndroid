@@ -28,8 +28,8 @@ class PhrasesLangViewModel : BaseViewModel2() {
         langPhraseService.create(langid, phrase, translation)
             .applyIO()
 
-    fun delete(id: Int): Observable<Int> =
-        langPhraseService.delete(id)
+    fun delete(item: MLangPhrase): Observable<Int> =
+        langPhraseService.delete(item)
             .applyIO()
 
     fun newLangPhrase() = MLangPhrase().apply {

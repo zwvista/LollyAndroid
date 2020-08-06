@@ -30,6 +30,9 @@ interface RestLangPhrase {
                @Field("PHRASE") phrase: String,
                @Field("TRANSLATION") translation: String?): Observable<Int>
 
-    @DELETE("LANGPHRASES/{id}")
-    fun delete(@Path("id") id: Int): Observable<Int>
+    @FormUrlEncoded
+    @POST("LANGPHRASES_DELETE")
+    fun delete(@Field("P_ID") id: Int, @Field("P_LANGID") langid: Int,
+               @Field("P_PHRASE") phrase: String,
+               @Field("P_TRANSLATION") translation: String?): Observable<Int>
 }

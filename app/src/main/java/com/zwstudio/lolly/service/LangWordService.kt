@@ -41,8 +41,8 @@ class LangWordService: BaseService() {
             .create(langid, word, note)
             .map { Log.d("", it.toString()) }
 
-    fun delete(id: Int): Observable<Int> =
+    fun delete(o: MLangWord): Observable<Int> =
         retrofitJson.create(RestLangWord::class.java)
-            .delete(id)
+            .delete(o.id, o.langid, o.word, o.note, o.famiid, o.level, o.correct, o.total)
             .map { Log.d("", it.toString()) }
 }

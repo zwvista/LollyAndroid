@@ -21,6 +21,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 class LollyApplication : Application() {
 
     lateinit var retrofitJson: Retrofit
+    lateinit var retrofitSP: Retrofit
     lateinit var retrofitHtml: Retrofit
     @Bean
     lateinit var vm: SettingsViewModel
@@ -32,6 +33,10 @@ class LollyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/records/")
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        retrofitSP = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/sp.php/")
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()

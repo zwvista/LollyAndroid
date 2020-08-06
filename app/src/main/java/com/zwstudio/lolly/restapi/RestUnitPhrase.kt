@@ -19,18 +19,30 @@ interface RestUnitPhrase {
     fun updateSeqNum(@Path("id") id: Int, @Field("SEQNUM") seqnum: Int): Observable<Int>
 
     @FormUrlEncoded
-    @PUT("VUNITPHRASES/{id}")
-    fun update(@Path("id") id: Int, @Field("TEXTBOOKID") textbookid: Int,
-               @Field("UNIT") unit: Int, @Field("PART") part: Int,
-               @Field("SEQNUM") seqnum: Int, @Field("PHRASEID") phraseid: Int): Observable<Int>
+    @POST("VUNITPHRASES_UPDATE")
+    fun update(@Field("P_ID") id: Int, @Field("P_LANGID") langid: Int,
+               @Field("P_TEXTBOOKID") textbookid: Int,
+               @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
+               @Field("P_SEQNUM") seqnum: Int, @Field("P_PHRASEID") phraseid: Int,
+               @Field("P_PHRASE") phrase: String,
+               @Field("P_TRANSLATION") translation: String?): Observable<Int>
 
     @FormUrlEncoded
-    @POST("VUNITPHRASES")
-    fun create(@Field("TEXTBOOKID") textbookid: Int,
-               @Field("UNIT") unit: Int, @Field("PART") part: Int,
-               @Field("SEQNUM") seqnum: Int, @Field("PHRASEID") phraseid: Int): Observable<Int>
+    @POST("VUNITPHRASES_CREATE")
+    fun create(@Field("P_ID") id: Int, @Field("P_LANGID") langid: Int,
+               @Field("P_TEXTBOOKID") textbookid: Int,
+               @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
+               @Field("P_SEQNUM") seqnum: Int, @Field("P_PHRASEID") phraseid: Int,
+               @Field("P_PHRASE") phrase: String,
+               @Field("P_TRANSLATION") translation: String?): Observable<Int>
 
-    @DELETE("VUNITPHRASES/{id}")
-    fun delete(@Path("id") id: Int): Observable<Int>
+    @FormUrlEncoded
+    @POST("VUNITPHRASES_DELETE")
+    fun delete(@Field("P_ID") id: Int, @Field("P_LANGID") langid: Int,
+               @Field("P_TEXTBOOKID") textbookid: Int,
+               @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
+               @Field("P_SEQNUM") seqnum: Int, @Field("P_PHRASEID") phraseid: Int,
+               @Field("P_PHRASE") phrase: String,
+               @Field("P_TRANSLATION") translation: String?): Observable<Int>
 
 }

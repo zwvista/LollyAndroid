@@ -41,8 +41,8 @@ class LangPhraseService: BaseService() {
             .create(langid, phrase, translation)
             .map { Log.d("", it.toString()) }
 
-    fun delete(id: Int): Observable<Int> =
-        retrofitJson.create(RestLangPhrase::class.java)
-            .delete(id)
+    fun delete(o: MLangPhrase): Observable<Int> =
+        retrofitSP.create(RestLangPhrase::class.java)
+            .delete(o.id, o.langid, o.phrase, o.translation)
             .map { Log.d("", it.toString()) }
 }

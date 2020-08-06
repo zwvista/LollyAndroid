@@ -23,18 +23,33 @@ interface RestUnitWord {
     fun updateNote(@Path("id") id: Int, @Field("NOTE") note: String?): Observable<Int>
 
     @FormUrlEncoded
-    @PUT("UNITWORDS/{id}")
-    fun update(@Path("id") id: Int, @Field("TEXTBOOKID") textbookid: Int,
-               @Field("UNIT") unit: Int, @Field("PART") part: Int,
-               @Field("SEQNUM") seqnum: Int, @Field("WORDID") wordid: Int): Observable<Int>
+    @POST("UNITWORDS_UPDATE")
+    fun update(@Field("P_ID") id: Int, @Field("P_LANGID") langid: Int,
+               @Field("P_TEXTBOOKID") textbookid: Int,
+               @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
+               @Field("P_SEQNUM") seqnum: Int, @Field("P_WORDID") wordid: Int,
+               @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
+               @Field("P_FAMIID") famiid: Int, @Field("P_LEVEL") level: Int,
+               @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<Int>
 
     @FormUrlEncoded
-    @POST("UNITWORDS")
-    fun create(@Field("TEXTBOOKID") textbookid: Int,
-               @Field("UNIT") unit: Int, @Field("PART") part: Int,
-               @Field("SEQNUM") seqnum: Int, @Field("WORDID") wordid: Int): Observable<Int>
+    @POST("UNITWORDS_CREATE")
+    fun create(@Field("P_ID") id: Int, @Field("P_LANGID") langid: Int,
+               @Field("P_TEXTBOOKID") textbookid: Int,
+               @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
+               @Field("P_SEQNUM") seqnum: Int, @Field("P_WORDID") wordid: Int,
+               @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
+               @Field("P_FAMIID") famiid: Int, @Field("P_LEVEL") level: Int,
+               @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<Int>
 
-    @DELETE("UNITWORDS/{id}")
-    fun delete(@Path("id") id: Int): Observable<Int>
+    @FormUrlEncoded
+    @POST("UNITWORDS_DELETE")
+    fun delete(@Field("P_ID") id: Int, @Field("P_LANGID") langid: Int,
+               @Field("P_TEXTBOOKID") textbookid: Int,
+               @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
+               @Field("P_SEQNUM") seqnum: Int, @Field("P_WORDID") wordid: Int,
+               @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
+               @Field("P_FAMIID") famiid: Int, @Field("P_LEVEL") level: Int,
+               @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<Int>
 
 }

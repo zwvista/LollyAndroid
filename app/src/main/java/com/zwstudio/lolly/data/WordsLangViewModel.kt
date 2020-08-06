@@ -33,11 +33,8 @@ class WordsLangViewModel : BaseViewModel2() {
         langWordService.create(langid, word, note)
             .applyIO()
 
-    fun delete(id: Int, famiid: Int): Observable<Int> =
-        langWordService.delete(id)
-            .concatMap {
-                wordFamiService.delete(famiid)
-            }.applyIO()
+    fun delete(item: MLangWord): Observable<Int> =
+        langWordService.delete(item).applyIO()
 
     fun newLangWord() = MLangWord().apply {
         langid = vmSettings.selectedLang.id
