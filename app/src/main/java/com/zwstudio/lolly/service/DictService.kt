@@ -4,7 +4,7 @@ import com.zwstudio.lolly.domain.MDictionary
 import com.zwstudio.lolly.restapi.RestDictNote
 import com.zwstudio.lolly.restapi.RestDictReference
 import com.zwstudio.lolly.restapi.RestDictTranslation
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean

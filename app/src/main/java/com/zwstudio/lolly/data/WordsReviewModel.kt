@@ -4,7 +4,7 @@ import com.zwstudio.lolly.domain.MUnitWord
 import com.zwstudio.lolly.domain.ReviewMode
 import com.zwstudio.lolly.service.HtmlService
 import com.zwstudio.lolly.service.UnitWordService
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 

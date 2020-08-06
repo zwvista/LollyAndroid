@@ -24,7 +24,7 @@ import com.zwstudio.lolly.data.PhrasesLangViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.domain.MLangPhrase
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 import java.util.*
 

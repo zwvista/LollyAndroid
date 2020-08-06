@@ -11,7 +11,7 @@ import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.WordsUnitViewModel
 import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.MUnitWord
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_words_textbook_detail)

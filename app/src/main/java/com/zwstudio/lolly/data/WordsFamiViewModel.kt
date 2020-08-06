@@ -3,7 +3,7 @@ package com.zwstudio.lolly.data
 import com.zwstudio.lolly.data.GlobalConstants.userid
 import com.zwstudio.lolly.domain.MWordFami
 import com.zwstudio.lolly.service.WordFamiService
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 

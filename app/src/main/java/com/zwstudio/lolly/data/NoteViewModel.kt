@@ -2,10 +2,10 @@ package com.zwstudio.lolly.data
 
 import android.util.Log
 import com.zwstudio.lolly.service.HtmlService
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit

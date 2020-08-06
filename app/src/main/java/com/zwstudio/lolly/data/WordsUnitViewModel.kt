@@ -4,8 +4,8 @@ import com.zwstudio.lolly.domain.MUnitWord
 import com.zwstudio.lolly.service.LangWordService
 import com.zwstudio.lolly.service.UnitWordService
 import com.zwstudio.lolly.service.WordFamiService
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 

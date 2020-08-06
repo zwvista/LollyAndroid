@@ -4,7 +4,7 @@ import android.util.Log
 import com.zwstudio.lolly.domain.MLangPhrase
 import com.zwstudio.lolly.domain.MTextbook
 import com.zwstudio.lolly.restapi.RestLangPhrase
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 import java.net.URLEncoder
 

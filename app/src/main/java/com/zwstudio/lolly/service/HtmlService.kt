@@ -2,7 +2,7 @@ package com.zwstudio.lolly.service
 
 import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.restapi.RestHtml
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean

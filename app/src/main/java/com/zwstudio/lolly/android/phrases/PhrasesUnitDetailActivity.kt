@@ -10,7 +10,7 @@ import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.MUnitPhrase
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_phrases_unit_detail)

@@ -3,8 +3,8 @@ package com.zwstudio.lolly.data
 import com.zwstudio.lolly.domain.MUnitPhrase
 import com.zwstudio.lolly.service.LangPhraseService
 import com.zwstudio.lolly.service.UnitPhraseService
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 

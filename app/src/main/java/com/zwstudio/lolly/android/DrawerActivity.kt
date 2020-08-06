@@ -20,7 +20,7 @@ import com.zwstudio.lolly.android.words.WordsLangFragment_
 import com.zwstudio.lolly.android.words.WordsReviewFragment_
 import com.zwstudio.lolly.android.words.WordsTextbookFragment_
 import com.zwstudio.lolly.android.words.WordsUnitFragment_
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.EFragment

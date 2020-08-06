@@ -6,7 +6,7 @@ import android.widget.TextView
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.MLangPhrase
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_phrases_lang_detail)

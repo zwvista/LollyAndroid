@@ -3,7 +3,7 @@ package com.zwstudio.lolly.service
 import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.MTextbook
 import com.zwstudio.lolly.restapi.RestTextbook
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean

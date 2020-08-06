@@ -10,7 +10,7 @@ import android.widget.*
 import com.zwstudio.lolly.data.SettingsListener
 import com.zwstudio.lolly.data.SettingsViewModel
 import com.zwstudio.lolly.domain.*
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EFragment(R.layout.content_settings)

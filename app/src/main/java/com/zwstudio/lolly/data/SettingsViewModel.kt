@@ -3,8 +3,8 @@ package com.zwstudio.lolly.data
 import android.os.Handler
 import com.zwstudio.lolly.domain.*
 import com.zwstudio.lolly.service.*
-import io.reactivex.Observable
-import io.reactivex.rxkotlin.Observables
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.kotlin.Observables
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 

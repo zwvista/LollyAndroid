@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.restapi
 
 import com.zwstudio.lolly.domain.MUserSettings
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*
 
 // https://stackoverflow.com/questions/46892100/how-to-use-rxjava2-with-retrofit-in-android

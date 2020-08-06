@@ -29,7 +29,7 @@ import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.data.openPage
 import com.zwstudio.lolly.domain.MUnitWord
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 import java.util.*
 

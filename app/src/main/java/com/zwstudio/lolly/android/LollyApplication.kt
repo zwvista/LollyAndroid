@@ -8,12 +8,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.util.AttributeSet
 import android.view.View
 import com.zwstudio.lolly.data.SettingsViewModel
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.ReplaySubject
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.subjects.ReplaySubject
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EApplication
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
@@ -32,12 +32,12 @@ class LollyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/records/")
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         // https://futurestud.io/tutorials/retrofit-2-receive-plain-string-responses
         retrofitHtml = Retrofit.Builder().baseUrl("https://www.google.com")
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
         compositeDisposable.add(vm.getData().subscribe {

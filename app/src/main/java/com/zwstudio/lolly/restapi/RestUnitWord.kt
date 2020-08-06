@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.restapi
 
 import com.zwstudio.lolly.domain.MUnitWords
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*
 
 interface RestUnitWord {

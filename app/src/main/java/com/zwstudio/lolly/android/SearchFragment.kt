@@ -9,7 +9,7 @@ import android.webkit.WebViewClient
 import android.widget.*
 import com.zwstudio.lolly.data.SearchViewModel
 import com.zwstudio.lolly.domain.MDictionary
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 

@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.data
 
 import com.zwstudio.lolly.service.HtmlService
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 

@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.data
 
 import com.zwstudio.lolly.android.LollyApplication
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import org.androidannotations.annotations.App
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean

@@ -10,10 +10,10 @@ import com.zwstudio.lolly.data.PhrasesReviewModel
 import com.zwstudio.lolly.data.applyIO
 import com.zwstudio.lolly.domain.MSelectItem
 import com.zwstudio.lolly.domain.ReviewMode
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import org.androidannotations.annotations.*
+import io.reactivex.rxjava3.core.Observable
 import java.util.*
 import java.util.concurrent.TimeUnit
 

@@ -4,7 +4,7 @@ import android.util.Log
 import com.zwstudio.lolly.domain.MUserSetting
 import com.zwstudio.lolly.domain.MUserSettingInfo
 import com.zwstudio.lolly.restapi.RestUserSetting
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
