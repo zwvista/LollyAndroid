@@ -45,13 +45,16 @@ class WordsUnitViewModel : BaseViewModel2() {
             .applyIO()
 
     fun update(item: MUnitWord): Observable<Int> =
-        unitWordService.update(item).applyIO()
+        unitWordService.update(item)
+            .applyIO()
 
     fun create(item: MUnitWord): Observable<Int> =
-        unitWordService.create(item).applyIO()
+        unitWordService.create(item)
+            .applyIO()
 
     fun delete(item: MUnitWord): Observable<Int> =
-        unitWordService.delete(item).applyIO()
+        unitWordService.delete(item)
+            .applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstWords.size) {

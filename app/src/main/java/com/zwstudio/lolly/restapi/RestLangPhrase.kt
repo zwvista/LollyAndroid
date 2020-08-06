@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.restapi
 
 import com.zwstudio.lolly.domain.MLangPhrases
+import com.zwstudio.lolly.domain.MSPResult
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*
 
@@ -34,5 +35,5 @@ interface RestLangPhrase {
     @POST("LANGPHRASES_DELETE")
     fun delete(@Field("P_ID") id: Int, @Field("P_LANGID") langid: Int,
                @Field("P_PHRASE") phrase: String,
-               @Field("P_TRANSLATION") translation: String?): Observable<Int>
+               @Field("P_TRANSLATION") translation: String?): Observable<List<List<MSPResult>>>
 }

@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.restapi
 
 import com.zwstudio.lolly.domain.MLangWords
+import com.zwstudio.lolly.domain.MSPResult
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*
 
@@ -33,6 +34,6 @@ interface RestLangWord {
     fun delete(@Field("P_ID") id: Int, @Field("P_LANGID") langid: Int,
                @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
                @Field("P_FAMIID") famiid: Int, @Field("P_LEVEL") level: Int,
-               @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<Int>
+               @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<List<List<MSPResult>>>
 
 }

@@ -53,7 +53,10 @@ class UnitWordService: BaseService() {
     fun create(o: MUnitWord): Observable<Int> =
         retrofitSP.create(RestUnitWord::class.java)
             .create(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.level, o.correct, o.total)
-            .map { Log.d("", it.toString()) }
+            .map {
+                Log.d("", it.toString())
+                it[0][0].newid!!.toInt()
+            }
 
     fun delete(o: MUnitWord): Observable<Int> =
         retrofitSP.create(RestUnitWord::class.java)

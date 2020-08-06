@@ -34,7 +34,8 @@ class WordsLangViewModel : BaseViewModel2() {
             .applyIO()
 
     fun delete(item: MLangWord): Observable<Int> =
-        langWordService.delete(item).applyIO()
+        langWordService.delete(item)
+            .applyIO()
 
     fun newLangWord() = MLangWord().apply {
         langid = vmSettings.selectedLang.id

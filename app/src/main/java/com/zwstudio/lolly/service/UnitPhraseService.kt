@@ -48,7 +48,10 @@ class UnitPhraseService: BaseService() {
     fun create(o: MUnitPhrase): Observable<Int> =
         retrofitSP.create(RestUnitPhrase::class.java)
             .create(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.phraseid, o.phrase, o.translation)
-            .map { Log.d("", it.toString()) }
+            .map {
+                Log.d("", it.toString())
+                it[0][0].newid!!.toInt()
+            }
 
     fun delete(o: MUnitPhrase): Observable<Int> =
         retrofitSP.create(RestUnitPhrase::class.java)

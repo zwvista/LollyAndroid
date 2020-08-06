@@ -38,13 +38,16 @@ class PhrasesUnitViewModel : BaseViewModel2() {
             .applyIO()
 
     fun update(item: MUnitPhrase): Observable<Int> =
-        unitPhraseService.update(item).applyIO()
+        unitPhraseService.update(item)
+            .applyIO()
 
     fun create(item: MUnitPhrase): Observable<Int> =
-        unitPhraseService.create(item).applyIO()
+        unitPhraseService.create(item)
+            .applyIO()
 
     fun delete(item: MUnitPhrase): Observable<Int> =
-        unitPhraseService.delete(item).applyIO()
+        unitPhraseService.delete(item)
+            .applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstPhrases.size) {
