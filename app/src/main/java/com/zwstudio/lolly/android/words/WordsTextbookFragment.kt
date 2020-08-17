@@ -94,6 +94,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            super.onBindViewHolder(holder, position)
             val item = mItemList[position]
             holder.mText1.text = item.word
             holder.mText2.text = item.unitpartseqnum

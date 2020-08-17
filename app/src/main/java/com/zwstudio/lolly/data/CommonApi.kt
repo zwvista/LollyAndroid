@@ -37,7 +37,7 @@ fun View.googleString(text: String) {
 }
 
 fun extractTextFrom(html: String, transform: String, template: String, templateHandler: (String, String) -> String): String {
-    val dic = mapOf("<delete>" to "", "\\t" to "\t", "\\r" to "\r", "\\n" to "\n")
+    val dic = mapOf("<delete>" to "", "\\t" to "\t", "\\n" to "\n")
 
     var text = html
     do {
