@@ -8,7 +8,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
-class WordsLangViewModel : BaseViewModel2() {
+class WordsLangViewModel : BaseViewModel() {
 
     var lstWords = mutableListOf<MLangWord>()
     var isSwipeStarted = false
@@ -25,7 +25,7 @@ class WordsLangViewModel : BaseViewModel2() {
             .map { lstWords = it.toMutableList() }
             .applyIO()
 
-    fun update(id: Int, langid: Int, word: String, level: Int, note: String?): Observable<Int> =
+    fun update(id: Int, langid: Int, word: String, level: Int, note: String?): Observable<Unit> =
         langWordService.update(id, langid, word, note)
             .applyIO()
 
@@ -33,7 +33,7 @@ class WordsLangViewModel : BaseViewModel2() {
         langWordService.create(langid, word, note)
             .applyIO()
 
-    fun delete(item: MLangWord): Observable<Int> =
+    fun delete(item: MLangWord): Observable<Unit> =
         langWordService.delete(item)
             .applyIO()
 
@@ -41,7 +41,7 @@ class WordsLangViewModel : BaseViewModel2() {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getNote(index: Int): Observable<Int> {
+    fun getNote(index: Int): Observable<Unit> {
         val item = lstWords[index]
         return vmNote.getNote(item.word).concatMap {
             item.note = it

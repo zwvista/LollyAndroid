@@ -17,23 +17,23 @@ class WordsFamiViewModel {
         wordFamiService.getDataByUserWord(userid, wordid)
             .applyIO()
 
-    private fun update(id: Int, userid: Int, wordid: Int, level: Int, correct: Int, total: Int): Observable<Int> =
+    private fun update(id: Int, userid: Int, wordid: Int, level: Int, correct: Int, total: Int): Observable<Unit> =
         wordFamiService.update(id, userid, wordid, level, correct, total)
             .applyIO()
 
-    private fun create(userid: Int, wordid: Int, level: Int, correct: Int, total: Int): Observable<Int> =
+    private fun create(userid: Int, wordid: Int, level: Int, correct: Int, total: Int): Observable<Unit> =
         wordFamiService.create(userid, wordid, level, correct, total)
             .applyIO()
 
-    private fun delete(id: Int): Observable<Int> =
+    private fun delete(id: Int): Observable<Unit> =
         wordFamiService.delete(id)
             .applyIO()
 
-    fun update(wordid: Int, level: Int): Observable<Int> {
+    fun update(wordid: Int, level: Int): Observable<Unit> {
         return getDataByUserWord(GlobalConstants.userid, wordid).concatMap { lst ->
             if (lst.isEmpty()) {
                 if (level == 0)
-                    Observable.empty<Int>()
+                    Observable.empty<Unit>()
                 else
                     create(userid, wordid, level, 0, 0)
             } else {
@@ -46,7 +46,7 @@ class WordsFamiViewModel {
         }
     }
 
-    fun update(wordid: Int, isCorrect: Boolean): Observable<Int> {
+    fun update(wordid: Int, isCorrect: Boolean): Observable<Unit> {
         return getDataByUserWord(GlobalConstants.userid, wordid).concatMap { lst ->
             val d = if (isCorrect) 1 else 0
             if (lst.isEmpty())
@@ -58,7 +58,7 @@ class WordsFamiViewModel {
         }
     }
 
-    fun clearAccuracy(wordid: Int): Observable<Int> {
+    fun clearAccuracy(wordid: Int): Observable<Unit> {
         return getDataByUserWord(GlobalConstants.userid, wordid).concatMap { lst ->
             if (lst.isEmpty())
                 Observable.empty()

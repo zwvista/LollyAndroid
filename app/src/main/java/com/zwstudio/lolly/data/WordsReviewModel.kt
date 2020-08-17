@@ -9,7 +9,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
-class WordsReviewModel : BaseViewModel2() {
+class WordsReviewModel : BaseViewModel() {
 
     @Bean
     lateinit var unitWordService: UnitWordService

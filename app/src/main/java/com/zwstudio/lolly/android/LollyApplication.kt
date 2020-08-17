@@ -24,14 +24,12 @@ class LollyApplication : Application() {
         lateinit var retrofitJson: Retrofit
         lateinit var retrofitSP: Retrofit
         lateinit var retrofitHtml: Retrofit
+        val compositeDisposable = CompositeDisposable()
+        val initializeObject = ReplaySubject.createWithSize<Unit>(1)
     }
 
     @Bean
     lateinit var vm: SettingsViewModel
-
-    val compositeDisposable = CompositeDisposable()
-    val initializeObject = ReplaySubject.createWithSize<Unit>(1)
-    var initialized = false
 
     override fun onCreate() {
         super.onCreate()
@@ -49,7 +47,6 @@ class LollyApplication : Application() {
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
         compositeDisposable.add(vm.getData().subscribe {
-            initialized = true
             initializeObject.onNext(Unit)
             initializeObject.onComplete()
         })

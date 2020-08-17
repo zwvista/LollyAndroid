@@ -7,7 +7,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
-class PhrasesLangViewModel : BaseViewModel2() {
+class PhrasesLangViewModel : BaseViewModel() {
 
     var lstPhrases = mutableListOf<MLangPhrase>()
     var isSwipeStarted = false
@@ -20,7 +20,7 @@ class PhrasesLangViewModel : BaseViewModel2() {
             .map { lstPhrases = it.toMutableList() }
             .applyIO()
 
-    fun update(id: Int, langid: Int, phrase: String, translation: String?): Observable<Int> =
+    fun update(id: Int, langid: Int, phrase: String, translation: String?): Observable<Unit> =
         langPhraseService.update(id, langid, phrase, translation)
             .applyIO()
 
@@ -28,7 +28,7 @@ class PhrasesLangViewModel : BaseViewModel2() {
         langPhraseService.create(langid, phrase, translation)
             .applyIO()
 
-    fun delete(item: MLangPhrase): Observable<Int> =
+    fun delete(item: MLangPhrase): Observable<Unit> =
         langPhraseService.delete(item)
             .applyIO()
 

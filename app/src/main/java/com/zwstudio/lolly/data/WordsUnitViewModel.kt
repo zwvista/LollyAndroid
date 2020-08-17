@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
-class WordsUnitViewModel : BaseViewModel2() {
+class WordsUnitViewModel : BaseViewModel() {
 
     var lstWords = listOf<MUnitWord>()
     var isSwipeStarted = false
@@ -36,15 +36,15 @@ class WordsUnitViewModel : BaseViewModel2() {
             .map { lstWords = it }
             .applyIO()
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Int> =
+    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
         unitWordService.updateSeqNum(id, seqnum)
             .applyIO()
 
-    fun updateNote(id: Int, note: String?): Observable<Int> =
+    fun updateNote(id: Int, note: String?): Observable<Unit> =
         unitWordService.updateNote(id, note)
             .applyIO()
 
-    fun update(item: MUnitWord): Observable<Int> =
+    fun update(item: MUnitWord): Observable<Unit> =
         unitWordService.update(item)
             .applyIO()
 
@@ -52,7 +52,7 @@ class WordsUnitViewModel : BaseViewModel2() {
         unitWordService.create(item)
             .applyIO()
 
-    fun delete(item: MUnitWord): Observable<Int> =
+    fun delete(item: MUnitWord): Observable<Unit> =
         unitWordService.delete(item)
             .applyIO()
 
@@ -77,7 +77,7 @@ class WordsUnitViewModel : BaseViewModel2() {
         seqnum = (maxItem?.seqnum ?: 0) + 1
     }
 
-    fun getNote(index: Int): Observable<Int> {
+    fun getNote(index: Int): Observable<Unit> {
         val item = lstWords[index]
         return vmNote.getNote(item.word).concatMap {
             item.note = it

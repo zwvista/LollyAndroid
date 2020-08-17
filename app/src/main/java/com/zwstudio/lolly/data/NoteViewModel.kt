@@ -11,7 +11,7 @@ import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit
 
 @EBean
-class NoteViewModel : BaseViewModel2() {
+class NoteViewModel : BaseViewModel() {
 
     lateinit var compositeDisposable: CompositeDisposable
 

@@ -8,7 +8,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
-class PhrasesReviewModel : BaseViewModel2() {
+class PhrasesReviewModel : BaseViewModel() {
 
     @Bean
     lateinit var unitPhraseService: UnitPhraseService

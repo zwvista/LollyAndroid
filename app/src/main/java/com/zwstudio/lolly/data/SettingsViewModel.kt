@@ -9,7 +9,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean(scope = EBean.Scope.Singleton)
-class SettingsViewModel : BaseViewModel1() {
+class SettingsViewModel {
 
     var lstUSMappings = listOf<MUSMapping>()
     var lstUserSettings = listOf<MUserSetting>()

@@ -56,7 +56,7 @@ class SearchFragment : Fragment() {
             }
         })
 
-        compositeDisposable.add(vm.app.initializeObject.subscribe {
+        compositeDisposable.add(LollyApplication.initializeObject.subscribe {
             val lst = vm.vmSettings.lstDictsReference
             val adapter = object : ArrayAdapter<MDictionary>(context!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
                 fun convert(v: View, position: Int): View {

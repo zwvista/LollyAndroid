@@ -6,7 +6,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
-class SearchViewModel : BaseViewModel2() {
+class SearchViewModel : BaseViewModel() {
     var lstWords = mutableListOf<String>()
     var selectedWordIndex = 0
     val selectedWord: String

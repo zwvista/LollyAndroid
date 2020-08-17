@@ -13,7 +13,7 @@ fun <T> Observable<T>.applyIO(): Observable<T> =
         .observeOn(AndroidSchedulers.mainThread())
 
 @EBean
-class BaseViewModel2 {
+class BaseViewModel {
     @Bean
     lateinit var vmSettings: SettingsViewModel
 }
