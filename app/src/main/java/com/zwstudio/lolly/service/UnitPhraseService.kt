@@ -35,15 +35,15 @@ class UnitPhraseService: BaseService() {
             .getDataByLangPhrase("PHRASEID,eq,$phraseid")
             .map { it.lst }
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Int> =
+    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
         retrofitJson.create(RestUnitPhrase::class.java)
             .updateSeqNum(id, seqnum)
-            .map { Log.d("", it.toString()) }
+            .map { Log.d("", it.toString()); Unit }
 
-    fun update(o: MUnitPhrase): Observable<Int> =
+    fun update(o: MUnitPhrase): Observable<Unit> =
         retrofitSP.create(RestUnitPhrase::class.java)
             .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.phraseid, o.phrase, o.translation)
-            .map { Log.d("", it.toString()) }
+            .map { Log.d("", it.toString()); Unit }
 
     fun create(o: MUnitPhrase): Observable<Int> =
         retrofitSP.create(RestUnitPhrase::class.java)
@@ -53,8 +53,8 @@ class UnitPhraseService: BaseService() {
                 it[0][0].newid!!.toInt()
             }
 
-    fun delete(o: MUnitPhrase): Observable<Int> =
+    fun delete(o: MUnitPhrase): Observable<Unit> =
         retrofitSP.create(RestUnitPhrase::class.java)
             .delete(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.phraseid, o.phrase, o.translation)
-            .map { Log.d("", it.toString()) }
+            .map { Log.d("", it.toString()); Unit }
 }

@@ -13,13 +13,7 @@ fun <T> Observable<T>.applyIO(): Observable<T> =
         .observeOn(AndroidSchedulers.mainThread())
 
 @EBean
-class BaseViewModel1 {
-    @App
-    lateinit var app: LollyApplication
-}
-
-@EBean
-class BaseViewModel2 : BaseViewModel1() {
+class BaseViewModel2 {
     @Bean
     lateinit var vmSettings: SettingsViewModel
 }

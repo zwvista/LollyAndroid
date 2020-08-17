@@ -1,18 +1,15 @@
 package com.zwstudio.lolly.service
 
 import com.zwstudio.lolly.android.LollyApplication
-import org.androidannotations.annotations.App
 import org.androidannotations.annotations.EBean
 import retrofit2.Retrofit
 
 @EBean
 class BaseService {
-    @App
-    lateinit var app: LollyApplication
     val retrofitJson: Retrofit
-        get() = app.retrofitJson
+        get() = LollyApplication.retrofitJson
     val retrofitSP: Retrofit
-        get() = app.retrofitSP
+        get() = LollyApplication.retrofitSP
     val retrofitHtml: Retrofit
-        get() = app.retrofitHtml
+        get() = LollyApplication.retrofitHtml
 }

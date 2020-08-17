@@ -20,9 +20,12 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 @EApplication
 class LollyApplication : Application() {
 
-    lateinit var retrofitJson: Retrofit
-    lateinit var retrofitSP: Retrofit
-    lateinit var retrofitHtml: Retrofit
+    companion object {
+        lateinit var retrofitJson: Retrofit
+        lateinit var retrofitSP: Retrofit
+        lateinit var retrofitHtml: Retrofit
+    }
+
     @Bean
     lateinit var vm: SettingsViewModel
 

@@ -8,7 +8,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
-class WordsFamiViewModel : BaseViewModel1() {
+class WordsFamiViewModel {
 
     @Bean
     lateinit var wordFamiService: WordFamiService
