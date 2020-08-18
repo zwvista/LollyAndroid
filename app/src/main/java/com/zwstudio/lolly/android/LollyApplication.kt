@@ -24,12 +24,12 @@ class LollyApplication : Application() {
         lateinit var retrofitJson: Retrofit
         lateinit var retrofitSP: Retrofit
         lateinit var retrofitHtml: Retrofit
-        val compositeDisposable = CompositeDisposable()
         val initializeObject = ReplaySubject.createWithSize<Unit>(1)
     }
 
     @Bean
     lateinit var vm: SettingsViewModel
+    val compositeDisposable = CompositeDisposable()
 
     override fun onCreate() {
         super.onCreate()

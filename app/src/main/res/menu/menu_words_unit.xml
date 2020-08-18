@@ -22,4 +22,18 @@
         android:title="@string/action_batch"
         android:orderInCategory="103"
         app:showAsAction="never"/>
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/menuNormalMode"
+            android:titleCondensed="Normal"
+            android:title="Normal Mode"
+            android:checked="true"
+            android:icon="@android:drawable/ic_menu_preferences">
+        </item>
+        <item android:id="@+id/menuEditMode"
+            android:titleCondensed="Edit"
+            android:title="Edit Mode"
+            android:checked="false"
+            android:icon="@android:drawable/ic_menu_preferences">
+        </item>
+    </group>
 </menu>

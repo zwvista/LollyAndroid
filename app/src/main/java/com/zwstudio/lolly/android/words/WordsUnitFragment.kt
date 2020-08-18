@@ -6,13 +6,10 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Handler
 import android.speech.tts.TextToSpeech
+import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -42,6 +39,11 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @Bean
     lateinit var vm: WordsUnitViewModel
     lateinit var tts: TextToSpeech
+
+    @OptionsMenuItem
+    lateinit var menuNormalMode: MenuItem
+    @OptionsMenuItem
+    lateinit var menuEditMode: MenuItem
 
     @AfterViews
     fun afterViews() {
@@ -107,6 +109,16 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             mDragListView.setCustomDragItem(WordsUnitDragItem(context!!, R.layout.list_item_words_unit_edit))
             progressBar1.visibility = View.GONE
         })
+    }
+
+    @OptionsItem
+    fun menuNormalMode() {
+        menuNormalMode.isChecked = true
+    }
+
+    @OptionsItem
+    fun menuEditMode() {
+        menuEditMode.isChecked = true
     }
 
     @OptionsItem
