@@ -50,7 +50,7 @@ allOpen {
     annotation("org.androidannotations.api.KotlinOpen")
 }
 
-def AAVersion = '4.7.0'
+def AAVersion = '4.6.0'
 def retrofit_version = '2.9.0'
 dependencies {
     kapt "org.androidannotations:androidannotations:$AAVersion"

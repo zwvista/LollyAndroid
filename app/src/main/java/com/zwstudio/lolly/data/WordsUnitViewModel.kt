@@ -20,10 +20,6 @@ class WordsUnitViewModel : BaseViewModel() {
 
     @Bean
     lateinit var unitWordService: UnitWordService
-    @Bean
-    lateinit var langWordService: LangWordService
-    @Bean
-    lateinit var wordFamiService: WordFamiService
 
     fun getDataInTextbook(): Observable<Unit> =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,

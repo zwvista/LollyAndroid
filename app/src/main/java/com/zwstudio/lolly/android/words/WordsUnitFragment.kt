@@ -103,8 +103,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = WordsUnitItemAdapter(vm, mDragListView, tts, compositeDisposable)
-            mDragListView.setAdapter(listAdapter, true)
+            setMenuMode(false)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(WordsUnitDragItem(context!!, R.layout.list_item_words_unit_edit))
             progressBar1.visibility = View.GONE
@@ -112,13 +111,13 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     }
 
     @OptionsItem
-    fun menuNormalMode() {
-        menuNormalMode.isChecked = true
-    }
-
+    fun menuNormalMode() = setMenuMode(false)
     @OptionsItem
-    fun menuEditMode() {
-        menuEditMode.isChecked = true
+    fun menuEditMode() = setMenuMode(true)
+    private fun setMenuMode(isEditMode: Boolean) {
+        (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
+        val listAdapter = WordsUnitItemAdapter(vm, mDragListView, isEditMode, tts, compositeDisposable)
+        mDragListView.setAdapter(listAdapter, true)
     }
 
     @OptionsItem
@@ -164,7 +163,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         }
     }
 
-    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
+    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val isEditMode: Boolean, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -194,14 +193,14 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             return mItemList[position].id.toLong()
         }
 
-        internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
+        inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView
             var mText2: TextView
             var mText3: TextView
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
-            var mSpeak: ImageView
+            var mForward: ImageView
             var mHamburger: ImageView
             var mItemSwipe: View
 
@@ -212,18 +211,19 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
-                mSpeak = itemView.findViewById(R.id.image_speak)
+                mForward = itemView.findViewById(R.id.image_forward)
                 mHamburger = itemView.findViewById(R.id.image_hamburger)
                 mItemSwipe = itemView.findViewById(R.id.item_swipe)
                 initButtons()
             }
 
+            fun edit(item: MUnitWord) {
+                WordsUnitDetailActivity_.intent(itemView.context)
+                        .extra("word", item).startForResult(REQUEST_CODE)
+            }
+
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
-                fun edit(item: MUnitWord) {
-                    WordsUnitDetailActivity_.intent(itemView.context)
-                        .extra("word", item).startForResult(REQUEST_CODE)
-                }
                 fun delete(item: MUnitWord) {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
@@ -282,13 +282,16 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     }
                     true
                 }
-                mSpeak.setOnTouchListener { _, event ->
+                mForward.setOnTouchListener { _, event ->
                     val item = itemView.tag as MUnitWord
-                    if (event.action == MotionEvent.ACTION_DOWN)
-                        tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null)
+                    WordsDictActivity_.intent(itemView.context)
+                            .extra("list", vm.lstWords.map { it.word } .toTypedArray())
+                            .extra("index", vm.lstWords.indexOf(item)).start()
                     true
                 }
-                if (!vm.vmSettings.isSingleUnitPart)
+                if (isEditMode)
+                    mForward.visibility = View.GONE
+                if (!(isEditMode && vm.vmSettings.isSingleUnitPart))
                     mHamburger.visibility = View.GONE
             }
 
@@ -298,9 +301,10 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MUnitWord
-                    WordsDictActivity_.intent(view.context)
-                        .extra("list", vm.lstWords.map { it.word } .toTypedArray())
-                        .extra("index", vm.lstWords.indexOf(item)).start()
+                    if (isEditMode)
+                        edit(item)
+                    else
+                        tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null)
                 }
             }
 
