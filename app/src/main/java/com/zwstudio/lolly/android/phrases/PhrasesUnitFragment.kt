@@ -4,13 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.speech.tts.TextToSpeech
+import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -21,6 +18,7 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.words.WordsUnitFragment
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.PhrasesUnitViewModel
 import com.zwstudio.lolly.data.copyText
@@ -39,6 +37,11 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @Bean
     lateinit var vm: PhrasesUnitViewModel
     lateinit var tts: TextToSpeech
+
+    @OptionsMenuItem
+    lateinit var menuNormalMode: MenuItem
+    @OptionsMenuItem
+    lateinit var menuEditMode: MenuItem
 
     @AfterViews
     fun afterViews() {
@@ -93,12 +96,21 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, tts, compositeDisposable)
-            mDragListView.setAdapter(listAdapter, true)
+            setMenuMode(false)
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(PhrasesUnitDragItem(context!!, R.layout.list_item_phrases_unit_edit))
             progressBar1.visibility = View.GONE
         })
+    }
+
+    @OptionsItem
+    fun menuNormalMode() = setMenuMode(false)
+    @OptionsItem
+    fun menuEditMode() = setMenuMode(true)
+    private fun setMenuMode(isEditMode: Boolean) {
+        (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
+        val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, isEditMode, tts, compositeDisposable)
+        mDragListView.setAdapter(listAdapter, true)
     }
 
     @OptionsItem
@@ -129,7 +141,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         }
     }
 
-    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
+    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val isEditMode: Boolean, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases
@@ -160,7 +172,6 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
-            var mSpeak: ImageView
             var mHamburger: ImageView
 
             init {
@@ -170,17 +181,17 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
-                mSpeak = itemView.findViewById(R.id.image_speak)
                 mHamburger = itemView.findViewById(R.id.image_hamburger)
                 initButtons()
             }
 
+            fun edit(item: MUnitPhrase) {
+                PhrasesUnitDetailActivity_.intent(itemView.context)
+                    .extra("phrase", item).startForResult(REQUEST_CODE)
+            }
+
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
-                fun edit(item: MUnitPhrase) {
-                    PhrasesUnitDetailActivity_.intent(itemView.context)
-                        .extra("phrase", item).startForResult(REQUEST_CODE)
-                }
                 fun delete(item: MUnitPhrase) {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
@@ -228,13 +239,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     }
                     true
                 }
-                mSpeak.setOnTouchListener { _, event ->
-                    val item = itemView.tag as MUnitPhrase
-                    if (event.action == MotionEvent.ACTION_DOWN)
-                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null)
-                    true
-                }
-                if (!vm.vmSettings.isSingleUnitPart)
+                if (!(isEditMode && vm.vmSettings.isSingleUnitPart))
                     mHamburger.visibility = View.GONE
             }
 
@@ -244,8 +249,10 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MUnitPhrase
-                    PhrasesUnitDetailActivity_.intent(view.context)
-                        .extra("phrase", item).startForResult(REQUEST_CODE)
+                    if (isEditMode)
+                        edit(item)
+                    else
+                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null)
                 }
             }
 

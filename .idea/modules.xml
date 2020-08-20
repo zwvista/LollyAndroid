@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Lolly-LollyAndroid.iml" filepath="$PROJECT_DIR$/.idea/modules/Lolly-LollyAndroid.iml" group="LollyAndroid" />
       <module fileurl="file://$PROJECT_DIR$/LollyAndroid.iml" filepath="$PROJECT_DIR$/LollyAndroid.iml" group="LollyAndroid" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LollyAndroid-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LollyAndroid-app.iml" group="LollyAndroid/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="LollyAndroid/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/zw-LollyAndroid.iml" filepath="$PROJECT_DIR$/.idea/modules/zw-LollyAndroid.iml" group="LollyAndroid" />
     </modules>
   </component>
 </project>

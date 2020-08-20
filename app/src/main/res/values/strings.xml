@@ -63,4 +63,6 @@
     <string name="text_speak">Speak</string>
     <string name="text_shuffled">Shuffled</string>
     <string name="text_levelge0">Level >= 0</string>
+    <string name="normal_mode">Normal Mode</string>
+    <string name="edit_mode">Edit Mode</string>
 </resources>

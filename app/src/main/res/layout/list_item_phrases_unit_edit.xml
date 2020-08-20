@@ -109,12 +109,6 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
         <ImageView
-            android:id="@+id/image_speak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/speak"
-            android:padding="16dp"/>
-        <ImageView
             android:id="@+id/image_hamburger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -25,13 +25,13 @@
     <group android:checkableBehavior="single">
         <item android:id="@+id/menuNormalMode"
             android:titleCondensed="Normal"
-            android:title="Normal Mode"
+            android:title="@string/normal_mode"
             android:checked="true"
             android:icon="@android:drawable/ic_menu_preferences">
         </item>
         <item android:id="@+id/menuEditMode"
             android:titleCondensed="Edit"
-            android:title="Edit Mode"
+            android:title="@string/edit_mode"
             android:checked="false"
             android:icon="@android:drawable/ic_menu_preferences">
         </item>
