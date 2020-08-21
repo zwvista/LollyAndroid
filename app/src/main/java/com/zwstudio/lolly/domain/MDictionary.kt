@@ -41,19 +41,28 @@ class MDictionary: Serializable {
     var dictid = 0
     @SerializedName("LANGIDFROM")
     @Expose
-    var langidfrom: Int? = null
+    var langidfrom = 0
+    @SerializedName("LANGNAMEFROM")
+    @Expose
+    var langnamefrom = ""
     @SerializedName("LANGIDTO")
     @Expose
-    var langidto: Int? = null
+    var langidto = 0
+    @SerializedName("LANGNAMETO")
+    @Expose
+    var langnameto = ""
     @SerializedName("SEQNUM")
     @Expose
-    var seqnum: Int? = null
+    var seqnum = 0
+    @SerializedName("DICTTYPEID")
+    @Expose
+    var dicttypeid = 0
     @SerializedName("DICTTYPENAME")
     @Expose
-    var dicttypename: String? = null
+    var dicttypename = ""
     @SerializedName("DICTNAME")
     @Expose
-    var dictname: String? = null
+    var dictname = ""
     @SerializedName("URL")
     @Expose
     var url: String? = null
@@ -63,15 +72,12 @@ class MDictionary: Serializable {
     @SerializedName("AUTOMATION")
     @Expose
     var automation: String? = null
-    @SerializedName("DICTTABLE")
-    @Expose
-    var dicttable: String? = null
     @SerializedName("TRANSFORM")
     @Expose
     var transform: String? = null
     @SerializedName("WAIT")
     @Expose
-    var wait: Int? = null
+    var wait = 0
     @SerializedName("TEMPLATE")
     @Expose
     var template: String? = null
