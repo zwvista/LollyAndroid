@@ -32,19 +32,4 @@ class MLangPhrase(): Serializable {
         this.phrase = phrase
         this.translation = translation
     }
-
-    fun combinetranslation(translation2: String?): Boolean {
-        val oldTranslation = translation
-        if (!translation2.isNullOrEmpty())
-            if (translation.isNullOrEmpty())
-                translation = translation2
-            else {
-                val lst = translation!!.split(',').toMutableList()
-                if (!lst.contains(translation2)) {
-                    lst.add(translation2)
-                    translation = lst.joinToString(",")
-                }
-            }
-        return oldTranslation != translation
-    }
 }

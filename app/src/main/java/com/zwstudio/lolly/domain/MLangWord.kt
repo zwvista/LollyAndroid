@@ -40,21 +40,6 @@ class MLangWord: Serializable {
     @Expose
     var total = 0
 
-    fun combineNote(note2: String?): Boolean {
-        val oldNote = note
-        if (!note2.isNullOrEmpty())
-            if (note.isNullOrEmpty())
-                note = note2
-            else {
-                val lst = note!!.split(',').toMutableList()
-                if (!lst.contains(note2)) {
-                    lst.add(note2)
-                    note = lst.joinToString(",")
-                }
-            }
-        return oldNote != note
-    }
-
     val wordnote: String
         get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
     val accuracy: String
