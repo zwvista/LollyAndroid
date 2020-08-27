@@ -71,6 +71,7 @@ class WordsUnitViewModel : BaseViewModel() {
         unit = maxItem?.unit ?: vmSettings.usunitto
         part = maxItem?.part ?: vmSettings.uspartto
         seqnum = (maxItem?.seqnum ?: 0) + 1
+        textbook = vmSettings.selectedTextbook
     }
 
     fun getNote(index: Int): Observable<Unit> {
