@@ -13,7 +13,7 @@ interface RestUnitWord {
     fun getDataByLang(@Query("filter") filter: String): Observable<MUnitWords>
 
     @GET("VUNITWORDS")
-    fun getDataByLangWord(@Query("filter") filter: String): Observable<MUnitWords>
+    fun getDataByLangWord(@Query("filter") vararg filters: String): Observable<MUnitWords>
 
     @FormUrlEncoded
     @PUT("UNITWORDS/{id}")

@@ -30,10 +30,15 @@ class UnitWordService: BaseService() {
                 lst
             }
 
-    fun getDataByLangWord(wordid: Int): Observable<List<MUnitWord>> =
+    fun getDataByLangWord(langid: Int, word: String, lstTextbooks: List<MTextbook>): Observable<List<MUnitWord>> =
         retrofitJson.create(RestUnitWord::class.java)
-            .getDataByLangWord("WORDID,eq,$wordid")
-            .map { it.lst!! }
+            .getDataByLangWord("LANGID,eq,${langid}", "WORD,eq,${word}")
+            .map {
+                val lst = it.lst!!
+                for (o in lst)
+                    o.textbook = lstTextbooks.first { it.id == o.textbookid }
+                lst
+            }
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
         retrofitJson.create(RestUnitWord::class.java)
