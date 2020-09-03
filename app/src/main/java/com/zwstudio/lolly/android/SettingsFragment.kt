@@ -293,7 +293,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         run {
             val adapter = makeAdapter(vm.lstToTypes)
             spnToType.adapter = adapter
-            spnToType.setSelection(vm.toType)
+            spnToType.setSelection(vm.toType.ordinal)
         }
     }
 

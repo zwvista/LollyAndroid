@@ -146,10 +146,7 @@ class SettingsViewModel {
             INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
             INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
             INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
-            toType =
-                if (isSingleUnit) 0
-                else if (isSingleUnitPart) 1
-                else 2
+            toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
         }
     val selectedTextbookIndex: Int
         get() = lstTextbooks.indexOf(selectedTextbook)
@@ -210,7 +207,7 @@ class SettingsViewModel {
     var lstAutoCorrect = listOf<MAutoCorrect>()
 
     val lstToTypes = listOf("Unit", "Part", "To").mapIndexed { index, s -> MSelectItem(index, s) }
-    var toType = 0
+    var toType = UnitPartToType.To
 
     val lstScopeWordFilters = listOf("Word", "Note")
     val lstScopePhraseFilters = listOf("Phrase", "Translation")
@@ -298,7 +295,7 @@ class SettingsViewModel {
         }.concatMap {
             if (isinit) {
                 handler?.post { settingsListener?.onUpdateLang() }
-                Observable.just(Unit)
+                Observable.empty()
             } else
                 updateLang()
         }.applyIO()
@@ -339,9 +336,9 @@ class SettingsViewModel {
 
     fun updateUnitFrom(v: Int): Observable<Unit> =
         doUpdateUnitFrom(v, false).concatMap {
-            if (toType == 0)
+            if (toType == UnitPartToType.Unit)
                 doUpdateSingleUnit()
-            else if (toType == 1 || isInvalidUnitPart)
+            else if (toType == UnitPartToType.Part || isInvalidUnitPart)
                 doUpdateUnitPartTo()
             else
                 Observable.empty()
@@ -349,24 +346,24 @@ class SettingsViewModel {
 
     fun updatePartFrom(v: Int): Observable<Unit> =
         doUpdatePartFrom(v, false).concatMap {
-            if (toType == 1 || isInvalidUnitPart)
+            if (toType == UnitPartToType.Part || isInvalidUnitPart)
                 doUpdateUnitPartTo()
             else
                 Observable.empty()
         }
 
     fun updateToType(v: Int): Observable<Unit> {
-        toType = v
-        return if (toType == 0)
+        toType = UnitPartToType.values()[v]
+        return if (toType == UnitPartToType.Unit)
             doUpdateSingleUnit()
-        else if (toType == 1)
+        else if (toType == UnitPartToType.Part)
             doUpdateUnitPartTo()
         else
             Observable.empty()
     }
 
     fun previousUnitPart(): Observable<Unit> =
-        if (toType == 0)
+        if (toType == UnitPartToType.Unit)
             if (usunitfrom > 1)
                 Observables.zip(doUpdateUnitFrom(usunitfrom - 1), doUpdateUnitTo(usunitfrom)).map { Unit }
             else
@@ -379,7 +376,7 @@ class SettingsViewModel {
             Observable.empty()
 
     fun nextUnitPart(): Observable<Unit> =
-        if (toType == 0)
+        if (toType == UnitPartToType.Unit)
             if (usunitfrom < unitCount)
                 Observables.zip(doUpdateUnitFrom(usunitfrom + 1), doUpdateUnitTo(usunitfrom)).map { Unit }
             else

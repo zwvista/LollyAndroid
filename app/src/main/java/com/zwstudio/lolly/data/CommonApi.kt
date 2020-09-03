@@ -9,6 +9,10 @@ object GlobalConstants {
     val userid = 1
 }
 
+enum class UnitPartToType {
+    Unit, Part, To
+}
+
 fun View.copyText(text: String) {
     // https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
