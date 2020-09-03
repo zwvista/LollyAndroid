@@ -206,7 +206,7 @@ class SettingsViewModel {
 
     var lstAutoCorrect = listOf<MAutoCorrect>()
 
-    val lstToTypes = listOf("Unit", "Part", "To").mapIndexed { index, s -> MSelectItem(index, s) }
+    val lstToTypes = UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) }
     var toType = UnitPartToType.To
 
     val lstScopeWordFilters = listOf("Word", "Note")
