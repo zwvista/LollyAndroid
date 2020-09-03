@@ -30,7 +30,7 @@ class WordsFamiViewModel {
             .applyIO()
 
     fun update(wordid: Int, level: Int): Observable<Unit> {
-        return getDataByUserWord(GlobalConstants.userid, wordid).concatMap { lst ->
+        return getDataByUserWord(GlobalConstants.userid, wordid).flatMap { lst ->
             if (lst.isEmpty()) {
                 if (level == 0)
                     Observable.empty<Unit>()
@@ -47,7 +47,7 @@ class WordsFamiViewModel {
     }
 
     fun update(wordid: Int, isCorrect: Boolean): Observable<Unit> {
-        return getDataByUserWord(GlobalConstants.userid, wordid).concatMap { lst ->
+        return getDataByUserWord(GlobalConstants.userid, wordid).flatMap { lst ->
             val d = if (isCorrect) 1 else 0
             if (lst.isEmpty())
                 create(userid, wordid, 0, d, 1)
@@ -59,7 +59,7 @@ class WordsFamiViewModel {
     }
 
     fun clearAccuracy(wordid: Int): Observable<Unit> {
-        return getDataByUserWord(GlobalConstants.userid, wordid).concatMap { lst ->
+        return getDataByUserWord(GlobalConstants.userid, wordid).flatMap { lst ->
             if (lst.isEmpty())
                 Observable.empty()
             else {

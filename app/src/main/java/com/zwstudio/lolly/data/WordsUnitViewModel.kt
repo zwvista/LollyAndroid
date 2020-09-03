@@ -76,7 +76,7 @@ class WordsUnitViewModel : BaseViewModel() {
 
     fun getNote(index: Int): Observable<Unit> {
         val item = lstWords[index]
-        return vmNote.getNote(item.word).concatMap {
+        return vmNote.getNote(item.word).flatMap {
             item.note = it
             unitWordService.updateNote(item.id, it)
         }

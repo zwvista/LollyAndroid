@@ -247,7 +247,7 @@ class SettingsViewModel {
         Observables.zip(languageService.getData(),
             usMappingService.getData(),
             userSettingService.getDataByUser(GlobalConstants.userid))
-        .concatMap {
+        .flatMap {
             lstLanguages = it.first
             lstUSMappings = it.second
             lstUserSettings = it.third
@@ -292,7 +292,7 @@ class SettingsViewModel {
             lstAutoCorrect = res5
             lstVoices = res6
             selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
-        }.concatMap {
+        }.flatMap {
             if (isinit) {
                 handler?.post { settingsListener?.onUpdateLang() }
                 Observable.empty()
@@ -335,7 +335,7 @@ class SettingsViewModel {
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
 
     fun updateUnitFrom(v: Int): Observable<Unit> =
-        doUpdateUnitFrom(v, false).concatMap {
+        doUpdateUnitFrom(v, false).flatMap {
             if (toType == UnitPartToType.Unit)
                 doUpdateSingleUnit()
             else if (toType == UnitPartToType.Part || isInvalidUnitPart)
@@ -345,7 +345,7 @@ class SettingsViewModel {
         }
 
     fun updatePartFrom(v: Int): Observable<Unit> =
-        doUpdatePartFrom(v, false).concatMap {
+        doUpdatePartFrom(v, false).flatMap {
             if (toType == UnitPartToType.Part || isInvalidUnitPart)
                 doUpdateUnitPartTo()
             else
@@ -389,7 +389,7 @@ class SettingsViewModel {
             Observable.empty()
 
     fun updateUnitTo(v: Int): Observable<Unit> =
-        doUpdateUnitTo(v, false).concatMap {
+        doUpdateUnitTo(v, false).flatMap {
             if (isInvalidUnitPart)
                 doUpdateUnitPartFrom()
             else
@@ -397,7 +397,7 @@ class SettingsViewModel {
         }
 
     fun updatePartTo(v: Int): Observable<Unit> =
-        doUpdatePartTo(v, false).concatMap {
+        doUpdatePartTo(v, false).flatMap {
             if (isInvalidUnitPart)
                 doUpdateUnitPartFrom()
             else
