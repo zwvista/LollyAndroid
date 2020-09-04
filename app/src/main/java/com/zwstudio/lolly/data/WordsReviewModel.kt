@@ -62,7 +62,7 @@ class WordsReviewModel : BaseViewModel() {
     }
 
     fun check(wordInput: String): Observable<Unit> {
-        if (!hasNext) return Observable.empty()
+        if (!hasNext) return Observable.just(Unit)
         val o = currentItem!!
         val isCorrect = o.word == wordInput
         if (isCorrect) lstCorrectIDs.add(o.id)

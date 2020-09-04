@@ -61,7 +61,7 @@ class WordsFamiViewModel {
     fun clearAccuracy(wordid: Int): Observable<Unit> {
         return getDataByUserWord(GlobalConstants.userid, wordid).flatMap { lst ->
             if (lst.isEmpty())
-                Observable.empty()
+                Observable.just(Unit)
             else {
                 val o = lst[0]
                 if (o.level == 0)
