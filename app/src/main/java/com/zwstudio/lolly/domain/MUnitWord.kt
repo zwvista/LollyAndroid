@@ -46,9 +46,6 @@ class MUnitWord: Serializable {
     @SerializedName("FAMIID")
     @Expose
     var famiid = 0
-    @SerializedName("LEVEL")
-    @Expose
-    var level = 0
     @SerializedName("CORRECT")
     @Expose
     var correct = 0

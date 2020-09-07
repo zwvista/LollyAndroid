@@ -25,11 +25,11 @@ class WordsLangViewModel : BaseViewModel() {
             .map { lstWords = it.toMutableList() }
             .applyIO()
 
-    fun update(id: Int, langid: Int, word: String, level: Int, note: String?): Observable<Unit> =
+    fun update(id: Int, langid: Int, word: String, note: String?): Observable<Unit> =
         langWordService.update(id, langid, word, note)
             .applyIO()
 
-    fun create(langid: Int, word: String, level: Int, note: String?): Observable<Int> =
+    fun create(langid: Int, word: String, note: String?): Observable<Int> =
         langWordService.create(langid, word, note)
             .applyIO()
 

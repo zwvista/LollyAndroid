@@ -112,11 +112,6 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             holder.mText1.text = item.word
             holder.mText2.text = item.note
             holder.itemView.tag = item
-            if (item.level == 0) return
-            val lst = vm.vmSettings.uslevelcolors[item.level]!!
-            holder.mItemSwipe.setBackgroundColor(Color.parseColor("#" + lst[0]))
-            holder.mText1.setTextColor(Color.parseColor("#" + lst[1]))
-            holder.mText2.setTextColor(Color.parseColor("#" + lst[1]))
         }
 
         override fun getUniqueItemId(position: Int): Long {

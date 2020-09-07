@@ -39,10 +39,6 @@ class WordsUnitBatchActivity : AppCompatActivity() {
     lateinit var chkSeqNum: CheckBox
     @ViewById
     lateinit var etSeqNum: EditText
-    @ViewById
-    lateinit var chkLevel: CheckBox
-    @ViewById
-    lateinit var etLevel: EditText
     @ViewById(R.id.drag_list_view)
     lateinit var mDragListView: DragListView
     @ViewById(R.id.swipe_refresh_layout)
@@ -53,7 +49,7 @@ class WordsUnitBatchActivity : AppCompatActivity() {
     @AfterViews
     fun afterViews() {
         vm.lstWords = (intent.getSerializableExtra("list") as Array<MUnitWord>).toList()
-        chkUnit(); chkPart(); chkSeqNum(); chkLevel()
+        chkUnit(); chkPart(); chkSeqNum()
         run {
             val lst = vm.vmSettings.lstUnits
             val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
@@ -118,11 +114,6 @@ class WordsUnitBatchActivity : AppCompatActivity() {
         etSeqNum.isEnabled = chkSeqNum.isChecked
     }
 
-    @CheckedChange
-    fun chkLevel() {
-        etLevel.isEnabled = chkLevel.isChecked
-    }
-
     @OptionsItem
     fun menuSave() {
         if (!chkUnit.isChecked && !chkPart.isChecked && !chkSeqNum.isChecked) return
@@ -163,11 +154,6 @@ class WordsUnitBatchActivity : AppCompatActivity() {
             holder.mText1.text = item.wordnote
             holder.mText2.text = item.unitpartseqnum
             holder.itemView.tag = item
-            if (item.level == 0) return
-            val lst = vm.vmSettings.uslevelcolors[item.level]!!
-            holder.mItemSwipe.setBackgroundColor(Color.parseColor("#" + lst[0]))
-            holder.mText1.setTextColor(Color.parseColor("#" + lst[1]))
-            holder.mText2.setTextColor(Color.parseColor("#" + lst[1]))
         }
 
         override fun getUniqueItemId(position: Int): Long {

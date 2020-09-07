@@ -48,7 +48,6 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
     val compositeDisposable = CompositeDisposable()
     var speakOrNot = false
     var shuffled = true
-    var levelge0only = true
     var subscription: Disposable? = null
 
     @AfterViews
@@ -120,7 +119,7 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
     @Click
     fun btnNewTest() {
         progressBar1.visibility = View.VISIBLE
-        compositeDisposable.add(vm.newTest(shuffled, levelge0only).subscribe {
+        compositeDisposable.add(vm.newTest(shuffled).subscribe {
             doTest()
             progressBar1.visibility = View.INVISIBLE
         })
@@ -165,10 +164,6 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
     @CheckedChange
     fun chkShuffled(isChecked: Boolean) {
         shuffled = isChecked
-    }
-    @CheckedChange
-    fun chkLevelge0Only(isChecked: Boolean) {
-        levelge0only = isChecked
     }
 
     @ItemSelect

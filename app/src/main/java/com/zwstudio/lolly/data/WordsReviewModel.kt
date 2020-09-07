@@ -25,12 +25,11 @@ class WordsReviewModel : BaseViewModel() {
     val isTestMode: Boolean
         get() = mode == ReviewMode.Test
 
-    fun newTest(shuffled: Boolean, levelge0only: Boolean): Observable<Unit> =
+    fun newTest(shuffled: Boolean): Observable<Unit> =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
             .map {
                 lstWords = it
                 lstCorrectIDs = mutableListOf()
-                if (levelge0only) lstWords = lstWords.filter { it.level >= 0 }
                 if (shuffled) lstWords = lstWords.shuffled()
                 index = 0
             }

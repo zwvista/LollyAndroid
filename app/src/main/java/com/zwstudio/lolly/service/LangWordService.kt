@@ -32,6 +32,6 @@ class LangWordService: BaseService() {
 
     fun delete(o: MLangWord): Observable<Unit> =
         retrofitJson.create(RestLangWord::class.java)
-            .delete(o.id, o.langid, o.word, o.note, o.famiid, o.level, o.correct, o.total)
+            .delete(o.id, o.langid, o.word, o.note, o.famiid, o.correct, o.total)
             .map { Log.d("", it.toString()); Unit }
 }

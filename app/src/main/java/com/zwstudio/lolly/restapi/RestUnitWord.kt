@@ -30,7 +30,7 @@ interface RestUnitWord {
                @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
                @Field("P_SEQNUM") seqnum: Int, @Field("P_WORDID") wordid: Int,
                @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
-               @Field("P_FAMIID") famiid: Int, @Field("P_LEVEL") level: Int,
+               @Field("P_FAMIID") famiid: Int,
                @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<List<List<MSPResult>>>
 
     @FormUrlEncoded
@@ -40,7 +40,7 @@ interface RestUnitWord {
                @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
                @Field("P_SEQNUM") seqnum: Int, @Field("P_WORDID") wordid: Int,
                @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
-               @Field("P_FAMIID") famiid: Int, @Field("P_LEVEL") level: Int,
+               @Field("P_FAMIID") famiid: Int,
                @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<List<List<MSPResult>>>
 
     @FormUrlEncoded
@@ -50,7 +50,7 @@ interface RestUnitWord {
                @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
                @Field("P_SEQNUM") seqnum: Int, @Field("P_WORDID") wordid: Int,
                @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
-               @Field("P_FAMIID") famiid: Int, @Field("P_LEVEL") level: Int,
+               @Field("P_FAMIID") famiid: Int,
                @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<List<List<MSPResult>>>
 
 }

@@ -22,9 +22,6 @@ class MWordFami: Serializable {
     @SerializedName("WORDID")
     @Expose
     var wordid = 0
-    @SerializedName("LEVEL")
-    @Expose
-    var level = 0
     @SerializedName("CORRECT")
     @Expose
     var correct = 0
