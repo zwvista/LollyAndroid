@@ -197,6 +197,15 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
                     }
                     true
                 }
+                mForward.setOnTouchListener { _, event ->
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        val item = itemView.tag as MUnitWord
+                        WordsDictActivity_.intent(itemView.context)
+                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
+                                .extra("index", vm.lstWords.indexOf(item)).start()
+                    }
+                    true
+                }
                 if (isEditMode)
                     mForward.visibility = View.GONE
             }

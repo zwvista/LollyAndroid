@@ -20,6 +20,7 @@ import com.zwstudio.lolly.data.WordsLangViewModel
 import com.zwstudio.lolly.data.copyText
 import com.zwstudio.lolly.data.googleString
 import com.zwstudio.lolly.domain.MLangWord
+import com.zwstudio.lolly.domain.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 import java.util.*
@@ -206,6 +207,15 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                                 }
                             }
                         builder.show()
+                    }
+                    true
+                }
+                mForward.setOnTouchListener { _, event ->
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        val item = itemView.tag as MLangWord
+                        WordsDictActivity_.intent(itemView.context)
+                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
+                                .extra("index", vm.lstWords.indexOf(item)).start()
                     }
                     true
                 }
