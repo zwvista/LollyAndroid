@@ -3,13 +3,10 @@ package com.zwstudio.lolly.android.phrases
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.speech.tts.TextToSpeech
+import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -19,6 +16,7 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.words.WordsUnitFragment
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.PhrasesLangViewModel
 import com.zwstudio.lolly.data.copyText
@@ -31,12 +29,17 @@ import java.util.*
 private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_phrases_lang)
-@OptionsMenu(R.menu.menu_add)
+@OptionsMenu(R.menu.menu_phrases_lang)
 class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @Bean
     lateinit var vm: PhrasesLangViewModel
     lateinit var tts: TextToSpeech
+
+    @OptionsMenuItem
+    lateinit var menuNormalMode: MenuItem
+    @OptionsMenuItem
+    lateinit var menuEditMode: MenuItem
 
     @AfterViews
     fun afterViews() {
@@ -78,10 +81,19 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            val listAdapter = PhrasesLangItemAdapter(vm, mDragListView, tts, compositeDisposable)
-            mDragListView.setAdapter(listAdapter, true)
+            setMenuMode(false)
             progressBar1.visibility = View.GONE
         })
+    }
+
+    @OptionsItem
+    fun menuNormalMode() = setMenuMode(false)
+    @OptionsItem
+    fun menuEditMode() = setMenuMode(true)
+    private fun setMenuMode(isEditMode: Boolean) {
+        (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
+        val listAdapter = PhrasesLangItemAdapter(vm, mDragListView, isEditMode, tts, compositeDisposable)
+        mDragListView.setAdapter(listAdapter, true)
     }
 
     @OptionsItem
@@ -97,7 +109,7 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             mDragListView.resetSwipedViews(null)
     }
 
-    private class PhrasesLangItemAdapter(val vm: PhrasesLangViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangPhrase, PhrasesLangItemAdapter.ViewHolder>() {
+    private class PhrasesLangItemAdapter(val vm: PhrasesLangViewModel, val mDragListView: DragListView, val isEditMode: Boolean, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangPhrase, PhrasesLangItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases
@@ -126,7 +138,6 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
-            var mSpeak: ImageView
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
@@ -134,16 +145,16 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
-                mSpeak = itemView.findViewById(R.id.image_speak)
                 initButtons()
+            }
+
+            fun edit(item: MLangPhrase) {
+                PhrasesLangDetailActivity_.intent(itemView.context)
+                    .extra("phrase", item).startForResult(REQUEST_CODE)
             }
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
-                fun edit(item: MLangPhrase) {
-                    PhrasesLangDetailActivity_.intent(itemView.context)
-                        .extra("phrase", item).startForResult(REQUEST_CODE)
-                }
                 fun delete(item: MLangPhrase) {
                     yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
@@ -191,12 +202,6 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     }
                     true
                 }
-                mSpeak.setOnTouchListener { _, event ->
-                    val item = itemView.tag as MLangPhrase
-                    if (event.action == MotionEvent.ACTION_DOWN)
-                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null)
-                    true
-                }
             }
 
             override fun onItemClicked(view: View?) {
@@ -205,8 +210,10 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MLangPhrase
-                    PhrasesLangDetailActivity_.intent(view.context)
-                        .extra("phrase", item).startForResult(REQUEST_CODE)
+                    if (isEditMode)
+                        edit(item)
+                    else
+                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null)
                 }
             }
 

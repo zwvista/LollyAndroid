@@ -128,20 +128,6 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_level"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/etLevel"
-        android:layout_gravity="center_horizontal"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_weight="0.05"/>
     <TextView
         android:layout_width="wrap_content"

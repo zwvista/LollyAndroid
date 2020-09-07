@@ -2,16 +2,6 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".phrases.PhrasesUnitFragment">
-    <item
-        android:id="@+id/menuAdd"
-        android:title="@string/action_add"
-        android:orderInCategory="100"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/menuBatch"
-        android:title="@string/action_batch"
-        android:orderInCategory="101"
-        app:showAsAction="never"/>
     <group android:checkableBehavior="single">
         <item android:id="@+id/menuNormalMode"
             android:titleCondensed="Normal"
@@ -26,4 +16,14 @@
             android:icon="@android:drawable/ic_menu_preferences">
         </item>
     </group>
+    <item
+        android:id="@+id/menuAdd"
+        android:title="@string/action_add"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menuBatch"
+        android:title="@string/action_batch"
+        android:orderInCategory="101"
+        app:showAsAction="never"/>
 </menu>

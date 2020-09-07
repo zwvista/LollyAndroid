@@ -44,7 +44,6 @@
     <string name="label_word">WORD:</string>
     <string name="label_note">NOTE:</string>
     <string name="label_famiid">FAMIID:</string>
-    <string name="label_level">LEVEL:</string>
     <string name="label_accuracy">ACCURACY:</string>
     <string name="label_phraseid">PHRASEID:</string>
     <string name="label_phrase">PHRASE:</string>
@@ -62,7 +61,6 @@
     <string name="text_check">Check</string>
     <string name="text_speak">Speak</string>
     <string name="text_shuffled">Shuffled</string>
-    <string name="text_levelge0">Level >= 0</string>
     <string name="normal_mode">Normal Mode</string>
     <string name="edit_mode">Edit Mode</string>
 </resources>
