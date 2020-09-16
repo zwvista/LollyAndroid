@@ -28,7 +28,7 @@ class TextbookService: BaseService() {
             return listOf()
         }
         return retrofitJson.create(RestTextbook::class.java)
-            .getDataByLang("LANGID,eq,${langid}")
+            .getDataByLang("LANGID,eq,$langid")
             .map {
                 val lst = it.lst!!
                 for (o in lst) {

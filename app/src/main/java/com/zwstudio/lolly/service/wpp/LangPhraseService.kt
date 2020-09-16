@@ -11,7 +11,7 @@ import org.androidannotations.annotations.EBean
 class LangPhraseService: BaseService() {
     fun getDataByLang(langid: Int): Observable<List<MLangPhrase>> =
         retrofitJson.create(RestLangPhrase::class.java)
-            .getDataByLang("LANGID,eq,${langid}")
+            .getDataByLang("LANGID,eq,$langid")
             .map { it.lst!! }
 
     fun updateTranslation(id: Int, translation: String?): Observable<Unit> =

@@ -11,7 +11,7 @@ import org.androidannotations.annotations.EBean
 class UserSettingService: BaseService() {
     fun getDataByUser(userid: Int): Observable<List<MUserSetting>> =
         retrofitJson.create(RestUserSetting::class.java)
-            .getDataByUser("USERID,eq,${userid}")
+            .getDataByUser("USERID,eq,$userid")
             .map { it.lst!! }
 
     fun update(info: MUserSettingInfo, v: Int): Observable<Int> =

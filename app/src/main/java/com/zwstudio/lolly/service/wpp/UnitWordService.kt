@@ -13,7 +13,7 @@ class UnitWordService: BaseService() {
     fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Observable<List<MUnitWord>> =
         retrofitJson.create(RestUnitWord::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",
-                "UNITPART,bt,${unitPartFrom},${unitPartTo}")
+                "UNITPART,bt,$unitPartFrom,$unitPartTo")
             .map {
                 val lst = it.lst!!
                 for (o in lst)
@@ -23,7 +23,7 @@ class UnitWordService: BaseService() {
 
     fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): Observable<List<MUnitWord>> =
         retrofitJson.create(RestUnitWord::class.java)
-            .getDataByLang("LANGID,eq,${langid}")
+            .getDataByLang("LANGID,eq,$langid")
             .map {
                 val lst = it.lst!!
                 for (o in lst)
@@ -33,7 +33,7 @@ class UnitWordService: BaseService() {
 
     fun getDataByLangWord(langid: Int, word: String, lstTextbooks: List<MTextbook>): Observable<List<MUnitWord>> =
         retrofitJson.create(RestUnitWord::class.java)
-            .getDataByLangWord("LANGID,eq,${langid}", "WORD,eq,${word}")
+            .getDataByLangWord("LANGID,eq,$langid", "WORD,eq,$word")
             .map {
                 val lst = it.lst!!
                 for (o in lst)
