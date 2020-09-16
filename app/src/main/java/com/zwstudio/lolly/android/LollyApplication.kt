@@ -7,7 +7,7 @@ import android.content.DialogInterface
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import android.util.AttributeSet
 import android.view.View
-import com.zwstudio.lolly.data.SettingsViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.ReplaySubject
 import org.androidannotations.annotations.Bean

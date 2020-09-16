@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android.words
 
 import android.content.Context
-import android.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,9 +13,9 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.LollySwipeRefreshLayout
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.data.WordsUnitViewModel
-import com.zwstudio.lolly.domain.MSelectItem
-import com.zwstudio.lolly.domain.MUnitWord
+import com.zwstudio.lolly.data.wpp.WordsUnitViewModel
+import com.zwstudio.lolly.domain.misc.MSelectItem
+import com.zwstudio.lolly.domain.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 

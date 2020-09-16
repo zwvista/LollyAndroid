@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.*
-import com.zwstudio.lolly.data.SearchViewModel
-import com.zwstudio.lolly.domain.MDictionary
+import com.zwstudio.lolly.data.misc.SearchViewModel
+import com.zwstudio.lolly.domain.misc.MDictionary
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 

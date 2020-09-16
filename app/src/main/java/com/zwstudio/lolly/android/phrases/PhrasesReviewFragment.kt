@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.data.PhrasesReviewModel
-import com.zwstudio.lolly.data.applyIO
-import com.zwstudio.lolly.domain.MSelectItem
-import com.zwstudio.lolly.domain.ReviewMode
+import com.zwstudio.lolly.data.wpp.PhrasesReviewModel
+import com.zwstudio.lolly.data.misc.applyIO
+import com.zwstudio.lolly.domain.misc.MSelectItem
+import com.zwstudio.lolly.domain.misc.ReviewMode
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import org.androidannotations.annotations.*

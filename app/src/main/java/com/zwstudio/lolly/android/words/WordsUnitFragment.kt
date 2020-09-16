@@ -3,7 +3,6 @@ package com.zwstudio.lolly.android.words
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Context
-import android.graphics.Color
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.view.*
@@ -21,11 +20,11 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.yesNoDialog
-import com.zwstudio.lolly.data.WordsUnitViewModel
-import com.zwstudio.lolly.data.copyText
-import com.zwstudio.lolly.data.googleString
-import com.zwstudio.lolly.data.openPage
-import com.zwstudio.lolly.domain.MUnitWord
+import com.zwstudio.lolly.data.wpp.WordsUnitViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.misc.openPage
+import com.zwstudio.lolly.domain.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 import java.util.*

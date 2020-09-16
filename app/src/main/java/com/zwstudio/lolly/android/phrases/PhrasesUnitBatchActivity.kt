@@ -13,9 +13,9 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.LollySwipeRefreshLayout
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.data.PhrasesUnitViewModel
-import com.zwstudio.lolly.domain.MSelectItem
-import com.zwstudio.lolly.domain.MUnitPhrase
+import com.zwstudio.lolly.data.wpp.PhrasesUnitViewModel
+import com.zwstudio.lolly.domain.misc.MSelectItem
+import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 

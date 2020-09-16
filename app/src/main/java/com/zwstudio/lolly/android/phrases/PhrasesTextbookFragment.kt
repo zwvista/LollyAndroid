@@ -6,7 +6,6 @@ import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.woxthebox.draglistview.DragItemAdapter
@@ -15,12 +14,11 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.android.words.WordsUnitFragment
 import com.zwstudio.lolly.android.yesNoDialog
-import com.zwstudio.lolly.data.PhrasesUnitViewModel
-import com.zwstudio.lolly.data.copyText
-import com.zwstudio.lolly.data.googleString
-import com.zwstudio.lolly.domain.MUnitPhrase
+import com.zwstudio.lolly.data.wpp.PhrasesUnitViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 import java.util.*

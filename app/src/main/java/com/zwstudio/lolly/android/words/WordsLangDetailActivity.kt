@@ -4,8 +4,8 @@ import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.data.WordsLangViewModel
-import com.zwstudio.lolly.domain.MLangWord
+import com.zwstudio.lolly.data.wpp.WordsLangViewModel
+import com.zwstudio.lolly.domain.wpp.MLangWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 

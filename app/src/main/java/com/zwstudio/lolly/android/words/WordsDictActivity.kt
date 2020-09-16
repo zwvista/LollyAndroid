@@ -11,9 +11,9 @@ import android.widget.CheckedTextView
 import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.data.DictWebViewStatus
-import com.zwstudio.lolly.data.SearchViewModel
-import com.zwstudio.lolly.domain.MDictionary
+import com.zwstudio.lolly.data.misc.DictWebViewStatus
+import com.zwstudio.lolly.data.misc.SearchViewModel
+import com.zwstudio.lolly.domain.misc.MDictionary
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 

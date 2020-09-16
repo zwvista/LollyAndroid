@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android.words
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.speech.tts.TextToSpeech
 import android.view.*
 import androidx.core.content.ContextCompat
@@ -15,10 +14,10 @@ import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.*
-import com.zwstudio.lolly.data.WordsUnitViewModel
-import com.zwstudio.lolly.data.copyText
-import com.zwstudio.lolly.data.googleString
-import com.zwstudio.lolly.domain.MUnitWord
+import com.zwstudio.lolly.data.wpp.WordsUnitViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.domain.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 import java.util.*

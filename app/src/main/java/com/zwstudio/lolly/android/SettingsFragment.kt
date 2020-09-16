@@ -7,9 +7,9 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.zwstudio.lolly.data.SettingsListener
-import com.zwstudio.lolly.data.SettingsViewModel
-import com.zwstudio.lolly.domain.*
+import com.zwstudio.lolly.data.misc.SettingsListener
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.domain.misc.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
