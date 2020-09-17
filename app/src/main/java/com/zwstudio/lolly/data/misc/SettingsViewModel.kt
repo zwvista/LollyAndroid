@@ -60,7 +60,7 @@ class SettingsViewModel {
             setUSValue(INFO_USDICTREFERENCE, value)
         }
     private var INFO_USDICTNOTE = MUserSettingInfo()
-    var usdictnoteid: Int
+    var usdictnote: Int
         get() = (getUSValue(INFO_USDICTNOTE) ?: "0").toInt()
         set(value) {
             setUSValue(INFO_USDICTNOTE, value.toString())
@@ -72,7 +72,7 @@ class SettingsViewModel {
             setUSValue(INFO_USDICTSREFERENCE, value)
         }
     private var INFO_USDICTTRANSLATION = MUserSettingInfo()
-    var usdicttranslationid: Int
+    var usdicttranslation: Int
         get() = (getUSValue(INFO_USDICTTRANSLATION) ?: "0").toInt()
         set(value) {
             setUSValue(INFO_USDICTTRANSLATION, value.toString())
@@ -163,19 +163,12 @@ class SettingsViewModel {
         }
     val selectedDictReferenceIndex: Int
         get() = lstDictsReference.indexOf(selectedDictReference)
-    private var _selectedDictsReference = listOf<MDictionary>()
-    var selectedDictsReference: List<MDictionary>
-        get() = _selectedDictsReference
-        set(value) {
-            _selectedDictsReference = value
-            usdictsreference = _selectedDictsReference.map { it.dictid.toString() }.joinToString(",")
-        }
 
     var lstDictsNote = listOf<MDictionary>()
     var selectedDictNote: MDictionary? = null
         set(value) {
             field = value
-            usdictnoteid = selectedDictNote?.id ?: 0
+            usdictnote = selectedDictNote?.dictid ?: 0
         }
     val selectedDictNoteIndex: Int
         get() =
@@ -186,7 +179,7 @@ class SettingsViewModel {
     var selectedDictTranslation: MDictionary? = null
         set(value) {
             field = value
-            usdicttranslationid = selectedDictTranslation?.id ?: 0
+            usdicttranslation = selectedDictTranslation?.dictid ?: 0
         }
     val selectedDictTranslationIndex: Int
         get() =
@@ -281,11 +274,10 @@ class SettingsViewModel {
             res1, res2, res3, res4, res5, res6 ->
             lstDictsReference = res1
             selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
-            selectedDictsReference = usdictsreference.split(",").flatMap { d -> lstDictsReference.filter { it.dictid.toString() == d } }
             lstDictsNote = res2
-            selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnoteid } ?: lstDictsNote.firstOrNull()
+            selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnote } ?: lstDictsNote.firstOrNull()
             lstDictsTranslation = res3
-            selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslationid } ?: lstDictsTranslation.firstOrNull()
+            selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslation } ?: lstDictsTranslation.firstOrNull()
             lstTextbooks = res4
             selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
             lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname!!) }
@@ -317,12 +309,12 @@ class SettingsViewModel {
             .applyIO()
 
     fun updateDictNote(): Observable<Unit> =
-        userSettingService.update(INFO_USDICTNOTE, usdictnoteid)
+        userSettingService.update(INFO_USDICTNOTE, usdictnote)
             .map { handler?.post { settingsListener?.onUpdateDictNote() }; Unit }
             .applyIO()
 
     fun updateDictTranslation(): Observable<Unit> =
-        userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslationid)
+        userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation)
             .map { handler?.post { settingsListener?.onUpdateDictTranslation() }; Unit }
             .applyIO()
 
