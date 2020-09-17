@@ -66,7 +66,7 @@ class WordsUnitViewModel : BaseViewModel() {
 
     fun newUnitWord() = MUnitWord().apply {
         langid = vmSettings.selectedLang.id
-        textbookid = vmSettings.ustextbookid
+        textbookid = vmSettings.ustextbook
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
         val maxItem = lstWords.maxWith(compareBy({ it.unit }, { it.part }, { it.seqnum }))
         unit = maxItem?.unit ?: vmSettings.usunitto

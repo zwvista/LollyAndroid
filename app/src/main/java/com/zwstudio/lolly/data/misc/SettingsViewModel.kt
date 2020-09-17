@@ -33,11 +33,11 @@ class SettingsViewModel {
             else -> {}
         }
     }
-    private var INFO_USLANGID = MUserSettingInfo()
-    var uslangid: Int
-        get() = getUSValue(INFO_USLANGID)!!.toInt()
+    private var INFO_USLANG = MUserSettingInfo()
+    var uslang: Int
+        get() = getUSValue(INFO_USLANG)!!.toInt()
         set(value) {
-            setUSValue(INFO_USLANGID, value.toString())
+            setUSValue(INFO_USLANG, value.toString())
         }
     private var INFO_USLEVELCOLORS = MUserSettingInfo()
     var uslevelcolors = mapOf<Int, List<String>>()
@@ -47,11 +47,11 @@ class SettingsViewModel {
     private var INFO_USREVIEWINTERVAL = MUserSettingInfo()
     val usreviewinterval: Int
         get() = getUSValue(INFO_USREVIEWINTERVAL)!!.toInt()
-    private var INFO_USTEXTBOOKID = MUserSettingInfo()
-    var ustextbookid: Int
-        get() = getUSValue(INFO_USTEXTBOOKID)!!.toInt()
+    private var INFO_USTEXTBOOK = MUserSettingInfo()
+    var ustextbook: Int
+        get() = getUSValue(INFO_USTEXTBOOK)!!.toInt()
         set(value) {
-            setUSValue(INFO_USTEXTBOOKID, value.toString())
+            setUSValue(INFO_USTEXTBOOK, value.toString())
         }
     private var INFO_USDICTREFERENCE = MUserSettingInfo()
     var usdictreference: String
@@ -77,11 +77,11 @@ class SettingsViewModel {
         set(value) {
             setUSValue(INFO_USDICTTRANSLATION, value.toString())
         }
-    private var INFO_USANDROIDVOICEID = MUserSettingInfo()
+    private var INFO_USANDROIDVOICE = MUserSettingInfo()
     var usvoiceid: Int
-        get() = (getUSValue(INFO_USANDROIDVOICEID) ?: "0").toInt()
+        get() = (getUSValue(INFO_USANDROIDVOICE) ?: "0").toInt()
         set(value) {
-            setUSValue(INFO_USANDROIDVOICEID, value.toString())
+            setUSValue(INFO_USANDROIDVOICE, value.toString())
         }
     private var INFO_USUNITFROM = MUserSettingInfo()
     var usunitfrom: Int
@@ -141,7 +141,7 @@ class SettingsViewModel {
         get() = _selectedTextbook!!
         set(value) {
             _selectedTextbook = value
-            ustextbookid = value.id
+            ustextbook = value.id
             INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
             INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
             INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
@@ -244,7 +244,7 @@ class SettingsViewModel {
             lstLanguages = it.first
             lstUSMappings = it.second
             lstUserSettings = it.third
-            INFO_USLANGID = getUSInfo(MUSMapping.NAME_USLANGID)
+            INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
             INFO_USLEVELCOLORS = getUSInfo(MUSMapping.NAME_USLEVELCOLORS)
             INFO_USSCANINTERVAL = getUSInfo(MUSMapping.NAME_USSCANINTERVAL)
             INFO_USREVIEWINTERVAL = getUSInfo(MUSMapping.NAME_USREVIEWINTERVAL)
@@ -252,25 +252,25 @@ class SettingsViewModel {
             // https://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
             uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
             handler?.post { settingsListener?.onGetData() }
-            setSelectedLang(lstLanguages.first { it.id == uslangid })
+            setSelectedLang(lstLanguages.first { it.id == uslang })
         }.applyIO()
 
     fun setSelectedLang(lang: MLanguage): Observable<Unit> {
-        val isinit = lang.id == uslangid
+        val isinit = lang.id == uslang
         selectedLang = lang
-        uslangid = selectedLang.id
-        INFO_USTEXTBOOKID = getUSInfo(MUSMapping.NAME_USTEXTBOOKID)
+        uslang = selectedLang.id
+        INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
         INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
         INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
         INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
         INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
-        INFO_USANDROIDVOICEID = getUSInfo(MUSMapping.NAME_USANDROIDVOICEID)
-        return Observables.zip(dictionaryService.getDictsReferenceByLang(uslangid),
-            dictionaryService.getDictsNoteByLang(uslangid),
-            dictionaryService.getDictsTranslationByLang(uslangid),
-            textbookService.getDataByLang(uslangid),
-            autoCorrectService.getDataByLang(uslangid),
-            voiceService.getDataByLang(uslangid)) {
+        INFO_USANDROIDVOICE = getUSInfo(MUSMapping.NAME_USANDROIDVOICE)
+        return Observables.zip(dictionaryService.getDictsReferenceByLang(uslang),
+            dictionaryService.getDictsNoteByLang(uslang),
+            dictionaryService.getDictsTranslationByLang(uslang),
+            textbookService.getDataByLang(uslang),
+            autoCorrectService.getDataByLang(uslang),
+            voiceService.getDataByLang(uslang)) {
             res1, res2, res3, res4, res5, res6 ->
             lstDictsReference = res1
             selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
@@ -279,7 +279,7 @@ class SettingsViewModel {
             lstDictsTranslation = res3
             selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslation } ?: lstDictsTranslation.firstOrNull()
             lstTextbooks = res4
-            selectedTextbook = lstTextbooks.first { it.id == ustextbookid }
+            selectedTextbook = lstTextbooks.first { it.id == ustextbook }
             lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname!!) }
             lstAutoCorrect = res5
             lstVoices = res6
@@ -294,12 +294,12 @@ class SettingsViewModel {
     }
 
     fun updateLang(): Observable<Unit> =
-        userSettingService.update(INFO_USLANGID, uslangid)
+        userSettingService.update(INFO_USLANG, uslang)
             .map { handler?.post { settingsListener?.onUpdateLang() }; Unit }
             .applyIO()
 
     fun updateTextbook(): Observable<Unit> =
-        userSettingService.update(INFO_USTEXTBOOKID, ustextbookid)
+        userSettingService.update(INFO_USTEXTBOOK, ustextbook)
             .map { handler?.post { settingsListener?.onUpdateTextbook() }; Unit }
             .applyIO()
 
@@ -319,7 +319,7 @@ class SettingsViewModel {
             .applyIO()
 
     fun updateVoice(): Observable<Unit> =
-        userSettingService.update(INFO_USANDROIDVOICEID, usvoiceid)
+        userSettingService.update(INFO_USANDROIDVOICE, usvoiceid)
             .map { handler?.post { settingsListener?.onUpdateVoice() }; Unit }
             .applyIO()
 
