@@ -36,9 +36,7 @@ class SettingsViewModel {
     private var INFO_USLANG = MUserSettingInfo()
     var uslang: Int
         get() = getUSValue(INFO_USLANG)!!.toInt()
-        set(value) {
-            setUSValue(INFO_USLANG, value.toString())
-        }
+        set(value) = setUSValue(INFO_USLANG, value.toString())
     private var INFO_USLEVELCOLORS = MUserSettingInfo()
     var uslevelcolors = mapOf<Int, List<String>>()
     private var INFO_USSCANINTERVAL = MUserSettingInfo()
@@ -50,63 +48,43 @@ class SettingsViewModel {
     private var INFO_USTEXTBOOK = MUserSettingInfo()
     var ustextbook: Int
         get() = getUSValue(INFO_USTEXTBOOK)!!.toInt()
-        set(value) {
-            setUSValue(INFO_USTEXTBOOK, value.toString())
-        }
+        set(value) = setUSValue(INFO_USTEXTBOOK, value.toString())
     private var INFO_USDICTREFERENCE = MUserSettingInfo()
     var usdictreference: String
         get() = getUSValue(INFO_USDICTREFERENCE)!!
-        set(value) {
-            setUSValue(INFO_USDICTREFERENCE, value)
-        }
+        set(value) = setUSValue(INFO_USDICTREFERENCE, value)
     private var INFO_USDICTNOTE = MUserSettingInfo()
     var usdictnote: Int
         get() = (getUSValue(INFO_USDICTNOTE) ?: "0").toInt()
-        set(value) {
-            setUSValue(INFO_USDICTNOTE, value.toString())
-        }
+        set(value) = setUSValue(INFO_USDICTNOTE, value.toString())
     private var INFO_USDICTSREFERENCE = MUserSettingInfo()
     var usdictsreference: String
         get() = getUSValue(INFO_USDICTSREFERENCE) ?: ""
-        set(value) {
-            setUSValue(INFO_USDICTSREFERENCE, value)
-        }
+        set(value) = setUSValue(INFO_USDICTSREFERENCE, value)
     private var INFO_USDICTTRANSLATION = MUserSettingInfo()
     var usdicttranslation: Int
         get() = (getUSValue(INFO_USDICTTRANSLATION) ?: "0").toInt()
-        set(value) {
-            setUSValue(INFO_USDICTTRANSLATION, value.toString())
-        }
+        set(value) = setUSValue(INFO_USDICTTRANSLATION, value.toString())
     private var INFO_USANDROIDVOICE = MUserSettingInfo()
-    var usvoiceid: Int
+    var usvoice: Int
         get() = (getUSValue(INFO_USANDROIDVOICE) ?: "0").toInt()
-        set(value) {
-            setUSValue(INFO_USANDROIDVOICE, value.toString())
-        }
+        set(value) = setUSValue(INFO_USANDROIDVOICE, value.toString())
     private var INFO_USUNITFROM = MUserSettingInfo()
     var usunitfrom: Int
         get() = getUSValue(INFO_USUNITFROM)!!.toInt()
-        set(value) {
-            setUSValue(INFO_USUNITFROM, value.toString())
-        }
+        set(value) = setUSValue(INFO_USUNITFROM, value.toString())
     private var INFO_USPARTFROM = MUserSettingInfo()
     var uspartfrom: Int
         get() = getUSValue(INFO_USPARTFROM)!!.toInt()
-        set(value) {
-            setUSValue(INFO_USPARTFROM, value.toString())
-        }
+        set(value) = setUSValue(INFO_USPARTFROM, value.toString())
     private var INFO_USUNITTO = MUserSettingInfo()
     var usunitto: Int
         get() = getUSValue(INFO_USUNITTO)!!.toInt()
-        set(value) {
-            setUSValue(INFO_USUNITTO, value.toString())
-        }
+        set(value) = setUSValue(INFO_USUNITTO, value.toString())
     private var INFO_USPARTTO = MUserSettingInfo()
     var uspartto: Int
         get() = getUSValue(INFO_USPARTTO)!!.toInt()
-        set(value) {
-            setUSValue(INFO_USPARTTO, value.toString())
-        }
+        set(value) = setUSValue(INFO_USPARTTO, value.toString())
     val usunitpartfrom: Int
         get() = usunitfrom * 10 + uspartfrom
     val usunitpartto: Int
@@ -127,7 +105,7 @@ class SettingsViewModel {
     var selectedVoice: MVoice? = null
         set(value) {
             field = value
-            usvoiceid = field?.id ?: 0
+            usvoice = field?.id ?: 0
         }
     val selectedVoiceIndex: Int
         get() =
@@ -283,7 +261,7 @@ class SettingsViewModel {
             lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname!!) }
             lstAutoCorrect = res5
             lstVoices = res6
-            selectedVoice = lstVoices.firstOrNull { it.id == usvoiceid } ?: lstVoices.firstOrNull()
+            selectedVoice = lstVoices.firstOrNull { it.id == usvoice } ?: lstVoices.firstOrNull()
         }.flatMap {
             if (isinit) {
                 handler?.post { settingsListener?.onUpdateLang() }
@@ -319,7 +297,7 @@ class SettingsViewModel {
             .applyIO()
 
     fun updateVoice(): Observable<Unit> =
-        userSettingService.update(INFO_USANDROIDVOICE, usvoiceid)
+        userSettingService.update(INFO_USANDROIDVOICE, usvoice)
             .map { handler?.post { settingsListener?.onUpdateVoice() }; Unit }
             .applyIO()
 
