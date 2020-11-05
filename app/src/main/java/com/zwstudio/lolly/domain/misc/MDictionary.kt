@@ -40,9 +40,9 @@ class MDictionary: Serializable {
     @SerializedName("SEQNUM")
     @Expose
     var seqnum = 0
-    @SerializedName("DICTTYPEID")
+    @SerializedName("DICTTYPECODE")
     @Expose
-    var dicttypeid = 0
+    var dicttypecode = 0
     @SerializedName("DICTTYPENAME")
     @Expose
     var dicttypename = ""
