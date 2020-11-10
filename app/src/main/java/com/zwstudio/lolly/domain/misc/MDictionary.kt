@@ -46,7 +46,7 @@ class MDictionary: Serializable {
     @SerializedName("DICTTYPENAME")
     @Expose
     var dicttypename = ""
-    @SerializedName("DICTNAME")
+    @SerializedName("NAME")
     @Expose
     var dictname = ""
     @SerializedName("URL")
