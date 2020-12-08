@@ -13,6 +13,7 @@ import org.androidannotations.annotations.EBean
 @EBean
 class WordsUnitViewModel : BaseViewModel() {
 
+    var lstWordsAll = listOf<MUnitWord>()
     var lstWords = listOf<MUnitWord>()
     var isSwipeStarted = false
 
