@@ -20,7 +20,7 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.yesNoDialog
-import com.zwstudio.lolly.data.wpp.WordsUnitViewModel
+import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.misc.openPage

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.data.wpp.PhrasesReviewModel
+import com.zwstudio.lolly.data.phrases.PhrasesReviewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.misc.ReviewMode

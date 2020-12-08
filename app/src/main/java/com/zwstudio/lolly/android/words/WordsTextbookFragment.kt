@@ -14,7 +14,7 @@ import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.*
-import com.zwstudio.lolly.data.wpp.WordsUnitViewModel
+import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.domain.wpp.MUnitWord

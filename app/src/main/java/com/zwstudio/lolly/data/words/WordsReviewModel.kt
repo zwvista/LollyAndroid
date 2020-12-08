@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.data.wpp
+package com.zwstudio.lolly.data.words
 
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.applyIO

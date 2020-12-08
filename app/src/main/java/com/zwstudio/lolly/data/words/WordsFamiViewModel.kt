@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.data.wpp
+package com.zwstudio.lolly.data.words
 
 import com.zwstudio.lolly.data.misc.GlobalConstants
 import com.zwstudio.lolly.data.misc.GlobalConstants.userid

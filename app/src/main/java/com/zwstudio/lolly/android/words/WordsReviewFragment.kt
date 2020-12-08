@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.zwstudio.lolly.data.wpp.WordsReviewModel
+import com.zwstudio.lolly.data.words.WordsReviewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.misc.ReviewMode
