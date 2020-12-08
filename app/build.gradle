@@ -50,24 +50,24 @@ allOpen {
     annotation("org.androidannotations.api.KotlinOpen")
 }
 
-def AAVersion = '4.6.0'
+def AAVersion = '4.8.0'
 def retrofit_version = '2.9.0'
 dependencies {
     kapt "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
     implementation 'javax.persistence:persistence-api:1.0.2'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation 'io.reactivex.rxjava3:rxjava:3.0.5'
-    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.8'
+    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
-    implementation 'com.github.woxthebox:draglistview:1.7.0'
+    implementation 'com.github.woxthebox:draglistview:1.7.2'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }
