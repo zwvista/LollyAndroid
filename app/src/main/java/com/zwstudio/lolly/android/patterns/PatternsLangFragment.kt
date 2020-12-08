@@ -41,7 +41,7 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @AfterViews
     fun afterViews() {
-        activity?.title = resources.getString(R.string.phrases_lang)
+        activity?.title = resources.getString(R.string.patterns_lang)
         tts = TextToSpeech(context!!, this)
     }
 
@@ -114,7 +114,7 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_phrases_lang_edit, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_patterns_lang_edit, parent, false)
             return ViewHolder(view)
         }
 
