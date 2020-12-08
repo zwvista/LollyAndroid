@@ -3,15 +3,14 @@ package com.zwstudio.lolly.android.words
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Context
+import android.graphics.Color
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.view.*
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -24,6 +23,8 @@ import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.misc.openPage
+import com.zwstudio.lolly.domain.misc.MLanguage
+import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
@@ -44,11 +45,32 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsMenuItem
     lateinit var menuEditMode: MenuItem
 
+    @ViewById
+    lateinit var svTextFilter: SearchView
+    @ViewById
+    lateinit var spnScopeFilter: Spinner
+
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.words_unit)
         vm.compositeDisposable = compositeDisposable
         tts = TextToSpeech(context!!, this)
+
+        val lst = vm.vmSettings.lstScopeWordFilters
+        val adapter = object : ArrayAdapter<MSelectItem>(context!!, android.R.layout.simple_spinner_item, lst) {
+            fun convert(v: View, position: Int): View {
+                val tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = getItem(position)!!.label
+                return v
+            }
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
+                    convert(super.getView(position, convertView, parent), position)
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
+                    convert(super.getDropDownView(position, convertView, parent), position)
+        }
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
+        spnScopeFilter.adapter = adapter
+        spnScopeFilter.setSelection(0)
     }
 
     override fun onInit(status: Int) {

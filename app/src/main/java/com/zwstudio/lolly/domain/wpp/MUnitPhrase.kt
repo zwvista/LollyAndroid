@@ -51,5 +51,5 @@ class MUnitPhrase: Serializable {
     val partstr: String
         get() = textbook.partstr(part)
     val unitpartseqnum: String
-        get() = "$unitstr $seqnum\n$partstr"
+        get() = "$unitstr\n$partstr\n$seqnum"
 }

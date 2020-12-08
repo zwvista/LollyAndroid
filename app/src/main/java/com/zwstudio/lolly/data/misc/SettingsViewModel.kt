@@ -180,9 +180,9 @@ class SettingsViewModel {
     val lstToTypes = UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) }
     var toType = UnitPartToType.To
 
-    val lstScopeWordFilters = listOf("Word", "Note")
-    val lstScopePhraseFilters = listOf("Phrase", "Translation")
-    val lstScopePatternFilters = listOf("Pattern", "Note", "Tags")
+    val lstScopeWordFilters = listOf("Word", "Note").mapIndexed { index, s -> MSelectItem(index, s.toString()) }
+    val lstScopePhraseFilters = listOf("Phrase", "Translation").mapIndexed { index, s -> MSelectItem(index, s.toString()) }
+    val lstScopePatternFilters = listOf("Pattern", "Note", "Tags").mapIndexed { index, s -> MSelectItem(index, s.toString()) }
     val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
 
     @Bean
