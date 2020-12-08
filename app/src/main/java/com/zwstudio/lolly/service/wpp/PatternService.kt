@@ -4,7 +4,9 @@ import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
 import com.zwstudio.lolly.service.misc.BaseService
 import io.reactivex.rxjava3.core.Observable
+import org.androidannotations.annotations.EBean
 
+@EBean
 class PatternService: BaseService() {
     fun getDataByLang(langid: Int): Observable<List<MPattern>> =
         retrofitJson.create(RestPattern::class.java)
