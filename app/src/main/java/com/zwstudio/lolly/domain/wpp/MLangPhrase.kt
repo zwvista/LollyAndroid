@@ -24,9 +24,9 @@ class MLangPhrase(): Serializable {
     var phrase = ""
     @SerializedName("TRANSLATION")
     @Expose
-    var translation: String? = null
+    var translation = ""
 
-    constructor(phraseid: Int, langid: Int, phrase: String, translation: String?) : this() {
+    constructor(phraseid: Int, langid: Int, phrase: String, translation: String) : this() {
         this.id = phraseid
         this.langid = langid
         this.phrase = phrase

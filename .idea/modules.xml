@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LollyAndroid.iml" filepath="$PROJECT_DIR$/LollyAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LollyAndroid.iml" filepath="$PROJECT_DIR$/.idea/modules/LollyAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LollyAndroid.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LollyAndroid.app.iml" />
     </modules>
   </component>

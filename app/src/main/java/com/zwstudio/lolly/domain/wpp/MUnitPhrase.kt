@@ -43,7 +43,7 @@ class MUnitPhrase: Serializable {
     var phrase = ""
     @SerializedName("TRANSLATION")
     @Expose
-    var translation: String? = null
+    var translation = ""
 
     lateinit var textbook: MTextbook
     val unitstr: String

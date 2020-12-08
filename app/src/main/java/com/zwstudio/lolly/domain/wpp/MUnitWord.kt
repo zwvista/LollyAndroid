@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.domain.misc.MTextbook
 import java.io.Serializable
+import kotlin.math.floor
 
 class MUnitWords {
 
@@ -40,7 +41,7 @@ class MUnitWord: Serializable {
     var word = ""
     @SerializedName("NOTE")
     @Expose
-    var note: String? = null
+    var note = ""
     @SerializedName("WORDID")
     @Expose
     var wordid = 0
@@ -62,7 +63,7 @@ class MUnitWord: Serializable {
     val unitpartseqnum: String
         get() = "$unitstr $seqnum\n$partstr"
     val wordnote: String
-        get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
+        get() = "word($note)"
     val accuracy: String
-        get() = if (total == 0) "N/A" else "${Math.floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
+        get() = if (total == 0) "N/A" else "${floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
 }

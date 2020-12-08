@@ -23,7 +23,7 @@ class MTextbook: Serializable {
     var langid = 0
     @SerializedName("NAME")
     @Expose
-    var textbookname: String? = null
+    var textbookname = ""
     @SerializedName("UNITS")
     @Expose
     var units = ""

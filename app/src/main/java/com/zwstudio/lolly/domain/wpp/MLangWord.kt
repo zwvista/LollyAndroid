@@ -5,6 +5,7 @@ package com.zwstudio.lolly.domain.wpp
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+import kotlin.math.floor
 
 class MLangWords {
 
@@ -26,7 +27,7 @@ class MLangWord: Serializable {
     var word = ""
     @SerializedName("NOTE")
     @Expose
-    var note: String? = null
+    var note = ""
     @SerializedName("FAMIID")
     @Expose
     var famiid = 0
@@ -38,7 +39,7 @@ class MLangWord: Serializable {
     var total = 0
 
     val wordnote: String
-        get() = word + (if (note.isNullOrEmpty()) "" else "($note)")
+        get() = "word($note)"
     val accuracy: String
-        get() = if (total == 0) "N/A" else "${Math.floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
+        get() = if (total == 0) "N/A" else "${floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
 }

@@ -85,7 +85,7 @@ class WordsUnitViewModel : BaseViewModel() {
 
     fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
         vmNote.getNotes(lstWords.size, isNoteEmpty = {
-            !ifEmpty || lstWords[it].note.isNullOrEmpty()
+            !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
             compositeDisposable.add(getNote(i).subscribe { oneComplete(i) })
         }, allComplete = allComplete)
