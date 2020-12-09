@@ -59,8 +59,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 vm.applyFilters()
-                val listAdapter = WordsUnitItemAdapter(vm, mDragListView, false, tts, compositeDisposable)
-                mDragListView.setAdapter(listAdapter, true)
+                refreshListView()
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
@@ -109,7 +108,6 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     mRefreshLayout.isEnabled = false
                     Toast.makeText(mDragListView.context, "Start - position: $position", Toast.LENGTH_SHORT).show()
                 }
-
                 override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
                     mRefreshLayout.isEnabled = true
                     Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
@@ -125,7 +123,6 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 override fun onItemSwipeStarted(item: ListSwipeItem?) {
                     mRefreshLayout.isEnabled = false
                 }
-
                 override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                     mRefreshLayout.isEnabled = true
                     when (swipedDirection) {
@@ -137,11 +134,23 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            setMenuMode(false)
+            refreshListView()
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(WordsUnitDragItem(context!!, R.layout.list_item_words_unit_edit))
             progressBar1.visibility = View.GONE
         })
+    }
+
+    private fun refreshListView() {
+        val listAdapter = WordsUnitItemAdapter(vm, mDragListView, tts, compositeDisposable)
+        mDragListView.setAdapter(listAdapter, true)
+    }
+
+    @ItemSelect
+    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+        vm.scopeFilter = selectedItem.label
+        vm.applyFilters()
+        refreshListView()
     }
 
     @OptionsItem
@@ -149,9 +158,9 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuEditMode() = setMenuMode(true)
     private fun setMenuMode(isEditMode: Boolean) {
-        (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
-        val listAdapter = WordsUnitItemAdapter(vm, mDragListView, isEditMode, tts, compositeDisposable)
-        mDragListView.setAdapter(listAdapter, true)
+        vm.isEditMode = isEditMode
+        (if (vm.isEditMode) menuEditMode else menuNormalMode).isChecked = true
+        refreshListView()
     }
 
     @OptionsItem
@@ -197,7 +206,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         }
     }
 
-    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val isEditMode: Boolean, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
+    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -319,9 +328,9 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     }
                     true
                 }
-                if (isEditMode)
+                if (vm.isEditMode)
                     mForward.visibility = View.GONE
-                if (!(isEditMode && vm.vmSettings.isSingleUnitPart))
+                if (!(vm.isEditMode && vm.vmSettings.isSingleUnitPart))
                     mHamburger.visibility = View.GONE
             }
 
@@ -331,7 +340,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MUnitWord
-                    if (isEditMode)
+                    if (vm.isEditMode)
                         edit(item)
                     else
                         tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null)

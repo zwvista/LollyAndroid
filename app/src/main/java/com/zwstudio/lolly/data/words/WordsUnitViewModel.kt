@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.data.words
 
+import android.provider.Settings
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
@@ -16,16 +17,16 @@ class WordsUnitViewModel : BaseViewModel() {
     var lstWordsAll = listOf<MUnitWord>()
     var lstWords = listOf<MUnitWord>()
     var isSwipeStarted = false
+    var isEditMode = false
+    var scopeFilter = SettingsViewModel.lstScopeWordFilters[0].label
+    var textFilter = ""
+    var textbookFilter = 0
+    val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
     lateinit var compositeDisposable: CompositeDisposable
 
     @Bean
     lateinit var unitWordService: UnitWordService
-
-    var scopeFilter = ""
-    var textFilter = ""
-    var textbookFilter = 0
-    val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
     fun applyFilters() {
         lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
