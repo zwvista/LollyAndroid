@@ -49,7 +49,6 @@ class SearchFragment : Fragment() {
                 searchDict()
                 return true
             }
-
             override fun onQueryTextChange(newText: String): Boolean {
                 word = newText
                 return false

@@ -3,13 +3,12 @@ package com.zwstudio.lolly.android.words
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Context
-import android.graphics.Color
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
@@ -20,16 +19,16 @@ import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.misc.openPage
-import com.zwstudio.lolly.domain.misc.MLanguage
+import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 import java.util.*
+
 
 private const val REQUEST_CODE = 1
 
@@ -56,6 +55,19 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         activity?.title = resources.getString(R.string.words_unit)
         vm.compositeDisposable = compositeDisposable
         tts = TextToSpeech(context!!, this)
+
+        svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                vm.applyFilters()
+                val listAdapter = WordsUnitItemAdapter(vm, mDragListView, false, tts, compositeDisposable)
+                mDragListView.setAdapter(listAdapter, true)
+                return true
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                vm.textFilter = newText
+                return false
+            }
+        })
 
         val lst = SettingsViewModel.lstScopeWordFilters
         val adapter = object : ArrayAdapter<MSelectItem>(context!!, android.R.layout.simple_spinner_item, lst) {
