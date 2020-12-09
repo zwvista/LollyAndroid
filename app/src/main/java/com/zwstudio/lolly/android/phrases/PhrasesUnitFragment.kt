@@ -6,8 +6,8 @@ import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
@@ -18,9 +18,9 @@ import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -52,6 +52,20 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         activity?.title = resources.getString(R.string.phrases_unit)
         vm.compositeDisposable = compositeDisposable
         tts = TextToSpeech(context!!, this)
+
+        svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                vm.applyFilters()
+                refreshListView()
+                return true
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                vm.textFilter = newText
+                if (newText.isEmpty())
+                    refreshListView()
+                return false
+            }
+        })
 
         val lst = SettingsViewModel.lstScopePhraseFilters
         val adapter = object : ArrayAdapter<MSelectItem>(context!!, android.R.layout.simple_spinner_item, lst) {
@@ -116,11 +130,23 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            setMenuMode(false)
+            refreshListView()
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(PhrasesUnitDragItem(context!!, R.layout.list_item_phrases_unit_edit))
             progressBar1.visibility = View.GONE
         })
+    }
+
+    private fun refreshListView() {
+        val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, tts, compositeDisposable)
+        mDragListView.setAdapter(listAdapter, true)
+    }
+
+    @ItemSelect
+    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+        vm.scopeFilter = selectedItem.label
+        vm.applyFilters()
+        refreshListView()
     }
 
     @OptionsItem
@@ -128,9 +154,9 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuEditMode() = setMenuMode(true)
     private fun setMenuMode(isEditMode: Boolean) {
+        vm.isEditMode = isEditMode
         (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
-        val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, isEditMode, tts, compositeDisposable)
-        mDragListView.setAdapter(listAdapter, true)
+        refreshListView()
     }
 
     @OptionsItem
@@ -161,7 +187,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         }
     }
 
-    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val isEditMode: Boolean, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
+    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases
@@ -259,7 +285,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     }
                     true
                 }
-                if (!(isEditMode && vm.vmSettings.isSingleUnitPart))
+                if (!(vm.isEditMode && vm.vmSettings.isSingleUnitPart))
                     mHamburger.visibility = View.GONE
             }
 
@@ -269,7 +295,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MUnitPhrase
-                    if (isEditMode)
+                    if (vm.isEditMode)
                         edit(item)
                     else
                         tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null)

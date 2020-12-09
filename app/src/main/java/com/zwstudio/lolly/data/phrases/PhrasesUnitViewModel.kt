@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.data.phrases
 
 import com.zwstudio.lolly.data.misc.BaseViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.service.wpp.LangPhraseService
@@ -13,8 +14,14 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PhrasesUnitViewModel : BaseViewModel() {
 
+    var lstPhrasesAll = listOf<MUnitPhrase>()
     var lstPhrases = listOf<MUnitPhrase>()
     var isSwipeStarted = false
+    var isEditMode = false
+    var scopeFilter = SettingsViewModel.lstScopePhraseFilters[0].label
+    var textFilter = ""
+    var textbookFilter = 0
+    val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
     lateinit var compositeDisposable: CompositeDisposable
 
@@ -23,15 +30,22 @@ class PhrasesUnitViewModel : BaseViewModel() {
     @Bean
     lateinit var langPhraseService: LangPhraseService
 
+    fun applyFilters() {
+        lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {
+            (textFilter.isEmpty() || (if (scopeFilter == "Phrase") it.phrase else it.translation).contains(textFilter, true)) &&
+            (textbookFilter == 0 || it.textbookid == textbookFilter)
+        }
+    }
+
     fun getDataInTextbook(): Observable<Unit> =
         unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
                 vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-            .map { lstPhrases = it }
+            .map { lstPhrasesAll = it; applyFilters() }
             .applyIO()
 
     fun getDataInLang(): Observable<Unit> =
         unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstPhrases = it }
+            .map { lstPhrasesAll = it; applyFilters() }
             .applyIO()
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =

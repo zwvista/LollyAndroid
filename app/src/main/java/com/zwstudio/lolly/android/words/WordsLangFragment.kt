@@ -5,18 +5,20 @@ import android.app.Activity
 import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
-import com.zwstudio.lolly.android.*
+import com.zwstudio.lolly.android.DrawerListFragment
+import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -47,6 +49,20 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     fun afterViews() {
         activity?.title = resources.getString(R.string.words_lang)
         tts = TextToSpeech(context!!, this)
+
+        svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                vm.applyFilters()
+                refreshListView()
+                return true
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                vm.textFilter = newText
+                if (newText.isEmpty())
+                    refreshListView()
+                return false
+            }
+        })
 
         val lst = SettingsViewModel.lstScopeWordFilters
         val adapter = object : ArrayAdapter<MSelectItem>(context!!, android.R.layout.simple_spinner_item, lst) {
@@ -99,9 +115,21 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            setMenuMode(false)
+            refreshListView()
             progressBar1.visibility = View.GONE
         })
+    }
+
+    private fun refreshListView() {
+        val listAdapter = WordsLangItemAdapter(vm, mDragListView, tts, compositeDisposable)
+        mDragListView.setAdapter(listAdapter, true)
+    }
+
+    @ItemSelect
+    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+        vm.scopeFilter = selectedItem.label
+        vm.applyFilters()
+        refreshListView()
     }
 
     @OptionsItem
@@ -110,8 +138,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     fun menuEditMode() = setMenuMode(true)
     private fun setMenuMode(isEditMode: Boolean) {
         (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
-        val listAdapter = WordsLangItemAdapter(vm, mDragListView, isEditMode, tts, compositeDisposable)
-        mDragListView.setAdapter(listAdapter, true)
+        refreshListView()
     }
 
     @OptionsItem
@@ -126,7 +153,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             mDragListView.resetSwipedViews(null)
     }
 
-    private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView, val isEditMode: Boolean, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangWord, WordsLangItemAdapter.ViewHolder>() {
+    private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangWord, WordsLangItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -238,7 +265,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     }
                     true
                 }
-                if (isEditMode)
+                if (vm.isEditMode)
                     mForward.visibility = View.GONE
             }
 
@@ -248,7 +275,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MLangWord
-                    if (isEditMode)
+                    if (vm.isEditMode)
                         edit(item)
                     else
                         tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null)

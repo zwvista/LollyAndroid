@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.data.words
 
 import com.zwstudio.lolly.data.misc.BaseViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.wpp.LangWordService
@@ -12,17 +13,28 @@ import org.androidannotations.annotations.EBean
 @EBean
 class WordsLangViewModel : BaseViewModel() {
 
-    var lstWords = mutableListOf<MLangWord>()
+    var lstWordsAll = listOf<MLangWord>()
+    var lstWords = listOf<MLangWord>()
     var isSwipeStarted = false
+    var isEditMode = false
+    var scopeFilter = SettingsViewModel.lstScopeWordFilters[0].label
+    var textFilter = ""
+    val noFilter get() = textFilter.isEmpty()
 
     @Bean
     lateinit var langWordService: LangWordService
     @Bean
     lateinit var wordFamiService: WordFamiService
 
+    fun applyFilters() {
+        lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
+            (textFilter.isEmpty() || (if (scopeFilter == "Word") it.word else it.note).contains(textFilter, true))
+        }
+    }
+
     fun getData(): Observable<Unit> =
         langWordService.getDataByLang(vmSettings.selectedLang.id)
-            .map { lstWords = it.toMutableList() }
+            .map { lstWordsAll = it; applyFilters() }
             .applyIO()
 
     fun update(id: Int, langid: Int, word: String, note: String?): Observable<Unit> =

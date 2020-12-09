@@ -5,8 +5,8 @@ import android.app.Activity
 import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -16,9 +16,9 @@ import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -49,6 +49,20 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     fun afterViews() {
         activity?.title = resources.getString(R.string.phrases_lang)
         tts = TextToSpeech(context!!, this)
+
+        svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                vm.applyFilters()
+                refreshListView()
+                return true
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                vm.textFilter = newText
+                if (newText.isEmpty())
+                    refreshListView()
+                return false
+            }
+        })
     }
 
     override fun onInit(status: Int) {
@@ -101,9 +115,21 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            setMenuMode(false)
+            refreshListView()
             progressBar1.visibility = View.GONE
         })
+    }
+
+    private fun refreshListView() {
+        val listAdapter = PhrasesLangItemAdapter(vm, mDragListView, tts, compositeDisposable)
+        mDragListView.setAdapter(listAdapter, true)
+    }
+
+    @ItemSelect
+    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+        vm.scopeFilter = selectedItem.label
+        vm.applyFilters()
+        refreshListView()
     }
 
     @OptionsItem
@@ -111,9 +137,9 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuEditMode() = setMenuMode(true)
     private fun setMenuMode(isEditMode: Boolean) {
+        vm.isEditMode = isEditMode
         (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
-        val listAdapter = PhrasesLangItemAdapter(vm, mDragListView, isEditMode, tts, compositeDisposable)
-        mDragListView.setAdapter(listAdapter, true)
+        refreshListView()
     }
 
     @OptionsItem
@@ -129,7 +155,7 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             mDragListView.resetSwipedViews(null)
     }
 
-    private class PhrasesLangItemAdapter(val vm: PhrasesLangViewModel, val mDragListView: DragListView, val isEditMode: Boolean, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangPhrase, PhrasesLangItemAdapter.ViewHolder>() {
+    private class PhrasesLangItemAdapter(val vm: PhrasesLangViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangPhrase, PhrasesLangItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases
@@ -230,7 +256,7 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MLangPhrase
-                    if (isEditMode)
+                    if (vm.isEditMode)
                         edit(item)
                     else
                         tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null)

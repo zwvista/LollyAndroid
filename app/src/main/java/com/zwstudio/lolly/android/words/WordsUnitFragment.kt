@@ -64,6 +64,8 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             }
             override fun onQueryTextChange(newText: String): Boolean {
                 vm.textFilter = newText
+                if (newText.isEmpty())
+                    refreshListView()
                 return false
             }
         })
@@ -159,7 +161,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     fun menuEditMode() = setMenuMode(true)
     private fun setMenuMode(isEditMode: Boolean) {
         vm.isEditMode = isEditMode
-        (if (vm.isEditMode) menuEditMode else menuNormalMode).isChecked = true
+        (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
         refreshListView()
     }
 
