@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.data.words
 
 import com.zwstudio.lolly.data.misc.BaseViewModel
-import com.zwstudio.lolly.data.misc.NoteViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.wpp.UnitWordService
@@ -17,21 +17,32 @@ class WordsUnitViewModel : BaseViewModel() {
     var lstWords = listOf<MUnitWord>()
     var isSwipeStarted = false
 
-    lateinit var vmNote: NoteViewModel
     lateinit var compositeDisposable: CompositeDisposable
 
     @Bean
     lateinit var unitWordService: UnitWordService
 
+    var scopeFilter = ""
+    var textFilter = ""
+    var textbookFilter = 0
+    val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
+
+    fun applyFilters() {
+        lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
+            (textFilter.isEmpty() || (if (scopeFilter == "Word") it.word else it.note).contains(textFilter, true)) &&
+            (textbookFilter == 0 || it.textbookid == textbookFilter)
+        }
+    }
+
     fun getDataInTextbook(): Observable<Unit> =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-            .map { lstWords = it }
+            .map { lstWordsAll = it; applyFilters() }
             .applyIO()
 
     fun getDataInLang(): Observable<Unit> =
         unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstWords = it }
+            .map { lstWordsAll = it; applyFilters() }
             .applyIO()
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
@@ -78,17 +89,33 @@ class WordsUnitViewModel : BaseViewModel() {
 
     fun getNote(index: Int): Observable<Unit> {
         val item = lstWords[index]
-        return vmNote.getNote(item.word).flatMap {
+        return vmSettings.getNote(item.word).flatMap {
             item.note = it
             unitWordService.updateNote(item.id, it)
         }
     }
 
+    fun clearNote(index: Int): Observable<Unit> {
+        val item = lstWords[index]
+        item.note = SettingsViewModel.zeroNote
+        return vmSettings.getNote(item.word).flatMap {
+            unitWordService.updateNote(item.id, it)
+        }
+    }
+
     fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
-        vmNote.getNotes(lstWords.size, isNoteEmpty = {
+        vmSettings.getNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
             compositeDisposable.add(getNote(i).subscribe { oneComplete(i) })
+        }, allComplete = allComplete)
+    }
+
+    fun clearNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
+        vmSettings.clearNotes(lstWords.size, isNoteEmpty = {
+            !ifEmpty || lstWords[it].note.isEmpty()
+        }, getOne = { i ->
+            compositeDisposable.add(clearNote(i).subscribe { oneComplete(i) })
         }, allComplete = allComplete)
     }
 }

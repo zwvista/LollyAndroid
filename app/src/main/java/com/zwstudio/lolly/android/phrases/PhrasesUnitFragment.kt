@@ -17,6 +17,7 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.yesNoDialog
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
@@ -52,7 +53,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         vm.compositeDisposable = compositeDisposable
         tts = TextToSpeech(context!!, this)
 
-        val lst = vm.vmSettings.lstScopePhraseFilters
+        val lst = SettingsViewModel.lstScopePhraseFilters
         val adapter = object : ArrayAdapter<MSelectItem>(context!!, android.R.layout.simple_spinner_item, lst) {
             fun convert(v: View, position: Int): View {
                 val tv = v.findViewById<TextView>(android.R.id.text1)

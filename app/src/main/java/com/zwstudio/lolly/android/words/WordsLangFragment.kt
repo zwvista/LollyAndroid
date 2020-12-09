@@ -13,6 +13,7 @@ import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.*
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
@@ -47,7 +48,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         activity?.title = resources.getString(R.string.words_lang)
         tts = TextToSpeech(context!!, this)
 
-        val lst = vm.vmSettings.lstScopeWordFilters
+        val lst = SettingsViewModel.lstScopeWordFilters
         val adapter = object : ArrayAdapter<MSelectItem>(context!!, android.R.layout.simple_spinner_item, lst) {
             fun convert(v: View, position: Int): View {
                 val tv = v.findViewById<TextView>(android.R.id.text1)

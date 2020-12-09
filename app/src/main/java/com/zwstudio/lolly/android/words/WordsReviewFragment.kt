@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.words.WordsReviewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.misc.MSelectItem
@@ -56,7 +57,7 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         tts = TextToSpeech(context!!, this)
 
         run {
-            val lst = vm.vmSettings.lstReviewModes
+            val lst = SettingsViewModel.lstReviewModes
             val adapter = object : ArrayAdapter<MSelectItem>(context!!, android.R.layout.simple_spinner_item, lst) {
                 fun convert(v: View, position: Int): View {
                     val tv = v.findViewById<TextView>(android.R.id.text1)

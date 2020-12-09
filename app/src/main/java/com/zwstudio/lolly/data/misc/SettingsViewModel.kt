@@ -1,12 +1,17 @@
 package com.zwstudio.lolly.data.misc
 
 import android.os.Handler
+import android.util.Log
 import com.zwstudio.lolly.domain.misc.*
 import com.zwstudio.lolly.service.misc.*
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.Observables
+import io.reactivex.rxjava3.schedulers.Schedulers
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
+import java.util.concurrent.TimeUnit
 
 @EBean(scope = EBean.Scope.Singleton)
 class SettingsViewModel {
@@ -180,10 +185,13 @@ class SettingsViewModel {
     val lstToTypes = UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) }
     var toType = UnitPartToType.To
 
-    val lstScopeWordFilters = listOf("Word", "Note").mapIndexed { index, s -> MSelectItem(index, s.toString()) }
-    val lstScopePhraseFilters = listOf("Phrase", "Translation").mapIndexed { index, s -> MSelectItem(index, s.toString()) }
-    val lstScopePatternFilters = listOf("Pattern", "Note", "Tags").mapIndexed { index, s -> MSelectItem(index, s.toString()) }
-    val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
+    companion object {
+        val lstScopeWordFilters = listOf("Word", "Note").mapIndexed { index, s -> MSelectItem(index, s.toString()) }
+        val lstScopePhraseFilters = listOf("Phrase", "Translation").mapIndexed { index, s -> MSelectItem(index, s.toString()) }
+        val lstScopePatternFilters = listOf("Pattern", "Note", "Tags").mapIndexed { index, s -> MSelectItem(index, s.toString()) }
+        val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
+        val zeroNote = "O"
+    }
 
     @Bean
     lateinit var languageService: LanguageService
@@ -199,6 +207,9 @@ class SettingsViewModel {
     lateinit var autoCorrectService: AutoCorrectService
     @Bean
     lateinit var voiceService: VoiceService
+    @Bean
+    lateinit var htmlService: HtmlService
+    private val compositeDisposable = CompositeDisposable()
 
     private fun getUSInfo(name: String): MUserSettingInfo {
         val o = lstUSMappings.find { it.name == name }!!
@@ -423,6 +434,50 @@ class SettingsViewModel {
         return userSettingService.update(INFO_USPARTTO, uspartto)
             .map { handler?.post { settingsListener?.onUpdatePartTo() }; Unit }
             .applyIO()
+    }
+
+    fun getHtml(url: String): Observable<String> =
+        htmlService.getHtml(url)
+
+    fun getNote(word: String): Observable<String> {
+        val dictNote = selectedDictNote ?: return Observable.empty()
+        val url = dictNote.urlString(word, lstAutoCorrect)
+        return getHtml(url).map {
+            Log.d("", it)
+            extractTextFrom(it, dictNote.transform, "") { text, _ -> text }
+        }
+    }
+
+    fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+        val dictNote = selectedDictNote ?: return
+        var i = 0
+        var subscription: Disposable? = null
+        subscription = Observable.interval(dictNote.wait!!.toLong(), TimeUnit.MILLISECONDS, Schedulers.io()).subscribe {
+            while (i < wordCount && !isNoteEmpty(i))
+                i++
+            if (i > wordCount) {
+                allComplete()
+                subscription?.dispose()
+            } else {
+                if (i < wordCount)
+                    getOne(i)
+                i++
+            }
+        }
+        compositeDisposable.add(subscription)
+    }
+
+    fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+        val dictNote = selectedDictNote ?: return
+        var i = 0
+        while (i < wordCount) {
+            while (i < wordCount && !isNoteEmpty(i))
+                i++
+            if (i < wordCount)
+                getOne(i)
+            i++
+        }
+        allComplete()
     }
 }
 
