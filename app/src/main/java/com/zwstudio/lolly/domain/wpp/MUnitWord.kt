@@ -63,7 +63,7 @@ class MUnitWord: Serializable {
     val unitpartseqnum: String
         get() = "$unitstr\n$partstr\n$seqnum"
     val wordnote: String
-        get() = "word($note)"
+        get() = "$word($note)"
     val accuracy: String
         get() = if (total == 0) "N/A" else "${floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
 }

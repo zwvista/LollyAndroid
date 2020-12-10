@@ -32,11 +32,6 @@
         android:id="@+id/spnLanguage"
         android:layout_gravity="center_horizontal"/>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,11 +44,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/spnVoice"
         android:layout_gravity="center_horizontal"/>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -68,11 +58,6 @@
         android:id="@+id/spnDictReference"
         android:layout_gravity="center_horizontal"/>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,11 +70,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/spnDictNote"
         android:layout_gravity="center_horizontal"/>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -104,11 +84,6 @@
         android:id="@+id/spnDictTranslation"
         android:layout_gravity="center_horizontal"/>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"/>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -121,11 +96,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/spnTextbook"
         android:layout_gravity="center_horizontal"/>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -142,19 +112,13 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"/>
+        android:layout_height="20dp"/>
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/spnPartFrom"
         android:layout_gravity="center_horizontal"/>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -169,8 +133,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.05"/>
+            android:layout_height="10dp"/>
 
         <Button
             android:id="@+id/btnPrevious"
@@ -181,8 +144,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.05"/>
+            android:layout_height="10dp"/>
 
         <Button
             android:id="@+id/btnNext"
@@ -192,11 +154,6 @@
             android:text="@string/label_next" />
     </LinearLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"/>
-
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -205,8 +162,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.05"/>
+        android:layout_height="20dp"/>
 
     <Spinner
         android:layout_width="match_parent"

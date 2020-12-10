@@ -2,11 +2,11 @@ package com.zwstudio.lolly.android
 
 import android.graphics.Color
 import android.os.Handler
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.domain.misc.*
@@ -60,21 +60,16 @@ class SettingsFragment : Fragment(), SettingsListener {
         val lst = vm.lstLanguages
         val adapter = object : ArrayAdapter<MLanguage>(activity!!,
             android.R.layout.simple_spinner_item, lst) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val v = super.getView(position, convertView, parent)
-                val tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = lst[position].langname
-                tv.setTextColor(Color.BLUE)
-                return v
-            }
-
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val v = super.getDropDownView(position, convertView, parent)
-                val ctv = v.findViewById<CheckedTextView>(android.R.id.text1)
+            fun convert(v: View, position: Int): View {
+                val ctv = v.findViewById<TextView>(android.R.id.text1)
                 ctv.text = lst[position].langname
                 ctv.setTextColor(Color.BLUE)
                 return v
             }
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
+                convert(super.getView(position, convertView, parent), position)
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
+                convert(super.getDropDownView(position, convertView, parent), position)
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
         spnLanguage.adapter = adapter
