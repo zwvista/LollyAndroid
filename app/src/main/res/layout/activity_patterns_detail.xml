@@ -32,37 +32,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_unit"/>
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spnUnit"
-        android:layout_gravity="center_horizontal"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_part"/>
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spnPart"
-        android:layout_gravity="center_horizontal"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_seqnum"/>
+        android:text="@string/label_pattern"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etSeqNum"
+        android:id="@+id/etPattern"
         android:layout_gravity="center_horizontal"/>
     <Space
         android:layout_width="match_parent"
@@ -71,20 +45,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_phraseid"
-        android:id="@+id/tvPhraseID"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_phrase"/>
+        android:text="@string/label_note"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etPhrase"
+        android:id="@+id/etNote"
         android:layout_gravity="center_horizontal"/>
     <Space
         android:layout_width="match_parent"
@@ -93,11 +58,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/label_translation"/>
+        android:text="@string/label_tags"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/etTranslation"
+        android:id="@+id/etTags"
         android:layout_gravity="center_horizontal"/>
     <Space
         android:layout_width="match_parent"

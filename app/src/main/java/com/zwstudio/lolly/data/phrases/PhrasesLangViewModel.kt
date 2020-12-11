@@ -34,12 +34,12 @@ class PhrasesLangViewModel : BaseViewModel() {
             .map { lstPhrasesAll = it; applyFilters() }
             .applyIO()
 
-    fun update(id: Int, langid: Int, phrase: String, translation: String?): Observable<Unit> =
-        langPhraseService.update(id, langid, phrase, translation)
+    fun update(item: MLangPhrase): Observable<Unit> =
+        langPhraseService.update(item)
             .applyIO()
 
-    fun create(langid: Int, phrase: String, translation: String?): Observable<Int> =
-        langPhraseService.create(langid, phrase, translation)
+    fun create(item: MLangPhrase): Observable<Int> =
+        langPhraseService.create(item)
             .applyIO()
 
     fun delete(item: MLangPhrase): Observable<Unit> =

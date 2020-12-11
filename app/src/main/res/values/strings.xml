@@ -25,6 +25,7 @@
     <string name="phrases_textbook_edit">Phrase in Textbook(Edit)</string>
     <string name="phrases_textbook_detail">Phrase in Textbook(Detail)</string>
     <string name="patterns">Patterns in Language</string>
+    <string name="patterns_detail">Patterns in Language(Detail)</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -56,6 +57,8 @@
     <string name="label_next">Next</string>
     <string name="label_units">Units:</string>
     <string name="label_textbook2">Textbook:</string>
+    <string name="label_pattern">PATTERN:</string>
+    <string name="label_tags">TAGS:</string>
     <string name="text_correct">Correct</string>
     <string name="text_incorrect">Incorrect</string>
     <string name="text_new_test">New Test</string>

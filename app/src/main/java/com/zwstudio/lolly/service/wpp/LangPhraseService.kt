@@ -19,14 +19,14 @@ class LangPhraseService: BaseService() {
             .updateTranslation(id, translation)
             .map { Log.d("", it.toString()); Unit }
 
-    fun update(id: Int, langid: Int, phrase: String, translation: String?): Observable<Unit> =
+    fun update(o: MLangPhrase): Observable<Unit> =
         retrofitJson.create(RestLangPhrase::class.java)
-            .update(id, langid, phrase, translation)
+            .update(o.id, o.langid, o.phrase, o.translation)
             .map { Log.d("", it.toString()); Unit }
 
-    fun create(langid: Int, phrase: String, translation: String?): Observable<Int> =
+    fun create(o: MLangPhrase): Observable<Int> =
         retrofitJson.create(RestLangPhrase::class.java)
-            .create(langid, phrase, translation)
+            .create(o.langid, o.phrase, o.translation)
             .doOnNext { Log.d("", it.toString()) }
 
     fun delete(o: MLangPhrase): Observable<Unit> =

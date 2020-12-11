@@ -37,12 +37,12 @@ class WordsLangViewModel : BaseViewModel() {
             .map { lstWordsAll = it; applyFilters() }
             .applyIO()
 
-    fun update(id: Int, langid: Int, word: String, note: String?): Observable<Unit> =
-        langWordService.update(id, langid, word, note)
+    fun update(item: MLangWord): Observable<Unit> =
+        langWordService.update(item)
             .applyIO()
 
-    fun create(langid: Int, word: String, note: String?): Observable<Int> =
-        langWordService.create(langid, word, note)
+    fun create(item: MLangWord): Observable<Int> =
+        langWordService.create(item)
             .applyIO()
 
     fun delete(item: MLangWord): Observable<Unit> =

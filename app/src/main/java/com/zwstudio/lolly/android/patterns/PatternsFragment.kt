@@ -142,8 +142,8 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @OptionsItem
     fun menuAdd() {
-//        PatternsDetailActivity_.intent(this)
-//            .extra("pattern", vm.newLangPattern()).startForResult(REQUEST_CODE)
+        PatternsDetailActivity_.intent(this)
+            .extra("pattern", vm.newPattern()).startForResult(REQUEST_CODE)
     }
 
 
@@ -196,8 +196,8 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             }
 
             fun edit(item: MPattern) {
-//                PatternsDetailActivity_.intent(itemView.context)
-//                    .extra("pattern", item).startForResult(REQUEST_CODE)
+                PatternsDetailActivity_.intent(itemView.context)
+                    .extra("pattern", item).startForResult(REQUEST_CODE)
             }
 
             @SuppressLint("ClickableViewAccessibility")

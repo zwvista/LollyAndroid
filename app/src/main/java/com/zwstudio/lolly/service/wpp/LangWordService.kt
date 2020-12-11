@@ -19,14 +19,14 @@ class LangWordService: BaseService() {
             .updateNote(id, note)
             .map { Log.d("", it.toString()); Unit }
 
-    fun update(id: Int, langid: Int, word: String, note: String?): Observable<Unit> =
+    fun update(o: MLangWord): Observable<Unit> =
         retrofitJson.create(RestLangWord::class.java)
-            .update(id, langid, word, note)
+            .update(o.id, o.langid, o.word, o.note)
             .map { Log.d("", it.toString()); Unit }
 
-    fun create(langid: Int, word: String, note: String?): Observable<Int> =
+    fun create(o: MLangWord): Observable<Int> =
         retrofitJson.create(RestLangWord::class.java)
-            .create(langid, word, note)
+            .create(o.langid, o.word, o.note)
             .doOnNext { Log.d("", it.toString()) }
 
     fun delete(o: MLangWord): Observable<Unit> =

@@ -468,7 +468,6 @@ class SettingsViewModel {
     }
 
     fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
-        val dictNote = selectedDictNote ?: return
         var i = 0
         while (i < wordCount) {
             while (i < wordCount && !isNoteEmpty(i))

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.os.Handler
+import android.os.Looper
 import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
@@ -173,7 +174,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuNotesEmpty() = getNotes(true)
     private fun getNotes(ifEmpty: Boolean) {
-        val handler = Handler()
+        val handler = Handler(Looper.getMainLooper())
         progressBar1.visibility = View.VISIBLE
         vm.getNotes(ifEmpty, oneComplete = {}, allComplete = {
             handler.post {

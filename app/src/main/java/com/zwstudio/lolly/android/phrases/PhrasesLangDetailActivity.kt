@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.android.phrases
 
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
@@ -39,11 +39,11 @@ class PhrasesLangDetailActivity : AppCompatActivity() {
         item.phrase = vm.vmSettings.autoCorrectInput(etPhrase.text.toString())
         item.translation = etTranslation.text.toString()
         if (item.id == 0)
-            compositeDisposable.add(vm.create(item.langid, item.phrase, item.translation).subscribe {
+            compositeDisposable.add(vm.create(item).subscribe {
                 item.id = it
             })
         else
-            compositeDisposable.add(vm.update(item.id, item.langid, item.phrase, item.translation).subscribe())
+            compositeDisposable.add(vm.update(item).subscribe())
         setResult(Activity.RESULT_OK)
         finish()
     }

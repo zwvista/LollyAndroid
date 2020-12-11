@@ -76,6 +76,12 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
+        <activity
+            android:name=".patterns.PatternsDetailActivity_"
+            android:label="@string/patterns_detail"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
     </application>
 
 </manifest>

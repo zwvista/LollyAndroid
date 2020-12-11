@@ -1,50 +1,47 @@
-package com.zwstudio.lolly.android.words
+package com.zwstudio.lolly.android.patterns
 
 import android.app.Activity
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.data.words.WordsLangViewModel
-import com.zwstudio.lolly.domain.wpp.MLangWord
+import com.zwstudio.lolly.data.patterns.PatternsViewModel
+import com.zwstudio.lolly.domain.wpp.MPattern
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.activity_words_lang_detail)
+@EActivity(R.layout.activity_patterns_detail)
 @OptionsMenu(R.menu.menu_save)
-class WordsLangDetailActivity : AppCompatActivity() {
+class PatternsDetailActivity : AppCompatActivity() {
 
     @Bean
-    lateinit var vm: WordsLangViewModel
-    lateinit var item: MLangWord
+    lateinit var vm: PatternsViewModel
+    lateinit var item: MPattern
 
     @ViewById
     lateinit var tvID: TextView
     @ViewById
-    lateinit var etWord: TextView
+    lateinit var etPattern: TextView
     @ViewById
     lateinit var etNote: TextView
     @ViewById
-    lateinit var tvFamiID: TextView
-    @ViewById
-    lateinit var tvAccuracy: TextView
+    lateinit var etTags: TextView
 
     val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
-        item = intent.getSerializableExtra("word") as MLangWord
+        item = intent.getSerializableExtra("pattern") as MPattern
         tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
-        etWord.text = item.word
+        etPattern.text = item.pattern
         etNote.text = item.note
-        tvFamiID.text = "${getResources().getString(R.string.label_famiid)} ${item.famiid}"
-        tvAccuracy.text = "${getResources().getString(R.string.label_accuracy)} ${item.accuracy}"
+        etTags.text = item.tags
     }
 
     @OptionsItem
     fun menuSave() {
-        item.word = vm.vmSettings.autoCorrectInput(etWord.text.toString())
+        item.pattern = vm.vmSettings.autoCorrectInput(etPattern.text.toString())
         item.note = etNote.text.toString()
-        val word = vm.vmSettings.autoCorrectInput(item.word)
+        item.tags = etTags.text.toString()
         if (item.id == 0)
             compositeDisposable.add(vm.create(item).subscribe {
                 item.id = it
