@@ -99,7 +99,7 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
             tvIndex.text = "${vm.index + 1}/${vm.lstWords.size}"
             tvAccuracy.text = vm.currentItem!!.accuracy
             if (speakOrNot)
-                tts.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null)
+                tts.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null, null)
             compositeDisposable.add(vm.getTranslation().subscribe {
                 tvTranslation.text = it
             })
@@ -153,7 +153,7 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
     fun chkSpeak(isChecked: Boolean) {
         speakOrNot = isChecked
         if (speakOrNot)
-            tts.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null)
+            tts.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null, null)
     }
     @CheckedChange
     fun chkShuffled(isChecked: Boolean) {

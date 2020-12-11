@@ -211,7 +211,7 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     if (isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null)
+                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null, null)
                 }
             }
 

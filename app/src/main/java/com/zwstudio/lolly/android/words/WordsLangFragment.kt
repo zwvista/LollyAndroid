@@ -273,7 +273,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     if (vm.isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null)
+                        tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null, null)
                 }
             }
 

@@ -245,7 +245,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
                     if (vm.isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null)
+                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null, null)
                 }
             }
 

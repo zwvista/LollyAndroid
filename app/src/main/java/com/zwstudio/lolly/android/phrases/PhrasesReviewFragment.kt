@@ -95,7 +95,7 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         if (b) {
             tvIndex.text = "${vm.index + 1}/${vm.lstPhrases.size}"
             if (speakOrNot)
-                tts.speak(vm.currentPhrase, TextToSpeech.QUEUE_FLUSH, null)
+                tts.speak(vm.currentPhrase, TextToSpeech.QUEUE_FLUSH, null, null)
             tvTranslation.text = vm.currentItem?.translation ?: ""
         } else {
             subscription?.dispose()
@@ -147,7 +147,7 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
     fun chkSpeak(isChecked: Boolean) {
         speakOrNot = isChecked
         if (speakOrNot)
-            tts.speak(vm.currentPhrase, TextToSpeech.QUEUE_FLUSH, null)
+            tts.speak(vm.currentPhrase, TextToSpeech.QUEUE_FLUSH, null, null)
     }
     @CheckedChange
     fun chkShuffled(isChecked: Boolean) {

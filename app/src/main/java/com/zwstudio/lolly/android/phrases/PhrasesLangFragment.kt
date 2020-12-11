@@ -254,7 +254,7 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     if (vm.isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null)
+                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null, null)
                 }
             }
 
