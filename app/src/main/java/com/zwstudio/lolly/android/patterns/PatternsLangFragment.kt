@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.speech.tts.TextToSpeech
 import android.view.*
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.widget.SearchView
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
@@ -16,10 +18,13 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.yesNoDialog
-import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
-import com.zwstudio.lolly.domain.wpp.MLangPhrase
+import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.data.patterns.PatternsViewModel
+import com.zwstudio.lolly.domain.misc.MSelectItem
+import com.zwstudio.lolly.domain.wpp.MPattern
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 import java.util.*
@@ -31,13 +36,18 @@ private const val REQUEST_CODE = 1
 class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @Bean
-    lateinit var vm: PhrasesLangViewModel
+    lateinit var vm: PatternsViewModel
     lateinit var tts: TextToSpeech
 
     @OptionsMenuItem
     lateinit var menuNormalMode: MenuItem
     @OptionsMenuItem
     lateinit var menuEditMode: MenuItem
+
+    @ViewById
+    lateinit var svTextFilter: SearchView
+    @ViewById
+    lateinit var spnScopeFilter: Spinner
 
     @AfterViews
     fun afterViews() {
@@ -52,6 +62,16 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         }
         if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
         tts.language = locale
+
+        val lst = SettingsViewModel.lstScopePatternFilters
+        val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val tv = v.findViewById<TextView>(android.R.id.text1)
+            tv.text = getItem(position)!!.label
+            v
+        }
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
+        spnScopeFilter.adapter = adapter
+        spnScopeFilter.setSelection(0)
     }
 
     override fun onResume() {
@@ -79,9 +99,21 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             })
 
             mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            setMenuMode(false)
+            refreshListView()
             progressBar1.visibility = View.GONE
         })
+    }
+
+    private fun refreshListView() {
+        val listAdapter = PatternsLangItemAdapter(vm, mDragListView, tts, compositeDisposable)
+        mDragListView.setAdapter(listAdapter, true)
+    }
+
+    @ItemSelect
+    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+        vm.scopeFilter = selectedItem.label
+        vm.applyFilters()
+        refreshListView()
     }
 
     @OptionsItem
@@ -89,15 +121,15 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuEditMode() = setMenuMode(true)
     private fun setMenuMode(isEditMode: Boolean) {
+        vm.isEditMode = isEditMode
         (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
-        val listAdapter = PhrasesLangItemAdapter(vm, mDragListView, isEditMode, tts, compositeDisposable)
-        mDragListView.setAdapter(listAdapter, true)
+        refreshListView()
     }
 
     @OptionsItem
     fun menuAdd() {
-//        PhrasesLangDetailActivity_.intent(this)
-//            .extra("phrase", vm.newLangPhrase()).startForResult(REQUEST_CODE)
+//        PatternsLangDetailActivity_.intent(this)
+//            .extra("pattern", vm.newLangPattern()).startForResult(REQUEST_CODE)
     }
 
 
@@ -107,10 +139,10 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             mDragListView.resetSwipedViews(null)
     }
 
-    private class PhrasesLangItemAdapter(val vm: PhrasesLangViewModel, val mDragListView: DragListView, val isEditMode: Boolean, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangPhrase, PhrasesLangItemAdapter.ViewHolder>() {
+    private class PatternsLangItemAdapter(val vm: PatternsViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MPattern, PatternsLangItemAdapter.ViewHolder>() {
 
         init {
-            itemList = vm.lstPhrases
+            itemList = vm.lstPatterns
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -121,8 +153,8 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
             val item = mItemList[position]
-            holder.mText1.text = item.phrase
-            holder.mText2.text = item.translation
+            holder.mText1.text = item.pattern
+            holder.mText2.text = item.note
             holder.itemView.tag = item
         }
 
@@ -146,18 +178,18 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 initButtons()
             }
 
-            fun edit(item: MLangPhrase) {
-//                PhrasesLangDetailActivity_.intent(itemView.context)
-//                    .extra("phrase", item).startForResult(REQUEST_CODE)
+            fun edit(item: MPattern) {
+//                PatternsLangDetailActivity_.intent(itemView.context)
+//                    .extra("pattern", item).startForResult(REQUEST_CODE)
             }
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
-                fun delete(item: MLangPhrase) {
-                    yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
+                fun delete(item: MPattern) {
+                    yesNoDialog(itemView.context, "Are you sure you want to delete the pattern \"${item.pattern}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
-                        compositeDisposable.add(vm.delete(item).subscribe())
+                        compositeDisposable.add(vm.delete(item.id).subscribe())
                         vm.isSwipeStarted = false
                     }, {
                         mDragListView.resetSwipedViews(null)
@@ -166,14 +198,14 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 }
                 mEdit.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MLangPhrase
+                        val item = itemView.tag as MPattern
                         edit(item)
                     }
                     true
                 }
                 mDelete.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MLangPhrase
+                        val item = itemView.tag as MPattern
                         delete(item)
                     }
                     true
@@ -183,16 +215,16 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                         mDragListView.resetSwipedViews(null)
                         vm.isSwipeStarted = false
 
-                        val item = itemView.tag as MLangPhrase
+                        val item = itemView.tag as MPattern
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                         val builder = AlertDialog.Builder(itemView.context)
-                            .setTitle(item.phrase)
-                            .setItems(arrayOf("Delete", "Edit", "Copy Phrase", "Google Phrase", "Cancel")) { _, which ->
+                            .setTitle(item.pattern)
+                            .setItems(arrayOf("Delete", "Edit", "Copy Pattern", "Google Pattern", "Cancel")) { _, which ->
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
-                                    2 -> itemView.copyText(item.phrase)
-                                    3 -> itemView.googleString(item.phrase)
+                                    2 -> itemView.copyText(item.pattern)
+                                    3 -> itemView.googleString(item.pattern)
                                     else -> {}
                                 }
                             }
@@ -207,11 +239,11 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     mDragListView.resetSwipedViews(null)
                     vm.isSwipeStarted = false
                 } else {
-                    val item = view!!.tag as MLangPhrase
-                    if (isEditMode)
+                    val item = view!!.tag as MPattern
+                    if (vm.isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null, null)
+                        tts.speak(item.pattern, TextToSpeech.QUEUE_FLUSH, null, null)
                 }
             }
 

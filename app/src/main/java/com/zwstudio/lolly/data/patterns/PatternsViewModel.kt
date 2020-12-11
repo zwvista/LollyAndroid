@@ -16,8 +16,13 @@ import org.androidannotations.annotations.EBean
 class PatternsViewModel : BaseViewModel() {
 
     var lstPatternsAll = listOf<MPattern>()
-    val lstPatterns = listOf<MPattern>()
+    var lstPatterns = listOf<MPattern>()
     var lstWebPages = mutableListOf<MPatternWebPage>()
+    var isSwipeStarted = false
+    var isEditMode = false
+    var scopeFilter = SettingsViewModel.lstScopePatternFilters[0].label
+    var textFilter = ""
+    val noFilter get() = textFilter.isEmpty()
 
     @Bean
     lateinit var patternService: PatternService
@@ -26,28 +31,16 @@ class PatternsViewModel : BaseViewModel() {
     @Bean
     lateinit var webPageService: WebPageService
 
-//    val scopeFilter = SimpleStringProperty(SettingsViewModel.lstScopePatternFilters[0])
-//    val textFilter = SimpleStringProperty("")
-//    val noFilter get() = textFilter.value.isEmpty()
-//    val statusText = SimpleStringProperty()
-
-    init {
-//        scopeFilter.addListener { _, _, _ -> applyFilters() }
-//        textFilter.addListener { _, _, _ -> applyFilters() }
+    fun applyFilters() {
+        lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {
+            (textFilter.isEmpty() || (if (scopeFilter == "Pattern") it.pattern else if (scopeFilter == "Note") it.note else it.tags).contains(textFilter, true))
+        }
     }
 
-    private fun applyFilters() {
-//        lstPatterns.setAll(if (noFilter) lstPatternsAll else lstPatternsAll.filter {
-//            (textFilter.value.isEmpty() || (if (scopeFilter.value == "Pattern") it.pattern else if (scopeFilter.value == "Note") it.note else it.tags).contains(textFilter.value, true))
-//        })
-//        statusText.value = "${lstPatterns.size} Patterns in ${vmSettings.langInfo}"
-    }
-
-    fun reload() {
+    fun getData(): Observable<Unit> =
         patternService.getDataByLang(vmSettings.selectedLang.id)
+            .map { lstPatternsAll = it; applyFilters() }
             .applyIO()
-            .subscribe { lstPatternsAll = it.toMutableList(); applyFilters() }
-    }
 
     fun update(item: MPattern): Observable<Unit> =
         patternService.update(item)
