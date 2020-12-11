@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.data.words
 
-import android.provider.Settings
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
@@ -81,7 +80,7 @@ class WordsUnitViewModel : BaseViewModel() {
         langid = vmSettings.selectedLang.id
         textbookid = vmSettings.ustextbook
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
-        val maxItem = lstWords.maxWith(compareBy({ it.unit }, { it.part }, { it.seqnum }))
+        val maxItem = lstWords.maxWithOrNull(compareBy({ it.unit }, { it.part }, { it.seqnum }))
         unit = maxItem?.unit ?: vmSettings.usunitto
         part = maxItem?.part ?: vmSettings.uspartto
         seqnum = (maxItem?.seqnum ?: 0) + 1

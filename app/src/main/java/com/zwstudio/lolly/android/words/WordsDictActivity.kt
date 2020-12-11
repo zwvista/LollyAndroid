@@ -1,20 +1,17 @@
 package com.zwstudio.lolly.android.words
 
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
-import android.view.View
-import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.DictWebViewStatus
 import com.zwstudio.lolly.data.misc.SearchViewModel
 import com.zwstudio.lolly.data.misc.makeAdapter
-import com.zwstudio.lolly.domain.misc.MDictionary
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -114,7 +111,7 @@ class WordsDictActivity : AppCompatActivity() {
                 override fun onPageFinished(view: WebView, url: String) {
                     if (dictStatus == DictWebViewStatus.Ready) return
                     if (dictStatus == DictWebViewStatus.Automating) {
-                        val s = item2.automation!!.replace("{0}", vm.selectedWord)
+                        val s = item2.automation.replace("{0}", vm.selectedWord)
                         wv.evaluateJavascript(s) {
                             dictStatus = DictWebViewStatus.Ready
                             if (item2.dicttypename == "OFFLINE-ONLINE")
@@ -136,7 +133,7 @@ class WordsDictActivity : AppCompatActivity() {
                 }
             }
             wv.loadUrl(url)
-            if (item2.automation != null)
+            if (item2.automation.isNotEmpty())
                 dictStatus = DictWebViewStatus.Automating
             else if (item2.dicttypename == "OFFLINE-ONLINE")
                 dictStatus = DictWebViewStatus.Navigating

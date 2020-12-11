@@ -269,7 +269,7 @@ class SettingsViewModel {
             selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslation } ?: lstDictsTranslation.firstOrNull()
             lstTextbooks = res4
             selectedTextbook = lstTextbooks.first { it.id == ustextbook }
-            lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname!!) }
+            lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
             lstAutoCorrect = res5
             lstVoices = res6
             selectedVoice = lstVoices.firstOrNull { it.id == usvoice } ?: lstVoices.firstOrNull()
@@ -452,7 +452,7 @@ class SettingsViewModel {
         val dictNote = selectedDictNote ?: return
         var i = 0
         var subscription: Disposable? = null
-        subscription = Observable.interval(dictNote.wait!!.toLong(), TimeUnit.MILLISECONDS, Schedulers.io()).subscribe {
+        subscription = Observable.interval(dictNote.wait.toLong(), TimeUnit.MILLISECONDS, Schedulers.io()).subscribe {
             while (i < wordCount && !isNoteEmpty(i))
                 i++
             if (i > wordCount) {

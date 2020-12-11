@@ -3,8 +3,8 @@ package com.zwstudio.lolly.data.words
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.data.misc.extractTextFrom
-import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.domain.misc.ReviewMode
+import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.misc.HtmlService
 import com.zwstudio.lolly.service.wpp.UnitWordService
 import io.reactivex.rxjava3.core.Observable
@@ -58,7 +58,7 @@ class WordsReviewModel : BaseViewModel() {
         val url = mDictTranslation.urlString(currentWord, vmSettings.lstAutoCorrect)
         return htmlService.getHtml(url)
             .map {
-                extractTextFrom(it, mDictTranslation.transform!!, "") { text, _ -> text }
+                extractTextFrom(it, mDictTranslation.transform, "") { text, _ -> text }
             }
             .applyIO()
     }
