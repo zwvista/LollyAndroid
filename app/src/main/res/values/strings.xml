@@ -24,7 +24,7 @@
     <string name="phrases_textbook">Phrase in Textbook</string>
     <string name="phrases_textbook_edit">Phrase in Textbook(Edit)</string>
     <string name="phrases_textbook_detail">Phrase in Textbook(Detail)</string>
-    <string name="patterns_lang">Patterns in Language</string>
+    <string name="patterns">Patterns in Language</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -43,9 +43,9 @@
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/phrases_textbook"/>
         <item
-            android:id="@+id/nav_patterns_lang"
+            android:id="@+id/nav_patterns"
             android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="@string/patterns_lang"/>
+            android:title="@string/patterns"/>
     </group>
 
 </menu>

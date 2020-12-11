@@ -31,9 +31,9 @@ import java.util.*
 
 private const val REQUEST_CODE = 1
 
-@EFragment(R.layout.content_patterns_lang)
-@OptionsMenu(R.menu.menu_patterns_lang)
-class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
+@EFragment(R.layout.content_patterns)
+@OptionsMenu(R.menu.menu_patterns)
+class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @Bean
     lateinit var vm: PatternsViewModel
@@ -51,17 +51,22 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @AfterViews
     fun afterViews() {
-        activity?.title = resources.getString(R.string.patterns_lang)
+        activity?.title = resources.getString(R.string.patterns)
         tts = TextToSpeech(context!!, this)
-    }
 
-    override fun onInit(status: Int) {
-        if (status != TextToSpeech.SUCCESS) return
-        val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
-        }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
+        svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                vm.applyFilters()
+                refreshListView()
+                return true
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                vm.textFilter = newText
+                if (newText.isEmpty())
+                    refreshListView()
+                return false
+            }
+        })
 
         val lst = SettingsViewModel.lstScopePatternFilters
         val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
@@ -72,6 +77,15 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
         spnScopeFilter.adapter = adapter
         spnScopeFilter.setSelection(0)
+    }
+
+    override fun onInit(status: Int) {
+        if (status != TextToSpeech.SUCCESS) return
+        val locale = Locale.getAvailableLocales().find {
+            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
+        }
+        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
+        tts.language = locale
     }
 
     override fun onResume() {
@@ -105,7 +119,7 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     }
 
     private fun refreshListView() {
-        val listAdapter = PatternsLangItemAdapter(vm, mDragListView, tts, compositeDisposable)
+        val listAdapter = PatternsItemAdapter(vm, mDragListView, tts, compositeDisposable)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -128,7 +142,7 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @OptionsItem
     fun menuAdd() {
-//        PatternsLangDetailActivity_.intent(this)
+//        PatternsDetailActivity_.intent(this)
 //            .extra("pattern", vm.newLangPattern()).startForResult(REQUEST_CODE)
     }
 
@@ -139,14 +153,14 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             mDragListView.resetSwipedViews(null)
     }
 
-    private class PatternsLangItemAdapter(val vm: PatternsViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MPattern, PatternsLangItemAdapter.ViewHolder>() {
+    private class PatternsItemAdapter(val vm: PatternsViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MPattern, PatternsItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPatterns
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_patterns_lang_edit, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_patterns_edit, parent, false)
             return ViewHolder(view)
         }
 
@@ -155,6 +169,7 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             val item = mItemList[position]
             holder.mText1.text = item.pattern
             holder.mText2.text = item.note
+            holder.mText3.text = item.tags
             holder.itemView.tag = item
         }
 
@@ -165,6 +180,7 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView
             var mText2: TextView
+            var mText3: TextView
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
@@ -172,6 +188,7 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             init {
                 mText1 = itemView.findViewById(R.id.text1)
                 mText2 = itemView.findViewById(R.id.text2)
+                mText3 = itemView.findViewById(R.id.text3)
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
@@ -179,7 +196,7 @@ class PatternsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             }
 
             fun edit(item: MPattern) {
-//                PatternsLangDetailActivity_.intent(itemView.context)
+//                PatternsDetailActivity_.intent(itemView.context)
 //                    .extra("pattern", item).startForResult(REQUEST_CODE)
             }
 

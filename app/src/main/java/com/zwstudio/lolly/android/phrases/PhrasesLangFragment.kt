@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.speech.tts.TextToSpeech
 import android.view.*
-import android.widget.*
+import android.widget.SearchView
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,15 +67,6 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 return false
             }
         })
-    }
-
-    override fun onInit(status: Int) {
-        if (status != TextToSpeech.SUCCESS) return
-        val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
-        }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
 
         val lst = SettingsViewModel.lstScopePhraseFilters
         val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
@@ -83,6 +77,15 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
         spnScopeFilter.adapter = adapter
         spnScopeFilter.setSelection(0)
+    }
+
+    override fun onInit(status: Int) {
+        if (status != TextToSpeech.SUCCESS) return
+        val locale = Locale.getAvailableLocales().find {
+            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
+        }
+        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
+        tts.language = locale
     }
 
     override fun onResume() {

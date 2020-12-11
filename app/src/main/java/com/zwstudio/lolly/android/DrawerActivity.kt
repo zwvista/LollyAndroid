@@ -12,7 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.widget.ProgressBar
 import com.woxthebox.draglistview.DragListView
-import com.zwstudio.lolly.android.patterns.PatternsLangFragment_
+import com.zwstudio.lolly.android.patterns.PatternsFragment_
 import com.zwstudio.lolly.android.phrases.PhrasesLangFragment_
 import com.zwstudio.lolly.android.phrases.PhrasesReviewFragment_
 import com.zwstudio.lolly.android.phrases.PhrasesTextbookFragment_
@@ -84,7 +84,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             R.id.nav_phrases_lang -> showFragment(PhrasesLangFragment_())
             R.id.nav_words_textbook -> showFragment(WordsTextbookFragment_())
             R.id.nav_phrases_textbook -> showFragment(PhrasesTextbookFragment_())
-            R.id.nav_patterns_lang -> showFragment(PatternsLangFragment_())
+            R.id.nav_patterns -> showFragment(PatternsFragment_())
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
