@@ -17,6 +17,7 @@ import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
@@ -63,16 +64,10 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
         })
 
         val lst = SettingsViewModel.lstScopeWordFilters
-        val adapter = object : ArrayAdapter<MSelectItem>(context!!, android.R.layout.simple_spinner_item, lst) {
-            fun convert(v: View, position: Int): View {
-                val tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = getItem(position)!!.label
-                return v
-            }
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getView(position, convertView, parent), position)
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getDropDownView(position, convertView, parent), position)
+        val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val tv = v.findViewById<TextView>(android.R.id.text1)
+            tv.text = getItem(position)!!.label
+            v
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
         spnScopeFilter.adapter = adapter

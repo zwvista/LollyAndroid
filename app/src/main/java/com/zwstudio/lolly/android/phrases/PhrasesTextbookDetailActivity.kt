@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
@@ -48,16 +49,10 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
         tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
         run {
             val lst = item.textbook.lstUnits
-            val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
-                fun convert(v: View, position: Int): View {
-                    val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position)!!.label
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                        convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                        convert(super.getDropDownView(position, convertView, parent), position)
+            val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
+                val tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = getItem(position)!!.label
+                v
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             spnUnit.adapter = adapter
@@ -66,16 +61,10 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
 
         run {
             val lst = item.textbook.lstParts
-            val adapter = object : ArrayAdapter<MSelectItem>(this, android.R.layout.simple_spinner_item, lst) {
-                fun convert(v: View, position: Int): View {
-                    val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position)!!.label
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                        convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                        convert(super.getDropDownView(position, convertView, parent), position)
+            val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
+                val tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = getItem(position)!!.label
+                v
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             spnPart.adapter = adapter

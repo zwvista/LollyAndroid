@@ -3,7 +3,10 @@ package com.zwstudio.lolly.android.phrases
 import android.annotation.SuppressLint
 import android.speech.tts.TextToSpeech
 import android.view.*
-import android.widget.*
+import android.widget.SearchView
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +20,7 @@ import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
@@ -64,16 +68,10 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
         })
 
         val lst = SettingsViewModel.lstScopePhraseFilters
-        val adapter = object : ArrayAdapter<MSelectItem>(context!!, android.R.layout.simple_spinner_item, lst) {
-            fun convert(v: View, position: Int): View {
-                val tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = getItem(position)!!.label
-                return v
-            }
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getView(position, convertView, parent), position)
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getDropDownView(position, convertView, parent), position)
+        val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val tv = v.findViewById<TextView>(android.R.id.text1)
+            tv.text = getItem(position)!!.label
+            v
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
         spnScopeFilter.adapter = adapter

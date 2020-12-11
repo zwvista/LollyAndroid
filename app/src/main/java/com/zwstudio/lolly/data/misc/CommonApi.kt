@@ -3,6 +3,10 @@ package com.zwstudio.lolly.data.misc
 import android.content.*
 import android.net.Uri
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import java.net.URLEncoder
 
 object GlobalConstants {
@@ -69,3 +73,15 @@ fun extractTextFrom(html: String, transform: String, template: String, templateH
     } while (false)
     return text
 }
+
+fun <T> makeAdapter(context: Context, @LayoutRes resource: Int, @IdRes textViewResourceId: Int, objects: List<T>, convert: ArrayAdapter<T>.(View, Int) -> View): ArrayAdapter<T> =
+    object : ArrayAdapter<T>(context, resource, textViewResourceId, objects) {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
+            convert(super.getView(position, convertView, parent), position)
+
+        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
+            convert(super.getDropDownView(position, convertView, parent), position)
+    }
+
+fun <T> makeAdapter(context: Context, @LayoutRes resource: Int, objects: List<T>, convert: ArrayAdapter<T>.(View, Int) -> View): ArrayAdapter<T> =
+    makeAdapter(context, resource, 0, objects, convert);

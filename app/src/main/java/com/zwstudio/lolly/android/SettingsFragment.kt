@@ -3,13 +3,12 @@ package com.zwstudio.lolly.android
 import android.graphics.Color
 import android.os.Handler
 import android.util.Log
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.domain.misc.*
+import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.domain.misc.MSelectItem
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -58,18 +57,11 @@ class SettingsFragment : Fragment(), SettingsListener {
 
     override fun onGetData() {
         val lst = vm.lstLanguages
-        val adapter = object : ArrayAdapter<MLanguage>(activity!!,
-            android.R.layout.simple_spinner_item, lst) {
-            fun convert(v: View, position: Int): View {
-                val ctv = v.findViewById<TextView>(android.R.id.text1)
-                ctv.text = lst[position].langname
-                ctv.setTextColor(Color.BLUE)
-                return v
-            }
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                convert(super.getView(position, convertView, parent), position)
-            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                convert(super.getDropDownView(position, convertView, parent), position)
+        val adapter = makeAdapter(activity!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val ctv = v.findViewById<TextView>(android.R.id.text1)
+            ctv.text = lst[position].langname
+            ctv.setTextColor(Color.BLUE)
+            v
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
         spnLanguage.adapter = adapter
@@ -87,21 +79,15 @@ class SettingsFragment : Fragment(), SettingsListener {
     override fun onUpdateLang() {
         run {
             val lst = vm.lstVoices
-            val adapter = object : ArrayAdapter<MVoice>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
-                fun convert(v: View, position: Int): View {
-                    val m = getItem(position)!!
-                    var tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = m.voicelang
-                    (tv as? CheckedTextView)?.isChecked = spnVoice.selectedItemPosition == position
-                    tv = v.findViewById<TextView>(android.R.id.text2)
-                    val item2 = vm.lstVoices.firstOrNull { it.voicelang == m.voicelang }
-                    tv.text = item2?.voicename ?: ""
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getDropDownView(position, convertView, parent), position)
+            val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+                val m = getItem(position)!!
+                var tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = m.voicelang
+                (tv as? CheckedTextView)?.isChecked = spnVoice.selectedItemPosition == position
+                tv = v.findViewById<TextView>(android.R.id.text2)
+                val item2 = vm.lstVoices.firstOrNull { it.voicelang == m.voicelang }
+                tv.text = item2?.voicename ?: ""
+                v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
             spnVoice.adapter = adapter
@@ -111,21 +97,15 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
         run {
             val lst = vm.lstDictsReference
-            val adapter = object : ArrayAdapter<MDictionary>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
-                fun convert(v: View, position: Int): View {
-                    val m = getItem(position)!!
-                    var tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
-                    tv = v.findViewById<TextView>(android.R.id.text2)
-                    val item2 = vm.lstDictsReference.firstOrNull { it.dictname == m.dictname }
-                    tv.text = item2?.url ?: ""
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getDropDownView(position, convertView, parent), position)
+            val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+                val m = getItem(position)!!
+                var tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = m.dictname
+                (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
+                tv = v.findViewById<TextView>(android.R.id.text2)
+                val item2 = vm.lstDictsReference.firstOrNull { it.dictname == m.dictname }
+                tv.text = item2?.url ?: ""
+                v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
             spnDictReference.adapter = adapter
@@ -135,20 +115,14 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
         run {
             val lst = vm.lstDictsNote
-            val adapter = object : ArrayAdapter<MDictionary>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
-                fun convert(v: View, position: Int): View {
-                    val m = getItem(position)!!
-                    var tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictNote.selectedItemPosition == position
-                    tv = v.findViewById<TextView>(android.R.id.text2)
-                    tv.text = m.url
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                        convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                        convert(super.getDropDownView(position, convertView, parent), position)
+            val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+                val m = getItem(position)!!
+                var tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = m.dictname
+                (tv as? CheckedTextView)?.isChecked = spnDictNote.selectedItemPosition == position
+                tv = v.findViewById<TextView>(android.R.id.text2)
+                tv.text = m.url
+                v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
             spnDictNote.adapter = adapter
@@ -158,20 +132,14 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
         run {
             val lst = vm.lstDictsTranslation
-            val adapter = object : ArrayAdapter<MDictionary>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
-                fun convert(v: View, position: Int): View {
-                    val m = getItem(position)!!
-                    var tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictTranslation.selectedItemPosition == position
-                    tv = v.findViewById<TextView>(android.R.id.text2)
-                    tv.text = m.url
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getDropDownView(position, convertView, parent), position)
+            val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+                val m = getItem(position)!!
+                var tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = m.dictname
+                (tv as? CheckedTextView)?.isChecked = spnDictTranslation.selectedItemPosition == position
+                tv = v.findViewById<TextView>(android.R.id.text2)
+                tv.text = m.url
+                v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
             spnDictTranslation.adapter = adapter
@@ -181,20 +149,14 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
         run {
             val lst = vm.lstTextbooks
-            val adapter = object : ArrayAdapter<MTextbook>(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
-                fun convert(v: View, position: Int): View {
-                    val m = getItem(position)!!
-                    var tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = m.textbookname
-                    (tv as? CheckedTextView)?.isChecked = spnTextbook.selectedItemPosition == position
-                    tv = v.findViewById<TextView>(android.R.id.text2)
-                    tv.text = "${vm.unitCount} units"
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getDropDownView(position, convertView, parent), position)
+            val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+                val m = getItem(position)!!
+                var tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = m.textbookname
+                (tv as? CheckedTextView)?.isChecked = spnTextbook.selectedItemPosition == position
+                tv = v.findViewById<TextView>(android.R.id.text2)
+                tv.text = "${vm.unitCount} units"
+                v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
             spnTextbook.adapter = adapter
@@ -252,16 +214,10 @@ class SettingsFragment : Fragment(), SettingsListener {
     override fun onUpdateTextbook() {
 
         fun makeAdapter(lst: List<MSelectItem>): ArrayAdapter<MSelectItem> {
-            val adapter = object : ArrayAdapter<MSelectItem>(activity!!, android.R.layout.simple_spinner_item, lst) {
-                fun convert(v: View, position: Int): View {
-                    val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position)!!.label
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getDropDownView(position, convertView, parent), position)
+            val adapter = makeAdapter(activity!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+                val tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = getItem(position)!!.label
+                v
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             return adapter

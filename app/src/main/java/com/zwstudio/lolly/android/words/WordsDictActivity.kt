@@ -13,6 +13,7 @@ import android.widget.TextView
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.DictWebViewStatus
 import com.zwstudio.lolly.data.misc.SearchViewModel
+import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.domain.misc.MDictionary
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
@@ -42,16 +43,10 @@ class WordsDictActivity : AppCompatActivity() {
 
         run {
             val lst = vm.lstWords
-            val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, lst) {
-                fun convert(v: View, position: Int): View {
-                    val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position)
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getDropDownView(position, convertView, parent), position)
+            val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
+                val tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = getItem(position)
+                v
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             spnWord.adapter = adapter
@@ -61,21 +56,15 @@ class WordsDictActivity : AppCompatActivity() {
 
         run {
             val lst = vm.vmSettings.lstDictsReference
-            val adapter = object : ArrayAdapter<MDictionary>(this, R.layout.spinner_item_2, android.R.id.text1, lst) {
-                fun convert(v: View, position: Int): View {
-                    val m = getItem(position)!!
-                    var tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
-                    tv = v.findViewById<TextView>(android.R.id.text2)
-                    val item2 = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
-                    tv.text = item2?.url ?: ""
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getDropDownView(position, convertView, parent), position)
+            val adapter = makeAdapter(this, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+                val m = getItem(position)!!
+                var tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = m.dictname
+                (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
+                tv = v.findViewById<TextView>(android.R.id.text2)
+                val item2 = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
+                tv.text = item2?.url ?: ""
+                v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
             spnDictReference.adapter = adapter

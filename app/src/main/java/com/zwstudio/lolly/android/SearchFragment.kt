@@ -1,14 +1,13 @@
 package com.zwstudio.lolly.android
 
-import androidx.fragment.app.Fragment
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.*
+import androidx.fragment.app.Fragment
 import com.zwstudio.lolly.data.misc.SearchViewModel
-import com.zwstudio.lolly.domain.misc.MDictionary
+import com.zwstudio.lolly.data.misc.makeAdapter
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -57,21 +56,15 @@ class SearchFragment : Fragment() {
 
         compositeDisposable.add(LollyApplication.initializeObject.subscribe {
             val lst = vm.vmSettings.lstDictsReference
-            val adapter = object : ArrayAdapter<MDictionary>(context!!, R.layout.spinner_item_2, android.R.id.text1, lst) {
-                fun convert(v: View, position: Int): View {
-                    val m = getItem(position)!!
-                    var tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = m.dictname
-                    (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
-                    tv = v.findViewById<TextView>(android.R.id.text2)
-                    val item2 = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
-                    tv.text = item2?.url ?: ""
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getDropDownView(position, convertView, parent), position)
+            val adapter = makeAdapter(context!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+                val m = getItem(position)!!
+                var tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = m.dictname
+                (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
+                tv = v.findViewById<TextView>(android.R.id.text2)
+                val item2 = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
+                tv.text = item2?.url ?: ""
+                v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
             spnDictReference.adapter = adapter

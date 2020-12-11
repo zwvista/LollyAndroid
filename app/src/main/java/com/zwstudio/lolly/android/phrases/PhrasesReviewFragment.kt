@@ -1,20 +1,19 @@
 package com.zwstudio.lolly.android.phrases
 
 import android.speech.tts.TextToSpeech
-import androidx.fragment.app.Fragment
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.data.phrases.PhrasesReviewModel
 import com.zwstudio.lolly.data.misc.applyIO
-import com.zwstudio.lolly.domain.misc.MSelectItem
+import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.data.phrases.PhrasesReviewModel
 import com.zwstudio.lolly.domain.misc.ReviewMode
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import org.androidannotations.annotations.*
-import io.reactivex.rxjava3.core.Observable
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -56,16 +55,10 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
 
         run {
             val lst = SettingsViewModel.lstReviewModes
-            val adapter = object : ArrayAdapter<MSelectItem>(context!!, android.R.layout.simple_spinner_item, lst) {
-                fun convert(v: View, position: Int): View {
-                    val tv = v.findViewById<TextView>(android.R.id.text1)
-                    tv.text = getItem(position)!!.label
-                    return v
-                }
-                override fun getView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getView(position, convertView, parent), position)
-                override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup) =
-                    convert(super.getDropDownView(position, convertView, parent), position)
+            val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+                val tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = getItem(position)!!.label
+                v
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
             spnReviewMode.adapter = adapter
