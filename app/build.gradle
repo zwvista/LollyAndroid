@@ -52,6 +52,7 @@ allOpen {
 
 def AAVersion = '4.8.0'
 def retrofit_version = '2.9.0'
+def lifecycle_version = "2.2.0"
 dependencies {
     kapt "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
@@ -71,4 +72,6 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
     implementation 'com.github.woxthebox:draglistview:1.7.2'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 }
