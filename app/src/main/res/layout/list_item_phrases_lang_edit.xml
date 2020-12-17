@@ -15,17 +15,24 @@
         android:layout_alignBottom="@+id/item_swipe"
         android:layout_alignTop="@+id/item_swipe"
         android:orientation="horizontal">
-        <TextView
-            android:id="@+id/item_edit"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="#0000ff"
-            android:gravity="start|center_vertical"
-            android:text="Edit"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size4"/>
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/item_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#0000ff"
+                android:gravity="center_vertical"
+                android:text="Edit"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size4"/>
+            <View style="@style/Divider"/>
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -36,34 +43,40 @@
         android:layout_alignTop="@+id/item_swipe"
         android:orientation="horizontal">
         <LinearLayout
-            android:id="@id/item_right"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:orientation="horizontal">
-        <TextView
-            android:id="@+id/item_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="#ff0000"
-            android:gravity="start|center_vertical"
-            android:layout_alignParentRight="true"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="Delete"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size4"/>
-        <TextView
-            android:id="@+id/item_more"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="#888888"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="More"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size4"/>
+            android:layout_alignParentEnd="true"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/item_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="#ff0000"
+                    android:gravity="start|center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="Delete"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size4"/>
+                <TextView
+                    android:id="@+id/item_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="#888888"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="More"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size4"/>
+            </LinearLayout>
+            <View style="@style/Divider"/>
         </LinearLayout>
     </RelativeLayout>
 
@@ -71,39 +84,43 @@
         android:id="@id/item_swipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/list_item_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
+        android:orientation="vertical">
         <LinearLayout
             android:id="@id/item_swipe"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/list_item_selector"
             android:gravity="center_vertical"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/text1"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@id/item_swipe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_text1"/>
-            <TextView
-                android:id="@+id/text2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/color_text3"/>
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_text1"/>
+                <TextView
+                    android:id="@+id/text2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_text3"/>
+            </LinearLayout>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <ImageView
+                android:id="@+id/image_hamburger"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/hamburger_menu"
+                android:padding="16dp"/>
         </LinearLayout>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-        <ImageView
-            android:id="@+id/image_hamburger"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/hamburger_menu"
-            android:padding="16dp"/>
-
+        <View style="@style/Divider"/>
     </LinearLayout>
 
 </com.woxthebox.draglistview.swipe.ListSwipeItem>
