@@ -197,6 +197,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             dragView.findViewById<TextView>(R.id.text2).text = clickedView.findViewById<TextView>(R.id.text2).text
             dragView.findViewById<TextView>(R.id.text3).text = clickedView.findViewById<TextView>(R.id.text3).text
             dragView.findViewById<View>(R.id.item_swipe).setBackgroundColor(dragView.resources.getColor(R.color.list_item_background, null))
+            dragView.findViewById<ImageView>(R.id.image_forward).visibility = View.GONE
         }
     }
 

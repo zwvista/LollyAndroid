@@ -13,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/item_swipe"
-        android:layout_alignTop="@+id/item_swipe"
-        android:orientation="horizontal">
+        android:layout_alignTop="@+id/item_swipe">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -40,8 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/item_swipe"
-        android:layout_alignTop="@+id/item_swipe"
-        android:orientation="horizontal">
+        android:layout_alignTop="@+id/item_swipe">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -50,8 +48,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:layout_weight="1">
                 <TextView
                     android:id="@+id/item_delete"
                     android:layout_width="wrap_content"
@@ -83,14 +80,13 @@
         android:id="@id/item_swipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/list_item_selector"
         android:orientation="vertical">
         <LinearLayout
             android:id="@id/item_swipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/list_item_selector"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:gravity="center_vertical">
             <TextView
                 android:id="@+id/text2"
                 android:layout_width="wrap_content"
