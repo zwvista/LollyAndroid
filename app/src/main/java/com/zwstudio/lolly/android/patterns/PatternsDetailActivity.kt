@@ -1,9 +1,12 @@
 package com.zwstudio.lolly.android.patterns
 
 import android.app.Activity
-import android.widget.TextView
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.ActivityPatternsDetailBinding
+import com.zwstudio.lolly.data.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -15,37 +18,29 @@ class PatternsDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: PatternsViewModel
+    @Bean
+    lateinit var vmDetail: PatternsDetailViewModel
     lateinit var item: MPattern
-
-    @ViewById
-    lateinit var tvID: TextView
-    @ViewById
-    lateinit var etPattern: TextView
-    @ViewById
-    lateinit var etNote: TextView
-    @ViewById
-    lateinit var etTags: TextView
 
     val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("pattern") as MPattern
-        tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
-        etPattern.text = item.pattern
-        etNote.text = item.note
-        etTags.text = item.tags
+        DataBindingUtil.inflate<ActivityPatternsDetailBinding>(LayoutInflater.from(this), R.layout.activity_patterns_detail,
+                findViewById(android.R.id.content), true).apply {
+            lifecycleOwner = this@PatternsDetailActivity
+            vmDetail.load(item)
+            vm = vmDetail
+        }
     }
 
     @OptionsItem
     fun menuSave() {
-        item.pattern = vm.vmSettings.autoCorrectInput(etPattern.text.toString())
-        item.note = etNote.text.toString()
-        item.tags = etTags.text.toString()
+        vmDetail.save(item);
+        item.pattern = vm.vmSettings.autoCorrectInput(item.pattern)
         if (item.id == 0)
-            compositeDisposable.add(vm.create(item).subscribe {
-                item.id = it
-            })
+            compositeDisposable.add(vm.create(item).subscribe())
         else
             compositeDisposable.add(vm.update(item).subscribe())
         setResult(Activity.RESULT_OK)

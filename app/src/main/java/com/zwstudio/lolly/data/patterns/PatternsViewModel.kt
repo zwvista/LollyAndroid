@@ -45,8 +45,9 @@ class PatternsViewModel : BaseViewModel() {
     fun update(item: MPattern): Observable<Unit> =
         patternService.update(item)
             .applyIO()
-    fun create(item: MPattern): Observable<Int> =
+    fun create(item: MPattern): Observable<Unit> =
         patternService.create(item)
+            .map { item.id = it }
             .applyIO()
     fun delete(id: Int): Observable<Unit> =
         patternService.delete(id)
