@@ -31,7 +31,7 @@ class PatternsDetailActivity : AppCompatActivity() {
                 findViewById(android.R.id.content), true).apply {
             lifecycleOwner = this@PatternsDetailActivity
             vmDetail.load(item)
-            vm = vmDetail
+            model = vmDetail
         }
     }
 

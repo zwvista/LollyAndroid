@@ -5,7 +5,7 @@
     tools:context=".patterns.PatternsDetailActivity">
 
     <data>
-        <variable name="vm" type="com.zwstudio.lolly.data.patterns.PatternsDetailViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.data.patterns.PatternsDetailViewModel"/>
     </data>
 
     <ScrollView
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text='@{@string/label_id + " " + vm.id}'
+            android:text='@{@string/label_id + " " + model.id}'
             android:id="@+id/tvID"/>
         <Space
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
             android:id="@+id/etPattern"
             android:layout_gravity="center_horizontal"
             android:labelFor="@id/tvPattern"
-            android:text="@={vm.pattern}"/>
+            android:text="@={model.pattern}"/>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/etNote"
             android:layout_gravity="center_horizontal"
-            android:text="@={vm.note}"/>
+            android:text="@={model.note}"/>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/etTags"
             android:layout_gravity="center_horizontal"
-            android:text="@={vm.tags}"/>
+            android:text="@={model.tags}"/>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
