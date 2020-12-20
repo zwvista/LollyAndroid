@@ -233,12 +233,12 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                         val builder = AlertDialog.Builder(itemView.context)
                             .setTitle(item.pattern)
-                            .setItems(arrayOf("Delete", "Edit", "Copy Pattern", "Google Pattern", "Cancel")) { _, which ->
+                            .setItems(arrayOf("Delete", "Edit", "Browse Web Pages", "Edit Web Pages", "Copy Pattern", "Google Pattern", "Cancel")) { _, which ->
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
-                                    2 -> itemView.copyText(item.pattern)
-                                    3 -> itemView.googleString(item.pattern)
+                                    4 -> itemView.copyText(item.pattern)
+                                    5 -> itemView.googleString(item.pattern)
                                     else -> {}
                                 }
                             }
