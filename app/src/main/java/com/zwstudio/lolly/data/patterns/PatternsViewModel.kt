@@ -9,6 +9,7 @@ import com.zwstudio.lolly.service.wpp.PatternService
 import com.zwstudio.lolly.service.wpp.PatternWebPageService
 import com.zwstudio.lolly.service.wpp.WebPageService
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
@@ -23,6 +24,8 @@ class PatternsViewModel : BaseViewModel() {
     var scopeFilter = SettingsViewModel.lstScopePatternFilters[0].label
     var textFilter = ""
     val noFilter get() = textFilter.isEmpty()
+
+    lateinit var compositeDisposable: CompositeDisposable
 
     @Bean
     lateinit var patternService: PatternService
@@ -86,5 +89,16 @@ class PatternsViewModel : BaseViewModel() {
         this.patternid = patternid
         this.pattern = pattern
         seqnum = (lstWebPages.maxOfOrNull { it.seqnum } ?: 0) + 1
+    }
+
+    fun reindexWebPage(onNext: (Int) -> Unit) {
+        for (i in 1..lstWebPages.size) {
+            val item = lstWebPages[i - 1]
+            if (item.seqnum == i) continue
+            item.seqnum = i
+            compositeDisposable.add(patternWebPageService.updateSeqNum(item.id, i).subscribe {
+                onNext(i - 1)
+            })
+        }
     }
 }

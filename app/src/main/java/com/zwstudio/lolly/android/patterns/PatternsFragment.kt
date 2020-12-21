@@ -168,7 +168,7 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             super.onBindViewHolder(holder, position)
             val item = mItemList[position]
             holder.mText1.text = item.pattern
-            holder.mText3.text = item.tags
+            holder.mText2.text = item.tags
             holder.itemView.tag = item
         }
 
@@ -178,14 +178,14 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
         internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView
-            var mText3: TextView
+            var mText2: TextView
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
-                mText3 = itemView.findViewById(R.id.text3)
+                mText2 = itemView.findViewById(R.id.text2)
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
