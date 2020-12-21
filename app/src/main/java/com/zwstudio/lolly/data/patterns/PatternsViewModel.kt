@@ -23,6 +23,11 @@ class PatternsViewModel : BaseViewModel() {
     var scopeFilter = SettingsViewModel.lstScopePatternFilters[0].label
     var textFilter = ""
     val noFilter get() = textFilter.isEmpty()
+    var selectedPatternItem: MPattern? = null
+    val selectedPattern: String
+        get() = selectedPatternItem?.pattern ?: ""
+    val selectedPatternID: Int
+        get() = selectedPatternItem?.id ?: 0
 
     @Bean
     lateinit var patternService: PatternService
@@ -56,10 +61,10 @@ class PatternsViewModel : BaseViewModel() {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getWebPages(patternid: Int) =
-        patternWebPageService.getDataByPattern(patternid)
+    fun getWebPages(): Observable<Unit> =
+        patternWebPageService.getDataByPattern(selectedPatternID)
             .applyIO()
-            .doAfterNext { lstWebPages.clear(); lstWebPages.addAll(it) }
+            .map { lstWebPages.clear(); lstWebPages.addAll(it) }
 
     fun updatePatternWebPage(item: MPatternWebPage) =
         patternWebPageService.update(item)

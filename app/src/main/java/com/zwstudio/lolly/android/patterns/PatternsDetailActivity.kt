@@ -18,7 +18,6 @@ class PatternsDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: PatternsViewModel
-    @Bean
     lateinit var vmDetail: PatternsDetailViewModel
     lateinit var item: MPattern
 
@@ -30,7 +29,7 @@ class PatternsDetailActivity : AppCompatActivity() {
         DataBindingUtil.inflate<ActivityPatternsDetailBinding>(LayoutInflater.from(this), R.layout.activity_patterns_detail,
                 findViewById(android.R.id.content), true).apply {
             lifecycleOwner = this@PatternsDetailActivity
-            vmDetail.load(item)
+            vmDetail = PatternsDetailViewModel(item)
             model = vmDetail
         }
     }
