@@ -238,12 +238,12 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                                     0 -> delete(item)
                                     1 -> edit(item)
                                     2 -> {
-                                        vm.selectedPatternItem = itemView.tag as MPattern
                                         PatternsWebPagesBrowseActivity_.intent(itemView.context)
+                                            .extra("pattern", item).startForResult(REQUEST_CODE)
                                     }
                                     3 -> {
-                                        vm.selectedPatternItem = itemView.tag as MPattern
                                         PatternsWebPagesListActivity_.intent(itemView.context)
+                                            .extra("pattern", item).startForResult(REQUEST_CODE)
                                     }
                                     4 -> itemView.copyText(item.pattern)
                                     5 -> itemView.googleString(item.pattern)

@@ -23,11 +23,6 @@ class PatternsViewModel : BaseViewModel() {
     var scopeFilter = SettingsViewModel.lstScopePatternFilters[0].label
     var textFilter = ""
     val noFilter get() = textFilter.isEmpty()
-    var selectedPatternItem: MPattern? = null
-    val selectedPattern: String
-        get() = selectedPatternItem?.pattern ?: ""
-    val selectedPatternID: Int
-        get() = selectedPatternItem?.id ?: 0
 
     @Bean
     lateinit var patternService: PatternService
@@ -61,8 +56,8 @@ class PatternsViewModel : BaseViewModel() {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getWebPages(): Observable<Unit> =
-        patternWebPageService.getDataByPattern(selectedPatternID)
+    fun getWebPages(patternid: Int) =
+        patternWebPageService.getDataByPattern(patternid)
             .applyIO()
             .map { lstWebPages.clear(); lstWebPages.addAll(it) }
 
@@ -71,7 +66,7 @@ class PatternsViewModel : BaseViewModel() {
     fun createPatternWebPage(item: MPatternWebPage) =
         patternWebPageService.create(item)
             .applyIO()
-            .doAfterNext {
+            .map {
                 item.id = it
                 lstWebPages.add(item)
             }
@@ -83,7 +78,7 @@ class PatternsViewModel : BaseViewModel() {
     fun createWebPage(item: MPatternWebPage) =
         webPageService.create(item)
             .applyIO()
-            .doAfterNext { item.id = it }
+            .map { item.id = it }
     fun deleteWebPage(id: Int) =
         webPageService.delete(id)
 
