@@ -19,7 +19,6 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.LollySwipeRefreshLayout
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.android.words.WordsDictActivity_
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
@@ -159,7 +158,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_words_unit_edit, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_patterns_webpages_edit, parent, false)
             return ViewHolder(view)
         }
 
@@ -181,7 +180,6 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
-            var mForward: ImageView
             var mHamburger: ImageView
             var mItemSwipe: View
 
@@ -191,7 +189,6 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
-                mForward = itemView.findViewById(R.id.image_forward)
                 mHamburger = itemView.findViewById(R.id.image_hamburger)
                 mItemSwipe = itemView.findViewById(R.id.item_swipe)
                 initButtons()
@@ -249,18 +246,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
                     }
                     true
                 }
-                mForward.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MPatternWebPage
-                        WordsDictActivity_.intent(itemView.context)
-                                .extra("list", vm.lstWebPages.map { it.pattern }.toTypedArray())
-                                .extra("index", vm.lstWebPages.indexOf(item)).start()
-                    }
-                    true
-                }
-                if (vm.isEditMode)
-                    mForward.visibility = View.GONE
-                if (!(vm.isEditMode && vm.vmSettings.isSingleUnitPart))
+                if (!vm.isEditMode)
                     mHamburger.visibility = View.GONE
             }
 
