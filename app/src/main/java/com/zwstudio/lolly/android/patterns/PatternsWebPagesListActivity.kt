@@ -196,7 +196,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
 
             fun edit(item: MPatternWebPage) {
                 PatternsWebPageDetailActivity_.intent(itemView.context)
-                        .extra("word", item).startForResult(REQUEST_CODE)
+                        .extra("webpage", item).startForResult(REQUEST_CODE)
             }
 
             @SuppressLint("ClickableViewAccessibility")

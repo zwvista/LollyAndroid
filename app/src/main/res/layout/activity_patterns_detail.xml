@@ -26,8 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text='@{@string/label_id + " " + model.id}'
-            android:id="@+id/tvID"/>
+            android:text='@{@string/label_id + " " + model.id}'/>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
@@ -40,7 +39,6 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/etPattern"
             android:layout_gravity="center_horizontal"
             android:labelFor="@id/tvPattern"
             android:text="@={model.pattern}"/>
@@ -55,7 +53,6 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/etNote"
             android:layout_gravity="center_horizontal"
             android:text="@={model.note}"/>
         <Space
@@ -69,7 +66,6 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/etTags"
             android:layout_gravity="center_horizontal"
             android:text="@={model.tags}"/>
         <Space

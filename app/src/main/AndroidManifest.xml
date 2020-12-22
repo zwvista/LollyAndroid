@@ -95,6 +95,12 @@
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
+        <activity
+            android:name=".patterns.PatternsWebPageDetailActivity_"
+            android:label="@string/patterns_webpage_detail"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="fullSensor">
+        </activity>
     </application>
     <queries>
         <intent>

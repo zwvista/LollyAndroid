@@ -26,9 +26,9 @@
     <string name="phrases_textbook_detail">Phrase in Textbook(Detail)</string>
     <string name="patterns">Patterns in Language</string>
     <string name="patterns_detail">Patterns in Language(Detail)</string>
-    <string name="patterns_webpages_browse">Pattern Web Pages (Browse)</string>
-    <string name="patterns_webpages_list">Pattern Web Pages (List)</string>
-    <string name="patterns_webpage_detail">Patterns in Language(Detail)</string>
+    <string name="patterns_webpages_browse">Pattern Web Pages(Browse)</string>
+    <string name="patterns_webpages_list">Pattern Web Pages(List)</string>
+    <string name="patterns_webpage_detail">Patterns Web Page(Detail)</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -62,6 +62,10 @@
     <string name="label_textbook2">Textbook:</string>
     <string name="label_pattern">PATTERN:</string>
     <string name="label_tags">TAGS:</string>
+    <string name="label_patternid">PATTERNID:</string>
+    <string name="label_webpageid">WEBPAGEID:</string>
+    <string name="label_title">TITLE:</string>
+    <string name="label_url">URL:</string>
     <string name="text_correct">Correct</string>
     <string name="text_incorrect">Incorrect</string>
     <string name="text_new_test">New Test</string>

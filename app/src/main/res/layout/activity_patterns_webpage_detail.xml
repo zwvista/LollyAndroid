@@ -5,7 +5,7 @@
     tools:context=".patterns.PatternsDetailActivity">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.data.patterns.PatternsDetailViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.data.patterns.PatternsWebPageDetailViewModel"/>
     </data>
 
     <ScrollView
@@ -26,24 +26,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text='@{@string/label_id + " " + model.id}'
-            android:id="@+id/tvID"/>
+            android:text='@{@string/label_id + " " + model.id}'/>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
         <TextView
-            android:id="@+id/tvPattern"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text='@{@string/label_patternid + " " + model.patternid}'/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/label_pattern"/>
-        <EditText
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/etPattern"
-            android:layout_gravity="center_horizontal"
-            android:labelFor="@id/tvPattern"
-            android:text="@={model.pattern}"/>
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text='@{model.pattern}'/>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
@@ -51,13 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_note"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/etNote"
-            android:layout_gravity="center_horizontal"
-            android:text="@={model.note}"/>
+            android:text='@{@string/label_webpageid + " " + model.webpageid}'/>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
@@ -65,13 +63,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_tags"/>
+            android:text="@string/label_title"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/etTags"
             android:layout_gravity="center_horizontal"
-            android:text="@={model.tags}"/>
+            android:text="@={model.title}"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/label_url"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@={model.url}"/>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
