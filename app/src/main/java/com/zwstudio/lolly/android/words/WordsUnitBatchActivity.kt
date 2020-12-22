@@ -152,13 +152,11 @@ class WordsUnitBatchActivity : AppCompatActivity() {
             var mText1: TextView
             var mText2: TextView
             var mCheckmark: ImageView
-            var mItemSwipe: View
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
                 mText2 = itemView.findViewById(R.id.text2)
                 mCheckmark = itemView.findViewById(R.id.image_checkmark)
-                mItemSwipe = itemView.findViewById(R.id.item_swipe)
             }
 
             override fun onItemClicked(view: View?) {

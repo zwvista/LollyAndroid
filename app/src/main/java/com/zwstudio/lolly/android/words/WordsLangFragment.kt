@@ -178,7 +178,6 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             var mDelete: TextView
             var mMore: TextView
             var mForward: ImageView
-            var mItemSwipe: View
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
@@ -187,7 +186,6 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
                 mForward = itemView.findViewById(R.id.image_forward)
-                mItemSwipe = itemView.findViewById(R.id.item_swipe)
                 initButtons()
             }
 

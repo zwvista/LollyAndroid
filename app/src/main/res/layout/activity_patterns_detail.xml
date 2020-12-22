@@ -46,6 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
         <TextView
+            android:id="@+id/tvNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -54,11 +55,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:labelFor="@id/tvNote"
             android:text="@={model.note}"/>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
         <TextView
+            android:id="@+id/tvTags"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -67,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:labelFor="@id/tvTags"
             android:text="@={model.tags}"/>
         <Space
             android:layout_width="match_parent"

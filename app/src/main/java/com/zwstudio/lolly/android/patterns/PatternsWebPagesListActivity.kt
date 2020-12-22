@@ -146,8 +146,8 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
         override fun onBindDragView(clickedView: View, dragView: View) {
             dragView.findViewById<TextView>(R.id.text1).text = clickedView.findViewById<TextView>(R.id.text1).text
             dragView.findViewById<TextView>(R.id.text2).text = clickedView.findViewById<TextView>(R.id.text2).text
+            dragView.findViewById<TextView>(R.id.text3).text = clickedView.findViewById<TextView>(R.id.text3).text
             dragView.findViewById<View>(R.id.item_swipe).setBackgroundColor(dragView.resources.getColor(R.color.list_item_background, null))
-            dragView.findViewById<ImageView>(R.id.image_forward).visibility = View.GONE
         }
     }
 
@@ -166,7 +166,8 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
             super.onBindViewHolder(holder, position)
             val item = mItemList[position]
             holder.mText1.text = item.title
-            holder.mText2.text = item.url
+            holder.mText2.text = item.seqnum.toString()
+            holder.mText3.text = item.url
             holder.itemView.tag = item
         }
 
@@ -177,20 +178,20 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
         inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView
             var mText2: TextView
+            var mText3: TextView
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
             var mHamburger: ImageView
-            var mItemSwipe: View
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
                 mText2 = itemView.findViewById(R.id.text2)
+                mText3 = itemView.findViewById(R.id.text3)
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
                 mHamburger = itemView.findViewById(R.id.image_hamburger)
-                mItemSwipe = itemView.findViewById(R.id.item_swipe)
                 initButtons()
             }
 
@@ -202,7 +203,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
                 fun delete(item: MPatternWebPage) {
-                    yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.title}\"?", {
+                    yesNoDialog(itemView.context, "Are you sure you want to delete the web page \"${item.title}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
                         compositeDisposable.add(vm.deletePatternWebPage(item.id).subscribe())

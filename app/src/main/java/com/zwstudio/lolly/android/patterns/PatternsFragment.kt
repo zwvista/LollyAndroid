@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.speech.tts.TextToSpeech
 import android.view.*
-import android.widget.SearchView
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -182,6 +179,7 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             var mEdit: TextView
             var mDelete: TextView
             var mMore: TextView
+            var mForward: ImageView
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
@@ -189,6 +187,7 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mEdit = itemView.findViewById(R.id.item_edit)
                 mDelete = itemView.findViewById(R.id.item_delete)
                 mMore = itemView.findViewById(R.id.item_more)
+                mForward = itemView.findViewById(R.id.image_forward)
                 initButtons()
             }
 
@@ -251,6 +250,14 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                                 }
                             }
                         builder.show()
+                    }
+                    true
+                }
+                mForward.setOnTouchListener { _, event ->
+                    if (event.action == MotionEvent.ACTION_DOWN) {
+                        val item = itemView.tag as MPattern
+                        PatternsWebPagesBrowseActivity_.intent(itemView.context)
+                            .extra("pattern", item).startForResult(REQUEST_CODE)
                     }
                     true
                 }

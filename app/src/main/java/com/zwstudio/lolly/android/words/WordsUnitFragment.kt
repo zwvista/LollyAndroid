@@ -234,7 +234,6 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             var mMore: TextView
             var mForward: ImageView
             var mHamburger: ImageView
-            var mItemSwipe: View
 
             init {
                 mText1 = itemView.findViewById(R.id.text1)
@@ -245,7 +244,6 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mMore = itemView.findViewById(R.id.item_more)
                 mForward = itemView.findViewById(R.id.image_forward)
                 mHamburger = itemView.findViewById(R.id.image_hamburger)
-                mItemSwipe = itemView.findViewById(R.id.item_swipe)
                 initButtons()
             }
 
