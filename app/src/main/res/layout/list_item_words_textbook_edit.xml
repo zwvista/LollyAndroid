@@ -98,10 +98,11 @@
                 android:layout_height="0dp"/>
             <LinearLayout
                 android:id="@id/item_swipe"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_weight="1">
                 <TextView
                     android:id="@+id/text1"
                     android:layout_width="wrap_content"
@@ -118,10 +119,6 @@
                     android:textColor="@color/color_text3"
                     android:textSize="@dimen/text_size4"/>
             </LinearLayout>
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
             <ImageView
                 android:id="@+id/image_forward"
                 android:layout_width="wrap_content"
