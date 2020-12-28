@@ -131,7 +131,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
 
     @OptionsItem
     fun menuAdd() {
-        PatternsWebPageDetailActivity_.intent(this)
+        PatternsWebPagesDetailActivity_.intent(this)
             .extra("word", vm.newPatternWebPage(item.id, item.pattern)).startForResult(REQUEST_CODE)
     }
 
@@ -196,7 +196,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
             }
 
             fun edit(item: MPatternWebPage) {
-                PatternsWebPageDetailActivity_.intent(itemView.context)
+                PatternsWebPagesDetailActivity_.intent(itemView.context)
                         .extra("webpage", item).startForResult(REQUEST_CODE)
             }
 
