@@ -9,6 +9,8 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.data.patterns.PatternsDetailViewModel
+import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
@@ -21,6 +23,7 @@ class WordsUnitDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: WordsUnitViewModel
+    lateinit var vmDetail: WordsUnitDetailViewModel
     lateinit var item: MUnitWord
 
     @ViewById
@@ -80,13 +83,13 @@ class WordsUnitDetailActivity : AppCompatActivity() {
     }
 
     @ItemSelect
-    fun spnUnitItemSelected(selected: Boolean, position: Int) {
-        item.unit = vm.vmSettings.lstUnits[position].value
+    fun spnUnitItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+        item.unit = selectedItem.value
     }
 
     @ItemSelect
-    fun spnPartItemSelected(selected: Boolean, position: Int) {
-        item.part = vm.vmSettings.lstParts[position].value
+    fun spnPartItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+        item.part = selectedItem.value
     }
 
     @OptionsItem

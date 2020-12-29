@@ -11,7 +11,6 @@ class PatternsDetailViewModel(item: MPattern): ViewModel() {
     val tags = MutableLiveData(item.tags)
 
     fun save(item: MPattern) {
-        item.id = id.value!!
         item.pattern = pattern.value!!
         item.note = note.value!!
         item.tags = tags.value!!
