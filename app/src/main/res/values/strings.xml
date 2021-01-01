@@ -28,7 +28,7 @@
     <string name="patterns_detail">Patterns in Language(Detail)</string>
     <string name="patterns_webpages_browse">Pattern Web Pages(Browse)</string>
     <string name="patterns_webpages_list">Pattern Web Pages(List)</string>
-    <string name="patterns_webpage_detail">Patterns Web Page(Detail)</string>
+    <string name="patterns_webpages_detail">Patterns Web Pages(Detail)</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
