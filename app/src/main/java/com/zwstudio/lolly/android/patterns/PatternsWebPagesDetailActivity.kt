@@ -8,6 +8,7 @@ import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ActivityPatternsWebpagesDetailBinding
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
 import com.zwstudio.lolly.data.patterns.PatternsWebPageDetailViewModel
+import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
@@ -17,7 +18,7 @@ import org.androidannotations.annotations.*
 class PatternsWebPagesDetailActivity : AppCompatActivity() {
 
     @Bean
-    lateinit var vm: PatternsViewModel
+    lateinit var vm: PatternsWebPagesViewModel
     lateinit var vmDetail: PatternsWebPageDetailViewModel
     lateinit var item: MPatternWebPage
 

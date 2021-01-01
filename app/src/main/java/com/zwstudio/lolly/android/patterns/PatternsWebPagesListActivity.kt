@@ -21,6 +21,7 @@ import com.zwstudio.lolly.android.LollySwipeRefreshLayout
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
+import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -34,7 +35,7 @@ private const val REQUEST_CODE = 1
 class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     @Bean
-    lateinit var vm: PatternsViewModel
+    lateinit var vm: PatternsWebPagesViewModel
     lateinit var item: MPattern
     lateinit var tts: TextToSpeech
 
@@ -151,7 +152,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
         }
     }
 
-    private class PatternsWebPagesItemAdapter(val vm: PatternsViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MPatternWebPage, PatternsWebPagesItemAdapter.ViewHolder>() {
+    private class PatternsWebPagesItemAdapter(val vm: PatternsWebPagesViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MPatternWebPage, PatternsWebPagesItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWebPages

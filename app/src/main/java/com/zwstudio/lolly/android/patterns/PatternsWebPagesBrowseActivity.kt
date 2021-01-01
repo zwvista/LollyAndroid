@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
+import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
@@ -15,7 +16,7 @@ import org.androidannotations.annotations.*
 class PatternsWebPagesBrowseActivity : AppCompatActivity() {
 
     @Bean
-    lateinit var vm: PatternsViewModel
+    lateinit var vm: PatternsWebPagesViewModel
     lateinit var item: MPattern
 
     val compositeDisposable = CompositeDisposable()
