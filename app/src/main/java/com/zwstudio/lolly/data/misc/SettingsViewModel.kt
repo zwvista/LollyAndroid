@@ -254,12 +254,12 @@ class SettingsViewModel {
         INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
         INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
         INFO_USANDROIDVOICE = getUSInfo(MUSMapping.NAME_USANDROIDVOICE)
-        return Observables.zip(dictionaryService.getDictsReferenceByLang(uslang),
+        return Observable.zip(dictionaryService.getDictsReferenceByLang(uslang),
             dictionaryService.getDictsNoteByLang(uslang),
             dictionaryService.getDictsTranslationByLang(uslang),
             textbookService.getDataByLang(uslang),
             autoCorrectService.getDataByLang(uslang),
-            voiceService.getDataByLang(uslang)) {
+            voiceService.getDataByLang(uslang), {
             res1, res2, res3, res4, res5, res6 ->
             lstDictsReference = res1
             selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
@@ -273,7 +273,7 @@ class SettingsViewModel {
             lstAutoCorrect = res5
             lstVoices = res6
             selectedVoice = lstVoices.firstOrNull { it.id == usvoice } ?: lstVoices.firstOrNull()
-        }.flatMap {
+        }).flatMap {
             if (isinit) {
                 handler?.post { settingsListener?.onUpdateLang() }
                 Observable.just(Unit)

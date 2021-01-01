@@ -33,11 +33,11 @@ class WordsLangDetailActivity : AppCompatActivity() {
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("word") as MLangWord
-        tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
+        tvID.text = "${resources.getString(R.string.label_id)} ${item.id}"
         etWord.text = item.word
         etNote.text = item.note
-        tvFamiID.text = "${getResources().getString(R.string.label_famiid)} ${item.famiid}"
-        tvAccuracy.text = "${getResources().getString(R.string.label_accuracy)} ${item.accuracy}"
+        tvFamiID.text = "${resources.getString(R.string.label_famiid)} ${item.famiid}"
+        tvAccuracy.text = "${resources.getString(R.string.label_accuracy)} ${item.accuracy}"
     }
 
     @OptionsItem

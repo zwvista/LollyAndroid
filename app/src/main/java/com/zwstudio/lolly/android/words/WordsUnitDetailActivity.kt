@@ -1,15 +1,11 @@
 package com.zwstudio.lolly.android.words
 
 import android.app.Activity
-import androidx.appcompat.app.AppCompatActivity
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.makeAdapter
-import com.zwstudio.lolly.data.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
@@ -50,7 +46,7 @@ class WordsUnitDetailActivity : AppCompatActivity() {
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("word") as MUnitWord
-        tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
+        tvID.text = "${resources.getString(R.string.label_id)} ${item.id}"
         run {
             val lst = vm.vmSettings.lstUnits
             val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
@@ -75,11 +71,11 @@ class WordsUnitDetailActivity : AppCompatActivity() {
             spnPart.setSelection(vm.vmSettings.lstParts.indexOfFirst { it.value == item.part })
         }
         etSeqNum.text = "${item.seqnum}"
-        tvWordID.text = "${getResources().getString(R.string.label_wordid)} ${item.wordid}"
+        tvWordID.text = "${resources.getString(R.string.label_wordid)} ${item.wordid}"
         etWord.text = item.word
         etNote.text = item.note
-        tvFamiID.text = "${getResources().getString(R.string.label_famiid)} ${item.famiid}"
-        tvAccuracy.text = "${getResources().getString(R.string.label_accuracy)} ${item.accuracy}"
+        tvFamiID.text = "${resources.getString(R.string.label_famiid)} ${item.famiid}"
+        tvAccuracy.text = "${resources.getString(R.string.label_accuracy)} ${item.accuracy}"
     }
 
     @ItemSelect

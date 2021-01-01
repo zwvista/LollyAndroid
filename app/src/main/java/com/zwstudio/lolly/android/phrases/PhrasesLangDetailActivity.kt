@@ -29,7 +29,7 @@ class PhrasesLangDetailActivity : AppCompatActivity() {
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("phrase") as MLangPhrase
-        tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
+        tvID.text = "${resources.getString(R.string.label_id)} ${item.id}"
         etPhrase.text = item.phrase
         etTranslation.text = item.translation
     }

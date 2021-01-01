@@ -190,7 +190,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             .extra("list", vm.lstWords.toTypedArray()).start()
     }
 
-    private class WordsUnitDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
+    private class WordsUnitDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
         override fun onBindDragView(clickedView: View, dragView: View) {
             dragView.findViewById<TextView>(R.id.text1).text = clickedView.findViewById<TextView>(R.id.text1).text

@@ -1,15 +1,11 @@
 package com.zwstudio.lolly.android.phrases
 
-import androidx.appcompat.app.AppCompatActivity
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
-import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
@@ -42,7 +38,7 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("phrase") as MUnitPhrase
-        tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
+        tvID.text = "${resources.getString(R.string.label_id)} ${item.id}"
         run {
             val lst = vm.vmSettings.lstUnits
             val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
@@ -67,7 +63,7 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
             spnPart.setSelection(vm.vmSettings.lstParts.indexOfFirst { it.value == item.part })
         }
         etSeqNum.text = "${item.seqnum}"
-        tvPhraseID.text = "${getResources().getString(R.string.label_phraseid)} ${item.phraseid}"
+        tvPhraseID.text = "${resources.getString(R.string.label_phraseid)} ${item.phraseid}"
         etPhrase.text = item.phrase
         etTranslation.text = item.translation
     }

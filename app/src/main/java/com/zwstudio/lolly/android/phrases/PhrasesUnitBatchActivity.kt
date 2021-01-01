@@ -116,7 +116,7 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
         finish()
     }
 
-    private class PhrasesUnitBatchDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
+    private class PhrasesUnitBatchDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
         override fun onBindDragView(clickedView: View, dragView: View) {
             dragView.findViewById<TextView>(R.id.text1).text = clickedView.findViewById<TextView>(R.id.text1).text
@@ -150,7 +150,7 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
             return mItemList[position].id.toLong()
         }
 
-        internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
+        inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView
             var mText2: TextView
             var mText3: TextView

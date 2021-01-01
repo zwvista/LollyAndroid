@@ -45,8 +45,8 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("word") as MUnitWord
-        tvTextbookName.text = "${getResources().getString(R.string.label_textbook)} ${item.textbookname}"
-        tvID.text = "${getResources().getString(R.string.label_id)} ${item.id}"
+        tvTextbookName.text = "${resources.getString(R.string.label_textbook)} ${item.textbookname}"
+        tvID.text = "${resources.getString(R.string.label_id)} ${item.id}"
         run {
             val lst = item.textbook.lstUnits
             val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
@@ -71,11 +71,11 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
             spnPart.setSelection(vm.vmSettings.lstParts.indexOfFirst { it.value == item.part })
         }
         etSeqNum.text = "${item.seqnum}"
-        tvWordID.text = "${getResources().getString(R.string.label_wordid)} ${item.wordid}"
+        tvWordID.text = "${resources.getString(R.string.label_wordid)} ${item.wordid}"
         etWord.text = item.word
         etNote.text = item.note
-        tvFamiID.text = "${getResources().getString(R.string.label_famiid)} ${item.famiid}"
-        tvAccuracy.text = "${getResources().getString(R.string.label_accuracy)} ${item.accuracy}"
+        tvFamiID.text = "${resources.getString(R.string.label_famiid)} ${item.famiid}"
+        tvAccuracy.text = "${resources.getString(R.string.label_accuracy)} ${item.accuracy}"
     }
 
     @ItemSelect

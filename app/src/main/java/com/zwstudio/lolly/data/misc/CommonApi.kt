@@ -84,4 +84,4 @@ fun <T> makeAdapter(context: Context, @LayoutRes resource: Int, @IdRes textViewR
     }
 
 fun <T> makeAdapter(context: Context, @LayoutRes resource: Int, objects: List<T>, convert: ArrayAdapter<T>.(View, Int) -> View): ArrayAdapter<T> =
-    makeAdapter(context, resource, 0, objects, convert);
+    makeAdapter(context, resource, 0, objects, convert)

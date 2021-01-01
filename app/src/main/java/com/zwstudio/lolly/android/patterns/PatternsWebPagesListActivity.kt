@@ -20,7 +20,6 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.LollySwipeRefreshLayout
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.yesNoDialog
-import com.zwstudio.lolly.data.patterns.PatternsViewModel
 import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
@@ -142,7 +141,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
             menuAdd()
     }
 
-    private class PatternsWebPagesDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
+    private class PatternsWebPagesDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
         override fun onBindDragView(clickedView: View, dragView: View) {
             dragView.findViewById<TextView>(R.id.text1).text = clickedView.findViewById<TextView>(R.id.text1).text

@@ -176,7 +176,7 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             return mItemList[position].id.toLong()
         }
 
-        internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
+        inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView
             var mText2: TextView
             var mEdit: TextView

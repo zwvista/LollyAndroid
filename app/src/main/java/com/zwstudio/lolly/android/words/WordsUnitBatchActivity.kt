@@ -1,13 +1,13 @@
 package com.zwstudio.lolly.android.words
 
 import android.content.Context
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -116,7 +116,7 @@ class WordsUnitBatchActivity : AppCompatActivity() {
         finish()
     }
 
-    private class WordsUnitBatchDragItem internal constructor(context: Context, layoutId: Int) : DragItem(context, layoutId) {
+    private class WordsUnitBatchDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
         override fun onBindDragView(clickedView: View, dragView: View) {
             dragView.findViewById<TextView>(R.id.text1).text = clickedView.findViewById<TextView>(R.id.text1).text
@@ -148,7 +148,7 @@ class WordsUnitBatchActivity : AppCompatActivity() {
             return mItemList[position].id.toLong()
         }
 
-        internal inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
+        inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView
             var mText2: TextView
             var mCheckmark: ImageView

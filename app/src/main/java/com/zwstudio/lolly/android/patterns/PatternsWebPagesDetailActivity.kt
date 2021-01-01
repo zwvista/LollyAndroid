@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ActivityPatternsWebpagesDetailBinding
-import com.zwstudio.lolly.data.patterns.PatternsViewModel
 import com.zwstudio.lolly.data.patterns.PatternsWebPageDetailViewModel
 import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
@@ -37,7 +36,7 @@ class PatternsWebPagesDetailActivity : AppCompatActivity() {
 
     @OptionsItem
     fun menuSave() {
-        vmDetail.save(item);
+        vmDetail.save(item)
         if (item.id == 0)
             compositeDisposable.add(vm.createPatternWebPage(item).subscribe())
         else

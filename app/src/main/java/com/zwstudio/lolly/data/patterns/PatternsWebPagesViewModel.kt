@@ -1,14 +1,10 @@
 package com.zwstudio.lolly.data.patterns
 
 import com.zwstudio.lolly.data.misc.BaseViewModel
-import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
-import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
-import com.zwstudio.lolly.service.wpp.PatternService
 import com.zwstudio.lolly.service.wpp.PatternWebPageService
 import com.zwstudio.lolly.service.wpp.WebPageService
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean

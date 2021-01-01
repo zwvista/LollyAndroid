@@ -36,7 +36,7 @@ class PatternsDetailActivity : AppCompatActivity() {
 
     @OptionsItem
     fun menuSave() {
-        vmDetail.save(item);
+        vmDetail.save(item)
         item.pattern = vm.vmSettings.autoCorrectInput(item.pattern)
         if (item.id == 0)
             compositeDisposable.add(vm.create(item).subscribe())
