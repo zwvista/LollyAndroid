@@ -481,15 +481,15 @@ class SettingsViewModel {
 }
 
 interface SettingsListener {
-    fun onGetData()
-    fun onUpdateLang()
-    fun onUpdateTextbook()
-    fun onUpdateDictReference()
-    fun onUpdateDictNote()
-    fun onUpdateDictTranslation()
-    fun onUpdateVoice()
-    fun onUpdateUnitFrom()
-    fun onUpdatePartFrom()
-    fun onUpdateUnitTo()
-    fun onUpdatePartTo()
+    fun onGetData() {}
+    fun onUpdateLang() {}
+    fun onUpdateTextbook() {}
+    fun onUpdateDictReference() {}
+    fun onUpdateDictNote() {}
+    fun onUpdateDictTranslation() {}
+    fun onUpdateVoice() {}
+    fun onUpdateUnitFrom() {}
+    fun onUpdatePartFrom() {}
+    fun onUpdateUnitTo() {}
+    fun onUpdatePartTo() {}
 }

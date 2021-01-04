@@ -2,6 +2,7 @@ package com.zwstudio.lolly.android
 
 import android.graphics.Color
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.*
 import androidx.fragment.app.Fragment
@@ -50,7 +51,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     @AfterViews
     fun afterViews() {
         activity?.title = "Settings"
-        vm.handler = Handler()
+        vm.handler = Handler(Looper.getMainLooper())
         vm.settingsListener = this
         compositeDisposable.add(vm.getData().subscribe())
     }
@@ -293,15 +294,6 @@ class SettingsFragment : Fragment(), SettingsListener {
         compositeDisposable.add(vm.updatePartTo(vm.lstParts[position].value).subscribe())
     }
 
-    override fun onUpdateDictReference() {
-    }
-
-    override fun onUpdateDictNote() {
-    }
-
-    override fun onUpdateDictTranslation() {
-    }
-
     override fun onUpdateUnitFrom() {
         spnUnitFrom.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitfrom })
     }
@@ -316,8 +308,5 @@ class SettingsFragment : Fragment(), SettingsListener {
 
     override fun onUpdatePartTo() {
         spnPartTo.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartto })
-    }
-
-    override fun onUpdateVoice() {
     }
 }

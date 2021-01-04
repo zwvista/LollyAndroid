@@ -7,26 +7,28 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:baselineAligned="false">
 
-        <LinearLayout
+        <SearchView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0">
+            android:id="@+id/svTextFilter"
+            android:queryHint="Filter"
+            android:iconifiedByDefault="false"/>
 
-            <SearchView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/svTextFilter"
-                android:queryHint="Filter"
-                android:iconifiedByDefault="false"
-                android:layout_weight="2"/>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <Spinner
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spnTextbookFilter"
+                android:layout_weight="2"/>
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/spnScopeFilter"
                 android:layout_weight="1"/>
         </LinearLayout>
@@ -34,7 +36,7 @@
         <com.zwstudio.lolly.android.LollySwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"

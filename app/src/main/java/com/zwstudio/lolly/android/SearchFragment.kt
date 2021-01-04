@@ -1,5 +1,8 @@
 package com.zwstudio.lolly.android
 
+import android.graphics.Color
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
@@ -7,16 +10,19 @@ import android.webkit.WebViewClient
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.zwstudio.lolly.data.misc.SearchViewModel
+import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 
 @EFragment(R.layout.content_search)
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), SettingsListener {
 
     @ViewById
     lateinit var svWord: SearchView
+    @ViewById
+    lateinit var spnLanguage: Spinner
     @ViewById
     lateinit var spnDictReference: Spinner
     @ViewById
@@ -54,24 +60,49 @@ class SearchFragment : Fragment() {
             }
         })
 
-        compositeDisposable.add(LollyApplication.initializeObject.subscribe {
-            val lst = vm.vmSettings.lstDictsReference
-            val adapter = makeAdapter(context!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
-                val m = getItem(position)!!
-                var tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = m.dictname
-                (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
-                tv = v.findViewById<TextView>(android.R.id.text2)
-                val item = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
-                tv.text = item?.url ?: ""
-                v
-            }
-            adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnDictReference.adapter = adapter
+        vm.vmSettings.handler = Handler(Looper.getMainLooper())
+        vm.vmSettings.settingsListener = this
+        compositeDisposable.add(vm.vmSettings.getData().subscribe())
+    }
 
-            spnDictReference.setSelection(vm.vmSettings.selectedDictReferenceIndex)
-        })
+    override fun onGetData() {
+        val lst = vm.vmSettings.lstLanguages
+        val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val ctv = v.findViewById<TextView>(android.R.id.text1)
+            ctv.text = lst[position].langname
+            ctv.setTextColor(Color.BLUE)
+            v
+        }
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
+        spnLanguage.adapter = adapter
 
+        spnLanguage.setSelection(vm.vmSettings.selectedLangIndex)
+    }
+
+    @ItemSelect
+    fun spnLanguageItemSelected(selected: Boolean, position: Int) {
+        if (vm.vmSettings.selectedLangIndex == position) return
+        Log.d("", String.format("Checked position:%d", position))
+        compositeDisposable.add(vm.vmSettings.setSelectedLang(vm.vmSettings.lstLanguages[position]).subscribe())
+    }
+
+    override fun onUpdateLang() {
+        val lst = vm.vmSettings.lstDictsReference
+        val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+            val m = getItem(position)!!
+            var tv = v.findViewById<TextView>(android.R.id.text1)
+            tv.text = m.dictname
+            (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
+            tv = v.findViewById<TextView>(android.R.id.text2)
+            val item = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
+            tv.text = item?.url ?: ""
+            v
+        }
+        adapter.setDropDownViewResource(R.layout.list_item_2)
+        spnDictReference.adapter = adapter
+
+        spnDictReference.setSelection(vm.vmSettings.selectedDictReferenceIndex)
+        onUpdateDictReference()
     }
 
     private fun configWebView(wv: WebView) {

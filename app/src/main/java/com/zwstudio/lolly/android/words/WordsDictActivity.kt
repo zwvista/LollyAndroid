@@ -59,7 +59,8 @@ class WordsDictActivity : AppCompatActivity() {
                 tv.text = m.dictname
                 (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
                 tv = v.findViewById<TextView>(android.R.id.text2)
-                tv.text = item.url
+                val item = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
+                tv.text = item?.url ?: ""
                 v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)

@@ -7,10 +7,7 @@ import android.content.DialogInterface
 import android.util.AttributeSet
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.zwstudio.lolly.data.misc.SettingsViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.subjects.ReplaySubject
-import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EApplication
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
@@ -24,11 +21,8 @@ class LollyApplication : Application() {
         lateinit var retrofitJson: Retrofit
         lateinit var retrofitSP: Retrofit
         lateinit var retrofitHtml: Retrofit
-        val initializeObject = ReplaySubject.createWithSize<Unit>(1)
     }
 
-    @Bean
-    lateinit var vm: SettingsViewModel
     val compositeDisposable = CompositeDisposable()
 
     override fun onCreate() {
@@ -46,10 +40,6 @@ class LollyApplication : Application() {
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
-        compositeDisposable.add(vm.getData().subscribe {
-            initializeObject.onNext(Unit)
-            initializeObject.onComplete()
-        })
     }
 
 }

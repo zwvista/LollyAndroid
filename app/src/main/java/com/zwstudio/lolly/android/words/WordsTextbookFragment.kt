@@ -41,6 +41,8 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
     @ViewById
     lateinit var svTextFilter: SearchView
     @ViewById
+    lateinit var spnTextbookFilter: Spinner
+    @ViewById
     lateinit var spnScopeFilter: Spinner
 
     @AfterViews
@@ -63,15 +65,29 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
             }
         })
 
-        val lst = SettingsViewModel.lstScopeWordFilters
-        val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
-            val tv = v.findViewById<TextView>(android.R.id.text1)
-            tv.text = getItem(position)!!.label
-            v
+        run {
+            val lst = vm.vmSettings.lstTextbookFilters
+            val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+                val tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = getItem(position)!!.label
+                v
+            }
+            adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
+            spnTextbookFilter.adapter = adapter
+            spnTextbookFilter.setSelection(0)
         }
-        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
-        spnScopeFilter.adapter = adapter
-        spnScopeFilter.setSelection(0)
+
+        run {
+            val lst = SettingsViewModel.lstScopeWordFilters
+            val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+                val tv = v.findViewById<TextView>(android.R.id.text1)
+                tv.text = getItem(position)!!.label
+                v
+            }
+            adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
+            spnScopeFilter.adapter = adapter
+            spnScopeFilter.setSelection(0)
+        }
     }
 
     override fun onInit(status: Int) {
@@ -116,6 +132,13 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
     private fun refreshListView() {
         val listAdapter = WordsTextbookItemAdapter(vm, mDragListView, tts, compositeDisposable)
         mDragListView.setAdapter(listAdapter, true)
+    }
+
+    @ItemSelect
+    fun spnTextbookFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+        vm.textbookFilter = selectedItem.value
+        vm.applyFilters()
+        refreshListView()
     }
 
     @ItemSelect
