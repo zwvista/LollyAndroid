@@ -33,7 +33,6 @@ class SearchFragment : Fragment(), SettingsListener {
     @Bean
     lateinit var vm: SearchViewModel
 
-    var word = ""
     var webViewFinished = false
 
     val compositeDisposable = CompositeDisposable()
@@ -48,14 +47,14 @@ class SearchFragment : Fragment(), SettingsListener {
 
         wvDictReference.visibility = View.INVISIBLE
         wvDictOffline.visibility = View.INVISIBLE
-        svWord.setQuery(word, false)
+        svWord.setQuery(vm.word, false)
         svWord.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 searchDict()
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
-                word = newText
+                vm.word = newText
                 return false
             }
         })
@@ -125,11 +124,11 @@ class SearchFragment : Fragment(), SettingsListener {
     }
 
     fun searchDict() {
-        word = svWord.query.toString()
+        vm.word = svWord.query.toString()
         wvDictReference.visibility = View.VISIBLE
         wvDictOffline.visibility = View.INVISIBLE
         val item = vm.vmSettings.selectedDictReference
-        val url = item.urlString(word, vm.vmSettings.lstAutoCorrect)
+        val url = item.urlString(vm.word, vm.vmSettings.lstAutoCorrect)
         svWord.post { svWord.clearFocus() }
         wvDictReference.loadUrl(url)
     }

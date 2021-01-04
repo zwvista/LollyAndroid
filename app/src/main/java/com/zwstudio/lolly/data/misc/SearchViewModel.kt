@@ -7,10 +7,7 @@ import org.androidannotations.annotations.EBean
 
 @EBean
 class SearchViewModel : BaseViewModel() {
-    var lstWords = mutableListOf<String>()
-    var selectedWordIndex = 0
-    val selectedWord: String
-        get() = lstWords[selectedWordIndex]
+    var word = ""
 
     @Bean
     lateinit var htmlService: HtmlService
