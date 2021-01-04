@@ -59,8 +59,7 @@ class WordsDictActivity : AppCompatActivity() {
                 tv.text = m.dictname
                 (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
                 tv = v.findViewById<TextView>(android.R.id.text2)
-                val item2 = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
-                tv.text = item2?.url ?: ""
+                tv.text = item.url
                 v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
@@ -96,13 +95,12 @@ class WordsDictActivity : AppCompatActivity() {
 
     private fun selectedDictChanged() {
         val item = vm.vmSettings.selectedDictReference
-        val item2 = vm.vmSettings.lstDictsReference.first { it.dictname == item.dictname }
-        val url = item2.urlString(vm.selectedWord, vm.vmSettings.lstAutoCorrect)
-        if (item2.dicttypename == "OFFLINE") {
+        val url = item.urlString(vm.selectedWord, vm.vmSettings.lstAutoCorrect)
+        if (item.dicttypename == "OFFLINE") {
             wv.loadUrl("about:blank")
             compositeDisposable.add(vm.getHtml(url).subscribe {
                 Log.d("HTML", it)
-                val str = item2.htmlString(it, vm.selectedWord, true)
+                val str = item.htmlString(it, vm.selectedWord, true)
                 wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
             })
         } else {
@@ -111,10 +109,10 @@ class WordsDictActivity : AppCompatActivity() {
                 override fun onPageFinished(view: WebView, url: String) {
                     if (dictStatus == DictWebViewStatus.Ready) return
                     if (dictStatus == DictWebViewStatus.Automating) {
-                        val s = item2.automation.replace("{0}", vm.selectedWord)
+                        val s = item.automation.replace("{0}", vm.selectedWord)
                         wv.evaluateJavascript(s) {
                             dictStatus = DictWebViewStatus.Ready
-                            if (item2.dicttypename == "OFFLINE-ONLINE")
+                            if (item.dicttypename == "OFFLINE-ONLINE")
                                 dictStatus = DictWebViewStatus.Navigating
                         }
                     } else if (dictStatus == DictWebViewStatus.Navigating) {
@@ -125,7 +123,7 @@ class WordsDictActivity : AppCompatActivity() {
                                 .replace("\\r", "\r")
                                 .replace("\\t", "\t")
                             Log.d("HTML", html)
-                            val str = item2.htmlString(html, vm.selectedWord, true)
+                            val str = item.htmlString(html, vm.selectedWord, true)
                             wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
                             dictStatus = DictWebViewStatus.Ready
                         }
@@ -133,9 +131,9 @@ class WordsDictActivity : AppCompatActivity() {
                 }
             }
             wv.loadUrl(url)
-            if (item2.automation.isNotEmpty())
+            if (item.automation.isNotEmpty())
                 dictStatus = DictWebViewStatus.Automating
-            else if (item2.dicttypename == "OFFLINE-ONLINE")
+            else if (item.dicttypename == "OFFLINE-ONLINE")
                 dictStatus = DictWebViewStatus.Navigating
         }
     }

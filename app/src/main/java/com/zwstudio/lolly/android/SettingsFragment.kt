@@ -85,8 +85,8 @@ class SettingsFragment : Fragment(), SettingsListener {
                 tv.text = m.voicelang
                 (tv as? CheckedTextView)?.isChecked = spnVoice.selectedItemPosition == position
                 tv = v.findViewById<TextView>(android.R.id.text2)
-                val item2 = vm.lstVoices.firstOrNull { it.voicelang == m.voicelang }
-                tv.text = item2?.voicename ?: ""
+                val item = vm.lstVoices.firstOrNull { it.voicelang == m.voicelang }
+                tv.text = item?.voicename ?: ""
                 v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
@@ -103,8 +103,8 @@ class SettingsFragment : Fragment(), SettingsListener {
                 tv.text = m.dictname
                 (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
                 tv = v.findViewById<TextView>(android.R.id.text2)
-                val item2 = vm.lstDictsReference.firstOrNull { it.dictname == m.dictname }
-                tv.text = item2?.url ?: ""
+                val item = vm.lstDictsReference.firstOrNull { it.dictname == m.dictname }
+                tv.text = item?.url ?: ""
                 v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)

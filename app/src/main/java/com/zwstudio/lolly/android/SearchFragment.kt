@@ -62,8 +62,8 @@ class SearchFragment : Fragment() {
                 tv.text = m.dictname
                 (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
                 tv = v.findViewById<TextView>(android.R.id.text2)
-                val item2 = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
-                tv.text = item2?.url ?: ""
+                val item = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
+                tv.text = item?.url ?: ""
                 v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
@@ -98,8 +98,7 @@ class SearchFragment : Fragment() {
         wvDictReference.visibility = View.VISIBLE
         wvDictOffline.visibility = View.INVISIBLE
         val item = vm.vmSettings.selectedDictReference
-        val item2 = vm.vmSettings.lstDictsReference.first { it.dictname == item.dictname }
-        val url = item2.urlString(word, vm.vmSettings.lstAutoCorrect)
+        val url = item.urlString(word, vm.vmSettings.lstAutoCorrect)
         svWord.post { svWord.clearFocus() }
         wvDictReference.loadUrl(url)
     }
