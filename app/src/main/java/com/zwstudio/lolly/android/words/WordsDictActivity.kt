@@ -12,6 +12,7 @@ import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.DictWebViewStatus
 import com.zwstudio.lolly.data.misc.SearchViewModel
 import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.data.words.WordsDictViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -19,7 +20,7 @@ import org.androidannotations.annotations.*
 class WordsDictActivity : AppCompatActivity() {
 
     @Bean
-    lateinit var vm: SearchViewModel
+    lateinit var vm: WordsDictViewModel
 
     @ViewById
     lateinit var spnWord: Spinner
