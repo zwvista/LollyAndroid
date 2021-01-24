@@ -27,8 +27,6 @@ class SearchFragment : Fragment(), SettingsListener {
     lateinit var spnDictReference: Spinner
     @ViewById
     lateinit var wvDictReference: WebView
-    @ViewById
-    lateinit var wvDictOffline: WebView
 
     @Bean
     lateinit var vm: SearchViewModel
@@ -42,11 +40,13 @@ class SearchFragment : Fragment(), SettingsListener {
         // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
         activity!!.title = resources.getString(R.string.search)
 
-        configWebView(wvDictReference)
-        configWebView(wvDictOffline)
+        wvDictReference.settings.javaScriptEnabled = true // enable javascript
+        wvDictReference.webViewClient = object : WebViewClient() {
+            override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
+                Toast.makeText(activity, description, Toast.LENGTH_SHORT).show()
+            }
+        }
 
-        wvDictReference.visibility = View.INVISIBLE
-        wvDictOffline.visibility = View.INVISIBLE
         svWord.setQuery(vm.word, false)
         svWord.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -104,15 +104,6 @@ class SearchFragment : Fragment(), SettingsListener {
         onUpdateDictReference()
     }
 
-    private fun configWebView(wv: WebView) {
-        wv.settings.javaScriptEnabled = true // enable javascript
-        wv.webViewClient = object : WebViewClient() {
-            override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
-                Toast.makeText(activity, description, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     @ItemSelect
     fun spnDictReferenceItemSelected(selected: Boolean, position: Int) {
         if (vm.vmSettings.selectedDictReferenceIndex == position) return
@@ -125,8 +116,6 @@ class SearchFragment : Fragment(), SettingsListener {
 
     fun searchDict() {
         vm.word = svWord.query.toString()
-        wvDictReference.visibility = View.VISIBLE
-        wvDictOffline.visibility = View.INVISIBLE
         val item = vm.vmSettings.selectedDictReference
         val url = item.urlString(vm.word, vm.vmSettings.lstAutoCorrect)
         svWord.post { svWord.clearFocus() }
