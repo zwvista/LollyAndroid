@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.android
+package com.zwstudio.lolly.android.misc
 
 import android.graphics.Color
 import android.os.Handler
@@ -6,6 +6,7 @@ import android.os.Looper
 import android.util.Log
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.makeAdapter

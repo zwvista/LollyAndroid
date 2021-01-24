@@ -55,13 +55,12 @@ class WordsDictActivity : AppCompatActivity() {
         run {
             val lst = vm.vmSettings.lstDictsReference
             val adapter = makeAdapter(this, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
-                val m = getItem(position)!!
+                val item = getItem(position)!!
                 var tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = m.dictname
+                tv.text = item.dictname
                 (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
                 tv = v.findViewById<TextView>(android.R.id.text2)
-                val item = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
-                tv.text = item?.url ?: ""
+                tv.text = item.url
                 v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)

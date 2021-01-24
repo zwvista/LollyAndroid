@@ -1,14 +1,14 @@
-package com.zwstudio.lolly.android
+package com.zwstudio.lolly.android.misc
 
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.SearchViewModel
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
@@ -88,13 +88,12 @@ class SearchFragment : Fragment(), SettingsListener {
     override fun onUpdateLang() {
         val lst = vm.vmSettings.lstDictsReference
         val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
-            val m = getItem(position)!!
+            val item = getItem(position)!!
             var tv = v.findViewById<TextView>(android.R.id.text1)
-            tv.text = m.dictname
+            tv.text = item.dictname
             (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
             tv = v.findViewById<TextView>(android.R.id.text2)
-            val item = vm.vmSettings.lstDictsReference.firstOrNull { it.dictname == m.dictname }
-            tv.text = item?.url ?: ""
+            tv.text = item.url
             v
         }
         adapter.setDropDownViewResource(R.layout.list_item_2)

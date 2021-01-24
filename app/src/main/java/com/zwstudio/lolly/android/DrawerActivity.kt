@@ -12,6 +12,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.woxthebox.draglistview.DragListView
+import com.zwstudio.lolly.android.misc.SearchFragment_
+import com.zwstudio.lolly.android.misc.SettingsFragment_
 import com.zwstudio.lolly.android.patterns.PatternsFragment_
 import com.zwstudio.lolly.android.phrases.PhrasesLangFragment_
 import com.zwstudio.lolly.android.phrases.PhrasesReviewFragment_
