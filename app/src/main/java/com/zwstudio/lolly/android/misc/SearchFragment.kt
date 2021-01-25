@@ -3,14 +3,18 @@ package com.zwstudio.lolly.android.misc
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.webkit.WebView
-import android.widget.*
+import android.widget.CheckedTextView
+import android.widget.SearchView
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.SearchViewModel
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.domain.misc.MDictionary
+import com.zwstudio.lolly.domain.misc.MLanguage
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
@@ -72,10 +76,9 @@ class SearchFragment : Fragment(), SettingsListener {
     }
 
     @ItemSelect
-    fun spnLanguageItemSelected(selected: Boolean, position: Int) {
-        if (vm.vmSettings.selectedLangIndex == position) return
-        Log.d("", String.format("Checked position:%d", position))
-        compositeDisposable.add(vm.vmSettings.setSelectedLang(vm.vmSettings.lstLanguages[position]).subscribe())
+    fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
+        if (vm.vmSettings.selectedLang == selectedItem) return
+        compositeDisposable.add(vm.vmSettings.setSelectedLang(selectedItem).subscribe())
     }
 
     override fun onUpdateLang() {
@@ -93,15 +96,13 @@ class SearchFragment : Fragment(), SettingsListener {
         spnDictReference.adapter = adapter
 
         spnDictReference.setSelection(vm.vmSettings.selectedDictReferenceIndex)
-        onUpdateDictReference()
+        searchDict()
     }
 
     @ItemSelect
-    fun spnDictReferenceItemSelected(selected: Boolean, position: Int) {
-        if (vm.vmSettings.selectedDictReferenceIndex == position) return
-        vm.vmSettings.selectedDictReference = vm.vmSettings.lstDictsReference[position]
-        Log.d("", String.format("Checked position:%d", position))
-        (spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+    fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
+        if (vm.vmSettings.selectedDictReference == selectedItem) return
+        vm.vmSettings.selectedDictReference = selectedItem
         compositeDisposable.add(vm.vmSettings.updateDictReference().subscribe())
         searchDict()
     }

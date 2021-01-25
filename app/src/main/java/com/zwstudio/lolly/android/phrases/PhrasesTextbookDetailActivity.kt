@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
+import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
@@ -73,13 +74,13 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
     }
 
     @ItemSelect
-    fun spnUnitItemSelected(selected: Boolean, position: Int) {
-        item.unit = item.textbook.lstUnits[position].value
+    fun spnUnitItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+        item.unit = selectedItem.value
     }
 
     @ItemSelect
-    fun spnPartItemSelected(selected: Boolean, position: Int) {
-        item.part = item.textbook.lstParts[position].value
+    fun spnPartItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+        item.part = selectedItem.value
     }
 
     @OptionsItem
