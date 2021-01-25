@@ -2,15 +2,13 @@ package com.zwstudio.lolly.android.words
 
 import android.util.Log
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.data.misc.DictWebViewStatus
-import com.zwstudio.lolly.data.misc.SearchViewModel
+import com.zwstudio.lolly.android.misc.OnlineDict
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.words.WordsDictViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -19,9 +17,6 @@ import org.androidannotations.annotations.*
 @EActivity(R.layout.activity_words_dict)
 class WordsDictActivity : AppCompatActivity() {
 
-    @Bean
-    lateinit var vm: WordsDictViewModel
-
     @ViewById
     lateinit var spnWord: Spinner
     @ViewById
@@ -29,8 +24,9 @@ class WordsDictActivity : AppCompatActivity() {
     @ViewById(R.id.webView)
     lateinit var wv: WebView
 
-    var dictStatus = DictWebViewStatus.Ready
-
+    @Bean
+    lateinit var vm: WordsDictViewModel
+    lateinit var onlineDict: OnlineDict
     val compositeDisposable = CompositeDisposable()
 
     @AfterViews
@@ -69,7 +65,8 @@ class WordsDictActivity : AppCompatActivity() {
             spnDictReference.setSelection(vm.vmSettings.selectedDictReferenceIndex)
         }
 
-        wv.settings.javaScriptEnabled = true
+        onlineDict = OnlineDict(wv, vm, compositeDisposable)
+        onlineDict.initWebViewClient()
     }
 
     @ItemSelect
@@ -95,47 +92,5 @@ class WordsDictActivity : AppCompatActivity() {
     }
 
     private fun selectedDictChanged() {
-        val item = vm.vmSettings.selectedDictReference
-        val url = item.urlString(vm.selectedWord, vm.vmSettings.lstAutoCorrect)
-        if (item.dicttypename == "OFFLINE") {
-            wv.loadUrl("about:blank")
-            compositeDisposable.add(vm.getHtml(url).subscribe {
-                Log.d("HTML", it)
-                val str = item.htmlString(it, vm.selectedWord, true)
-                wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
-            })
-        } else {
-            // http://stackoverflow.com/questions/7746409/android-webview-launches-browser-when-calling-loadurl
-            wv.webViewClient = object : WebViewClient() {
-                override fun onPageFinished(view: WebView, url: String) {
-                    if (dictStatus == DictWebViewStatus.Ready) return
-                    if (dictStatus == DictWebViewStatus.Automating) {
-                        val s = item.automation.replace("{0}", vm.selectedWord)
-                        wv.evaluateJavascript(s) {
-                            dictStatus = DictWebViewStatus.Ready
-                            if (item.dicttypename == "OFFLINE-ONLINE")
-                                dictStatus = DictWebViewStatus.Navigating
-                        }
-                    } else if (dictStatus == DictWebViewStatus.Navigating) {
-                        wv.evaluateJavascript("document.documentElement.outerHTML.toString()") {
-                            val html = it.replace("\\u003C", "<")
-                                .replace("\\\"", "\"")
-                                .replace("\\n", "\n")
-                                .replace("\\r", "\r")
-                                .replace("\\t", "\t")
-                            Log.d("HTML", html)
-                            val str = item.htmlString(html, vm.selectedWord, true)
-                            wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
-                            dictStatus = DictWebViewStatus.Ready
-                        }
-                    }
-                }
-            }
-            wv.loadUrl(url)
-            if (item.automation.isNotEmpty())
-                dictStatus = DictWebViewStatus.Automating
-            else if (item.dicttypename == "OFFLINE-ONLINE")
-                dictStatus = DictWebViewStatus.Navigating
-        }
     }
 }

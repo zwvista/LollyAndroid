@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.zwstudio.lolly.android.R
@@ -30,9 +29,7 @@ class SearchFragment : Fragment(), SettingsListener {
 
     @Bean
     lateinit var vm: SearchViewModel
-
-    var webViewFinished = false
-
+    lateinit var onlineDict: OnlineDict
     val compositeDisposable = CompositeDisposable()
 
     @AfterViews
@@ -40,12 +37,8 @@ class SearchFragment : Fragment(), SettingsListener {
         // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
         activity!!.title = resources.getString(R.string.search)
 
-        wvDictReference.settings.javaScriptEnabled = true // enable javascript
-        wvDictReference.webViewClient = object : WebViewClient() {
-            override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
-                Toast.makeText(activity, description, Toast.LENGTH_SHORT).show()
-            }
-        }
+        onlineDict = OnlineDict(wvDictReference, vm, compositeDisposable)
+        onlineDict.initWebViewClient()
 
         svWord.setQuery(vm.word, false)
         svWord.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -115,10 +108,8 @@ class SearchFragment : Fragment(), SettingsListener {
 
     fun searchDict() {
         vm.word = svWord.query.toString()
-        val item = vm.vmSettings.selectedDictReference
-        val url = item.urlString(vm.word, vm.vmSettings.lstAutoCorrect)
         svWord.post { svWord.clearFocus() }
-        wvDictReference.loadUrl(url)
+        onlineDict.searchDict()
     }
 
 }

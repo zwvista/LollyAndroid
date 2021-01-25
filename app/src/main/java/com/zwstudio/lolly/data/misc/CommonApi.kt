@@ -17,6 +17,10 @@ enum class UnitPartToType {
     Unit, Part, To
 }
 
+enum class DictWebViewStatus {
+    Ready, Navigating, Automating
+}
+
 fun View.copyText(text: String) {
     // https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

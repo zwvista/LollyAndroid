@@ -44,7 +44,6 @@ class WordsLangDetailActivity : AppCompatActivity() {
     fun menuSave() {
         item.word = vm.vmSettings.autoCorrectInput(etWord.text.toString())
         item.note = etNote.text.toString()
-        val word = vm.vmSettings.autoCorrectInput(item.word)
         if (item.id == 0)
             compositeDisposable.add(vm.create(item).subscribe {
                 item.id = it
