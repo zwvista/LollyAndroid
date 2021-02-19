@@ -1,9 +1,12 @@
 package com.zwstudio.lolly.android.words
 
 import android.app.Activity
-import android.widget.TextView
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.ActivityWordsLangDetailBinding
+import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -15,39 +18,28 @@ class WordsLangDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: WordsLangViewModel
+    lateinit var vmDetail: WordsLangDetailViewModel
     lateinit var item: MLangWord
-
-    @ViewById
-    lateinit var tvID: TextView
-    @ViewById
-    lateinit var etWord: TextView
-    @ViewById
-    lateinit var etNote: TextView
-    @ViewById
-    lateinit var tvFamiID: TextView
-    @ViewById
-    lateinit var tvAccuracy: TextView
 
     val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("word") as MLangWord
-        tvID.text = "${resources.getString(R.string.label_id)} ${item.id}"
-        etWord.text = item.word
-        etNote.text = item.note
-        tvFamiID.text = "${resources.getString(R.string.label_famiid)} ${item.famiid}"
-        tvAccuracy.text = "${resources.getString(R.string.label_accuracy)} ${item.accuracy}"
+        DataBindingUtil.inflate<ActivityWordsLangDetailBinding>(LayoutInflater.from(this), R.layout.activity_words_lang_detail,
+                findViewById(android.R.id.content), true).apply {
+            lifecycleOwner = this@WordsLangDetailActivity
+            vmDetail = WordsLangDetailViewModel(item)
+            model = vmDetail
+        }
     }
 
     @OptionsItem
     fun menuSave() {
-        item.word = vm.vmSettings.autoCorrectInput(etWord.text.toString())
-        item.note = etNote.text.toString()
+        vmDetail.save(item)
+        item.word = vm.vmSettings.autoCorrectInput(item.word)
         if (item.id == 0)
-            compositeDisposable.add(vm.create(item).subscribe {
-                item.id = it
-            })
+            compositeDisposable.add(vm.create(item).subscribe())
         else
             compositeDisposable.add(vm.update(item).subscribe())
         setResult(Activity.RESULT_OK)

@@ -41,8 +41,9 @@ class WordsLangViewModel : BaseViewModel() {
         langWordService.update(item)
             .applyIO()
 
-    fun create(item: MLangWord): Observable<Int> =
+    fun create(item: MLangWord): Observable<Unit> =
         langWordService.create(item)
+            .map { item.id = it }
             .applyIO()
 
     fun delete(item: MLangWord): Observable<Unit> =
