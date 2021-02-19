@@ -57,8 +57,9 @@ class WordsUnitViewModel : BaseViewModel() {
         unitWordService.update(item)
             .applyIO()
 
-    fun create(item: MUnitWord): Observable<Int> =
+    fun create(item: MUnitWord): Observable<Unit> =
         unitWordService.create(item)
+            .map { item.id = it }
             .applyIO()
 
     fun delete(item: MUnitWord): Observable<Unit> =

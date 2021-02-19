@@ -66,4 +66,11 @@ class MUnitWord: Serializable {
         get() = "$word($note)"
     val accuracy: String
         get() = if (total == 0) "N/A" else "${floor(correct.toDouble() / total.toDouble() * 1000) / 10}%"
+
+    var unitItemPosition: Int
+        get() = textbook.lstUnits.indexOfFirst { it.value == unit }
+        set(value) { unit = textbook.lstUnits[value].value }
+    var partItemPosition: Int
+        get() = textbook.lstParts.indexOfFirst { it.value == part }
+        set(value) { part = textbook.lstParts[value].value }
 }
