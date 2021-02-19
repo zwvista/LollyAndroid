@@ -56,8 +56,9 @@ class PhrasesUnitViewModel : BaseViewModel() {
         unitPhraseService.update(item)
             .applyIO()
 
-    fun create(item: MUnitPhrase): Observable<Int> =
+    fun create(item: MUnitPhrase): Observable<Unit> =
         unitPhraseService.create(item)
+            .map { item.id = it }
             .applyIO()
 
     fun delete(item: MUnitPhrase): Observable<Unit> =

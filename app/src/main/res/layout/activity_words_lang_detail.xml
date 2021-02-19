@@ -24,7 +24,6 @@
                   android:weightSum="1"
                   android:focusable="true"
                   android:focusableInTouchMode="true">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

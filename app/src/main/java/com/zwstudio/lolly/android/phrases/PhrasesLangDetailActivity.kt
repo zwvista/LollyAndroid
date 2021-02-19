@@ -1,9 +1,12 @@
 package com.zwstudio.lolly.android.phrases
 
 import android.app.Activity
-import android.widget.TextView
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.ActivityPhrasesLangDetailBinding
+import com.zwstudio.lolly.data.phrases.PhrasesLangDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -15,33 +18,28 @@ class PhrasesLangDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: PhrasesLangViewModel
+    lateinit var vmDetail: PhrasesLangDetailViewModel
     lateinit var item: MLangPhrase
-
-    @ViewById
-    lateinit var tvID: TextView
-    @ViewById
-    lateinit var etPhrase: TextView
-    @ViewById
-    lateinit var etTranslation: TextView
 
     val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("phrase") as MLangPhrase
-        tvID.text = "${resources.getString(R.string.label_id)} ${item.id}"
-        etPhrase.text = item.phrase
-        etTranslation.text = item.translation
+        DataBindingUtil.inflate<ActivityPhrasesLangDetailBinding>(LayoutInflater.from(this), R.layout.activity_phrases_lang_detail,
+                findViewById(android.R.id.content), true).apply {
+            lifecycleOwner = this@PhrasesLangDetailActivity
+            vmDetail = PhrasesLangDetailViewModel(item)
+            model = vmDetail
+        }
     }
 
     @OptionsItem
     fun menuSave() {
-        item.phrase = vm.vmSettings.autoCorrectInput(etPhrase.text.toString())
-        item.translation = etTranslation.text.toString()
+        vmDetail.save(item)
+        item.phrase = vm.vmSettings.autoCorrectInput(item.phrase)
         if (item.id == 0)
-            compositeDisposable.add(vm.create(item).subscribe {
-                item.id = it
-            })
+            compositeDisposable.add(vm.create(item).subscribe())
         else
             compositeDisposable.add(vm.update(item).subscribe())
         setResult(Activity.RESULT_OK)

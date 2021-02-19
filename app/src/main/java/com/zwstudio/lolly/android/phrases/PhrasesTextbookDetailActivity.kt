@@ -1,13 +1,16 @@
 package com.zwstudio.lolly.android.phrases
 
 import android.app.Activity
+import android.view.LayoutInflater
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.ActivityPhrasesTextbookDetailBinding
 import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
-import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
@@ -18,32 +21,19 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: PhrasesUnitViewModel
+    lateinit var vmDetail: PhrasesUnitDetailViewModel
     lateinit var item: MUnitPhrase
 
-    @ViewById
-    lateinit var tvTextbookName: TextView
-    @ViewById
-    lateinit var tvID: TextView
     @ViewById
     lateinit var spnUnit: Spinner
     @ViewById
     lateinit var spnPart: Spinner
-    @ViewById
-    lateinit var etSeqNum: TextView
-    @ViewById
-    lateinit var tvPhraseID: TextView
-    @ViewById
-    lateinit var etPhrase: TextView
-    @ViewById
-    lateinit var etTranslation: TextView
 
     val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("phrase") as MUnitPhrase
-        tvTextbookName.text = "${resources.getString(R.string.label_textbook)} ${item.textbookname}"
-        tvID.text = "${resources.getString(R.string.label_id)} ${item.id}"
         run {
             val lst = item.textbook.lstUnits
             val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
@@ -53,7 +43,6 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             spnUnit.adapter = adapter
-            spnUnit.setSelection(item.textbook.lstUnits.indexOfFirst { it.value == item.unit })
         }
 
         run {
@@ -65,30 +54,21 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             spnPart.adapter = adapter
-            spnPart.setSelection(vm.vmSettings.lstParts.indexOfFirst { it.value == item.part })
         }
-        etSeqNum.text = "${item.seqnum}"
-        tvPhraseID.text = "${resources.getString(R.string.label_phraseid)} ${item.phraseid}"
-        etPhrase.text = item.phrase
-        etTranslation.text = item.translation
-    }
 
-    @ItemSelect
-    fun spnUnitItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        item.unit = selectedItem.value
-    }
-
-    @ItemSelect
-    fun spnPartItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        item.part = selectedItem.value
+        DataBindingUtil.inflate<ActivityPhrasesTextbookDetailBinding>(LayoutInflater.from(this), R.layout.activity_phrases_textbook_detail,
+                findViewById(android.R.id.content), true).apply {
+            lifecycleOwner = this@PhrasesTextbookDetailActivity
+            vmDetail = PhrasesUnitDetailViewModel(item)
+            model = vmDetail
+        }
     }
 
     @OptionsItem
     fun menuSave() {
-        item.seqnum = etSeqNum.text.toString().toInt()
-        item.phrase = vm.vmSettings.autoCorrectInput(etPhrase.text.toString())
-        item.translation = etTranslation.text.toString()
-//        compositeDisposable.add(vm.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation).subscribe())
+        vmDetail.save(item)
+        item.phrase = vm.vmSettings.autoCorrectInput(item.phrase)
+        compositeDisposable.add(vm.update(item).subscribe())
         setResult(Activity.RESULT_OK)
         finish()
     }

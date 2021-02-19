@@ -1,12 +1,16 @@
 package com.zwstudio.lolly.android.phrases
 
+import android.app.Activity
+import android.view.LayoutInflater
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.ActivityPhrasesUnitDetailBinding
 import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
-import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
@@ -17,29 +21,19 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
 
     @Bean
     lateinit var vm: PhrasesUnitViewModel
+    lateinit var vmDetail: PhrasesUnitDetailViewModel
     lateinit var item: MUnitPhrase
 
-    @ViewById
-    lateinit var tvID: TextView
     @ViewById
     lateinit var spnUnit: Spinner
     @ViewById
     lateinit var spnPart: Spinner
-    @ViewById
-    lateinit var etSeqNum: TextView
-    @ViewById
-    lateinit var tvPhraseID: TextView
-    @ViewById
-    lateinit var etPhrase: TextView
-    @ViewById
-    lateinit var etTranslation: TextView
 
     val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("phrase") as MUnitPhrase
-        tvID.text = "${resources.getString(R.string.label_id)} ${item.id}"
         run {
             val lst = vm.vmSettings.lstUnits
             val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
@@ -49,7 +43,6 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             spnUnit.adapter = adapter
-            spnUnit.setSelection(vm.vmSettings.lstUnits.indexOfFirst { it.value == item.unit })
         }
 
         run {
@@ -61,34 +54,25 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             spnPart.adapter = adapter
-            spnPart.setSelection(vm.vmSettings.lstParts.indexOfFirst { it.value == item.part })
         }
-        etSeqNum.text = "${item.seqnum}"
-        tvPhraseID.text = "${resources.getString(R.string.label_phraseid)} ${item.phraseid}"
-        etPhrase.text = item.phrase
-        etTranslation.text = item.translation
-    }
 
-    @ItemSelect
-    fun spnUnitItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        item.unit = selectedItem.value
-    }
-
-    @ItemSelect
-    fun spnPartItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        item.part = selectedItem.value
+        DataBindingUtil.inflate<ActivityPhrasesUnitDetailBinding>(LayoutInflater.from(this), R.layout.activity_phrases_unit_detail,
+                findViewById(android.R.id.content), true).apply {
+            lifecycleOwner = this@PhrasesUnitDetailActivity
+            vmDetail = PhrasesUnitDetailViewModel(item)
+            model = vmDetail
+        }
     }
 
     @OptionsItem
     fun menuSave() {
-        item.seqnum = etSeqNum.text.toString().toInt()
-        item.phrase = vm.vmSettings.autoCorrectInput(etPhrase.text.toString())
-        item.translation = etTranslation.text.toString()
+        vmDetail.save(item)
+        item.phrase = vm.vmSettings.autoCorrectInput(item.phrase)
         if (item.id == 0)
-            compositeDisposable.add(vm.create(item).subscribe {
-                item.id = it
-            })
+            compositeDisposable.add(vm.create(item).subscribe())
         else
             compositeDisposable.add(vm.update(item).subscribe())
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 }
