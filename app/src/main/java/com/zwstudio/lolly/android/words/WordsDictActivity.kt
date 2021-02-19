@@ -15,7 +15,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_words_dict)
-class WordsDictActivity : AppCompatActivity() {
+class WordsDictActivity : AppCompatActivity(), TouchListener {
 
     @ViewById
     lateinit var spnWord: Spinner
@@ -33,7 +33,8 @@ class WordsDictActivity : AppCompatActivity() {
     fun afterViews() {
         vm.lstWords = (intent.getSerializableExtra("list") as Array<String>).toMutableList()
         vm.selectedWordIndex = intent.getIntExtra("index", 0)
-        selectedWordChanged()
+
+        wv.setOnTouchListener(OnSwipeWebviewTouchListener(this, this))
 
         run {
             val lst = vm.lstWords
@@ -67,6 +68,7 @@ class WordsDictActivity : AppCompatActivity() {
 
         onlineDict = OnlineDict(wv, vm, compositeDisposable)
         onlineDict.initWebViewClient()
+        selectedWordChanged()
     }
 
     @ItemSelect
@@ -92,5 +94,16 @@ class WordsDictActivity : AppCompatActivity() {
     }
 
     private fun selectedDictChanged() {
+        onlineDict.searchDict()
+    }
+
+    override fun onSwipeLeft() {
+        vm.next(-1);
+        selectedWordChanged()
+    }
+
+    override fun onSwipeRight() {
+        vm.next(1);
+        selectedWordChanged()
     }
 }
