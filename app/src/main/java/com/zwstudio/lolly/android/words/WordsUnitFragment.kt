@@ -10,6 +10,7 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
@@ -18,6 +19,7 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.ContentWordsUnitBinding
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.misc.*
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
@@ -61,7 +63,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
-                vm.textFilter = newText
+                vm.textFilter.value = newText
                 if (newText.isEmpty())
                     refreshListView()
                 return false
@@ -77,6 +79,12 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
         spnScopeFilter.adapter = adapter
         spnScopeFilter.setSelection(0)
+
+        DataBindingUtil.inflate<ContentWordsUnitBinding>(LayoutInflater.from(activity!!), R.layout.content_words_unit,
+                activity!!.findViewById(android.R.id.content), true).apply {
+            lifecycleOwner = this@WordsUnitFragment
+            model = vm
+        }
     }
 
     override fun onInit(status: Int) {
@@ -120,8 +128,8 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                     mRefreshLayout.isEnabled = true
                     when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
-                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
+                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted.value = true
+                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted.value = true
                         else -> {}
                     }
                 }
@@ -142,7 +150,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @ItemSelect
     fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter = selectedItem.label
+        vm.scopeFilter.value = selectedItem.label
         vm.applyFilters()
         refreshListView()
     }
@@ -152,7 +160,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuEditMode() = setMenuMode(true)
     private fun setMenuMode(isEditMode: Boolean) {
-        vm.isEditMode = isEditMode
+        vm.isEditMode.value = isEditMode
         (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
         refreshListView()
     }
@@ -187,7 +195,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuBatch() {
         WordsUnitBatchActivity_.intent(this)
-            .extra("list", vm.lstWords.toTypedArray()).start()
+            .extra("list", vm.lstWords.value!!.toTypedArray()).start()
     }
 
     private class WordsUnitDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
@@ -204,7 +212,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
 
         init {
-            itemList = vm.lstWords
+            itemList = vm.lstWords.value!!
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -259,10 +267,10 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
                         compositeDisposable.add(vm.delete(item).subscribe())
-                        vm.isSwipeStarted = false
+                        vm.isSwipeStarted.value = false
                     }, {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
+                        vm.isSwipeStarted.value = false
                     })
                 }
                 mEdit.setOnTouchListener { _, event ->
@@ -282,7 +290,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mMore.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
+                        vm.isSwipeStarted.value = false
 
                         val item = itemView.tag as MUnitWord
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
@@ -316,24 +324,24 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
                         WordsDictActivity_.intent(itemView.context)
-                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
-                                .extra("index", vm.lstWords.indexOf(item)).start()
+                                .extra("list", vm.lstWords.value!!.map { it.word }.toTypedArray())
+                                .extra("index", vm.lstWords.value!!.indexOf(item)).start()
                     }
                     true
                 }
-                if (vm.isEditMode)
+                if (vm.isEditMode.value!!)
                     mForward.visibility = View.GONE
-                if (!(vm.isEditMode && vm.vmSettings.isSingleUnitPart))
+                if (!(vm.isEditMode.value!! && vm.vmSettings.isSingleUnitPart))
                     mHamburger.visibility = View.GONE
             }
 
             override fun onItemClicked(view: View?) {
-                if (vm.isSwipeStarted) {
+                if (vm.isSwipeStarted.value!!) {
                     mDragListView.resetSwipedViews(null)
-                    vm.isSwipeStarted = false
+                    vm.isSwipeStarted.value = false
                 } else {
                     val item = view!!.tag as MUnitWord
-                    if (vm.isEditMode)
+                    if (vm.isEditMode.value!!)
                         edit(item)
                     else
                         tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null, null)

@@ -48,7 +48,7 @@ class WordsUnitBatchActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        vm.lstWords = (intent.getSerializableExtra("list") as Array<MUnitWord>).toList()
+        vm.lstWords.value = (intent.getSerializableExtra("list") as Array<MUnitWord>).toList()
         chkUnit(); chkPart(); chkSeqNum()
         run {
             val lst = vm.vmSettings.lstUnits
@@ -105,7 +105,7 @@ class WordsUnitBatchActivity : AppCompatActivity() {
     @OptionsItem
     fun menuSave() {
         if (!chkUnit.isChecked && !chkPart.isChecked && !chkSeqNum.isChecked) return
-        for ((i, item) in vm.lstWords.withIndex()) {
+        for ((i, item) in vm.lstWords.value!!.withIndex()) {
             val v = mDragListView.recyclerView.findViewHolderForAdapterPosition(i) as WordsUnitBatchItemAdapter.ViewHolder
             if (v.mCheckmark.visibility == View.INVISIBLE) continue
             if (chkUnit.isChecked) item.unit = (spnUnit.selectedItem as MSelectItem).value
@@ -128,7 +128,7 @@ class WordsUnitBatchActivity : AppCompatActivity() {
     private class WordsUnitBatchItemAdapter(val vm: WordsUnitViewModel) : DragItemAdapter<MUnitWord, WordsUnitBatchItemAdapter.ViewHolder>() {
 
         init {
-            itemList = vm.lstWords
+            itemList = vm.lstWords.value!!
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
