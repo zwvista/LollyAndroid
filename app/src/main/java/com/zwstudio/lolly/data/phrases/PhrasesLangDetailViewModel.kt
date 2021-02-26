@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 
-class PhrasesLangDetailViewModel(item: MLangPhrase): ViewModel() {
+class PhrasesLangDetailViewModel(item: MLangPhrase) : ViewModel() {
     val id = MutableLiveData(item.id)
     val phrase = MutableLiveData(item.phrase)
     val translation = MutableLiveData(item.translation)

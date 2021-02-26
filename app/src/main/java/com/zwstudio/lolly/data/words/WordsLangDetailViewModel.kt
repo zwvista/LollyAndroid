@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
 
-class WordsLangDetailViewModel(item: MLangWord): ViewModel() {
+class WordsLangDetailViewModel(item: MLangWord) : ViewModel() {
     val id = MutableLiveData(item.id)
     val word = MutableLiveData(item.word)
     val note = MutableLiveData(item.note)

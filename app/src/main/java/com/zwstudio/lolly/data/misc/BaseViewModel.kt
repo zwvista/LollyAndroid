@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.data.misc
 
+import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -11,7 +12,7 @@ fun <T> Observable<T>.applyIO(): Observable<T> =
         .observeOn(AndroidSchedulers.mainThread())
 
 @EBean
-class BaseViewModel {
+class BaseViewModel : ViewModel() {
     @Bean
     lateinit var vmSettings: SettingsViewModel
 }

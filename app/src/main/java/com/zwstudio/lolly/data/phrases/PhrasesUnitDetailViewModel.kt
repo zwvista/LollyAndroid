@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 
-class PhrasesUnitDetailViewModel(item: MUnitPhrase): ViewModel() {
+class PhrasesUnitDetailViewModel(item: MUnitPhrase) : ViewModel() {
     val id = MutableLiveData(item.id)
     val textbookname = MutableLiveData(item.textbookname)
     val unitItemPosition = MutableLiveData(item.unitItemPosition)

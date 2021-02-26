@@ -69,7 +69,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         })
 
         val lst = SettingsViewModel.lstScopeWordFilters
-        val adapter = makeAdapter<MSelectItem>(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+        val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
             val tv = v.findViewById<TextView>(android.R.id.text1)
             tv.text = getItem(position)!!.label
             v

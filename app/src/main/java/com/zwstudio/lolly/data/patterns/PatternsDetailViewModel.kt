@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 
-class PatternsDetailViewModel(item: MPattern): ViewModel() {
+class PatternsDetailViewModel(item: MPattern) : ViewModel() {
     val id = MutableLiveData(item.id)
     val pattern = MutableLiveData(item.pattern)
     val note = MutableLiveData(item.note)
