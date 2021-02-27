@@ -38,13 +38,13 @@ class WordsUnitViewModel : BaseViewModel() {
     fun getDataInTextbook(): Observable<Unit> =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-            .map { lstWordsAll.value = it; applyFilters() }
             .applyIO()
+            .map { lstWordsAll.value = it; applyFilters() }
 
     fun getDataInLang(): Observable<Unit> =
         unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstWordsAll.value = it; applyFilters() }
             .applyIO()
+            .map { lstWordsAll.value = it; applyFilters() }
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
         unitWordService.updateSeqNum(id, seqnum)

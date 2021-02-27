@@ -3,6 +3,7 @@ package com.zwstudio.lolly.android.words
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Context
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.speech.tts.TextToSpeech
@@ -50,6 +51,13 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @ViewById
     lateinit var spnScopeFilter: Spinner
 
+    lateinit var binding: ContentWordsUnitBinding
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = ContentWordsUnitBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.words_unit)
@@ -79,12 +87,6 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
         spnScopeFilter.adapter = adapter
         spnScopeFilter.setSelection(0)
-
-        DataBindingUtil.inflate<ContentWordsUnitBinding>(LayoutInflater.from(activity!!), R.layout.content_words_unit,
-                activity!!.findViewById(android.R.id.content), true).apply {
-            lifecycleOwner = this@WordsUnitFragment
-            model = vm
-        }
     }
 
     override fun onInit(status: Int) {
