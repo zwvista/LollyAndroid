@@ -2,6 +2,7 @@ package com.zwstudio.lolly.android
 
 import android.view.MenuItem
 import android.widget.ProgressBar
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -23,6 +24,7 @@ import com.zwstudio.lolly.android.words.WordsLangFragment_
 import com.zwstudio.lolly.android.words.WordsReviewFragment_
 import com.zwstudio.lolly.android.words.WordsTextbookFragment_
 import com.zwstudio.lolly.android.words.WordsUnitFragment_
+import com.zwstudio.lolly.data.DrawerActivityViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.EActivity
@@ -42,6 +44,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     lateinit var navigationView: NavigationView
 
     private lateinit var drawerToggle: ActionBarDrawerToggle
+    val vm: DrawerActivityViewModel by viewModels()
 
     @AfterViews
     fun afterViews() {
@@ -59,23 +62,12 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         navigationView.setNavigationItemSelectedListener(this)
 
-        showFragment(SearchFragment_())
+        //vm = ViewModelProvider(this).get(DrawerActivityViewModel::class.java)
+        showFragment(vm.menuItemId)
     }
 
-    private fun showFragment(fragment: Fragment) =
-        supportFragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
-
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
+    private fun showFragment(itemId: Int) {
+        when (itemId) {
             R.id.nav_search -> showFragment(SearchFragment_())
             R.id.nav_settings -> showFragment(SettingsFragment_())
             R.id.nav_words_unit -> showFragment(WordsUnitFragment_())
@@ -88,7 +80,26 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
             R.id.nav_phrases_textbook -> showFragment(PhrasesTextbookFragment_())
             R.id.nav_patterns -> showFragment(PatternsFragment_())
         }
+    }
 
+    private fun showFragment(fragment: Fragment) =
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment)
+            .addToBackStack(null)
+            .commit()
+
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        vm.menuItemId = item.itemId
+        // Handle navigation view item clicks here.
+        showFragment(vm.menuItemId)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
