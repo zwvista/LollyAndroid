@@ -1,0 +1,16 @@
+package com.zwstudio.lolly.rest2api.misc
+
+import com.zwstudio.lolly.domain.misc.MDictionaries
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface Rest2Dictionary {
+    @GET("VDICTIONARIES?order=SEQNUM&order=DICTNAME")
+    suspend fun getDictsByLang(@Query("filter") filter: String): MDictionaries
+    @GET("VDICTSREFERENCE?order=SEQNUM&order=DICTNAME")
+    suspend fun getDictsReferenceByLang(@Query("filter") filter: String): MDictionaries
+    @GET("VDICTSNOTE")
+    suspend fun getDictsNoteByLang(@Query("filter") filter: String): MDictionaries
+    @GET("VDICTSTRANSLATION")
+    suspend fun getDictsTranslationByLang(@Query("filter") filter: String): MDictionaries
+}
