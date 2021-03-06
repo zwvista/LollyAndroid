@@ -4,33 +4,32 @@ import android.util.Log
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.restapi.wpp.RestLangPhrase
 import com.zwstudio.lolly.service.misc.BaseService
-import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
 class LangPhraseService: BaseService() {
-    fun getDataByLang(langid: Int): Observable<List<MLangPhrase>> =
-        retrofitJson.create(RestLangPhrase::class.java)
+    suspend fun getDataByLang(langid: Int): List<MLangPhrase> =
+        retrofitJson2.create(RestLangPhrase::class.java)
             .getDataByLang("LANGID,eq,$langid")
-            .map { it.lst!! }
+            .lst!!
 
-    fun updateTranslation(id: Int, translation: String?): Observable<Unit> =
-        retrofitJson.create(RestLangPhrase::class.java)
+    suspend fun updateTranslation(id: Int, translation: String?) =
+        retrofitJson2.create(RestLangPhrase::class.java)
             .updateTranslation(id, translation)
-            .map { Log.d("", it.toString()); Unit }
+            .let { Log.d("", it.toString()) }
 
-    fun update(o: MLangPhrase): Observable<Unit> =
-        retrofitJson.create(RestLangPhrase::class.java)
+    suspend fun update(o: MLangPhrase) =
+        retrofitJson2.create(RestLangPhrase::class.java)
             .update(o.id, o.langid, o.phrase, o.translation)
-            .map { Log.d("", it.toString()); Unit }
+            .let { Log.d("", it.toString()) }
 
-    fun create(o: MLangPhrase): Observable<Int> =
-        retrofitJson.create(RestLangPhrase::class.java)
+    suspend fun create(o: MLangPhrase): Int =
+        retrofitJson2.create(RestLangPhrase::class.java)
             .create(o.langid, o.phrase, o.translation)
-            .doOnNext { Log.d("", it.toString()) }
+            .also { Log.d("", it.toString()) }
 
-    fun delete(o: MLangPhrase): Observable<Unit> =
-        retrofitSP.create(RestLangPhrase::class.java)
+    suspend fun delete(o: MLangPhrase) =
+        retrofitSP2.create(RestLangPhrase::class.java)
             .delete(o.id, o.langid, o.phrase, o.translation)
-            .map { Log.d("", it.toString()); Unit }
+            .let { Log.d("", it.toString()) }
 }

@@ -4,33 +4,32 @@ import android.util.Log
 import com.zwstudio.lolly.domain.misc.MUserSetting
 import com.zwstudio.lolly.domain.misc.MUserSettingInfo
 import com.zwstudio.lolly.restapi.misc.RestUserSetting
-import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
 class UserSettingService: BaseService() {
-    fun getDataByUser(userid: Int): Observable<List<MUserSetting>> =
-        retrofitJson.create(RestUserSetting::class.java)
+    suspend fun getDataByUser(userid: Int): List<MUserSetting> =
+        retrofitJson2.create(RestUserSetting::class.java)
             .getDataByUser("USERID,eq,$userid")
-            .map { it.lst!! }
+            .lst!!
 
-    fun update(info: MUserSettingInfo, v: Int): Observable<Int> =
+    suspend fun update(info: MUserSettingInfo, v: Int): Int =
         update(info, v.toString())
 
-    fun update(info: MUserSettingInfo, v: String): Observable<Int> =
+    suspend fun update(info: MUserSettingInfo, v: String): Int =
         when (info.valueid) {
-            1 -> retrofitJson.create(RestUserSetting::class.java)
+            1 -> retrofitJson2.create(RestUserSetting::class.java)
                 .updateValue1(info.usersettingid, v)
-                .map { Log.d("", it.toString()) }
-            2 -> retrofitJson.create(RestUserSetting::class.java)
+                .also { Log.d("", it.toString()) }
+            2 -> retrofitJson2.create(RestUserSetting::class.java)
                 .updateValue2(info.usersettingid, v)
-                .map { Log.d("", it.toString()) }
-            3 -> retrofitJson.create(RestUserSetting::class.java)
+                .also { Log.d("", it.toString()) }
+            3 -> retrofitJson2.create(RestUserSetting::class.java)
                 .updateValue3(info.usersettingid, v)
-                .map { Log.d("", it.toString()) }
-            4 -> retrofitJson.create(RestUserSetting::class.java)
+                .also { Log.d("", it.toString()) }
+            4 -> retrofitJson2.create(RestUserSetting::class.java)
                 .updateValue4(info.usersettingid, v)
-                .map { Log.d("", it.toString()) }
-            else -> Observable.empty()
+                .also { Log.d("", it.toString()) }
+            else -> 0
         }
 }

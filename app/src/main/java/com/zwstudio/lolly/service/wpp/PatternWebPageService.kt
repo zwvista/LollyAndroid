@@ -3,38 +3,37 @@ package com.zwstudio.lolly.service.wpp
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.restapi.wpp.RestPatternWebPage
 import com.zwstudio.lolly.service.misc.BaseService
-import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
 class PatternWebPageService: BaseService() {
-    fun getDataByPattern(patternid: Int): Observable<List<MPatternWebPage>> =
-        retrofitJson.create(RestPatternWebPage::class.java)
+    suspend fun getDataByPattern(patternid: Int): List<MPatternWebPage> =
+        retrofitJson2.create(RestPatternWebPage::class.java)
             .getDataByPattern("PATTERNID,eq,$patternid")
-            .map { it.lst!! }
+            .lst!!
 
-    fun getDataById(id: Int): Observable<List<MPatternWebPage>> =
-        retrofitJson.create(RestPatternWebPage::class.java)
+    suspend fun getDataById(id: Int): List<MPatternWebPage> =
+        retrofitJson2.create(RestPatternWebPage::class.java)
             .getDataById("ID,eq,$id")
-            .map { it.lst!! }
+            .lst!!
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
-        retrofitJson.create(RestPatternWebPage::class.java)
+    suspend fun updateSeqNum(id: Int, seqnum: Int) =
+        retrofitJson2.create(RestPatternWebPage::class.java)
             .updateSeqNum(id, seqnum)
-            .map { println(it.toString()) }
+            .let { println(it.toString()) }
 
-    fun update(o: MPatternWebPage): Observable<Unit> =
-        retrofitJson.create(RestPatternWebPage::class.java)
+    suspend fun update(o: MPatternWebPage) =
+        retrofitJson2.create(RestPatternWebPage::class.java)
             .update(o.id, o.patternid, o.seqnum, o.webpageid)
-            .map { println(it.toString()) }
+            .let { println(it.toString()) }
 
-    fun create(o: MPatternWebPage): Observable<Int> =
-        retrofitJson.create(RestPatternWebPage::class.java)
+    suspend fun create(o: MPatternWebPage): Int =
+        retrofitJson2.create(RestPatternWebPage::class.java)
             .create(o.patternid, o.seqnum, o.webpageid)
-            .doOnNext { println(it.toString()) }
+            .also { println(it.toString()) }
 
-    fun delete(id: Int): Observable<Unit> =
-        retrofitJson.create(RestPatternWebPage::class.java)
+    suspend fun delete(id: Int) =
+        retrofitJson2.create(RestPatternWebPage::class.java)
             .delete(id)
-            .map { println(it.toString()) }
+            .let { println(it.toString()) }
 }

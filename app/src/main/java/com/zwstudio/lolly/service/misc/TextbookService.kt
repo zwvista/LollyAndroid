@@ -2,13 +2,12 @@ package com.zwstudio.lolly.service.misc
 
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.misc.MTextbook
-import com.zwstudio.lolly.restapi.misc.RestTextbook
-import io.reactivex.rxjava3.core.Observable
+import com.zwstudio.suspendapi.restapi.misc.RestTextbook
 import org.androidannotations.annotations.EBean
 
 @EBean
 class TextbookService: BaseService() {
-    fun getDataByLang(langid: Int): Observable<List<MTextbook>> {
+    suspend fun getDataByLang(langid: Int): List<MTextbook> {
         fun f(units: String): List<String> {
             var m = Regex("UNITS,(\\d+)").find(units)
             if (m != null) {
@@ -27,15 +26,13 @@ class TextbookService: BaseService() {
                 return m.groupValues[1].split(",")
             return listOf()
         }
-        return retrofitJson.create(RestTextbook::class.java)
+        return retrofitJson2.create(RestTextbook::class.java)
             .getDataByLang("LANGID,eq,$langid")
-            .map {
-                val lst = it.lst!!
-                for (o in lst) {
+            .lst!!.also {
+                for (o in it) {
                     o.lstUnits = f(o.units).mapIndexed { index, s -> MSelectItem(index + 1, s) }
                     o.lstParts = o.parts.split(",").mapIndexed { index, s -> MSelectItem(index + 1, s) }
                 }
-                lst
             }
     }
 

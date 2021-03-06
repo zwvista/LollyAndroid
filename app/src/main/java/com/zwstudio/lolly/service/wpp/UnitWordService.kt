@@ -5,67 +5,60 @@ import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.restapi.wpp.RestUnitWord
 import com.zwstudio.lolly.service.misc.BaseService
-import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
 class UnitWordService: BaseService() {
-    fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Observable<List<MUnitWord>> =
-        retrofitJson.create(RestUnitWord::class.java)
+    suspend fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): List<MUnitWord> =
+        retrofitJson2.create(RestUnitWord::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",
                 "UNITPART,bt,$unitPartFrom,$unitPartTo")
-            .map {
-                val lst = it.lst!!
-                for (o in lst)
+            .lst!!.also {
+                for (o in it)
                     o.textbook = textbook
-                lst
             }
 
-    fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): Observable<List<MUnitWord>> =
-        retrofitJson.create(RestUnitWord::class.java)
+    suspend fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): List<MUnitWord> =
+        retrofitJson2.create(RestUnitWord::class.java)
             .getDataByLang("LANGID,eq,$langid")
-            .map {
-                val lst = it.lst!!
-                for (o in lst)
+            .lst!!.also {
+                for (o in it)
                     o.textbook = lstTextbooks.first { it.id == o.textbookid }
-                lst
             }
 
-    fun getDataByLangWord(langid: Int, word: String, lstTextbooks: List<MTextbook>): Observable<List<MUnitWord>> =
-        retrofitJson.create(RestUnitWord::class.java)
+    suspend fun getDataByLangWord(langid: Int, word: String, lstTextbooks: List<MTextbook>): List<MUnitWord> =
+        retrofitJson2.create(RestUnitWord::class.java)
             .getDataByLangWord("LANGID,eq,$langid", "WORD,eq,$word")
-            .map {
-                val lst = it.lst!!
-                for (o in lst)
+            .lst!!.also {
+                for (o in it)
                     o.textbook = lstTextbooks.first { it.id == o.textbookid }
-                lst
             }
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
-        retrofitJson.create(RestUnitWord::class.java)
+    suspend fun updateSeqNum(id: Int, seqnum: Int) =
+        retrofitJson2.create(RestUnitWord::class.java)
             .updateSeqNum(id, seqnum)
-            .map { Log.d("", it.toString()); Unit }
+            .let { Log.d("", it.toString()) }
 
-    fun updateNote(id: Int, note: String?): Observable<Unit> =
-        retrofitJson.create(RestUnitWord::class.java)
+    suspend fun updateNote(id: Int, note: String?) =
+        retrofitJson2.create(RestUnitWord::class.java)
             .updateNote(id, note)
-            .map { Log.d("", it.toString()); Unit }
+            .let { Log.d("", it.toString()) }
 
-    fun update(o: MUnitWord): Observable<Unit> =
-        retrofitSP.create(RestUnitWord::class.java)
+    suspend fun update(o: MUnitWord) =
+        retrofitSP2.create(RestUnitWord::class.java)
             .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .map { Log.d("", it.toString()); Unit }
+            .let { Log.d("", it.toString()) }
 
-    fun create(o: MUnitWord): Observable<Int> =
-        retrofitSP.create(RestUnitWord::class.java)
+    suspend fun create(o: MUnitWord): Int =
+        retrofitSP2.create(RestUnitWord::class.java)
             .create(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .map {
+            .let {
                 Log.d("", it.toString())
                 it[0][0].newid!!.toInt()
             }
 
-    fun delete(o: MUnitWord): Observable<Unit> =
-        retrofitSP.create(RestUnitWord::class.java)
+    suspend fun delete(o: MUnitWord) =
+        retrofitSP2.create(RestUnitWord::class.java)
             .delete(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .map { Log.d("", it.toString()); Unit }
+            .let { Log.d("", it.toString()) }
 }

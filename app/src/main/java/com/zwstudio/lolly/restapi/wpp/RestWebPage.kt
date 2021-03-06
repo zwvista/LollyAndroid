@@ -1,25 +1,24 @@
 package com.zwstudio.lolly.restapi.wpp
 
 import com.zwstudio.lolly.domain.wpp.MWebPages
-import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*
 
 interface RestWebPage {
     @GET("WEBPAGES")
-    fun getDataBySearch(@Query("filter") vararg filters: String): Observable<MWebPages>
+    suspend fun getDataBySearch(@Query("filter") vararg filters: String): MWebPages
 
     @GET("WEBPAGES")
-    fun getDataById(@Query("filter") filter: String): Observable<MWebPages>
+    suspend fun getDataById(@Query("filter") filter: String): MWebPages
 
     @FormUrlEncoded
     @PUT("WEBPAGES/{id}")
-    fun update(@Path("id") id: Int,
-               @Field("TITLE") title: String, @Field("URL") url: String): Observable<Int>
+    suspend fun update(@Path("id") id: Int,
+               @Field("TITLE") title: String, @Field("URL") url: String): Int
 
     @FormUrlEncoded
     @POST("WEBPAGES")
-    fun create(@Field("TITLE") title: String, @Field("URL") url: String): Observable<Int>
+    suspend fun create(@Field("TITLE") title: String, @Field("URL") url: String): Int
 
     @DELETE("WEBPAGES/{id}")
-    fun delete(@Path("id") id: Int): Observable<Int>
+    suspend fun delete(@Path("id") id: Int): Int
 }

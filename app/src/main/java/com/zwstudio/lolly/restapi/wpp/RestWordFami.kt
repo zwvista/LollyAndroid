@@ -1,26 +1,25 @@
 package com.zwstudio.lolly.restapi.wpp
 
 import com.zwstudio.lolly.domain.wpp.MWordsFami
-import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*
 
 interface RestWordFami {
     @GET("WORDSFAMI")
-    fun getDataByUserWord(@Query("filter") vararg filters: String): Observable<MWordsFami>
+    suspend fun getDataByUserWord(@Query("filter") vararg filters: String): MWordsFami
 
     @FormUrlEncoded
     @PUT("WORDSFAMI/{id}")
-    fun update(@Path("id") id: Int, @Field("USERID") userid: Int,
+    suspend fun update(@Path("id") id: Int, @Field("USERID") userid: Int,
                @Field("WORDID") wordid: Int,
-               @Field("CORRECT") correct: Int, @Field("TOTAL") total: Int): Observable<Int>
+               @Field("CORRECT") correct: Int, @Field("TOTAL") total: Int): Int
 
     @FormUrlEncoded
     @POST("WORDSFAMI")
-    fun create(@Field("USERID") userid: Int,
+    suspend fun create(@Field("USERID") userid: Int,
                @Field("WORDID") wordid: Int,
-               @Field("CORRECT") correct: Int, @Field("TOTAL") total: Int): Observable<Int>
+               @Field("CORRECT") correct: Int, @Field("TOTAL") total: Int): Int
 
     @DELETE("UNITWORDS/{id}")
-    fun delete(@Path("id") id: Int): Observable<Int>
+    suspend fun delete(@Path("id") id: Int): Int
 
 }
