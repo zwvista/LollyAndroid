@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.data.words
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
@@ -9,6 +10,7 @@ import com.zwstudio.lolly.service.wpp.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
@@ -35,34 +37,38 @@ class WordsUnitViewModel : BaseViewModel() {
         }
     }
 
-    suspend fun getDataInTextbook() {
-        val lst = unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
+    fun getDataInTextbook() = viewModelScope.launch {
+        lstWordsAll.value = unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-        withContext(Dispatchers.Main) { lstWordsAll.value = lst; applyFilters() }
+        applyFilters()
     }
 
-    suspend fun getDataInLang() {
-        val lst = unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-        { lstWordsAll.value = lst; applyFilters() }
+    fun getDataInLang() = viewModelScope.launch {
+        lstWordsAll.value = unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+        applyFilters()
     }
 
-    suspend fun updateSeqNum(id: Int, seqnum: Int) =
+    fun updateSeqNum(id: Int, seqnum: Int) = viewModelScope.launch {
         unitWordService.updateSeqNum(id, seqnum)
+    }
 
-    suspend fun updateNote(id: Int, note: String?) =
+    fun updateNote(id: Int, note: String?) = viewModelScope.launch {
         unitWordService.updateNote(id, note)
+    }
 
-    suspend fun update(item: MUnitWord) =
+    fun update(item: MUnitWord) = viewModelScope.launch {
         unitWordService.update(item)
+    }
 
-    suspend fun create(item: MUnitWord) {
+    fun create(item: MUnitWord) = viewModelScope.launch {
         item.id = unitWordService.create(item)
     }
 
-    suspend fun delete(item: MUnitWord) =
+    fun delete(item: MUnitWord) = viewModelScope.launch {
         unitWordService.delete(item)
+    }
 
-    suspend fun reindex(onNext: (Int) -> Unit) {
+    fun reindex(onNext: (Int) -> Unit) = viewModelScope.launch {
         for (i in 1..lstWords.value!!.size) {
             val item = lstWords.value!![i - 1]
             if (item.seqnum == i) continue
@@ -83,13 +89,13 @@ class WordsUnitViewModel : BaseViewModel() {
         textbook = vmSettings.selectedTextbook
     }
 
-    suspend fun getNote(index: Int) {
+    fun getNote(index: Int) = viewModelScope.launch {
         val item = lstWords.value!![index]
         item.note = vmSettings.getNote(item.word)
         unitWordService.updateNote(item.id, item.note)
     }
 
-    suspend fun clearNote(index: Int) {
+    fun clearNote(index: Int) = viewModelScope.launch {
         val item = lstWords.value!![index]
         unitWordService.updateNote(item.id, SettingsViewModel.zeroNote)
     }

@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
@@ -448,26 +449,25 @@ class SettingsViewModel {
         return extractTextFrom(html, dictNote.transform, "") { text, _ -> text }
     }
 
-    suspend fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+    suspend fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: suspend (Int) -> Unit, allComplete: () -> Unit) {
         val dictNote = selectedDictNote ?: return
         var i = 0
-        var subscription: Disposable? = null
-        subscription = Observable.interval(dictNote.wait.toLong(), TimeUnit.MILLISECONDS, Schedulers.io()).subscribe {
+        while (true) {
             while (i < wordCount && !isNoteEmpty(i))
                 i++
             if (i > wordCount) {
                 allComplete()
-                subscription?.dispose()
+                break
             } else {
                 if (i < wordCount)
                     getOne(i)
                 i++
             }
+            delay(dictNote.wait.toLong())
         }
-        compositeDisposable.add(subscription)
     }
 
-    suspend fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+    suspend fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: suspend (Int) -> Unit, allComplete: () -> Unit) {
         var i = 0
         while (i < wordCount) {
             while (i < wordCount && !isNoteEmpty(i))
