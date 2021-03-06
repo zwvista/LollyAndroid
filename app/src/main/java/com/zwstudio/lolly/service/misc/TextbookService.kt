@@ -3,11 +3,13 @@ package com.zwstudio.lolly.service.misc
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.suspendapi.restapi.misc.RestTextbook
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
 @EBean
 class TextbookService: BaseService() {
-    suspend fun getDataByLang(langid: Int): List<MTextbook> {
+    suspend fun getDataByLang(langid: Int): List<MTextbook> = withContext(Dispatchers.IO) {
         fun f(units: String): List<String> {
             var m = Regex("UNITS,(\\d+)").find(units)
             if (m != null) {
@@ -26,7 +28,7 @@ class TextbookService: BaseService() {
                 return m.groupValues[1].split(",")
             return listOf()
         }
-        return retrofitJson.create(RestTextbook::class.java)
+        retrofitJson.create(RestTextbook::class.java)
             .getDataByLang("LANGID,eq,$langid")
             .lst!!.also {
                 for (o in it) {

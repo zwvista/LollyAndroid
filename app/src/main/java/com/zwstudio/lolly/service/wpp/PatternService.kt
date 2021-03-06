@@ -3,47 +3,57 @@ package com.zwstudio.lolly.service.wpp
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
 import com.zwstudio.lolly.service.misc.BaseService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
 @EBean
 class PatternService: BaseService() {
-    suspend fun getDataByLang(langid: Int): List<MPattern> =
+    suspend fun getDataByLang(langid: Int): List<MPattern> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPattern::class.java)
             .getDataByLang("LANGID,eq,$langid")
             .lst!!
+    }
 
-    suspend fun getDataById(id: Int): List<MPattern> =
+    suspend fun getDataById(id: Int): List<MPattern> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPattern::class.java)
             .getDataById("ID,eq,$id")
             .lst!!
+    }
 
-    suspend fun updateNote(id: Int, note: String) =
+    suspend fun updateNote(id: Int, note: String) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPattern::class.java)
             .updateNote(id, note)
             .let { println(it.toString()) }
+    }
 
-    suspend fun update(o: MPattern) =
+    suspend fun update(o: MPattern) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPattern::class.java)
             .update(o.id, o.langid, o.pattern, o.note, o.tags)
             .let { println(it.toString()) }
+    }
 
-    suspend fun create(o: MPattern): Int =
+    suspend fun create(o: MPattern): Int = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPattern::class.java)
             .create(o.langid, o.pattern, o.note, o.tags)
             .also { println(it.toString()) }
+    }
 
-    suspend fun delete(id: Int) =
+    suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPattern::class.java)
             .delete(id)
             .let { println(it.toString()) }
+    }
 
-    suspend fun mergePatterns(o: MPattern) =
+    suspend fun mergePatterns(o: MPattern) = withContext(Dispatchers.IO) {
         retrofitSP.create(RestPattern::class.java)
             .mergePatterns(o.idsMerge, o.pattern, o.note, o.tags)
             .let { println(it.toString()) }
+    }
 
-    suspend fun splitPattern(o: MPattern) =
+    suspend fun splitPattern(o: MPattern) = withContext(Dispatchers.IO) {
         retrofitSP.create(RestPattern::class.java)
             .splitPattern(o.id, o.patternsSplit)
             .let { println(it.toString()) }
+    }
 }

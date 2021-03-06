@@ -4,19 +4,23 @@ import android.util.Log
 import com.zwstudio.lolly.domain.misc.MUserSetting
 import com.zwstudio.lolly.domain.misc.MUserSettingInfo
 import com.zwstudio.lolly.restapi.misc.RestUserSetting
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
 @EBean
 class UserSettingService: BaseService() {
-    suspend fun getDataByUser(userid: Int): List<MUserSetting> =
+    suspend fun getDataByUser(userid: Int): List<MUserSetting> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestUserSetting::class.java)
             .getDataByUser("USERID,eq,$userid")
             .lst!!
+    }
 
-    suspend fun update(info: MUserSettingInfo, v: Int): Int =
+    suspend fun update(info: MUserSettingInfo, v: Int): Int = withContext(Dispatchers.IO) {
         update(info, v.toString())
+    }
 
-    suspend fun update(info: MUserSettingInfo, v: String): Int =
+    suspend fun update(info: MUserSettingInfo, v: String): Int = withContext(Dispatchers.IO) {
         when (info.valueid) {
             1 -> retrofitJson.create(RestUserSetting::class.java)
                 .updateValue1(info.usersettingid, v)
@@ -32,4 +36,5 @@ class UserSettingService: BaseService() {
                 .also { Log.d("", it.toString()) }
             else -> 0
         }
+    }
 }
