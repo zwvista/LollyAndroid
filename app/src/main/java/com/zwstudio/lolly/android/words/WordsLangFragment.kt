@@ -58,7 +58,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
-                vm.textFilter = newText
+                vm.textFilter.value = newText
                 if (newText.isEmpty())
                     refreshListView()
                 return false
@@ -102,8 +102,8 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                     mRefreshLayout.isEnabled = true
                     when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
-                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
+                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted.value = true
+                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted.value = true
                         else -> {}
                     }
                 }
@@ -122,7 +122,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @ItemSelect
     fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter = selectedItem.label
+        vm.scopeFilter.value = selectedItem.label
         vm.applyFilters()
         refreshListView()
     }
@@ -151,7 +151,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangWord, WordsLangItemAdapter.ViewHolder>() {
 
         init {
-            itemList = vm.lstWords
+            itemList = vm.lstWords.value!!
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -201,10 +201,10 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
                         compositeDisposable.add(vm.delete(item).subscribe())
-                        vm.isSwipeStarted = false
+                        vm.isSwipeStarted.value = false
                     }, {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
+                        vm.isSwipeStarted.value = false
                     })
                 }
                 mEdit.setOnTouchListener { _, event ->
@@ -224,7 +224,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mMore.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
+                        vm.isSwipeStarted.value = false
 
                         val item = itemView.tag as MLangWord
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
@@ -253,22 +253,22 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MLangWord
                         WordsDictActivity_.intent(itemView.context)
-                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
-                                .extra("index", vm.lstWords.indexOf(item)).start()
+                                .extra("list", vm.lstWords.value!!.map { it.word }.toTypedArray())
+                                .extra("index", vm.lstWords.value!!.indexOf(item)).start()
                     }
                     true
                 }
-                if (vm.isEditMode)
+                if (vm.isEditMode.value!!)
                     mForward.visibility = View.GONE
             }
 
             override fun onItemClicked(view: View?) {
-                if (vm.isSwipeStarted) {
+                if (vm.isSwipeStarted.value!!) {
                     mDragListView.resetSwipedViews(null)
-                    vm.isSwipeStarted = false
+                    vm.isSwipeStarted.value = false
                 } else {
                     val item = view!!.tag as MLangWord
-                    if (vm.isEditMode)
+                    if (vm.isEditMode.value!!)
                         edit(item)
                     else
                         tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null, null)

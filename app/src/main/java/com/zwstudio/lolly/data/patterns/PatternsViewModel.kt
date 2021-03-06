@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.data.patterns
 
+import androidx.lifecycle.MutableLiveData
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
@@ -13,13 +14,13 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PatternsViewModel : BaseViewModel() {
 
-    var lstPatternsAll = listOf<MPattern>()
-    var lstPatterns = listOf<MPattern>()
-    var isSwipeStarted = false
-    var isEditMode = false
-    var scopeFilter = SettingsViewModel.lstScopePatternFilters[0].label
-    var textFilter = ""
-    val noFilter get() = textFilter.isEmpty()
+    var lstPatternsAll = MutableLiveData(listOf<MPattern>())
+    var lstPatterns = MutableLiveData(listOf<MPattern>())
+    var isSwipeStarted = MutableLiveData(false)
+    var isEditMode = MutableLiveData(false)
+    var scopeFilter = MutableLiveData(SettingsViewModel.lstScopePatternFilters[0].label)
+    var textFilter = MutableLiveData("")
+    val noFilter get() = textFilter.value!!.isEmpty()
 
     lateinit var compositeDisposable: CompositeDisposable
 
@@ -27,15 +28,15 @@ class PatternsViewModel : BaseViewModel() {
     lateinit var patternService: PatternService
 
     fun applyFilters() {
-        lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilter == "Pattern") it.pattern else if (scopeFilter == "Note") it.note else it.tags).contains(textFilter, true))
+        lstPatterns.value = if (noFilter) lstPatternsAll.value!! else lstPatternsAll.value!!.filter {
+            (textFilter.value!!.isEmpty() || (if (scopeFilter.value!! == "Pattern") it.pattern else if (scopeFilter.value!! == "Note") it.note else it.tags).contains(textFilter.value!!, true))
         }
     }
 
     fun getData(): Observable<Unit> =
         patternService.getDataByLang(vmSettings.selectedLang.id)
-            .map { lstPatternsAll = it; applyFilters() }
             .applyIO()
+            .map { lstPatternsAll.value = it; applyFilters() }
 
     fun update(item: MPattern): Observable<Unit> =
         patternService.update(item)

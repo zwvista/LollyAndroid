@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.data.phrases
 
+import androidx.lifecycle.MutableLiveData
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
@@ -14,39 +15,37 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PhrasesUnitViewModel : BaseViewModel() {
 
-    var lstPhrasesAll = listOf<MUnitPhrase>()
-    var lstPhrases = listOf<MUnitPhrase>()
-    var isSwipeStarted = false
-    var isEditMode = false
-    var scopeFilter = SettingsViewModel.lstScopePhraseFilters[0].label
-    var textFilter = ""
-    var textbookFilter = 0
-    val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
+    var lstPhrasesAll = MutableLiveData(listOf<MUnitPhrase>())
+    var lstPhrases = MutableLiveData(listOf<MUnitPhrase>())
+    var isSwipeStarted = MutableLiveData(false)
+    var isEditMode = MutableLiveData(false)
+    var scopeFilter = MutableLiveData(SettingsViewModel.lstScopePhraseFilters[0].label)
+    var textFilter = MutableLiveData("")
+    var textbookFilter = MutableLiveData(0)
+    val noFilter get() = textFilter.value!!.isEmpty() && textbookFilter.value!! == 0
 
     lateinit var compositeDisposable: CompositeDisposable
 
     @Bean
     lateinit var unitPhraseService: UnitPhraseService
-    @Bean
-    lateinit var langPhraseService: LangPhraseService
 
     fun applyFilters() {
-        lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilter == "Phrase") it.phrase else it.translation).contains(textFilter, true)) &&
-            (textbookFilter == 0 || it.textbookid == textbookFilter)
+        lstPhrases.value = if (noFilter) lstPhrasesAll.value!! else lstPhrasesAll.value!!.filter {
+            (textFilter.value!!.isEmpty() || (if (scopeFilter.value!! == "Phrase") it.phrase else it.translation).contains(textFilter.value!!, true)) &&
+            (textbookFilter.value!! == 0 || it.textbookid == textbookFilter.value!!)
         }
     }
 
     fun getDataInTextbook(): Observable<Unit> =
         unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
                 vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-            .map { lstPhrasesAll = it; applyFilters() }
             .applyIO()
+            .map { lstPhrasesAll.value = it; applyFilters() }
 
     fun getDataInLang(): Observable<Unit> =
         unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstPhrasesAll = it; applyFilters() }
             .applyIO()
+            .map { lstPhrasesAll.value = it; applyFilters() }
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
         unitPhraseService.updateSeqNum(id, seqnum)
@@ -66,8 +65,8 @@ class PhrasesUnitViewModel : BaseViewModel() {
             .applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
-        for (i in 1..lstPhrases.size) {
-            val item = lstPhrases[i - 1]
+        for (i in 1..lstPhrases.value!!.size) {
+            val item = lstPhrases.value!![i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
             compositeDisposable.add(updateSeqNum(item.id, i).subscribe {
@@ -80,7 +79,7 @@ class PhrasesUnitViewModel : BaseViewModel() {
         langid = vmSettings.selectedLang.id
         textbookid = vmSettings.ustextbook
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
-        val maxItem = lstPhrases.maxWithOrNull(compareBy({ it.unit }, { it.part }, { it.seqnum }))
+        val maxItem = lstPhrases.value!!.maxWithOrNull(compareBy({ it.unit }, { it.part }, { it.seqnum }))
         unit = maxItem?.unit ?: vmSettings.usunitto
         part = maxItem?.part ?: vmSettings.uspartto
         seqnum = (maxItem?.seqnum ?: 0) + 1

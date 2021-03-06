@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.data.patterns
 
+import androidx.lifecycle.MutableLiveData
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
@@ -12,9 +13,9 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PatternsWebPagesViewModel : BaseViewModel() {
 
-    var lstWebPages = mutableListOf<MPatternWebPage>()
-    var isSwipeStarted = false
-    var isEditMode = false
+    var lstWebPages = MutableLiveData(mutableListOf<MPatternWebPage>())
+    var isSwipeStarted = MutableLiveData(false)
+    var isEditMode = MutableLiveData(false)
 
     lateinit var compositeDisposable: CompositeDisposable
 
@@ -26,7 +27,7 @@ class PatternsWebPagesViewModel : BaseViewModel() {
     fun getWebPages(patternid: Int) =
         patternWebPageService.getDataByPattern(patternid)
             .applyIO()
-            .map { lstWebPages.clear(); lstWebPages.addAll(it) }
+            .map { lstWebPages.value!!.clear(); lstWebPages.value!!.addAll(it) }
 
     fun updatePatternWebPage(item: MPatternWebPage) =
         patternWebPageService.update(item)
@@ -35,7 +36,7 @@ class PatternsWebPagesViewModel : BaseViewModel() {
             .applyIO()
             .map {
                 item.id = it
-                lstWebPages.add(item)
+                lstWebPages.value!!.add(item)
             }
     fun deletePatternWebPage(id: Int) =
         patternWebPageService.delete(id)
@@ -52,12 +53,12 @@ class PatternsWebPagesViewModel : BaseViewModel() {
     fun newPatternWebPage(patternid: Int, pattern: String) = MPatternWebPage().apply {
         this.patternid = patternid
         this.pattern = pattern
-        seqnum = (lstWebPages.maxOfOrNull { it.seqnum } ?: 0) + 1
+        seqnum = (lstWebPages.value!!.maxOfOrNull { it.seqnum } ?: 0) + 1
     }
 
     fun reindexWebPage(onNext: (Int) -> Unit) {
-        for (i in 1..lstWebPages.size) {
-            val item = lstWebPages[i - 1]
+        for (i in 1..lstWebPages.value!!.size) {
+            val item = lstWebPages.value!![i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
             compositeDisposable.add(patternWebPageService.updateSeqNum(item.id, i).subscribe {

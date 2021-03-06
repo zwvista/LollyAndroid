@@ -99,8 +99,8 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
                 override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                     mRefreshLayout.isEnabled = true
                     when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
-                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
+                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted.value = true
+                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted.value = true
                         else -> {}
                     }
                 }
@@ -124,7 +124,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
     @OptionsItem
     fun menuEditMode() = setMenuMode(true)
     private fun setMenuMode(isEditMode: Boolean) {
-        vm.isEditMode = isEditMode
+        vm.isEditMode.value = isEditMode
         (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
         refreshListView()
     }
@@ -154,7 +154,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
     private class PatternsWebPagesItemAdapter(val vm: PatternsWebPagesViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MPatternWebPage, PatternsWebPagesItemAdapter.ViewHolder>() {
 
         init {
-            itemList = vm.lstWebPages
+            itemList = vm.lstWebPages.value!!
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -207,10 +207,10 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
                         compositeDisposable.add(vm.deletePatternWebPage(item.id).subscribe())
-                        vm.isSwipeStarted = false
+                        vm.isSwipeStarted.value = false
                     }, {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
+                        vm.isSwipeStarted.value = false
                     })
                 }
                 mEdit.setOnTouchListener { _, event ->
@@ -230,7 +230,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
                 mMore.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
+                        vm.isSwipeStarted.value = false
 
                         val item = itemView.tag as MPatternWebPage
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
@@ -247,17 +247,17 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
                     }
                     true
                 }
-                if (!vm.isEditMode)
+                if (!vm.isEditMode.value!!)
                     mHamburger.visibility = View.GONE
             }
 
             override fun onItemClicked(view: View?) {
-                if (vm.isSwipeStarted) {
+                if (vm.isSwipeStarted.value!!) {
                     mDragListView.resetSwipedViews(null)
-                    vm.isSwipeStarted = false
+                    vm.isSwipeStarted.value = false
                 } else {
                     val item = view!!.tag as MPatternWebPage
-                    if (vm.isEditMode)
+                    if (vm.isEditMode.value!!)
                         edit(item)
                     else
                         tts.speak(item.title, TextToSpeech.QUEUE_FLUSH, null, null)

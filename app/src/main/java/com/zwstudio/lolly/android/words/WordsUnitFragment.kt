@@ -62,7 +62,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     fun afterViews() {
         activity?.title = resources.getString(R.string.words_unit)
         vm.compositeDisposable = compositeDisposable
-        tts = TextToSpeech(context!!, this)
+        tts = TextToSpeech(requireContext(), this)
 
         svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -79,7 +79,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         })
 
         val lst = SettingsViewModel.lstScopeWordFilters
-        val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+        val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
             val tv = v.findViewById<TextView>(android.R.id.text1)
             tv.text = getItem(position)!!.label
             v

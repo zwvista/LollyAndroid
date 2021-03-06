@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.data.phrases
 
+import androidx.lifecycle.MutableLiveData
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
@@ -12,27 +13,27 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PhrasesLangViewModel : BaseViewModel() {
 
-    var lstPhrasesAll = listOf<MLangPhrase>()
-    var lstPhrases = listOf<MLangPhrase>()
-    var isSwipeStarted = false
-    var isEditMode = false
-    var scopeFilter = SettingsViewModel.lstScopePhraseFilters[0].label
-    var textFilter = ""
-    val noFilter get() = textFilter.isEmpty()
+    var lstPhrasesAll = MutableLiveData(listOf<MLangPhrase>())
+    var lstPhrases = MutableLiveData(listOf<MLangPhrase>())
+    var isSwipeStarted = MutableLiveData(false)
+    var isEditMode = MutableLiveData(false)
+    var scopeFilter = MutableLiveData(SettingsViewModel.lstScopePhraseFilters[0].label)
+    var textFilter = MutableLiveData("")
+    val noFilter get() = textFilter.value!!.isEmpty()
 
     @Bean
     lateinit var langPhraseService: LangPhraseService
 
     fun applyFilters() {
-        lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilter == "Phrase") it.phrase else it.translation).contains(textFilter, true))
+        lstPhrases.value = if (noFilter) lstPhrasesAll.value!! else lstPhrasesAll.value!!.filter {
+            (textFilter.value!!.isEmpty() || (if (scopeFilter.value!! == "Phrase") it.phrase else it.translation).contains(textFilter.value!!, true))
         }
     }
 
     fun getData(): Observable<Unit> =
         langPhraseService.getDataByLang(vmSettings.selectedLang.id)
-            .map { lstPhrasesAll = it; applyFilters() }
             .applyIO()
+            .map { lstPhrasesAll.value = it; applyFilters() }
 
     fun update(item: MLangPhrase): Observable<Unit> =
         langPhraseService.update(item)
