@@ -1,5 +1,7 @@
 package com.zwstudio.lolly.data.phrases
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
@@ -9,6 +11,7 @@ import com.zwstudio.lolly.service.wpp.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
@@ -16,54 +19,55 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PhrasesUnitViewModel : BaseViewModel() {
 
-    var lstPhrasesAll = listOf<MUnitPhrase>()
-    var lstPhrases = listOf<MUnitPhrase>()
-    var isSwipeStarted = false
-    var isEditMode = false
-    var scopeFilter = SettingsViewModel.lstScopePhraseFilters[0].label
-    var textFilter = ""
-    var textbookFilter = 0
-    val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
+    var lstPhrasesAll = MutableLiveData(listOf<MUnitPhrase>())
+    var lstPhrases = MutableLiveData(listOf<MUnitPhrase>())
+    var isSwipeStarted = MutableLiveData(false)
+    var isEditMode = MutableLiveData(false)
+    var scopeFilter = MutableLiveData(SettingsViewModel.lstScopePhraseFilters[0].label)
+    var textFilter = MutableLiveData("")
+    var textbookFilter = MutableLiveData(0)
+    val noFilter get() = textFilter.value!!.isEmpty() && textbookFilter.value!! == 0
 
     @Bean
     lateinit var unitPhraseService: UnitPhraseService
-    @Bean
-    lateinit var langPhraseService: LangPhraseService
 
     fun applyFilters() {
-        lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilter == "Phrase") it.phrase else it.translation).contains(textFilter, true)) &&
-            (textbookFilter == 0 || it.textbookid == textbookFilter)
+        lstPhrases.value = if (noFilter) lstPhrasesAll.value!! else lstPhrasesAll.value!!.filter {
+            (textFilter.value!!.isEmpty() || (if (scopeFilter.value!! == "Phrase") it.phrase else it.translation).contains(textFilter.value!!, true)) &&
+            (textbookFilter.value!! == 0 || it.textbookid == textbookFilter.value!!)
         }
     }
 
-    suspend fun getDataInTextbook() {
-        val lst = unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
+    fun getDataInTextbook() = viewModelScope.launch {
+        lstPhrasesAll.value = unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-        withContext(Dispatchers.Main) { lstPhrasesAll = lst; applyFilters() }
+        applyFilters()
     }
 
-    suspend fun getDataInLang() {
-        val lst = unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-        withContext(Dispatchers.Main) { lstPhrasesAll = lst; applyFilters() }
+    fun getDataInLang() = viewModelScope.launch {
+        lstPhrasesAll.value = unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+        applyFilters()
     }
 
-    suspend fun updateSeqNum(id: Int, seqnum: Int) =
+    fun updateSeqNum(id: Int, seqnum: Int) = viewModelScope.launch {
         unitPhraseService.updateSeqNum(id, seqnum)
+    }
 
-    suspend fun update(item: MUnitPhrase) =
+    fun update(item: MUnitPhrase) = viewModelScope.launch {
         unitPhraseService.update(item)
+    }
 
-    suspend fun create(item: MUnitPhrase) {
+    fun create(item: MUnitPhrase) = viewModelScope.launch {
         item.id = unitPhraseService.create(item)
     }
 
-    suspend fun delete(item: MUnitPhrase) =
+    fun delete(item: MUnitPhrase) = viewModelScope.launch {
         unitPhraseService.delete(item)
+    }
 
-    suspend fun reindex(onNext: (Int) -> Unit) {
-        for (i in 1..lstPhrases.size) {
-            val item = lstPhrases[i - 1]
+    fun reindex(onNext: (Int) -> Unit) = viewModelScope.launch {
+        for (i in 1..lstPhrases.value!!.size) {
+            val item = lstPhrases.value!![i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
             updateSeqNum(item.id, i)
@@ -75,7 +79,7 @@ class PhrasesUnitViewModel : BaseViewModel() {
         langid = vmSettings.selectedLang.id
         textbookid = vmSettings.ustextbook
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
-        val maxItem = lstPhrases.maxWithOrNull(compareBy({ it.unit }, { it.part }, { it.seqnum }))
+        val maxItem = lstPhrases.value!!.maxWithOrNull(compareBy({ it.unit }, { it.part }, { it.seqnum }))
         unit = maxItem?.unit ?: vmSettings.usunitto
         part = maxItem?.part ?: vmSettings.uspartto
         seqnum = (maxItem?.seqnum ?: 0) + 1

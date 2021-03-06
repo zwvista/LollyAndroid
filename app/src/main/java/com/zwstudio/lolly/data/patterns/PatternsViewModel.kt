@@ -1,5 +1,7 @@
 package com.zwstudio.lolly.data.patterns
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
@@ -8,6 +10,7 @@ import com.zwstudio.lolly.service.wpp.PatternService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
@@ -15,37 +18,39 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PatternsViewModel : BaseViewModel() {
 
-    var lstPatternsAll = listOf<MPattern>()
-    var lstPatterns = listOf<MPattern>()
-    var isSwipeStarted = false
-    var isEditMode = false
-    var scopeFilter = SettingsViewModel.lstScopePatternFilters[0].label
-    var textFilter = ""
-    val noFilter get() = textFilter.isEmpty()
+    var lstPatternsAll = MutableLiveData(listOf<MPattern>())
+    var lstPatterns = MutableLiveData(listOf<MPattern>())
+    var isSwipeStarted = MutableLiveData(false)
+    var isEditMode = MutableLiveData(false)
+    var scopeFilter = MutableLiveData(SettingsViewModel.lstScopePatternFilters[0].label)
+    var textFilter = MutableLiveData("")
+    val noFilter get() = textFilter.value!!.isEmpty()
 
     @Bean
     lateinit var patternService: PatternService
 
     fun applyFilters() {
-        lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilter == "Pattern") it.pattern else if (scopeFilter == "Note") it.note else it.tags).contains(textFilter, true))
+        lstPatterns.value = if (noFilter) lstPatternsAll.value!! else lstPatternsAll.value!!.filter {
+            (textFilter.value!!.isEmpty() || (if (scopeFilter.value!! == "Pattern") it.pattern else if (scopeFilter.value!! == "Note") it.note else it.tags).contains(textFilter.value!!, true))
         }
     }
 
-    suspend fun getData() {
-        val lst = patternService.getDataByLang(vmSettings.selectedLang.id)
-        withContext(Dispatchers.Main) { lstPatternsAll = lst; applyFilters() }
+    fun getData() = viewModelScope.launch {
+        lstPatternsAll.value = patternService.getDataByLang(vmSettings.selectedLang.id)
+        applyFilters()
     }
 
-    suspend fun update(item: MPattern) =
+    fun update(item: MPattern) = viewModelScope.launch {
         patternService.update(item)
+    }
 
-    suspend fun create(item: MPattern) {
+    fun create(item: MPattern) = viewModelScope.launch {
         item.id = patternService.create(item)
     }
 
-    suspend fun delete(id: Int) =
+    fun delete(id: Int) = viewModelScope.launch {
         patternService.delete(id)
+    }
 
     fun newPattern() = MPattern().apply {
         langid = vmSettings.selectedLang.id
