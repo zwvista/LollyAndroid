@@ -6,6 +6,8 @@ import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.service.wpp.LangPhraseService
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
@@ -23,29 +25,26 @@ class PhrasesLangViewModel : BaseViewModel() {
     @Bean
     lateinit var langPhraseService: LangPhraseService
 
-    fun applyFilters() {
+    suspend fun applyFilters() {
         lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {
             (textFilter.isEmpty() || (if (scopeFilter == "Phrase") it.phrase else it.translation).contains(textFilter, true))
         }
     }
 
-    fun getData(): Observable<Unit> =
-        langPhraseService.getDataByLang(vmSettings.selectedLang.id)
-            .map { lstPhrasesAll = it; applyFilters() }
-            .applyIO()
+    suspend fun getData() {
+        val lst = langPhraseService.getDataByLang(vmSettings.selectedLang.id)
+        withContext(Dispatchers.Main) { lstPhrasesAll = lst; applyFilters() }
+    }
 
-    fun update(item: MLangPhrase): Observable<Unit> =
+    suspend fun update(item: MLangPhrase) =
         langPhraseService.update(item)
-            .applyIO()
 
-    fun create(item: MLangPhrase): Observable<Unit> =
-        langPhraseService.create(item)
-            .map { item.id = it }
-            .applyIO()
+    suspend fun create(item: MLangPhrase) {
+        item.id = langPhraseService.create(item)
+    }
 
-    fun delete(item: MLangPhrase): Observable<Unit> =
+    suspend fun delete(item: MLangPhrase) =
         langPhraseService.delete(item)
-            .applyIO()
 
     fun newLangPhrase() = MLangPhrase().apply {
         langid = vmSettings.selectedLang.id

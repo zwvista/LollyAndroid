@@ -9,6 +9,8 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit
@@ -225,26 +227,23 @@ class SettingsViewModel {
 
     var handler: Handler? = null
     var settingsListener: SettingsListener? = null
-    fun getData(): Observable<Unit> =
-        Observables.zip(languageService.getData(),
-            usMappingService.getData(),
-            userSettingService.getDataByUser(GlobalConstants.userid))
-        .flatMap {
-            lstLanguages = it.first
-            lstUSMappings = it.second
-            lstUserSettings = it.third
-            INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
-            INFO_USLEVELCOLORS = getUSInfo(MUSMapping.NAME_USLEVELCOLORS)
-            INFO_USSCANINTERVAL = getUSInfo(MUSMapping.NAME_USSCANINTERVAL)
-            INFO_USREVIEWINTERVAL = getUSInfo(MUSMapping.NAME_USREVIEWINTERVAL)
-            val lst = getUSValue(INFO_USLEVELCOLORS)!!.split("\r\n").map { it.split(',') }
-            // https://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
-            uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
-            handler?.post { settingsListener?.onGetData() }
-            setSelectedLang(lstLanguages.first { it.id == uslang })
-        }.applyIO()
+    suspend fun getData() {
+        // TODO async
+        lstLanguages = languageService.getData()
+        lstUSMappings = usMappingService.getData()
+        lstUserSettings = userSettingService.getDataByUser(GlobalConstants.userid)
+        INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
+        INFO_USLEVELCOLORS = getUSInfo(MUSMapping.NAME_USLEVELCOLORS)
+        INFO_USSCANINTERVAL = getUSInfo(MUSMapping.NAME_USSCANINTERVAL)
+        INFO_USREVIEWINTERVAL = getUSInfo(MUSMapping.NAME_USREVIEWINTERVAL)
+        val lst = getUSValue(INFO_USLEVELCOLORS)!!.split("\r\n").map { it.split(',') }
+        // https://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
+        uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
+        handler?.post { settingsListener?.onGetData() }
+        setSelectedLang(lstLanguages.first { it.id == uslang })
+    }
 
-    fun setSelectedLang(lang: MLanguage): Observable<Unit> {
+    suspend fun setSelectedLang(lang: MLanguage) {
         val isinit = lang.id == uslang
         selectedLang = lang
         uslang = selectedLang.id
@@ -254,201 +253,202 @@ class SettingsViewModel {
         INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
         INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
         INFO_USANDROIDVOICE = getUSInfo(MUSMapping.NAME_USANDROIDVOICE)
-        return Observable.zip(dictionaryService.getDictsReferenceByLang(uslang),
-            dictionaryService.getDictsNoteByLang(uslang),
-            dictionaryService.getDictsTranslationByLang(uslang),
-            textbookService.getDataByLang(uslang),
-            autoCorrectService.getDataByLang(uslang),
-            voiceService.getDataByLang(uslang), {
-            res1, res2, res3, res4, res5, res6 ->
-            lstDictsReference = res1
-            selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
-            lstDictsNote = res2
-            selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnote } ?: lstDictsNote.firstOrNull()
-            lstDictsTranslation = res3
-            selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslation } ?: lstDictsTranslation.firstOrNull()
-            lstTextbooks = res4
-            selectedTextbook = lstTextbooks.first { it.id == ustextbook }
-            lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
-            lstAutoCorrect = res5
-            lstVoices = res6
-            selectedVoice = lstVoices.firstOrNull { it.id == usvoice } ?: lstVoices.firstOrNull()
-        }).flatMap {
-            if (isinit) {
-                handler?.post { settingsListener?.onUpdateLang() }
-                Observable.just(Unit)
-            } else
-                updateLang()
-        }.applyIO()
+        // TODO async
+        lstDictsReference = dictionaryService.getDictsReferenceByLang(uslang)
+        selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
+        lstDictsNote = dictionaryService.getDictsNoteByLang(uslang)
+        selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnote } ?: lstDictsNote.firstOrNull()
+        lstDictsTranslation = dictionaryService.getDictsTranslationByLang(uslang)
+        selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslation } ?: lstDictsTranslation.firstOrNull()
+        lstTextbooks = textbookService.getDataByLang(uslang)
+        selectedTextbook = lstTextbooks.first { it.id == ustextbook }
+        lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
+        lstAutoCorrect = autoCorrectService.getDataByLang(uslang)
+        lstVoices = voiceService.getDataByLang(uslang)
+        selectedVoice = lstVoices.firstOrNull { it.id == usvoice } ?: lstVoices.firstOrNull()
+        if (isinit) {
+            withContext(Dispatchers.Main) { settingsListener?.onUpdateLang() }
+            Observable.just(Unit)
+        } else
+            updateLang()
     }
 
-    fun updateLang(): Observable<Unit> =
+    suspend fun updateLang() {
         userSettingService.update(INFO_USLANG, uslang)
-            .map { handler?.post { settingsListener?.onUpdateLang() }; Unit }
-            .applyIO()
+        withContext(Dispatchers.Main) { settingsListener?.onUpdateLang() }
+    }
 
-    fun updateTextbook(): Observable<Unit> =
+    suspend fun updateTextbook() {
         userSettingService.update(INFO_USTEXTBOOK, ustextbook)
-            .map { handler?.post { settingsListener?.onUpdateTextbook() }; Unit }
-            .applyIO()
+        withContext(Dispatchers.Main) { settingsListener?.onUpdateTextbook() }
+    }
 
-    fun updateDictReference(): Observable<Unit> =
+    suspend fun updateDictReference() {
         userSettingService.update(INFO_USDICTREFERENCE, usdictreference)
-            .map { handler?.post { settingsListener?.onUpdateDictReference() }; Unit }
-            .applyIO()
+        withContext(Dispatchers.Main) { settingsListener?.onUpdateDictReference() }
+    }
 
-    fun updateDictNote(): Observable<Unit> =
+    suspend fun updateDictNote() {
         userSettingService.update(INFO_USDICTNOTE, usdictnote)
-            .map { handler?.post { settingsListener?.onUpdateDictNote() }; Unit }
-            .applyIO()
+        withContext(Dispatchers.Main) { settingsListener?.onUpdateDictNote() }
+    }
 
-    fun updateDictTranslation(): Observable<Unit> =
+    suspend fun updateDictTranslation() {
         userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation)
-            .map { handler?.post { settingsListener?.onUpdateDictTranslation() }; Unit }
-            .applyIO()
+        withContext(Dispatchers.Main) { settingsListener?.onUpdateDictTranslation() }
+    }
 
-    fun updateVoice(): Observable<Unit> =
+    suspend fun updateVoice() {
         userSettingService.update(INFO_USANDROIDVOICE, usvoice)
-            .map { handler?.post { settingsListener?.onUpdateVoice() }; Unit }
-            .applyIO()
+        withContext(Dispatchers.Main) { settingsListener?.onUpdateVoice() }
+    }
 
-    fun autoCorrectInput(text: String): String =
+    suspend fun autoCorrectInput(text: String): String =
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
 
-    fun updateUnitFrom(v: Int): Observable<Unit> =
-        doUpdateUnitFrom(v, false).flatMap {
-            if (toType == UnitPartToType.Unit)
-                doUpdateSingleUnit()
-            else if (toType == UnitPartToType.Part || isInvalidUnitPart)
-                doUpdateUnitPartTo()
-            else
-                Observable.just(Unit)
-        }
+    suspend fun updateUnitFrom(v: Int) {
+        doUpdateUnitFrom(v, false)
+        if (toType == UnitPartToType.Unit)
+            doUpdateSingleUnit()
+        else if (toType == UnitPartToType.Part || isInvalidUnitPart)
+            doUpdateUnitPartTo()
+    }
 
-    fun updatePartFrom(v: Int): Observable<Unit> =
-        doUpdatePartFrom(v, false).flatMap {
-            if (toType == UnitPartToType.Part || isInvalidUnitPart)
-                doUpdateUnitPartTo()
-            else
-                Observable.just(Unit)
-        }
+    suspend fun updatePartFrom(v: Int) {
+        doUpdatePartFrom(v, false)
+        if (toType == UnitPartToType.Part || isInvalidUnitPart)
+            doUpdateUnitPartTo()
+    }
 
-    fun updateToType(v: Int): Observable<Unit> {
+    suspend fun updateToType(v: Int) {
         toType = UnitPartToType.values()[v]
-        return if (toType == UnitPartToType.Unit)
+        if (toType == UnitPartToType.Unit)
             doUpdateSingleUnit()
         else if (toType == UnitPartToType.Part)
             doUpdateUnitPartTo()
-        else
-            Observable.just(Unit)
     }
 
-    fun toggleUnitPart(part: Int): Observable<Unit> =
+    suspend fun toggleUnitPart(part: Int) {
         if (toType == UnitPartToType.Unit) {
             toType = UnitPartToType.Part
-            Observables.zip(doUpdatePartFrom(part), doUpdateUnitPartTo()).map { Unit }
+            // TODO async
+            doUpdatePartFrom(part)
+            doUpdateUnitPartTo()
         } else if (toType == UnitPartToType.Part) {
             toType = UnitPartToType.Unit
             doUpdateSingleUnit()
-        } else
-            Observable.just(Unit)
-
-    fun previousUnitPart(): Observable<Unit> =
-        if (toType == UnitPartToType.Unit)
-            if (usunitfrom > 1)
-                Observables.zip(doUpdateUnitFrom(usunitfrom - 1), doUpdateUnitTo(usunitfrom)).map { Unit }
-            else
-                Observable.just(Unit)
-        else if (uspartfrom > 1)
-            Observables.zip(doUpdatePartFrom(uspartfrom - 1), doUpdateUnitPartTo()).map { Unit }
-        else if (usunitfrom > 1)
-            Observables.zip(doUpdateUnitFrom(usunitfrom - 1), doUpdatePartFrom(partCount), doUpdateUnitPartTo()).map { Unit }
-        else
-            Observable.just(Unit)
-
-    fun nextUnitPart(): Observable<Unit> =
-        if (toType == UnitPartToType.Unit)
-            if (usunitfrom < unitCount)
-                Observables.zip(doUpdateUnitFrom(usunitfrom + 1), doUpdateUnitTo(usunitfrom)).map { Unit }
-            else
-                Observable.just(Unit)
-        else if (uspartfrom < partCount)
-            Observables.zip(doUpdatePartFrom(uspartfrom + 1), doUpdateUnitPartTo()).map { Unit }
-        else if (usunitfrom < unitCount)
-            Observables.zip(doUpdateUnitFrom(usunitfrom + 1), doUpdatePartFrom(1), doUpdateUnitPartTo()).map { Unit }
-        else
-            Observable.just(Unit)
-
-    fun updateUnitTo(v: Int): Observable<Unit> =
-        doUpdateUnitTo(v, false).flatMap {
-            if (isInvalidUnitPart)
-                doUpdateUnitPartFrom()
-            else
-                Observable.just(Unit)
         }
+    }
 
-    fun updatePartTo(v: Int): Observable<Unit> =
-        doUpdatePartTo(v, false).flatMap {
-            if (isInvalidUnitPart)
-                doUpdateUnitPartFrom()
-            else
-                Observable.just(Unit)
+    suspend fun previousUnitPart() {
+        if (toType == UnitPartToType.Unit) {
+            if (usunitfrom > 1) {
+                // TODO async
+                doUpdateUnitFrom(usunitfrom - 1)
+                doUpdateUnitTo(usunitfrom)
+            }
+        } else if (uspartfrom > 1) {
+            // TODO async
+            doUpdatePartFrom(uspartfrom - 1)
+            doUpdateUnitPartTo()
+        } else if (usunitfrom > 1) {
+            // TODO async
+            doUpdateUnitFrom(usunitfrom - 1)
+            doUpdatePartFrom(partCount)
+            doUpdateUnitPartTo()
         }
+    }
 
-    private fun doUpdateUnitPartFrom(): Observable<Unit> =
-        Observables.zip(doUpdateUnitFrom(usunitto), doUpdatePartFrom(uspartto)).map { Unit }
+    suspend fun nextUnitPart() {
+        if (toType == UnitPartToType.Unit) {
+            // TODO async
+            if (usunitfrom < unitCount) {
+                doUpdateUnitFrom(usunitfrom + 1)
+                doUpdateUnitTo(usunitfrom)
+            }
+        } else if (uspartfrom < partCount) {
+            // TODO async
+            doUpdatePartFrom(uspartfrom + 1)
+            doUpdateUnitPartTo()
+        } else if (usunitfrom < unitCount) {
+            // TODO async
+            doUpdateUnitFrom(usunitfrom + 1)
+            doUpdatePartFrom(1)
+            doUpdateUnitPartTo()
+        }
+    }
 
-    private fun doUpdateUnitPartTo(): Observable<Unit> =
-        Observables.zip(doUpdateUnitTo(usunitfrom), doUpdatePartTo(uspartfrom)).map { Unit }
+    suspend fun updateUnitTo(v: Int) {
+        doUpdateUnitTo(v, false)
+        if (isInvalidUnitPart)
+            doUpdateUnitPartFrom()
+    }
 
-    private fun doUpdateSingleUnit(): Observable<Unit> =
-        Observables.zip(doUpdateUnitTo(usunitfrom), doUpdatePartFrom(1), doUpdatePartTo(partCount)).map { Unit }
+    suspend fun updatePartTo(v: Int) {
+        doUpdatePartTo(v, false)
+        if (isInvalidUnitPart)
+            doUpdateUnitPartFrom()
+    }
 
-    private fun doUpdateUnitFrom(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && usunitfrom == v) return Observable.just(Unit)
+    private suspend fun doUpdateUnitPartFrom() {
+        // TODO async
+        doUpdateUnitFrom(usunitto)
+        doUpdatePartFrom(uspartto)
+    }
+
+    private suspend fun doUpdateUnitPartTo() {
+        // TODO async
+        doUpdateUnitTo(usunitfrom)
+        doUpdatePartTo(uspartfrom)
+    }
+
+    private suspend fun doUpdateSingleUnit() {
+        // TODO async
+        doUpdateUnitTo(usunitfrom)
+        doUpdatePartFrom(1)
+        doUpdatePartTo(partCount)
+    }
+
+    private suspend fun doUpdateUnitFrom(v: Int, check: Boolean = true) {
+        if (check && usunitfrom == v) return
         usunitfrom = v
-        return userSettingService.update(INFO_USUNITFROM, usunitfrom)
-            .map { handler?.post { settingsListener?.onUpdateUnitFrom() }; Unit }
-            .applyIO()
+        userSettingService.update(INFO_USUNITFROM, usunitfrom)
+        withContext(Dispatchers.Main) { settingsListener?.onUpdateUnitFrom() }
     }
 
-    private fun doUpdatePartFrom(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && uspartfrom == v) return Observable.just(Unit)
+    private suspend fun doUpdatePartFrom(v: Int, check: Boolean = true) {
+        if (check && uspartfrom == v) return
         uspartfrom = v
-        return userSettingService.update(INFO_USPARTFROM, uspartfrom)
-            .map { handler?.post { settingsListener?.onUpdatePartFrom() }; Unit }
-            .applyIO()
+        userSettingService.update(INFO_USPARTFROM, uspartfrom)
+        withContext(Dispatchers.Main) { settingsListener?.onUpdatePartFrom() }
     }
 
-    private fun doUpdateUnitTo(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && usunitto == v) return Observable.just(Unit)
+    private suspend fun doUpdateUnitTo(v: Int, check: Boolean = true) {
+        if (check && usunitto == v) return
         usunitto = v
-        return userSettingService.update(INFO_USUNITTO, usunitto)
-            .map { handler?.post { settingsListener?.onUpdateUnitTo() }; Unit }
-            .applyIO()
+        userSettingService.update(INFO_USUNITTO, usunitto)
+        withContext(Dispatchers.Main) { settingsListener?.onUpdateUnitTo() }
     }
 
-    private fun doUpdatePartTo(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && uspartto == v) return Observable.just(Unit)
+    private suspend fun doUpdatePartTo(v: Int, check: Boolean = true) {
+        if (check && uspartto == v) return
         uspartto = v
-        return userSettingService.update(INFO_USPARTTO, uspartto)
-            .map { handler?.post { settingsListener?.onUpdatePartTo() }; Unit }
-            .applyIO()
+        userSettingService.update(INFO_USPARTTO, uspartto)
+        withContext(Dispatchers.Main) { settingsListener?.onUpdatePartTo() }
     }
 
-    fun getHtml(url: String): Observable<String> =
+    suspend fun getHtml(url: String): String =
         htmlService.getHtml(url)
 
-    fun getNote(word: String): Observable<String> {
-        val dictNote = selectedDictNote ?: return Observable.empty()
+    suspend fun getNote(word: String): String {
+        val dictNote = selectedDictNote ?: return ""
         val url = dictNote.urlString(word, lstAutoCorrect)
-        return getHtml(url).map {
-            Log.d("", it)
-            extractTextFrom(it, dictNote.transform, "") { text, _ -> text }
-        }
+        val html = getHtml(url)
+        Log.d("", html)
+        return extractTextFrom(html, dictNote.transform, "") { text, _ -> text }
     }
 
-    fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+    suspend fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
         val dictNote = selectedDictNote ?: return
         var i = 0
         var subscription: Disposable? = null
@@ -467,7 +467,7 @@ class SettingsViewModel {
         compositeDisposable.add(subscription)
     }
 
-    fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+    suspend fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
         var i = 0
         while (i < wordCount) {
             while (i < wordCount && !isNoteEmpty(i))

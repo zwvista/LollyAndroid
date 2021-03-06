@@ -8,6 +8,8 @@ import com.zwstudio.lolly.service.wpp.LangPhraseService
 import com.zwstudio.lolly.service.wpp.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
@@ -23,8 +25,6 @@ class PhrasesUnitViewModel : BaseViewModel() {
     var textbookFilter = 0
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
-    lateinit var compositeDisposable: CompositeDisposable
-
     @Bean
     lateinit var unitPhraseService: UnitPhraseService
     @Bean
@@ -37,42 +37,37 @@ class PhrasesUnitViewModel : BaseViewModel() {
         }
     }
 
-    fun getDataInTextbook(): Observable<Unit> =
-        unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
-                vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-            .map { lstPhrasesAll = it; applyFilters() }
-            .applyIO()
+    suspend fun getDataInTextbook() {
+        val lst = unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
+            vmSettings.usunitpartfrom, vmSettings.usunitpartto)
+        withContext(Dispatchers.Main) { lstPhrasesAll = lst; applyFilters() }
+    }
 
-    fun getDataInLang(): Observable<Unit> =
-        unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .map { lstPhrasesAll = it; applyFilters() }
-            .applyIO()
+    suspend fun getDataInLang() {
+        val lst = unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+        withContext(Dispatchers.Main) { lstPhrasesAll = lst; applyFilters() }
+    }
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
+    suspend fun updateSeqNum(id: Int, seqnum: Int) =
         unitPhraseService.updateSeqNum(id, seqnum)
-            .applyIO()
 
-    fun update(item: MUnitPhrase): Observable<Unit> =
+    suspend fun update(item: MUnitPhrase) =
         unitPhraseService.update(item)
-            .applyIO()
 
-    fun create(item: MUnitPhrase): Observable<Unit> =
-        unitPhraseService.create(item)
-            .map { item.id = it }
-            .applyIO()
+    suspend fun create(item: MUnitPhrase) {
+        item.id = unitPhraseService.create(item)
+    }
 
-    fun delete(item: MUnitPhrase): Observable<Unit> =
+    suspend fun delete(item: MUnitPhrase) =
         unitPhraseService.delete(item)
-            .applyIO()
 
-    fun reindex(onNext: (Int) -> Unit) {
+    suspend fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstPhrases.size) {
             val item = lstPhrases[i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
-            compositeDisposable.add(updateSeqNum(item.id, i).subscribe {
-                onNext(i - 1)
-            })
+            updateSeqNum(item.id, i)
+            onNext(i - 1)
         }
     }
 

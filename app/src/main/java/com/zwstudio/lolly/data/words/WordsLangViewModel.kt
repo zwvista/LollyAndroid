@@ -7,6 +7,8 @@ import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.wpp.LangWordService
 import com.zwstudio.lolly.service.wpp.WordFamiService
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
@@ -32,33 +34,28 @@ class WordsLangViewModel : BaseViewModel() {
         }
     }
 
-    fun getData(): Observable<Unit> =
-        langWordService.getDataByLang(vmSettings.selectedLang.id)
-            .map { lstWordsAll = it; applyFilters() }
-            .applyIO()
+    suspend fun getData() {
+        val lst = langWordService.getDataByLang(vmSettings.selectedLang.id)
+        withContext(Dispatchers.Main) { lstWordsAll = lst; applyFilters() }
+    }
 
-    fun update(item: MLangWord): Observable<Unit> =
+    suspend fun update(item: MLangWord) =
         langWordService.update(item)
-            .applyIO()
 
-    fun create(item: MLangWord): Observable<Unit> =
-        langWordService.create(item)
-            .map { item.id = it }
-            .applyIO()
+    suspend fun create(item: MLangWord) {
+        item.id = langWordService.create(item)
+    }
 
-    fun delete(item: MLangWord): Observable<Unit> =
+    suspend fun delete(item: MLangWord) =
         langWordService.delete(item)
-            .applyIO()
 
     fun newLangWord() = MLangWord().apply {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getNote(index: Int): Observable<Unit> {
+    suspend fun getNote(index: Int) {
         val item = lstWords[index]
-        return vmSettings.getNote(item.word).flatMap {
-            item.note = it
-            langWordService.updateNote(item.id, it)
-        }
+        item.note = vmSettings.getNote(item.word)
+        langWordService.updateNote(item.id, item.note)
     }
 }

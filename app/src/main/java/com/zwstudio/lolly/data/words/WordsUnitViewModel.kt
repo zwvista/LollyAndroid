@@ -8,6 +8,8 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.wpp.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
@@ -23,8 +25,6 @@ class WordsUnitViewModel : BaseViewModel() {
     val textbookFilter = MutableLiveData(0)
     val noFilter get() = textFilter.value!!.isEmpty() && textbookFilter.value!! == 0
 
-    lateinit var compositeDisposable: CompositeDisposable
-
     @Bean
     lateinit var unitWordService: UnitWordService
 
@@ -35,46 +35,40 @@ class WordsUnitViewModel : BaseViewModel() {
         }
     }
 
-    fun getDataInTextbook(): Observable<Unit> =
-        unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
+    suspend fun getDataInTextbook() {
+        val lst = unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-            .applyIO()
-            .map { lstWordsAll.value = it; applyFilters() }
+        withContext(Dispatchers.Main) { lstWordsAll.value = lst; applyFilters() }
+    }
 
-    fun getDataInLang(): Observable<Unit> =
-        unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-            .applyIO()
-            .map { lstWordsAll.value = it; applyFilters() }
+    suspend fun getDataInLang() {
+        val lst = unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+        withContext(Dispatchers.Main) { lstWordsAll.value = lst; applyFilters() }
+    }
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
+    suspend fun updateSeqNum(id: Int, seqnum: Int) =
         unitWordService.updateSeqNum(id, seqnum)
-            .applyIO()
 
-    fun updateNote(id: Int, note: String?): Observable<Unit> =
+    suspend fun updateNote(id: Int, note: String?) =
         unitWordService.updateNote(id, note)
-            .applyIO()
 
-    fun update(item: MUnitWord): Observable<Unit> =
+    suspend fun update(item: MUnitWord) =
         unitWordService.update(item)
-            .applyIO()
 
-    fun create(item: MUnitWord): Observable<Unit> =
-        unitWordService.create(item)
-            .map { item.id = it }
-            .applyIO()
+    suspend fun create(item: MUnitWord) {
+        item.id = unitWordService.create(item)
+    }
 
-    fun delete(item: MUnitWord): Observable<Unit> =
+    suspend fun delete(item: MUnitWord) =
         unitWordService.delete(item)
-            .applyIO()
 
-    fun reindex(onNext: (Int) -> Unit) {
+    suspend fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstWords.value!!.size) {
             val item = lstWords.value!![i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
-            compositeDisposable.add(updateSeqNum(item.id, i).subscribe {
-                onNext(i - 1)
-            })
+            updateSeqNum(item.id, i)
+            onNext(i - 1)
         }
     }
 
@@ -89,35 +83,32 @@ class WordsUnitViewModel : BaseViewModel() {
         textbook = vmSettings.selectedTextbook
     }
 
-    fun getNote(index: Int): Observable<Unit> {
+    suspend fun getNote(index: Int) {
         val item = lstWords.value!![index]
-        return vmSettings.getNote(item.word).flatMap {
-            item.note = it
-            unitWordService.updateNote(item.id, it)
-        }
+        item.note = vmSettings.getNote(item.word)
+        unitWordService.updateNote(item.id, item.note)
     }
 
-    fun clearNote(index: Int): Observable<Unit> {
+    suspend fun clearNote(index: Int) {
         val item = lstWords.value!![index]
-        item.note = SettingsViewModel.zeroNote
-        return vmSettings.getNote(item.word).flatMap {
-            unitWordService.updateNote(item.id, it)
-        }
+        unitWordService.updateNote(item.id, SettingsViewModel.zeroNote)
     }
 
-    fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
+    suspend fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
         vmSettings.getNotes(lstWords.value!!.size, isNoteEmpty = {
             !ifEmpty || lstWords.value!![it].note.isEmpty()
         }, getOne = { i ->
-            compositeDisposable.add(getNote(i).subscribe { oneComplete(i) })
+            getNote(i)
+            oneComplete(i)
         }, allComplete = allComplete)
     }
 
-    fun clearNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
+    suspend fun clearNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
         vmSettings.clearNotes(lstWords.value!!.size, isNoteEmpty = {
             !ifEmpty || lstWords.value!![it].note.isEmpty()
         }, getOne = { i ->
-            compositeDisposable.add(clearNote(i).subscribe { oneComplete(i) })
+            clearNote(i)
+            oneComplete(i)
         }, allComplete = allComplete)
     }
 }
