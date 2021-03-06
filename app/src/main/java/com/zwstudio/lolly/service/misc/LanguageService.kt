@@ -7,7 +7,7 @@ import org.androidannotations.annotations.EBean
 @EBean
 class LanguageService: BaseService() {
     suspend fun getData(): List<MLanguage> =
-        retrofitJson2.create(RestLanguage::class.java)
+        retrofitJson.create(RestLanguage::class.java)
             .getData()
             .lst!!
 }

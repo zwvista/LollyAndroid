@@ -8,6 +8,6 @@ class HtmlService: BaseService() {
 
     // https://futurestud.io/tutorials/retrofit-2-receive-plain-string-responses
     suspend fun getHtml(url: String): String =
-        retrofitHtml2.create(RestHtml::class.java)
+        retrofitHtml.create(RestHtml::class.java)
             .getStringResponse(url)
 }

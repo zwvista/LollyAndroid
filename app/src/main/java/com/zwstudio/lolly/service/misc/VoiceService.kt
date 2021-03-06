@@ -7,7 +7,7 @@ import org.androidannotations.annotations.EBean
 @EBean
 class VoiceService: BaseService() {
     suspend fun getDataByLang(langid: Int): List<MVoice> =
-        retrofitJson2.create(RestVoice::class.java)
+        retrofitJson.create(RestVoice::class.java)
             .getDataByLang("LANGID,eq,$langid", "VOICETYPEID,eq,4")
             .lst!!
 }

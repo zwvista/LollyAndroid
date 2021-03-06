@@ -7,22 +7,22 @@ import org.androidannotations.annotations.EBean
 @EBean
 class DictionaryService: BaseService() {
     suspend fun getDictsByLang(langid: Int): List<MDictionary> =
-        retrofitJson2.create(RestDictionary::class.java)
+        retrofitJson.create(RestDictionary::class.java)
             .getDictsByLang("LANGIDFROM,eq,$langid")
             .lst!!
 
     suspend fun getDictsReferenceByLang(langid: Int): List<MDictionary> =
-        retrofitJson2.create(RestDictionary::class.java)
+        retrofitJson.create(RestDictionary::class.java)
             .getDictsReferenceByLang("LANGIDFROM,eq,$langid")
             .lst!!
 
     suspend fun getDictsNoteByLang(langid: Int): List<MDictionary> =
-        retrofitJson2.create(RestDictionary::class.java)
+        retrofitJson.create(RestDictionary::class.java)
             .getDictsNoteByLang("LANGIDFROM,eq,$langid")
             .lst!!
 
     suspend fun getDictsTranslationByLang(langid: Int): List<MDictionary> =
-        retrofitJson2.create(RestDictionary::class.java)
+        retrofitJson.create(RestDictionary::class.java)
             .getDictsTranslationByLang("LANGIDFROM,eq,$langid")
             .lst!!
 }

@@ -26,7 +26,7 @@ class TextbookService: BaseService() {
                 return m.groupValues[1].split(",")
             return listOf()
         }
-        return retrofitJson2.create(RestTextbook::class.java)
+        return retrofitJson.create(RestTextbook::class.java)
             .getDataByLang("LANGID,eq,$langid")
             .lst!!.also {
                 for (o in it) {

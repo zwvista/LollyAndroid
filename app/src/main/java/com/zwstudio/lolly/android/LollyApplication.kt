@@ -21,37 +21,18 @@ class LollyApplication : Application() {
         lateinit var retrofitJson: Retrofit
         lateinit var retrofitSP: Retrofit
         lateinit var retrofitHtml: Retrofit
-
-        lateinit var retrofitJson2: Retrofit
-        lateinit var retrofitSP2: Retrofit
-        lateinit var retrofitHtml2: Retrofit
     }
 
     val compositeDisposable = CompositeDisposable()
 
     override fun onCreate() {
-        super.onCreate()
         retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/records/")
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         retrofitSP = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/sp.php/")
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        // https://futurestud.io/tutorials/retrofit-2-receive-plain-string-responses
         retrofitHtml = Retrofit.Builder().baseUrl("https://www.google.com")
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .build()
-
-        retrofitJson2 = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/records/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        retrofitSP2 = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/sp.php/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        retrofitHtml2 = Retrofit.Builder().baseUrl("https://www.google.com")
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
     }

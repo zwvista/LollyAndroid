@@ -9,27 +9,27 @@ import org.androidannotations.annotations.EBean
 @EBean
 class LangPhraseService: BaseService() {
     suspend fun getDataByLang(langid: Int): List<MLangPhrase> =
-        retrofitJson2.create(RestLangPhrase::class.java)
+        retrofitJson.create(RestLangPhrase::class.java)
             .getDataByLang("LANGID,eq,$langid")
             .lst!!
 
     suspend fun updateTranslation(id: Int, translation: String?) =
-        retrofitJson2.create(RestLangPhrase::class.java)
+        retrofitJson.create(RestLangPhrase::class.java)
             .updateTranslation(id, translation)
             .let { Log.d("", it.toString()) }
 
     suspend fun update(o: MLangPhrase) =
-        retrofitJson2.create(RestLangPhrase::class.java)
+        retrofitJson.create(RestLangPhrase::class.java)
             .update(o.id, o.langid, o.phrase, o.translation)
             .let { Log.d("", it.toString()) }
 
     suspend fun create(o: MLangPhrase): Int =
-        retrofitJson2.create(RestLangPhrase::class.java)
+        retrofitJson.create(RestLangPhrase::class.java)
             .create(o.langid, o.phrase, o.translation)
             .also { Log.d("", it.toString()) }
 
     suspend fun delete(o: MLangPhrase) =
-        retrofitSP2.create(RestLangPhrase::class.java)
+        retrofitSP.create(RestLangPhrase::class.java)
             .delete(o.id, o.langid, o.phrase, o.translation)
             .let { Log.d("", it.toString()) }
 }

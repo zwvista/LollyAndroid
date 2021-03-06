@@ -7,7 +7,7 @@ import org.androidannotations.annotations.EBean
 @EBean
 class USMappingService: BaseService() {
     suspend fun getData(): List<MUSMapping> =
-        retrofitJson2.create(RestUSMapping::class.java)
+        retrofitJson.create(RestUSMapping::class.java)
             .getData()
             .lst!!
 }

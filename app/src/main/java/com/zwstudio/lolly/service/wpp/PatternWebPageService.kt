@@ -8,32 +8,32 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PatternWebPageService: BaseService() {
     suspend fun getDataByPattern(patternid: Int): List<MPatternWebPage> =
-        retrofitJson2.create(RestPatternWebPage::class.java)
+        retrofitJson.create(RestPatternWebPage::class.java)
             .getDataByPattern("PATTERNID,eq,$patternid")
             .lst!!
 
     suspend fun getDataById(id: Int): List<MPatternWebPage> =
-        retrofitJson2.create(RestPatternWebPage::class.java)
+        retrofitJson.create(RestPatternWebPage::class.java)
             .getDataById("ID,eq,$id")
             .lst!!
 
     suspend fun updateSeqNum(id: Int, seqnum: Int) =
-        retrofitJson2.create(RestPatternWebPage::class.java)
+        retrofitJson.create(RestPatternWebPage::class.java)
             .updateSeqNum(id, seqnum)
             .let { println(it.toString()) }
 
     suspend fun update(o: MPatternWebPage) =
-        retrofitJson2.create(RestPatternWebPage::class.java)
+        retrofitJson.create(RestPatternWebPage::class.java)
             .update(o.id, o.patternid, o.seqnum, o.webpageid)
             .let { println(it.toString()) }
 
     suspend fun create(o: MPatternWebPage): Int =
-        retrofitJson2.create(RestPatternWebPage::class.java)
+        retrofitJson.create(RestPatternWebPage::class.java)
             .create(o.patternid, o.seqnum, o.webpageid)
             .also { println(it.toString()) }
 
     suspend fun delete(id: Int) =
-        retrofitJson2.create(RestPatternWebPage::class.java)
+        retrofitJson.create(RestPatternWebPage::class.java)
             .delete(id)
             .let { println(it.toString()) }
 }

@@ -7,7 +7,7 @@ import org.androidannotations.annotations.EBean
 @EBean
 class AutoCorrectService: BaseService() {
     suspend fun getDataByLang(langid: Int): List<MAutoCorrect> =
-        retrofitJson2.create(RestAutoCorrect::class.java)
+        retrofitJson.create(RestAutoCorrect::class.java)
             .getDataByLang("LANGID,eq,$langid")
             .lst!!
 }
