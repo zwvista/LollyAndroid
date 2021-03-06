@@ -43,7 +43,7 @@ class WordsUnitViewModel : BaseViewModel() {
 
     suspend fun getDataInLang() {
         val lst = unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-        withContext(Dispatchers.Main) { lstWordsAll.value = lst; applyFilters() }
+        { lstWordsAll.value = lst; applyFilters() }
     }
 
     suspend fun updateSeqNum(id: Int, seqnum: Int) =

@@ -7,6 +7,8 @@ import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.service.wpp.PatternService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
@@ -21,8 +23,6 @@ class PatternsViewModel : BaseViewModel() {
     var textFilter = ""
     val noFilter get() = textFilter.isEmpty()
 
-    lateinit var compositeDisposable: CompositeDisposable
-
     @Bean
     lateinit var patternService: PatternService
 
@@ -32,23 +32,20 @@ class PatternsViewModel : BaseViewModel() {
         }
     }
 
-    fun getData(): Observable<Unit> =
-        patternService.getDataByLang(vmSettings.selectedLang.id)
-            .map { lstPatternsAll = it; applyFilters() }
-            .applyIO()
+    suspend fun getData() {
+        val lst = patternService.getDataByLang(vmSettings.selectedLang.id)
+        withContext(Dispatchers.Main) { lstPatternsAll = lst; applyFilters() }
+    }
 
-    fun update(item: MPattern): Observable<Unit> =
+    suspend fun update(item: MPattern) =
         patternService.update(item)
-            .applyIO()
 
-    fun create(item: MPattern): Observable<Unit> =
-        patternService.create(item)
-            .map { item.id = it }
-            .applyIO()
+    suspend fun create(item: MPattern) {
+        item.id = patternService.create(item)
+    }
 
-    fun delete(id: Int): Observable<Unit> =
+    suspend fun delete(id: Int) =
         patternService.delete(id)
-            .applyIO()
 
     fun newPattern() = MPattern().apply {
         langid = vmSettings.selectedLang.id
