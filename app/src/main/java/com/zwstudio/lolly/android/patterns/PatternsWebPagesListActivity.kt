@@ -36,7 +36,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
     @Bean
     lateinit var vm: PatternsWebPagesViewModel
     lateinit var item: MPattern
-    lateinit var tts: TextToSpeech
+    var tts: TextToSpeech? = null
 
     @ViewById(R.id.drag_list_view)
     lateinit var mDragListView: DragListView
@@ -61,8 +61,8 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
         val locale = Locale.getAvailableLocales().find {
             "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
         }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
+        if (tts!!.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
+        tts!!.language = locale
     }
 
     override fun onDestroy() {
@@ -112,7 +112,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
     }
 
     private fun refreshListView() {
-        val listAdapter = PatternsWebPagesItemAdapter(vm, mDragListView, tts)
+        val listAdapter = PatternsWebPagesItemAdapter(vm, mDragListView, tts!!)
         mDragListView.setAdapter(listAdapter, true)
     }
 

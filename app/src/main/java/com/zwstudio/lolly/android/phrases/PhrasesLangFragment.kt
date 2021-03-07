@@ -37,7 +37,7 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @Bean
     lateinit var vm: PhrasesLangViewModel
-    lateinit var tts: TextToSpeech
+    var tts: TextToSpeech? = null
 
     @OptionsMenuItem
     lateinit var menuNormalMode: MenuItem
@@ -84,8 +84,8 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         val locale = Locale.getAvailableLocales().find {
             "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
         }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
+        if (tts!!.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
+        tts!!.language = locale
     }
 
     override fun onDestroy() {
@@ -123,7 +123,7 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     }
 
     private fun refreshListView() {
-        val listAdapter = PhrasesLangItemAdapter(vm, mDragListView, tts)
+        val listAdapter = PhrasesLangItemAdapter(vm, mDragListView, tts!!)
         mDragListView.setAdapter(listAdapter, true)
     }
 
