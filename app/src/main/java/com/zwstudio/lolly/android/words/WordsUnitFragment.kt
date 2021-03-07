@@ -180,13 +180,28 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     }
 
     @OptionsItem
-    fun menuNotesAll() = getNotes(false)
+    fun menuRetrieveNotesAll() = getNotes(false)
     @OptionsItem
-    fun menuNotesEmpty() = getNotes(true)
+    fun menuRetrieveNotesEmpty() = getNotes(true)
     private fun getNotes(ifEmpty: Boolean) {
         val handler = Handler(Looper.getMainLooper())
         progressBar1.visibility = View.VISIBLE
         vm.getNotes(ifEmpty, oneComplete = {}, allComplete = {
+            handler.post {
+                mDragListView.adapter.notifyDataSetChanged()
+                progressBar1.visibility = View.GONE
+            }
+        })
+    }
+
+    @OptionsItem
+    fun menuClearNotesAll() = clearNotes(false)
+    @OptionsItem
+    fun menuClearNotesEmpty() = clearNotes(true)
+    private fun clearNotes(ifEmpty: Boolean) {
+        val handler = Handler(Looper.getMainLooper())
+        progressBar1.visibility = View.VISIBLE
+        vm.clearNotes(ifEmpty, oneComplete = {}, allComplete = {
             handler.post {
                 mDragListView.adapter.notifyDataSetChanged()
                 progressBar1.visibility = View.GONE
