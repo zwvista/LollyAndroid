@@ -70,7 +70,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
-                vm.textFilter.value = newText
+                vm.textFilter = newText
                 if (newText.isEmpty())
                     refreshListView()
                 return false
@@ -129,8 +129,8 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                 mRefreshLayout.isEnabled = true
                 when (swipedDirection) {
-                    ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted.value = true
-                    ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted.value = true
+                    ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
+                    ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
                     else -> {}
                 }
             }
@@ -150,7 +150,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @ItemSelect
     fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter.value = selectedItem.label
+        vm.scopeFilter = selectedItem.label
         vm.applyFilters()
         refreshListView()
     }
@@ -160,7 +160,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuEditMode() = setMenuMode(true)
     private fun setMenuMode(isEditMode: Boolean) {
-        vm.isEditMode.value = isEditMode
+        vm.isEditMode = isEditMode
         (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
         refreshListView()
     }
@@ -195,7 +195,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuBatch() {
         WordsUnitBatchActivity_.intent(this)
-            .extra("list", vm.lstWords.value!!.toTypedArray()).start()
+            .extra("list", vm.lstWords.toTypedArray()).start()
     }
 
     private class WordsUnitDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
@@ -212,7 +212,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
 
         init {
-            itemList = vm.lstWords.value!!
+            itemList = vm.lstWords
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -267,10 +267,10 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
                         vm.delete(item)
-                        vm.isSwipeStarted.value = false
+                        vm.isSwipeStarted = false
                     }, {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted.value = false
+                        vm.isSwipeStarted = false
                     })
                 }
                 mEdit.setOnTouchListener { _, event ->
@@ -290,7 +290,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mMore.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted.value = false
+                        vm.isSwipeStarted = false
 
                         val item = itemView.tag as MUnitWord
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
@@ -324,24 +324,24 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
                         WordsDictActivity_.intent(itemView.context)
-                                .extra("list", vm.lstWords.value!!.map { it.word }.toTypedArray())
-                                .extra("index", vm.lstWords.value!!.indexOf(item)).start()
+                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
+                                .extra("index", vm.lstWords.indexOf(item)).start()
                     }
                     true
                 }
-                if (vm.isEditMode.value!!)
+                if (vm.isEditMode)
                     mForward.visibility = View.GONE
-                if (!(vm.isEditMode.value!! && vm.vmSettings.isSingleUnitPart))
+                if (!(vm.isEditMode && vm.vmSettings.isSingleUnitPart))
                     mHamburger.visibility = View.GONE
             }
 
             override fun onItemClicked(view: View?) {
-                if (vm.isSwipeStarted.value!!) {
+                if (vm.isSwipeStarted) {
                     mDragListView.resetSwipedViews(null)
-                    vm.isSwipeStarted.value = false
+                    vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MUnitWord
-                    if (vm.isEditMode.value!!)
+                    if (vm.isEditMode)
                         edit(item)
                     else
                         tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null, null)

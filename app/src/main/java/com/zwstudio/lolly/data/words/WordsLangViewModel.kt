@@ -18,25 +18,31 @@ import org.androidannotations.annotations.EBean
 @EBean
 class WordsLangViewModel : BaseViewModel() {
 
-    var lstWordsAll = MutableLiveData(listOf<MLangWord>())
-    var lstWords = MutableLiveData(listOf<MLangWord>())
-    var isSwipeStarted = MutableLiveData(false)
-    var isEditMode = MutableLiveData(false)
-    var scopeFilter = MutableLiveData(SettingsViewModel.lstScopeWordFilters[0].label)
-    var textFilter = MutableLiveData("")
-    val noFilter get() = textFilter.value!!.isEmpty()
+    var lstWordsAll_ = MutableLiveData(listOf<MLangWord>())
+    var lstWordsAll get() = lstWordsAll_.value!!; set(v) { lstWordsAll_.value = v }
+    var lstWords_ = MutableLiveData(listOf<MLangWord>())
+    var lstWords get() = lstWords_.value!!; set(v) { lstWords_.value = v }
+    var isSwipeStarted_ = MutableLiveData(false)
+    var isSwipeStarted get() = isSwipeStarted_.value!!; set(v) { isSwipeStarted_.value = v }
+    var isEditMode_ = MutableLiveData(false)
+    var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
+    var scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopeWordFilters[0].label)
+    var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
+    var textFilter_ = MutableLiveData("")
+    var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
+    val noFilter get() = textFilter.isEmpty()
 
     @Bean
     lateinit var langWordService: LangWordService
 
     fun applyFilters() {
-        lstWords.value = if (noFilter) lstWordsAll.value!! else lstWordsAll.value!!.filter {
-            (textFilter.value!!.isEmpty() || (if (scopeFilter.value!! == "Word") it.word else it.note).contains(textFilter.value!!, true))
+        lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
+            (textFilter.isEmpty() || (if (scopeFilter == "Word") it.word else it.note).contains(textFilter, true))
         }
     }
 
     fun getData() = viewModelScope.launch {
-        lstWordsAll.value = langWordService.getDataByLang(vmSettings.selectedLang.id)
+        lstWordsAll = langWordService.getDataByLang(vmSettings.selectedLang.id)
         applyFilters()
     }
 
@@ -57,7 +63,7 @@ class WordsLangViewModel : BaseViewModel() {
     }
 
     fun getNote(index: Int) = viewModelScope.launch {
-        val item = lstWords.value!![index]
+        val item = lstWords[index]
         item.note = vmSettings.getNote(item.word)
         langWordService.updateNote(item.id, item.note)
     }

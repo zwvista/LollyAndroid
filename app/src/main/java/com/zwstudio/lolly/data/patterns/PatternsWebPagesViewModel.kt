@@ -17,9 +17,12 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PatternsWebPagesViewModel : BaseViewModel() {
 
-    var lstWebPages = MutableLiveData(mutableListOf<MPatternWebPage>())
-    var isSwipeStarted = MutableLiveData(false)
-    var isEditMode = MutableLiveData(false)
+    var lstWebPages_ = MutableLiveData(mutableListOf<MPatternWebPage>())
+    var lstWebPages get() = lstWebPages_.value!!; set(v) { lstWebPages_.value = v }
+    var isSwipeStarted_ = MutableLiveData(false)
+    var isSwipeStarted get() = isSwipeStarted_.value!!; set(v) { isSwipeStarted_.value = v }
+    var isEditMode_ = MutableLiveData(false)
+    var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
 
     @Bean
     lateinit var patternWebPageService: PatternWebPageService
@@ -28,7 +31,7 @@ class PatternsWebPagesViewModel : BaseViewModel() {
 
     fun getWebPages(patternid: Int) = viewModelScope.launch {
         val lst = patternWebPageService.getDataByPattern(patternid)
-        lstWebPages.value!!.clear(); lstWebPages.value!!.addAll(lst)
+        lstWebPages.clear(); lstWebPages.addAll(lst)
     }
 
     fun updatePatternWebPage(item: MPatternWebPage) = viewModelScope.launch {
@@ -36,7 +39,7 @@ class PatternsWebPagesViewModel : BaseViewModel() {
     }
     fun createPatternWebPage(item: MPatternWebPage) = viewModelScope.launch {
         item.id = patternWebPageService.create(item)
-        lstWebPages.value!!.add(item)
+        lstWebPages.add(item)
     }
     fun deletePatternWebPage(id: Int) = viewModelScope.launch {
         patternWebPageService.delete(id)
@@ -55,12 +58,12 @@ class PatternsWebPagesViewModel : BaseViewModel() {
     fun newPatternWebPage(patternid: Int, pattern: String) = MPatternWebPage().apply {
         this.patternid = patternid
         this.pattern = pattern
-        seqnum = (lstWebPages.value!!.maxOfOrNull { it.seqnum } ?: 0) + 1
+        seqnum = (lstWebPages.maxOfOrNull { it.seqnum } ?: 0) + 1
     }
 
     fun reindexWebPage(onNext: (Int) -> Unit) = viewModelScope.launch {
-        for (i in 1..lstWebPages.value!!.size) {
-            val item = lstWebPages.value!![i - 1]
+        for (i in 1..lstWebPages.size) {
+            val item = lstWebPages[i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
             patternWebPageService.updateSeqNum(item.id, i)
