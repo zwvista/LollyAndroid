@@ -34,7 +34,7 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @Bean
     lateinit var vm: PatternsViewModel
-    var tts: TextToSpeech? = null
+    lateinit var tts: TextToSpeech
 
     @OptionsMenuItem
     lateinit var menuNormalMode: MenuItem
@@ -81,13 +81,13 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         val locale = Locale.getAvailableLocales().find {
             "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
         }
-        if (tts!!.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts!!.language = locale
+        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
+        tts.language = locale
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        tts?.shutdown()
+        tts.shutdown()
     }
 
     override fun onResume() {
@@ -121,7 +121,7 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     }
 
     private fun refreshListView() {
-        val listAdapter = PatternsItemAdapter(vm, mDragListView, tts!!, compositeDisposable)
+        val listAdapter = PatternsItemAdapter(vm, mDragListView, tts, compositeDisposable)
         mDragListView.setAdapter(listAdapter, true)
     }
 
