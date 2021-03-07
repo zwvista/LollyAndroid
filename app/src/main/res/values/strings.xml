@@ -36,8 +36,10 @@
     <string name="action_settings">Settings</string>
     <string name="action_edit">Edit</string>
     <string name="action_add">Add</string>
-    <string name="action_notes_all">Retrieve All Notes</string>
-    <string name="action_notes_empty">Retrieve Notes If Empty</string>
+    <string name="action_retrieve_notes_all">Retrieve All Notes</string>
+    <string name="action_retrieve_notes_empty">Retrieve Notes If Empty</string>
+    <string name="action_clear_notes_all">Clear All Notes</string>
+    <string name="action_clear_notes_empty">Clear Notes If Empty</string>
     <string name="action_batch">Batch Edit</string>
     <string name="action_save">Save</string>
     <string name="label_id">ID:</string>

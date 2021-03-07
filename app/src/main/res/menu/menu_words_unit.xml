@@ -22,13 +22,23 @@
         android:orderInCategory="100"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/menuNotesAll"
-        android:title="@string/action_notes_all"
+        android:id="@+id/menuRetrieveNotesAll"
+        android:title="@string/action_retrieve_notes_all"
         android:orderInCategory="101"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/menuNotesEmpty"
-        android:title="@string/action_notes_empty"
+        android:id="@+id/menuRetrieveNotesEmpty"
+        android:title="@string/action_retrieve_notes_empty"
+        android:orderInCategory="102"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menuClearNotesAll"
+        android:title="@string/action_clear_notes_all"
+        android:orderInCategory="101"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/menuClearNotesEmpty"
+        android:title="@string/action_clear_notes_all"
         android:orderInCategory="102"
         app:showAsAction="never"/>
     <item
