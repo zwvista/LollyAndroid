@@ -49,7 +49,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
     fun afterViews() {
         activity?.title = resources.getString(R.string.words_textbook)
         vm.compositeDisposable = compositeDisposable
-        tts = TextToSpeech(context!!, this)
+        tts = TextToSpeech(context, this)
 
         svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -58,7 +58,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
-                vm.textFilter.value = newText
+                vm.textFilter = newText
                 if (newText.isEmpty())
                     refreshListView()
                 return false
@@ -67,7 +67,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
 
         run {
             val lst = vm.vmSettings.lstTextbookFilters
-            val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.label
                 v
@@ -79,7 +79,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
 
         run {
             val lst = SettingsViewModel.lstScopeWordFilters
-            val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.label
                 v
@@ -105,7 +105,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
             mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-            mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.app_color))
+            mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
             mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
 
             mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
@@ -116,14 +116,14 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
                 override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                     mRefreshLayout.isEnabled = true
                     when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted.value = true
-                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted.value = true
+                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
+                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
                         else -> {}
                     }
                 }
             })
 
-            mDragListView.setLayoutManager(LinearLayoutManager(context!!))
+            mDragListView.setLayoutManager(LinearLayoutManager(context))
             refreshListView()
             progressBar1.visibility = View.GONE
         })
@@ -136,14 +136,14 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
 
     @ItemSelect
     fun spnTextbookFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.textbookFilter.value = selectedItem.value
+        vm.textbookFilter = selectedItem.value
         vm.applyFilters()
         refreshListView()
     }
 
     @ItemSelect
     fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter.value = selectedItem.label
+        vm.scopeFilter = selectedItem.label
         vm.applyFilters()
         refreshListView()
     }
@@ -153,7 +153,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
     @OptionsItem
     fun menuEditMode() = setMenuMode(true)
     private fun setMenuMode(isEditMode: Boolean) {
-        vm.isEditMode.value = isEditMode
+        vm.isEditMode = isEditMode
         (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
         refreshListView()
     }
@@ -161,7 +161,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
     private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {
 
         init {
-            itemList = vm.lstWords.value!!
+            itemList = vm.lstWords
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -213,10 +213,10 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
                         compositeDisposable.add(vm.delete(item).subscribe())
-                        vm.isSwipeStarted.value = false
+                        vm.isSwipeStarted = false
                     }, {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted.value = false
+                        vm.isSwipeStarted = false
                     })
                 }
                 mEdit.setOnTouchListener { _, event ->
@@ -236,7 +236,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
                 mMore.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted.value = false
+                        vm.isSwipeStarted = false
 
                         val item = itemView.tag as MUnitWord
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
@@ -265,22 +265,22 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
                         WordsDictActivity_.intent(itemView.context)
-                                .extra("list", vm.lstWords.value!!.map { it.word }.toTypedArray())
-                                .extra("index", vm.lstWords.value!!.indexOf(item)).start()
+                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
+                                .extra("index", vm.lstWords.indexOf(item)).start()
                     }
                     true
                 }
-                if (vm.isEditMode.value!!)
+                if (vm.isEditMode)
                     mForward.visibility = View.GONE
             }
 
             override fun onItemClicked(view: View?) {
-                if (vm.isSwipeStarted.value!!) {
+                if (vm.isSwipeStarted) {
                     mDragListView.resetSwipedViews(null)
-                    vm.isSwipeStarted.value = false
+                    vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MUnitWord
-                    if (vm.isEditMode.value!!)
+                    if (vm.isEditMode)
                         edit(item)
                     else
                         tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null, null)

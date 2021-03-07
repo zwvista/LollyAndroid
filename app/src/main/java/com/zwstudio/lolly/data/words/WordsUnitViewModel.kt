@@ -14,14 +14,21 @@ import org.androidannotations.annotations.EBean
 @EBean
 class WordsUnitViewModel : BaseViewModel() {
 
-    val lstWordsAll = MutableLiveData(listOf<MUnitWord>())
-    val lstWords = MutableLiveData(listOf<MUnitWord>())
-    val isSwipeStarted = MutableLiveData(false)
-    val isEditMode = MutableLiveData(false)
-    val scopeFilter = MutableLiveData(SettingsViewModel.lstScopeWordFilters[0].label)
-    val textFilter = MutableLiveData("")
-    val textbookFilter = MutableLiveData(0)
-    val noFilter get() = textFilter.value!!.isEmpty() && textbookFilter.value!! == 0
+    val lstWordsAll_ = MutableLiveData(listOf<MUnitWord>())
+    var lstWordsAll get() = lstWordsAll_.value!!; set(v) { lstWordsAll_.value = v }
+    val lstWords_ = MutableLiveData(listOf<MUnitWord>())
+    var lstWords get() = lstWords_.value!!; set(v) { lstWords_.value = v }
+    val isSwipeStarted_ = MutableLiveData(false)
+    var isSwipeStarted get() = isSwipeStarted_.value!!; set(v) { isSwipeStarted_.value = v }
+    val isEditMode_ = MutableLiveData(false)
+    var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
+    val scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopeWordFilters[0].label)
+    var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
+    val textFilter_ = MutableLiveData("")
+    var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
+    val textbookFilter_ = MutableLiveData(0)
+    var textbookFilter get() = textbookFilter_.value!!; set(v) { textbookFilter_.value = v }
+    val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
     lateinit var compositeDisposable: CompositeDisposable
 
@@ -29,9 +36,9 @@ class WordsUnitViewModel : BaseViewModel() {
     lateinit var unitWordService: UnitWordService
 
     fun applyFilters() {
-        lstWords.value = if (noFilter) lstWordsAll.value!! else lstWordsAll.value!!.filter {
-            (textFilter.value!!.isEmpty() || (if (scopeFilter.value!! == "Word") it.word else it.note).contains(textFilter.value!!, true)) &&
-            (textbookFilter.value!! == 0 || it.textbookid == textbookFilter.value!!)
+        lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
+            (textFilter.isEmpty() || (if (scopeFilter == "Word") it.word else it.note).contains(textFilter, true)) &&
+            (textbookFilter == 0 || it.textbookid == textbookFilter)
         }
     }
 
@@ -39,12 +46,12 @@ class WordsUnitViewModel : BaseViewModel() {
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
             .applyIO()
-            .map { lstWordsAll.value = it; applyFilters() }
+            .map { lstWordsAll = it; applyFilters() }
 
     fun getDataInLang(): Observable<Unit> =
         unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
             .applyIO()
-            .map { lstWordsAll.value = it; applyFilters() }
+            .map { lstWordsAll = it; applyFilters() }
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
         unitWordService.updateSeqNum(id, seqnum)
@@ -68,8 +75,8 @@ class WordsUnitViewModel : BaseViewModel() {
             .applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
-        for (i in 1..lstWords.value!!.size) {
-            val item = lstWords.value!![i - 1]
+        for (i in 1..lstWords.size) {
+            val item = lstWords[i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
             compositeDisposable.add(updateSeqNum(item.id, i).subscribe {
@@ -82,7 +89,7 @@ class WordsUnitViewModel : BaseViewModel() {
         langid = vmSettings.selectedLang.id
         textbookid = vmSettings.ustextbook
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
-        val maxItem = lstWords.value!!.maxWithOrNull(compareBy({ it.unit }, { it.part }, { it.seqnum }))
+        val maxItem = lstWords.maxWithOrNull(compareBy({ it.unit }, { it.part }, { it.seqnum }))
         unit = maxItem?.unit ?: vmSettings.usunitto
         part = maxItem?.part ?: vmSettings.uspartto
         seqnum = (maxItem?.seqnum ?: 0) + 1
@@ -90,7 +97,7 @@ class WordsUnitViewModel : BaseViewModel() {
     }
 
     fun getNote(index: Int): Observable<Unit> {
-        val item = lstWords.value!![index]
+        val item = lstWords[index]
         return vmSettings.getNote(item.word).flatMap {
             item.note = it
             unitWordService.updateNote(item.id, it)
@@ -98,7 +105,7 @@ class WordsUnitViewModel : BaseViewModel() {
     }
 
     fun clearNote(index: Int): Observable<Unit> {
-        val item = lstWords.value!![index]
+        val item = lstWords[index]
         item.note = SettingsViewModel.zeroNote
         return vmSettings.getNote(item.word).flatMap {
             unitWordService.updateNote(item.id, it)
@@ -106,16 +113,16 @@ class WordsUnitViewModel : BaseViewModel() {
     }
 
     fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
-        vmSettings.getNotes(lstWords.value!!.size, isNoteEmpty = {
-            !ifEmpty || lstWords.value!![it].note.isEmpty()
+        vmSettings.getNotes(lstWords.size, isNoteEmpty = {
+            !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
             compositeDisposable.add(getNote(i).subscribe { oneComplete(i) })
         }, allComplete = allComplete)
     }
 
     fun clearNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
-        vmSettings.clearNotes(lstWords.value!!.size, isNoteEmpty = {
-            !ifEmpty || lstWords.value!![it].note.isEmpty()
+        vmSettings.clearNotes(lstWords.size, isNoteEmpty = {
+            !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
             compositeDisposable.add(clearNote(i).subscribe { oneComplete(i) })
         }, allComplete = allComplete)
