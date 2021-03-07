@@ -114,7 +114,4 @@ class DrawerListFragment : Fragment() {
     lateinit var mRefreshLayout: LollySwipeRefreshLayout
     @ViewById
     lateinit var progressBar1: ProgressBar
-
-    val compositeDisposable = CompositeDisposable()
-
 }

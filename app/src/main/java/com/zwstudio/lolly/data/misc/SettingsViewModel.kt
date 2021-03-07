@@ -448,25 +448,21 @@ class SettingsViewModel : ViewModel() {
         return extractTextFrom(html, dictNote.transform, "") { text, _ -> text }
     }
 
-    suspend fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: suspend (Int) -> Unit, allComplete: () -> Unit) {
+    suspend fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
         val dictNote = selectedDictNote ?: return
         var i = 0
-        while (true) {
+        while (i <= wordCount) {
             while (i < wordCount && !isNoteEmpty(i))
                 i++
-            if (i > wordCount) {
-                allComplete()
-                break
-            } else {
-                if (i < wordCount)
-                    getOne(i)
-                i++
-            }
+            if (i < wordCount)
+                getOne(i)
+            i++
             delay(dictNote.wait.toLong())
         }
+        allComplete()
     }
 
-    suspend fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: suspend (Int) -> Unit, allComplete: () -> Unit) {
+    suspend fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
         var i = 0
         while (i < wordCount) {
             while (i < wordCount && !isNoteEmpty(i))

@@ -28,17 +28,16 @@ class PatternsWebPagesBrowseActivity : AppCompatActivity() {
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("pattern") as MPattern
-        compositeDisposable.add(vm.getWebPages(item.id).subscribe {
-            val lst = vm.lstWebPages
-            val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
-                val tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = getItem(position)!!.title
-                v
-            }
-            adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
-            spnWebPages.adapter = adapter
-            spnWebPages.setSelection(0)
-        })
+        vm.getWebPages(item.id)
+        val lst = vm.lstWebPages
+        val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val tv = v.findViewById<TextView>(android.R.id.text1)
+            tv.text = getItem(position)!!.title
+            v
+        }
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
+        spnWebPages.adapter = adapter
+        spnWebPages.setSelection(0)
     }
 
     @ItemSelect

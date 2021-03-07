@@ -68,7 +68,7 @@ class PhrasesTextbookDetailActivity : AppCompatActivity() {
     fun menuSave() {
         vmDetail.save(item)
         item.phrase = vm.vmSettings.autoCorrectInput(item.phrase)
-        compositeDisposable.add(vm.update(item).subscribe())
+        vm.update(item)
         setResult(Activity.RESULT_OK)
         finish()
     }

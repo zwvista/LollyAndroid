@@ -52,7 +52,6 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.phrases_textbook)
-        vm.compositeDisposable = compositeDisposable
         tts = TextToSpeech(context!!, this)
 
         svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -72,7 +71,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
 
         run {
             val lst = vm.vmSettings.lstTextbookFilters
-            val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.label
                 v
@@ -106,36 +105,35 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
 
     override fun onResume() {
         super.onResume()
-        compositeDisposable.add(vm.getDataInLang().subscribe {
-            mDragListView.recyclerView.isVerticalScrollBarEnabled = true
+        vm.getDataInLang()
+        mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
-            mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-            mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.app_color))
-            mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
+        mRefreshLayout.setScrollingView(mDragListView.recyclerView)
+        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
+        mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
 
-            mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
-                override fun onItemSwipeStarted(item: ListSwipeItem?) {
-                    mRefreshLayout.isEnabled = false
+        mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
+            override fun onItemSwipeStarted(item: ListSwipeItem?) {
+                mRefreshLayout.isEnabled = false
+            }
+
+            override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
+                mRefreshLayout.isEnabled = true
+                when (swipedDirection) {
+                    ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
+                    ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
+                    else -> {}
                 }
-
-                override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
-                    mRefreshLayout.isEnabled = true
-                    when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
-                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
-                        else -> {}
-                    }
-                }
-            })
-
-            mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            refreshListView()
-            progressBar1.visibility = View.GONE
+            }
         })
+
+        mDragListView.setLayoutManager(LinearLayoutManager(context!!))
+        refreshListView()
+        progressBar1.visibility = View.GONE
     }
 
     private fun refreshListView() {
-        val listAdapter = PhrasesTextbookItemAdapter(vm, mDragListView, tts, compositeDisposable)
+        val listAdapter = PhrasesTextbookItemAdapter(vm, mDragListView, tts)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -163,7 +161,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
         refreshListView()
     }
 
-    private class PhrasesTextbookItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
+    private class PhrasesTextbookItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech) : DragItemAdapter<MUnitPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases

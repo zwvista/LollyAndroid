@@ -21,8 +21,6 @@ class PatternsWebPagesDetailActivity : AppCompatActivity() {
     lateinit var vmDetail: PatternsWebPageDetailViewModel
     lateinit var item: MPatternWebPage
 
-    val compositeDisposable = CompositeDisposable()
-
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("webpage") as MPatternWebPage
@@ -38,9 +36,9 @@ class PatternsWebPagesDetailActivity : AppCompatActivity() {
     fun menuSave() {
         vmDetail.save(item)
         if (item.id == 0)
-            compositeDisposable.add(vm.createPatternWebPage(item).subscribe())
+            vm.createPatternWebPage(item)
         else
-            compositeDisposable.add(vm.updatePatternWebPage(item).subscribe())
+            vm.updatePatternWebPage(item)
         setResult(Activity.RESULT_OK)
         finish()
     }

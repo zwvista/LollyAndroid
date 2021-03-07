@@ -250,7 +250,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     @ItemSelect
     fun spnPartFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
         if (vm.uspartfrom == selectedItem.value) return
-        vm.updatePartFrom(selectedItem.value).subscribe()
+        vm.updatePartFrom(selectedItem.value)
     }
 
     @ItemSelect

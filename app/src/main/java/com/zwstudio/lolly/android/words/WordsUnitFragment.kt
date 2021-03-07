@@ -302,9 +302,8 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                                     1 -> edit(item)
                                     2 -> {
                                         val index = itemList.indexOf(item)
-                                        compositeDisposable.add(vm.getNote(index).subscribe {
-                                            mDragListView.adapter.notifyItemChanged(index)
-                                        })
+                                        vm.getNote(index)
+                                        mDragListView.adapter.notifyItemChanged(index)
                                     }
                                     3 -> itemView.copyText(item.word)
                                     4 -> itemView.googleString(item.word)

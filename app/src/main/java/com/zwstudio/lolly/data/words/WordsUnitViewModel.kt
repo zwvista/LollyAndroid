@@ -107,7 +107,7 @@ class WordsUnitViewModel : BaseViewModel() {
         unitWordService.updateNote(item.id, SettingsViewModel.zeroNote)
     }
 
-    suspend fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
+    fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) = viewModelScope.launch {
         vmSettings.getNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
@@ -116,7 +116,7 @@ class WordsUnitViewModel : BaseViewModel() {
         }, allComplete = allComplete)
     }
 
-    suspend fun clearNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
+    fun clearNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) = viewModelScope.launch {
         vmSettings.clearNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->

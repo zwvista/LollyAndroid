@@ -44,7 +44,6 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
     lateinit var mRefreshLayout: LollySwipeRefreshLayout
     @ViewById
     lateinit var progressBar1: ProgressBar
-    val compositeDisposable = CompositeDisposable()
 
     @OptionsMenuItem
     lateinit var menuNormalMode: MenuItem
@@ -55,7 +54,6 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
     fun afterViews() {
         item = intent.getSerializableExtra("pattern") as MPattern
         tts = TextToSpeech(this, this)
-        vm.compositeDisposable = compositeDisposable
     }
 
     override fun onInit(status: Int) {
@@ -74,48 +72,47 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
 
     override fun onResume() {
         super.onResume()
-        compositeDisposable.add(vm.getWebPages(item.id).subscribe {
-            mDragListView.recyclerView.isVerticalScrollBarEnabled = true
-            mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
-                override fun onItemDragStarted(position: Int) {
-                    mRefreshLayout.isEnabled = false
-                    Toast.makeText(mDragListView.context, "Start - position: $position", Toast.LENGTH_SHORT).show()
-                }
-                override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
-                    mRefreshLayout.isEnabled = true
-                    Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
-                    vm.reindexWebPage {}
-                }
-            })
-
-            mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-            mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.app_color))
-            mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
-
-            mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
-                override fun onItemSwipeStarted(item: ListSwipeItem?) {
-                    mRefreshLayout.isEnabled = false
-                }
-                override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
-                    mRefreshLayout.isEnabled = true
-                    when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
-                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
-                        else -> {}
-                    }
-                }
-            })
-
-            mDragListView.setLayoutManager(LinearLayoutManager(this))
-            refreshListView()
-            mDragListView.setCanDragHorizontally(false)
-            mDragListView.setCustomDragItem(PatternsWebPagesDragItem(this, R.layout.list_item_patterns_webpages_edit))
-            progressBar1.visibility = View.GONE
+        vm.getWebPages(item.id)
+        mDragListView.recyclerView.isVerticalScrollBarEnabled = true
+        mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
+            override fun onItemDragStarted(position: Int) {
+                mRefreshLayout.isEnabled = false
+                Toast.makeText(mDragListView.context, "Start - position: $position", Toast.LENGTH_SHORT).show()
+            }
+            override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
+                mRefreshLayout.isEnabled = true
+                Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
+                vm.reindexWebPage {}
+            }
         })
+
+        mRefreshLayout.setScrollingView(mDragListView.recyclerView)
+        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.app_color))
+        mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
+
+        mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
+            override fun onItemSwipeStarted(item: ListSwipeItem?) {
+                mRefreshLayout.isEnabled = false
+            }
+            override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
+                mRefreshLayout.isEnabled = true
+                when (swipedDirection) {
+                    ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
+                    ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
+                    else -> {}
+                }
+            }
+        })
+
+        mDragListView.setLayoutManager(LinearLayoutManager(this))
+        refreshListView()
+        mDragListView.setCanDragHorizontally(false)
+        mDragListView.setCustomDragItem(PatternsWebPagesDragItem(this, R.layout.list_item_patterns_webpages_edit))
+        progressBar1.visibility = View.GONE
     }
 
     private fun refreshListView() {
-        val listAdapter = PatternsWebPagesItemAdapter(vm, mDragListView, tts, compositeDisposable)
+        val listAdapter = PatternsWebPagesItemAdapter(vm, mDragListView, tts)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -151,7 +148,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
         }
     }
 
-    private class PatternsWebPagesItemAdapter(val vm: PatternsWebPagesViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MPatternWebPage, PatternsWebPagesItemAdapter.ViewHolder>() {
+    private class PatternsWebPagesItemAdapter(val vm: PatternsWebPagesViewModel, val mDragListView: DragListView, val tts: TextToSpeech) : DragItemAdapter<MPatternWebPage, PatternsWebPagesItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWebPages
@@ -206,7 +203,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
                     yesNoDialog(itemView.context, "Are you sure you want to delete the web page \"${item.title}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
-                        compositeDisposable.add(vm.deletePatternWebPage(item.id).subscribe())
+                        vm.deletePatternWebPage(item.id)
                         vm.isSwipeStarted = false
                     }, {
                         mDragListView.resetSwipedViews(null)

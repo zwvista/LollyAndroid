@@ -48,7 +48,6 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.words_textbook)
-        vm.compositeDisposable = compositeDisposable
         tts = TextToSpeech(context!!, this)
 
         svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -101,36 +100,35 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
 
     override fun onResume() {
         super.onResume()
-        compositeDisposable.add(vm.getDataInLang().subscribe {
-            mDragListView.recyclerView.isVerticalScrollBarEnabled = true
+        vm.getDataInLang()
+        mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
-            mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-            mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.app_color))
-            mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
+        mRefreshLayout.setScrollingView(mDragListView.recyclerView)
+        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.app_color))
+        mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
 
-            mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
-                override fun onItemSwipeStarted(item: ListSwipeItem?) {
-                    mRefreshLayout.isEnabled = false
+        mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
+            override fun onItemSwipeStarted(item: ListSwipeItem?) {
+                mRefreshLayout.isEnabled = false
+            }
+
+            override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
+                mRefreshLayout.isEnabled = true
+                when (swipedDirection) {
+                    ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
+                    ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
+                    else -> {}
                 }
-
-                override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
-                    mRefreshLayout.isEnabled = true
-                    when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
-                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
-                        else -> {}
-                    }
-                }
-            })
-
-            mDragListView.setLayoutManager(LinearLayoutManager(context!!))
-            refreshListView()
-            progressBar1.visibility = View.GONE
+            }
         })
+
+        mDragListView.setLayoutManager(LinearLayoutManager(context!!))
+        refreshListView()
+        progressBar1.visibility = View.GONE
     }
 
     private fun refreshListView() {
-        val listAdapter = WordsTextbookItemAdapter(vm, mDragListView, tts, compositeDisposable)
+        val listAdapter = WordsTextbookItemAdapter(vm, mDragListView, tts)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -158,7 +156,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
         refreshListView()
     }
 
-    private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {
+    private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -212,7 +210,7 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
                     yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
-                        compositeDisposable.add(vm.delete(item).subscribe())
+                        vm.delete(item)
                         vm.isSwipeStarted = false
                     }, {
                         mDragListView.resetSwipedViews(null)
@@ -248,9 +246,8 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
                                     1 -> edit(item)
                                     2 -> {
                                         val index = itemList.indexOf(item)
-                                        compositeDisposable.add(vm.getNote(index).subscribe {
-                                            mDragListView.adapter.notifyItemChanged(index)
-                                        })
+                                        vm.getNote(index)
+                                        mDragListView.adapter.notifyItemChanged(index)
                                     }
                                     3 -> itemView.copyText(item.word)
                                     4 -> itemView.googleString(item.word)

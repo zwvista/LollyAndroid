@@ -44,8 +44,6 @@ class WordsUnitBatchActivity : AppCompatActivity() {
     @ViewById(R.id.swipe_refresh_layout)
     lateinit var mRefreshLayout: LollySwipeRefreshLayout
 
-    val compositeDisposable = CompositeDisposable()
-
     @AfterViews
     fun afterViews() {
         vm.lstWords = (intent.getSerializableExtra("list") as Array<MUnitWord>).toList()
@@ -111,7 +109,7 @@ class WordsUnitBatchActivity : AppCompatActivity() {
             if (chkUnit.isChecked) item.unit = (spnUnit.selectedItem as MSelectItem).value
             if (chkPart.isChecked) item.part = (spnPart.selectedItem as MSelectItem).value
             if (chkSeqNum.isChecked) item.seqnum += etSeqNum.text.toString().toInt()
-            compositeDisposable.add(vm.update(item).subscribe())
+            vm.update(item)
         }
         finish()
     }

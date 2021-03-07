@@ -39,9 +39,9 @@ class PhrasesLangDetailActivity : AppCompatActivity() {
         vmDetail.save(item)
         item.phrase = vm.vmSettings.autoCorrectInput(item.phrase)
         if (item.id == 0)
-            compositeDisposable.add(vm.create(item).subscribe())
+            vm.create(item)
         else
-            compositeDisposable.add(vm.update(item).subscribe())
+            vm.update(item)
         setResult(Activity.RESULT_OK)
         finish()
     }
