@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.data.words
 
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.data.misc.extractTextFrom
@@ -8,6 +9,8 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.misc.HtmlService
 import com.zwstudio.lolly.service.wpp.UnitWordService
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
@@ -28,15 +31,12 @@ class WordsReviewModel : BaseViewModel() {
     val isTestMode: Boolean
         get() = mode == ReviewMode.Test
 
-    fun newTest(shuffled: Boolean): Observable<Unit> =
-        unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-            .map {
-                lstWords = it
-                lstCorrectIDs = mutableListOf()
-                if (shuffled) lstWords = lstWords.shuffled()
-                index = 0
-            }
-            .applyIO()
+    fun newTest(shuffled: Boolean) = viewModelScope.launch {
+        lstWords = unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
+        lstCorrectIDs = mutableListOf()
+        if (shuffled) lstWords = lstWords.shuffled()
+        index = 0
+    }
 
     val hasNext: Boolean
         get() = index < lstWords.size
@@ -52,23 +52,22 @@ class WordsReviewModel : BaseViewModel() {
         get() = if (hasNext) lstWords[index] else null
     val currentWord: String
         get() = if (hasNext) lstWords[index].word else ""
-    fun getTranslation(): Observable<String> {
+    fun getTranslation(block: (String) -> Unit) = viewModelScope.launch {
         val mDictTranslation = vmSettings.selectedDictTranslation
-        if (mDictTranslation == null) return Observable.empty()
-        val url = mDictTranslation.urlString(currentWord, vmSettings.lstAutoCorrect)
-        return htmlService.getHtml(url)
-            .map {
-                extractTextFrom(it, mDictTranslation.transform, "") { text, _ -> text }
-            }
-            .applyIO()
+        if (mDictTranslation == null)
+            block("")
+        else {
+            val url = mDictTranslation.urlString(currentWord, vmSettings.lstAutoCorrect)
+            val text = htmlService.getHtml(url)
+            block(extractTextFrom(text, mDictTranslation.transform, "") { text, _ -> text })
+        }
     }
 
-    fun check(wordInput: String): Observable<Unit> {
-        if (!hasNext) return Observable.just(Unit)
+    fun check(wordInput: String) = viewModelScope.launch {
+        if (!hasNext) return@launch
         val o = currentItem!!
         val isCorrect = o.word == wordInput
         if (isCorrect) lstCorrectIDs.add(o.id)
-        return vmWordFami.update(o.wordid, isCorrect).map {  }.applyIO()
-
+        vmWordFami.update(o.wordid, isCorrect)
     }
 }

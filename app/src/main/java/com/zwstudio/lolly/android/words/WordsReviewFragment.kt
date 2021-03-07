@@ -100,9 +100,9 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
             tvAccuracy.text = vm.currentItem!!.accuracy
             if (speakOrNot)
                 tts.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null, null)
-            compositeDisposable.add(vm.getTranslation().subscribe {
+            vm.getTranslation {
                 tvTranslation.text = it
-            })
+            }
         } else {
             subscription?.dispose()
             tvTranslation.visibility = View.INVISIBLE
@@ -113,10 +113,9 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
     @Click
     fun btnNewTest() {
         progressBar1.visibility = View.VISIBLE
-        compositeDisposable.add(vm.newTest(shuffled).subscribe {
-            doTest()
-            progressBar1.visibility = View.INVISIBLE
-        })
+        vm.newTest(shuffled)
+        doTest()
+        progressBar1.visibility = View.INVISIBLE
         btnCheck.text = if (vm.isTestMode) "Check" else "Next"
         if (vm.mode == ReviewMode.ReviewAuto) {
             subscription?.dispose()
@@ -141,7 +140,7 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
             else
                 tvIncorrect.visibility = View.VISIBLE
             btnCheck.text = "Next"
-            compositeDisposable.add(vm.check(etWordInput.text.toString()).subscribe())
+            vm.check(etWordInput.text.toString())
         } else {
             vm.next()
             doTest()

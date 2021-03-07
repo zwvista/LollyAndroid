@@ -34,14 +34,13 @@ class SearchFragment : Fragment(), SettingsListener {
     @Bean
     lateinit var vm: SearchViewModel
     lateinit var onlineDict: OnlineDict
-    val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
         // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
         activity!!.title = resources.getString(R.string.search)
 
-        onlineDict = OnlineDict(wvDictReference, vm, compositeDisposable)
+        onlineDict = OnlineDict(wvDictReference, vm)
         onlineDict.initWebViewClient()
 
         svWord.setQuery(vm.word, false)

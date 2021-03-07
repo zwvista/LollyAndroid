@@ -107,10 +107,9 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
     @Click
     fun btnNewTest() {
         progressBar1.visibility = View.VISIBLE
-        compositeDisposable.add(vm.newTest(shuffled).subscribe {
-            doTest()
-            progressBar1.visibility = View.INVISIBLE
-        })
+        vm.newTest(shuffled)
+        doTest()
+        progressBar1.visibility = View.INVISIBLE
         btnCheck.text = if (vm.isTestMode) "Check" else "Next"
         if (vm.mode == ReviewMode.ReviewAuto) {
             subscription?.dispose()

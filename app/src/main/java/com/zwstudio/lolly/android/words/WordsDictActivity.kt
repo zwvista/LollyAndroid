@@ -27,7 +27,6 @@ class WordsDictActivity : AppCompatActivity(), TouchListener {
     @Bean
     lateinit var vm: WordsDictViewModel
     lateinit var onlineDict: OnlineDict
-    val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
@@ -66,7 +65,7 @@ class WordsDictActivity : AppCompatActivity(), TouchListener {
             spnDictReference.setSelection(vm.vmSettings.selectedDictReferenceIndex)
         }
 
-        onlineDict = OnlineDict(wv, vm, compositeDisposable)
+        onlineDict = OnlineDict(wv, vm)
         onlineDict.initWebViewClient()
         selectedWordChanged()
     }

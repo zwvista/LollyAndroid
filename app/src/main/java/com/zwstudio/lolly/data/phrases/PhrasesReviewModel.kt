@@ -1,11 +1,13 @@
 package com.zwstudio.lolly.data.phrases
 
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.misc.ReviewMode
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.service.wpp.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.launch
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
@@ -22,15 +24,12 @@ class PhrasesReviewModel : BaseViewModel() {
     val isTestMode: Boolean
         get() = mode == ReviewMode.Test
 
-    fun newTest(shuffled: Boolean): Observable<Unit> =
-        unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-            .map {
-                lstPhrases = it
-                lstCorrectIDs = mutableListOf()
-                if (shuffled) lstPhrases = lstPhrases.shuffled()
-                index = 0
-            }
-            .applyIO()
+    fun newTest(shuffled: Boolean) = viewModelScope.launch {
+        lstPhrases = unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto)
+        lstCorrectIDs = mutableListOf()
+        if (shuffled) lstPhrases = lstPhrases.shuffled()
+        index = 0
+    }
 
     val hasNext: Boolean
         get() = index < lstPhrases.size

@@ -7,7 +7,7 @@ import com.zwstudio.lolly.data.misc.DictWebViewStatus
 import com.zwstudio.lolly.data.misc.IOnlineDict
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict, val compositeDisposable: CompositeDisposable) {
+class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict) {
 
     var dictStatus = DictWebViewStatus.Ready
 
@@ -16,11 +16,11 @@ class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict, val compositeDis
         val url = iOnlineDict.getUrl
         if (item.dicttypename == "OFFLINE") {
             wv.loadUrl("about:blank")
-            compositeDisposable.add(iOnlineDict.getHtml(url).subscribe {
-                Log.d("HTML", it)
-                val str = item.htmlString(it, iOnlineDict.getWord, true)
-                wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
-            })
+//            val s = iOnlineDict.getHtml(url)
+            val s = ""
+            Log.d("HTML", s)
+            val str = item.htmlString(s, iOnlineDict.getWord, true)
+            wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
         } else {
             wv.loadUrl(url)
             if (item.automation.isNotEmpty())
