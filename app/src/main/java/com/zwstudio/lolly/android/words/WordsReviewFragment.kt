@@ -22,7 +22,7 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
 
     @Bean
     lateinit var vm: WordsReviewModel
-    lateinit var tts: TextToSpeech
+    var tts: TextToSpeech? = null
 
     @ViewById
     lateinit var progressBar1: ProgressBar
@@ -80,8 +80,8 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         val locale = Locale.getAvailableLocales().find {
             "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
         }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
+        if (tts!!.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
+        tts!!.language = locale
     }
 
     private fun doTest() {
@@ -100,7 +100,7 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
             tvIndex.text = "${vm.index + 1}/${vm.lstWords.size}"
             tvAccuracy.text = vm.currentItem!!.accuracy
             if (speakOrNot)
-                tts.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null, null)
+                tts!!.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null, null)
             compositeDisposable.add(vm.getTranslation().subscribe {
                 tvTranslation.text = it
             })
@@ -154,7 +154,7 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
     fun chkSpeak(isChecked: Boolean) {
         speakOrNot = isChecked
         if (speakOrNot)
-            tts.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null, null)
+            tts!!.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null, null)
     }
     @CheckedChange
     fun chkShuffled(isChecked: Boolean) {
