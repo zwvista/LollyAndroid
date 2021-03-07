@@ -34,16 +34,16 @@
     <item
         android:id="@+id/menuClearNotesAll"
         android:title="@string/action_clear_notes_all"
-        android:orderInCategory="101"
+        android:orderInCategory="103"
         app:showAsAction="never"/>
     <item
         android:id="@+id/menuClearNotesEmpty"
-        android:title="@string/action_clear_notes_all"
-        android:orderInCategory="102"
+        android:title="@string/action_clear_notes_empty"
+        android:orderInCategory="104"
         app:showAsAction="never"/>
     <item
         android:id="@+id/menuBatch"
         android:title="@string/action_batch"
-        android:orderInCategory="103"
+        android:orderInCategory="105"
         app:showAsAction="never"/>
 </menu>
