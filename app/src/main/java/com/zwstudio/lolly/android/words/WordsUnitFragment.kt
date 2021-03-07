@@ -78,7 +78,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         })
 
         val lst = SettingsViewModel.lstScopeWordFilters
-        val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+        val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
             val tv = v.findViewById<TextView>(android.R.id.text1)
             tv.text = getItem(position)!!.label
             v
@@ -119,7 +119,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         })
 
         mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.app_color))
+        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
         mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
 
         mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
@@ -136,10 +136,10 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             }
         })
 
-        mDragListView.setLayoutManager(LinearLayoutManager(context!!))
+        mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
         refreshListView()
         mDragListView.setCanDragHorizontally(false)
-        mDragListView.setCustomDragItem(WordsUnitDragItem(context!!, R.layout.list_item_words_unit_edit))
+        mDragListView.setCustomDragItem(WordsUnitDragItem(requireContext(), R.layout.list_item_words_unit_edit))
         progressBar1.visibility = View.GONE
     }
 
