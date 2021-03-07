@@ -96,7 +96,7 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
             mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-            mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.app_color))
+            mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
             mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
 
             mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {

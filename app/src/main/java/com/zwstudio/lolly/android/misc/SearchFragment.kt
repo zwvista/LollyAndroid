@@ -63,7 +63,7 @@ class SearchFragment : Fragment(), SettingsListener {
 
     override fun onGetData() {
         val lst = vm.vmSettings.lstLanguages
-        val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+        val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
             val ctv = v.findViewById<TextView>(android.R.id.text1)
             ctv.text = lst[position].langname
             ctv.setTextColor(Color.BLUE)

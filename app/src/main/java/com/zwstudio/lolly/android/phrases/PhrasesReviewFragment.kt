@@ -51,11 +51,11 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
     @AfterViews
     fun afterViews() {
         activity?.title = resources.getString(R.string.phrases_review)
-        tts = TextToSpeech(context!!, this)
+        tts = TextToSpeech(requireContext(), this)
 
         run {
             val lst = SettingsViewModel.lstReviewModes
-            val adapter = makeAdapter(context!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.label
                 v
