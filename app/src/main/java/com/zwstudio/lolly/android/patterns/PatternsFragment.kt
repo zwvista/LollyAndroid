@@ -58,7 +58,7 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
-                vm.textFilter.value = newText
+                vm.textFilter = newText
                 if (newText.isEmpty())
                     refreshListView()
                 return false
@@ -102,8 +102,8 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                     mRefreshLayout.isEnabled = true
                     when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted.value = true
-                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted.value = true
+                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
+                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
                         else -> {}
                     }
                 }
@@ -122,7 +122,7 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @ItemSelect
     fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter.value = selectedItem.label
+        vm.scopeFilter = selectedItem.label
         vm.applyFilters()
         refreshListView()
     }
@@ -132,7 +132,7 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuEditMode() = setMenuMode(true)
     private fun setMenuMode(isEditMode: Boolean) {
-        vm.isEditMode.value = isEditMode
+        vm.isEditMode = isEditMode
         (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
         refreshListView()
     }
@@ -153,7 +153,7 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     private class PatternsItemAdapter(val vm: PatternsViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MPattern, PatternsItemAdapter.ViewHolder>() {
 
         init {
-            itemList = vm.lstPatterns.value!!
+            itemList = vm.lstPatterns
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -203,10 +203,10 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
                         compositeDisposable.add(vm.delete(item.id).subscribe())
-                        vm.isSwipeStarted.value = false
+                        vm.isSwipeStarted = false
                     }, {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted.value = false
+                        vm.isSwipeStarted = false
                     })
                 }
                 mEdit.setOnTouchListener { _, event ->
@@ -226,7 +226,7 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mMore.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted.value = false
+                        vm.isSwipeStarted = false
 
                         val item = itemView.tag as MPattern
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
@@ -264,12 +264,12 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             }
 
             override fun onItemClicked(view: View?) {
-                if (vm.isSwipeStarted.value!!) {
+                if (vm.isSwipeStarted) {
                     mDragListView.resetSwipedViews(null)
-                    vm.isSwipeStarted.value = false
+                    vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MPattern
-                    if (vm.isEditMode.value!!)
+                    if (vm.isEditMode)
                         edit(item)
                     else
                         tts.speak(item.pattern, TextToSpeech.QUEUE_FLUSH, null, null)

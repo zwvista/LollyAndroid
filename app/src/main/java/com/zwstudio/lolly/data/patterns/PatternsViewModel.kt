@@ -14,13 +14,19 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PatternsViewModel : BaseViewModel() {
 
-    var lstPatternsAll = MutableLiveData(listOf<MPattern>())
-    var lstPatterns = MutableLiveData(listOf<MPattern>())
-    var isSwipeStarted = MutableLiveData(false)
-    var isEditMode = MutableLiveData(false)
-    var scopeFilter = MutableLiveData(SettingsViewModel.lstScopePatternFilters[0].label)
-    var textFilter = MutableLiveData("")
-    val noFilter get() = textFilter.value!!.isEmpty()
+    var lstPatternsAll_ = MutableLiveData(listOf<MPattern>())
+    var lstPatternsAll get() = lstPatternsAll_.value!!; set(v) { lstPatternsAll_.value = v }
+    var lstPatterns_ = MutableLiveData(listOf<MPattern>())
+    var lstPatterns get() = lstPatterns_.value!!; set(v) { lstPatterns_.value = v }
+    var isSwipeStarted_ = MutableLiveData(false)
+    var isSwipeStarted get() = isSwipeStarted_.value!!; set(v) { isSwipeStarted_.value = v }
+    var isEditMode_ = MutableLiveData(false)
+    var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
+    var scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopePatternFilters[0].label)
+    var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
+    var textFilter_ = MutableLiveData("")
+    var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
+    val noFilter get() = textFilter.isEmpty()
 
     lateinit var compositeDisposable: CompositeDisposable
 
@@ -28,15 +34,15 @@ class PatternsViewModel : BaseViewModel() {
     lateinit var patternService: PatternService
 
     fun applyFilters() {
-        lstPatterns.value = if (noFilter) lstPatternsAll.value!! else lstPatternsAll.value!!.filter {
-            (textFilter.value!!.isEmpty() || (if (scopeFilter.value!! == "Pattern") it.pattern else if (scopeFilter.value!! == "Note") it.note else it.tags).contains(textFilter.value!!, true))
+        lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {
+            (textFilter.isEmpty() || (if (scopeFilter == "Pattern") it.pattern else if (scopeFilter == "Note") it.note else it.tags).contains(textFilter, true))
         }
     }
 
     fun getData(): Observable<Unit> =
         patternService.getDataByLang(vmSettings.selectedLang.id)
             .applyIO()
-            .map { lstPatternsAll.value = it; applyFilters() }
+            .map { lstPatternsAll = it; applyFilters() }
 
     fun update(item: MPattern): Observable<Unit> =
         patternService.update(item)

@@ -61,7 +61,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
-                vm.textFilter.value = newText
+                vm.textFilter = newText
                 if (newText.isEmpty())
                     refreshListView()
                 return false
@@ -117,8 +117,8 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                     mRefreshLayout.isEnabled = true
                     when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted.value = true
-                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted.value = true
+                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
+                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
                         else -> {}
                     }
                 }
@@ -139,7 +139,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     @ItemSelect
     fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter.value = selectedItem.label
+        vm.scopeFilter = selectedItem.label
         vm.applyFilters()
         refreshListView()
     }
@@ -149,7 +149,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuEditMode() = setMenuMode(true)
     private fun setMenuMode(isEditMode: Boolean) {
-        vm.isEditMode.value = isEditMode
+        vm.isEditMode = isEditMode
         (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
         refreshListView()
     }
@@ -169,7 +169,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsItem
     fun menuBatch() {
         PhrasesUnitBatchActivity_.intent(this)
-            .extra("list", vm.lstPhrases.value!!.toTypedArray()).start()
+            .extra("list", vm.lstPhrases.toTypedArray()).start()
     }
 
     private class PhrasesUnitDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
@@ -185,7 +185,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
 
         init {
-            itemList = vm.lstPhrases.value!!
+            itemList = vm.lstPhrases
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -238,10 +238,10 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                         val pos = mDragListView.adapter.getPositionForItem(item)
                         mDragListView.adapter.removeItem(pos)
                         compositeDisposable.add(vm.delete(item).subscribe())
-                        vm.isSwipeStarted.value = false
+                        vm.isSwipeStarted = false
                     }, {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted.value = false
+                        vm.isSwipeStarted = false
                     })
                 }
                 mEdit.setOnTouchListener { _, event ->
@@ -261,7 +261,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                 mMore.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted.value = false
+                        vm.isSwipeStarted = false
 
                         val item = itemView.tag as MUnitPhrase
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
@@ -280,17 +280,17 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
                     }
                     true
                 }
-                if (!(vm.isEditMode.value!! && vm.vmSettings.isSingleUnitPart))
+                if (!(vm.isEditMode && vm.vmSettings.isSingleUnitPart))
                     mHamburger.visibility = View.GONE
             }
 
             override fun onItemClicked(view: View?) {
-                if (vm.isSwipeStarted.value!!) {
+                if (vm.isSwipeStarted) {
                     mDragListView.resetSwipedViews(null)
-                    vm.isSwipeStarted.value = false
+                    vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MUnitPhrase
-                    if (vm.isEditMode.value!!)
+                    if (vm.isEditMode)
                         edit(item)
                     else
                         tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null, null)

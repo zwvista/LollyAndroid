@@ -15,14 +15,21 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PhrasesUnitViewModel : BaseViewModel() {
 
-    var lstPhrasesAll = MutableLiveData(listOf<MUnitPhrase>())
-    var lstPhrases = MutableLiveData(listOf<MUnitPhrase>())
-    var isSwipeStarted = MutableLiveData(false)
-    var isEditMode = MutableLiveData(false)
-    var scopeFilter = MutableLiveData(SettingsViewModel.lstScopePhraseFilters[0].label)
-    var textFilter = MutableLiveData("")
-    var textbookFilter = MutableLiveData(0)
-    val noFilter get() = textFilter.value!!.isEmpty() && textbookFilter.value!! == 0
+    var lstPhrasesAll_ = MutableLiveData(listOf<MUnitPhrase>())
+    var lstPhrasesAll get() = lstPhrasesAll_.value!!; set(v) { lstPhrasesAll_.value = v }
+    var lstPhrases_ = MutableLiveData(listOf<MUnitPhrase>())
+    var lstPhrases get() = lstPhrases_.value!!; set(v) { lstPhrases_.value = v }
+    var isSwipeStarted_ = MutableLiveData(false)
+    var isSwipeStarted get() = isSwipeStarted_.value!!; set(v) { isSwipeStarted_.value = v }
+    var isEditMode_ = MutableLiveData(false)
+    var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
+    var scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopePhraseFilters[0].label)
+    var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
+    var textFilter_ = MutableLiveData("")
+    var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
+    var textbookFilter_ = MutableLiveData(0)
+    var textbookFilter get() = textbookFilter_.value!!; set(v) { textbookFilter_.value = v }
+    val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
     lateinit var compositeDisposable: CompositeDisposable
 
@@ -30,9 +37,9 @@ class PhrasesUnitViewModel : BaseViewModel() {
     lateinit var unitPhraseService: UnitPhraseService
 
     fun applyFilters() {
-        lstPhrases.value = if (noFilter) lstPhrasesAll.value!! else lstPhrasesAll.value!!.filter {
-            (textFilter.value!!.isEmpty() || (if (scopeFilter.value!! == "Phrase") it.phrase else it.translation).contains(textFilter.value!!, true)) &&
-            (textbookFilter.value!! == 0 || it.textbookid == textbookFilter.value!!)
+        lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {
+            (textFilter.isEmpty() || (if (scopeFilter == "Phrase") it.phrase else it.translation).contains(textFilter, true)) &&
+            (textbookFilter == 0 || it.textbookid == textbookFilter)
         }
     }
 
@@ -40,12 +47,12 @@ class PhrasesUnitViewModel : BaseViewModel() {
         unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
                 vmSettings.usunitpartfrom, vmSettings.usunitpartto)
             .applyIO()
-            .map { lstPhrasesAll.value = it; applyFilters() }
+            .map { lstPhrasesAll = it; applyFilters() }
 
     fun getDataInLang(): Observable<Unit> =
         unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
             .applyIO()
-            .map { lstPhrasesAll.value = it; applyFilters() }
+            .map { lstPhrasesAll = it; applyFilters() }
 
     fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
         unitPhraseService.updateSeqNum(id, seqnum)
@@ -65,8 +72,8 @@ class PhrasesUnitViewModel : BaseViewModel() {
             .applyIO()
 
     fun reindex(onNext: (Int) -> Unit) {
-        for (i in 1..lstPhrases.value!!.size) {
-            val item = lstPhrases.value!![i - 1]
+        for (i in 1..lstPhrases.size) {
+            val item = lstPhrases[i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
             compositeDisposable.add(updateSeqNum(item.id, i).subscribe {
@@ -79,7 +86,7 @@ class PhrasesUnitViewModel : BaseViewModel() {
         langid = vmSettings.selectedLang.id
         textbookid = vmSettings.ustextbook
         // https://stackoverflow.com/questions/33640864/how-to-sort-based-on-compare-multiple-values-in-kotlin
-        val maxItem = lstPhrases.value!!.maxWithOrNull(compareBy({ it.unit }, { it.part }, { it.seqnum }))
+        val maxItem = lstPhrases.maxWithOrNull(compareBy({ it.unit }, { it.part }, { it.seqnum }))
         unit = maxItem?.unit ?: vmSettings.usunitto
         part = maxItem?.part ?: vmSettings.uspartto
         seqnum = (maxItem?.seqnum ?: 0) + 1

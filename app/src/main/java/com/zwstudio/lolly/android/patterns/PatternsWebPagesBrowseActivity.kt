@@ -29,7 +29,7 @@ class PatternsWebPagesBrowseActivity : AppCompatActivity() {
     fun afterViews() {
         item = intent.getSerializableExtra("pattern") as MPattern
         compositeDisposable.add(vm.getWebPages(item.id).subscribe {
-            val lst = vm.lstWebPages.value!!
+            val lst = vm.lstWebPages
             val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.title
@@ -43,6 +43,6 @@ class PatternsWebPagesBrowseActivity : AppCompatActivity() {
 
     @ItemSelect
     fun spnWebPagesItemSelected(selected: Boolean, position: Int) {
-        webView.loadUrl(vm.lstWebPages.value!![position].url)
+        webView.loadUrl(vm.lstWebPages[position].url)
     }
 }
