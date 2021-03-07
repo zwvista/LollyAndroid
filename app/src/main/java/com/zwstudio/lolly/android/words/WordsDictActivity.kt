@@ -84,7 +84,7 @@ class WordsDictActivity : AppCompatActivity(), TouchListener {
         vm.vmSettings.selectedDictReference = vm.vmSettings.lstDictsReference[position]
         Log.d("", String.format("Checked position:%d", position))
         (spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.vmSettings.updateDictReference().subscribe())
+        vm.vmSettings.updateDictReference()
         selectedDictChanged()
     }
 

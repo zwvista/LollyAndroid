@@ -58,7 +58,7 @@ class SearchFragment : Fragment(), SettingsListener {
 
         vm.vmSettings.handler = Handler(Looper.getMainLooper())
         vm.vmSettings.settingsListener = this
-        compositeDisposable.add(vm.vmSettings.getData().subscribe())
+        vm.vmSettings.getData()
     }
 
     override fun onGetData() {
@@ -78,7 +78,7 @@ class SearchFragment : Fragment(), SettingsListener {
     @ItemSelect
     fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
         if (vm.vmSettings.selectedLang == selectedItem) return
-        compositeDisposable.add(vm.vmSettings.setSelectedLang(selectedItem).subscribe())
+        vm.vmSettings.setSelectedLang(selectedItem)
     }
 
     override fun onUpdateLang() {
@@ -103,7 +103,7 @@ class SearchFragment : Fragment(), SettingsListener {
     fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
         if (vm.vmSettings.selectedDictReference == selectedItem) return
         vm.vmSettings.selectedDictReference = selectedItem
-        compositeDisposable.add(vm.vmSettings.updateDictReference().subscribe())
+        vm.vmSettings.updateDictReference()
         searchDict()
     }
 

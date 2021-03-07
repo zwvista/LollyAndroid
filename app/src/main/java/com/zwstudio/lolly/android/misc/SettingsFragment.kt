@@ -46,19 +46,17 @@ class SettingsFragment : Fragment(), SettingsListener {
     @ViewById
     lateinit var btnNext: Button
 
-    val compositeDisposable = CompositeDisposable()
-
     @AfterViews
     fun afterViews() {
         activity?.title = "Settings"
         vm.handler = Handler(Looper.getMainLooper())
         vm.settingsListener = this
-        compositeDisposable.add(vm.getData().subscribe())
+        vm.getData()
     }
 
     override fun onGetData() {
         val lst = vm.lstLanguages
-        val adapter = makeAdapter(activity!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+        val adapter = makeAdapter(requireActivity(), android.R.layout.simple_spinner_item, lst) { v, position ->
             val ctv = v.findViewById<TextView>(android.R.id.text1)
             ctv.text = lst[position].langname
             ctv.setTextColor(Color.BLUE)
@@ -73,7 +71,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     @ItemSelect
     fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
         if (vm.selectedLang == selectedItem) return
-        compositeDisposable.add(vm.setSelectedLang(selectedItem).subscribe())
+        vm.setSelectedLang(selectedItem)
     }
 
     override fun onUpdateLang() {
@@ -171,7 +169,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         if (vm.selectedVoice == selectedItem) return
         vm.selectedVoice = selectedItem
         (spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateVoice().subscribe())
+        vm.updateVoice()
     }
 
     @ItemSelect
@@ -179,7 +177,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         if (vm.selectedDictReference == selectedItem) return
         vm.selectedDictReference = selectedItem
         (spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateDictReference().subscribe())
+        vm.updateDictReference()
     }
 
     @ItemSelect
@@ -187,7 +185,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         if (vm.selectedDictNote == selectedItem) return
         vm.selectedDictNote = selectedItem
         (spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateDictNote().subscribe())
+        vm.updateDictNote()
     }
 
     @ItemSelect
@@ -195,7 +193,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         if (vm.selectedDictTranslation == selectedItem) return
         vm.selectedDictTranslation = selectedItem
         (spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateDictTranslation().subscribe())
+        vm.updateDictTranslation()
     }
 
     @ItemSelect
@@ -203,7 +201,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         if (vm.selectedTextbook == selectedItem) return
         vm.selectedTextbook = selectedItem
         (spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateTextbook().subscribe())
+        vm.updateTextbook()
     }
 
     override fun onUpdateTextbook() {
@@ -246,13 +244,13 @@ class SettingsFragment : Fragment(), SettingsListener {
     @ItemSelect
     fun spnUnitFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
         if (vm.usunitfrom == selectedItem.value) return
-        compositeDisposable.add(vm.updateUnitFrom(selectedItem.value).subscribe())
+        vm.updateUnitFrom(selectedItem.value)
     }
 
     @ItemSelect
     fun spnPartFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
         if (vm.uspartfrom == selectedItem.value) return
-        compositeDisposable.add(vm.updatePartFrom(selectedItem.value).subscribe())
+        vm.updatePartFrom(selectedItem.value).subscribe()
     }
 
     @ItemSelect
@@ -263,29 +261,29 @@ class SettingsFragment : Fragment(), SettingsListener {
         btnPrevious.isEnabled = !b
         btnNext.isEnabled = !b
         spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
-        compositeDisposable.add(vm.updateToType(position).subscribe())
+        vm.updateToType(position)
     }
 
     @Click
     fun btnPrevious() {
-        compositeDisposable.add(vm.previousUnitPart().subscribe())
+        vm.previousUnitPart()
     }
 
     @Click
     fun btnNext() {
-        compositeDisposable.add(vm.nextUnitPart().subscribe())
+        vm.nextUnitPart()
     }
 
     @ItemSelect
     fun spnUnitToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
         if (vm.usunitto == selectedItem.value) return
-        compositeDisposable.add(vm.updateUnitTo(selectedItem.value).subscribe())
+        vm.updateUnitTo(selectedItem.value)
     }
 
     @ItemSelect
     fun spnPartToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
         if (vm.uspartto == selectedItem.value) return
-        compositeDisposable.add(vm.updatePartTo(selectedItem.value).subscribe())
+        vm.updatePartTo(selectedItem.value)
     }
 
     override fun onUpdateUnitFrom() {

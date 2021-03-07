@@ -2,6 +2,8 @@ package com.zwstudio.lolly.data.misc
 
 import android.os.Handler
 import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.domain.misc.*
 import com.zwstudio.lolly.service.misc.*
 import io.reactivex.rxjava3.core.Observable
@@ -11,13 +13,14 @@ import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit
 
 @EBean(scope = EBean.Scope.Singleton)
-class SettingsViewModel {
+class SettingsViewModel : ViewModel() {
 
     var lstUSMappings = listOf<MUSMapping>()
     var lstUserSettings = listOf<MUserSetting>()
@@ -228,7 +231,7 @@ class SettingsViewModel {
 
     var handler: Handler? = null
     var settingsListener: SettingsListener? = null
-    suspend fun getData() {
+    fun getData() = viewModelScope.launch {
         // TODO async
         lstLanguages = languageService.getData()
         lstUSMappings = usMappingService.getData()
@@ -244,7 +247,7 @@ class SettingsViewModel {
         setSelectedLang(lstLanguages.first { it.id == uslang })
     }
 
-    suspend fun setSelectedLang(lang: MLanguage) {
+    fun setSelectedLang(lang: MLanguage) = viewModelScope.launch {
         val isinit = lang.id == uslang
         selectedLang = lang
         uslang = selectedLang.id
@@ -267,47 +270,46 @@ class SettingsViewModel {
         lstAutoCorrect = autoCorrectService.getDataByLang(uslang)
         lstVoices = voiceService.getDataByLang(uslang)
         selectedVoice = lstVoices.firstOrNull { it.id == usvoice } ?: lstVoices.firstOrNull()
-        if (isinit) {
-            withContext(Dispatchers.Main) { settingsListener?.onUpdateLang() }
-            Observable.just(Unit)
-        } else
+        if (isinit)
+            settingsListener?.onUpdateLang()
+        else
             updateLang()
     }
 
-    suspend fun updateLang() {
+    private suspend fun updateLang() {
         userSettingService.update(INFO_USLANG, uslang)
-        withContext(Dispatchers.Main) { settingsListener?.onUpdateLang() }
+        settingsListener?.onUpdateLang()
     }
 
-    suspend fun updateTextbook() {
+    fun updateTextbook() = viewModelScope.launch {
         userSettingService.update(INFO_USTEXTBOOK, ustextbook)
-        withContext(Dispatchers.Main) { settingsListener?.onUpdateTextbook() }
+        settingsListener?.onUpdateTextbook()
     }
 
-    suspend fun updateDictReference() {
+    fun updateDictReference() = viewModelScope.launch {
         userSettingService.update(INFO_USDICTREFERENCE, usdictreference)
-        withContext(Dispatchers.Main) { settingsListener?.onUpdateDictReference() }
+        settingsListener?.onUpdateDictReference()
     }
 
-    suspend fun updateDictNote() {
+    fun updateDictNote() = viewModelScope.launch {
         userSettingService.update(INFO_USDICTNOTE, usdictnote)
-        withContext(Dispatchers.Main) { settingsListener?.onUpdateDictNote() }
+        settingsListener?.onUpdateDictNote()
     }
 
-    suspend fun updateDictTranslation() {
+    fun updateDictTranslation() = viewModelScope.launch {
         userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation)
-        withContext(Dispatchers.Main) { settingsListener?.onUpdateDictTranslation() }
+        settingsListener?.onUpdateDictTranslation()
     }
 
-    suspend fun updateVoice() {
+    fun updateVoice() = viewModelScope.launch {
         userSettingService.update(INFO_USANDROIDVOICE, usvoice)
         withContext(Dispatchers.Main) { settingsListener?.onUpdateVoice() }
     }
 
-    suspend fun autoCorrectInput(text: String): String =
+    fun autoCorrectInput(text: String): String =
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
 
-    suspend fun updateUnitFrom(v: Int) {
+    fun updateUnitFrom(v: Int) = viewModelScope.launch {
         doUpdateUnitFrom(v, false)
         if (toType == UnitPartToType.Unit)
             doUpdateSingleUnit()
@@ -315,13 +317,13 @@ class SettingsViewModel {
             doUpdateUnitPartTo()
     }
 
-    suspend fun updatePartFrom(v: Int) {
+    fun updatePartFrom(v: Int) = viewModelScope.launch {
         doUpdatePartFrom(v, false)
         if (toType == UnitPartToType.Part || isInvalidUnitPart)
             doUpdateUnitPartTo()
     }
 
-    suspend fun updateToType(v: Int) {
+    fun updateToType(v: Int) = viewModelScope.launch {
         toType = UnitPartToType.values()[v]
         if (toType == UnitPartToType.Unit)
             doUpdateSingleUnit()
@@ -329,7 +331,7 @@ class SettingsViewModel {
             doUpdateUnitPartTo()
     }
 
-    suspend fun toggleUnitPart(part: Int) {
+    fun toggleUnitPart(part: Int) = viewModelScope.launch {
         if (toType == UnitPartToType.Unit) {
             toType = UnitPartToType.Part
             // TODO async
@@ -341,7 +343,7 @@ class SettingsViewModel {
         }
     }
 
-    suspend fun previousUnitPart() {
+    fun previousUnitPart() = viewModelScope.launch {
         if (toType == UnitPartToType.Unit) {
             if (usunitfrom > 1) {
                 // TODO async
@@ -360,7 +362,7 @@ class SettingsViewModel {
         }
     }
 
-    suspend fun nextUnitPart() {
+    fun nextUnitPart() = viewModelScope.launch {
         if (toType == UnitPartToType.Unit) {
             // TODO async
             if (usunitfrom < unitCount) {
@@ -379,13 +381,13 @@ class SettingsViewModel {
         }
     }
 
-    suspend fun updateUnitTo(v: Int) {
+    fun updateUnitTo(v: Int) = viewModelScope.launch {
         doUpdateUnitTo(v, false)
         if (isInvalidUnitPart)
             doUpdateUnitPartFrom()
     }
 
-    suspend fun updatePartTo(v: Int) {
+    fun updatePartTo(v: Int) = viewModelScope.launch {
         doUpdatePartTo(v, false)
         if (isInvalidUnitPart)
             doUpdateUnitPartFrom()
@@ -414,37 +416,34 @@ class SettingsViewModel {
         if (check && usunitfrom == v) return
         usunitfrom = v
         userSettingService.update(INFO_USUNITFROM, usunitfrom)
-        withContext(Dispatchers.Main) { settingsListener?.onUpdateUnitFrom() }
+        settingsListener?.onUpdateUnitFrom()
     }
 
     private suspend fun doUpdatePartFrom(v: Int, check: Boolean = true) {
         if (check && uspartfrom == v) return
         uspartfrom = v
         userSettingService.update(INFO_USPARTFROM, uspartfrom)
-        withContext(Dispatchers.Main) { settingsListener?.onUpdatePartFrom() }
+        settingsListener?.onUpdatePartFrom()
     }
 
     private suspend fun doUpdateUnitTo(v: Int, check: Boolean = true) {
         if (check && usunitto == v) return
         usunitto = v
         userSettingService.update(INFO_USUNITTO, usunitto)
-        withContext(Dispatchers.Main) { settingsListener?.onUpdateUnitTo() }
+        settingsListener?.onUpdateUnitTo()
     }
 
     private suspend fun doUpdatePartTo(v: Int, check: Boolean = true) {
         if (check && uspartto == v) return
         uspartto = v
         userSettingService.update(INFO_USPARTTO, uspartto)
-        withContext(Dispatchers.Main) { settingsListener?.onUpdatePartTo() }
+        settingsListener?.onUpdatePartTo()
     }
-
-    suspend fun getHtml(url: String): String =
-        htmlService.getHtml(url)
 
     suspend fun getNote(word: String): String {
         val dictNote = selectedDictNote ?: return ""
         val url = dictNote.urlString(word, lstAutoCorrect)
-        val html = getHtml(url)
+        val html = htmlService.getHtml(url)
         Log.d("", html)
         return extractTextFrom(html, dictNote.transform, "") { text, _ -> text }
     }
