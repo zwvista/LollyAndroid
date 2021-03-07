@@ -99,7 +99,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        tts.shutdown()
+        tts?.shutdown()
     }
 
     override fun onResume() {

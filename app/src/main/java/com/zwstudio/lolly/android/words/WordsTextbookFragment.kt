@@ -98,6 +98,11 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
         tts.language = locale
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.shutdown()
+    }
+
     override fun onResume() {
         super.onResume()
         vm.getDataInLang()
