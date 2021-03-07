@@ -70,6 +70,7 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
     override fun onDestroy() {
         subscription?.dispose()
         super.onDestroy()
+        tts?.shutdown()
     }
 
     override fun onInit(status: Int) {

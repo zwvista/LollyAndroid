@@ -69,7 +69,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
 
     override fun onDestroy() {
         super.onDestroy()
-        tts.shutdown()
+        tts?.shutdown()
     }
 
     override fun onResume() {
