@@ -62,11 +62,12 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
 
         navigationView.setNavigationItemSelectedListener(this)
 
-        //vm = ViewModelProvider(this).get(DrawerActivityViewModel::class.java)
-        showFragment(vm.menuItemId)
+        if (vm.menuItemId == 0)
+            showFragment(R.id.nav_search)
     }
 
     private fun showFragment(itemId: Int) {
+        vm.menuItemId = itemId
         when (itemId) {
             R.id.nav_search -> showFragment(SearchFragment_())
             R.id.nav_settings -> showFragment(SettingsFragment_())
@@ -97,9 +98,8 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        vm.menuItemId = item.itemId
         // Handle navigation view item clicks here.
-        showFragment(vm.menuItemId)
+        showFragment(item.itemId)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
