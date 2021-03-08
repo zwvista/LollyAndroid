@@ -39,7 +39,7 @@ class PhrasesLangViewModel : BaseViewModel() {
         }
     }
 
-    fun getData() = viewModelScope.launch {
+    suspend fun getData() {
         lstPhrasesAll = langPhraseService.getDataByLang(vmSettings.selectedLang.id)
         applyFilters()
     }

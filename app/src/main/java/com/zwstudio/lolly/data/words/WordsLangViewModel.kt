@@ -40,7 +40,7 @@ class WordsLangViewModel : BaseViewModel() {
         }
     }
 
-    fun getData() = viewModelScope.launch {
+    suspend fun getData() {
         lstWordsAll = langWordService.getDataByLang(vmSettings.selectedLang.id)
         applyFilters()
     }

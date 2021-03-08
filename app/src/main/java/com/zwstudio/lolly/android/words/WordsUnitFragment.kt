@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
@@ -28,6 +29,7 @@ import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.launch
 import org.androidannotations.annotations.*
 import java.util.*
 
@@ -89,7 +91,6 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         spnScopeFilter.adapter = adapter
         spnScopeFilter.setSelection(0)
 
-        vm.getDataInTextbook()
         mDragListView.recyclerView.isVerticalScrollBarEnabled = true
         mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
             override fun onItemDragStarted(position: Int) {
@@ -122,10 +123,14 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         })
 
         mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
-        refreshListView()
         mDragListView.setCanDragHorizontally(false)
         mDragListView.setCustomDragItem(WordsUnitDragItem(requireContext(), R.layout.list_item_words_unit_edit))
-        progressBar1.visibility = View.GONE
+
+        vm.viewModelScope.launch {
+            vm.getDataInTextbook()
+            refreshListView()
+            progressBar1.visibility = View.GONE
+        }
     }
 
     override fun onInit(status: Int) {

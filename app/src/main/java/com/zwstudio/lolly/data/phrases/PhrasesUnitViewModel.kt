@@ -44,13 +44,13 @@ class PhrasesUnitViewModel : BaseViewModel() {
         }
     }
 
-    fun getDataInTextbook() = viewModelScope.launch {
+    suspend fun getDataInTextbook() {
         lstPhrasesAll = unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
         applyFilters()
     }
 
-    fun getDataInLang() = viewModelScope.launch {
+    suspend fun getDataInLang() {
         lstPhrasesAll = unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
         applyFilters()
     }

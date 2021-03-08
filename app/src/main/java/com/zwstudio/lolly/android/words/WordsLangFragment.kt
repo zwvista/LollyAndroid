@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -26,6 +27,7 @@ import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.launch
 import org.androidannotations.annotations.*
 import java.util.*
 
@@ -85,25 +87,7 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
         spnScopeFilter.adapter = adapter
         spnScopeFilter.setSelection(0)
-    }
 
-    override fun onInit(status: Int) {
-        if (status != TextToSpeech.SUCCESS) return
-        val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
-        }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        tts.shutdown()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        vm.getData()
         mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
         mRefreshLayout.setScrollingView(mDragListView.recyclerView)
@@ -126,8 +110,30 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         })
 
         mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
-        refreshListView()
-        progressBar1.visibility = View.GONE
+
+        vm.viewModelScope.launch {
+            vm.getData()
+            refreshListView()
+            progressBar1.visibility = View.GONE
+        }
+    }
+
+    override fun onInit(status: Int) {
+        if (status != TextToSpeech.SUCCESS) return
+        val locale = Locale.getAvailableLocales().find {
+            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
+        }
+        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
+        tts.language = locale
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts.shutdown()
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     private fun refreshListView() {

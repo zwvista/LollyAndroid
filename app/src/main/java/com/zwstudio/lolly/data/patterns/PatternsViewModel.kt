@@ -40,7 +40,7 @@ class PatternsViewModel : BaseViewModel() {
         }
     }
 
-    fun getData() = viewModelScope.launch {
+    suspend fun getData() {
         lstPatternsAll = patternService.getDataByLang(vmSettings.selectedLang.id)
         applyFilters()
     }

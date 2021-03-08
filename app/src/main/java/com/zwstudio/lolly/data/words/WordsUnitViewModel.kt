@@ -43,13 +43,13 @@ class WordsUnitViewModel : BaseViewModel() {
         }
     }
 
-    fun getDataInTextbook() = viewModelScope.launch {
+    suspend fun getDataInTextbook() {
         lstWordsAll = unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
         applyFilters()
     }
 
-    fun getDataInLang() = viewModelScope.launch {
+    suspend fun getDataInLang() {
         lstWordsAll = unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
         applyFilters()
     }
