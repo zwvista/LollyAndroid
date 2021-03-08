@@ -92,42 +92,43 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         spnScopeFilter.adapter = adapter
         spnScopeFilter.setSelection(0)
 
+        mDragListView.recyclerView.isVerticalScrollBarEnabled = true
+        mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
+            override fun onItemDragStarted(position: Int) {
+                mRefreshLayout.isEnabled = false
+                Toast.makeText(mDragListView.context, "Start - position: $position", Toast.LENGTH_SHORT).show()
+            }
+            override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
+                mRefreshLayout.isEnabled = true
+                Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
+                vm.reindex {}
+            }
+        })
+
+        mRefreshLayout.setScrollingView(mDragListView.recyclerView)
+        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
+        mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
+
+        mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
+            override fun onItemSwipeStarted(item: ListSwipeItem?) {
+                mRefreshLayout.isEnabled = false
+            }
+            override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
+                mRefreshLayout.isEnabled = true
+                when (swipedDirection) {
+                    ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
+                    ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
+                    else -> {}
+                }
+            }
+        })
+
+        mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
+        mDragListView.setCanDragHorizontally(false)
+        mDragListView.setCustomDragItem(WordsUnitDragItem(requireContext(), R.layout.list_item_words_unit_edit))
+
         compositeDisposable.add(vm.getDataInTextbook().subscribe {
-            mDragListView.recyclerView.isVerticalScrollBarEnabled = true
-            mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
-                override fun onItemDragStarted(position: Int) {
-                    mRefreshLayout.isEnabled = false
-                    Toast.makeText(mDragListView.context, "Start - position: $position", Toast.LENGTH_SHORT).show()
-                }
-                override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
-                    mRefreshLayout.isEnabled = true
-                    Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
-                    vm.reindex {}
-                }
-            })
-
-            mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-            mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
-            mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
-
-            mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
-                override fun onItemSwipeStarted(item: ListSwipeItem?) {
-                    mRefreshLayout.isEnabled = false
-                }
-                override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
-                    mRefreshLayout.isEnabled = true
-                    when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
-                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
-                        else -> {}
-                    }
-                }
-            })
-
-            mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
             refreshListView()
-            mDragListView.setCanDragHorizontally(false)
-            mDragListView.setCustomDragItem(WordsUnitDragItem(requireContext(), R.layout.list_item_words_unit_edit))
             progressBar1.visibility = View.GONE
         })
     }
