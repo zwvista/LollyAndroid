@@ -1,11 +1,13 @@
 package com.zwstudio.lolly.android.words
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -13,6 +15,9 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.ContentPhrasesTextbookBinding
+import com.zwstudio.lolly.android.databinding.ContentWordsTextbookBinding
+import com.zwstudio.lolly.android.databinding.ContentWordsUnitBinding
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
@@ -29,8 +34,8 @@ import java.util.*
 @OptionsMenu(R.menu.menu_words_textbook)
 class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
-    @Bean
-    lateinit var vm: WordsUnitViewModel
+    val vm: WordsUnitViewModel by viewModels()
+    lateinit var binding: ContentWordsTextbookBinding
     lateinit var tts: TextToSpeech
 
     @OptionsMenuItem
@@ -44,6 +49,14 @@ class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener 
     lateinit var spnTextbookFilter: Spinner
     @ViewById
     lateinit var spnScopeFilter: Spinner
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = ContentWordsTextbookBinding.inflate(inflater, container, false).apply {
+            model = vm
+            lifecycleOwner = this@WordsTextbookFragment
+        }
+        return binding.root
+    }
 
     @AfterViews
     fun afterViews() {

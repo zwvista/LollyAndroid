@@ -39,6 +39,7 @@ private const val REQUEST_CODE = 1
 class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     val vm: WordsUnitViewModel by viewModels()
+    lateinit var binding: ContentWordsUnitBinding
     lateinit var tts: TextToSpeech
 
     @OptionsMenuItem
@@ -51,10 +52,11 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @ViewById
     lateinit var spnScopeFilter: Spinner
 
-    lateinit var binding: ContentWordsUnitBinding
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ContentWordsUnitBinding.inflate(inflater, container, false)
+        binding = ContentWordsUnitBinding.inflate(inflater, container, false).apply {
+            model = vm
+            lifecycleOwner = this@WordsUnitFragment
+        }
         return binding.root
     }
 

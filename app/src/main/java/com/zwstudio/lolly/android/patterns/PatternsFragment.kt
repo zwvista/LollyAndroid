@@ -2,11 +2,13 @@ package com.zwstudio.lolly.android.patterns
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -14,12 +16,15 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.ContentPatternsBinding
+import com.zwstudio.lolly.android.databinding.ContentPhrasesUnitBinding
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
+import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MPattern
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -32,8 +37,8 @@ private const val REQUEST_CODE = 1
 @OptionsMenu(R.menu.menu_patterns)
 class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
-    @Bean
-    lateinit var vm: PatternsViewModel
+    val vm: PatternsViewModel by viewModels()
+    lateinit var binding: ContentPatternsBinding
     lateinit var tts: TextToSpeech
 
     @OptionsMenuItem
@@ -45,6 +50,14 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     lateinit var svTextFilter: SearchView
     @ViewById
     lateinit var spnScopeFilter: Spinner
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = ContentPatternsBinding.inflate(inflater, container, false).apply {
+            model = vm
+            lifecycleOwner = this@PatternsFragment
+        }
+        return binding.root
+    }
 
     @AfterViews
     fun afterViews() {
