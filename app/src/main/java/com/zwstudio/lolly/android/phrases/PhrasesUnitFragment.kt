@@ -3,11 +3,13 @@ package com.zwstudio.lolly.android.phrases
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
@@ -16,6 +18,8 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.ContentPhrasesUnitBinding
+import com.zwstudio.lolly.android.databinding.ContentWordsUnitBinding
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
@@ -34,8 +38,8 @@ private const val REQUEST_CODE = 1
 @OptionsMenu(R.menu.menu_phrases_unit)
 class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
-    @Bean
-    lateinit var vm: PhrasesUnitViewModel
+    val vm: PhrasesUnitViewModel by viewModels()
+    lateinit var binding: ContentPhrasesUnitBinding
     lateinit var tts: TextToSpeech
 
     @OptionsMenuItem
@@ -47,6 +51,14 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     lateinit var svTextFilter: SearchView
     @ViewById
     lateinit var spnScopeFilter: Spinner
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = ContentPhrasesUnitBinding.inflate(inflater, container, false).apply {
+            model = vm
+            lifecycleOwner = this@PhrasesUnitFragment
+        }
+        return binding.root
+    }
 
     @AfterViews
     fun afterViews() {
