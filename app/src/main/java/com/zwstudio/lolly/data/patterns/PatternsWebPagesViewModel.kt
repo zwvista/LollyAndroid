@@ -22,10 +22,8 @@ class PatternsWebPagesViewModel : BaseViewModel() {
 
     lateinit var compositeDisposable: CompositeDisposable
 
-    @Bean
-    lateinit var patternWebPageService: PatternWebPageService
-    @Bean
-    lateinit var webPageService: WebPageService
+    val patternWebPageService = PatternWebPageService()
+    val webPageService = WebPageService()
 
     fun getWebPages(patternid: Int) =
         patternWebPageService.getDataByPattern(patternid)

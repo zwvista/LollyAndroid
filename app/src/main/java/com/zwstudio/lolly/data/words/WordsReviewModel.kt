@@ -14,12 +14,10 @@ import org.androidannotations.annotations.EBean
 @EBean
 class WordsReviewModel : BaseViewModel() {
 
-    @Bean
-    lateinit var unitWordService: UnitWordService
+    val unitWordService = UnitWordService()
     @Bean
     lateinit var vmWordFami: WordsFamiViewModel
-    @Bean
-    lateinit var htmlService: HtmlService
+    val htmlService = HtmlService()
 
     var lstWords = listOf<MUnitWord>()
     var lstCorrectIDs = mutableListOf<Int>()

@@ -9,9 +9,11 @@ import android.os.Looper
 import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
@@ -22,6 +24,7 @@ import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ContentWordsUnitBinding
 import com.zwstudio.lolly.android.yesNoDialog
+import com.zwstudio.lolly.data.DrawerActivityViewModel
 import com.zwstudio.lolly.data.misc.*
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
@@ -37,8 +40,7 @@ private const val REQUEST_CODE = 1
 @OptionsMenu(R.menu.menu_words_unit)
 class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
-    @Bean
-    lateinit var vm: WordsUnitViewModel
+    val vm: WordsUnitViewModel by viewModels()
     lateinit var binding: ContentWordsUnitBinding
     lateinit var tts: TextToSpeech
 
@@ -53,8 +55,10 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     lateinit var spnScopeFilter: Spinner
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ContentWordsUnitBinding.inflate(inflater, container, false)
-        binding.model = vm
+        binding = ContentWordsUnitBinding.inflate(inflater, container, false).apply {
+            model = vm
+            lifecycleOwner = this@WordsUnitFragment
+        }
         return binding.root
     }
 

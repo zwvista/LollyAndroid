@@ -30,8 +30,7 @@ class PatternsViewModel : BaseViewModel() {
 
     lateinit var compositeDisposable: CompositeDisposable
 
-    @Bean
-    lateinit var patternService: PatternService
+    val patternService = PatternService()
 
     fun applyFilters() {
         lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {

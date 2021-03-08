@@ -12,8 +12,7 @@ import org.androidannotations.annotations.EBean
 @EBean
 class PhrasesReviewModel : BaseViewModel() {
 
-    @Bean
-    lateinit var unitPhraseService: UnitPhraseService
+    val unitPhraseService = UnitPhraseService()
 
     var lstPhrases = listOf<MUnitPhrase>()
     var lstCorrectIDs = mutableListOf<Int>()

@@ -33,8 +33,7 @@ class PhrasesUnitViewModel : BaseViewModel() {
 
     lateinit var compositeDisposable: CompositeDisposable
 
-    @Bean
-    lateinit var unitPhraseService: UnitPhraseService
+    val unitPhraseService = UnitPhraseService()
 
     fun applyFilters() {
         lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {

@@ -27,8 +27,7 @@ class PhrasesLangViewModel : BaseViewModel() {
     var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
     val noFilter get() = textFilter.isEmpty()
 
-    @Bean
-    lateinit var langPhraseService: LangPhraseService
+    val langPhraseService = LangPhraseService()
 
     fun applyFilters() {
         lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {

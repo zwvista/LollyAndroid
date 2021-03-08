@@ -32,8 +32,7 @@ class WordsUnitViewModel : BaseViewModel() {
 
     lateinit var compositeDisposable: CompositeDisposable
 
-    @Bean
-    lateinit var unitWordService: UnitWordService
+    val unitWordService = UnitWordService()
 
     fun applyFilters() {
         lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {

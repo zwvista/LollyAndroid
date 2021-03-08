@@ -15,8 +15,7 @@ class WordsDictViewModel : BaseViewModel(), IOnlineDict {
     val selectedWord: String
         get() = lstWords[selectedWordIndex]
 
-    @Bean
-    lateinit var htmlService: HtmlService
+    val htmlService = HtmlService()
 
     override fun getHtml(url: String): Observable<String> =
         htmlService.getHtml(url)
