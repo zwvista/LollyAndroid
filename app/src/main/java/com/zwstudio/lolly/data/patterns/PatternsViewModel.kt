@@ -32,8 +32,7 @@ class PatternsViewModel : BaseViewModel() {
     var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
     val noFilter get() = textFilter.isEmpty()
 
-    @Bean
-    lateinit var patternService: PatternService
+    val patternService = PatternService()
 
     fun applyFilters() {
         lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {

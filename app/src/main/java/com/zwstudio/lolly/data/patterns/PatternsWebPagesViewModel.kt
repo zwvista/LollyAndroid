@@ -24,10 +24,8 @@ class PatternsWebPagesViewModel : BaseViewModel() {
     var isEditMode_ = MutableLiveData(false)
     var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
 
-    @Bean
-    lateinit var patternWebPageService: PatternWebPageService
-    @Bean
-    lateinit var webPageService: WebPageService
+    val patternWebPageService = PatternWebPageService()
+    val webPageService = WebPageService()
 
     fun getWebPages(patternid: Int) = viewModelScope.launch {
         val lst = patternWebPageService.getDataByPattern(patternid)

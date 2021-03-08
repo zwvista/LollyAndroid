@@ -7,6 +7,7 @@ import android.content.DialogInterface
 import android.util.AttributeSet
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.zwstudio.lolly.data.misc.SettingsViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.EApplication
 import retrofit2.Retrofit
@@ -21,9 +22,8 @@ class LollyApplication : Application() {
         lateinit var retrofitJson: Retrofit
         lateinit var retrofitSP: Retrofit
         lateinit var retrofitHtml: Retrofit
+        lateinit var vmSettings: SettingsViewModel
     }
-
-    val compositeDisposable = CompositeDisposable()
 
     override fun onCreate() {
         retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/records/")
@@ -35,6 +35,7 @@ class LollyApplication : Application() {
         retrofitHtml = Retrofit.Builder().baseUrl("https://www.google.com")
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
+        vmSettings = SettingsViewModel()
     }
 
 }

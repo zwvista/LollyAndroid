@@ -199,22 +199,14 @@ class SettingsViewModel : ViewModel() {
         val zeroNote = "O"
     }
 
-    @Bean
-    lateinit var languageService: LanguageService
-    @Bean
-    lateinit var usMappingService: USMappingService
-    @Bean
-    lateinit var userSettingService: UserSettingService
-    @Bean
-    lateinit var dictionaryService: DictionaryService
-    @Bean
-    lateinit var textbookService: TextbookService
-    @Bean
-    lateinit var autoCorrectService: AutoCorrectService
-    @Bean
-    lateinit var voiceService: VoiceService
-    @Bean
-    lateinit var htmlService: HtmlService
+    val languageService = LanguageService()
+    val usMappingService = USMappingService()
+    val userSettingService = UserSettingService()
+    val dictionaryService = DictionaryService()
+    val textbookService = TextbookService()
+    val autoCorrectService = AutoCorrectService()
+    val voiceService = VoiceService()
+    val htmlService = HtmlService()
     private val compositeDisposable = CompositeDisposable()
 
     private fun getUSInfo(name: String): MUserSettingInfo {

@@ -34,8 +34,7 @@ class WordsUnitViewModel : BaseViewModel() {
     var textbookFilter get() = textbookFilter_.value!!; set(v) { textbookFilter_.value = v }
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
-    @Bean
-    lateinit var unitWordService: UnitWordService
+    val unitWordService = UnitWordService()
 
     fun applyFilters() {
         lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {

@@ -17,8 +17,7 @@ interface IOnlineDict {
 class SearchViewModel : BaseViewModel(), IOnlineDict {
     var word = ""
 
-    @Bean
-    lateinit var htmlService: HtmlService
+    val htmlService = HtmlService()
 
     override suspend fun getHtml(url: String): String =
         htmlService.getHtml(url)

@@ -32,8 +32,7 @@ class WordsLangViewModel : BaseViewModel() {
     var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
     val noFilter get() = textFilter.isEmpty()
 
-    @Bean
-    lateinit var langWordService: LangWordService
+    val langWordService = LangWordService()
 
     fun applyFilters() {
         lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {

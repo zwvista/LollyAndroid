@@ -12,8 +12,7 @@ import org.androidannotations.annotations.EBean
 @EBean
 class WordsFamiViewModel {
 
-    @Bean
-    lateinit var wordFamiService: WordFamiService
+    val wordFamiService = WordFamiService()
 
     private suspend fun getDataByUserWord(userid: Int, wordid: Int): List<MWordFami> =
         wordFamiService.getDataByUserWord(userid, wordid)

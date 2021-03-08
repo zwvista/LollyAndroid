@@ -35,8 +35,7 @@ class PhrasesUnitViewModel : BaseViewModel() {
     var textbookFilter get() = textbookFilter_.value!!; set(v) { textbookFilter_.value = v }
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
-    @Bean
-    lateinit var unitPhraseService: UnitPhraseService
+    val unitPhraseService = UnitPhraseService()
 
     fun applyFilters() {
         lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {
