@@ -66,7 +66,7 @@ class WordsUnitViewModel : DrawerListViewModel() {
         unitWordService.delete(item)
             .applyIO()
 
-    fun reindex(onNext: (Int) -> Unit) {
+    override fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstWords.size) {
             val item = lstWords[i - 1]
             if (item.seqnum == i) continue

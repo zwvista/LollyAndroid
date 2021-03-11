@@ -8,22 +8,17 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
-import com.woxthebox.draglistview.swipe.ListSwipeHelper
-import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ContentPhrasesTextbookBinding
 import com.zwstudio.lolly.android.yesNoDialog
+import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.*
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
-import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -36,6 +31,7 @@ import java.util.*
 class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
+    override val vmDrawerList: DrawerListViewModel? get() = vm
     lateinit var binding: ContentPhrasesTextbookBinding
     lateinit var tts: TextToSpeech
 
@@ -77,29 +73,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
         binding.spnScopeFilter.setSelection(0)
 
-        mDragListView.recyclerView.isVerticalScrollBarEnabled = true
-
-        mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
-        mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
-
-        mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
-            override fun onItemSwipeStarted(item: ListSwipeItem?) {
-                mRefreshLayout.isEnabled = false
-            }
-
-            override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
-                mRefreshLayout.isEnabled = true
-                when (swipedDirection) {
-                    ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
-                    ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
-                    else -> {}
-                }
-            }
-        })
-
-        mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
-
+        setupList()
         compositeDisposable.add(vm.getDataInLang().subscribe {
             refreshListView()
             progressBar1.visibility = View.GONE

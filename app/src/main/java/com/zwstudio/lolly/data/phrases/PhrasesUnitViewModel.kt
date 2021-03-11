@@ -62,7 +62,7 @@ class PhrasesUnitViewModel : DrawerListViewModel() {
         unitPhraseService.delete(item)
             .applyIO()
 
-    fun reindex(onNext: (Int) -> Unit) {
+    override fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstPhrases.size) {
             val item = lstPhrases[i - 1]
             if (item.seqnum == i) continue

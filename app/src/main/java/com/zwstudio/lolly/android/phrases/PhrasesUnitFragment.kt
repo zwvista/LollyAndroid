@@ -8,15 +8,11 @@ import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
-import com.woxthebox.draglistview.swipe.ListSwipeHelper
-import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ContentPhrasesUnitBinding
@@ -75,43 +71,7 @@ class PhrasesUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
         binding.spnScopeFilter.setSelection(0)
 
-        mDragListView.recyclerView.isVerticalScrollBarEnabled = true
-        mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
-            override fun onItemDragStarted(position: Int) {
-                mRefreshLayout.isEnabled = false
-                Toast.makeText(mDragListView.context, "Start - position: $position", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
-                mRefreshLayout.isEnabled = true
-                Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
-                vm.reindex {}
-            }
-        })
-
-        mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
-        mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
-
-        mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
-            override fun onItemSwipeStarted(item: ListSwipeItem?) {
-                mRefreshLayout.isEnabled = false
-            }
-
-            override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
-                mRefreshLayout.isEnabled = true
-                when (swipedDirection) {
-                    ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
-                    ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
-                    else -> {}
-                }
-            }
-        })
-
-        mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
-        mDragListView.setCanDragHorizontally(false)
-        mDragListView.setCustomDragItem(PhrasesUnitDragItem(requireContext(), R.layout.list_item_phrases_unit_edit))
-
+        setupList(PhrasesUnitDragItem(requireContext(), R.layout.list_item_phrases_unit_edit))
         compositeDisposable.add(vm.getDataInTextbook().subscribe {
             refreshListView()
             progressBar1.visibility = View.GONE

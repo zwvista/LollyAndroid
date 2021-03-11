@@ -10,4 +10,5 @@ class DrawerListViewModel : BaseViewModel() {
     var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
     var textFilter_ = MutableLiveData("")
     var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
+    fun reindex(onNext: (Int) -> Unit) {}
 }
