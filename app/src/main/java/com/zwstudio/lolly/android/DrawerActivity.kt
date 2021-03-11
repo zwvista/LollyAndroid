@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android
 
 import android.view.MenuItem
-import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +11,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
-import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.misc.SearchFragment_
 import com.zwstudio.lolly.android.misc.SettingsFragment_
 import com.zwstudio.lolly.android.patterns.PatternsFragment_
@@ -25,10 +23,8 @@ import com.zwstudio.lolly.android.words.WordsReviewFragment_
 import com.zwstudio.lolly.android.words.WordsTextbookFragment_
 import com.zwstudio.lolly.android.words.WordsUnitFragment_
 import com.zwstudio.lolly.data.DrawerActivityViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ViewById
 
 @EActivity(R.layout.activity_drawer)
@@ -103,18 +99,4 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
-}
-
-@EFragment
-class DrawerListFragment : Fragment() {
-
-    @ViewById(R.id.drag_list_view)
-    lateinit var mDragListView: DragListView
-    @ViewById(R.id.swipe_refresh_layout)
-    lateinit var mRefreshLayout: LollySwipeRefreshLayout
-    @ViewById
-    lateinit var progressBar1: ProgressBar
-
-    val compositeDisposable = CompositeDisposable()
-
 }
