@@ -5,6 +5,7 @@ import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import java.net.URLEncoder
@@ -89,3 +90,12 @@ fun <T> makeAdapter(context: Context, @LayoutRes resource: Int, @IdRes textViewR
 
 fun <T> makeAdapter(context: Context, @LayoutRes resource: Int, objects: List<T>, convert: ArrayAdapter<T>.(View, Int) -> View): ArrayAdapter<T> =
     makeAdapter(context, resource, 0, objects, convert)
+
+fun <T> makeCustomAdapter(context: Context, objects: List<T>, labelFunc: (T) -> String): ArrayAdapter<T> =
+    makeAdapter(context, android.R.layout.simple_spinner_item, objects) { v, position ->
+        val tv = v.findViewById<TextView>(android.R.id.text1)
+        tv.text = labelFunc(getItem(position)!!)
+        v
+    }.apply {
+        setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
+    }
