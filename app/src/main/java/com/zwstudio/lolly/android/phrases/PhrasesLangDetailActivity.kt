@@ -2,6 +2,7 @@ package com.zwstudio.lolly.android.phrases
 
 import android.app.Activity
 import android.view.LayoutInflater
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.zwstudio.lolly.android.R
@@ -16,9 +17,9 @@ import org.androidannotations.annotations.*
 @OptionsMenu(R.menu.menu_save)
 class PhrasesLangDetailActivity : AppCompatActivity() {
 
-    @Bean
-    lateinit var vm: PhrasesLangViewModel
+    val vm: PhrasesLangViewModel by viewModels()
     lateinit var vmDetail: PhrasesLangDetailViewModel
+    lateinit var binding: ActivityPhrasesLangDetailBinding
     lateinit var item: MLangPhrase
 
     val compositeDisposable = CompositeDisposable()
@@ -26,7 +27,7 @@ class PhrasesLangDetailActivity : AppCompatActivity() {
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("phrase") as MLangPhrase
-        DataBindingUtil.inflate<ActivityPhrasesLangDetailBinding>(LayoutInflater.from(this), R.layout.activity_phrases_lang_detail,
+        binding = DataBindingUtil.inflate<ActivityPhrasesLangDetailBinding>(LayoutInflater.from(this), R.layout.activity_phrases_lang_detail,
                 findViewById(android.R.id.content), true).apply {
             lifecycleOwner = this@PhrasesLangDetailActivity
             vmDetail = PhrasesLangDetailViewModel(item)
