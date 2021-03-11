@@ -104,14 +104,3 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
         return true
     }
 }
-
-@EFragment
-class DrawerListFragment : Fragment() {
-
-    @ViewById(R.id.drag_list_view)
-    lateinit var mDragListView: DragListView
-    @ViewById(R.id.swipe_refresh_layout)
-    lateinit var mRefreshLayout: LollySwipeRefreshLayout
-    @ViewById
-    lateinit var progressBar1: ProgressBar
-}
