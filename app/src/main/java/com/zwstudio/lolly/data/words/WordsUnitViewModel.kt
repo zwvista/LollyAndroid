@@ -2,6 +2,7 @@ package com.zwstudio.lolly.data.words
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.BaseViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
@@ -16,20 +17,14 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
-class WordsUnitViewModel : BaseViewModel() {
+class WordsUnitViewModel : DrawerListViewModel() {
 
     val lstWordsAll_ = MutableLiveData(listOf<MUnitWord>())
     var lstWordsAll get() = lstWordsAll_.value!!; set(v) { lstWordsAll_.value = v }
     val lstWords_ = MutableLiveData(listOf<MUnitWord>())
     var lstWords get() = lstWords_.value!!; set(v) { lstWords_.value = v }
-    val isSwipeStarted_ = MutableLiveData(false)
-    var isSwipeStarted get() = isSwipeStarted_.value!!; set(v) { isSwipeStarted_.value = v }
-    val isEditMode_ = MutableLiveData(false)
-    var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
     val scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopeWordFilters[0].label)
     var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
-    val textFilter_ = MutableLiveData("")
-    var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
     val textbookFilter_ = MutableLiveData(0)
     var textbookFilter get() = textbookFilter_.value!!; set(v) { textbookFilter_.value = v }
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
