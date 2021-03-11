@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
@@ -24,6 +26,7 @@ import com.zwstudio.lolly.android.databinding.ContentPhrasesUnitBinding
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.misc.*
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
+import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -36,7 +39,7 @@ import java.util.*
 @OptionsMenu(R.menu.menu_phrases_textbook)
 class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
-    val vm: PhrasesUnitViewModel by viewModels()
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
     lateinit var binding: ContentPhrasesTextbookBinding
     lateinit var tts: TextToSpeech
 

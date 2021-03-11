@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ActivityPhrasesLangDetailBinding
 import com.zwstudio.lolly.data.phrases.PhrasesLangDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
+import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
@@ -17,7 +20,7 @@ import org.androidannotations.annotations.*
 @OptionsMenu(R.menu.menu_save)
 class PhrasesLangDetailActivity : AppCompatActivity() {
 
-    val vm: PhrasesLangViewModel by viewModels()
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesLangViewModel>() }
     lateinit var vmDetail: PhrasesLangDetailViewModel
     lateinit var binding: ActivityPhrasesLangDetailBinding
     lateinit var item: MLangPhrase

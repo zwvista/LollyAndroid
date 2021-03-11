@@ -15,6 +15,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -40,7 +42,7 @@ private const val REQUEST_CODE = 1
 @OptionsMenu(R.menu.menu_words_unit)
 class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
-    val vm: WordsUnitViewModel by viewModels()
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
     lateinit var binding: ContentWordsUnitBinding
     lateinit var tts: TextToSpeech
 

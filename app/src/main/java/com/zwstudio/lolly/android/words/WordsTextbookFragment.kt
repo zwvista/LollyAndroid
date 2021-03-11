@@ -10,6 +10,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
@@ -33,7 +35,7 @@ import java.util.*
 @OptionsMenu(R.menu.menu_words_textbook)
 class WordsTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
-    val vm: WordsUnitViewModel by viewModels()
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
     lateinit var binding: ContentWordsTextbookBinding
     lateinit var tts: TextToSpeech
 

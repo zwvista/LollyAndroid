@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ActivityWordsLangDetailBinding
 import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
@@ -18,7 +20,7 @@ import org.androidannotations.annotations.*
 @OptionsMenu(R.menu.menu_save)
 class WordsLangDetailActivity : AppCompatActivity() {
 
-    val vm: WordsLangViewModel by viewModels()
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsLangViewModel>() }
     lateinit var vmDetail: WordsLangDetailViewModel
     lateinit var binding: ActivityWordsLangDetailBinding
     lateinit var item: MLangWord

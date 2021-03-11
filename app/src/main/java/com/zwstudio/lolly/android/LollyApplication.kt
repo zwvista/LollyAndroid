@@ -7,6 +7,7 @@ import android.content.DialogInterface
 import android.util.AttributeSet
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.androidisland.vita.startVita
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.EApplication
@@ -26,6 +27,7 @@ class LollyApplication : Application() {
     }
 
     override fun onCreate() {
+        super.onCreate()
         retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.tk/lolly/api.php/records/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -36,6 +38,7 @@ class LollyApplication : Application() {
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
         vmSettings = SettingsViewModel()
+        startVita()
     }
 
 }
