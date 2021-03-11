@@ -2,6 +2,7 @@ package com.zwstudio.lolly.android.patterns
 
 import android.app.Activity
 import android.view.LayoutInflater
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.zwstudio.lolly.android.R
@@ -16,15 +17,15 @@ import org.androidannotations.annotations.*
 @OptionsMenu(R.menu.menu_save)
 class PatternsWebPagesDetailActivity : AppCompatActivity() {
 
-    @Bean
-    lateinit var vm: PatternsWebPagesViewModel
+    val vm: PatternsWebPagesViewModel by viewModels()
     lateinit var vmDetail: PatternsWebPageDetailViewModel
+    lateinit var binding: ActivityPatternsWebpagesDetailBinding
     lateinit var item: MPatternWebPage
 
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("webpage") as MPatternWebPage
-        DataBindingUtil.inflate<ActivityPatternsWebpagesDetailBinding>(LayoutInflater.from(this), R.layout.activity_patterns_webpages_detail,
+        binding = DataBindingUtil.inflate<ActivityPatternsWebpagesDetailBinding>(LayoutInflater.from(this), R.layout.activity_patterns_webpages_detail,
                 findViewById(android.R.id.content), true).apply {
             lifecycleOwner = this@PatternsWebPagesDetailActivity
             vmDetail = PatternsWebPageDetailViewModel(item)

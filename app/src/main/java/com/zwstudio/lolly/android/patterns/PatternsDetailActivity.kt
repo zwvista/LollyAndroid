@@ -2,6 +2,7 @@ package com.zwstudio.lolly.android.patterns
 
 import android.app.Activity
 import android.view.LayoutInflater
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.zwstudio.lolly.android.R
@@ -16,17 +17,15 @@ import org.androidannotations.annotations.*
 @OptionsMenu(R.menu.menu_save)
 class PatternsDetailActivity : AppCompatActivity() {
 
-    @Bean
-    lateinit var vm: PatternsViewModel
+    val vm: PatternsViewModel by viewModels()
     lateinit var vmDetail: PatternsDetailViewModel
+    lateinit var binding: ActivityPatternsDetailBinding
     lateinit var item: MPattern
-
-    val compositeDisposable = CompositeDisposable()
 
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("pattern") as MPattern
-        DataBindingUtil.inflate<ActivityPatternsDetailBinding>(LayoutInflater.from(this), R.layout.activity_patterns_detail,
+        binding = DataBindingUtil.inflate<ActivityPatternsDetailBinding>(LayoutInflater.from(this), R.layout.activity_patterns_detail,
                 findViewById(android.R.id.content), true).apply {
             lifecycleOwner = this@PatternsDetailActivity
             vmDetail = PatternsDetailViewModel(item)
