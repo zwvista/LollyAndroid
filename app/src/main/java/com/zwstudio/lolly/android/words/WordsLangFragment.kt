@@ -27,11 +27,10 @@ private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_words_lang)
 @OptionsMenu(R.menu.menu_words_lang)
-class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
+class WordsLangFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsLangViewModel>() }
     lateinit var binding: ContentWordsLangBinding
-    lateinit var tts: TextToSpeech
 
     @OptionsMenuItem
     lateinit var menuNormalMode: MenuItem
@@ -68,25 +67,11 @@ class WordsLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopeWordFilters) { it.label }
         binding.spnScopeFilter.setSelection(0)
 
-        setupList()
+        setupListView()
         compositeDisposable.add(vm.getData().subscribe {
             refreshListView()
             progressBar1.visibility = View.GONE
         })
-    }
-
-    override fun onInit(status: Int) {
-        if (status != TextToSpeech.SUCCESS) return
-        val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
-        }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        tts.shutdown()
     }
 
     private fun refreshListView() {

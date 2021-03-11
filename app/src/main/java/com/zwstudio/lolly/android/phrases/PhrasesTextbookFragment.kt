@@ -28,12 +28,11 @@ import java.util.*
 
 @EFragment(R.layout.content_phrases_textbook)
 @OptionsMenu(R.menu.menu_phrases_textbook)
-class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
+class PhrasesTextbookFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
     lateinit var binding: ContentPhrasesTextbookBinding
-    lateinit var tts: TextToSpeech
 
     @OptionsMenuItem
     lateinit var menuNormalMode: MenuItem
@@ -73,25 +72,11 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
         binding.spnScopeFilter.setSelection(0)
 
-        setupList()
+        setupListView()
         compositeDisposable.add(vm.getDataInLang().subscribe {
             refreshListView()
             progressBar1.visibility = View.GONE
         })
-    }
-
-    override fun onInit(status: Int) {
-        if (status != TextToSpeech.SUCCESS) return
-        val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
-        }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        tts.shutdown()
     }
 
     private fun refreshListView() {
