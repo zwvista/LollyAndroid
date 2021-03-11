@@ -17,12 +17,8 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ContentPatternsBinding
-import com.zwstudio.lolly.android.databinding.ContentWordsUnitBinding
 import com.zwstudio.lolly.android.yesNoDialog
-import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.data.misc.copyText
-import com.zwstudio.lolly.data.misc.googleString
-import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.data.misc.*
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MPattern
@@ -45,15 +41,10 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
     @OptionsMenuItem
     lateinit var menuEditMode: MenuItem
 
-    @ViewById
-    lateinit var svTextFilter: SearchView
-    @ViewById
-    lateinit var spnScopeFilter: Spinner
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentPatternsBinding.inflate(inflater, container, false).apply {
-            model = vm
             lifecycleOwner = this@PatternsFragment
+            model = vm
         }
         return binding.root
     }
@@ -63,7 +54,7 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         activity?.title = resources.getString(R.string.patterns)
         tts = TextToSpeech(requireContext(), this)
 
-        svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 vm.applyFilters()
                 refreshListView()
@@ -77,15 +68,8 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
             }
         })
 
-        val lst = SettingsViewModel.lstScopePatternFilters
-        val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
-            val tv = v.findViewById<TextView>(android.R.id.text1)
-            tv.text = getItem(position)!!.label
-            v
-        }
-        adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
-        spnScopeFilter.adapter = adapter
-        spnScopeFilter.setSelection(0)
+        binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePatternFilters) { it.label }
+        binding.spnScopeFilter.setSelection(0)
 
         mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 

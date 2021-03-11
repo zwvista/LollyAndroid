@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.SearchView
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -19,13 +18,8 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ContentPhrasesTextbookBinding
-import com.zwstudio.lolly.android.databinding.ContentPhrasesUnitBinding
-import com.zwstudio.lolly.android.databinding.ContentWordsUnitBinding
 import com.zwstudio.lolly.android.yesNoDialog
-import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.data.misc.copyText
-import com.zwstudio.lolly.data.misc.googleString
-import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.data.misc.*
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
@@ -47,17 +41,10 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
     @OptionsMenuItem
     lateinit var menuEditMode: MenuItem
 
-    @ViewById
-    lateinit var svTextFilter: SearchView
-    @ViewById
-    lateinit var spnTextbookFilter: Spinner
-    @ViewById
-    lateinit var spnScopeFilter: Spinner
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentPhrasesTextbookBinding.inflate(inflater, container, false).apply {
-            model = vm
             lifecycleOwner = this@PhrasesTextbookFragment
+            model = vm
         }
         return binding.root
     }
@@ -68,7 +55,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
         vm.compositeDisposable = compositeDisposable
         tts = TextToSpeech(requireContext(), this)
 
-        svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 vm.applyFilters()
                 refreshListView()
@@ -82,30 +69,10 @@ class PhrasesTextbookFragment : DrawerListFragment(), TextToSpeech.OnInitListene
             }
         })
 
-
-        run {
-            val lst = vm.vmSettings.lstTextbookFilters
-            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
-                val tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = getItem(position)!!.label
-                v
-            }
-            adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
-            spnTextbookFilter.adapter = adapter
-            spnTextbookFilter.setSelection(0)
-        }
-
-        run {
-            val lst = SettingsViewModel.lstScopePhraseFilters
-            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
-                val tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = getItem(position)!!.label
-                v
-            }
-            adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
-            spnScopeFilter.adapter = adapter
-            spnScopeFilter.setSelection(0)
-        }
+        binding.spnTextbookFilter.adapter = makeCustomAdapter(requireContext(), vm.vmSettings.lstTextbookFilters) { it.label }
+        binding.spnTextbookFilter.setSelection(0)
+        binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
+        binding.spnScopeFilter.setSelection(0)
 
         mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
