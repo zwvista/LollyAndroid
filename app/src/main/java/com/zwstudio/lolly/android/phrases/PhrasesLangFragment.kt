@@ -12,6 +12,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
@@ -22,6 +24,7 @@ import com.zwstudio.lolly.android.databinding.ContentPhrasesLangBinding
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.misc.*
 import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
+import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -34,7 +37,7 @@ private const val REQUEST_CODE = 1
 @OptionsMenu(R.menu.menu_phrases_lang)
 class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
-    val vm: PhrasesLangViewModel by viewModels()
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesLangViewModel>() }
     lateinit var binding: ContentPhrasesLangBinding
     lateinit var tts: TextToSpeech
 

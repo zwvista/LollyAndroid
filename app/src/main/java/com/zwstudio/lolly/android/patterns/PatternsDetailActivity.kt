@@ -2,9 +2,10 @@ package com.zwstudio.lolly.android.patterns
 
 import android.app.Activity
 import android.view.LayoutInflater
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ActivityPatternsDetailBinding
 import com.zwstudio.lolly.data.patterns.PatternsDetailViewModel
@@ -17,7 +18,7 @@ import org.androidannotations.annotations.*
 @OptionsMenu(R.menu.menu_save)
 class PatternsDetailActivity : AppCompatActivity() {
 
-    val vm: PatternsViewModel by viewModels()
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsViewModel>() }
     lateinit var vmDetail: PatternsDetailViewModel
     lateinit var binding: ActivityPatternsDetailBinding
     lateinit var item: MPattern

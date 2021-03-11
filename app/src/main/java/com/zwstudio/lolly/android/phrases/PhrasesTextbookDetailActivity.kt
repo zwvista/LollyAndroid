@@ -2,9 +2,10 @@ package com.zwstudio.lolly.android.phrases
 
 import android.app.Activity
 import android.view.LayoutInflater
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ActivityPhrasesTextbookDetailBinding
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
@@ -18,7 +19,7 @@ import org.androidannotations.annotations.*
 @OptionsMenu(R.menu.menu_save)
 class PhrasesTextbookDetailActivity : AppCompatActivity() {
 
-    val vm: PhrasesUnitViewModel by viewModels()
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
     lateinit var vmDetail: PhrasesUnitDetailViewModel
     lateinit var binding: ActivityPhrasesTextbookDetailBinding
     lateinit var item: MUnitPhrase

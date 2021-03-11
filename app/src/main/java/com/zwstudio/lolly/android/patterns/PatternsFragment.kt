@@ -8,8 +8,9 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
@@ -32,7 +33,7 @@ private const val REQUEST_CODE = 1
 @OptionsMenu(R.menu.menu_patterns)
 class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
-    val vm: PatternsViewModel by viewModels()
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsViewModel>() }
     lateinit var binding: ContentPatternsBinding
     lateinit var tts: TextToSpeech
 

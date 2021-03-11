@@ -7,8 +7,8 @@ import android.content.DialogInterface
 import android.util.AttributeSet
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.androidisland.vita.startVita
 import com.zwstudio.lolly.data.misc.SettingsViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.EApplication
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
@@ -41,6 +41,7 @@ class LollyApplication : Application() {
             .addConverterFactory(ScalarsConverterFactory.create())
             .build()
         vmSettings = SettingsViewModel()
+        startVita()
     }
 
 }
