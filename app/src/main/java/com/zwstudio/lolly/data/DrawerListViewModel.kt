@@ -1,7 +1,10 @@
 package com.zwstudio.lolly.data;
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.data.misc.BaseViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class DrawerListViewModel : BaseViewModel() {
     val isSwipeStarted_ = MutableLiveData(false)
@@ -10,4 +13,5 @@ class DrawerListViewModel : BaseViewModel() {
     var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
     var textFilter_ = MutableLiveData("")
     var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
+    fun reindex(onNext: (Int) -> Unit) = viewModelScope.launch {}
 }

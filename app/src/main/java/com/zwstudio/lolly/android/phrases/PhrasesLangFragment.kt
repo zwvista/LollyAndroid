@@ -24,6 +24,7 @@ import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ContentPhrasesLangBinding
 import com.zwstudio.lolly.android.yesNoDialog
+import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.*
 import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
@@ -41,6 +42,7 @@ private const val REQUEST_CODE = 1
 class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesLangViewModel>() }
+    override val vmDrawerList: DrawerListViewModel? get() = vm
     lateinit var binding: ContentPhrasesLangBinding
     lateinit var tts: TextToSpeech
 
@@ -79,29 +81,7 @@ class PhrasesLangFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
         binding.spnScopeFilter.setSelection(0)
 
-        mDragListView.recyclerView.isVerticalScrollBarEnabled = true
-
-        mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
-        mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
-
-        mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
-            override fun onItemSwipeStarted(item: ListSwipeItem?) {
-                mRefreshLayout.isEnabled = false
-            }
-
-            override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
-                mRefreshLayout.isEnabled = true
-                when (swipedDirection) {
-                    ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
-                    ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
-                    else -> {}
-                }
-            }
-        })
-
-        mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
-
+        setupList()
         vm.viewModelScope.launch {
             vm.getData()
             refreshListView()

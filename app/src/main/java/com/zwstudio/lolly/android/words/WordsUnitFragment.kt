@@ -26,6 +26,7 @@ import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ContentWordsUnitBinding
 import com.zwstudio.lolly.android.yesNoDialog
+import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.*
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
@@ -43,6 +44,7 @@ private const val REQUEST_CODE = 1
 class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
+    override val vmDrawerList: DrawerListViewModel? get() = vm
     lateinit var binding: ContentWordsUnitBinding
     lateinit var tts: TextToSpeech
 
@@ -81,41 +83,7 @@ class WordsUnitFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopeWordFilters) { it.label }
         binding.spnScopeFilter.setSelection(0)
 
-        mDragListView.recyclerView.isVerticalScrollBarEnabled = true
-        mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
-            override fun onItemDragStarted(position: Int) {
-                mRefreshLayout.isEnabled = false
-                Toast.makeText(mDragListView.context, "Start - position: $position", Toast.LENGTH_SHORT).show()
-            }
-            override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
-                mRefreshLayout.isEnabled = true
-                Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
-                vm.reindex {}
-            }
-        })
-
-        mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
-        mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
-
-        mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
-            override fun onItemSwipeStarted(item: ListSwipeItem?) {
-                mRefreshLayout.isEnabled = false
-            }
-            override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
-                mRefreshLayout.isEnabled = true
-                when (swipedDirection) {
-                    ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
-                    ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
-                    else -> {}
-                }
-            }
-        })
-
-        mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
-        mDragListView.setCanDragHorizontally(false)
-        mDragListView.setCustomDragItem(WordsUnitDragItem(requireContext(), R.layout.list_item_words_unit_edit))
-
+        setupList(WordsUnitDragItem(requireContext(), R.layout.list_item_words_unit_edit))
         vm.viewModelScope.launch {
             vm.getDataInTextbook()
             refreshListView()
