@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.android
 
+import android.speech.tts.TextToSpeech
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -13,9 +14,10 @@ import com.zwstudio.lolly.data.DrawerListViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ViewById
+import java.util.*
 
 @EFragment
-class DrawerListFragment : Fragment() {
+class DrawerListFragment : Fragment(), TextToSpeech.OnInitListener {
 
     @ViewById(R.id.drag_list_view)
     lateinit var mDragListView: DragListView
@@ -24,8 +26,23 @@ class DrawerListFragment : Fragment() {
     @ViewById
     lateinit var progressBar1: ProgressBar
     val vmDrawerList: DrawerListViewModel? get() = null
+    lateinit var tts: TextToSpeech
 
-    fun setupList(dragItem: DragItem? = null) {
+    override fun onInit(status: Int) {
+        if (status != TextToSpeech.SUCCESS) return
+        val locale = Locale.getAvailableLocales().find {
+            "${it.language}_${it.country}" == vmDrawerList?.vmSettings?.selectedVoice?.voicelang
+        }
+        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
+        tts.language = locale
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts.shutdown()
+    }
+
+    fun setupListView(dragItem: DragItem? = null) {
         mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
         mRefreshLayout.setScrollingView(mDragListView.recyclerView)

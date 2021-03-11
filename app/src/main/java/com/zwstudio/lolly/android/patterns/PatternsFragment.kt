@@ -38,12 +38,11 @@ private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_patterns)
 @OptionsMenu(R.menu.menu_patterns)
-class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
+class PatternsFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
     lateinit var binding: ContentPatternsBinding
-    lateinit var tts: TextToSpeech
 
     @OptionsMenuItem
     lateinit var menuNormalMode: MenuItem
@@ -80,26 +79,12 @@ class PatternsFragment : DrawerListFragment(), TextToSpeech.OnInitListener {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePatternFilters) { it.label }
         binding.spnScopeFilter.setSelection(0)
 
-        setupList()
+        setupListView()
         vm.viewModelScope.launch {
             vm.getData()
             refreshListView()
             progressBar1.visibility = View.GONE
         }
-    }
-
-    override fun onInit(status: Int) {
-        if (status != TextToSpeech.SUCCESS) return
-        val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
-        }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        tts.shutdown()
     }
 
     private fun refreshListView() {
