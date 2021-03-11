@@ -1,32 +1,24 @@
 package com.zwstudio.lolly.data.phrases
 
 import androidx.lifecycle.MutableLiveData
-import com.zwstudio.lolly.data.misc.BaseViewModel
+import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
-import com.zwstudio.lolly.service.wpp.LangPhraseService
 import com.zwstudio.lolly.service.wpp.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
-class PhrasesUnitViewModel : BaseViewModel() {
+class PhrasesUnitViewModel : DrawerListViewModel() {
 
     var lstPhrasesAll_ = MutableLiveData(listOf<MUnitPhrase>())
     var lstPhrasesAll get() = lstPhrasesAll_.value!!; set(v) { lstPhrasesAll_.value = v }
     var lstPhrases_ = MutableLiveData(listOf<MUnitPhrase>())
     var lstPhrases get() = lstPhrases_.value!!; set(v) { lstPhrases_.value = v }
-    var isSwipeStarted_ = MutableLiveData(false)
-    var isSwipeStarted get() = isSwipeStarted_.value!!; set(v) { isSwipeStarted_.value = v }
-    var isEditMode_ = MutableLiveData(false)
-    var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
     var scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopePhraseFilters[0].label)
     var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
-    var textFilter_ = MutableLiveData("")
-    var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
     var textbookFilter_ = MutableLiveData(0)
     var textbookFilter get() = textbookFilter_.value!!; set(v) { textbookFilter_.value = v }
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0

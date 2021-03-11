@@ -1,31 +1,24 @@
 package com.zwstudio.lolly.data.patterns
 
 import androidx.lifecycle.MutableLiveData
-import com.zwstudio.lolly.data.misc.BaseViewModel
+import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.service.wpp.PatternService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
-class PatternsViewModel : BaseViewModel() {
+class PatternsViewModel : DrawerListViewModel() {
 
     var lstPatternsAll_ = MutableLiveData(listOf<MPattern>())
     var lstPatternsAll get() = lstPatternsAll_.value!!; set(v) { lstPatternsAll_.value = v }
     var lstPatterns_ = MutableLiveData(listOf<MPattern>())
     var lstPatterns get() = lstPatterns_.value!!; set(v) { lstPatterns_.value = v }
-    var isSwipeStarted_ = MutableLiveData(false)
-    var isSwipeStarted get() = isSwipeStarted_.value!!; set(v) { isSwipeStarted_.value = v }
-    var isEditMode_ = MutableLiveData(false)
-    var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
     var scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopePatternFilters[0].label)
     var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
-    var textFilter_ = MutableLiveData("")
-    var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
     val noFilter get() = textFilter.isEmpty()
 
     lateinit var compositeDisposable: CompositeDisposable

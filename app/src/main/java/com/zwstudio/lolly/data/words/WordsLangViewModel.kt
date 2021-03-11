@@ -1,30 +1,23 @@
 package com.zwstudio.lolly.data.words
 
 import androidx.lifecycle.MutableLiveData
-import com.zwstudio.lolly.data.misc.BaseViewModel
+import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.wpp.LangWordService
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
-class WordsLangViewModel : BaseViewModel() {
+class WordsLangViewModel : DrawerListViewModel() {
 
     var lstWordsAll_ = MutableLiveData(listOf<MLangWord>())
     var lstWordsAll get() = lstWordsAll_.value!!; set(v) { lstWordsAll_.value = v }
     var lstWords_ = MutableLiveData(listOf<MLangWord>())
     var lstWords get() = lstWords_.value!!; set(v) { lstWords_.value = v }
-    var isSwipeStarted_ = MutableLiveData(false)
-    var isSwipeStarted get() = isSwipeStarted_.value!!; set(v) { isSwipeStarted_.value = v }
-    var isEditMode_ = MutableLiveData(false)
-    var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
     var scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopeWordFilters[0].label)
     var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
-    var textFilter_ = MutableLiveData("")
-    var textFilter get() = textFilter_.value!!; set(v) { textFilter_.value = v }
     val noFilter get() = textFilter.isEmpty()
 
     val langWordService = LangWordService()
