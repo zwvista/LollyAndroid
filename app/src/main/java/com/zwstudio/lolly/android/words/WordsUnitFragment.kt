@@ -188,24 +188,16 @@ class WordsUnitFragment : DrawerListFragment() {
         }
 
         inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
-            var mText1: TextView
-            var mText2: TextView
-            var mText3: TextView
-            var mEdit: TextView
-            var mDelete: TextView
-            var mMore: TextView
-            var mForward: ImageView
-            var mHamburger: ImageView
+            var mText1: TextView = itemView.findViewById(R.id.text1)
+            var mText2: TextView = itemView.findViewById(R.id.text2)
+            var mText3: TextView = itemView.findViewById(R.id.text3)
+            var mEdit: TextView = itemView.findViewById(R.id.item_edit)
+            var mDelete: TextView = itemView.findViewById(R.id.item_delete)
+            var mMore: TextView = itemView.findViewById(R.id.item_more)
+            var mForward: ImageView = itemView.findViewById(R.id.image_forward)
+            var mHamburger: ImageView = itemView.findViewById(R.id.image_hamburger)
 
             init {
-                mText1 = itemView.findViewById(R.id.text1)
-                mText2 = itemView.findViewById(R.id.text2)
-                mText3 = itemView.findViewById(R.id.text3)
-                mEdit = itemView.findViewById(R.id.item_edit)
-                mDelete = itemView.findViewById(R.id.item_delete)
-                mMore = itemView.findViewById(R.id.item_more)
-                mForward = itemView.findViewById(R.id.image_forward)
-                mHamburger = itemView.findViewById(R.id.image_hamburger)
                 initButtons()
             }
 

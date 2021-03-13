@@ -151,22 +151,14 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
         }
 
         inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
-            var mText1: TextView
-            var mText2: TextView
-            var mText3: TextView
-            var mCheckmark: ImageView
-
-            init {
-                mText1 = itemView.findViewById(R.id.text1)
-                mText2 = itemView.findViewById(R.id.text2)
-                mText3 = itemView.findViewById(R.id.text3)
-                mCheckmark = itemView.findViewById(R.id.image_checkmark)
-            }
+            var mText1: TextView = itemView.findViewById(R.id.text1)
+            var mText2: TextView = itemView.findViewById(R.id.text2)
+            var mText3: TextView = itemView.findViewById(R.id.text3)
+            var mCheckmark: ImageView = itemView.findViewById(R.id.image_checkmark)
 
             override fun onItemClicked(view: View?) {
                 mCheckmark.visibility = if (mCheckmark.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
             }
-
         }
     }
 }
