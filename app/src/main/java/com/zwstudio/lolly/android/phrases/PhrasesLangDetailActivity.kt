@@ -19,7 +19,7 @@ import org.androidannotations.annotations.*
 class PhrasesLangDetailActivity : AppCompatActivity() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesLangViewModel>() }
-    lateinit var vmDetail: PhrasesLangDetailViewModel
+    val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PhrasesLangDetailViewModel(item) } }
     lateinit var binding: ActivityPhrasesLangDetailBinding
     lateinit var item: MLangPhrase
 
@@ -31,7 +31,6 @@ class PhrasesLangDetailActivity : AppCompatActivity() {
         binding = DataBindingUtil.inflate<ActivityPhrasesLangDetailBinding>(LayoutInflater.from(this), R.layout.activity_phrases_lang_detail,
                 findViewById(android.R.id.content), true).apply {
             lifecycleOwner = this@PhrasesLangDetailActivity
-            vmDetail = PhrasesLangDetailViewModel(item)
             model = vmDetail
         }
     }
