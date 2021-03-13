@@ -24,8 +24,8 @@ import org.androidannotations.annotations.*
 class WordsTextbookDetailActivity : AppCompatActivity() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
+    val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { WordsUnitDetailViewModel(item) } }
     lateinit var binding: ActivityWordsTextbookDetailBinding
-    lateinit var vmDetail: WordsUnitDetailViewModel
     lateinit var item: MUnitWord
 
     @AfterViews
@@ -34,7 +34,6 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
         binding = DataBindingUtil.inflate<ActivityWordsTextbookDetailBinding>(LayoutInflater.from(this), R.layout.activity_words_textbook_detail,
             findViewById(android.R.id.content), true).apply {
             lifecycleOwner = this@WordsTextbookDetailActivity
-            vmDetail = WordsUnitDetailViewModel(item)
             model = vmDetail
         }
         binding.spnUnit.adapter = makeCustomAdapter(this, vm.vmSettings.lstUnits) { it.label }

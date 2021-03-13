@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ActivityPatternsWebpagesDetailBinding
 import com.zwstudio.lolly.data.patterns.PatternsWebPageDetailViewModel
@@ -18,7 +20,7 @@ import org.androidannotations.annotations.*
 class PatternsWebPagesDetailActivity : AppCompatActivity() {
 
     val vm: PatternsWebPagesViewModel by viewModels()
-    lateinit var vmDetail: PatternsWebPageDetailViewModel
+    val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PatternsWebPageDetailViewModel(item) } }
     lateinit var binding: ActivityPatternsWebpagesDetailBinding
     lateinit var item: MPatternWebPage
 
@@ -28,7 +30,6 @@ class PatternsWebPagesDetailActivity : AppCompatActivity() {
         binding = DataBindingUtil.inflate<ActivityPatternsWebpagesDetailBinding>(LayoutInflater.from(this), R.layout.activity_patterns_webpages_detail,
                 findViewById(android.R.id.content), true).apply {
             lifecycleOwner = this@PatternsWebPagesDetailActivity
-            vmDetail = PatternsWebPageDetailViewModel(item)
             model = vmDetail
         }
     }
