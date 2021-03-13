@@ -14,6 +14,7 @@ import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ContentWordsTextbookBinding
 import com.zwstudio.lolly.android.yesNoDialog
+import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.*
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
@@ -27,6 +28,7 @@ import java.util.*
 class WordsTextbookFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
+    override val vmDrawerList: DrawerListViewModel? get() = vm
     lateinit var binding: ContentWordsTextbookBinding
 
     @OptionsMenuItem
@@ -43,10 +45,9 @@ class WordsTextbookFragment : DrawerListFragment() {
     }
 
     @AfterViews
-    fun afterViews() {
+    override fun afterViews() {
+        super.afterViews()
         activity?.title = resources.getString(R.string.words_textbook)
-        vm.compositeDisposable = compositeDisposable
-        tts = TextToSpeech(context, this)
 
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {

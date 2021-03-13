@@ -50,9 +50,9 @@ class PhrasesLangFragment : DrawerListFragment() {
     }
 
     @AfterViews
-    fun afterViews() {
+    override fun afterViews() {
+        super.afterViews()
         activity?.title = resources.getString(R.string.phrases_lang)
-        tts = TextToSpeech(requireContext(), this)
 
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
