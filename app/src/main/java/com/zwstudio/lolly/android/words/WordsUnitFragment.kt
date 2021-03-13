@@ -61,9 +61,9 @@ class WordsUnitFragment : DrawerListFragment() {
     }
 
     @AfterViews
-    fun afterViews() {
+    override fun afterViews() {
+        super.afterViews()
         activity?.title = resources.getString(R.string.words_unit)
-        tts = TextToSpeech(requireContext(), this)
 
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
