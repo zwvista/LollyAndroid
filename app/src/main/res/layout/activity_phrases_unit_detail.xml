@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text='@{@string/label_id + " " + model.id}'/>
+            android:text='@{@string/label_id + " " + model.id, default="ID: 0"}'/>
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"/>
