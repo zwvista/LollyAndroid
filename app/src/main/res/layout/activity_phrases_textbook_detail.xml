@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".words.WordsLangDetailActivity">
+    tools:context=".phrases.PhrasesTextbookDetailActivity">
 
     <data>
         <variable name="model" type="com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel"/>
@@ -10,110 +10,132 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:paddingLeft="@dimen/activity_horizontal_margin"
-                  android:paddingRight="@dimen/activity_horizontal_margin"
-                  android:paddingTop="@dimen/activity_vertical_margin"
-                  android:paddingBottom="@dimen/activity_vertical_margin"
-                  app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                  tools:showIn="@layout/app_bar_drawer"
-                  tools:context=".SettingsFragment_"
-                  android:orientation="vertical"
-                  android:weightSum="1"
-                  android:focusable="true"
-                  android:focusableInTouchMode="true">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text='@{@string/label_id + " " + model.id, default="ID: 0"}'/>
-        <Space
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_textbook"
-            android:id="@+id/tvTextbookName"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_unit"/>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnUnit"
-            android:selectedItemPosition="@={model.unitItemPosition}"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_part"/>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnPart"
-            android:selectedItemPosition="@={model.partItemPosition}"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_seqnum"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@={`` + model.seqnum}"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text='@{@string/label_phraseid + " " + model.phraseid}'/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_phrase"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@={model.phrase}"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_translation"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@={model.translation}"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-    </LinearLayout>
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text='@{@string/label_id + " " + model.id}' />
+
+            <TextView
+                android:id="@+id/tvTextbookName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvID"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text='@{@string/label_textbook + " " + model.textbookname}' />
+
+            <TextView
+                android:id="@+id/tvUnit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvTextbookName"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/label_unit" />
+
+            <Spinner
+                android:id="@+id/spnUnit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvUnit"
+                android:layout_marginTop="8dp"
+                android:labelFor="@id/tvUnit"
+                android:selectedItemPosition="@={model.unitItemPosition}" />
+
+            <TextView
+                android:id="@+id/tvPart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/spnUnit"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/label_part" />
+
+            <Spinner
+                android:id="@+id/spnPart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvPart"
+                android:layout_marginTop="8dp"
+                android:labelFor="@id/tvPart"
+                android:selectedItemPosition="@={model.partItemPosition}" />
+
+            <TextView
+                android:id="@+id/tvSeqNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/spnPart"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/label_seqnum" />
+
+            <EditText
+                android:id="@+id/etSeqNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvSeqNum"
+                android:layout_marginTop="8dp"
+                android:labelFor="@id/tvSeqNum"
+                android:text="@={`` + model.seqnum}" />
+
+            <TextView
+                android:id="@+id/tvPhraseID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/etSeqNum"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text='@{@string/label_phraseid + " " + model.phraseid}' />
+
+            <TextView
+                android:id="@+id/tvPhrase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvPhraseID"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/label_phrase" />
+
+            <EditText
+                android:id="@+id/etPhrase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvPhrase"
+                android:layout_marginTop="8dp"
+                android:labelFor="@id/tvPhrase"
+                android:text="@={model.phrase}" />
+
+            <TextView
+                android:id="@+id/tvTranslation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/etPhrase"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/label_translation" />
+
+            <EditText
+                android:id="@+id/etTranslation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvTranslation"
+                android:layout_marginTop="8dp"
+                android:labelFor="@id/tvTranslation"
+                android:text="@={model.translation}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
