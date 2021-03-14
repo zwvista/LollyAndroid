@@ -22,75 +22,65 @@
 
             <TextView
                 android:id="@+id/tvID"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text='@{@string/label_id + " " + model.id, default="ID: 0"}'
+                app:layout_constraintTop_toTopOf="parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:text='@{@string/label_id + " " + model.id}' />
 
             <TextView
                 android:id="@+id/tvPattern"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvID"
                 android:layout_marginTop="8dp"
-                android:text="@string/label_pattern"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvID" />
+                android:text="@string/label_pattern" />
 
             <EditText
                 android:id="@+id/etPattern"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvPattern"
                 android:layout_marginTop="8dp"
                 android:labelFor="@id/tvPattern"
-                android:text="@={model.pattern}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvPattern"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:text="@={model.pattern}" />
 
             <TextView
                 android:id="@+id/tvNote"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/etPattern"
                 android:layout_marginTop="8dp"
-                android:text="@string/label_note"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etPattern" />
+                android:text="@string/label_note" />
 
             <EditText
                 android:id="@+id/etNote"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvNote"
                 android:layout_marginTop="8dp"
                 android:labelFor="@id/tvNote"
-                android:text="@={model.note}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvNote"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:text="@={model.note}" />
 
             <TextView
                 android:id="@+id/tvTags"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/etNote"
                 android:layout_marginTop="8dp"
-                android:text="@string/label_tags"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etNote" />
+                android:text="@string/label_tags"/>
 
             <EditText
                 android:id="@+id/etTags"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvTags"
                 android:layout_marginTop="8dp"
                 android:labelFor="@id/tvTags"
-                android:text="@={model.tags}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvTags"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:text="@={model.tags}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
