@@ -82,7 +82,7 @@ class WordsUnitBatchEditActivity : AppCompatActivity() {
         val listAdapter = WordsUnitBatchItemAdapter(vm)
         mDragListView.setAdapter(listAdapter, true)
         mDragListView.setCanDragHorizontally(false)
-        mDragListView.setCustomDragItem(WordsUnitBatchDragItem(this, R.layout.list_item_words_unit_batch))
+        mDragListView.setCustomDragItem(WordsUnitBatchDragItem(this, R.layout.list_item_words_unit_batch_edit))
     }
 
     @CheckedChange
@@ -130,7 +130,7 @@ class WordsUnitBatchEditActivity : AppCompatActivity() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_words_unit_batch, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_words_unit_batch_edit, parent, false)
             return ViewHolder(view)
         }
 
