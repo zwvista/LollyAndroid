@@ -72,6 +72,11 @@ class WordsTextbookFragment : DrawerListFragment() {
             }
         })
 
+        binding.spnTextbookFilter.adapter = makeCustomAdapter(requireContext(), vm.vmSettings.lstTextbookFilters) { it.label }
+        binding.spnTextbookFilter.setSelection(0)
+        binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopeWordFilters) { it.label }
+        binding.spnScopeFilter.setSelection(0)
+
         setupListView()
         vm.viewModelScope.launch {
             vm.getDataInLang()
