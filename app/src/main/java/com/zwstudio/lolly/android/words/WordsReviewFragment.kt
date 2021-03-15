@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.data.misc.makeAdapter
-import com.zwstudio.lolly.data.words.WordsReviewModel
+import com.zwstudio.lolly.data.words.WordsReviewViewModel
 import com.zwstudio.lolly.domain.misc.ReviewMode
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
 class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
 
     @Bean
-    lateinit var vm: WordsReviewModel
+    lateinit var vm: WordsReviewViewModel
     lateinit var tts: TextToSpeech
 
     @ViewById

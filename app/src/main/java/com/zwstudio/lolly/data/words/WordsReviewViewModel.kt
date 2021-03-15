@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean
-class WordsReviewModel : BaseViewModel() {
+class WordsReviewViewModel : BaseViewModel() {
 
     val unitWordService = UnitWordService()
     @Bean
