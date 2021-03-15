@@ -115,7 +115,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
 
     @OptionsItem
     fun menuBatch() {
-        PhrasesUnitBatchActivity_.intent(this)
+        PhrasesUnitBatchEditActivity_.intent(this)
             .extra("list", vm.lstPhrases.toTypedArray()).start()
     }
 

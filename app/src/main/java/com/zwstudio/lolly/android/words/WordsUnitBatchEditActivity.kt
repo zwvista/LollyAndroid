@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.android.phrases
+package com.zwstudio.lolly.android.words
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -14,18 +14,18 @@ import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.LollySwipeRefreshLayout
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.makeAdapter
-import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
+import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
-import com.zwstudio.lolly.domain.wpp.MUnitPhrase
+import com.zwstudio.lolly.domain.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.activity_phrases_unit_batch)
+@EActivity(R.layout.activity_words_unit_batch_edit)
 @OptionsMenu(R.menu.menu_save)
-class PhrasesUnitBatchActivity : AppCompatActivity() {
+class WordsUnitBatchEditActivity : AppCompatActivity() {
 
     @Bean
-    lateinit var vm: PhrasesUnitViewModel
+    lateinit var vm: WordsUnitViewModel
 
     @ViewById
     lateinit var chkUnit: CheckBox
@@ -48,7 +48,7 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
 
     @AfterViews
     fun afterViews() {
-        vm.lstPhrases = (intent.getSerializableExtra("list") as Array<MUnitPhrase>).toList()
+        vm.lstWords = (intent.getSerializableExtra("list") as Array<MUnitWord>).toList()
         chkUnit(); chkPart(); chkSeqNum()
         run {
             val lst = vm.vmSettings.lstUnits
@@ -81,10 +81,10 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
         mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
 
         mDragListView.setLayoutManager(LinearLayoutManager(this))
-        val listAdapter = PhrasesUnitBatchItemAdapter(vm)
+        val listAdapter = WordsUnitBatchItemAdapter(vm)
         mDragListView.setAdapter(listAdapter, true)
         mDragListView.setCanDragHorizontally(false)
-        mDragListView.setCustomDragItem(PhrasesUnitBatchDragItem(this, R.layout.list_item_phrases_unit_batch))
+        mDragListView.setCustomDragItem(WordsUnitBatchDragItem(this, R.layout.list_item_words_unit_batch))
     }
 
     @CheckedChange
@@ -105,8 +105,8 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
     @OptionsItem
     fun menuSave() {
         if (!chkUnit.isChecked && !chkPart.isChecked && !chkSeqNum.isChecked) return
-        for ((i, item) in vm.lstPhrases.withIndex()) {
-            val v = mDragListView.recyclerView.findViewHolderForAdapterPosition(i) as PhrasesUnitBatchItemAdapter.ViewHolder
+        for ((i, item) in vm.lstWords.withIndex()) {
+            val v = mDragListView.recyclerView.findViewHolderForAdapterPosition(i) as WordsUnitBatchItemAdapter.ViewHolder
             if (v.mCheckmark.visibility == View.INVISIBLE) continue
             if (chkUnit.isChecked) item.unit = (spnUnit.selectedItem as MSelectItem).value
             if (chkPart.isChecked) item.part = (spnPart.selectedItem as MSelectItem).value
@@ -116,33 +116,31 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
         finish()
     }
 
-    private class PhrasesUnitBatchDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
+    private class WordsUnitBatchDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
         override fun onBindDragView(clickedView: View, dragView: View) {
             dragView.findViewById<TextView>(R.id.text1).text = clickedView.findViewById<TextView>(R.id.text1).text
             dragView.findViewById<TextView>(R.id.text2).text = clickedView.findViewById<TextView>(R.id.text2).text
-            dragView.findViewById<TextView>(R.id.text3).text = clickedView.findViewById<TextView>(R.id.text3).text
             dragView.findViewById<View>(R.id.item_swipe).setBackgroundColor(dragView.resources.getColor(R.color.list_item_background, null))
         }
     }
 
-    private class PhrasesUnitBatchItemAdapter(val vm: PhrasesUnitViewModel) : DragItemAdapter<MUnitPhrase, PhrasesUnitBatchItemAdapter.ViewHolder>() {
+    private class WordsUnitBatchItemAdapter(val vm: WordsUnitViewModel) : DragItemAdapter<MUnitWord, WordsUnitBatchItemAdapter.ViewHolder>() {
 
         init {
-            itemList = vm.lstPhrases
+            itemList = vm.lstWords
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_phrases_unit_batch, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_words_unit_batch, parent, false)
             return ViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             super.onBindViewHolder(holder, position)
             val item = mItemList[position]
-            holder.mText1.text = item.phrase
+            holder.mText1.text = item.wordnote
             holder.mText2.text = item.unitpartseqnum
-            holder.mText3.text = item.translation
             holder.itemView.tag = item
         }
 
@@ -153,7 +151,6 @@ class PhrasesUnitBatchActivity : AppCompatActivity() {
         inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView = itemView.findViewById(R.id.text1)
             var mText2: TextView = itemView.findViewById(R.id.text2)
-            var mText3: TextView = itemView.findViewById(R.id.text3)
             var mCheckmark: ImageView = itemView.findViewById(R.id.image_checkmark)
 
             override fun onItemClicked(view: View?) {
