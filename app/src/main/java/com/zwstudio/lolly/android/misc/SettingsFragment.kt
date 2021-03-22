@@ -77,7 +77,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     override fun onUpdateLang() {
         run {
             val lst = vm.lstVoices
-            val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+            val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
                 val m = getItem(position)!!
                 var tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = m.voicelang
@@ -95,7 +95,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
         run {
             val lst = vm.lstDictsReference
-            val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+            val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
                 val m = getItem(position)!!
                 var tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = m.dictname
@@ -113,7 +113,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
         run {
             val lst = vm.lstDictsNote
-            val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+            val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
                 val m = getItem(position)!!
                 var tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = m.dictname
@@ -130,7 +130,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
         run {
             val lst = vm.lstDictsTranslation
-            val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+            val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
                 val m = getItem(position)!!
                 var tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = m.dictname
@@ -147,7 +147,7 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
         run {
             val lst = vm.lstTextbooks
-            val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+            val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
                 val m = getItem(position)!!
                 var tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = m.textbookname
@@ -207,7 +207,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     override fun onUpdateTextbook() {
 
         fun makeAdapter(lst: List<MSelectItem>): ArrayAdapter<MSelectItem> {
-            val adapter = makeAdapter(activity!!, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val adapter = makeAdapter(requireActivity(), android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.label
                 v
