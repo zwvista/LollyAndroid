@@ -43,7 +43,6 @@ class DrawerListFragment : Fragment(), TextToSpeech.OnInitListener {
         tts.shutdown()
     }
 
-    @AfterViews
     fun afterViews() {
         tts = TextToSpeech(requireContext(), this)
     }
