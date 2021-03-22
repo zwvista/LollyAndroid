@@ -39,7 +39,7 @@ class SearchFragment : Fragment(), SettingsListener {
     @AfterViews
     fun afterViews() {
         // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
-        activity!!.title = resources.getString(R.string.search)
+        requireActivity().title = resources.getString(R.string.search)
 
         onlineDict = OnlineDict(wvDictReference, vm, compositeDisposable)
         onlineDict.initWebViewClient()
@@ -83,7 +83,7 @@ class SearchFragment : Fragment(), SettingsListener {
 
     override fun onUpdateLang() {
         val lst = vm.vmSettings.lstDictsReference
-        val adapter = makeAdapter(activity!!, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
+        val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
             val item = getItem(position)!!
             var tv = v.findViewById<TextView>(android.R.id.text1)
             tv.text = item.dictname
