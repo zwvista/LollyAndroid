@@ -11,7 +11,6 @@ import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.misc.OnlineDict
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.words.WordsDictViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_words_dict)

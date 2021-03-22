@@ -6,18 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.domain.misc.*
 import com.zwstudio.lolly.service.misc.*
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.kotlin.Observables
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
-import java.util.concurrent.TimeUnit
 
 @EBean(scope = EBean.Scope.Singleton)
 class SettingsViewModel : ViewModel() {

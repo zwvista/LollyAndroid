@@ -2,7 +2,6 @@ package com.zwstudio.lolly.android.patterns
 
 import android.app.Activity
 import android.view.LayoutInflater
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.androidisland.vita.VitaOwner
@@ -11,10 +10,7 @@ import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ActivityPatternsDetailBinding
 import com.zwstudio.lolly.data.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
-import com.zwstudio.lolly.data.phrases.PhrasesLangDetailViewModel
-import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_patterns_detail)

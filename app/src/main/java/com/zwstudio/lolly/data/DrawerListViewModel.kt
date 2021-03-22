@@ -3,7 +3,6 @@ package com.zwstudio.lolly.data;
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.data.misc.BaseViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class DrawerListViewModel : BaseViewModel() {

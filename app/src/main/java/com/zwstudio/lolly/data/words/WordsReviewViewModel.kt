@@ -2,14 +2,11 @@ package com.zwstudio.lolly.data.words
 
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.data.misc.BaseViewModel
-import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.data.misc.extractTextFrom
 import com.zwstudio.lolly.domain.misc.ReviewMode
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.misc.HtmlService
 import com.zwstudio.lolly.service.wpp.UnitWordService
-import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean

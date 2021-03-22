@@ -5,7 +5,6 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.zwstudio.lolly.data.misc.DictWebViewStatus
 import com.zwstudio.lolly.data.misc.IOnlineDict
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict) {
 

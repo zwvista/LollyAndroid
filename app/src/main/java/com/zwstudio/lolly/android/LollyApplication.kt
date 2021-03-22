@@ -9,10 +9,8 @@ import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.androidisland.vita.startVita
 import com.zwstudio.lolly.data.misc.SettingsViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.EApplication
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 

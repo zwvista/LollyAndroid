@@ -12,7 +12,6 @@ import com.zwstudio.lolly.android.databinding.ActivityPatternsWebpagesDetailBind
 import com.zwstudio.lolly.data.patterns.PatternsWebPageDetailViewModel
 import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_patterns_webpages_detail)

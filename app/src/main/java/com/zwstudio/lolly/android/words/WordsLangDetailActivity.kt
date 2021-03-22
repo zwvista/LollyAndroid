@@ -2,7 +2,6 @@ package com.zwstudio.lolly.android.words
 
 import android.app.Activity
 import android.view.LayoutInflater
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.androidisland.vita.VitaOwner
@@ -11,9 +10,7 @@ import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ActivityWordsLangDetailBinding
 import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.data.words.WordsLangViewModel
-import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.activity_words_lang_detail)
