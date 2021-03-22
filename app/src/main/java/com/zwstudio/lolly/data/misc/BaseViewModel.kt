@@ -5,9 +5,7 @@ import com.zwstudio.lolly.android.LollyApplication
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
-import retrofit2.Retrofit
 
 fun <T> Observable<T>.applyIO(): Observable<T> =
     this.subscribeOn(Schedulers.io())

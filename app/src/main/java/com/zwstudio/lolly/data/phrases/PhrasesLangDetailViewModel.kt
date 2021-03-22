@@ -3,7 +3,6 @@ package com.zwstudio.lolly.data.phrases
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
-import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 
 class PhrasesLangDetailViewModel(item: MLangPhrase) : ViewModel() {
     val id = MutableLiveData(item.id)

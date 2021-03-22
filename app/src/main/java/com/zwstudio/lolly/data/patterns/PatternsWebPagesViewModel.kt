@@ -7,7 +7,6 @@ import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.service.wpp.PatternWebPageService
 import com.zwstudio.lolly.service.wpp.WebPageService
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean

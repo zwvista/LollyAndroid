@@ -6,7 +6,6 @@ import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MWordFami
 import com.zwstudio.lolly.service.wpp.WordFamiService
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 
 @EBean

@@ -9,7 +9,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.schedulers.Schedulers
-import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit
 
