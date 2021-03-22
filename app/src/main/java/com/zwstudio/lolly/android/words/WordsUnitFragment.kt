@@ -18,6 +18,7 @@ import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.ContentWordsUnitBinding
+import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.*
@@ -37,7 +38,7 @@ class WordsUnitFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
-    lateinit var binding: ContentWordsUnitBinding
+    var binding by autoCleared<ContentWordsUnitBinding>()
 
     @OptionsMenuItem
     lateinit var menuNormalMode: MenuItem

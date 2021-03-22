@@ -33,7 +33,7 @@ class SearchFragment : Fragment(), SettingsListener {
 
     @Bean
     lateinit var vm: SearchViewModel
-    lateinit var onlineDict: OnlineDict
+    var onlineDict by autoCleared<OnlineDict>()
     val compositeDisposable = CompositeDisposable()
 
     @AfterViews
