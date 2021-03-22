@@ -15,7 +15,6 @@ import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.domain.misc.MLanguage
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 
@@ -33,7 +32,7 @@ class SearchFragment : Fragment(), SettingsListener {
 
     @Bean
     lateinit var vm: SearchViewModel
-    lateinit var onlineDict: OnlineDict
+    var onlineDict by autoCleared<OnlineDict>()
 
     @AfterViews
     fun afterViews() {

@@ -6,6 +6,12 @@ import androidx.lifecycle.LifecycleOwner
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
+// https://medium.com/@sriramaripirala/view-binding-in-fragments-795307fb5a53
+/**
+ * A lazy property that gets cleaned up when the fragment's view is destroyed.
+ *
+ * Accessing this variable while the fragment's view is destroyed will throw NPE.
+ */
 class AutoClearedValue<T : Any>(val fragment: Fragment) : ReadWriteProperty<Fragment, T> {
     private var _value: T? = null
 
