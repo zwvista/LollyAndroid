@@ -33,17 +33,16 @@ import java.util.*
 private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_words_unit)
-@OptionsMenu(R.menu.menu_words_unit)
 class WordsUnitFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<ContentWordsUnitBinding>()
 
-    @OptionsMenuItem
-    lateinit var menuNormalMode: MenuItem
-    @OptionsMenuItem
-    lateinit var menuEditMode: MenuItem
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentWordsUnitBinding.inflate(inflater, container, false).apply {
@@ -65,6 +64,7 @@ class WordsUnitFragment : DrawerListFragment() {
                 refreshListView()
                 return true
             }
+
             override fun onQueryTextChange(newText: String): Boolean {
                 vm.textFilter = newText
                 if (newText.isEmpty())
@@ -95,62 +95,93 @@ class WordsUnitFragment : DrawerListFragment() {
         refreshListView()
     }
 
-    @OptionsItem
-    fun menuNormalMode() = setMenuMode(false)
-    @OptionsItem
-    fun menuEditMode() = setMenuMode(true)
-    private fun setMenuMode(isEditMode: Boolean) {
+    @OptionsMenuItem
+    lateinit var menuNormalMode: MenuItem
+    @OptionsMenuItem
+    lateinit var menuEditMode: MenuItem
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_words_unit, menu)
+        menuNormalMode = menu.findItem(R.id.menuNormalMode)
+        menuEditMode = menu.findItem(R.id.menuEditMode)
+        setMenuMode(vm.isEditMode)
+    }
+
+    fun setMenuMode(isEditMode: Boolean) {
         vm.isEditMode = isEditMode
         (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
         refreshListView()
     }
 
-    @OptionsItem
     fun menuAdd() {
         WordsUnitDetailActivity_.intent(this)
             .extra("word", vm.newUnitWord()).startForResult(REQUEST_CODE)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        fun getNotes(ifEmpty: Boolean) {
+            val handler = Handler(Looper.getMainLooper())
+            progressBar1.visibility = View.VISIBLE
+            vm.getNotes(ifEmpty, oneComplete = {}, allComplete = {
+                handler.post {
+                    mDragListView.adapter.notifyDataSetChanged()
+                    progressBar1.visibility = View.GONE
+                }
+            })
+        }
+        fun clearNotes(ifEmpty: Boolean) {
+            val handler = Handler(Looper.getMainLooper())
+            progressBar1.visibility = View.VISIBLE
+            vm.clearNotes(ifEmpty, oneComplete = {}, allComplete = {
+                handler.post {
+                    mDragListView.adapter.notifyDataSetChanged()
+                    progressBar1.visibility = View.GONE
+                }
+            })
+        }
+        return when (item.itemId) {
+            R.id.menuNormalMode -> {
+                setMenuMode(false)
+                true
+            }
+            R.id.menuEditMode -> {
+                setMenuMode(true)
+                true
+            }
+            R.id.menuAdd -> {
+                menuAdd()
+                true
+            }
+            R.id.menuRetrieveNotesAll -> {
+                getNotes(false)
+                true
+            }
+            R.id.menuRetrieveNotesEmpty -> {
+                getNotes(true)
+                true
+            }
+            R.id.menuClearNotesAll -> {
+                clearNotes(false)
+                true
+            }
+            R.id.menuClearNotesEmpty -> {
+                clearNotes(true)
+                true
+            }
+            R.id.menuBatch -> {
+                WordsUnitBatchEditActivity_.intent(this)
+                    .extra("list", vm.lstWords.toTypedArray()).start()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     @OnActivityResult(REQUEST_CODE)
     fun onResult(resultCode: Int) {
         if (resultCode == RESULT_OK)
             menuAdd()
-    }
-
-    @OptionsItem
-    fun menuRetrieveNotesAll() = getNotes(false)
-    @OptionsItem
-    fun menuRetrieveNotesEmpty() = getNotes(true)
-    private fun getNotes(ifEmpty: Boolean) {
-        val handler = Handler(Looper.getMainLooper())
-        progressBar1.visibility = View.VISIBLE
-        vm.getNotes(ifEmpty, oneComplete = {}, allComplete = {
-            handler.post {
-                mDragListView.adapter.notifyDataSetChanged()
-                progressBar1.visibility = View.GONE
-            }
-        })
-    }
-
-    @OptionsItem
-    fun menuClearNotesAll() = clearNotes(false)
-    @OptionsItem
-    fun menuClearNotesEmpty() = clearNotes(true)
-    private fun clearNotes(ifEmpty: Boolean) {
-        val handler = Handler(Looper.getMainLooper())
-        progressBar1.visibility = View.VISIBLE
-        vm.clearNotes(ifEmpty, oneComplete = {}, allComplete = {
-            handler.post {
-                mDragListView.adapter.notifyDataSetChanged()
-                progressBar1.visibility = View.GONE
-            }
-        })
-    }
-
-    @OptionsItem
-    fun menuBatch() {
-        WordsUnitBatchEditActivity_.intent(this)
-            .extra("list", vm.lstWords.toTypedArray()).start()
     }
 
     private class WordsUnitDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
