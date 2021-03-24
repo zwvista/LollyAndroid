@@ -1,13 +1,14 @@
 package com.zwstudio.lolly.android
 
 import android.view.MenuItem
-import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -40,7 +41,7 @@ class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelec
     lateinit var navigationView: NavigationView
 
     private lateinit var drawerToggle: ActionBarDrawerToggle
-    val vm: DrawerActivityViewModel by viewModels()
+    val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel<DrawerActivityViewModel>() }
 
     @AfterViews
     fun afterViews() {
