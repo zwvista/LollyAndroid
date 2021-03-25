@@ -96,22 +96,15 @@ class WordsUnitFragment : DrawerListFragment() {
         refreshListView()
     }
 
-    @OptionsMenuItem
-    lateinit var menuNormalMode: MenuItem
-    @OptionsMenuItem
-    lateinit var menuEditMode: MenuItem
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_words_unit, menu)
-        menuNormalMode = menu.findItem(R.id.menuNormalMode)
-        menuEditMode = menu.findItem(R.id.menuEditMode)
-        setMenuMode(vm.isEditMode)
+        setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
     }
 
-    fun setMenuMode(isEditMode: Boolean) {
+    fun setEditMode(item: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
-        (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
+        item.isChecked = true
         refreshListView()
     }
 
@@ -143,11 +136,11 @@ class WordsUnitFragment : DrawerListFragment() {
         }
         return when (item.itemId) {
             R.id.menuNormalMode -> {
-                setMenuMode(false)
+                setEditMode(item,false)
                 true
             }
             R.id.menuEditMode -> {
-                setMenuMode(true)
+                setEditMode(item,true)
                 true
             }
             R.id.menuAdd -> {
