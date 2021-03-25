@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.data.words
 
 import com.zwstudio.lolly.data.misc.GlobalConstants
-import com.zwstudio.lolly.data.misc.GlobalConstants.userid
 import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MWordFami
 import com.zwstudio.lolly.service.wpp.WordFamiService
@@ -17,26 +16,41 @@ class WordsFamiViewModel {
         wordFamiService.getDataByUserWord(userid, wordid)
             .applyIO()
 
-    private fun update(id: Int, userid: Int, wordid: Int, correct: Int, total: Int): Observable<Unit> =
-        wordFamiService.update(id, userid, wordid, correct, total)
+    private fun update(o: MWordFami): Observable<Unit> =
+        wordFamiService.update(o.id, o.userid, o.wordid, o.correct, o.total)
             .applyIO()
 
-    private fun create(userid: Int, wordid: Int, correct: Int, total: Int): Observable<Unit> =
-        wordFamiService.create(userid, wordid, correct, total)
+    private fun create(o: MWordFami): Observable<Int> =
+        wordFamiService.create(o.userid, o.wordid, o.correct, o.total)
             .applyIO()
 
     private fun delete(id: Int): Observable<Unit> =
         wordFamiService.delete(id)
             .applyIO()
 
-    fun update(wordid: Int, isCorrect: Boolean): Observable<Unit> {
+    fun update(wordid: Int, isCorrect: Boolean): Observable<MWordFami> {
         return getDataByUserWord(GlobalConstants.userid, wordid).flatMap { lst ->
             val d = if (isCorrect) 1 else 0
-            if (lst.isEmpty())
-                create(userid, wordid, d, 1)
+            val item = MWordFami().apply {
+                userid = GlobalConstants.userid
+                this.wordid = wordid
+            }
+            if (lst.isEmpty()) {
+                item.correct = d
+                item.total = 1
+                create(item).map {
+                    item.id = it
+                    item
+                }
+            }
             else {
                 val o = lst[0]
-                update(o.id, userid, o.wordid,  o.correct + d, o.total + 1)
+                item.id = o.id
+                item.correct = o.correct + d
+                item.total = o.total + 1
+                update(item).map {
+                    item
+                }
             }
         }
     }
