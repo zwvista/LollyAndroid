@@ -28,17 +28,16 @@ import java.util.*
 private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_patterns)
-@OptionsMenu(R.menu.menu_patterns)
 class PatternsFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<ContentPatternsBinding>()
 
-    @OptionsMenuItem
-    lateinit var menuNormalMode: MenuItem
-    @OptionsMenuItem
-    lateinit var menuEditMode: MenuItem
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentPatternsBinding.inflate(inflater, container, false).apply {
@@ -89,22 +88,35 @@ class PatternsFragment : DrawerListFragment() {
         refreshListView()
     }
 
-    @OptionsItem
-    fun menuNormalMode() = setMenuMode(false)
-    @OptionsItem
-    fun menuEditMode() = setMenuMode(true)
-    private fun setMenuMode(isEditMode: Boolean) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_patterns, menu)
+        setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
+    }
+
+    fun setEditMode(item: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
-        (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
+        item.isChecked = true
         refreshListView()
     }
 
-    @OptionsItem
-    fun menuAdd() {
-        PatternsDetailActivity_.intent(this)
-            .extra("pattern", vm.newPattern()).startForResult(REQUEST_CODE)
-    }
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.menuNormalMode -> {
+                setEditMode(item,false)
+                true
+            }
+            R.id.menuEditMode -> {
+                setEditMode(item,true)
+                true
+            }
+            R.id.menuAdd -> {
+                PatternsDetailActivity_.intent(this)
+                    .extra("pattern", vm.newPattern()).startForResult(REQUEST_CODE)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 
     @OnActivityResult(REQUEST_CODE)
     fun onResult(resultCode: Int) {

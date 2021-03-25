@@ -28,17 +28,16 @@ import java.util.*
 
 
 @EFragment(R.layout.content_phrases_textbook)
-@OptionsMenu(R.menu.menu_phrases_textbook)
 class PhrasesTextbookFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<ContentPhrasesTextbookBinding>()
 
-    @OptionsMenuItem
-    lateinit var menuNormalMode: MenuItem
-    @OptionsMenuItem
-    lateinit var menuEditMode: MenuItem
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentPhrasesTextbookBinding.inflate(inflater, container, false).apply {
@@ -99,15 +98,30 @@ class PhrasesTextbookFragment : DrawerListFragment() {
         refreshListView()
     }
 
-    @OptionsItem
-    fun menuNormalMode() = setMenuMode(false)
-    @OptionsItem
-    fun menuEditMode() = setMenuMode(true)
-    private fun setMenuMode(isEditMode: Boolean) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_phrases_textbook, menu)
+        setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
+    }
+
+    fun setEditMode(item: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
-        (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
+        item.isChecked = true
         refreshListView()
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.menuNormalMode -> {
+                setEditMode(item,false)
+                true
+            }
+            R.id.menuEditMode -> {
+                setEditMode(item,true)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 
     private class PhrasesTextbookItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
 

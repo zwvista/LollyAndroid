@@ -30,17 +30,16 @@ import java.util.*
 private const val REQUEST_CODE = 1
 
 @EFragment(R.layout.content_phrases_lang)
-@OptionsMenu(R.menu.menu_phrases_lang)
 class PhrasesLangFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesLangViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<ContentPhrasesLangBinding>()
 
-    @OptionsMenuItem
-    lateinit var menuNormalMode: MenuItem
-    @OptionsMenuItem
-    lateinit var menuEditMode: MenuItem
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentPhrasesLangBinding.inflate(inflater, container, false).apply {
@@ -91,22 +90,35 @@ class PhrasesLangFragment : DrawerListFragment() {
         refreshListView()
     }
 
-    @OptionsItem
-    fun menuNormalMode() = setMenuMode(false)
-    @OptionsItem
-    fun menuEditMode() = setMenuMode(true)
-    private fun setMenuMode(isEditMode: Boolean) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_phrases_lang, menu)
+        setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
+    }
+
+    fun setEditMode(item: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
-        (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
+        item.isChecked = true
         refreshListView()
     }
 
-    @OptionsItem
-    fun menuAdd() {
-        PhrasesLangDetailActivity_.intent(this)
-            .extra("phrase", vm.newLangPhrase()).startForResult(REQUEST_CODE)
-    }
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.menuNormalMode -> {
+                setEditMode(item,false)
+                true
+            }
+            R.id.menuEditMode -> {
+                setEditMode(item,true)
+                true
+            }
+            R.id.menuAdd -> {
+                PhrasesLangDetailActivity_.intent(this)
+                    .extra("phrase", vm.newLangPhrase()).startForResult(REQUEST_CODE)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 
     @OnActivityResult(REQUEST_CODE)
     fun onResult(resultCode: Int) {
