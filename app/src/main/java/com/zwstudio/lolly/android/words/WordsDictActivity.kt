@@ -14,7 +14,7 @@ import com.zwstudio.lolly.data.words.WordsDictViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.activity_words_dict)
+@EActivity(R.layout.fragment_words_dict)
 class WordsDictActivity : AppCompatActivity(), TouchListener {
 
     @ViewById

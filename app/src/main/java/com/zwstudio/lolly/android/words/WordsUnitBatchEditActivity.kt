@@ -20,7 +20,7 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.activity_words_unit_batch_edit)
+@EActivity(R.layout.fragment_words_unit_batch_edit)
 @OptionsMenu(R.menu.menu_save)
 class WordsUnitBatchEditActivity : AppCompatActivity() {
 

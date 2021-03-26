@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.android.databinding.ActivityWordsTextbookDetailBinding
+import com.zwstudio.lolly.android.databinding.FragmentWordsTextbookDetailBinding
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
@@ -15,13 +15,13 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.activity_words_textbook_detail)
+@EActivity(R.layout.fragment_words_textbook_detail)
 @OptionsMenu(R.menu.menu_save)
 class WordsTextbookDetailActivity : AppCompatActivity() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { WordsUnitDetailViewModel(item) } }
-    lateinit var binding: ActivityWordsTextbookDetailBinding
+    lateinit var binding: FragmentWordsTextbookDetailBinding
     lateinit var item: MUnitWord
 
     val compositeDisposable = CompositeDisposable()
@@ -29,7 +29,7 @@ class WordsTextbookDetailActivity : AppCompatActivity() {
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("word") as MUnitWord
-        binding = DataBindingUtil.inflate<ActivityWordsTextbookDetailBinding>(LayoutInflater.from(this), R.layout.activity_words_textbook_detail,
+        binding = DataBindingUtil.inflate<FragmentWordsTextbookDetailBinding>(LayoutInflater.from(this), R.layout.fragment_words_textbook_detail,
             findViewById(android.R.id.content), true).apply {
             lifecycleOwner = this@WordsTextbookDetailActivity
             model = vmDetail

@@ -29,7 +29,7 @@ import java.util.*
 
 private const val REQUEST_CODE = 1
 
-@EActivity(R.layout.activity_patterns_webpages_list)
+@EActivity(R.layout.fragment_patterns_webpages_list)
 @OptionsMenu(R.menu.menu_patterns_webpages_list)
 class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
