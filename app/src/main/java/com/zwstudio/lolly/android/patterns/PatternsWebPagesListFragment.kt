@@ -30,7 +30,7 @@ private const val REQUEST_CODE = 1
 
 @EActivity(R.layout.fragment_patterns_webpages_list)
 @OptionsMenu(R.menu.menu_patterns_webpages_list)
-class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
+class PatternsWebPagesListFragment : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     @Bean
     lateinit var vm: PatternsWebPagesViewModel
@@ -127,7 +127,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
 
     @OptionsItem
     fun menuAdd() {
-        PatternsWebPagesDetailActivity_.intent(this)
+        PatternsWebPagesDetailFragment_.intent(this)
             .extra("word", vm.newPatternWebPage(item.id, item.pattern)).startForResult(REQUEST_CODE)
     }
 
@@ -185,7 +185,7 @@ class PatternsWebPagesListActivity : AppCompatActivity(), TextToSpeech.OnInitLis
             }
 
             fun edit(item: MPatternWebPage) {
-                PatternsWebPagesDetailActivity_.intent(itemView.context)
+                PatternsWebPagesDetailFragment_.intent(itemView.context)
                         .extra("webpage", item).startForResult(REQUEST_CODE)
             }
 

@@ -5,7 +5,10 @@ import android.app.Activity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
-import android.widget.*
+import android.widget.ImageView
+import android.widget.SearchView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.viewModelScope
 import com.androidisland.vita.VitaOwner
@@ -18,13 +21,18 @@ import com.zwstudio.lolly.android.databinding.ContentWordsLangBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
-import com.zwstudio.lolly.data.misc.*
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.*
-import java.util.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.ItemSelect
+import org.androidannotations.annotations.OnActivityResult
 
 private const val REQUEST_CODE = 1
 
@@ -117,7 +125,7 @@ class WordsLangFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                WordsLangDetailActivity_.intent(this)
+                WordsLangDetailFragment_.intent(this)
                     .extra("word", vm.newLangWord()).startForResult(1)
                 true
             }
@@ -166,7 +174,7 @@ class WordsLangFragment : DrawerListFragment() {
             }
 
             fun edit(item: MLangWord) {
-                WordsLangDetailActivity_.intent(itemView.context)
+                WordsLangDetailFragment_.intent(itemView.context)
                     .extra("word", item).startForResult(REQUEST_CODE)
             }
 
@@ -227,7 +235,7 @@ class WordsLangFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MLangWord
-                        WordsDictActivity_.intent(itemView.context)
+                        WordsDictFragment_.intent(itemView.context)
                                 .extra("list", vm.lstWords.map { it.word }.toTypedArray())
                                 .extra("index", vm.lstWords.indexOf(item)).start()
                     }

@@ -4,7 +4,10 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
-import android.widget.*
+import android.widget.ImageView
+import android.widget.SearchView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.viewModelScope
 import com.androidisland.vita.VitaOwner
@@ -17,13 +20,17 @@ import com.zwstudio.lolly.android.databinding.ContentWordsTextbookBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
-import com.zwstudio.lolly.data.misc.*
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.*
-import java.util.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.ItemSelect
 
 @EFragment(R.layout.content_words_textbook)
 class WordsTextbookFragment : DrawerListFragment() {
@@ -159,7 +166,7 @@ class WordsTextbookFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitWord) {
-                WordsTextbookDetailActivity_.intent(itemView.context).extra("word", item).start()
+                WordsTextbookDetailFragment_.intent(itemView.context).extra("word", item).start()
             }
 
             @SuppressLint("ClickableViewAccessibility")
@@ -219,7 +226,7 @@ class WordsTextbookFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
-                        WordsDictActivity_.intent(itemView.context)
+                        WordsDictFragment_.intent(itemView.context)
                                 .extra("list", vm.lstWords.map { it.word }.toTypedArray())
                                 .extra("index", vm.lstWords.indexOf(item)).start()
                     }

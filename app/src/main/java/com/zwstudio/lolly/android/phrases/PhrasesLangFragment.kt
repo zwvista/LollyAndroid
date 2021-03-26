@@ -20,13 +20,18 @@ import com.zwstudio.lolly.android.databinding.ContentPhrasesLangBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
-import com.zwstudio.lolly.data.misc.*
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.*
-import java.util.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.ItemSelect
+import org.androidannotations.annotations.OnActivityResult
 
 private const val REQUEST_CODE = 1
 
@@ -115,7 +120,7 @@ class PhrasesLangFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                PhrasesLangDetailActivity_.intent(this)
+                PhrasesLangDetailFragment_.intent(this)
                     .extra("phrase", vm.newLangPhrase()).startForResult(REQUEST_CODE)
                 true
             }
@@ -163,7 +168,7 @@ class PhrasesLangFragment : DrawerListFragment() {
             }
 
             fun edit(item: MLangPhrase) {
-                PhrasesLangDetailActivity_.intent(itemView.context)
+                PhrasesLangDetailFragment_.intent(itemView.context)
                     .extra("phrase", item).startForResult(REQUEST_CODE)
             }
 

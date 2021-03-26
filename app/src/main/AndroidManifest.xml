@@ -24,79 +24,79 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".words.WordsDictActivity_"
+            android:name=".words.WordsDictFragment_"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".words.WordsUnitDetailActivity_"
+            android:name=".words.WordsUnitDetailFragment_"
             android:label="@string/words_unit_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".words.WordsUnitBatchActivity_"
+            android:name=".words.WordsUnitBatchEditFragment_"
             android:label="@string/words_unit_batch"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".phrases.PhrasesUnitDetailActivity_"
+            android:name=".phrases.PhrasesUnitDetailFragment_"
             android:label="@string/phrases_unit_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".phrases.PhrasesUnitBatchActivity_"
+            android:name=".phrases.PhrasesUnitBatchEditFragment_"
             android:label="@string/phrases_unit_batch"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".words.WordsLangDetailActivity_"
+            android:name=".words.WordsLangDetailFragment_"
             android:label="@string/words_lang_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".phrases.PhrasesLangDetailActivity_"
+            android:name=".phrases.PhrasesLangDetailFragment_"
             android:label="@string/phrases_lang_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".words.WordsTextbookDetailActivity_"
+            android:name=".words.WordsTextbookDetailFragment_"
             android:label="@string/words_textbook_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".phrases.PhrasesTextbookDetailActivity_"
+            android:name=".phrases.PhrasesTextbookDetailFragment_"
             android:label="@string/phrases_textbook_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".patterns.PatternsDetailActivity_"
+            android:name=".patterns.PatternsDetailFragment_"
             android:label="@string/patterns_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".patterns.PatternsWebPagesBrowseActivity_"
+            android:name=".patterns.PatternsWebPagesBrowseFragment_"
             android:label="@string/patterns_webpages_browse"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".patterns.PatternsWebPagesListActivity_"
+            android:name=".patterns.PatternsWebPagesListFragment_"
             android:label="@string/patterns_webpages_list"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">
         </activity>
         <activity
-            android:name=".patterns.PatternsWebPagesDetailActivity_"
+            android:name=".patterns.PatternsWebPagesDetailFragment_"
             android:label="@string/patterns_webpages_detail"
             android:theme="@style/AppTheme"
             android:screenOrientation="fullSensor">

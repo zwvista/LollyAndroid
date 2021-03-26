@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context=".patterns.PatternsWebPagesListActivity">
+      tools:context=".patterns.PatternsWebPagesListFragment">
     <group android:checkableBehavior="single">
         <item android:id="@+id/menuNormalMode"
             android:titleCondensed="Normal"

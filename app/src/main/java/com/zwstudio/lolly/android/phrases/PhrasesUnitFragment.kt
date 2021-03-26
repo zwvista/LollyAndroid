@@ -6,7 +6,10 @@ import android.content.Context
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
-import android.widget.*
+import android.widget.ImageView
+import android.widget.SearchView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.viewModelScope
 import com.androidisland.vita.VitaOwner
@@ -20,13 +23,18 @@ import com.zwstudio.lolly.android.databinding.ContentPhrasesUnitBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
-import com.zwstudio.lolly.data.misc.*
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.*
-import java.util.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.ItemSelect
+import org.androidannotations.annotations.OnActivityResult
 
 private const val REQUEST_CODE = 1
 
@@ -105,7 +113,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
     }
 
     fun menuAdd() {
-        PhrasesUnitDetailActivity_.intent(this)
+        PhrasesUnitDetailFragment_.intent(this)
             .extra("phrase", vm.newUnitPhrase()).startForResult(REQUEST_CODE)
     }
 
@@ -124,7 +132,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                 true
             }
             R.id.menuBatch -> {
-                PhrasesUnitBatchEditActivity_.intent(this)
+                PhrasesUnitBatchEditFragment_.intent(this)
                     .extra("list", vm.lstPhrases.toTypedArray()).start()
                 true
             }
@@ -185,7 +193,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitPhrase) {
-                PhrasesUnitDetailActivity_.intent(itemView.context)
+                PhrasesUnitDetailFragment_.intent(itemView.context)
                     .extra("phrase", item).startForResult(REQUEST_CODE)
             }
 

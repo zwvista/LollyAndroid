@@ -15,7 +15,7 @@ import org.androidannotations.annotations.*
 
 @EActivity(R.layout.fragment_words_lang_detail)
 @OptionsMenu(R.menu.menu_save)
-class WordsLangDetailActivity : AppCompatActivity() {
+class WordsLangDetailFragment : AppCompatActivity() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsLangViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { WordsLangDetailViewModel(item) } }
@@ -27,7 +27,7 @@ class WordsLangDetailActivity : AppCompatActivity() {
         item = intent.getSerializableExtra("word") as MLangWord
         binding = DataBindingUtil.inflate<FragmentWordsLangDetailBinding>(LayoutInflater.from(this), R.layout.fragment_words_lang_detail,
                 findViewById(android.R.id.content), true).apply {
-            lifecycleOwner = this@WordsLangDetailActivity
+            lifecycleOwner = this@WordsLangDetailFragment
             model = vmDetail
         }
     }

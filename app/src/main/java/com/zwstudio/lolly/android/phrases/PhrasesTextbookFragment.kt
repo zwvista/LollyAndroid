@@ -19,13 +19,17 @@ import com.zwstudio.lolly.android.databinding.ContentPhrasesTextbookBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
-import com.zwstudio.lolly.data.misc.*
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.*
-import java.util.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.ItemSelect
 
 
 @EFragment(R.layout.content_phrases_textbook)
@@ -161,7 +165,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitPhrase) {
-                PhrasesTextbookDetailActivity_.intent(itemView.context).extra("phrase", item).start()
+                PhrasesTextbookDetailFragment_.intent(itemView.context).extra("phrase", item).start()
             }
 
             @SuppressLint("ClickableViewAccessibility")

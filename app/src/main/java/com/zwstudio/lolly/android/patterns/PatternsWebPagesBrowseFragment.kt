@@ -12,7 +12,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.fragment_patterns_webpages_browse)
-class PatternsWebPagesBrowseActivity : AppCompatActivity() {
+class PatternsWebPagesBrowseFragment : AppCompatActivity() {
 
     @Bean
     lateinit var vm: PatternsWebPagesViewModel

@@ -15,7 +15,7 @@ import org.androidannotations.annotations.*
 
 @EActivity(R.layout.fragment_patterns_webpages_detail)
 @OptionsMenu(R.menu.menu_save)
-class PatternsWebPagesDetailActivity : AppCompatActivity() {
+class PatternsWebPagesDetailFragment : AppCompatActivity() {
 
     val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel<PatternsWebPagesViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PatternsWebPageDetailViewModel(item) } }
@@ -27,7 +27,7 @@ class PatternsWebPagesDetailActivity : AppCompatActivity() {
         item = intent.getSerializableExtra("webpage") as MPatternWebPage
         binding = DataBindingUtil.inflate<FragmentPatternsWebpagesDetailBinding>(LayoutInflater.from(this), R.layout.fragment_patterns_webpages_detail,
                 findViewById(android.R.id.content), true).apply {
-            lifecycleOwner = this@PatternsWebPagesDetailActivity
+            lifecycleOwner = this@PatternsWebPagesDetailFragment
             model = vmDetail
         }
     }

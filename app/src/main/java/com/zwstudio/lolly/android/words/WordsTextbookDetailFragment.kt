@@ -7,28 +7,28 @@ import androidx.databinding.DataBindingUtil
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.android.databinding.FragmentWordsUnitDetailBinding
+import com.zwstudio.lolly.android.databinding.FragmentWordsTextbookDetailBinding
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.fragment_words_unit_detail)
+@EActivity(R.layout.fragment_words_textbook_detail)
 @OptionsMenu(R.menu.menu_save)
-class WordsUnitDetailActivity : AppCompatActivity() {
+class WordsTextbookDetailFragment : AppCompatActivity() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { WordsUnitDetailViewModel(item) } }
-    lateinit var binding: FragmentWordsUnitDetailBinding
+    lateinit var binding: FragmentWordsTextbookDetailBinding
     lateinit var item: MUnitWord
 
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("word") as MUnitWord
-        binding = DataBindingUtil.inflate<FragmentWordsUnitDetailBinding>(LayoutInflater.from(this), R.layout.fragment_words_unit_detail,
+        binding = DataBindingUtil.inflate<FragmentWordsTextbookDetailBinding>(LayoutInflater.from(this), R.layout.fragment_words_textbook_detail,
             findViewById(android.R.id.content), true).apply {
-            lifecycleOwner = this@WordsUnitDetailActivity
+            lifecycleOwner = this@WordsTextbookDetailFragment
             model = vmDetail
         }
         binding.spnUnit.adapter = makeCustomAdapter(this, vm.vmSettings.lstUnits) { it.label }
@@ -39,10 +39,7 @@ class WordsUnitDetailActivity : AppCompatActivity() {
     fun menuSave() {
         vmDetail.save(item)
         item.word = vm.vmSettings.autoCorrectInput(item.word)
-        if (item.id == 0)
-            vm.create(item)
-        else
-            vm.update(item)
+        vm.update(item)
         setResult(Activity.RESULT_OK)
         finish()
     }
