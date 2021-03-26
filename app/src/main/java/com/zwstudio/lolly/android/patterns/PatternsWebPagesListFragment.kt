@@ -30,7 +30,6 @@ import java.util.*
 private const val REQUEST_CODE = 1
 
 @EActivity(R.layout.fragment_patterns_webpages_list)
-@OptionsMenu(R.menu.menu_patterns_webpages_list)
 class PatternsWebPagesListFragment : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     @Bean
@@ -45,11 +44,6 @@ class PatternsWebPagesListFragment : AppCompatActivity(), TextToSpeech.OnInitLis
     @ViewById
     lateinit var progressBar1: ProgressBar
     val compositeDisposable = CompositeDisposable()
-
-    @OptionsMenuItem
-    lateinit var menuNormalMode: MenuItem
-    @OptionsMenuItem
-    lateinit var menuEditMode: MenuItem
 
     @AfterViews
     fun afterViews() {
@@ -119,21 +113,39 @@ class PatternsWebPagesListFragment : AppCompatActivity(), TextToSpeech.OnInitLis
         mDragListView.setAdapter(listAdapter, true)
     }
 
-    @OptionsItem
-    fun menuNormalMode() = setMenuMode(false)
-    @OptionsItem
-    fun menuEditMode() = setMenuMode(true)
-    private fun setMenuMode(isEditMode: Boolean) {
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_patterns_webpages_list, menu)
+        setEditMode(menu!!.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    fun setEditMode(item: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
-        (if (isEditMode) menuEditMode else menuNormalMode).isChecked = true
+        item.isChecked = true
         refreshListView()
     }
 
-    @OptionsItem
     fun menuAdd() {
         PatternsWebPagesDetailFragment_.intent(this)
             .extra("word", vm.newPatternWebPage(item.id, item.pattern)).startForResult(REQUEST_CODE)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.menuNormalMode -> {
+                setEditMode(item,false)
+                true
+            }
+            R.id.menuEditMode -> {
+                setEditMode(item,true)
+                true
+            }
+            R.id.menuAdd -> {
+                menuAdd()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 
     @OnActivityResult(REQUEST_CODE)
     fun onResult(resultCode: Int) {
