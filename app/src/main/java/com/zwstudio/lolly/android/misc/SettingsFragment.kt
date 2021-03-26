@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.zwstudio.lolly.android.LollyApplication
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.android.databinding.ContentSettingsBinding
+import com.zwstudio.lolly.android.databinding.FragmentSettingsBinding
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.domain.misc.*
@@ -23,16 +23,16 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ItemSelect
 
-@EFragment(R.layout.content_settings)
+@EFragment(R.layout.fragment_settings)
 class SettingsFragment : Fragment(), SettingsListener {
 
     var vm = LollyApplication.vmSettings
-    var binding by autoCleared<ContentSettingsBinding>()
+    var binding by autoCleared<FragmentSettingsBinding>()
 
     val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ContentSettingsBinding.inflate(inflater, container, false).apply {
+        binding = FragmentSettingsBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
         }
