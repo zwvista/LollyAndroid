@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.service.wpp
 
+import android.util.Log
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.restapi.wpp.RestPatternWebPage
 import com.zwstudio.lolly.service.misc.BaseService
@@ -24,24 +25,24 @@ class PatternWebPageService: BaseService() {
     suspend fun updateSeqNum(id: Int, seqnum: Int) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPatternWebPage::class.java)
             .updateSeqNum(id, seqnum)
-            .let { println(it.toString()) }
+            .let { Log.d("", it.toString()) }
     }
 
     suspend fun update(o: MPatternWebPage) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPatternWebPage::class.java)
             .update(o.id, o.patternid, o.seqnum, o.webpageid)
-            .let { println(it.toString()) }
+            .let { Log.d("", it.toString()) }
     }
 
     suspend fun create(o: MPatternWebPage): Int = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPatternWebPage::class.java)
             .create(o.patternid, o.seqnum, o.webpageid)
-            .also { println(it.toString()) }
+            .also { Log.d("", it.toString()) }
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPatternWebPage::class.java)
             .delete(id)
-            .let { println(it.toString()) }
+            .let { Log.d("", it.toString()) }
     }
 }

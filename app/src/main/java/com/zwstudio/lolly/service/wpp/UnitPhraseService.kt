@@ -24,7 +24,7 @@ class UnitPhraseService: BaseService() {
     suspend fun getDataByTextbook(textbook: MTextbook): List<MUnitPhrase> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestUnitPhrase::class.java)
             .getDataByTextbook("TEXTBOOKID,eq,${textbook.id}")
-            .lst!!.let { it.distinctBy { it.phraseid } }.also {
+            .lst!!.distinctBy { it.phraseid }.also {
                 for (o in it)
                     o.textbook = textbook
             }

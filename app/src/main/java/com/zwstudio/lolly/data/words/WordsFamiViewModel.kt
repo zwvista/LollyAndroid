@@ -29,22 +29,18 @@ class WordsFamiViewModel {
             userid = GlobalConstants.userid
             this.wordid = wordid
         }
-        return if (lst.isEmpty()) {
+        if (lst.isEmpty()) {
             item.correct = d
             item.total = 1
-            create(item).let {
-                item.id = it
-                item
-            }
+            item.id = create(item)
         }
         else {
             val o = lst[0]
             item.id = o.id
             item.correct = o.correct + d
             item.total = o.total + 1
-            update(item).let {
-                item
-            }
+            update(item)
         }
+        return item
     }
 }

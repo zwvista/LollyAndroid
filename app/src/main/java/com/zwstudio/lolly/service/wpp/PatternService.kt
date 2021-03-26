@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.service.wpp
 
+import android.util.Log
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
 import com.zwstudio.lolly.service.misc.BaseService
@@ -24,36 +25,36 @@ class PatternService: BaseService() {
     suspend fun updateNote(id: Int, note: String) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPattern::class.java)
             .updateNote(id, note)
-            .let { println(it.toString()) }
+            .let { Log.d("", it.toString()) }
     }
 
     suspend fun update(o: MPattern) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPattern::class.java)
             .update(o.id, o.langid, o.pattern, o.note, o.tags)
-            .let { println(it.toString()) }
+            .let { Log.d("", it.toString()) }
     }
 
     suspend fun create(o: MPattern): Int = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPattern::class.java)
             .create(o.langid, o.pattern, o.note, o.tags)
-            .also { println(it.toString()) }
+            .also { Log.d("", it.toString()) }
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPattern::class.java)
             .delete(id)
-            .let { println(it.toString()) }
+            .let { Log.d("", it.toString()) }
     }
 
     suspend fun mergePatterns(o: MPattern) = withContext(Dispatchers.IO) {
         retrofitSP.create(RestPattern::class.java)
             .mergePatterns(o.idsMerge, o.pattern, o.note, o.tags)
-            .let { println(it.toString()) }
+            .let { Log.d("", it.toString()) }
     }
 
     suspend fun splitPattern(o: MPattern) = withContext(Dispatchers.IO) {
         retrofitSP.create(RestPattern::class.java)
             .splitPattern(o.id, o.patternsSplit)
-            .let { println(it.toString()) }
+            .let { Log.d("", it.toString()) }
     }
 }

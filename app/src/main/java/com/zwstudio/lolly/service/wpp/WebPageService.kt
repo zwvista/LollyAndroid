@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.service.wpp
 
+import android.util.Log
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.domain.wpp.MWebPage
 import com.zwstudio.lolly.restapi.wpp.RestWebPage
@@ -25,30 +26,30 @@ class WebPageService: BaseService() {
     suspend fun update(o: MPatternWebPage) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWebPage::class.java)
             .update(o.webpageid, o.title, o.url)
-            .let { println(it.toString()) }
+            .let { Log.d("", it.toString()) }
     }
 
     suspend fun create(o: MPatternWebPage): Int = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWebPage::class.java)
             .create(o.title, o.url)
-            .also { println(it.toString()) }
+            .also { Log.d("", it.toString()) }
     }
 
     suspend fun update(o: MWebPage) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWebPage::class.java)
             .update(o.id, o.title, o.url)
-            .let { println(it.toString()) }
+            .let { Log.d("", it.toString()) }
     }
 
     suspend fun create(o: MWebPage): Int = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWebPage::class.java)
             .create(o.title, o.url)
-            .also { println(it.toString()) }
+            .also { Log.d("", it.toString()) }
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWebPage::class.java)
             .delete(id)
-            .let { println(it.toString()) }
+            .let { Log.d("", it.toString()) }
     }
 }
