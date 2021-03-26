@@ -8,7 +8,10 @@ import android.os.Handler
 import android.os.Looper
 import android.speech.tts.TextToSpeech
 import android.view.*
-import android.widget.*
+import android.widget.ImageView
+import android.widget.SearchView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.viewModelScope
 import com.androidisland.vita.VitaOwner
@@ -27,8 +30,10 @@ import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.*
-import java.util.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.ItemSelect
+import org.androidannotations.annotations.OnActivityResult
 
 
 private const val REQUEST_CODE = 1
@@ -47,7 +52,7 @@ class WordsUnitFragment : DrawerListFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentWordsUnitBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = this@WordsUnitFragment
+            lifecycleOwner = viewLifecycleOwner
             model = vm
         }
         return binding.root

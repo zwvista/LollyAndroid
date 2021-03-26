@@ -25,7 +25,7 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentPhrasesReviewBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = this@PhrasesReviewFragment
+            lifecycleOwner = viewLifecycleOwner
             model = vm
         }
         return binding.root

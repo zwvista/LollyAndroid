@@ -42,7 +42,7 @@ class PatternsFragment : DrawerListFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentPatternsBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = this@PatternsFragment
+            lifecycleOwner = viewLifecycleOwner
             model = vm
         }
         return binding.root

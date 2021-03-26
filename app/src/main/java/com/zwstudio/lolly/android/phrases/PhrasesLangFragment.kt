@@ -45,7 +45,7 @@ class PhrasesLangFragment : DrawerListFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentPhrasesLangBinding.inflate(inflater, container, false).apply {
             model = vm
-            lifecycleOwner = this@PhrasesLangFragment
+            lifecycleOwner = viewLifecycleOwner
         }
         return binding.root
     }

@@ -42,7 +42,7 @@ class WordsLangFragment : DrawerListFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentWordsLangBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = this@WordsLangFragment
+            lifecycleOwner = viewLifecycleOwner
             model = vm
         }
         return binding.root

@@ -42,7 +42,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentPhrasesTextbookBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = this@PhrasesTextbookFragment
+            lifecycleOwner = viewLifecycleOwner
             model = vm
         }
         return binding.root
