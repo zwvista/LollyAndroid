@@ -11,7 +11,7 @@ import com.zwstudio.lolly.domain.wpp.MPattern
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.activity_patterns_webpages_browse)
+@EActivity(R.layout.fragment_patterns_webpages_browse)
 class PatternsWebPagesBrowseActivity : AppCompatActivity() {
 
     @Bean

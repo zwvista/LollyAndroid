@@ -7,25 +7,25 @@ import androidx.databinding.DataBindingUtil
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.android.databinding.ActivityWordsLangDetailBinding
+import com.zwstudio.lolly.android.databinding.FragmentWordsLangDetailBinding
 import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.activity_words_lang_detail)
+@EActivity(R.layout.fragment_words_lang_detail)
 @OptionsMenu(R.menu.menu_save)
 class WordsLangDetailActivity : AppCompatActivity() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsLangViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { WordsLangDetailViewModel(item) } }
-    lateinit var binding: ActivityWordsLangDetailBinding
+    lateinit var binding: FragmentWordsLangDetailBinding
     lateinit var item: MLangWord
 
     @AfterViews
     fun afterViews() {
         item = intent.getSerializableExtra("word") as MLangWord
-        binding = DataBindingUtil.inflate<ActivityWordsLangDetailBinding>(LayoutInflater.from(this), R.layout.activity_words_lang_detail,
+        binding = DataBindingUtil.inflate<FragmentWordsLangDetailBinding>(LayoutInflater.from(this), R.layout.fragment_words_lang_detail,
                 findViewById(android.R.id.content), true).apply {
             lifecycleOwner = this@WordsLangDetailActivity
             model = vmDetail

@@ -13,7 +13,7 @@ import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.words.WordsDictViewModel
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.activity_words_dict)
+@EActivity(R.layout.fragment_words_dict)
 class WordsDictActivity : AppCompatActivity(), TouchListener {
 
     @ViewById
