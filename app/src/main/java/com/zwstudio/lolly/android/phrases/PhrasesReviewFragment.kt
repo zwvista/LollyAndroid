@@ -5,7 +5,6 @@ import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
 import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -14,7 +13,10 @@ import com.zwstudio.lolly.android.databinding.ContentPhrasesReviewBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.data.phrases.PhrasesReviewViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.CheckedChange
+import org.androidannotations.annotations.Click
+import org.androidannotations.annotations.EFragment
 import java.util.*
 
 @EFragment(R.layout.content_phrases_review)
@@ -28,7 +30,7 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentPhrasesReviewBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = this@PhrasesReviewFragment
+            lifecycleOwner = viewLifecycleOwner
             model = vm
         }
         return binding.root

@@ -5,7 +5,10 @@ import android.app.Activity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
-import android.widget.*
+import android.widget.ImageView
+import android.widget.SearchView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -17,13 +20,18 @@ import com.zwstudio.lolly.android.databinding.ContentWordsLangBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
-import com.zwstudio.lolly.data.misc.*
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
-import java.util.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.ItemSelect
+import org.androidannotations.annotations.OnActivityResult
 
 private const val REQUEST_CODE = 1
 
@@ -41,7 +49,7 @@ class WordsLangFragment : DrawerListFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentWordsLangBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = this@WordsLangFragment
+            lifecycleOwner = viewLifecycleOwner
             model = vm
         }
         return binding.root

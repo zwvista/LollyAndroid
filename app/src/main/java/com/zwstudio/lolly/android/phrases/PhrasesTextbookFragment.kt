@@ -18,13 +18,17 @@ import com.zwstudio.lolly.android.databinding.ContentPhrasesTextbookBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
-import com.zwstudio.lolly.data.misc.*
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
-import java.util.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.ItemSelect
 
 
 @EFragment(R.layout.content_phrases_textbook)
@@ -41,7 +45,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentPhrasesTextbookBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = this@PhrasesTextbookFragment
+            lifecycleOwner = viewLifecycleOwner
             model = vm
         }
         return binding.root

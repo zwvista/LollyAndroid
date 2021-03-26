@@ -19,13 +19,18 @@ import com.zwstudio.lolly.android.databinding.ContentPhrasesLangBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
-import com.zwstudio.lolly.data.misc.*
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.copyText
+import com.zwstudio.lolly.data.misc.googleString
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
-import java.util.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.ItemSelect
+import org.androidannotations.annotations.OnActivityResult
 
 private const val REQUEST_CODE = 1
 
@@ -44,7 +49,7 @@ class PhrasesLangFragment : DrawerListFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = ContentPhrasesLangBinding.inflate(inflater, container, false).apply {
             model = vm
-            lifecycleOwner = this@PhrasesLangFragment
+            lifecycleOwner = viewLifecycleOwner
         }
         return binding.root
     }
