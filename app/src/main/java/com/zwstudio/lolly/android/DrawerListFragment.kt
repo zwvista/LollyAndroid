@@ -39,8 +39,8 @@ class DrawerListFragment : Fragment(), TextToSpeech.OnInitListener {
         tts.language = locale
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         tts.shutdown()
     }
 

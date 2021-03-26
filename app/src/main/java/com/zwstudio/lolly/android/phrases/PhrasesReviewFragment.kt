@@ -44,9 +44,9 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         btnNewTest()
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         vm.subscriptionTimer?.dispose()
-        super.onDestroy()
+        super.onDestroyView()
         tts.shutdown()
     }
 
