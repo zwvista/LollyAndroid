@@ -9,6 +9,7 @@ import com.zwstudio.lolly.domain.misc.ReviewMode
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.wpp.UnitWordService
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import org.androidannotations.annotations.Bean
 import org.androidannotations.annotations.EBean
@@ -21,6 +22,8 @@ class WordsReviewViewModel : BaseViewModel() {
     val unitWordService = UnitWordService()
     @Bean
     lateinit var vmWordFami: WordsFamiViewModel
+
+    lateinit var compositeDisposable: CompositeDisposable
 
     var lstWords = listOf<MUnitWord>()
     val count get() = lstWords.size
@@ -61,7 +64,7 @@ class WordsReviewViewModel : BaseViewModel() {
         }
         subscriptionTimer?.dispose()
         if (options.mode == ReviewMode.Textbook)
-            unitWordService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
+            compositeDisposable.add(unitWordService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
                 val lst2 = mutableListOf<MUnitWord>()
                 for (o in it) {
                     val s = o.accuracy
@@ -79,9 +82,9 @@ class WordsReviewViewModel : BaseViewModel() {
                 }
                 lstWords = lst3.toList()
                 f()
-            }
+            })
         else
-            unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribe {
+            compositeDisposable.add(unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribe {
                 lstWords = it
                 val nFrom = count * (options.groupSelected - 1) / options.groupCount
                 val nTo = count * options.groupSelected / options.groupCount
@@ -90,7 +93,7 @@ class WordsReviewViewModel : BaseViewModel() {
                 f()
                 if (options.mode == ReviewMode.ReviewAuto)
                     subscriptionTimer = Observable.interval(options.interval.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check() }
-            }
+            })
     }
 
     fun next() {
@@ -134,11 +137,11 @@ class WordsReviewViewModel : BaseViewModel() {
             val o = currentItem!!
             val isCorrect = o.word == wordInputString.value
             if (isCorrect) lstCorrectIDs.add(o.id)
-            vmWordFami.update(o.wordid, isCorrect).applyIO().subscribe {
+            compositeDisposable.add(vmWordFami.update(o.wordid, isCorrect).applyIO().subscribe {
                 o.correct = it.correct
                 o.total = it.total
                 accuracyString.value = o.accuracy
-            }
+            })
         } else {
             next()
             doTest()
@@ -164,11 +167,11 @@ class WordsReviewViewModel : BaseViewModel() {
         if (hasNext) {
             indexString.value = "${index + 1}/$count"
             accuracyString.value = currentItem!!.accuracy
-            getTranslation().subscribe {
+            compositeDisposable.add(getTranslation().subscribe {
                 translationString.value = it
                 if (it.isEmpty() && !options.speakingEnabled)
                     wordInputString.value = currentWord
-            }
+            })
         } else if (options.mode == ReviewMode.ReviewAuto)
             subscriptionTimer?.dispose()
     }

@@ -8,6 +8,7 @@ import com.zwstudio.lolly.domain.misc.ReviewMode
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.service.wpp.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit
@@ -17,6 +18,8 @@ import kotlin.math.min
 class PhrasesReviewViewModel : BaseViewModel() {
 
     val unitPhraseService = UnitPhraseService()
+
+    lateinit var compositeDisposable: CompositeDisposable
 
     var lstPhrases = listOf<MUnitPhrase>()
     val count get() = lstPhrases.size
@@ -50,13 +53,13 @@ class PhrasesReviewViewModel : BaseViewModel() {
         }
         subscriptionTimer?.dispose()
         if (options.mode == ReviewMode.Textbook)
-            unitPhraseService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
+            compositeDisposable.add(unitPhraseService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
                 val cnt = min(options.reviewCount, it.size)
                 lstPhrases = it.shuffled().subList(0, cnt)
                 f()
-            }
+            })
         else
-            unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribe {
+            compositeDisposable.add(unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribe {
                 lstPhrases = it
                 val nFrom = count * (options.groupSelected - 1) / options.groupCount
                 val nTo = count * options.groupSelected / options.groupCount
@@ -65,7 +68,7 @@ class PhrasesReviewViewModel : BaseViewModel() {
                 f()
                 if (options.mode == ReviewMode.ReviewAuto)
                     subscriptionTimer = Observable.interval(options.interval.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check() }
-            }
+            })
     }
 
     fun next() {
