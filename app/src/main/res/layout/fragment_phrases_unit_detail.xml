@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".phrases.PhrasesUnitDetailActivity">
+    tools:context=".phrases.PhrasesUnitDetailFragment">
 
     <data>
         <variable name="model" type="com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel"/>

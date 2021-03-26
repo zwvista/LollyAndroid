@@ -112,7 +112,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
     }
 
     fun menuAdd() {
-        PhrasesUnitDetailActivity_.intent(this)
+        PhrasesUnitDetailFragment_.intent(this)
             .extra("phrase", vm.newUnitPhrase()).startForResult(REQUEST_CODE)
     }
 
@@ -131,7 +131,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                 true
             }
             R.id.menuBatch -> {
-                PhrasesUnitBatchEditActivity_.intent(this)
+                PhrasesUnitBatchEditFragment_.intent(this)
                     .extra("list", vm.lstPhrases.toTypedArray()).start()
                 true
             }
@@ -192,7 +192,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitPhrase) {
-                PhrasesUnitDetailActivity_.intent(itemView.context)
+                PhrasesUnitDetailFragment_.intent(itemView.context)
                     .extra("phrase", item).startForResult(REQUEST_CODE)
             }
 

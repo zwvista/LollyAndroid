@@ -15,7 +15,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.fragment_words_dict)
-class WordsDictActivity : AppCompatActivity(), TouchListener {
+class WordsDictFragment : AppCompatActivity(), TouchListener {
 
     @ViewById
     lateinit var spnWord: Spinner

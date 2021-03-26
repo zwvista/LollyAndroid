@@ -119,7 +119,7 @@ class WordsLangFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                WordsLangDetailActivity_.intent(this)
+                WordsLangDetailFragment_.intent(this)
                     .extra("word", vm.newLangWord()).startForResult(1)
                 true
             }
@@ -168,7 +168,7 @@ class WordsLangFragment : DrawerListFragment() {
             }
 
             fun edit(item: MLangWord) {
-                WordsLangDetailActivity_.intent(itemView.context)
+                WordsLangDetailFragment_.intent(itemView.context)
                     .extra("word", item).startForResult(REQUEST_CODE)
             }
 
@@ -230,7 +230,7 @@ class WordsLangFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MLangWord
-                        WordsDictActivity_.intent(itemView.context)
+                        WordsDictFragment_.intent(itemView.context)
                                 .extra("list", vm.lstWords.map { it.word }.toTypedArray())
                                 .extra("index", vm.lstWords.indexOf(item)).start()
                     }

@@ -17,7 +17,7 @@ import org.androidannotations.annotations.*
 
 @EActivity(R.layout.fragment_phrases_unit_detail)
 @OptionsMenu(R.menu.menu_save)
-class PhrasesUnitDetailActivity : AppCompatActivity() {
+class PhrasesUnitDetailFragment : AppCompatActivity() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PhrasesUnitDetailViewModel(item) } }
@@ -31,7 +31,7 @@ class PhrasesUnitDetailActivity : AppCompatActivity() {
         item = intent.getSerializableExtra("phrase") as MUnitPhrase
         binding = DataBindingUtil.inflate<FragmentPhrasesUnitDetailBinding>(LayoutInflater.from(this), R.layout.fragment_phrases_unit_detail,
             findViewById(android.R.id.content), true).apply {
-            lifecycleOwner = this@PhrasesUnitDetailActivity
+            lifecycleOwner = this@PhrasesUnitDetailFragment
             model = vmDetail
         }
         binding.spnUnit.adapter = makeCustomAdapter(this, vm.vmSettings.lstUnits) { it.label }

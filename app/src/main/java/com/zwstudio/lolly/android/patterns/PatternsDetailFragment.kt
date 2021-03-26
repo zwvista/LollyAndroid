@@ -16,7 +16,7 @@ import org.androidannotations.annotations.*
 
 @EActivity(R.layout.fragment_patterns_detail)
 @OptionsMenu(R.menu.menu_save)
-class PatternsDetailActivity : AppCompatActivity() {
+class PatternsDetailFragment : AppCompatActivity() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PatternsDetailViewModel(item) } }
@@ -30,7 +30,7 @@ class PatternsDetailActivity : AppCompatActivity() {
         item = intent.getSerializableExtra("pattern") as MPattern
         binding = DataBindingUtil.inflate<FragmentPatternsDetailBinding>(LayoutInflater.from(this), R.layout.fragment_patterns_detail,
                 findViewById(android.R.id.content), true).apply {
-            lifecycleOwner = this@PatternsDetailActivity
+            lifecycleOwner = this@PatternsDetailFragment
             model = vmDetail
         }
     }

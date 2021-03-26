@@ -164,7 +164,7 @@ class WordsTextbookFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitWord) {
-                WordsTextbookDetailActivity_.intent(itemView.context).extra("word", item).start()
+                WordsTextbookDetailFragment_.intent(itemView.context).extra("word", item).start()
             }
 
             @SuppressLint("ClickableViewAccessibility")
@@ -225,7 +225,7 @@ class WordsTextbookFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
-                        WordsDictActivity_.intent(itemView.context)
+                        WordsDictFragment_.intent(itemView.context)
                                 .extra("list", vm.lstWords.map { it.word }.toTypedArray())
                                 .extra("index", vm.lstWords.indexOf(item)).start()
                     }

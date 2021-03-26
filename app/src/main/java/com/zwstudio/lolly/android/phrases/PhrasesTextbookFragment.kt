@@ -164,7 +164,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitPhrase) {
-                PhrasesTextbookDetailActivity_.intent(itemView.context).extra("phrase", item).start()
+                PhrasesTextbookDetailFragment_.intent(itemView.context).extra("phrase", item).start()
             }
 
             @SuppressLint("ClickableViewAccessibility")

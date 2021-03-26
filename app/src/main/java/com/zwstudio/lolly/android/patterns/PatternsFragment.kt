@@ -119,7 +119,7 @@ class PatternsFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                PatternsDetailActivity_.intent(this)
+                PatternsDetailFragment_.intent(this)
                     .extra("pattern", vm.newPattern()).startForResult(REQUEST_CODE)
                 true
             }
@@ -168,7 +168,7 @@ class PatternsFragment : DrawerListFragment() {
             }
 
             fun edit(item: MPattern) {
-                PatternsDetailActivity_.intent(itemView.context)
+                PatternsDetailFragment_.intent(itemView.context)
                     .extra("pattern", item).startForResult(REQUEST_CODE)
             }
 
@@ -213,11 +213,11 @@ class PatternsFragment : DrawerListFragment() {
                                     0 -> delete(item)
                                     1 -> edit(item)
                                     2 -> {
-                                        PatternsWebPagesBrowseActivity_.intent(itemView.context)
+                                        PatternsWebPagesBrowseFragment_.intent(itemView.context)
                                             .extra("pattern", item).startForResult(REQUEST_CODE)
                                     }
                                     3 -> {
-                                        PatternsWebPagesListActivity_.intent(itemView.context)
+                                        PatternsWebPagesListFragment_.intent(itemView.context)
                                             .extra("pattern", item).startForResult(REQUEST_CODE)
                                     }
                                     4 -> itemView.copyText(item.pattern)
@@ -232,7 +232,7 @@ class PatternsFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MPattern
-                        PatternsWebPagesBrowseActivity_.intent(itemView.context)
+                        PatternsWebPagesBrowseFragment_.intent(itemView.context)
                             .extra("pattern", item).startForResult(REQUEST_CODE)
                     }
                     true

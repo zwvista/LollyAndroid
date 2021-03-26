@@ -113,7 +113,7 @@ class WordsUnitFragment : DrawerListFragment() {
     }
 
     fun menuAdd() {
-        WordsUnitDetailActivity_.intent(this)
+        WordsUnitDetailFragment_.intent(this)
             .extra("word", vm.newUnitWord()).startForResult(REQUEST_CODE)
     }
 
@@ -168,7 +168,7 @@ class WordsUnitFragment : DrawerListFragment() {
                 true
             }
             R.id.menuBatch -> {
-                WordsUnitBatchEditActivity_.intent(this)
+                WordsUnitBatchEditFragment_.intent(this)
                     .extra("list", vm.lstWords.toTypedArray()).start()
                 true
             }
@@ -232,7 +232,7 @@ class WordsUnitFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitWord) {
-                WordsUnitDetailActivity_.intent(itemView.context)
+                WordsUnitDetailFragment_.intent(itemView.context)
                         .extra("word", item).startForResult(REQUEST_CODE)
             }
 
@@ -299,7 +299,7 @@ class WordsUnitFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
-                        WordsDictActivity_.intent(itemView.context)
+                        WordsDictFragment_.intent(itemView.context)
                                 .extra("list", vm.lstWords.map { it.word }.toTypedArray())
                                 .extra("index", vm.lstWords.indexOf(item)).start()
                     }

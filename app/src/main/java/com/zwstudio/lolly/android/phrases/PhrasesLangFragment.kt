@@ -118,7 +118,7 @@ class PhrasesLangFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                PhrasesLangDetailActivity_.intent(this)
+                PhrasesLangDetailFragment_.intent(this)
                     .extra("phrase", vm.newLangPhrase()).startForResult(REQUEST_CODE)
                 true
             }
@@ -166,7 +166,7 @@ class PhrasesLangFragment : DrawerListFragment() {
             }
 
             fun edit(item: MLangPhrase) {
-                PhrasesLangDetailActivity_.intent(itemView.context)
+                PhrasesLangDetailFragment_.intent(itemView.context)
                     .extra("phrase", item).startForResult(REQUEST_CODE)
             }
 
