@@ -1,49 +1,40 @@
 package com.zwstudio.lolly.android.misc
 
 import android.graphics.Color
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.CheckedTextView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.zwstudio.lolly.android.LollyApplication
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.ContentSettingsBinding
 import com.zwstudio.lolly.data.misc.SettingsListener
-import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.domain.misc.*
-import org.androidannotations.annotations.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.Click
+import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.ItemSelect
 
 @EFragment(R.layout.content_settings)
 class SettingsFragment : Fragment(), SettingsListener {
 
-    @Bean
-    lateinit var vm: SettingsViewModel
+    var vm = LollyApplication.vmSettings
+    var binding by autoCleared<ContentSettingsBinding>()
 
-    @ViewById
-    lateinit var spnLanguage: Spinner
-    @ViewById
-    lateinit var spnVoice: Spinner
-    @ViewById
-    lateinit var spnDictReference: Spinner
-    @ViewById
-    lateinit var spnDictNote: Spinner
-    @ViewById
-    lateinit var spnDictTranslation: Spinner
-    @ViewById
-    lateinit var spnTextbook: Spinner
-    @ViewById
-    lateinit var spnUnitFrom: Spinner
-    @ViewById
-    lateinit var spnUnitTo: Spinner
-    @ViewById
-    lateinit var spnPartFrom: Spinner
-    @ViewById
-    lateinit var spnPartTo: Spinner
-    @ViewById
-    lateinit var spnToType: Spinner
-    @ViewById
-    lateinit var btnPrevious: Button
-    @ViewById
-    lateinit var btnNext: Button
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = ContentSettingsBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            model = vm
+        }
+        return binding.root
+    }
 
     @AfterViews
     fun afterViews() {
@@ -62,9 +53,9 @@ class SettingsFragment : Fragment(), SettingsListener {
             v
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-        spnLanguage.adapter = adapter
+        binding.spnLanguage.adapter = adapter
 
-        spnLanguage.setSelection(vm.selectedLangIndex)
+        binding.spnLanguage.setSelection(vm.selectedLangIndex)
     }
 
     @ItemSelect
@@ -80,16 +71,16 @@ class SettingsFragment : Fragment(), SettingsListener {
                 val m = getItem(position)!!
                 var tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = m.voicelang
-                (tv as? CheckedTextView)?.isChecked = spnVoice.selectedItemPosition == position
+                (tv as? CheckedTextView)?.isChecked = binding.spnVoice.selectedItemPosition == position
                 tv = v.findViewById<TextView>(android.R.id.text2)
                 val item = vm.lstVoices.firstOrNull { it.voicelang == m.voicelang }
                 tv.text = item?.voicename ?: ""
                 v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnVoice.adapter = adapter
+            binding.spnVoice.adapter = adapter
 
-            spnVoice.setSelection(vm.selectedVoiceIndex)
+            binding.spnVoice.setSelection(vm.selectedVoiceIndex)
             onUpdateVoice()
         }
         run {
@@ -98,16 +89,16 @@ class SettingsFragment : Fragment(), SettingsListener {
                 val m = getItem(position)!!
                 var tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = m.dictname
-                (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
+                (tv as? CheckedTextView)?.isChecked = binding.spnDictReference.selectedItemPosition == position
                 tv = v.findViewById<TextView>(android.R.id.text2)
                 val item = vm.lstDictsReference.firstOrNull { it.dictname == m.dictname }
                 tv.text = item?.url ?: ""
                 v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnDictReference.adapter = adapter
+            binding.spnDictReference.adapter = adapter
 
-            spnDictReference.setSelection(vm.selectedDictReferenceIndex)
+            binding.spnDictReference.setSelection(vm.selectedDictReferenceIndex)
             onUpdateDictReference()
         }
         run {
@@ -116,15 +107,15 @@ class SettingsFragment : Fragment(), SettingsListener {
                 val m = getItem(position)!!
                 var tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = m.dictname
-                (tv as? CheckedTextView)?.isChecked = spnDictNote.selectedItemPosition == position
+                (tv as? CheckedTextView)?.isChecked = binding.spnDictNote.selectedItemPosition == position
                 tv = v.findViewById<TextView>(android.R.id.text2)
                 tv.text = m.url
                 v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnDictNote.adapter = adapter
+            binding.spnDictNote.adapter = adapter
 
-            spnDictNote.setSelection(vm.selectedDictNoteIndex)
+            binding.spnDictNote.setSelection(vm.selectedDictNoteIndex)
             onUpdateDictNote()
         }
         run {
@@ -133,15 +124,15 @@ class SettingsFragment : Fragment(), SettingsListener {
                 val m = getItem(position)!!
                 var tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = m.dictname
-                (tv as? CheckedTextView)?.isChecked = spnDictTranslation.selectedItemPosition == position
+                (tv as? CheckedTextView)?.isChecked = binding.spnDictTranslation.selectedItemPosition == position
                 tv = v.findViewById<TextView>(android.R.id.text2)
                 tv.text = m.url
                 v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnDictTranslation.adapter = adapter
+            binding.spnDictTranslation.adapter = adapter
 
-            spnDictTranslation.setSelection(vm.selectedDictTranslationIndex)
+            binding.spnDictTranslation.setSelection(vm.selectedDictTranslationIndex)
             onUpdateDictTranslation()
         }
         run {
@@ -150,15 +141,15 @@ class SettingsFragment : Fragment(), SettingsListener {
                 val m = getItem(position)!!
                 var tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = m.textbookname
-                (tv as? CheckedTextView)?.isChecked = spnTextbook.selectedItemPosition == position
+                (tv as? CheckedTextView)?.isChecked = binding.spnTextbook.selectedItemPosition == position
                 tv = v.findViewById<TextView>(android.R.id.text2)
                 tv.text = "${vm.unitCount} units"
                 v
             }
             adapter.setDropDownViewResource(R.layout.list_item_2)
-            spnTextbook.adapter = adapter
+            binding.spnTextbook.adapter = adapter
 
-            spnTextbook.setSelection(vm.selectedTextbookIndex)
+            binding.spnTextbook.setSelection(vm.selectedTextbookIndex)
             onUpdateTextbook()
         }
     }
@@ -167,7 +158,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     fun spnVoiceItemSelected(selected: Boolean, selectedItem: MVoice) {
         if (vm.selectedVoice == selectedItem) return
         vm.selectedVoice = selectedItem
-        (spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+        (binding.spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
         vm.updateVoice()
     }
 
@@ -175,7 +166,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
         if (vm.selectedDictReference == selectedItem) return
         vm.selectedDictReference = selectedItem
-        (spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+        (binding.spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
         vm.updateDictReference()
     }
 
@@ -183,7 +174,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     fun spnDictNoteItemSelected(selected: Boolean, selectedItem: MDictionary) {
         if (vm.selectedDictNote == selectedItem) return
         vm.selectedDictNote = selectedItem
-        (spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+        (binding.spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
         vm.updateDictNote()
     }
 
@@ -191,7 +182,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     fun spnDictTranslationItemSelected(selected: Boolean, selectedItem: MDictionary) {
         if (vm.selectedDictTranslation == selectedItem) return
         vm.selectedDictTranslation = selectedItem
-        (spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+        (binding.spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
         vm.updateDictTranslation()
     }
 
@@ -199,7 +190,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     fun spnTextbookItemSelected(selected: Boolean, selectedItem: MTextbook) {
         if (vm.selectedTextbook == selectedItem) return
         vm.selectedTextbook = selectedItem
-        (spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+        (binding.spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
         vm.updateTextbook()
     }
 
@@ -217,8 +208,8 @@ class SettingsFragment : Fragment(), SettingsListener {
 
         run {
             val adapter = makeAdapter(vm.lstUnits)
-            spnUnitFrom.adapter = adapter
-            spnUnitTo.adapter = adapter
+            binding.spnUnitFrom.adapter = adapter
+            binding.spnUnitTo.adapter = adapter
 
             onUpdateUnitFrom()
             onUpdateUnitTo()
@@ -226,8 +217,8 @@ class SettingsFragment : Fragment(), SettingsListener {
 
         run {
             val adapter = makeAdapter(vm.lstParts)
-            spnPartFrom.adapter = adapter
-            spnPartTo.adapter = adapter
+            binding.spnPartFrom.adapter = adapter
+            binding.spnPartTo.adapter = adapter
 
             onUpdatePartFrom()
             onUpdatePartTo()
@@ -235,8 +226,8 @@ class SettingsFragment : Fragment(), SettingsListener {
 
         run {
             val adapter = makeAdapter(vm.lstToTypes)
-            spnToType.adapter = adapter
-            spnToType.setSelection(vm.toType.ordinal)
+            binding.spnToType.adapter = adapter
+            binding.spnToType.setSelection(vm.toType.ordinal)
         }
     }
 
@@ -255,11 +246,11 @@ class SettingsFragment : Fragment(), SettingsListener {
     @ItemSelect
     fun spnToTypeItemSelected(selected: Boolean, position: Int) {
         val b = position == 2
-        spnUnitTo.isEnabled = b
-        spnPartTo.isEnabled = b && !vm.isSinglePart
-        btnPrevious.isEnabled = !b
-        btnNext.isEnabled = !b
-        spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
+        binding.spnUnitTo.isEnabled = b
+        binding.spnPartTo.isEnabled = b && !vm.isSinglePart
+        binding.btnPrevious.isEnabled = !b
+        binding.btnNext.isEnabled = !b
+        binding.spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
         vm.updateToType(position)
     }
 
@@ -286,18 +277,18 @@ class SettingsFragment : Fragment(), SettingsListener {
     }
 
     override fun onUpdateUnitFrom() {
-        spnUnitFrom.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitfrom })
+        binding.spnUnitFrom.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitfrom })
     }
 
     override fun onUpdatePartFrom() {
-        spnPartFrom.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartfrom })
+        binding.spnPartFrom.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartfrom })
     }
 
     override fun onUpdateUnitTo() {
-        spnUnitTo.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitto })
+        binding.spnUnitTo.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitto })
     }
 
     override fun onUpdatePartTo() {
-        spnPartTo.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartto })
+        binding.spnPartTo.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartto })
     }
 }
