@@ -22,10 +22,10 @@ class WordFamiService: BaseService() {
             .let { Log.d("", it.toString()) }
     }
 
-    suspend fun create(userid: Int, wordid: Int, correct: Int, total: Int) = withContext(Dispatchers.IO) {
+    suspend fun create(userid: Int, wordid: Int, correct: Int, total: Int): Int = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
             .create(userid, wordid, correct, total)
-            .let { Log.d("", it.toString()) }
+            .also { Log.d("", it.toString()) }
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {

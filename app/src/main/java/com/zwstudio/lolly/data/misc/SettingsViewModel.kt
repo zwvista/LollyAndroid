@@ -426,10 +426,13 @@ class SettingsViewModel : ViewModel() {
         settingsListener?.onUpdatePartTo()
     }
 
+    suspend fun getHtml(url: String): String =
+        htmlService.getHtml(url)
+
     suspend fun getNote(word: String): String {
         val dictNote = selectedDictNote ?: return ""
         val url = dictNote.urlString(word, lstAutoCorrect)
-        val html = htmlService.getHtml(url)
+        val html = getHtml(url)
         Log.d("", html)
         return extractTextFrom(html, dictNote.transform, "") { text, _ -> text }
     }

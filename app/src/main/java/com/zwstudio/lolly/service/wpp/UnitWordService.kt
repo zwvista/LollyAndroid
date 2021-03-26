@@ -21,6 +21,15 @@ class UnitWordService: BaseService() {
             }
     }
 
+    suspend fun getDataByTextbook(textbook: MTextbook): List<MUnitWord> = withContext(Dispatchers.IO) {
+        retrofitJson.create(RestUnitWord::class.java)
+            .getDataByTextbook("TEXTBOOKID,eq,${textbook.id}")
+            .lst!!.let { it.distinctBy { it.wordid } }.also {
+                for (o in it)
+                    o.textbook = textbook
+            }
+    }
+
     suspend fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): List<MUnitWord> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestUnitWord::class.java)
             .getDataByLang("LANGID,eq,$langid")

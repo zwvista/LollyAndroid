@@ -8,6 +8,9 @@ interface RestUnitWord {
     @GET("VUNITWORDS?order=UNITPART&order=SEQNUM")
     suspend fun getDataByTextbookUnitPart(@Query("filter") vararg filters: String): MUnitWords
 
+    @GET("VUNITWORDS?order=WORDID")
+    suspend fun getDataByTextbook(@Query("filter") filter: String): MUnitWords
+
     @GET("VUNITWORDS?order=TEXTBOOKID&order=UNIT&order=PART&order=SEQNUM")
     suspend fun getDataByLang(@Query("filter") filter: String): MUnitWords
 
