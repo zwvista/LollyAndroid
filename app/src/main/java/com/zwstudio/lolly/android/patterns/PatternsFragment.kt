@@ -17,7 +17,7 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.android.databinding.ContentPatternsBinding
+import com.zwstudio.lolly.android.databinding.FragmentPatternsBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
@@ -36,12 +36,12 @@ import org.androidannotations.annotations.OnActivityResult
 
 private const val REQUEST_CODE = 1
 
-@EFragment(R.layout.content_patterns)
+@EFragment(R.layout.fragment_patterns)
 class PatternsFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
-    var binding by autoCleared<ContentPatternsBinding>()
+    var binding by autoCleared<FragmentPatternsBinding>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +49,7 @@ class PatternsFragment : DrawerListFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ContentPatternsBinding.inflate(inflater, container, false).apply {
+        binding = FragmentPatternsBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
         }

@@ -10,21 +10,21 @@ import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.android.databinding.ContentPhrasesReviewBinding
+import com.zwstudio.lolly.android.databinding.FragmentPhrasesReviewBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.data.phrases.PhrasesReviewViewModel
 import org.androidannotations.annotations.*
 import java.util.*
 
-@EFragment(R.layout.content_phrases_review)
+@EFragment(R.layout.fragment_phrases_review)
 class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesReviewViewModel>() }
-    var binding by autoCleared<ContentPhrasesReviewBinding>()
+    var binding by autoCleared<FragmentPhrasesReviewBinding>()
     lateinit var tts: TextToSpeech
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ContentPhrasesReviewBinding.inflate(inflater, container, false).apply {
+        binding = FragmentPhrasesReviewBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
         }

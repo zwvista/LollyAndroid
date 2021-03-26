@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.android.databinding.ContentSearchBinding
+import com.zwstudio.lolly.android.databinding.FragmentSearchBinding
 import com.zwstudio.lolly.data.misc.SearchViewModel
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
@@ -25,15 +25,15 @@ import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ItemSelect
 
 
-@EFragment(R.layout.content_search)
+@EFragment(R.layout.fragment_search)
 class SearchFragment : Fragment(), SettingsListener {
 
     val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel<SearchViewModel>() }
-    var binding by autoCleared<ContentSearchBinding>()
+    var binding by autoCleared<FragmentSearchBinding>()
     var onlineDict by autoCleared<OnlineDict>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ContentSearchBinding.inflate(inflater, container, false).apply {
+        binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
         }

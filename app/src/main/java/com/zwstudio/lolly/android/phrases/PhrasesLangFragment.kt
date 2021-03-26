@@ -16,7 +16,7 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.android.databinding.ContentPhrasesLangBinding
+import com.zwstudio.lolly.android.databinding.FragmentPhrasesLangBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
@@ -35,12 +35,12 @@ import org.androidannotations.annotations.OnActivityResult
 
 private const val REQUEST_CODE = 1
 
-@EFragment(R.layout.content_phrases_lang)
+@EFragment(R.layout.fragment_phrases_lang)
 class PhrasesLangFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesLangViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
-    var binding by autoCleared<ContentPhrasesLangBinding>()
+    var binding by autoCleared<FragmentPhrasesLangBinding>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +48,7 @@ class PhrasesLangFragment : DrawerListFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ContentPhrasesLangBinding.inflate(inflater, container, false).apply {
+        binding = FragmentPhrasesLangBinding.inflate(inflater, container, false).apply {
             model = vm
             lifecycleOwner = viewLifecycleOwner
         }

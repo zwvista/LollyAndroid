@@ -15,7 +15,7 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.android.databinding.ContentPhrasesTextbookBinding
+import com.zwstudio.lolly.android.databinding.FragmentPhrasesTextbookBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
@@ -32,12 +32,12 @@ import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ItemSelect
 
 
-@EFragment(R.layout.content_phrases_textbook)
+@EFragment(R.layout.fragment_phrases_textbook)
 class PhrasesTextbookFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
-    var binding by autoCleared<ContentPhrasesTextbookBinding>()
+    var binding by autoCleared<FragmentPhrasesTextbookBinding>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +45,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = ContentPhrasesTextbookBinding.inflate(inflater, container, false).apply {
+        binding = FragmentPhrasesTextbookBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
         }
