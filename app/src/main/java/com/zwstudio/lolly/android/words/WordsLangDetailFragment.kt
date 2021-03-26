@@ -2,6 +2,8 @@ package com.zwstudio.lolly.android.words
 
 import android.app.Activity
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.androidisland.vita.VitaOwner
@@ -14,7 +16,6 @@ import com.zwstudio.lolly.domain.wpp.MLangWord
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.fragment_words_lang_detail)
-@OptionsMenu(R.menu.menu_save)
 class WordsLangDetailFragment : AppCompatActivity() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsLangViewModel>() }
@@ -32,15 +33,24 @@ class WordsLangDetailFragment : AppCompatActivity() {
         }
     }
 
-    @OptionsItem
-    fun menuSave() {
-        vmDetail.save(item)
-        item.word = vm.vmSettings.autoCorrectInput(item.word)
-        if (item.id == 0)
-            vm.create(item)
-        else
-            vm.update(item)
-        setResult(Activity.RESULT_OK)
-        finish()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_save, menu)
+        return super.onCreateOptionsMenu(menu)
     }
+
+    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
+        when (menuItem.itemId) {
+            R.id.menuSave -> {
+                vmDetail.save(item)
+                item.word = vm.vmSettings.autoCorrectInput(item.word)
+                if (item.id == 0)
+                    vm.create(item)
+                else
+                    vm.update(item)
+                setResult(Activity.RESULT_OK)
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(menuItem)
+        }
 }

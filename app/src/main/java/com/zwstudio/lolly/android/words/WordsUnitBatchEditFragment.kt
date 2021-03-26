@@ -1,9 +1,7 @@
 package com.zwstudio.lolly.android.words
 
 import android.content.Context
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -20,7 +18,6 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.fragment_words_unit_batch_edit)
-@OptionsMenu(R.menu.menu_save)
 class WordsUnitBatchEditFragment : AppCompatActivity() {
 
     @Bean
@@ -99,19 +96,29 @@ class WordsUnitBatchEditFragment : AppCompatActivity() {
         etSeqNum.isEnabled = chkSeqNum.isChecked
     }
 
-    @OptionsItem
-    fun menuSave() {
-        if (!chkUnit.isChecked && !chkPart.isChecked && !chkSeqNum.isChecked) return
-        for ((i, item) in vm.lstWords.withIndex()) {
-            val v = mDragListView.recyclerView.findViewHolderForAdapterPosition(i) as WordsUnitBatchItemAdapter.ViewHolder
-            if (v.mCheckmark.visibility == View.INVISIBLE) continue
-            if (chkUnit.isChecked) item.unit = (spnUnit.selectedItem as MSelectItem).value
-            if (chkPart.isChecked) item.part = (spnPart.selectedItem as MSelectItem).value
-            if (chkSeqNum.isChecked) item.seqnum += etSeqNum.text.toString().toInt()
-            vm.update(item)
-        }
-        finish()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_save, menu)
+        return super.onCreateOptionsMenu(menu)
     }
+
+    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
+        when (menuItem.itemId) {
+            R.id.menuSave -> {
+                if (chkUnit.isChecked || chkPart.isChecked || chkSeqNum.isChecked) {
+                    for ((i, item) in vm.lstWords.withIndex()) {
+                        val v = mDragListView.recyclerView.findViewHolderForAdapterPosition(i) as WordsUnitBatchItemAdapter.ViewHolder
+                        if (v.mCheckmark.visibility == View.INVISIBLE) continue
+                        if (chkUnit.isChecked) item.unit = (spnUnit.selectedItem as MSelectItem).value
+                        if (chkPart.isChecked) item.part = (spnPart.selectedItem as MSelectItem).value
+                        if (chkSeqNum.isChecked) item.seqnum += etSeqNum.text.toString().toInt()
+                        vm.update(item)
+                    }
+                    finish()
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(menuItem)
+        }
 
     private class WordsUnitBatchDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
