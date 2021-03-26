@@ -1,49 +1,55 @@
 package com.zwstudio.lolly.android.misc
 
 import android.graphics.Color
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.webkit.WebView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.SearchView
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.ContentSearchBinding
 import com.zwstudio.lolly.data.misc.SearchViewModel
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.domain.misc.MLanguage
-import org.androidannotations.annotations.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EFragment
+import org.androidannotations.annotations.ItemSelect
 
 
 @EFragment(R.layout.content_search)
 class SearchFragment : Fragment(), SettingsListener {
 
-    @ViewById
-    lateinit var svWord: SearchView
-    @ViewById
-    lateinit var spnLanguage: Spinner
-    @ViewById
-    lateinit var spnDictReference: Spinner
-    @ViewById
-    lateinit var wvDictReference: WebView
-
-    @Bean
-    lateinit var vm: SearchViewModel
+    val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel<SearchViewModel>() }
+    var binding by autoCleared<ContentSearchBinding>()
     var onlineDict by autoCleared<OnlineDict>()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = ContentSearchBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            model = vm
+        }
+        return binding.root
+    }
 
     @AfterViews
     fun afterViews() {
         // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
         requireActivity().title = resources.getString(R.string.search)
 
-        onlineDict = OnlineDict(wvDictReference, vm)
+        onlineDict = OnlineDict(binding.wvDictReference, vm)
         onlineDict.initWebViewClient()
 
-        svWord.setQuery(vm.word, false)
-        svWord.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding.svWord.setQuery(vm.word, false)
+        binding.svWord.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 searchDict()
                 return true
@@ -68,9 +74,9 @@ class SearchFragment : Fragment(), SettingsListener {
             v
         }
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-        spnLanguage.adapter = adapter
+        binding.spnLanguage.adapter = adapter
 
-        spnLanguage.setSelection(vm.vmSettings.selectedLangIndex)
+        binding.spnLanguage.setSelection(vm.vmSettings.selectedLangIndex)
     }
 
     @ItemSelect
@@ -85,15 +91,15 @@ class SearchFragment : Fragment(), SettingsListener {
             val item = getItem(position)!!
             var tv = v.findViewById<TextView>(android.R.id.text1)
             tv.text = item.dictname
-            (tv as? CheckedTextView)?.isChecked = spnDictReference.selectedItemPosition == position
+            (tv as? CheckedTextView)?.isChecked = binding.spnDictReference.selectedItemPosition == position
             tv = v.findViewById<TextView>(android.R.id.text2)
             tv.text = item.url
             v
         }
         adapter.setDropDownViewResource(R.layout.list_item_2)
-        spnDictReference.adapter = adapter
+        binding.spnDictReference.adapter = adapter
 
-        spnDictReference.setSelection(vm.vmSettings.selectedDictReferenceIndex)
+        binding.spnDictReference.setSelection(vm.vmSettings.selectedDictReferenceIndex)
         searchDict()
     }
 
@@ -106,8 +112,8 @@ class SearchFragment : Fragment(), SettingsListener {
     }
 
     fun searchDict() {
-        vm.word = svWord.query.toString()
-        svWord.post { svWord.clearFocus() }
+        vm.word = binding.svWord.query.toString()
+        binding.svWord.post { binding.svWord.clearFocus() }
         onlineDict.searchDict()
     }
 
