@@ -52,7 +52,7 @@ class PhrasesLangDetailFragment : AppCompatActivity() {
                     compositeDisposable.add(vm.update(item).subscribe())
                 setResult(Activity.RESULT_OK)
                 finish()
-                        true
+                true
             }
             else -> super.onOptionsItemSelected(menuItem)
         }
