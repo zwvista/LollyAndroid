@@ -1,16 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: "kotlin-kapt"
-
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
-
-repositories {
-    mavenCentral()
-}
 
 android {
     compileSdkVersion 30
@@ -22,14 +13,6 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        // https://github.com/androidannotations/androidannotations/issues/2034
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [
-                        "androidManifestFile": "$projectDir/src/main/AndroidManifest.xml".toString()
-                ]
-            }
-        }
     }
     buildTypes {
         release {
