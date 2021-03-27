@@ -36,6 +36,7 @@
     <string name="patterns_webpages_browse">Pattern Web Pages(Browse)</string>
     <string name="patterns_webpages_list">Pattern Web Pages(List)</string>
     <string name="patterns_webpages_detail">Patterns Web Pages(Detail)</string>
+    <string name="words_dict">Word Dictionary</string>
 
     <string name="action_edit">Edit</string>
     <string name="action_add">Add</string>
