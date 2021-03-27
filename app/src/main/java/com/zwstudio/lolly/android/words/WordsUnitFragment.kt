@@ -7,10 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.speech.tts.TextToSpeech
 import android.view.*
-import android.widget.ImageView
-import android.widget.SearchView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.viewModelScope
 import com.androidisland.vita.VitaOwner
@@ -69,6 +66,16 @@ class WordsUnitFragment : DrawerListFragment() {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopeWordFilters) { it.label }
         binding.spnScopeFilter.setSelection(0)
 
+        binding.spnScopeFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                vm.scopeFilter = SettingsViewModel.lstScopeWordFilters[position].label
+                vm.applyFilters()
+                refreshListView()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
         setupListView(WordsUnitDragItem(requireContext(), R.layout.list_item_words_unit_edit))
         vm.viewModelScope.launch {
             vm.getDataInTextbook()
@@ -81,12 +88,6 @@ class WordsUnitFragment : DrawerListFragment() {
         val listAdapter = WordsUnitItemAdapter(vm, mDragListView, tts)
         mDragListView.setAdapter(listAdapter, true)
     }
-
-//    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-//        vm.scopeFilter = selectedItem.label
-//        vm.applyFilters()
-//        refreshListView()
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
