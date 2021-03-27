@@ -22,10 +22,6 @@ import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.domain.misc.MLanguage
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ItemSelect
-
 
 class SearchFragment : Fragment(), SettingsListener {
 
@@ -42,10 +38,10 @@ class SearchFragment : Fragment(), SettingsListener {
         return binding.root
     }
 
-    @AfterViews
-    fun afterViews() {
-        // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
-        requireActivity().title = resources.getString(R.string.search)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
+//        requireActivity().title = resources.getString(R.string.search)
 
         onlineDict = OnlineDict(binding.wvDictReference, vm, compositeDisposable)
         onlineDict.initWebViewClient()
@@ -81,11 +77,10 @@ class SearchFragment : Fragment(), SettingsListener {
         binding.spnLanguage.setSelection(vmSettings.selectedLangIndex)
     }
 
-    @ItemSelect
-    fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
-        if (vmSettings.selectedLang == selectedItem) return
-        compositeDisposable.add(vmSettings.setSelectedLang(selectedItem).subscribe())
-    }
+//    fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
+//        if (vmSettings.selectedLang == selectedItem) return
+//        compositeDisposable.add(vmSettings.setSelectedLang(selectedItem).subscribe())
+//    }
 
     override fun onUpdateLang() {
         val lst = vmSettings.lstDictsReference
@@ -105,18 +100,16 @@ class SearchFragment : Fragment(), SettingsListener {
         searchDict()
     }
 
-    @ItemSelect
-    fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
-        if (vmSettings.selectedDictReference == selectedItem) return
-        vmSettings.selectedDictReference = selectedItem
-        compositeDisposable.add(vmSettings.updateDictReference().subscribe())
-        searchDict()
-    }
+//    fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
+//        if (vmSettings.selectedDictReference == selectedItem) return
+//        vmSettings.selectedDictReference = selectedItem
+//        compositeDisposable.add(vmSettings.updateDictReference().subscribe())
+//        searchDict()
+//    }
 
     fun searchDict() {
         vm.word = binding.svWord.query.toString()
         binding.svWord.post { binding.svWord.clearFocus() }
         onlineDict.searchDict()
     }
-
 }

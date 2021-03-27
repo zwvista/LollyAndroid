@@ -9,7 +9,6 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.service.wpp.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.EBean
 
 class WordsUnitViewModel : DrawerListViewModel() {
 

@@ -11,7 +11,6 @@ import com.zwstudio.lolly.service.wpp.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 

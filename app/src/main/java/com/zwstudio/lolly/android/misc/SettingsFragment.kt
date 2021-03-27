@@ -18,10 +18,6 @@ import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.domain.misc.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ItemSelect
 
 class SettingsFragment : Fragment(), SettingsListener {
 
@@ -38,9 +34,9 @@ class SettingsFragment : Fragment(), SettingsListener {
         return binding.root
     }
 
-    @AfterViews
-    fun afterViews() {
-        activity?.title = "Settings"
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        activity?.title = "Settings"
         vm.handler = Handler(Looper.getMainLooper())
         vm.settingsListener = this
         compositeDisposable.add(vm.getData().subscribe())
@@ -60,11 +56,10 @@ class SettingsFragment : Fragment(), SettingsListener {
         binding.spnLanguage.setSelection(vm.selectedLangIndex)
     }
 
-    @ItemSelect
-    fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
-        if (vm.selectedLang == selectedItem) return
-        compositeDisposable.add(vm.setSelectedLang(selectedItem).subscribe())
-    }
+//    fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
+//        if (vm.selectedLang == selectedItem) return
+//        compositeDisposable.add(vm.setSelectedLang(selectedItem).subscribe())
+//    }
 
     override fun onUpdateLang() {
         run {
@@ -156,45 +151,40 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
     }
 
-    @ItemSelect
-    fun spnVoiceItemSelected(selected: Boolean, selectedItem: MVoice) {
-        if (vm.selectedVoice == selectedItem) return
-        vm.selectedVoice = selectedItem
-        (binding.spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateVoice().subscribe())
-    }
+//    fun spnVoiceItemSelected(selected: Boolean, selectedItem: MVoice) {
+//        if (vm.selectedVoice == selectedItem) return
+//        vm.selectedVoice = selectedItem
+//        (binding.spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+//        compositeDisposable.add(vm.updateVoice().subscribe())
+//    }
 
-    @ItemSelect
-    fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
-        if (vm.selectedDictReference == selectedItem) return
-        vm.selectedDictReference = selectedItem
-        (binding.spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateDictReference().subscribe())
-    }
+//    fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
+//        if (vm.selectedDictReference == selectedItem) return
+//        vm.selectedDictReference = selectedItem
+//        (binding.spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+//        compositeDisposable.add(vm.updateDictReference().subscribe())
+//    }
 
-    @ItemSelect
-    fun spnDictNoteItemSelected(selected: Boolean, selectedItem: MDictionary) {
-        if (vm.selectedDictNote == selectedItem) return
-        vm.selectedDictNote = selectedItem
-        (binding.spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateDictNote().subscribe())
-    }
+//    fun spnDictNoteItemSelected(selected: Boolean, selectedItem: MDictionary) {
+//        if (vm.selectedDictNote == selectedItem) return
+//        vm.selectedDictNote = selectedItem
+//        (binding.spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+//        compositeDisposable.add(vm.updateDictNote().subscribe())
+//    }
 
-    @ItemSelect
-    fun spnDictTranslationItemSelected(selected: Boolean, selectedItem: MDictionary) {
-        if (vm.selectedDictTranslation == selectedItem) return
-        vm.selectedDictTranslation = selectedItem
-        (binding.spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateDictTranslation().subscribe())
-    }
+//    fun spnDictTranslationItemSelected(selected: Boolean, selectedItem: MDictionary) {
+//        if (vm.selectedDictTranslation == selectedItem) return
+//        vm.selectedDictTranslation = selectedItem
+//        (binding.spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+//        compositeDisposable.add(vm.updateDictTranslation().subscribe())
+//    }
 
-    @ItemSelect
-    fun spnTextbookItemSelected(selected: Boolean, selectedItem: MTextbook) {
-        if (vm.selectedTextbook == selectedItem) return
-        vm.selectedTextbook = selectedItem
-        (binding.spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.updateTextbook().subscribe())
-    }
+//    fun spnTextbookItemSelected(selected: Boolean, selectedItem: MTextbook) {
+//        if (vm.selectedTextbook == selectedItem) return
+//        vm.selectedTextbook = selectedItem
+//        (binding.spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+//        compositeDisposable.add(vm.updateTextbook().subscribe())
+//    }
 
     override fun onUpdateTextbook() {
 
@@ -233,50 +223,43 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
     }
 
-    @ItemSelect
-    fun spnUnitFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        if (vm.usunitfrom == selectedItem.value) return
-        compositeDisposable.add(vm.updateUnitFrom(selectedItem.value).subscribe())
-    }
+//    fun spnUnitFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        if (vm.usunitfrom == selectedItem.value) return
+//        compositeDisposable.add(vm.updateUnitFrom(selectedItem.value).subscribe())
+//    }
 
-    @ItemSelect
-    fun spnPartFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        if (vm.uspartfrom == selectedItem.value) return
-        compositeDisposable.add(vm.updatePartFrom(selectedItem.value).subscribe())
-    }
+//    fun spnPartFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        if (vm.uspartfrom == selectedItem.value) return
+//        compositeDisposable.add(vm.updatePartFrom(selectedItem.value).subscribe())
+//    }
 
-    @ItemSelect
-    fun spnToTypeItemSelected(selected: Boolean, position: Int) {
-        val b = position == 2
-        binding.spnUnitTo.isEnabled = b
-        binding.spnPartTo.isEnabled = b && !vm.isSinglePart
-        binding.btnPrevious.isEnabled = !b
-        binding.btnNext.isEnabled = !b
-        binding.spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
-        compositeDisposable.add(vm.updateToType(position).subscribe())
-    }
+//    fun spnToTypeItemSelected(selected: Boolean, position: Int) {
+//        val b = position == 2
+//        binding.spnUnitTo.isEnabled = b
+//        binding.spnPartTo.isEnabled = b && !vm.isSinglePart
+//        binding.btnPrevious.isEnabled = !b
+//        binding.btnNext.isEnabled = !b
+//        binding.spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
+//        compositeDisposable.add(vm.updateToType(position).subscribe())
+//    }
 
-    @Click
     fun btnPrevious() {
         compositeDisposable.add(vm.previousUnitPart().subscribe())
     }
 
-    @Click
     fun btnNext() {
         compositeDisposable.add(vm.nextUnitPart().subscribe())
     }
 
-    @ItemSelect
-    fun spnUnitToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        if (vm.usunitto == selectedItem.value) return
-        compositeDisposable.add(vm.updateUnitTo(selectedItem.value).subscribe())
-    }
+//    fun spnUnitToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        if (vm.usunitto == selectedItem.value) return
+//        compositeDisposable.add(vm.updateUnitTo(selectedItem.value).subscribe())
+//    }
 
-    @ItemSelect
-    fun spnPartToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        if (vm.uspartto == selectedItem.value) return
-        compositeDisposable.add(vm.updatePartTo(selectedItem.value).subscribe())
-    }
+//    fun spnPartToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        if (vm.uspartto == selectedItem.value) return
+//        compositeDisposable.add(vm.updatePartTo(selectedItem.value).subscribe())
+//    }
 
     override fun onUpdateUnitFrom() {
         binding.spnUnitFrom.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitfrom })

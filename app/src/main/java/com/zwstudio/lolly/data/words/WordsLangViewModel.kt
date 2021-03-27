@@ -8,7 +8,6 @@ import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.wpp.LangWordService
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.EBean
 
 class WordsLangViewModel : DrawerListViewModel() {
 
