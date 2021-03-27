@@ -33,7 +33,6 @@ class SettingsFragment : Fragment(), SettingsListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        activity?.title = "Settings"
         vm.handler = Handler(Looper.getMainLooper())
         vm.settingsListener = this
         vm.getData()

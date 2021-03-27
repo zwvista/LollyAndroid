@@ -36,9 +36,6 @@ class SearchFragment : Fragment(), SettingsListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
-//        requireActivity().title = resources.getString(R.string.search)
-
         onlineDict = OnlineDict(binding.wvDictReference, vm)
         onlineDict.initWebViewClient()
 
