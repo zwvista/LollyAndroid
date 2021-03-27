@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
-import android.widget.ImageView
-import android.widget.SearchView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -65,6 +62,16 @@ class PatternsFragment : DrawerListFragment() {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePatternFilters) { it.label }
         binding.spnScopeFilter.setSelection(0)
 
+        binding.spnScopeFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                vm.scopeFilter = SettingsViewModel.lstScopePatternFilters[position].label
+                vm.applyFilters()
+                refreshListView()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
         setupListView()
         compositeDisposable.add(vm.getData().subscribe {
             refreshListView()
@@ -76,12 +83,6 @@ class PatternsFragment : DrawerListFragment() {
         val listAdapter = PatternsItemAdapter(vm, mDragListView, tts, compositeDisposable)
         mDragListView.setAdapter(listAdapter, true)
     }
-
-//    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-//        vm.scopeFilter = selectedItem.label
-//        vm.applyFilters()
-//        refreshListView()
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

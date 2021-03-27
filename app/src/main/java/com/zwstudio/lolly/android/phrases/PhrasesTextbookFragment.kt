@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
+import android.widget.AdapterView
 import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
@@ -68,6 +69,26 @@ class PhrasesTextbookFragment : DrawerListFragment() {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
         binding.spnScopeFilter.setSelection(0)
 
+        binding.spnTextbookFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                vm.textbookFilter = vmSettings.lstTextbookFilters[position].value
+                vm.applyFilters()
+                refreshListView()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnScopeFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                vm.scopeFilter = SettingsViewModel.lstScopePhraseFilters[position].label
+                vm.applyFilters()
+                refreshListView()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
         setupListView()
         compositeDisposable.add(vm.getDataInLang().subscribe {
             refreshListView()
@@ -79,18 +100,6 @@ class PhrasesTextbookFragment : DrawerListFragment() {
         val listAdapter = PhrasesTextbookItemAdapter(vm, mDragListView, tts, compositeDisposable)
         mDragListView.setAdapter(listAdapter, true)
     }
-
-//    fun spnTextbookFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-//        vm.textbookFilter = selectedItem.value
-//        vm.applyFilters()
-//        refreshListView()
-//    }
-
-//    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-//        vm.scopeFilter = selectedItem.label
-//        vm.applyFilters()
-//        refreshListView()
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
