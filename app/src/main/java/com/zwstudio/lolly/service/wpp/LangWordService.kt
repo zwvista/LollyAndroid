@@ -1,15 +1,15 @@
 package com.zwstudio.lolly.service.wpp
 
 import android.util.Log
+import com.zwstudio.lolly.android.retrofitJson
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.restapi.wpp.RestLangWord
-import com.zwstudio.lolly.service.misc.BaseService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
 @EBean
-class LangWordService: BaseService() {
+class LangWordService {
     suspend fun getDataByLang(langid: Int): List<MLangWord> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestLangWord::class.java)
             .getDataByLang("LANGID,eq,$langid")

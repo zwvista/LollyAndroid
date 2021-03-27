@@ -10,6 +10,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPatternsDetailBinding
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
@@ -42,7 +43,7 @@ class PatternsDetailFragment : AppCompatActivity() {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vmDetail.save(item)
-                item.pattern = vm.vmSettings.autoCorrectInput(item.pattern)
+                item.pattern = vmSettings.autoCorrectInput(item.pattern)
                 if (item.id == 0)
                     vm.create(item)
                 else

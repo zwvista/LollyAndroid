@@ -23,6 +23,7 @@ import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentWordsUnitBinding
 import com.zwstudio.lolly.android.misc.autoCleared
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.*
@@ -285,8 +286,8 @@ class WordsUnitFragment : DrawerListFragment() {
                                     3 -> itemView.copyText(item.word)
                                     4 -> itemView.googleString(item.word)
                                     5 -> {
-                                        val itemDict = vm.vmSettings.lstDictsReference.find { it.dictname == vm.vmSettings.selectedDictReference.dictname }!!
-                                        val url = itemDict.urlString(item.word, vm.vmSettings.lstAutoCorrect)
+                                        val itemDict = vmSettings.lstDictsReference.find { it.dictname == vmSettings.selectedDictReference.dictname }!!
+                                        val url = itemDict.urlString(item.word, vmSettings.lstAutoCorrect)
                                         itemView.openPage(url)
                                     }
                                     else -> {}
@@ -307,7 +308,7 @@ class WordsUnitFragment : DrawerListFragment() {
                 }
                 if (vm.isEditMode)
                     mForward.visibility = View.GONE
-                if (!(vm.isEditMode && vm.vmSettings.isSingleUnitPart))
+                if (!(vm.isEditMode && vmSettings.isSingleUnitPart))
                     mHamburger.visibility = View.GONE
             }
 

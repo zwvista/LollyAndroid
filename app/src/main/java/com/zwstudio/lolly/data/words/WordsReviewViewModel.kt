@@ -2,8 +2,9 @@ package com.zwstudio.lolly.data.words
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.zwstudio.lolly.data.misc.BaseViewModel
-import com.zwstudio.lolly.data.misc.applyIO
+import androidx.lifecycle.ViewModel
+import com.zwstudio.lolly.android.applyIO
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.extractTextFrom
 import com.zwstudio.lolly.domain.misc.MReviewOptions
 import com.zwstudio.lolly.domain.misc.ReviewMode
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
 @EBean
-class WordsReviewViewModel : BaseViewModel() {
+class WordsReviewViewModel : ViewModel() {
 
     val unitWordService = UnitWordService()
     @Bean

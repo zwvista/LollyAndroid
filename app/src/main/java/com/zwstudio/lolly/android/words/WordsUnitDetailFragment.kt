@@ -10,6 +10,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentWordsUnitDetailBinding
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
@@ -33,8 +34,8 @@ class WordsUnitDetailFragment : AppCompatActivity() {
             lifecycleOwner = this@WordsUnitDetailFragment
             model = vmDetail
         }
-        binding.spnUnit.adapter = makeCustomAdapter(this, vm.vmSettings.lstUnits) { it.label }
-        binding.spnPart.adapter = makeCustomAdapter(this, vm.vmSettings.lstParts) { it.label }
+        binding.spnUnit.adapter = makeCustomAdapter(this, vmSettings.lstUnits) { it.label }
+        binding.spnPart.adapter = makeCustomAdapter(this, vmSettings.lstParts) { it.label }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -46,7 +47,7 @@ class WordsUnitDetailFragment : AppCompatActivity() {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vmDetail.save(item)
-                item.word = vm.vmSettings.autoCorrectInput(item.word)
+                item.word = vmSettings.autoCorrectInput(item.word)
                 if (item.id == 0)
                     vm.create(item)
                 else

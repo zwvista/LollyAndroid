@@ -1,15 +1,15 @@
 package com.zwstudio.lolly.service.wpp
 
 import android.util.Log
+import com.zwstudio.lolly.android.retrofitJson
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.restapi.wpp.RestPatternWebPage
-import com.zwstudio.lolly.service.misc.BaseService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
 @EBean
-class PatternWebPageService: BaseService() {
+class PatternWebPageService {
     suspend fun getDataByPattern(patternid: Int): List<MPatternWebPage> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPatternWebPage::class.java)
             .getDataByPattern("PATTERNID,eq,$patternid")

@@ -10,6 +10,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesLangDetailBinding
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.phrases.PhrasesLangDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
@@ -42,7 +43,7 @@ class PhrasesLangDetailFragment : AppCompatActivity() {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vmDetail.save(item)
-                item.phrase = vm.vmSettings.autoCorrectInput(item.phrase)
+                item.phrase = vmSettings.autoCorrectInput(item.phrase)
                 if (item.id == 0)
                     vm.create(item)
                 else

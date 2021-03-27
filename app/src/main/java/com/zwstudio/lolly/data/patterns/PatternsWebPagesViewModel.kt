@@ -2,7 +2,7 @@ package com.zwstudio.lolly.data.patterns
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.zwstudio.lolly.data.misc.BaseViewModel
+import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.service.wpp.PatternWebPageService
 import com.zwstudio.lolly.service.wpp.WebPageService
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import org.androidannotations.annotations.EBean
 
 @EBean
-class PatternsWebPagesViewModel : BaseViewModel() {
+class PatternsWebPagesViewModel : ViewModel() {
 
     var lstWebPages_ = MutableLiveData(mutableListOf<MPatternWebPage>())
     var lstWebPages get() = lstWebPages_.value!!; set(v) { lstWebPages_.value = v }

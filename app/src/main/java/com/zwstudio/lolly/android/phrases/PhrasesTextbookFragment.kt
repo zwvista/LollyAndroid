@@ -17,6 +17,7 @@ import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesTextbookBinding
 import com.zwstudio.lolly.android.misc.autoCleared
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
@@ -71,7 +72,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
             }
         })
 
-        binding.spnTextbookFilter.adapter = makeCustomAdapter(requireContext(), vm.vmSettings.lstTextbookFilters) { it.label }
+        binding.spnTextbookFilter.adapter = makeCustomAdapter(requireContext(), vmSettings.lstTextbookFilters) { it.label }
         binding.spnTextbookFilter.setSelection(0)
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
         binding.spnScopeFilter.setSelection(0)

@@ -11,9 +11,9 @@ import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.zwstudio.lolly.android.LollyApplication
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentSettingsBinding
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.domain.misc.*
@@ -25,7 +25,7 @@ import org.androidannotations.annotations.ItemSelect
 @EFragment(R.layout.fragment_settings)
 class SettingsFragment : Fragment(), SettingsListener {
 
-    var vm = LollyApplication.vmSettings
+    var vm = vmSettings
     var binding by autoCleared<FragmentSettingsBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

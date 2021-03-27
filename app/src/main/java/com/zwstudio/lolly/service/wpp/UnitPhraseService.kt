@@ -1,16 +1,17 @@
 package com.zwstudio.lolly.service.wpp
 
 import android.util.Log
+import com.zwstudio.lolly.android.retrofitJson
+import com.zwstudio.lolly.android.retrofitSP
 import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.restapi.wpp.RestUnitPhrase
-import com.zwstudio.lolly.service.misc.BaseService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
 @EBean
-class UnitPhraseService: BaseService() {
+class UnitPhraseService {
     suspend fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): List<MUnitPhrase> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestUnitPhrase::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",

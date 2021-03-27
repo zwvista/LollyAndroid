@@ -11,6 +11,7 @@ import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentWordsReviewBinding
 import com.zwstudio.lolly.android.misc.autoCleared
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.words.WordsReviewViewModel
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.CheckedChange
@@ -49,7 +50,7 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
     override fun onInit(status: Int) {
         if (status != TextToSpeech.SUCCESS) return
         val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
+            "${it.language}_${it.country}" == vmSettings.selectedVoice?.voicelang
         }
         if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
         tts.language = locale

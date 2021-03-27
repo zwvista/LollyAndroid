@@ -9,6 +9,9 @@ import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.androidisland.vita.startVita
 import com.zwstudio.lolly.data.misc.SettingsViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import org.androidannotations.annotations.EApplication
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,13 +19,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 @EApplication
 class LollyApplication : Application() {
-
-    companion object {
-        lateinit var retrofitJson: Retrofit
-        lateinit var retrofitSP: Retrofit
-        lateinit var retrofitHtml: Retrofit
-        lateinit var vmSettings: SettingsViewModel
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -38,7 +34,6 @@ class LollyApplication : Application() {
         vmSettings = SettingsViewModel()
         startVita()
     }
-
 }
 
 fun yesNoDialog(context: Context, message: String, yesAction: () -> Unit, noAction: () -> Unit) {
@@ -74,3 +69,12 @@ class LollySwipeRefreshLayout : SwipeRefreshLayout {
         mScrollingView = scrollingView
     }
 }
+
+lateinit var retrofitJson: Retrofit
+lateinit var retrofitSP: Retrofit
+lateinit var retrofitHtml: Retrofit
+lateinit var vmSettings: SettingsViewModel
+
+fun <T> Observable<T>.applyIO(): Observable<T> =
+    this.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())

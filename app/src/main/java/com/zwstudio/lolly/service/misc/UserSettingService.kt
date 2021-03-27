@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.service.misc
 
 import android.util.Log
+import com.zwstudio.lolly.android.retrofitJson
 import com.zwstudio.lolly.domain.misc.MUserSetting
 import com.zwstudio.lolly.domain.misc.MUserSettingInfo
 import com.zwstudio.lolly.restapi.misc.RestUserSetting
@@ -9,7 +10,7 @@ import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
 @EBean
-class UserSettingService: BaseService() {
+class UserSettingService {
     suspend fun getDataByUser(userid: Int): List<MUserSetting> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestUserSetting::class.java)
             .getDataByUser("USERID,eq,$userid")

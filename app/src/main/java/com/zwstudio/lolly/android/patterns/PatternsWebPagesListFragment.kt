@@ -19,6 +19,7 @@ import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.LollySwipeRefreshLayout
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
@@ -52,7 +53,7 @@ class PatternsWebPagesListFragment : AppCompatActivity(), TextToSpeech.OnInitLis
     override fun onInit(status: Int) {
         if (status != TextToSpeech.SUCCESS) return
         val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vm.vmSettings.selectedVoice?.voicelang
+            "${it.language}_${it.country}" == vmSettings.selectedVoice?.voicelang
         }
         if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
         tts.language = locale

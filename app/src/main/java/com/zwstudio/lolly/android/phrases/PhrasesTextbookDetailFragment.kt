@@ -10,6 +10,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesTextbookDetailBinding
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
@@ -32,8 +33,8 @@ class PhrasesTextbookDetailFragment : AppCompatActivity() {
             lifecycleOwner = this@PhrasesTextbookDetailFragment
             model = vmDetail
         }
-        binding.spnUnit.adapter = makeCustomAdapter(this, vm.vmSettings.lstUnits) { it.label }
-        binding.spnPart.adapter = makeCustomAdapter(this, vm.vmSettings.lstParts) { it.label }
+        binding.spnUnit.adapter = makeCustomAdapter(this, vmSettings.lstUnits) { it.label }
+        binding.spnPart.adapter = makeCustomAdapter(this, vmSettings.lstParts) { it.label }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -45,7 +46,7 @@ class PhrasesTextbookDetailFragment : AppCompatActivity() {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vmDetail.save(item)
-                item.phrase = vm.vmSettings.autoCorrectInput(item.phrase)
+                item.phrase = vmSettings.autoCorrectInput(item.phrase)
                 vm.update(item)
                 setResult(Activity.RESULT_OK)
                 true

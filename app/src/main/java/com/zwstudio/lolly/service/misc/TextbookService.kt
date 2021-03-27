@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.service.misc
 
+import com.zwstudio.lolly.android.retrofitJson
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.suspendapi.restapi.misc.RestTextbook
@@ -8,7 +9,7 @@ import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
 @EBean
-class TextbookService: BaseService() {
+class TextbookService {
     suspend fun getDataByLang(langid: Int): List<MTextbook> = withContext(Dispatchers.IO) {
         fun f(units: String): List<String> {
             var m = Regex("UNITS,(\\d+)").find(units)

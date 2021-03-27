@@ -1,16 +1,16 @@
 package com.zwstudio.lolly.service.wpp
 
 import android.util.Log
+import com.zwstudio.lolly.android.retrofitJson
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.domain.wpp.MWebPage
 import com.zwstudio.lolly.restapi.wpp.RestWebPage
-import com.zwstudio.lolly.service.misc.BaseService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
 @EBean
-class WebPageService: BaseService() {
+class WebPageService {
     suspend fun getDataBySearch(title: String, url: String): List<MWebPage> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWebPage::class.java)
             .getDataBySearch("TITLE,cs,$title", "URL,cs,$url")
