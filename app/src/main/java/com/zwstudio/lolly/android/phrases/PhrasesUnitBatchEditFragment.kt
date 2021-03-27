@@ -27,7 +27,6 @@ import org.androidannotations.annotations.CheckedChange
 import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ViewById
 
-@EActivity(R.layout.fragment_phrases_unit_batch_edit)
 class PhrasesUnitBatchEditFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }

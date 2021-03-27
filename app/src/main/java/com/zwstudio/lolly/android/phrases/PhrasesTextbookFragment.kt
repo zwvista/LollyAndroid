@@ -32,7 +32,6 @@ import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ItemSelect
 
 
-@EFragment(R.layout.fragment_phrases_textbook)
 class PhrasesTextbookFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }

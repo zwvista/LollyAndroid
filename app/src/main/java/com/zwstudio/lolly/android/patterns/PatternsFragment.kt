@@ -35,7 +35,6 @@ import org.androidannotations.annotations.OnActivityResult
 
 private const val REQUEST_CODE = 1
 
-@EFragment(R.layout.fragment_patterns)
 class PatternsFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsViewModel>() }

@@ -16,7 +16,6 @@ import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ItemSelect
 import org.androidannotations.annotations.ViewById
 
-@EActivity(R.layout.fragment_patterns_webpages_browse)
 class PatternsWebPagesBrowseFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }

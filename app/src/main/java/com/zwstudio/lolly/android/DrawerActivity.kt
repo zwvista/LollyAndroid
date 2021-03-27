@@ -27,7 +27,6 @@ import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ViewById
 
-@EActivity(R.layout.activity_drawer)
 class DrawerActivity : Fragment(), NavigationView.OnNavigationItemSelectedListener {
 
     @ViewById

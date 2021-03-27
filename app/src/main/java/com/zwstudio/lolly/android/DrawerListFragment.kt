@@ -16,7 +16,6 @@ import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ViewById
 import java.util.*
 
-@EFragment
 class DrawerListFragment : Fragment(), TextToSpeech.OnInitListener {
 
     @ViewById(R.id.drag_list_view)
