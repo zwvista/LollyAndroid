@@ -1,20 +1,18 @@
 package com.zwstudio.lolly.android.patterns
 
-import android.app.Activity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import androidx.databinding.DataBindingUtil
+import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPatternsWebpagesDetailBinding
+import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.data.patterns.PatternsWebPageDetailViewModel
 import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
 
 class PatternsWebPagesDetailFragment : Fragment() {
 
@@ -25,19 +23,22 @@ class PatternsWebPagesDetailFragment : Fragment() {
 
     val compositeDisposable = CompositeDisposable()
 
-    @AfterViews
-    fun afterViews() {
-        item = intent.getSerializableExtra("webpage") as MPatternWebPage
-        binding = DataBindingUtil.inflate<FragmentPatternsWebpagesDetailBinding>(LayoutInflater.from(this), R.layout.fragment_patterns_webpages_detail,
-                findViewById(android.R.id.content), true).apply {
-            lifecycleOwner = this@PatternsWebPagesDetailFragment
-            model = vmDetail
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_save, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        item = intent.getSerializableExtra("webpage") as MPatternWebPage
+        binding = FragmentPatternsWebpagesDetailBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            model = vmDetail
+        }
+        return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_save, menu)
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
@@ -48,8 +49,8 @@ class PatternsWebPagesDetailFragment : Fragment() {
                     compositeDisposable.add(vm.createPatternWebPage(item).subscribe())
                 else
                     compositeDisposable.add(vm.updatePatternWebPage(item).subscribe())
-                setResult(Activity.RESULT_OK)
-                finish()
+                setNavigationResult( "1")
+                findNavController().navigateUp()
                 true
             }
             else -> super.onOptionsItemSelected(menuItem)

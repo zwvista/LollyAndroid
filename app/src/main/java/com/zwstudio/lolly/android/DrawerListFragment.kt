@@ -16,7 +16,7 @@ import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ViewById
 import java.util.*
 
-class DrawerListFragment : Fragment(), TextToSpeech.OnInitListener {
+open class DrawerListFragment : Fragment(), TextToSpeech.OnInitListener {
 
     @ViewById(R.id.drag_list_view)
     lateinit var mDragListView: DragListView
@@ -24,7 +24,7 @@ class DrawerListFragment : Fragment(), TextToSpeech.OnInitListener {
     lateinit var mRefreshLayout: LollySwipeRefreshLayout
     @ViewById
     lateinit var progressBar1: ProgressBar
-    val vmDrawerList: DrawerListViewModel? get() = null
+    open val vmDrawerList: DrawerListViewModel? get() = null
     lateinit var tts: TextToSpeech
 
     val compositeDisposable = CompositeDisposable()

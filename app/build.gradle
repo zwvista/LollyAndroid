@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-allopen'
 apply plugin: "kotlin-kapt"
 
 buildscript {
@@ -52,15 +51,8 @@ android {
     }
 }
 
-allOpen {
-    annotation("org.androidannotations.api.KotlinOpen")
-}
-
-def AAVersion = '4.8.0'
 def retrofit_version = '2.9.0'
 dependencies {
-    kapt "org.androidannotations:androidannotations:$AAVersion"
-    implementation "org.androidannotations:androidannotations-api:$AAVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.13.2'

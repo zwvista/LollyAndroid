@@ -1,21 +1,19 @@
 package com.zwstudio.lolly.android.words
 
-import android.app.Activity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import androidx.databinding.DataBindingUtil
+import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentWordsLangDetailBinding
+import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
 
 class WordsLangDetailFragment : Fragment() {
 
@@ -26,19 +24,22 @@ class WordsLangDetailFragment : Fragment() {
 
     val compositeDisposable = CompositeDisposable()
 
-    @AfterViews
-    fun afterViews() {
-        item = intent.getSerializableExtra("word") as MLangWord
-        binding = DataBindingUtil.inflate<FragmentWordsLangDetailBinding>(LayoutInflater.from(this), R.layout.fragment_words_lang_detail,
-                findViewById(android.R.id.content), true).apply {
-            lifecycleOwner = this@WordsLangDetailFragment
-            model = vmDetail
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_save, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        item = intent.getSerializableExtra("word") as MLangWord
+        binding = FragmentWordsLangDetailBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            model = vmDetail
+        }
+        return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_save, menu)
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
@@ -50,8 +51,8 @@ class WordsLangDetailFragment : Fragment() {
                     compositeDisposable.add(vm.create(item).subscribe())
                 else
                     compositeDisposable.add(vm.update(item).subscribe())
-                setResult(Activity.RESULT_OK)
-                finish()
+                setNavigationResult( "1")
+                findNavController().navigateUp()
                 true
             }
             else -> super.onOptionsItemSelected(menuItem)
