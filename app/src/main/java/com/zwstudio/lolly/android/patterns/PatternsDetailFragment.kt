@@ -1,20 +1,18 @@
 package com.zwstudio.lolly.android.patterns
 
-import android.app.Activity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import androidx.databinding.DataBindingUtil
+import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPatternsDetailBinding
+import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
-import org.androidannotations.annotations.*
 
 class PatternsDetailFragment : Fragment() {
 
@@ -23,19 +21,22 @@ class PatternsDetailFragment : Fragment() {
     lateinit var binding: FragmentPatternsDetailBinding
     lateinit var item: MPattern
 
-    @AfterViews
-    fun afterViews() {
-        item = intent.getSerializableExtra("pattern") as MPattern
-        binding = DataBindingUtil.inflate<FragmentPatternsDetailBinding>(LayoutInflater.from(this), R.layout.fragment_patterns_detail,
-                findViewById(android.R.id.content), true).apply {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        item = intent.getSerializableExtra("pattern") as MPattern
+        binding = FragmentPatternsDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = this@PatternsDetailFragment
             model = vmDetail
         }
+        return binding.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_save, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_save, menu)
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
@@ -47,8 +48,8 @@ class PatternsDetailFragment : Fragment() {
                     vm.create(item)
                 else
                     vm.update(item)
-                setResult(Activity.RESULT_OK)
-                finish()
+                setNavigationResult( "1")
+                findNavController().navigateUp()
                 true
             }
             else -> super.onOptionsItemSelected(menuItem)

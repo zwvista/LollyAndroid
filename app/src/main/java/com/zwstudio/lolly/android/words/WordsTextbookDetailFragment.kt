@@ -1,21 +1,19 @@
 package com.zwstudio.lolly.android.words
 
-import android.app.Activity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import androidx.databinding.DataBindingUtil
+import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentWordsTextbookDetailBinding
+import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
-import org.androidannotations.annotations.*
 
 class WordsTextbookDetailFragment : Fragment() {
 
@@ -24,21 +22,24 @@ class WordsTextbookDetailFragment : Fragment() {
     lateinit var binding: FragmentWordsTextbookDetailBinding
     lateinit var item: MUnitWord
 
-    @AfterViews
-    fun afterViews() {
-        item = intent.getSerializableExtra("word") as MUnitWord
-        binding = DataBindingUtil.inflate<FragmentWordsTextbookDetailBinding>(LayoutInflater.from(this), R.layout.fragment_words_textbook_detail,
-            findViewById(android.R.id.content), true).apply {
-            lifecycleOwner = this@WordsTextbookDetailFragment
-            model = vmDetail
-        }
-        binding.spnUnit.adapter = makeCustomAdapter(this, vmSettings.lstUnits) { it.label }
-        binding.spnPart.adapter = makeCustomAdapter(this, vmSettings.lstParts) { it.label }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_save, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        item = intent.getSerializableExtra("word") as MUnitWord
+        binding = FragmentWordsTextbookDetailBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            model = vmDetail
+        }
+        binding.spnUnit.adapter = makeCustomAdapter(requireContext(), vmSettings.lstUnits) { it.label }
+        binding.spnPart.adapter = makeCustomAdapter(requireContext(), vmSettings.lstParts) { it.label }
+        return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_save, menu)
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
@@ -47,8 +48,8 @@ class WordsTextbookDetailFragment : Fragment() {
                 vmDetail.save(item)
                 item.word = vmSettings.autoCorrectInput(item.word)
                 vm.update(item)
-                setResult(Activity.RESULT_OK)
-                finish()
+                setNavigationResult( "1")
+                findNavController().navigateUp()
                 true
             }
             else -> super.onOptionsItemSelected(menuItem)

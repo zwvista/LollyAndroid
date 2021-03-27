@@ -1,22 +1,20 @@
 package com.zwstudio.lolly.android.phrases
 
-import android.app.Activity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import androidx.databinding.DataBindingUtil
+import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesUnitDetailBinding
+import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
 
 class PhrasesUnitDetailFragment : Fragment() {
 
@@ -27,21 +25,24 @@ class PhrasesUnitDetailFragment : Fragment() {
 
     val compositeDisposable = CompositeDisposable()
 
-    @AfterViews
-    fun afterViews() {
-        item = intent.getSerializableExtra("phrase") as MUnitPhrase
-        binding = DataBindingUtil.inflate<FragmentPhrasesUnitDetailBinding>(LayoutInflater.from(this), R.layout.fragment_phrases_unit_detail,
-            findViewById(android.R.id.content), true).apply {
-            lifecycleOwner = this@PhrasesUnitDetailFragment
-            model = vmDetail
-        }
-        binding.spnUnit.adapter = makeCustomAdapter(this, vmSettings.lstUnits) { it.label }
-        binding.spnPart.adapter = makeCustomAdapter(this, vmSettings.lstParts) { it.label }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_save, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        item = intent.getSerializableExtra("phrase") as MUnitPhrase
+        binding = FragmentPhrasesUnitDetailBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            model = vmDetail
+        }
+        binding.spnUnit.adapter = makeCustomAdapter(requireContext(), vmSettings.lstUnits) { it.label }
+        binding.spnPart.adapter = makeCustomAdapter(requireContext(), vmSettings.lstParts) { it.label }
+        return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_save, menu)
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
@@ -53,8 +54,8 @@ class PhrasesUnitDetailFragment : Fragment() {
                     vm.create(item)
                 else
                     vm.update(item)
-                setResult(Activity.RESULT_OK)
-                finish()
+                setNavigationResult( "1")
+                findNavController().navigateUp()
                 true
             }
             else -> super.onOptionsItemSelected(menuItem)
