@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.TextView
@@ -33,6 +34,129 @@ class SettingsFragment : Fragment(), SettingsListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.spnLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedLang == vm.lstLanguages[position]) return
+                vm.setSelectedLang(vm.lstLanguages[position])
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnVoice.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedVoice == vm.lstVoices[position]) return
+                vm.selectedVoice = vm.lstVoices[position]
+                (binding.spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                vm.updateVoice()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedDictReference == vm.lstDictsReference[position]) return
+                vm.selectedDictReference = vm.lstDictsReference[position]
+                (binding.spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                vm.updateDictReference()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnDictNote.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedDictNote == vm.lstDictsNote[position]) return
+                vm.selectedDictNote = vm.lstDictsNote[position]
+                (binding.spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                vm.updateDictNote()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnDictTranslation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedDictTranslation == vm.lstDictsTranslation[position]) return
+                vm.selectedDictTranslation = vm.lstDictsTranslation[position]
+                (binding.spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                vm.updateDictTranslation()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnTextbook.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedTextbook == vm.lstTextbooks[position]) return
+                vm.selectedTextbook = vm.lstTextbooks[position]
+                (binding.spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                vm.updateTextbook()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnUnitFrom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.usunitfrom == vm.lstUnits[position].value) return
+                vm.updateUnitFrom(vm.lstUnits[position].value)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnPartFrom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.uspartfrom == vm.lstParts[position].value) return
+                vm.updatePartFrom(vm.lstParts[position].value)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnToType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val b = position == 2
+                binding.spnUnitTo.isEnabled = b
+                binding.spnPartTo.isEnabled = b && !vm.isSinglePart
+                binding.btnPrevious.isEnabled = !b
+                binding.btnNext.isEnabled = !b
+                binding.spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
+                vm.updateToType(position)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.btnPrevious.setOnClickListener {
+            vm.previousUnitPart()
+        }
+
+        binding.btnNext.setOnClickListener {
+            vm.nextUnitPart()
+        }
+
+        binding.spnUnitTo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.usunitto == vm.lstUnits[position].value) return
+                vm.updateUnitTo(vm.lstUnits[position].value)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnPartTo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.uspartto == vm.lstParts[position].value) return
+                vm.updatePartTo(vm.lstParts[position].value)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
         vm.handler = Handler(Looper.getMainLooper())
         vm.settingsListener = this
         vm.getData()
@@ -51,11 +175,6 @@ class SettingsFragment : Fragment(), SettingsListener {
 
         binding.spnLanguage.setSelection(vm.selectedLangIndex)
     }
-
-//    fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
-//        if (vm.selectedLang == selectedItem) return
-//        vm.setSelectedLang(selectedItem)
-//    }
 
     override fun onUpdateLang() {
         run {
@@ -147,41 +266,6 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
     }
 
-//    fun spnVoiceItemSelected(selected: Boolean, selectedItem: MVoice) {
-//        if (vm.selectedVoice == selectedItem) return
-//        vm.selectedVoice = selectedItem
-//        (binding.spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-//        vm.updateVoice()
-//    }
-
-//    fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
-//        if (vm.selectedDictReference == selectedItem) return
-//        vm.selectedDictReference = selectedItem
-//        (binding.spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-//        vm.updateDictReference()
-//    }
-
-//    fun spnDictNoteItemSelected(selected: Boolean, selectedItem: MDictionary) {
-//        if (vm.selectedDictNote == selectedItem) return
-//        vm.selectedDictNote = selectedItem
-//        (binding.spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-//        vm.updateDictNote()
-//    }
-
-//    fun spnDictTranslationItemSelected(selected: Boolean, selectedItem: MDictionary) {
-//        if (vm.selectedDictTranslation == selectedItem) return
-//        vm.selectedDictTranslation = selectedItem
-//        (binding.spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-//        vm.updateDictTranslation()
-//    }
-
-//    fun spnTextbookItemSelected(selected: Boolean, selectedItem: MTextbook) {
-//        if (vm.selectedTextbook == selectedItem) return
-//        vm.selectedTextbook = selectedItem
-//        (binding.spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-//        vm.updateTextbook()
-//    }
-
     override fun onUpdateTextbook() {
 
         fun makeAdapter(lst: List<MSelectItem>): ArrayAdapter<MSelectItem> {
@@ -218,44 +302,6 @@ class SettingsFragment : Fragment(), SettingsListener {
             binding.spnToType.setSelection(vm.toType.ordinal)
         }
     }
-
-//    fun spnUnitFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-//        if (vm.usunitfrom == selectedItem.value) return
-//        vm.updateUnitFrom(selectedItem.value)
-//    }
-
-//    fun spnPartFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-//        if (vm.uspartfrom == selectedItem.value) return
-//        vm.updatePartFrom(selectedItem.value)
-//    }
-
-//    fun spnToTypeItemSelected(selected: Boolean, position: Int) {
-//        val b = position == 2
-//        binding.spnUnitTo.isEnabled = b
-//        binding.spnPartTo.isEnabled = b && !vm.isSinglePart
-//        binding.btnPrevious.isEnabled = !b
-//        binding.btnNext.isEnabled = !b
-//        binding.spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
-//        vm.updateToType(position)
-//    }
-
-    fun btnPrevious() {
-//        vm.previousUnitPart()
-    }
-
-    fun btnNext() {
-//        vm.nextUnitPart()
-    }
-
-//    fun spnUnitToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-//        if (vm.usunitto == selectedItem.value) return
-//        vm.updateUnitTo(selectedItem.value)
-//    }
-
-//    fun spnPartToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-//        if (vm.uspartto == selectedItem.value) return
-//        vm.updatePartTo(selectedItem.value)
-//    }
 
     override fun onUpdateUnitFrom() {
         binding.spnUnitFrom.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitfrom })
