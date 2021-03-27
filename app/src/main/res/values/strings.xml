@@ -12,11 +12,11 @@
     <string name="words_unit">Words in Unit</string>
     <string name="words_unit_edit">Words in Unit(Edit)</string>
     <string name="words_unit_detail">Words in Unit(Detail)</string>
-    <string name="words_unit_batch">Words in Unit(Batch)</string>
+    <string name="words_unit_batch_edit">Words in Unit(Batch)</string>
     <string name="phrases_unit">Phrases in Unit</string>
     <string name="phrases_unit_edit">Phrases in Unit(Edit)</string>
     <string name="phrases_unit_detail">Phrases in Unit(Detail)</string>
-    <string name="phrases_unit_batch">Phrases in Unit(Batch)</string>
+    <string name="phrases_unit_batch_edit">Phrases in Unit(Batch)</string>
     <string name="words_review">Words Review</string>
     <string name="phrases_review">Phrases Review</string>
     <string name="words_lang">Words in Language</string>

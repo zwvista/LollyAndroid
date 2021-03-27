@@ -7,16 +7,14 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.viewModelScope
+import androidx.core.os.bundleOf
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
-import com.zwstudio.lolly.android.DrawerListFragment
-import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.*
 import com.zwstudio.lolly.android.databinding.FragmentWordsTextbookBinding
 import com.zwstudio.lolly.android.misc.autoCleared
-import com.zwstudio.lolly.android.vmSettings
-import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
@@ -162,7 +160,9 @@ class WordsTextbookFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitWord) {
-//                WordsTextbookDetailFragment_.intent(itemView.context).extra("word", item).start()
+                val navController = (itemView.context as MainActivity).getNavController()
+                navController.navigate(R.id.action_nav_words_textbook_to_wordsTextbookDetailFragment,
+                    bundleOf("word" to item))
             }
 
             @SuppressLint("ClickableViewAccessibility")
