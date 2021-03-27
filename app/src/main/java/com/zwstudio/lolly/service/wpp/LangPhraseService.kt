@@ -7,7 +7,6 @@ import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.restapi.wpp.RestLangPhrase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.EBean
 
 class LangPhraseService {
     suspend fun getDataByLang(langid: Int): List<MLangPhrase> = withContext(Dispatchers.IO) {

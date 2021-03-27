@@ -5,7 +5,6 @@ import com.zwstudio.lolly.domain.misc.MLanguage
 import com.zwstudio.lolly.restapi.misc.RestLanguage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.EBean
 
 class LanguageService {
     suspend fun getData(): List<MLanguage> = withContext(Dispatchers.IO) {

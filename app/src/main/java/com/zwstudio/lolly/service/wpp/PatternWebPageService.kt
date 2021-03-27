@@ -6,7 +6,6 @@ import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.restapi.wpp.RestPatternWebPage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.EBean
 
 class PatternWebPageService {
     suspend fun getDataByPattern(patternid: Int): List<MPatternWebPage> = withContext(Dispatchers.IO) {

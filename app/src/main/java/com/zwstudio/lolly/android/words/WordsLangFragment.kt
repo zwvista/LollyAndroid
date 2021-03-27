@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android.words
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
@@ -26,15 +25,8 @@ import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.words.WordsLangViewModel
-import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ItemSelect
-import org.androidannotations.annotations.OnActivityResult
-
-private const val REQUEST_CODE = 1
 
 class WordsLangFragment : DrawerListFragment() {
 
@@ -55,10 +47,9 @@ class WordsLangFragment : DrawerListFragment() {
         return binding.root
     }
 
-    @AfterViews
-    override fun afterViews() {
-        super.afterViews()
-        activity?.title = resources.getString(R.string.words_lang)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        activity?.title = resources.getString(R.string.words_lang)
 
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -94,12 +85,11 @@ class WordsLangFragment : DrawerListFragment() {
         mDragListView.setAdapter(listAdapter, true)
     }
 
-    @ItemSelect
-    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter = selectedItem.label
-        vm.applyFilters()
-        refreshListView()
-    }
+//    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        vm.scopeFilter = selectedItem.label
+//        vm.applyFilters()
+//        refreshListView()
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -124,18 +114,17 @@ class WordsLangFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                WordsLangDetailFragment_.intent(this)
-                    .extra("word", vm.newLangWord()).startForResult(1)
+//                WordsLangDetailFragment_.intent(this)
+//                    .extra("word", vm.newLangWord()).startForResult(1)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
 
-    @OnActivityResult(REQUEST_CODE)
-    fun onResult(resultCode: Int) {
-        if (resultCode == Activity.RESULT_OK)
-            mDragListView.resetSwipedViews(null)
-    }
+//    fun onResult(resultCode: Int) {
+//        if (resultCode == Activity.RESULT_OK)
+//            mDragListView.resetSwipedViews(null)
+//    }
 
     private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView, val tts: TextToSpeech) : DragItemAdapter<MLangWord, WordsLangItemAdapter.ViewHolder>() {
 
@@ -173,8 +162,8 @@ class WordsLangFragment : DrawerListFragment() {
             }
 
             fun edit(item: MLangWord) {
-                WordsLangDetailFragment_.intent(itemView.context)
-                    .extra("word", item).startForResult(REQUEST_CODE)
+//                WordsLangDetailFragment_.intent(itemView.context)
+//                    .extra("word", item).startForResult(REQUEST_CODE)
             }
 
             @SuppressLint("ClickableViewAccessibility")
@@ -234,9 +223,9 @@ class WordsLangFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MLangWord
-                        WordsDictFragment_.intent(itemView.context)
-                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
-                                .extra("index", vm.lstWords.indexOf(item)).start()
+//                        WordsDictFragment_.intent(itemView.context)
+//                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
+//                                .extra("index", vm.lstWords.indexOf(item)).start()
                     }
                     true
                 }
@@ -263,5 +252,4 @@ class WordsLangFragment : DrawerListFragment() {
             }
         }
     }
-
 }

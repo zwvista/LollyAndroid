@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android.phrases
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
@@ -29,15 +28,8 @@ import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
-import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ItemSelect
-import org.androidannotations.annotations.OnActivityResult
-
-private const val REQUEST_CODE = 1
 
 class PhrasesUnitFragment : DrawerListFragment() {
 
@@ -58,10 +50,17 @@ class PhrasesUnitFragment : DrawerListFragment() {
         return binding.root
     }
 
+<<<<<<< HEAD
     @AfterViews
     override fun afterViews() {
         super.afterViews()
         activity?.title = resources.getString(R.string.phrases_unit)
+=======
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        activity?.title = resources.getString(R.string.phrases_unit)
+        vm.compositeDisposable = compositeDisposable
+>>>>>>> ea22de2... nav 5
 
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -93,12 +92,11 @@ class PhrasesUnitFragment : DrawerListFragment() {
         mDragListView.setAdapter(listAdapter, true)
     }
 
-    @ItemSelect
-    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter = selectedItem.label
-        vm.applyFilters()
-        refreshListView()
-    }
+//    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        vm.scopeFilter = selectedItem.label
+//        vm.applyFilters()
+//        refreshListView()
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -113,8 +111,8 @@ class PhrasesUnitFragment : DrawerListFragment() {
     }
 
     fun menuAdd() {
-        PhrasesUnitDetailFragment_.intent(this)
-            .extra("phrase", vm.newUnitPhrase()).startForResult(REQUEST_CODE)
+//        PhrasesUnitDetailFragment_.intent(this)
+//            .extra("phrase", vm.newUnitPhrase()).startForResult(REQUEST_CODE)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
@@ -132,18 +130,17 @@ class PhrasesUnitFragment : DrawerListFragment() {
                 true
             }
             R.id.menuBatch -> {
-                PhrasesUnitBatchEditFragment_.intent(this)
-                    .extra("list", vm.lstPhrases.toTypedArray()).start()
+//                PhrasesUnitBatchEditFragment_.intent(this)
+//                    .extra("list", vm.lstPhrases.toTypedArray()).start()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
 
-    @OnActivityResult(REQUEST_CODE)
-    fun onResult(resultCode: Int) {
-        if (resultCode == Activity.RESULT_OK)
-            mDragListView.resetSwipedViews(null)
-    }
+//    fun onResult(resultCode: Int) {
+//        if (resultCode == Activity.RESULT_OK)
+//            mDragListView.resetSwipedViews(null)
+//    }
 
     private class PhrasesUnitDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
@@ -193,8 +190,8 @@ class PhrasesUnitFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitPhrase) {
-                PhrasesUnitDetailFragment_.intent(itemView.context)
-                    .extra("phrase", item).startForResult(REQUEST_CODE)
+//                PhrasesUnitDetailFragment_.intent(itemView.context)
+//                    .extra("phrase", item).startForResult(REQUEST_CODE)
             }
 
             @SuppressLint("ClickableViewAccessibility")
@@ -269,5 +266,4 @@ class PhrasesUnitFragment : DrawerListFragment() {
             }
         }
     }
-
 }

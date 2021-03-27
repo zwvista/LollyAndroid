@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android.phrases
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
@@ -25,13 +24,8 @@ import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
-import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ItemSelect
-import org.androidannotations.annotations.OnActivityResult
 
 private const val REQUEST_CODE = 1
 
@@ -54,10 +48,9 @@ class PhrasesLangFragment : DrawerListFragment() {
         return binding.root
     }
 
-    @AfterViews
-    override fun afterViews() {
-        super.afterViews()
-        activity?.title = resources.getString(R.string.phrases_lang)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        activity?.title = resources.getString(R.string.phrases_lang)
 
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -89,12 +82,11 @@ class PhrasesLangFragment : DrawerListFragment() {
         mDragListView.setAdapter(listAdapter, true)
     }
 
-    @ItemSelect
-    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter = selectedItem.label
-        vm.applyFilters()
-        refreshListView()
-    }
+//    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        vm.scopeFilter = selectedItem.label
+//        vm.applyFilters()
+//        refreshListView()
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -119,18 +111,17 @@ class PhrasesLangFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                PhrasesLangDetailFragment_.intent(this)
-                    .extra("phrase", vm.newLangPhrase()).startForResult(REQUEST_CODE)
+//                PhrasesLangDetailFragment_.intent(this)
+//                    .extra("phrase", vm.newLangPhrase()).startForResult(REQUEST_CODE)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
 
-    @OnActivityResult(REQUEST_CODE)
-    fun onResult(resultCode: Int) {
-        if (resultCode == Activity.RESULT_OK)
-            mDragListView.resetSwipedViews(null)
-    }
+//    fun onResult(resultCode: Int) {
+//        if (resultCode == Activity.RESULT_OK)
+//            mDragListView.resetSwipedViews(null)
+//    }
 
     private class PhrasesLangItemAdapter(val vm: PhrasesLangViewModel, val mDragListView: DragListView, val tts: TextToSpeech) : DragItemAdapter<MLangPhrase, PhrasesLangItemAdapter.ViewHolder>() {
 
@@ -167,8 +158,8 @@ class PhrasesLangFragment : DrawerListFragment() {
             }
 
             fun edit(item: MLangPhrase) {
-                PhrasesLangDetailFragment_.intent(itemView.context)
-                    .extra("phrase", item).startForResult(REQUEST_CODE)
+//                PhrasesLangDetailFragment_.intent(itemView.context)
+//                    .extra("phrase", item).startForResult(REQUEST_CODE)
             }
 
             @SuppressLint("ClickableViewAccessibility")
@@ -241,5 +232,4 @@ class PhrasesLangFragment : DrawerListFragment() {
             }
         }
     }
-
 }

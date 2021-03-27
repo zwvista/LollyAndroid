@@ -8,7 +8,6 @@ import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.restapi.wpp.RestUnitPhrase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.EBean
 
 class UnitPhraseService {
     suspend fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): List<MUnitPhrase> = withContext(Dispatchers.IO) {

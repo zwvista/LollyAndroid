@@ -6,7 +6,6 @@ import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.suspendapi.restapi.misc.RestTextbook
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.EBean
 
 class TextbookService {
     suspend fun getDataByLang(langid: Int): List<MTextbook> = withContext(Dispatchers.IO) {

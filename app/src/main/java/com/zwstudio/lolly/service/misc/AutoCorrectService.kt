@@ -5,7 +5,6 @@ import com.zwstudio.lolly.domain.misc.MAutoCorrect
 import com.zwstudio.lolly.restapi.misc.RestAutoCorrect
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.EBean
 
 class AutoCorrectService {
     suspend fun getDataByLang(langid: Int): List<MAutoCorrect> = withContext(Dispatchers.IO) {

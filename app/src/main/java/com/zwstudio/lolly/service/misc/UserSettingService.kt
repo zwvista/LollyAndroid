@@ -7,7 +7,6 @@ import com.zwstudio.lolly.domain.misc.MUserSettingInfo
 import com.zwstudio.lolly.restapi.misc.RestUserSetting
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.EBean
 
 class UserSettingService {
     suspend fun getDataByUser(userid: Int): List<MUserSetting> = withContext(Dispatchers.IO) {

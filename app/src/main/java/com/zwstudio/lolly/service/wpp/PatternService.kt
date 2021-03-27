@@ -7,7 +7,6 @@ import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.EBean
 
 class PatternService {
     suspend fun getDataByLang(langid: Int): List<MPattern> = withContext(Dispatchers.IO) {

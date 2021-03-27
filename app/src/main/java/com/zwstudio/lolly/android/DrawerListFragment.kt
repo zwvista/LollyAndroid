@@ -1,6 +1,8 @@
 package com.zwstudio.lolly.android
 
+import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -10,19 +12,15 @@ import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
+import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.data.DrawerListViewModel
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ViewById
 import java.util.*
 
 open class DrawerListFragment : Fragment(), TextToSpeech.OnInitListener {
 
-    @ViewById(R.id.drag_list_view)
-    lateinit var mDragListView: DragListView
-    @ViewById(R.id.swipe_refresh_layout)
-    lateinit var mRefreshLayout: LollySwipeRefreshLayout
-    @ViewById
-    lateinit var progressBar1: ProgressBar
+    var mDragListView by autoCleared<DragListView>()
+    var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()
+    var progressBar1 by autoCleared<ProgressBar>()
     open val vmDrawerList: DrawerListViewModel? get() = null
     lateinit var tts: TextToSpeech
 
@@ -40,8 +38,12 @@ open class DrawerListFragment : Fragment(), TextToSpeech.OnInitListener {
         tts.shutdown()
     }
 
-    fun afterViews() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         tts = TextToSpeech(requireContext(), this)
+        mDragListView = view.findViewById(R.id.drag_list_view)
+        mRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
+        progressBar1 = view.findViewById(R.id.progressBar1)
     }
 
     fun setupListView(dragItem: DragItem? = null) {

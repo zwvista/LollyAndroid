@@ -5,7 +5,6 @@ import com.zwstudio.lolly.domain.misc.MVoice
 import com.zwstudio.lolly.restapi.misc.RestVoice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.EBean
 
 class VoiceService {
     suspend fun getDataByLang(langid: Int): List<MVoice> = withContext(Dispatchers.IO) {

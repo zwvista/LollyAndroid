@@ -6,7 +6,6 @@ import com.zwstudio.lolly.domain.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.EBean
 
 class WordFamiService {
     suspend fun getDataByUserWord(userid: Int, wordid: Int): List<MWordFami> = withContext(Dispatchers.IO) {

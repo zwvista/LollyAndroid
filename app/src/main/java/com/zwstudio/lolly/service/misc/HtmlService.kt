@@ -4,7 +4,6 @@ import com.zwstudio.lolly.android.retrofitHtml
 import com.zwstudio.lolly.restapi.misc.RestHtml
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.EBean
 
 class HtmlService {
 

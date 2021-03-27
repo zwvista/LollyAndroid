@@ -7,7 +7,6 @@ import com.zwstudio.lolly.domain.wpp.MWebPage
 import com.zwstudio.lolly.restapi.wpp.RestWebPage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.EBean
 
 class WebPageService {
     suspend fun getDataBySearch(title: String, url: String): List<MWebPage> = withContext(Dispatchers.IO) {

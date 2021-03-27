@@ -26,12 +26,8 @@ import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
-import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ItemSelect
 
 class WordsTextbookFragment : DrawerListFragment() {
 
@@ -52,10 +48,9 @@ class WordsTextbookFragment : DrawerListFragment() {
         return binding.root
     }
 
-    @AfterViews
-    override fun afterViews() {
-        super.afterViews()
-        activity?.title = resources.getString(R.string.words_textbook)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        activity?.title = resources.getString(R.string.words_textbook)
 
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -89,19 +84,17 @@ class WordsTextbookFragment : DrawerListFragment() {
         mDragListView.setAdapter(listAdapter, true)
     }
 
-    @ItemSelect
-    fun spnTextbookFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.textbookFilter = selectedItem.value
-        vm.applyFilters()
-        refreshListView()
-    }
+//    fun spnTextbookFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        vm.textbookFilter = selectedItem.value
+//        vm.applyFilters()
+//        refreshListView()
+//    }
 
-    @ItemSelect
-    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter = selectedItem.label
-        vm.applyFilters()
-        refreshListView()
-    }
+//    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        vm.scopeFilter = selectedItem.label
+//        vm.applyFilters()
+//        refreshListView()
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -166,7 +159,7 @@ class WordsTextbookFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitWord) {
-                WordsTextbookDetailFragment_.intent(itemView.context).extra("word", item).start()
+//                WordsTextbookDetailFragment_.intent(itemView.context).extra("word", item).start()
             }
 
             @SuppressLint("ClickableViewAccessibility")
@@ -226,9 +219,9 @@ class WordsTextbookFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
-                        WordsDictFragment_.intent(itemView.context)
-                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
-                                .extra("index", vm.lstWords.indexOf(item)).start()
+//                        WordsDictFragment_.intent(itemView.context)
+//                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
+//                                .extra("index", vm.lstWords.indexOf(item)).start()
                     }
                     true
                 }
@@ -255,5 +248,4 @@ class WordsTextbookFragment : DrawerListFragment() {
             }
         }
     }
-
 }
