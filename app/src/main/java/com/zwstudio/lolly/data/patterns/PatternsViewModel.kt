@@ -8,9 +8,7 @@ import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.service.wpp.PatternService
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.EBean
 
-@EBean
 class PatternsViewModel : DrawerListViewModel() {
 
     var lstPatternsAll_ = MutableLiveData(listOf<MPattern>())

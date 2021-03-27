@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
-@EBean
 class USMappingService {
     suspend fun getData(): List<MUSMapping> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestUSMapping::class.java)

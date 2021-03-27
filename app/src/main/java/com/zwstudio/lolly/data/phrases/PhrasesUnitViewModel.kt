@@ -10,7 +10,6 @@ import com.zwstudio.lolly.service.wpp.UnitPhraseService
 import kotlinx.coroutines.launch
 import org.androidannotations.annotations.EBean
 
-@EBean
 class PhrasesUnitViewModel : DrawerListViewModel() {
 
     var lstPhrasesAll_ = MutableLiveData(listOf<MUnitPhrase>())

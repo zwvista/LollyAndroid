@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
-@EBean
 class WordFamiService {
     suspend fun getDataByUserWord(userid: Int, wordid: Int): List<MWordFami> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)

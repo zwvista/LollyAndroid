@@ -3,9 +3,7 @@ package com.zwstudio.lolly.data.words
 import com.zwstudio.lolly.data.misc.GlobalConstants
 import com.zwstudio.lolly.domain.wpp.MWordFami
 import com.zwstudio.lolly.service.wpp.WordFamiService
-import org.androidannotations.annotations.EBean
 
-@EBean
 class WordsFamiViewModel {
 
     val wordFamiService = WordFamiService()

@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
-@EBean
 class LangWordService {
     suspend fun getDataByLang(langid: Int): List<MLangWord> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestLangWord::class.java)

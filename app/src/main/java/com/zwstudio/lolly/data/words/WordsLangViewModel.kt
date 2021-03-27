@@ -10,7 +10,6 @@ import com.zwstudio.lolly.service.wpp.LangWordService
 import kotlinx.coroutines.launch
 import org.androidannotations.annotations.EBean
 
-@EBean
 class WordsLangViewModel : DrawerListViewModel() {
 
     var lstWordsAll_ = MutableLiveData(listOf<MLangWord>())

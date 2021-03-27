@@ -9,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
-@EBean
 class UserSettingService {
     suspend fun getDataByUser(userid: Int): List<MUserSetting> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestUserSetting::class.java)

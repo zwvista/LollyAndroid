@@ -6,7 +6,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
-@EBean
 class HtmlService {
 
     // https://futurestud.io/tutorials/retrofit-2-receive-plain-string-responses

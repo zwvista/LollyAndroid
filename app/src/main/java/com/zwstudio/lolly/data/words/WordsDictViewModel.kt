@@ -5,9 +5,7 @@ import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.IOnlineDict
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.service.misc.HtmlService
-import org.androidannotations.annotations.EBean
 
-@EBean
 class WordsDictViewModel : ViewModel(), IOnlineDict {
     var lstWords = mutableListOf<String>()
     var selectedWordIndex = 0

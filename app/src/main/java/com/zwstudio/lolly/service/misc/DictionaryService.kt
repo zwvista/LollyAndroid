@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
-@EBean
 class DictionaryService {
     suspend fun getDictsByLang(langid: Int): List<MDictionary> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestDictionary::class.java)

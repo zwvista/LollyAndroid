@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
-@EBean
 class TextbookService {
     suspend fun getDataByLang(langid: Int): List<MTextbook> = withContext(Dispatchers.IO) {
         fun f(units: String): List<String> {

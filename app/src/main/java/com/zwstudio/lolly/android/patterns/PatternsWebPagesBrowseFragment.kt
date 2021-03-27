@@ -4,18 +4,22 @@ import android.webkit.WebView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EActivity
+import org.androidannotations.annotations.ItemSelect
+import org.androidannotations.annotations.ViewById
 
 @EActivity(R.layout.fragment_patterns_webpages_browse)
 class PatternsWebPagesBrowseFragment : AppCompatActivity() {
 
-    @Bean
-    lateinit var vm: PatternsWebPagesViewModel
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
     lateinit var item: MPattern
 
     val compositeDisposable = CompositeDisposable()

@@ -10,7 +10,6 @@ import com.zwstudio.lolly.service.wpp.UnitWordService
 import kotlinx.coroutines.launch
 import org.androidannotations.annotations.EBean
 
-@EBean
 class WordsUnitViewModel : DrawerListViewModel() {
 
     val lstWordsAll_ = MutableLiveData(listOf<MUnitWord>())

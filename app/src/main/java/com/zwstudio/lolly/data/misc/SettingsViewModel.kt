@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
-@EBean(scope = EBean.Scope.Singleton)
 class SettingsViewModel : ViewModel() {
 
     var lstUSMappings = listOf<MUSMapping>()

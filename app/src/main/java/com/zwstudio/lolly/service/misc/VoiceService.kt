@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
-@EBean
 class VoiceService {
     suspend fun getDataByLang(langid: Int): List<MVoice> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestVoice::class.java)

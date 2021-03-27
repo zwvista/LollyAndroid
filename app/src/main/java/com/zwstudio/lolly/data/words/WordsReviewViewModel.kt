@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.data.words
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.android.applyIO
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.extractTextFrom
@@ -13,17 +13,13 @@ import com.zwstudio.lolly.service.wpp.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
-@EBean
 class WordsReviewViewModel : ViewModel() {
 
     val unitWordService = UnitWordService()
-    @Bean
-    lateinit var vmWordFami: WordsFamiViewModel
+    val vmWordFami = WordsFamiViewModel()
 
     var lstWords = listOf<MUnitWord>()
     val count get() = lstWords.size

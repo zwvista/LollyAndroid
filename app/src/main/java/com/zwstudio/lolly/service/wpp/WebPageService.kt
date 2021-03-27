@@ -9,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
-@EBean
 class WebPageService {
     suspend fun getDataBySearch(title: String, url: String): List<MWebPage> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWebPage::class.java)

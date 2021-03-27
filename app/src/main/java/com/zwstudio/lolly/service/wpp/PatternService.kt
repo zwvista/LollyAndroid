@@ -9,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
-@EBean
 class PatternService {
     suspend fun getDataByLang(langid: Int): List<MPattern> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPattern::class.java)

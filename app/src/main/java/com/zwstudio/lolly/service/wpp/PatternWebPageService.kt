@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.androidannotations.annotations.EBean
 
-@EBean
 class PatternWebPageService {
     suspend fun getDataByPattern(patternid: Int): List<MPatternWebPage> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestPatternWebPage::class.java)

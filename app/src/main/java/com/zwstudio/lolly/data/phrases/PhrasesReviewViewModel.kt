@@ -16,7 +16,6 @@ import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
-@EBean
 class PhrasesReviewViewModel : ViewModel() {
 
     val unitPhraseService = UnitPhraseService()
