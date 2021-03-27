@@ -4,7 +4,6 @@ import com.zwstudio.lolly.android.retrofitJson
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.restapi.misc.RestDictionary
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.EBean
 
 class DictionaryService {
     fun getDictsByLang(langid: Int): Observable<List<MDictionary>> =

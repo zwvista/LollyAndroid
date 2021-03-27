@@ -5,7 +5,6 @@ import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.domain.wpp.MWebPage
 import com.zwstudio.lolly.restapi.wpp.RestWebPage
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.EBean
 
 class WebPageService {
     fun getDataBySearch(title: String, url: String): Observable<List<MWebPage>> =

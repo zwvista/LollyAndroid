@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android.patterns
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
@@ -25,15 +24,8 @@ import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.patterns.PatternsViewModel
-import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MPattern
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ItemSelect
-import org.androidannotations.annotations.OnActivityResult
-
-private const val REQUEST_CODE = 1
 
 class PatternsFragment : DrawerListFragment() {
 
@@ -54,10 +46,9 @@ class PatternsFragment : DrawerListFragment() {
         return binding.root
     }
 
-    @AfterViews
-    override fun afterViews() {
-        super.afterViews()
-        activity?.title = resources.getString(R.string.patterns)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        activity?.title = resources.getString(R.string.patterns)
 
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -88,12 +79,11 @@ class PatternsFragment : DrawerListFragment() {
         mDragListView.setAdapter(listAdapter, true)
     }
 
-    @ItemSelect
-    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter = selectedItem.label
-        vm.applyFilters()
-        refreshListView()
-    }
+//    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        vm.scopeFilter = selectedItem.label
+//        vm.applyFilters()
+//        refreshListView()
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -118,18 +108,17 @@ class PatternsFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                PatternsDetailFragment_.intent(this)
-                    .extra("pattern", vm.newPattern()).startForResult(REQUEST_CODE)
+//                PatternsDetailFragment_.intent(this)
+//                    .extra("pattern", vm.newPattern()).startForResult(REQUEST_CODE)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
 
-    @OnActivityResult(REQUEST_CODE)
-    fun onResult(resultCode: Int) {
-        if (resultCode == Activity.RESULT_OK)
-            mDragListView.resetSwipedViews(null)
-    }
+//    fun onResult(resultCode: Int) {
+//        if (resultCode == Activity.RESULT_OK)
+//            mDragListView.resetSwipedViews(null)
+//    }
 
     private class PatternsItemAdapter(val vm: PatternsViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MPattern, PatternsItemAdapter.ViewHolder>() {
 
@@ -167,8 +156,8 @@ class PatternsFragment : DrawerListFragment() {
             }
 
             fun edit(item: MPattern) {
-                PatternsDetailFragment_.intent(itemView.context)
-                    .extra("pattern", item).startForResult(REQUEST_CODE)
+//                PatternsDetailFragment_.intent(itemView.context)
+//                    .extra("pattern", item).startForResult(REQUEST_CODE)
             }
 
             @SuppressLint("ClickableViewAccessibility")
@@ -212,12 +201,12 @@ class PatternsFragment : DrawerListFragment() {
                                     0 -> delete(item)
                                     1 -> edit(item)
                                     2 -> {
-                                        PatternsWebPagesBrowseFragment_.intent(itemView.context)
-                                            .extra("pattern", item).startForResult(REQUEST_CODE)
+//                                        PatternsWebPagesBrowseFragment_.intent(itemView.context)
+//                                            .extra("pattern", item).startForResult(REQUEST_CODE)
                                     }
                                     3 -> {
-                                        PatternsWebPagesListFragment_.intent(itemView.context)
-                                            .extra("pattern", item).startForResult(REQUEST_CODE)
+//                                        PatternsWebPagesListFragment_.intent(itemView.context)
+//                                            .extra("pattern", item).startForResult(REQUEST_CODE)
                                     }
                                     4 -> itemView.copyText(item.pattern)
                                     5 -> itemView.googleString(item.pattern)
@@ -231,8 +220,8 @@ class PatternsFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MPattern
-                        PatternsWebPagesBrowseFragment_.intent(itemView.context)
-                            .extra("pattern", item).startForResult(REQUEST_CODE)
+//                        PatternsWebPagesBrowseFragment_.intent(itemView.context)
+//                            .extra("pattern", item).startForResult(REQUEST_CODE)
                     }
                     true
                 }
@@ -257,5 +246,4 @@ class PatternsFragment : DrawerListFragment() {
             }
         }
     }
-
 }

@@ -4,7 +4,6 @@ import com.zwstudio.lolly.android.applyIO
 import com.zwstudio.lolly.android.retrofitHtml
 import com.zwstudio.lolly.restapi.misc.RestHtml
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.EBean
 
 class HtmlService {
 

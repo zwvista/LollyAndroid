@@ -7,7 +7,6 @@ import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.restapi.wpp.RestUnitPhrase
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.EBean
 
 class UnitPhraseService {
     fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Observable<List<MUnitPhrase>> =

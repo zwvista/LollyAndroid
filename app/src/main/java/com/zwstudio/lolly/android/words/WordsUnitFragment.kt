@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android.words
 
 import android.annotation.SuppressLint
-import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
@@ -27,16 +26,8 @@ import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.*
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
-import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ItemSelect
-import org.androidannotations.annotations.OnActivityResult
-
-
-private const val REQUEST_CODE = 1
 
 class WordsUnitFragment : DrawerListFragment() {
 
@@ -57,10 +48,9 @@ class WordsUnitFragment : DrawerListFragment() {
         return binding.root
     }
 
-    @AfterViews
-    override fun afterViews() {
-        super.afterViews()
-        activity?.title = resources.getString(R.string.words_unit)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        activity?.title = resources.getString(R.string.words_unit)
         vm.compositeDisposable = compositeDisposable
 
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -93,12 +83,11 @@ class WordsUnitFragment : DrawerListFragment() {
         mDragListView.setAdapter(listAdapter, true)
     }
 
-    @ItemSelect
-    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter = selectedItem.label
-        vm.applyFilters()
-        refreshListView()
-    }
+//    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        vm.scopeFilter = selectedItem.label
+//        vm.applyFilters()
+//        refreshListView()
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -113,8 +102,8 @@ class WordsUnitFragment : DrawerListFragment() {
     }
 
     fun menuAdd() {
-        WordsUnitDetailFragment_.intent(this)
-            .extra("word", vm.newUnitWord()).startForResult(REQUEST_CODE)
+//        WordsUnitDetailFragment_.intent(this)
+//            .extra("word", vm.newUnitWord()).startForResult(REQUEST_CODE)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -168,19 +157,19 @@ class WordsUnitFragment : DrawerListFragment() {
                 true
             }
             R.id.menuBatch -> {
-                WordsUnitBatchEditFragment_.intent(this)
-                    .extra("list", vm.lstWords.toTypedArray()).start()
+//                WordsUnitBatchEditFragment_.intent(this)
+//                    .extra("list", vm.lstWords.toTypedArray()).start()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    @OnActivityResult(REQUEST_CODE)
-    fun onResult(resultCode: Int) {
-        if (resultCode == RESULT_OK)
-            menuAdd()
-    }
+//    @OnActivityResult(REQUEST_CODE)
+//    fun onResult(resultCode: Int) {
+//        if (resultCode == RESULT_OK)
+//            menuAdd()
+//    }
 
     private class WordsUnitDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
@@ -232,8 +221,8 @@ class WordsUnitFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitWord) {
-                WordsUnitDetailFragment_.intent(itemView.context)
-                        .extra("word", item).startForResult(REQUEST_CODE)
+//                WordsUnitDetailFragment_.intent(itemView.context)
+//                        .extra("word", item).startForResult(REQUEST_CODE)
             }
 
             @SuppressLint("ClickableViewAccessibility")
@@ -299,9 +288,9 @@ class WordsUnitFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
-                        WordsDictFragment_.intent(itemView.context)
-                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
-                                .extra("index", vm.lstWords.indexOf(item)).start()
+//                        WordsDictFragment_.intent(itemView.context)
+//                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
+//                                .extra("index", vm.lstWords.indexOf(item)).start()
                     }
                     true
                 }
@@ -330,5 +319,4 @@ class WordsUnitFragment : DrawerListFragment() {
             }
         }
     }
-
 }

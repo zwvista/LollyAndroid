@@ -6,7 +6,6 @@ import com.zwstudio.lolly.android.retrofitSP
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.restapi.wpp.RestLangPhrase
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.EBean
 
 class LangPhraseService {
     fun getDataByLang(langid: Int): Observable<List<MLangPhrase>> =

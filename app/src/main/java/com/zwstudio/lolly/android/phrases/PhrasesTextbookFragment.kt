@@ -24,13 +24,8 @@ import com.zwstudio.lolly.data.misc.copyText
 import com.zwstudio.lolly.data.misc.googleString
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
-import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ItemSelect
-
 
 class PhrasesTextbookFragment : DrawerListFragment() {
 
@@ -51,10 +46,9 @@ class PhrasesTextbookFragment : DrawerListFragment() {
         return binding.root
     }
 
-    @AfterViews
-    override fun afterViews() {
-        super.afterViews()
-        activity?.title = resources.getString(R.string.phrases_textbook)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        activity?.title = resources.getString(R.string.phrases_textbook)
         vm.compositeDisposable = compositeDisposable
 
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -88,19 +82,17 @@ class PhrasesTextbookFragment : DrawerListFragment() {
         mDragListView.setAdapter(listAdapter, true)
     }
 
-    @ItemSelect
-    fun spnTextbookFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.textbookFilter = selectedItem.value
-        vm.applyFilters()
-        refreshListView()
-    }
+//    fun spnTextbookFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        vm.textbookFilter = selectedItem.value
+//        vm.applyFilters()
+//        refreshListView()
+//    }
 
-    @ItemSelect
-    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        vm.scopeFilter = selectedItem.label
-        vm.applyFilters()
-        refreshListView()
-    }
+//    fun spnScopeFilterItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        vm.scopeFilter = selectedItem.label
+//        vm.applyFilters()
+//        refreshListView()
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -164,7 +156,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitPhrase) {
-                PhrasesTextbookDetailFragment_.intent(itemView.context).extra("phrase", item).start()
+//                PhrasesTextbookDetailFragment_.intent(itemView.context).extra("phrase", item).start()
             }
 
             @SuppressLint("ClickableViewAccessibility")
@@ -237,5 +229,4 @@ class PhrasesTextbookFragment : DrawerListFragment() {
             }
         }
     }
-
 }

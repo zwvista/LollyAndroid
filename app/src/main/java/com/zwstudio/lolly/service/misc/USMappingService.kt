@@ -4,7 +4,6 @@ import com.zwstudio.lolly.android.retrofitJson
 import com.zwstudio.lolly.domain.misc.MUSMapping
 import com.zwstudio.lolly.restapi.misc.RestUSMapping
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.EBean
 
 class USMappingService {
     fun getData(): Observable<List<MUSMapping>> =

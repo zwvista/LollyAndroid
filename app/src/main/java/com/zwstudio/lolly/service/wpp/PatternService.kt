@@ -5,7 +5,6 @@ import com.zwstudio.lolly.android.retrofitSP
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.EBean
 
 class PatternService {
     fun getDataByLang(langid: Int): Observable<List<MPattern>> =
