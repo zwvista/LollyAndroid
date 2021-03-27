@@ -3,9 +3,9 @@ package com.zwstudio.lolly.android.words
 import android.content.Context
 import android.view.*
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.fragment_words_unit_batch_edit)
-class WordsUnitBatchEditFragment : AppCompatActivity() {
+class WordsUnitBatchEditFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
     val vmBatch by lazy { vita.with(VitaOwner.Single(this)).getViewModel<WordsUnitBatchEditViewModel>() }
