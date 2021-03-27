@@ -16,7 +16,7 @@ import com.zwstudio.lolly.android.databinding.FragmentSettingsBinding
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
-import com.zwstudio.lolly.domain.misc.*
+import com.zwstudio.lolly.domain.misc.MSelectItem
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SettingsFragment : Fragment(), SettingsListener {
@@ -36,7 +36,6 @@ class SettingsFragment : Fragment(), SettingsListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        activity?.title = "Settings"
         vm.handler = Handler(Looper.getMainLooper())
         vm.settingsListener = this
         compositeDisposable.add(vm.getData().subscribe())

@@ -48,9 +48,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        activity?.title = resources.getString(R.string.phrases_textbook)
         vm.compositeDisposable = compositeDisposable
-
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 vm.applyFilters()

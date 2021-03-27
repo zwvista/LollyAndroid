@@ -19,8 +19,6 @@ import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SearchViewModel
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
-import com.zwstudio.lolly.domain.misc.MDictionary
-import com.zwstudio.lolly.domain.misc.MLanguage
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SearchFragment : Fragment(), SettingsListener {
@@ -40,9 +38,6 @@ class SearchFragment : Fragment(), SettingsListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
-//        requireActivity().title = resources.getString(R.string.search)
-
         onlineDict = OnlineDict(binding.wvDictReference, vm, compositeDisposable)
         onlineDict.initWebViewClient()
 
