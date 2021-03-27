@@ -1,5 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchFragment">
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.zwstudio.lolly.android.misc.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/patternsFragment"
+        android:name="com.zwstudio.lolly.android.patterns.PatternsFragment"
+        android:label="fragment_patterns"
+        tools:layout="@layout/fragment_patterns" />
+    <fragment
+        android:id="@+id/wordsUnitFragment"
+        android:name="com.zwstudio.lolly.android.words.WordsUnitFragment"
+        android:label="fragment_words_unit"
+        tools:layout="@layout/fragment_words_unit" />
+    <fragment
+        android:id="@+id/phrasesUnitFragment"
+        android:name="com.zwstudio.lolly.android.phrases.PhrasesUnitFragment"
+        android:label="PhrasesUnitFragment" />
+    <fragment
+        android:id="@+id/wordsReviewFragment"
+        android:name="com.zwstudio.lolly.android.words.WordsReviewFragment"
+        android:label="fragment_words_review"
+        tools:layout="@layout/fragment_words_review" />
+    <fragment
+        android:id="@+id/phrasesReviewFragment"
+        android:name="com.zwstudio.lolly.android.phrases.PhrasesReviewFragment"
+        android:label="fragment_phrases_review"
+        tools:layout="@layout/fragment_phrases_review" />
+    <fragment
+        android:id="@+id/wordsTextbookFragment"
+        android:name="com.zwstudio.lolly.android.words.WordsTextbookFragment"
+        android:label="WordsTextbookFragment" />
+    <fragment
+        android:id="@+id/phrasesTextbookFragment2"
+        android:name="com.zwstudio.lolly.android.phrases.PhrasesTextbookFragment"
+        android:label="PhrasesTextbookFragment" />
+    <fragment
+        android:id="@+id/wordsLangFragment"
+        android:name="com.zwstudio.lolly.android.words.WordsLangFragment"
+        android:label="WordsLangFragment" />
+    <fragment
+        android:id="@+id/phrasesLangFragment"
+        android:name="com.zwstudio.lolly.android.phrases.PhrasesLangFragment"
+        android:label="PhrasesLangFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.zwstudio.lolly.android.misc.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>
