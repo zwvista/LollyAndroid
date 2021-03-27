@@ -9,12 +9,10 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesReviewBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.phrases.PhrasesReviewViewModel
-import org.androidannotations.annotations.*
 import java.util.*
 
 class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
@@ -31,9 +29,9 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         return binding.root
     }
 
-    @AfterViews
-    fun afterViews() {
-        activity?.title = resources.getString(R.string.phrases_review)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        activity?.title = resources.getString(R.string.phrases_review)
         tts = TextToSpeech(requireContext(), this)
         btnNewTest()
     }
@@ -53,21 +51,18 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         tts.language = locale
     }
 
-    @Click
     fun btnNewTest() {
-        binding.progressBar1.visibility = View.VISIBLE
-        vm.newTest()
-        binding.progressBar1.visibility = View.INVISIBLE
+//        binding.progressBar1.visibility = View.VISIBLE
+//        vm.newTest()
+//        binding.progressBar1.visibility = View.INVISIBLE
     }
 
-    @Click
     fun btnCheck() {
-        vm.check()
+//        vm.check()
     }
 
-    @CheckedChange
     fun chkSpeak(isChecked: Boolean) {
-        if (isChecked)
-            tts.speak(vm.currentPhrase, TextToSpeech.QUEUE_FLUSH, null, null)
+//        if (isChecked)
+//            tts.speak(vm.currentPhrase, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 }
