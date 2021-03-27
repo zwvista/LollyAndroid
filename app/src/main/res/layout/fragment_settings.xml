@@ -12,163 +12,203 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/fragment_horizontal_margin"
             android:orientation="vertical"
-            android:weightSum="1">
+            android:padding="@dimen/fragment_horizontal_margin"
+            android:weightSum="1"
+            app:layout_constraintBottom_toBottomOf="@+id/spnDictTranslation"
+            app:layout_constraintTop_toBottomOf="@+id/spnDictTranslation">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Language:"
-            android:id="@+id/tvLanguage"
-            />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnLanguage"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Voice:"
-            android:id="@+id/tvVoice"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnVoice"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Dictionary(Reference):"
-            android:id="@+id/tvDictReference"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnDictReference"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Dictionary(Note):"
-            android:id="@+id/tvDictNote"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnDictNote"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Dictionary(Translation):"
-            android:id="@+id/tvDictTranslation"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnDictTranslation"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_textbook2"
-            android:id="@+id/tvTextbook"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnTextbook"
-            android:layout_gravity="center_horizontal"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_units"
-            android:id="@+id/tvUnitFrom"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnUnitFrom"
-            android:layout_gravity="center_horizontal"/>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnPartFrom"
-            android:layout_gravity="center_horizontal"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Spinner
+            <TextView
+                android:id="@+id/tvLanguage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/spnToType"
-                android:layout_weight="1" />
+                android:text="Language:"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/spnLanguage"
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <Space
+            <Spinner
+                android:id="@+id/spnLanguage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvLanguage"
+                app:layout_constraintBottom_toTopOf="@+id/tvVoice"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvVoice"
                 android:layout_width="wrap_content"
-                android:layout_height="10dp"/>
+                android:layout_height="wrap_content"
+                android:text="Voice:"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                app:layout_constraintTop_toBottomOf="@+id/spnLanguage"
+                app:layout_constraintBottom_toTopOf="@+id/spnVoice"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Spinner
+                android:id="@+id/spnVoice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvVoice"
+                app:layout_constraintBottom_toTopOf="@+id/tvDictReference"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDictReference"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dictionary(Reference):"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                app:layout_constraintTop_toBottomOf="@+id/spnVoice"
+                app:layout_constraintBottom_toTopOf="@+id/spnDictReference"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Spinner
+                android:id="@+id/spnDictReference"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvDictReference"
+                app:layout_constraintBottom_toTopOf="@+id/tvDictNote"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDictNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dictionary(Note):"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                app:layout_constraintTop_toBottomOf="@+id/spnDictReference"
+                app:layout_constraintBottom_toTopOf="@+id/spnDictNote"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Spinner
+                android:id="@+id/spnDictNote"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvDictNote"
+                app:layout_constraintBottom_toTopOf="@+id/tvDictTranslation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDictTranslation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dictionary(Translation):"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                app:layout_constraintTop_toBottomOf="@+id/spnDictNote"
+                app:layout_constraintBottom_toTopOf="@+id/spnDictTranslation"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Spinner
+                android:id="@+id/spnDictTranslation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvDictTranslation"
+                app:layout_constraintBottom_toTopOf="@+id/tvTextbook"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTextbook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_textbook2"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                app:layout_constraintTop_toBottomOf="@+id/spnDictTranslation"
+                app:layout_constraintBottom_toTopOf="@+id/spnTextbook"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Spinner
+                android:id="@+id/spnTextbook"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvTextbook"
+                app:layout_constraintBottom_toTopOf="@+id/tvUnitFrom"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvUnitFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_units"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                app:layout_constraintTop_toBottomOf="@+id/spnTextbook"
+                app:layout_constraintBottom_toTopOf="@+id/spnUnitFrom"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Spinner
+                android:id="@+id/spnUnitFrom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvUnitFrom"
+                app:layout_constraintBottom_toTopOf="@+id/spnPartFrom"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Spinner
+                android:id="@+id/spnPartFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/spnUnitFrom"
+                app:layout_constraintBottom_toTopOf="@+id/spnToType"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Spinner
+                android:id="@+id/spnToType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/spnPartFrom"
+                app:layout_constraintBottom_toTopOf="@+id/spnUnitTo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnPrevious" />
 
             <Button
                 android:id="@+id/btnPrevious"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/label_previous" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="10dp"/>
+                android:text="@string/label_previous"
+                app:layout_constraintTop_toTopOf="@+id/spnToType"
+                app:layout_constraintBottom_toBottomOf="@+id/spnToType"
+                app:layout_constraintStart_toEndOf="@+id/spnToType"
+                app:layout_constraintEnd_toStartOf="@+id/btnNext" />
 
             <Button
                 android:id="@+id/btnNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/label_next" />
-        </LinearLayout>
+                android:text="@string/label_next"
+                app:layout_constraintTop_toTopOf="@+id/spnToType"
+                app:layout_constraintBottom_toBottomOf="@+id/spnToType"
+                app:layout_constraintStart_toEndOf="@+id/btnPrevious"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnUnitTo"
-            android:layout_gravity="center_horizontal"/>
+            <Spinner
+                android:id="@+id/spnUnitTo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/spnToType"
+                app:layout_constraintBottom_toTopOf="@+id/spnPartTo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnPartTo"
-            android:layout_gravity="center_horizontal"/>
-    </LinearLayout>
+            <Spinner
+                android:id="@+id/spnPartTo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/spnUnitTo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
