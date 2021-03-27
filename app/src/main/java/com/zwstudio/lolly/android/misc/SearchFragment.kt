@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.CheckedTextView
 import android.widget.SearchView
 import android.widget.TextView
@@ -53,6 +54,26 @@ class SearchFragment : Fragment(), SettingsListener {
             }
         })
 
+        binding.spnLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vmSettings.selectedLangIndex == position) return
+                compositeDisposable.add(vmSettings.setSelectedLang(vmSettings.lstLanguages[position]).subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vmSettings.selectedDictReferenceIndex == position) return
+                vmSettings.selectedDictReference = vmSettings.lstDictsReference[position]
+                compositeDisposable.add(vmSettings.updateDictReference().subscribe())
+                searchDict()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
         vmSettings.handler = Handler(Looper.getMainLooper())
         vmSettings.settingsListener = this
         compositeDisposable.add(vmSettings.getData().subscribe())
@@ -72,11 +93,6 @@ class SearchFragment : Fragment(), SettingsListener {
         binding.spnLanguage.setSelection(vmSettings.selectedLangIndex)
     }
 
-//    fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
-//        if (vmSettings.selectedLang == selectedItem) return
-//        compositeDisposable.add(vmSettings.setSelectedLang(selectedItem).subscribe())
-//    }
-
     override fun onUpdateLang() {
         val lst = vmSettings.lstDictsReference
         val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
@@ -94,13 +110,6 @@ class SearchFragment : Fragment(), SettingsListener {
         binding.spnDictReference.setSelection(vmSettings.selectedDictReferenceIndex)
         searchDict()
     }
-
-//    fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
-//        if (vmSettings.selectedDictReference == selectedItem) return
-//        vmSettings.selectedDictReference = selectedItem
-//        compositeDisposable.add(vmSettings.updateDictReference().subscribe())
-//        searchDict()
-//    }
 
     fun searchDict() {
         vm.word = binding.svWord.query.toString()
