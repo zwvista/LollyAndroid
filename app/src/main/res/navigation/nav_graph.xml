@@ -18,7 +18,11 @@
         android:id="@+id/nav_words_unit"
         android:name="com.zwstudio.lolly.android.words.WordsUnitFragment"
         android:label="@string/words_unit"
-        tools:layout="@layout/fragment_words_unit" />
+        tools:layout="@layout/fragment_words_unit" >
+        <action
+            android:id="@+id/action_nav_words_unit_to_wordsUnitDetailFragment"
+            app:destination="@id/wordsUnitDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_phrases_unit"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesUnitFragment"
@@ -59,4 +63,9 @@
         android:name="com.zwstudio.lolly.android.patterns.PatternsFragment"
         android:label="@string/patterns"
         tools:layout="@layout/fragment_patterns" />
+    <fragment
+        android:id="@+id/wordsUnitDetailFragment"
+        android:name="com.zwstudio.lolly.android.words.WordsUnitDetailFragment"
+        android:label="@string/words_unit_detail"
+        tools:layout="@layout/fragment_words_unit_detail" />
 </navigation>
