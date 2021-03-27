@@ -2,7 +2,6 @@ package com.zwstudio.lolly.android
 
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -29,7 +28,7 @@ import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ViewById
 
 @EActivity(R.layout.activity_drawer)
-class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class DrawerActivity : Fragment(), NavigationView.OnNavigationItemSelectedListener {
 
     @ViewById
     lateinit var toolbar: Toolbar

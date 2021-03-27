@@ -3,7 +3,7 @@ package com.zwstudio.lolly.android.patterns
 import android.webkit.WebView
 import android.widget.Spinner
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
@@ -17,7 +17,7 @@ import org.androidannotations.annotations.ItemSelect
 import org.androidannotations.annotations.ViewById
 
 @EActivity(R.layout.fragment_patterns_webpages_browse)
-class PatternsWebPagesBrowseFragment : AppCompatActivity() {
+class PatternsWebPagesBrowseFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
     lateinit var item: MPattern

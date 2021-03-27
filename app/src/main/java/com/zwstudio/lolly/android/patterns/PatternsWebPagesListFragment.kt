@@ -9,8 +9,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -35,7 +35,7 @@ import java.util.*
 private const val REQUEST_CODE = 1
 
 @EActivity(R.layout.fragment_patterns_webpages_list)
-class PatternsWebPagesListFragment : AppCompatActivity(), TextToSpeech.OnInitListener {
+class PatternsWebPagesListFragment : Fragment(), TextToSpeech.OnInitListener {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
     lateinit var item: MPattern

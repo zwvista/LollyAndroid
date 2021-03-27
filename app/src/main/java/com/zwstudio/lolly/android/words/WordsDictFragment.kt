@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.Spinner
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
@@ -20,7 +20,7 @@ import org.androidannotations.annotations.ItemSelect
 import org.androidannotations.annotations.ViewById
 
 @EActivity(R.layout.fragment_words_dict)
-class WordsDictFragment : AppCompatActivity(), TouchListener {
+class WordsDictFragment : Fragment(), TouchListener {
 
     @ViewById
     lateinit var spnWord: Spinner

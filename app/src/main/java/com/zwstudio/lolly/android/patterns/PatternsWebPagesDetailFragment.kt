@@ -4,8 +4,8 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
@@ -16,7 +16,7 @@ import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import org.androidannotations.annotations.*
 
 @EActivity(R.layout.fragment_patterns_webpages_detail)
-class PatternsWebPagesDetailFragment : AppCompatActivity() {
+class PatternsWebPagesDetailFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PatternsWebPageDetailViewModel(item) } }
