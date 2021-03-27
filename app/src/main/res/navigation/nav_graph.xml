@@ -3,55 +3,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/searchFragment">
+    app:startDestination="@id/nav_search">
     <fragment
-        android:id="@+id/searchFragment"
+        android:id="@+id/nav_search"
         android:name="com.zwstudio.lolly.android.misc.SearchFragment"
-        android:label="fragment_search"
+        android:label="@string/search"
         tools:layout="@layout/fragment_search" />
     <fragment
-        android:id="@+id/patternsFragment"
-        android:name="com.zwstudio.lolly.android.patterns.PatternsFragment"
-        android:label="fragment_patterns"
-        tools:layout="@layout/fragment_patterns" />
+        android:id="@+id/nav_settings"
+        android:name="com.zwstudio.lolly.android.misc.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings" />
     <fragment
-        android:id="@+id/wordsUnitFragment"
+        android:id="@+id/nav_words_unit"
         android:name="com.zwstudio.lolly.android.words.WordsUnitFragment"
-        android:label="fragment_words_unit"
+        android:label="@string/words_unit"
         tools:layout="@layout/fragment_words_unit" />
     <fragment
-        android:id="@+id/phrasesUnitFragment"
+        android:id="@+id/nav_phrases_unit"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesUnitFragment"
-        android:label="PhrasesUnitFragment" />
+        android:label="@string/phrases_unit"
+        tools:layout="@layout/fragment_phrases_unit" />
     <fragment
-        android:id="@+id/wordsReviewFragment"
+        android:id="@+id/nav_words_review"
         android:name="com.zwstudio.lolly.android.words.WordsReviewFragment"
-        android:label="fragment_words_review"
+        android:label="@string/words_review"
         tools:layout="@layout/fragment_words_review" />
     <fragment
-        android:id="@+id/phrasesReviewFragment"
+        android:id="@+id/nav_phrases_review"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesReviewFragment"
-        android:label="fragment_phrases_review"
+        android:label="@string/phrases_review"
         tools:layout="@layout/fragment_phrases_review" />
     <fragment
-        android:id="@+id/wordsTextbookFragment"
+        android:id="@+id/nav_words_textbook"
         android:name="com.zwstudio.lolly.android.words.WordsTextbookFragment"
-        android:label="WordsTextbookFragment" />
+        android:label="@string/words_textbook"
+        tools:layout="@layout/fragment_words_textbook" />
     <fragment
-        android:id="@+id/phrasesTextbookFragment2"
+        android:id="@+id/nav_phrases_textbook"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesTextbookFragment"
-        android:label="PhrasesTextbookFragment" />
+        android:label="@string/phrases_textbook"
+        tools:layout="@layout/fragment_phrases_textbook" />
     <fragment
-        android:id="@+id/wordsLangFragment"
+        android:id="@+id/nav_words_lang"
         android:name="com.zwstudio.lolly.android.words.WordsLangFragment"
-        android:label="WordsLangFragment" />
+        android:label="@string/words_lang"
+        tools:layout="@layout/fragment_words_lang" />
     <fragment
-        android:id="@+id/phrasesLangFragment"
+        android:id="@+id/nav_phrases_lang"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesLangFragment"
-        android:label="PhrasesLangFragment" />
+        android:label="@string/phrases_lang"
+        tools:layout="@layout/fragment_phrases_lang" />
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.zwstudio.lolly.android.misc.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:id="@+id/nav_patterns"
+        android:name="com.zwstudio.lolly.android.patterns.PatternsFragment"
+        android:label="@string/patterns"
+        tools:layout="@layout/fragment_patterns" />
 </navigation>
