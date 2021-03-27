@@ -6,7 +6,6 @@ import com.zwstudio.lolly.restapi.wpp.RestPatternWebPage
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class PatternWebPageService {
     fun getDataByPattern(patternid: Int): Observable<List<MPatternWebPage>> =
         retrofitJson.create(RestPatternWebPage::class.java)

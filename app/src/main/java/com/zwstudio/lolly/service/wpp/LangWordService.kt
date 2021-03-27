@@ -7,7 +7,6 @@ import com.zwstudio.lolly.restapi.wpp.RestLangWord
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class LangWordService {
     fun getDataByLang(langid: Int): Observable<List<MLangWord>> =
         retrofitJson.create(RestLangWord::class.java)

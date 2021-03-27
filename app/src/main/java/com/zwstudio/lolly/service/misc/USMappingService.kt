@@ -6,7 +6,6 @@ import com.zwstudio.lolly.restapi.misc.RestUSMapping
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class USMappingService {
     fun getData(): Observable<List<MUSMapping>> =
         retrofitJson.create(RestUSMapping::class.java)

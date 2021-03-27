@@ -9,9 +9,7 @@ import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.service.wpp.PatternService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.EBean
 
-@EBean
 class PatternsViewModel : DrawerListViewModel() {
 
     var lstPatternsAll_ = MutableLiveData(listOf<MPattern>())

@@ -8,7 +8,6 @@ import com.zwstudio.lolly.restapi.misc.RestUserSetting
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class UserSettingService {
     fun getDataByUser(userid: Int): Observable<List<MUserSetting>> =
         retrofitJson.create(RestUserSetting::class.java)

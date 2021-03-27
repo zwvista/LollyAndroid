@@ -9,7 +9,6 @@ import com.zwstudio.lolly.restapi.wpp.RestUnitWord
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class UnitWordService {
     fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Observable<List<MUnitWord>> =
         retrofitJson.create(RestUnitWord::class.java)

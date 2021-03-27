@@ -6,7 +6,6 @@ import com.zwstudio.lolly.restapi.misc.RestVoice
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class VoiceService {
     fun getDataByLang(langid: Int): Observable<List<MVoice>> =
         retrofitJson.create(RestVoice::class.java)

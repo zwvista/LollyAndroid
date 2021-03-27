@@ -5,7 +5,6 @@ import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.domain.misc.MDictionary
 import com.zwstudio.lolly.service.misc.HtmlService
 import io.reactivex.rxjava3.core.Observable
-import org.androidannotations.annotations.EBean
 
 interface IOnlineDict {
     fun getHtml(url: String): Observable<String>
@@ -14,7 +13,6 @@ interface IOnlineDict {
     val getUrl: String
 }
 
-@EBean
 class SearchViewModel : ViewModel(), IOnlineDict {
     var word = ""
 

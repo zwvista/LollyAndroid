@@ -2,6 +2,7 @@ package com.zwstudio.lolly.data.misc
 
 import android.os.Handler
 import android.util.Log
+import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.android.applyIO
 import com.zwstudio.lolly.domain.misc.*
 import com.zwstudio.lolly.service.misc.*
@@ -10,11 +11,9 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.schedulers.Schedulers
-import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit
 
-@EBean(scope = EBean.Scope.Singleton)
-class SettingsViewModel {
+class SettingsViewModel : ViewModel() {
 
     var lstUSMappings = listOf<MUSMapping>()
     var lstUserSettings = listOf<MUserSetting>()

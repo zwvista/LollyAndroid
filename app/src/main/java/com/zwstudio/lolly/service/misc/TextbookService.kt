@@ -7,7 +7,6 @@ import com.zwstudio.lolly.restapi.misc.RestTextbook
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class TextbookService {
     fun getDataByLang(langid: Int): Observable<List<MTextbook>> {
         fun f(units: String): List<String> {

@@ -8,7 +8,6 @@ import com.zwstudio.lolly.restapi.wpp.RestLangPhrase
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class LangPhraseService {
     fun getDataByLang(langid: Int): Observable<List<MLangPhrase>> =
         retrofitJson.create(RestLangPhrase::class.java)

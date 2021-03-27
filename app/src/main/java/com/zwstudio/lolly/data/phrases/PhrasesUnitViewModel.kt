@@ -11,7 +11,6 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class PhrasesUnitViewModel : DrawerListViewModel() {
 
     var lstPhrasesAll_ = MutableLiveData(listOf<MUnitPhrase>())

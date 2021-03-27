@@ -7,7 +7,6 @@ import com.zwstudio.lolly.restapi.wpp.RestWordFami
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class WordFamiService {
     fun getDataByUserWord(userid: Int, wordid: Int): Observable<List<MWordFami>> =
         retrofitJson.create(RestWordFami::class.java)

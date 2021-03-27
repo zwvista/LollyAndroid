@@ -12,17 +12,13 @@ import com.zwstudio.lolly.service.wpp.UnitWordService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import org.androidannotations.annotations.Bean
-import org.androidannotations.annotations.EBean
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
-@EBean
 class WordsReviewViewModel : ViewModel() {
 
     val unitWordService = UnitWordService()
-    @Bean
-    lateinit var vmWordFami: WordsFamiViewModel
+    val vmWordFami = WordsFamiViewModel()
 
     lateinit var compositeDisposable: CompositeDisposable
 

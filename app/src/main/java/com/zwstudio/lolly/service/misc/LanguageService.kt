@@ -6,7 +6,6 @@ import com.zwstudio.lolly.restapi.misc.RestLanguage
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class LanguageService {
     fun getData(): Observable<List<MLanguage>> =
         retrofitJson.create(RestLanguage::class.java)

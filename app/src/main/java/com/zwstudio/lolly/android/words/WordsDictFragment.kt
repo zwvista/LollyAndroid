@@ -7,13 +7,18 @@ import android.widget.CheckedTextView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.misc.OnlineDict
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.words.WordsDictViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EActivity
+import org.androidannotations.annotations.ItemSelect
+import org.androidannotations.annotations.ViewById
 
 @EActivity(R.layout.fragment_words_dict)
 class WordsDictFragment : AppCompatActivity(), TouchListener {
@@ -25,8 +30,7 @@ class WordsDictFragment : AppCompatActivity(), TouchListener {
     @ViewById(R.id.webView)
     lateinit var wv: WebView
 
-    @Bean
-    lateinit var vm: WordsDictViewModel
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsDictViewModel>() }
     lateinit var onlineDict: OnlineDict
     val compositeDisposable = CompositeDisposable()
 

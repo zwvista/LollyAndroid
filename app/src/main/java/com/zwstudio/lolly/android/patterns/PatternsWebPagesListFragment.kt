@@ -12,6 +12,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -25,7 +27,10 @@ import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.EActivity
+import org.androidannotations.annotations.OnActivityResult
+import org.androidannotations.annotations.ViewById
 import java.util.*
 
 private const val REQUEST_CODE = 1
@@ -33,8 +38,7 @@ private const val REQUEST_CODE = 1
 @EActivity(R.layout.fragment_patterns_webpages_list)
 class PatternsWebPagesListFragment : AppCompatActivity(), TextToSpeech.OnInitListener {
 
-    @Bean
-    lateinit var vm: PatternsWebPagesViewModel
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
     lateinit var item: MPattern
     lateinit var tts: TextToSpeech
 

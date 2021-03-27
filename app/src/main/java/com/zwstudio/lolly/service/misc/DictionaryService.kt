@@ -6,7 +6,6 @@ import com.zwstudio.lolly.restapi.misc.RestDictionary
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class DictionaryService {
     fun getDictsByLang(langid: Int): Observable<List<MDictionary>> =
         retrofitJson.create(RestDictionary::class.java)

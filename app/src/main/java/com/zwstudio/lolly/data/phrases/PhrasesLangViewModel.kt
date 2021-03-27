@@ -10,7 +10,6 @@ import com.zwstudio.lolly.service.wpp.LangPhraseService
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
-@EBean
 class PhrasesLangViewModel : DrawerListViewModel() {
 
     var lstPhrasesAll_ = MutableLiveData(listOf<MLangPhrase>())
