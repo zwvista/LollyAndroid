@@ -50,17 +50,9 @@ class PhrasesUnitFragment : DrawerListFragment() {
         return binding.root
     }
 
-<<<<<<< HEAD
-    @AfterViews
-    override fun afterViews() {
-        super.afterViews()
-        activity?.title = resources.getString(R.string.phrases_unit)
-=======
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        activity?.title = resources.getString(R.string.phrases_unit)
-        vm.compositeDisposable = compositeDisposable
->>>>>>> ea22de2... nav 5
 
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {

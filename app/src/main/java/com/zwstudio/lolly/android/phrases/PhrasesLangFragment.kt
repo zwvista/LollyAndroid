@@ -27,8 +27,6 @@ import com.zwstudio.lolly.data.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import kotlinx.coroutines.launch
 
-private const val REQUEST_CODE = 1
-
 class PhrasesLangFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesLangViewModel>() }
