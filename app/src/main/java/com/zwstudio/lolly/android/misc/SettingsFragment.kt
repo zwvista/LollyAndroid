@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.TextView
@@ -36,6 +37,129 @@ class SettingsFragment : Fragment(), SettingsListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.spnLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedLang == vm.lstLanguages[position]) return
+                compositeDisposable.add(vm.setSelectedLang(vm.lstLanguages[position]).subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnVoice.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedVoice == vm.lstVoices[position]) return
+                vm.selectedVoice = vm.lstVoices[position]
+                (binding.spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                compositeDisposable.add(vm.updateVoice().subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedDictReference == vm.lstDictsReference[position]) return
+                vm.selectedDictReference = vm.lstDictsReference[position]
+                (binding.spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                compositeDisposable.add(vm.updateDictReference().subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnDictNote.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedDictNote == vm.lstDictsNote[position]) return
+                vm.selectedDictNote = vm.lstDictsNote[position]
+                (binding.spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                compositeDisposable.add(vm.updateDictNote().subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnDictTranslation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedDictTranslation == vm.lstDictsTranslation[position]) return
+                vm.selectedDictTranslation = vm.lstDictsTranslation[position]
+                (binding.spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                compositeDisposable.add(vm.updateDictTranslation().subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnTextbook.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedTextbook == vm.lstTextbooks[position]) return
+                vm.selectedTextbook = vm.lstTextbooks[position]
+                (binding.spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                compositeDisposable.add(vm.updateTextbook().subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnUnitFrom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.usunitfrom == vm.lstUnits[position].value) return
+                compositeDisposable.add(vm.updateUnitFrom(vm.lstUnits[position].value).subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnPartFrom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.uspartfrom == vm.lstParts[position].value) return
+                compositeDisposable.add(vm.updatePartFrom(vm.lstParts[position].value).subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnToType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val b = position == 2
+                binding.spnUnitTo.isEnabled = b
+                binding.spnPartTo.isEnabled = b && !vm.isSinglePart
+                binding.btnPrevious.isEnabled = !b
+                binding.btnNext.isEnabled = !b
+                binding.spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
+                compositeDisposable.add(vm.updateToType(position).subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.btnPrevious.setOnClickListener {
+            compositeDisposable.add(vm.previousUnitPart().subscribe())
+        }
+
+        binding.btnNext.setOnClickListener {
+            compositeDisposable.add(vm.nextUnitPart().subscribe())
+        }
+
+        binding.spnUnitTo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.usunitto == vm.lstUnits[position].value) return
+                compositeDisposable.add(vm.updateUnitTo(vm.lstUnits[position].value).subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
+        binding.spnPartTo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.uspartto == vm.lstParts[position].value) return
+                compositeDisposable.add(vm.updatePartTo(vm.lstParts[position].value).subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
         vm.handler = Handler(Looper.getMainLooper())
         vm.settingsListener = this
         compositeDisposable.add(vm.getData().subscribe())
@@ -54,11 +178,6 @@ class SettingsFragment : Fragment(), SettingsListener {
 
         binding.spnLanguage.setSelection(vm.selectedLangIndex)
     }
-
-//    fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
-//        if (vm.selectedLang == selectedItem) return
-//        compositeDisposable.add(vm.setSelectedLang(selectedItem).subscribe())
-//    }
 
     override fun onUpdateLang() {
         run {
@@ -150,41 +269,6 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
     }
 
-//    fun spnVoiceItemSelected(selected: Boolean, selectedItem: MVoice) {
-//        if (vm.selectedVoice == selectedItem) return
-//        vm.selectedVoice = selectedItem
-//        (binding.spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-//        compositeDisposable.add(vm.updateVoice().subscribe())
-//    }
-
-//    fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
-//        if (vm.selectedDictReference == selectedItem) return
-//        vm.selectedDictReference = selectedItem
-//        (binding.spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-//        compositeDisposable.add(vm.updateDictReference().subscribe())
-//    }
-
-//    fun spnDictNoteItemSelected(selected: Boolean, selectedItem: MDictionary) {
-//        if (vm.selectedDictNote == selectedItem) return
-//        vm.selectedDictNote = selectedItem
-//        (binding.spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-//        compositeDisposable.add(vm.updateDictNote().subscribe())
-//    }
-
-//    fun spnDictTranslationItemSelected(selected: Boolean, selectedItem: MDictionary) {
-//        if (vm.selectedDictTranslation == selectedItem) return
-//        vm.selectedDictTranslation = selectedItem
-//        (binding.spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-//        compositeDisposable.add(vm.updateDictTranslation().subscribe())
-//    }
-
-//    fun spnTextbookItemSelected(selected: Boolean, selectedItem: MTextbook) {
-//        if (vm.selectedTextbook == selectedItem) return
-//        vm.selectedTextbook = selectedItem
-//        (binding.spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-//        compositeDisposable.add(vm.updateTextbook().subscribe())
-//    }
-
     override fun onUpdateTextbook() {
 
         fun makeAdapter(lst: List<MSelectItem>): ArrayAdapter<MSelectItem> {
@@ -221,44 +305,6 @@ class SettingsFragment : Fragment(), SettingsListener {
             binding.spnToType.setSelection(vm.toType.ordinal)
         }
     }
-
-//    fun spnUnitFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-//        if (vm.usunitfrom == selectedItem.value) return
-//        compositeDisposable.add(vm.updateUnitFrom(selectedItem.value).subscribe())
-//    }
-
-//    fun spnPartFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-//        if (vm.uspartfrom == selectedItem.value) return
-//        compositeDisposable.add(vm.updatePartFrom(selectedItem.value).subscribe())
-//    }
-
-//    fun spnToTypeItemSelected(selected: Boolean, position: Int) {
-//        val b = position == 2
-//        binding.spnUnitTo.isEnabled = b
-//        binding.spnPartTo.isEnabled = b && !vm.isSinglePart
-//        binding.btnPrevious.isEnabled = !b
-//        binding.btnNext.isEnabled = !b
-//        binding.spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
-//        compositeDisposable.add(vm.updateToType(position).subscribe())
-//    }
-
-    fun btnPrevious() {
-        compositeDisposable.add(vm.previousUnitPart().subscribe())
-    }
-
-    fun btnNext() {
-        compositeDisposable.add(vm.nextUnitPart().subscribe())
-    }
-
-//    fun spnUnitToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-//        if (vm.usunitto == selectedItem.value) return
-//        compositeDisposable.add(vm.updateUnitTo(selectedItem.value).subscribe())
-//    }
-
-//    fun spnPartToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-//        if (vm.uspartto == selectedItem.value) return
-//        compositeDisposable.add(vm.updatePartTo(selectedItem.value).subscribe())
-//    }
 
     override fun onUpdateUnitFrom() {
         binding.spnUnitFrom.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitfrom })

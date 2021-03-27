@@ -56,7 +56,7 @@ class SearchFragment : Fragment(), SettingsListener {
 
         binding.spnLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vmSettings.selectedLangIndex == position) return
+                if (vmSettings.selectedLang == vmSettings.lstLanguages[position]) return
                 compositeDisposable.add(vmSettings.setSelectedLang(vmSettings.lstLanguages[position]).subscribe())
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -65,7 +65,7 @@ class SearchFragment : Fragment(), SettingsListener {
 
         binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vmSettings.selectedDictReferenceIndex == position) return
+                if (vmSettings.selectedDictReference == vmSettings.lstDictsReference[position]) return
                 vmSettings.selectedDictReference = vmSettings.lstDictsReference[position]
                 compositeDisposable.add(vmSettings.updateDictReference().subscribe())
                 searchDict()
