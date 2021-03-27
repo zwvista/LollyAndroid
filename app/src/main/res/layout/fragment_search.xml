@@ -8,37 +8,45 @@
         <variable name="model" type="com.zwstudio.lolly.data.misc.SearchViewModel"/>
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/svWord"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="false"
             android:queryHint="Enter a word here"
-            android:iconifiedByDefault="false"/>
+            app:layout_constraintBottom_toTopOf="@+id/spnLanguage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Spinner
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/spnLanguage"
-                android:layout_weight="1"/>
-            <Spinner
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/spnDictReference"
-                android:layout_weight="2"/>
-        </LinearLayout>
+        <Spinner
+            android:id="@+id/spnLanguage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/wvDictReference"
+            app:layout_constraintEnd_toStartOf="@+id/spnDictReference"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/svWord" />
+
+        <Spinner
+            android:id="@+id/spnDictReference"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/spnLanguage"
+            app:layout_constraintTop_toBottomOf="@+id/svWord" />
 
         <WebView
             android:id="@+id/wvDictReference"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1" />
-    </LinearLayout>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spnLanguage" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
