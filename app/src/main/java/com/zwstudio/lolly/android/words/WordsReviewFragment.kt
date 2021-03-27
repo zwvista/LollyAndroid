@@ -13,9 +13,6 @@ import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.words.WordsReviewViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.CheckedChange
-import org.androidannotations.annotations.Click
 import java.util.*
 
 class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
@@ -34,9 +31,9 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         return binding.root
     }
 
-    @AfterViews
-    fun afterViews() {
-        activity?.title = resources.getString(com.zwstudio.lolly.android.R.string.words_review)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        activity?.title = resources.getString(com.zwstudio.lolly.android.R.string.words_review)
         vm.compositeDisposable = compositeDisposable
         tts = TextToSpeech(requireContext(), this)
         btnNewTest()
@@ -57,21 +54,18 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         tts.language = locale
     }
 
-    @Click
     fun btnNewTest() {
-        binding.progressBar1.visibility = View.VISIBLE
-        vm.newTest()
-        binding.progressBar1.visibility = View.INVISIBLE
+//        binding.progressBar1.visibility = View.VISIBLE
+//        vm.newTest()
+//        binding.progressBar1.visibility = View.INVISIBLE
     }
 
-    @Click
     fun btnCheck() {
-        vm.check()
+//        vm.check()
     }
 
-    @CheckedChange
     fun chkSpeak(isChecked: Boolean) {
-        if (isChecked)
-            tts.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null, null)
+//        if (isChecked)
+//            tts.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 }
