@@ -19,7 +19,7 @@ import org.androidannotations.annotations.*
 @EActivity(R.layout.fragment_patterns_webpages_detail)
 class PatternsWebPagesDetailFragment : AppCompatActivity() {
 
-    val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel<PatternsWebPagesViewModel>() }
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PatternsWebPageDetailViewModel(item) } }
     lateinit var binding: FragmentPatternsWebpagesDetailBinding
     lateinit var item: MPatternWebPage
