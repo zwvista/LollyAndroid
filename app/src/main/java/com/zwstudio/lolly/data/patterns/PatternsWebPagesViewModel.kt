@@ -1,21 +1,17 @@
 package com.zwstudio.lolly.data.patterns
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.service.wpp.PatternWebPageService
 import com.zwstudio.lolly.service.wpp.WebPageService
 import kotlinx.coroutines.launch
 
-class PatternsWebPagesViewModel : ViewModel() {
+class PatternsWebPagesViewModel : DrawerListViewModel() {
 
     var lstWebPages_ = MutableLiveData(mutableListOf<MPatternWebPage>())
     var lstWebPages get() = lstWebPages_.value!!; set(v) { lstWebPages_.value = v }
-    var isSwipeStarted_ = MutableLiveData(false)
-    var isSwipeStarted get() = isSwipeStarted_.value!!; set(v) { isSwipeStarted_.value = v }
-    var isEditMode_ = MutableLiveData(false)
-    var isEditMode get() = isEditMode_.value!!; set(v) { isEditMode_.value = v }
 
     val patternWebPageService = PatternWebPageService()
     val webPageService = WebPageService()

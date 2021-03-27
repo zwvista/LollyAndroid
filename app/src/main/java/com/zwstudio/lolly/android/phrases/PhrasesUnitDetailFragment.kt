@@ -8,6 +8,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesUnitDetailBinding
+import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
@@ -20,7 +21,7 @@ class PhrasesUnitDetailFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PhrasesUnitDetailViewModel(item) } }
-    lateinit var binding: FragmentPhrasesUnitDetailBinding
+    var binding by autoCleared<FragmentPhrasesUnitDetailBinding>()
     lateinit var item: MUnitPhrase
 
     val compositeDisposable = CompositeDisposable()

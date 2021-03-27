@@ -31,7 +31,7 @@ class PhrasesUnitBatchEditFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
     val vmBatch by lazy { vita.with(VitaOwner.Single(this)).getViewModel<PhrasesUnitBatchEditViewModel>() }
-    lateinit var binding: FragmentPhrasesUnitBatchEditBinding
+    var binding by autoCleared<FragmentPhrasesUnitBatchEditBinding>()
 
     var mDragListView by autoCleared<DragListView>()
     var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()

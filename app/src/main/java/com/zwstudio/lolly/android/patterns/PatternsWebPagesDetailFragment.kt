@@ -8,6 +8,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPatternsWebpagesDetailBinding
+import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.data.patterns.PatternsWebPageDetailViewModel
 import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
@@ -17,7 +18,7 @@ class PatternsWebPagesDetailFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PatternsWebPageDetailViewModel(item) } }
-    lateinit var binding: FragmentPatternsWebpagesDetailBinding
+    var binding by autoCleared<FragmentPatternsWebpagesDetailBinding>()
     lateinit var item: MPatternWebPage
 
     override fun onCreate(savedInstanceState: Bundle?) {

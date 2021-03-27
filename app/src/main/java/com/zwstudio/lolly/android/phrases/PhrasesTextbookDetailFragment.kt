@@ -8,6 +8,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesTextbookDetailBinding
+import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
@@ -19,7 +20,7 @@ class PhrasesTextbookDetailFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PhrasesUnitDetailViewModel(item) } }
-    lateinit var binding: FragmentPhrasesTextbookDetailBinding
+    var binding by autoCleared<FragmentPhrasesTextbookDetailBinding>()
     lateinit var item: MUnitPhrase
 
     override fun onCreate(savedInstanceState: Bundle?) {

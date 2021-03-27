@@ -8,6 +8,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentWordsLangDetailBinding
+import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
@@ -18,7 +19,7 @@ class WordsLangDetailFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsLangViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { WordsLangDetailViewModel(item) } }
-    lateinit var binding: FragmentWordsLangDetailBinding
+    var binding by autoCleared<FragmentWordsLangDetailBinding>()
     lateinit var item: MLangWord
 
     override fun onCreate(savedInstanceState: Bundle?) {
