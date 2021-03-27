@@ -31,7 +31,7 @@ class WordsLangDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        item = intent.getSerializableExtra("word") as MLangWord
+        item = arguments?.getSerializable("word") as MLangWord
         binding = FragmentWordsLangDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail

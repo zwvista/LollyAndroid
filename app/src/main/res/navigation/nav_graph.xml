@@ -27,7 +27,11 @@
         android:id="@+id/nav_phrases_unit"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesUnitFragment"
         android:label="@string/phrases_unit"
-        tools:layout="@layout/fragment_phrases_unit" />
+        tools:layout="@layout/fragment_phrases_unit" >
+        <action
+            android:id="@+id/action_nav_phrases_unit_to_phrasesUnitDetailFragment"
+            app:destination="@id/phrasesUnitDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_words_review"
         android:name="com.zwstudio.lolly.android.words.WordsReviewFragment"
@@ -42,22 +46,38 @@
         android:id="@+id/nav_words_textbook"
         android:name="com.zwstudio.lolly.android.words.WordsTextbookFragment"
         android:label="@string/words_textbook"
-        tools:layout="@layout/fragment_words_textbook" />
+        tools:layout="@layout/fragment_words_textbook" >
+        <action
+            android:id="@+id/action_nav_words_textbook_to_wordsTextbookDetailFragment"
+            app:destination="@id/wordsTextbookDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_phrases_textbook"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesTextbookFragment"
         android:label="@string/phrases_textbook"
-        tools:layout="@layout/fragment_phrases_textbook" />
+        tools:layout="@layout/fragment_phrases_textbook" >
+        <action
+            android:id="@+id/action_nav_phrases_textbook_to_phrasesTextbookDetailFragment"
+            app:destination="@id/phrasesTextbookDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_words_lang"
         android:name="com.zwstudio.lolly.android.words.WordsLangFragment"
         android:label="@string/words_lang"
-        tools:layout="@layout/fragment_words_lang" />
+        tools:layout="@layout/fragment_words_lang" >
+        <action
+            android:id="@+id/action_nav_words_lang_to_wordsLangDetailFragment"
+            app:destination="@id/wordsLangDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_phrases_lang"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesLangFragment"
         android:label="@string/phrases_lang"
-        tools:layout="@layout/fragment_phrases_lang" />
+        tools:layout="@layout/fragment_phrases_lang" >
+        <action
+            android:id="@+id/action_nav_phrases_lang_to_phrasesLangDetailFragment"
+            app:destination="@id/phrasesLangDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_patterns"
         android:name="com.zwstudio.lolly.android.patterns.PatternsFragment"
@@ -68,4 +88,39 @@
         android:name="com.zwstudio.lolly.android.words.WordsUnitDetailFragment"
         android:label="@string/words_unit_detail"
         tools:layout="@layout/fragment_words_unit_detail" />
+    <fragment
+        android:id="@+id/wordsUnitBatchEditFragment"
+        android:name="com.zwstudio.lolly.android.words.WordsUnitBatchEditFragment"
+        android:label="@string/words_unit_batch_edit"
+        tools:layout="@layout/fragment_words_unit_batch_edit" />
+    <fragment
+        android:id="@+id/wordsTextbookDetailFragment"
+        android:name="com.zwstudio.lolly.android.words.WordsTextbookDetailFragment"
+        android:label="@string/words_textbook_detail"
+        tools:layout="@layout/fragment_words_textbook_detail" />
+    <fragment
+        android:id="@+id/wordsLangDetailFragment"
+        android:name="com.zwstudio.lolly.android.words.WordsLangDetailFragment"
+        android:label="@string/words_lang_detail"
+        tools:layout="@layout/fragment_words_lang_detail" />
+    <fragment
+        android:id="@+id/phrasesUnitDetailFragment"
+        android:name="com.zwstudio.lolly.android.phrases.PhrasesUnitDetailFragment"
+        android:label="@string/phrases_unit_detail"
+        tools:layout="@layout/fragment_phrases_unit_detail" />
+    <fragment
+        android:id="@+id/phrasesUnitBatchEditFragment"
+        android:name="com.zwstudio.lolly.android.phrases.PhrasesUnitBatchEditFragment"
+        android:label="@string/phrases_unit_batch_edit"
+        tools:layout="@layout/fragment_phrases_unit_batch_edit" />
+    <fragment
+        android:id="@+id/phrasesTextbookDetailFragment"
+        android:name="com.zwstudio.lolly.android.phrases.PhrasesTextbookDetailFragment"
+        android:label="@string/phrases_textbook_detail"
+        tools:layout="@layout/fragment_phrases_textbook_detail" />
+    <fragment
+        android:id="@+id/phrasesLangDetailFragment"
+        android:name="com.zwstudio.lolly.android.phrases.PhrasesLangDetailFragment"
+        android:label="@string/phrases_lang_detail"
+        tools:layout="@layout/fragment_phrases_lang_detail" />
 </navigation>

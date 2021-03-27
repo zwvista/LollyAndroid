@@ -9,11 +9,14 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.DrawerListFragment
+import com.zwstudio.lolly.android.MainActivity
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesLangBinding
 import com.zwstudio.lolly.android.misc.autoCleared
@@ -112,8 +115,8 @@ class PhrasesLangFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-//                PhrasesLangDetailFragment_.intent(this)
-//                    .extra("phrase", vm.newLangPhrase()).startForResult(REQUEST_CODE)
+                findNavController().navigate(R.id.action_nav_phrases_lang_to_phrasesLangDetailFragment,
+                    bundleOf("phrase" to vm.newLangPhrase()))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -159,8 +162,9 @@ class PhrasesLangFragment : DrawerListFragment() {
             }
 
             fun edit(item: MLangPhrase) {
-//                PhrasesLangDetailFragment_.intent(itemView.context)
-//                    .extra("phrase", item).startForResult(REQUEST_CODE)
+                val navController = (itemView.context as MainActivity).getNavController()
+                navController.navigate(R.id.action_nav_phrases_lang_to_phrasesLangDetailFragment,
+                    bundleOf("phrase" to item))
             }
 
             @SuppressLint("ClickableViewAccessibility")

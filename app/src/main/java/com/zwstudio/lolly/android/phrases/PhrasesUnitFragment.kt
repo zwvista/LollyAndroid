@@ -7,17 +7,16 @@ import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
-import com.zwstudio.lolly.android.DrawerListFragment
-import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.*
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesUnitBinding
 import com.zwstudio.lolly.android.misc.autoCleared
-import com.zwstudio.lolly.android.vmSettings
-import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
@@ -101,8 +100,8 @@ class PhrasesUnitFragment : DrawerListFragment() {
     }
 
     fun menuAdd() {
-//        PhrasesUnitDetailFragment_.intent(this)
-//            .extra("phrase", vm.newUnitPhrase()).startForResult(REQUEST_CODE)
+        findNavController().navigate(R.id.action_nav_phrases_unit_to_phrasesUnitDetailFragment,
+            bundleOf("phrase" to vm.newUnitPhrase()))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
@@ -180,8 +179,9 @@ class PhrasesUnitFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitPhrase) {
-//                PhrasesUnitDetailFragment_.intent(itemView.context)
-//                    .extra("phrase", item).startForResult(REQUEST_CODE)
+                val navController = (itemView.context as MainActivity).getNavController()
+                navController.navigate(R.id.action_nav_phrases_unit_to_phrasesUnitDetailFragment,
+                    bundleOf("phrase" to item))
             }
 
             @SuppressLint("ClickableViewAccessibility")
