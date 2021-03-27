@@ -8,7 +8,6 @@ import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.service.wpp.UnitPhraseService
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.EBean
 
 class PhrasesUnitViewModel : DrawerListViewModel() {
 

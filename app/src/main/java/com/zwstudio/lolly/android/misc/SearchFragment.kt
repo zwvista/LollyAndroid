@@ -19,12 +19,6 @@ import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SearchViewModel
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
-import com.zwstudio.lolly.domain.misc.MDictionary
-import com.zwstudio.lolly.domain.misc.MLanguage
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ItemSelect
-
 
 class SearchFragment : Fragment(), SettingsListener {
 
@@ -40,10 +34,10 @@ class SearchFragment : Fragment(), SettingsListener {
         return binding.root
     }
 
-    @AfterViews
-    fun afterViews() {
-        // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
-        requireActivity().title = resources.getString(R.string.search)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        // http://stackoverflow.com/questions/3488664/android-launcher-label-vs-activity-title
+//        requireActivity().title = resources.getString(R.string.search)
 
         onlineDict = OnlineDict(binding.wvDictReference, vm)
         onlineDict.initWebViewClient()
@@ -79,11 +73,10 @@ class SearchFragment : Fragment(), SettingsListener {
         binding.spnLanguage.setSelection(vmSettings.selectedLangIndex)
     }
 
-    @ItemSelect
-    fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
-        if (vmSettings.selectedLang == selectedItem) return
-        vmSettings.setSelectedLang(selectedItem)
-    }
+//    fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
+//        if (vmSettings.selectedLang == selectedItem) return
+//        vmSettings.setSelectedLang(selectedItem)
+//    }
 
     override fun onUpdateLang() {
         val lst = vmSettings.lstDictsReference
@@ -103,18 +96,16 @@ class SearchFragment : Fragment(), SettingsListener {
         searchDict()
     }
 
-    @ItemSelect
-    fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
-        if (vmSettings.selectedDictReference == selectedItem) return
-        vmSettings.selectedDictReference = selectedItem
-        vmSettings.updateDictReference()
-        searchDict()
-    }
+//    fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
+//        if (vmSettings.selectedDictReference == selectedItem) return
+//        vmSettings.selectedDictReference = selectedItem
+//        vmSettings.updateDictReference()
+//        searchDict()
+//    }
 
     fun searchDict() {
         vm.word = binding.svWord.query.toString()
         binding.svWord.post { binding.svWord.clearFocus() }
         onlineDict.searchDict()
     }
-
 }

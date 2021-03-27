@@ -16,11 +16,7 @@ import com.zwstudio.lolly.android.databinding.FragmentSettingsBinding
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
-import com.zwstudio.lolly.domain.misc.*
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EFragment
-import org.androidannotations.annotations.ItemSelect
+import com.zwstudio.lolly.domain.misc.MSelectItem
 
 class SettingsFragment : Fragment(), SettingsListener {
 
@@ -35,9 +31,9 @@ class SettingsFragment : Fragment(), SettingsListener {
         return binding.root
     }
 
-    @AfterViews
-    fun afterViews() {
-        activity?.title = "Settings"
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        activity?.title = "Settings"
         vm.handler = Handler(Looper.getMainLooper())
         vm.settingsListener = this
         vm.getData()
@@ -57,11 +53,10 @@ class SettingsFragment : Fragment(), SettingsListener {
         binding.spnLanguage.setSelection(vm.selectedLangIndex)
     }
 
-    @ItemSelect
-    fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
-        if (vm.selectedLang == selectedItem) return
-        vm.setSelectedLang(selectedItem)
-    }
+//    fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
+//        if (vm.selectedLang == selectedItem) return
+//        vm.setSelectedLang(selectedItem)
+//    }
 
     override fun onUpdateLang() {
         run {
@@ -153,45 +148,40 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
     }
 
-    @ItemSelect
-    fun spnVoiceItemSelected(selected: Boolean, selectedItem: MVoice) {
-        if (vm.selectedVoice == selectedItem) return
-        vm.selectedVoice = selectedItem
-        (binding.spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        vm.updateVoice()
-    }
+//    fun spnVoiceItemSelected(selected: Boolean, selectedItem: MVoice) {
+//        if (vm.selectedVoice == selectedItem) return
+//        vm.selectedVoice = selectedItem
+//        (binding.spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+//        vm.updateVoice()
+//    }
 
-    @ItemSelect
-    fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
-        if (vm.selectedDictReference == selectedItem) return
-        vm.selectedDictReference = selectedItem
-        (binding.spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        vm.updateDictReference()
-    }
+//    fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
+//        if (vm.selectedDictReference == selectedItem) return
+//        vm.selectedDictReference = selectedItem
+//        (binding.spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+//        vm.updateDictReference()
+//    }
 
-    @ItemSelect
-    fun spnDictNoteItemSelected(selected: Boolean, selectedItem: MDictionary) {
-        if (vm.selectedDictNote == selectedItem) return
-        vm.selectedDictNote = selectedItem
-        (binding.spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        vm.updateDictNote()
-    }
+//    fun spnDictNoteItemSelected(selected: Boolean, selectedItem: MDictionary) {
+//        if (vm.selectedDictNote == selectedItem) return
+//        vm.selectedDictNote = selectedItem
+//        (binding.spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+//        vm.updateDictNote()
+//    }
 
-    @ItemSelect
-    fun spnDictTranslationItemSelected(selected: Boolean, selectedItem: MDictionary) {
-        if (vm.selectedDictTranslation == selectedItem) return
-        vm.selectedDictTranslation = selectedItem
-        (binding.spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        vm.updateDictTranslation()
-    }
+//    fun spnDictTranslationItemSelected(selected: Boolean, selectedItem: MDictionary) {
+//        if (vm.selectedDictTranslation == selectedItem) return
+//        vm.selectedDictTranslation = selectedItem
+//        (binding.spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+//        vm.updateDictTranslation()
+//    }
 
-    @ItemSelect
-    fun spnTextbookItemSelected(selected: Boolean, selectedItem: MTextbook) {
-        if (vm.selectedTextbook == selectedItem) return
-        vm.selectedTextbook = selectedItem
-        (binding.spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        vm.updateTextbook()
-    }
+//    fun spnTextbookItemSelected(selected: Boolean, selectedItem: MTextbook) {
+//        if (vm.selectedTextbook == selectedItem) return
+//        vm.selectedTextbook = selectedItem
+//        (binding.spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+//        vm.updateTextbook()
+//    }
 
     override fun onUpdateTextbook() {
 
@@ -230,50 +220,43 @@ class SettingsFragment : Fragment(), SettingsListener {
         }
     }
 
-    @ItemSelect
-    fun spnUnitFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        if (vm.usunitfrom == selectedItem.value) return
-        vm.updateUnitFrom(selectedItem.value)
-    }
+//    fun spnUnitFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        if (vm.usunitfrom == selectedItem.value) return
+//        vm.updateUnitFrom(selectedItem.value)
+//    }
 
-    @ItemSelect
-    fun spnPartFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        if (vm.uspartfrom == selectedItem.value) return
-        vm.updatePartFrom(selectedItem.value)
-    }
+//    fun spnPartFromItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        if (vm.uspartfrom == selectedItem.value) return
+//        vm.updatePartFrom(selectedItem.value)
+//    }
 
-    @ItemSelect
-    fun spnToTypeItemSelected(selected: Boolean, position: Int) {
-        val b = position == 2
-        binding.spnUnitTo.isEnabled = b
-        binding.spnPartTo.isEnabled = b && !vm.isSinglePart
-        binding.btnPrevious.isEnabled = !b
-        binding.btnNext.isEnabled = !b
-        binding.spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
-        vm.updateToType(position)
-    }
+//    fun spnToTypeItemSelected(selected: Boolean, position: Int) {
+//        val b = position == 2
+//        binding.spnUnitTo.isEnabled = b
+//        binding.spnPartTo.isEnabled = b && !vm.isSinglePart
+//        binding.btnPrevious.isEnabled = !b
+//        binding.btnNext.isEnabled = !b
+//        binding.spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
+//        vm.updateToType(position)
+//    }
 
-    @Click
     fun btnPrevious() {
-        vm.previousUnitPart()
+//        vm.previousUnitPart()
     }
 
-    @Click
     fun btnNext() {
-        vm.nextUnitPart()
+//        vm.nextUnitPart()
     }
 
-    @ItemSelect
-    fun spnUnitToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        if (vm.usunitto == selectedItem.value) return
-        vm.updateUnitTo(selectedItem.value)
-    }
+//    fun spnUnitToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        if (vm.usunitto == selectedItem.value) return
+//        vm.updateUnitTo(selectedItem.value)
+//    }
 
-    @ItemSelect
-    fun spnPartToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
-        if (vm.uspartto == selectedItem.value) return
-        vm.updatePartTo(selectedItem.value)
-    }
+//    fun spnPartToItemSelected(selected: Boolean, selectedItem: MSelectItem) {
+//        if (vm.uspartto == selectedItem.value) return
+//        vm.updatePartTo(selectedItem.value)
+//    }
 
     override fun onUpdateUnitFrom() {
         binding.spnUnitFrom.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitfrom })

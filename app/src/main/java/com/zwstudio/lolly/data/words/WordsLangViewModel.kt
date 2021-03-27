@@ -8,7 +8,6 @@ import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.wpp.LangWordService
 import kotlinx.coroutines.launch
-import org.androidannotations.annotations.EBean
 
 class WordsLangViewModel : DrawerListViewModel() {
 
