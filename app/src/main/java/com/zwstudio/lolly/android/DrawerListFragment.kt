@@ -33,7 +33,7 @@ class DrawerListFragment : Fragment(), TextToSpeech.OnInitListener {
     override fun onInit(status: Int) {
         if (status != TextToSpeech.SUCCESS) return
         val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vmDrawerList?.vmSettings?.selectedVoice?.voicelang
+            "${it.language}_${it.country}" == vmSettings.selectedVoice?.voicelang
         }
         if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
         tts.language = locale

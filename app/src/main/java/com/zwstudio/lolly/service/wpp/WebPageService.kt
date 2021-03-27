@@ -1,14 +1,14 @@
 package com.zwstudio.lolly.service.wpp
 
+import com.zwstudio.lolly.android.retrofitJson
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import com.zwstudio.lolly.domain.wpp.MWebPage
 import com.zwstudio.lolly.restapi.wpp.RestWebPage
-import com.zwstudio.lolly.service.misc.BaseService
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
-class WebPageService: BaseService() {
+class WebPageService {
     fun getDataBySearch(title: String, url: String): Observable<List<MWebPage>> =
         retrofitJson.create(RestWebPage::class.java)
             .getDataBySearch("TITLE,cs,$title", "URL,cs,$url")

@@ -20,6 +20,7 @@ import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesUnitBinding
 import com.zwstudio.lolly.android.misc.autoCleared
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
@@ -245,7 +246,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                     }
                     true
                 }
-                if (!(vm.isEditMode && vm.vmSettings.isSingleUnitPart))
+                if (!(vm.isEditMode && vmSettings.isSingleUnitPart))
                     mHamburger.visibility = View.GONE
             }
 

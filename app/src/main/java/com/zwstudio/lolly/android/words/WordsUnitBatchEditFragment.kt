@@ -15,6 +15,7 @@ import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.LollySwipeRefreshLayout
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentWordsUnitBatchEditBinding
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.words.WordsUnitBatchEditViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
@@ -47,7 +48,7 @@ class WordsUnitBatchEditFragment : AppCompatActivity() {
         }
         chkUnit(); chkPart(); chkSeqNum()
         run {
-            val lst = vm.vmSettings.lstUnits
+            val lst = vmSettings.lstUnits
             val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.label
@@ -55,11 +56,11 @@ class WordsUnitBatchEditFragment : AppCompatActivity() {
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             binding.spnUnit.adapter = adapter
-            binding.spnUnit.setSelection(vm.vmSettings.lstUnits.indexOfFirst { it.value == vm.vmSettings.usunitto })
+            binding.spnUnit.setSelection(vmSettings.lstUnits.indexOfFirst { it.value == vmSettings.usunitto })
         }
 
         run {
-            val lst = vm.vmSettings.lstParts
+            val lst = vmSettings.lstParts
             val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.label
@@ -67,7 +68,7 @@ class WordsUnitBatchEditFragment : AppCompatActivity() {
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
             binding.spnPart.adapter = adapter
-            binding.spnPart.setSelection(vm.vmSettings.lstParts.indexOfFirst { it.value == vm.vmSettings.uspartto })
+            binding.spnPart.setSelection(vmSettings.lstParts.indexOfFirst { it.value == vmSettings.uspartto })
         }
 
         mDragListView.recyclerView.isVerticalScrollBarEnabled = true

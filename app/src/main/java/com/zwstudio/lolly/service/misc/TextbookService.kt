@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.service.misc
 
+import com.zwstudio.lolly.android.retrofitJson
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.lolly.restapi.misc.RestTextbook
@@ -7,7 +8,7 @@ import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
-class TextbookService: BaseService() {
+class TextbookService {
     fun getDataByLang(langid: Int): Observable<List<MTextbook>> {
         fun f(units: String): List<String> {
             var m = Regex("UNITS,(\\d+)").find(units)

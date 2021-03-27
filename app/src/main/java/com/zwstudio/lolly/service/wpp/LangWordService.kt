@@ -1,14 +1,14 @@
 package com.zwstudio.lolly.service.wpp
 
 import android.util.Log
+import com.zwstudio.lolly.android.retrofitJson
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.restapi.wpp.RestLangWord
-import com.zwstudio.lolly.service.misc.BaseService
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
-class LangWordService: BaseService() {
+class LangWordService {
     fun getDataByLang(langid: Int): Observable<List<MLangWord>> =
         retrofitJson.create(RestLangWord::class.java)
             .getDataByLang("LANGID,eq,$langid")

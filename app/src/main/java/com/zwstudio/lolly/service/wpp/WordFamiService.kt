@@ -1,14 +1,14 @@
 package com.zwstudio.lolly.service.wpp
 
 import android.util.Log
+import com.zwstudio.lolly.android.retrofitJson
 import com.zwstudio.lolly.domain.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
-import com.zwstudio.lolly.service.misc.BaseService
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
-class WordFamiService: BaseService() {
+class WordFamiService {
     fun getDataByUserWord(userid: Int, wordid: Int): Observable<List<MWordFami>> =
         retrofitJson.create(RestWordFami::class.java)
             .getDataByUserWord("USERID,eq,$userid", "WORDID,eq,$wordid")

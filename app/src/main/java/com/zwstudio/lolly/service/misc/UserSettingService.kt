@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.service.misc
 
 import android.util.Log
+import com.zwstudio.lolly.android.retrofitJson
 import com.zwstudio.lolly.domain.misc.MUserSetting
 import com.zwstudio.lolly.domain.misc.MUserSettingInfo
 import com.zwstudio.lolly.restapi.misc.RestUserSetting
@@ -8,7 +9,7 @@ import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
-class UserSettingService: BaseService() {
+class UserSettingService {
     fun getDataByUser(userid: Int): Observable<List<MUserSetting>> =
         retrofitJson.create(RestUserSetting::class.java)
             .getDataByUser("USERID,eq,$userid")

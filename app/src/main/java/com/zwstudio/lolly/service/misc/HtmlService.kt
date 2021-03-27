@@ -1,12 +1,13 @@
 package com.zwstudio.lolly.service.misc
 
-import com.zwstudio.lolly.data.misc.applyIO
+import com.zwstudio.lolly.android.applyIO
+import com.zwstudio.lolly.android.retrofitHtml
 import com.zwstudio.lolly.restapi.misc.RestHtml
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
-class HtmlService: BaseService() {
+class HtmlService {
 
     // https://futurestud.io/tutorials/retrofit-2-receive-plain-string-responses
     fun getHtml(url: String): Observable<String> =

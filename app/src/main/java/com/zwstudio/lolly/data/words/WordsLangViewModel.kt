@@ -1,9 +1,10 @@
 package com.zwstudio.lolly.data.words
 
 import androidx.lifecycle.MutableLiveData
+import com.zwstudio.lolly.android.applyIO
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.wpp.LangWordService
 import io.reactivex.rxjava3.core.Observable

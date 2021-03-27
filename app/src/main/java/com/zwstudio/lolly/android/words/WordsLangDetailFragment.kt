@@ -10,6 +10,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentWordsLangDetailBinding
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
@@ -45,7 +46,7 @@ class WordsLangDetailFragment : AppCompatActivity() {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vmDetail.save(item)
-                item.word = vm.vmSettings.autoCorrectInput(item.word)
+                item.word = vmSettings.autoCorrectInput(item.word)
                 if (item.id == 0)
                     compositeDisposable.add(vm.create(item).subscribe())
                 else

@@ -15,6 +15,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentSearchBinding
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SearchViewModel
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
@@ -62,13 +63,13 @@ class SearchFragment : Fragment(), SettingsListener {
             }
         })
 
-        vm.vmSettings.handler = Handler(Looper.getMainLooper())
-        vm.vmSettings.settingsListener = this
-        compositeDisposable.add(vm.vmSettings.getData().subscribe())
+        vmSettings.handler = Handler(Looper.getMainLooper())
+        vmSettings.settingsListener = this
+        compositeDisposable.add(vmSettings.getData().subscribe())
     }
 
     override fun onGetData() {
-        val lst = vm.vmSettings.lstLanguages
+        val lst = vmSettings.lstLanguages
         val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
             val ctv = v.findViewById<TextView>(android.R.id.text1)
             ctv.text = lst[position].langname
@@ -78,17 +79,17 @@ class SearchFragment : Fragment(), SettingsListener {
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
         binding.spnLanguage.adapter = adapter
 
-        binding.spnLanguage.setSelection(vm.vmSettings.selectedLangIndex)
+        binding.spnLanguage.setSelection(vmSettings.selectedLangIndex)
     }
 
     @ItemSelect
     fun spnLanguageItemSelected(selected: Boolean, selectedItem: MLanguage) {
-        if (vm.vmSettings.selectedLang == selectedItem) return
-        compositeDisposable.add(vm.vmSettings.setSelectedLang(selectedItem).subscribe())
+        if (vmSettings.selectedLang == selectedItem) return
+        compositeDisposable.add(vmSettings.setSelectedLang(selectedItem).subscribe())
     }
 
     override fun onUpdateLang() {
-        val lst = vm.vmSettings.lstDictsReference
+        val lst = vmSettings.lstDictsReference
         val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
             val item = getItem(position)!!
             var tv = v.findViewById<TextView>(android.R.id.text1)
@@ -101,15 +102,15 @@ class SearchFragment : Fragment(), SettingsListener {
         adapter.setDropDownViewResource(R.layout.list_item_2)
         binding.spnDictReference.adapter = adapter
 
-        binding.spnDictReference.setSelection(vm.vmSettings.selectedDictReferenceIndex)
+        binding.spnDictReference.setSelection(vmSettings.selectedDictReferenceIndex)
         searchDict()
     }
 
     @ItemSelect
     fun spnDictReferenceItemSelected(selected: Boolean, selectedItem: MDictionary) {
-        if (vm.vmSettings.selectedDictReference == selectedItem) return
-        vm.vmSettings.selectedDictReference = selectedItem
-        compositeDisposable.add(vm.vmSettings.updateDictReference().subscribe())
+        if (vmSettings.selectedDictReference == selectedItem) return
+        vmSettings.selectedDictReference = selectedItem
+        compositeDisposable.add(vmSettings.updateDictReference().subscribe())
         searchDict()
     }
 

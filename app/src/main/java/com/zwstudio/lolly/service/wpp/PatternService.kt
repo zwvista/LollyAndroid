@@ -1,13 +1,14 @@
 package com.zwstudio.lolly.service.wpp
 
+import com.zwstudio.lolly.android.retrofitJson
+import com.zwstudio.lolly.android.retrofitSP
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
-import com.zwstudio.lolly.service.misc.BaseService
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
-class PatternService: BaseService() {
+class PatternService {
     fun getDataByLang(langid: Int): Observable<List<MPattern>> =
         retrofitJson.create(RestPattern::class.java)
             .getDataByLang("LANGID,eq,$langid")

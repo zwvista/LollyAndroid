@@ -10,6 +10,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesUnitDetailBinding
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
@@ -35,8 +36,8 @@ class PhrasesUnitDetailFragment : AppCompatActivity() {
             lifecycleOwner = this@PhrasesUnitDetailFragment
             model = vmDetail
         }
-        binding.spnUnit.adapter = makeCustomAdapter(this, vm.vmSettings.lstUnits) { it.label }
-        binding.spnPart.adapter = makeCustomAdapter(this, vm.vmSettings.lstParts) { it.label }
+        binding.spnUnit.adapter = makeCustomAdapter(this, vmSettings.lstUnits) { it.label }
+        binding.spnPart.adapter = makeCustomAdapter(this, vmSettings.lstParts) { it.label }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -48,7 +49,7 @@ class PhrasesUnitDetailFragment : AppCompatActivity() {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vmDetail.save(item)
-                item.phrase = vm.vmSettings.autoCorrectInput(item.phrase)
+                item.phrase = vmSettings.autoCorrectInput(item.phrase)
                 if (item.id == 0)
                     compositeDisposable.add(vm.create(item).subscribe())
                 else

@@ -1,9 +1,10 @@
 package com.zwstudio.lolly.data.patterns
 
 import androidx.lifecycle.MutableLiveData
+import com.zwstudio.lolly.android.applyIO
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
-import com.zwstudio.lolly.data.misc.applyIO
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.service.wpp.PatternService
 import io.reactivex.rxjava3.core.Observable

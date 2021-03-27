@@ -1,8 +1,9 @@
 package com.zwstudio.lolly.data.phrases
 
 import androidx.lifecycle.MutableLiveData
-import com.zwstudio.lolly.data.misc.BaseViewModel
-import com.zwstudio.lolly.data.misc.applyIO
+import androidx.lifecycle.ViewModel
+import com.zwstudio.lolly.android.vmSettings
+import com.zwstudio.lolly.android.applyIO
 import com.zwstudio.lolly.domain.misc.MReviewOptions
 import com.zwstudio.lolly.domain.misc.ReviewMode
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
@@ -15,7 +16,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
 @EBean
-class PhrasesReviewViewModel : BaseViewModel() {
+class PhrasesReviewViewModel : ViewModel() {
 
     val unitPhraseService = UnitPhraseService()
 

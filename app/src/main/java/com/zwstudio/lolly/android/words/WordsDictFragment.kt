@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.misc.OnlineDict
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.words.WordsDictViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -50,7 +51,7 @@ class WordsDictFragment : AppCompatActivity(), TouchListener {
         }
 
         run {
-            val lst = vm.vmSettings.lstDictsReference
+            val lst = vmSettings.lstDictsReference
             val adapter = makeAdapter(this, R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
                 val item = getItem(position)!!
                 var tv = v.findViewById<TextView>(android.R.id.text1)
@@ -63,7 +64,7 @@ class WordsDictFragment : AppCompatActivity(), TouchListener {
             adapter.setDropDownViewResource(R.layout.list_item_2)
             spnDictReference.adapter = adapter
 
-            spnDictReference.setSelection(vm.vmSettings.selectedDictReferenceIndex)
+            spnDictReference.setSelection(vmSettings.selectedDictReferenceIndex)
         }
 
         onlineDict = OnlineDict(wv, vm, compositeDisposable)
@@ -80,11 +81,11 @@ class WordsDictFragment : AppCompatActivity(), TouchListener {
 
     @ItemSelect
     fun spnDictReferenceItemSelected(selected: Boolean, position: Int) {
-        if (vm.vmSettings.selectedDictReferenceIndex == position) return
-        vm.vmSettings.selectedDictReference = vm.vmSettings.lstDictsReference[position]
+        if (vmSettings.selectedDictReferenceIndex == position) return
+        vmSettings.selectedDictReference = vmSettings.lstDictsReference[position]
         Log.d("", String.format("Checked position:%d", position))
         (spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-        compositeDisposable.add(vm.vmSettings.updateDictReference().subscribe())
+        compositeDisposable.add(vmSettings.updateDictReference().subscribe())
         selectedDictChanged()
     }
 

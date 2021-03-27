@@ -1,15 +1,16 @@
 package com.zwstudio.lolly.service.wpp
 
 import android.util.Log
+import com.zwstudio.lolly.android.retrofitJson
+import com.zwstudio.lolly.android.retrofitSP
 import com.zwstudio.lolly.domain.misc.MTextbook
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import com.zwstudio.lolly.restapi.wpp.RestUnitWord
-import com.zwstudio.lolly.service.misc.BaseService
 import io.reactivex.rxjava3.core.Observable
 import org.androidannotations.annotations.EBean
 
 @EBean
-class UnitWordService: BaseService() {
+class UnitWordService {
     fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Observable<List<MUnitWord>> =
         retrofitJson.create(RestUnitWord::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",
