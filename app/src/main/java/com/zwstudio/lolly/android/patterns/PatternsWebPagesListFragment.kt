@@ -2,112 +2,58 @@ package com.zwstudio.lolly.android.patterns
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
-import com.woxthebox.draglistview.swipe.ListSwipeHelper
-import com.woxthebox.draglistview.swipe.ListSwipeItem
-import com.zwstudio.lolly.android.LollySwipeRefreshLayout
+import com.zwstudio.lolly.android.DrawerListFragment
 import com.zwstudio.lolly.android.R
-import com.zwstudio.lolly.android.vmSettings
+import com.zwstudio.lolly.android.databinding.FragmentPatternsWebpagesListBinding
+import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.yesNoDialog
+import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.OnActivityResult
-import org.androidannotations.annotations.ViewById
-import java.util.*
 
 private const val REQUEST_CODE = 1
 
-class PatternsWebPagesListFragment : Fragment(), TextToSpeech.OnInitListener {
+class PatternsWebPagesListFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
+    override val vmDrawerList: DrawerListViewModel? get() = vm
+    var binding by autoCleared<FragmentPatternsWebpagesListBinding>()
     lateinit var item: MPattern
-    lateinit var tts: TextToSpeech
 
-    @ViewById(R.id.drag_list_view)
-    lateinit var mDragListView: DragListView
-    @ViewById(R.id.swipe_refresh_layout)
-    lateinit var mRefreshLayout: LollySwipeRefreshLayout
-    @ViewById
-    lateinit var progressBar1: ProgressBar
-    val compositeDisposable = CompositeDisposable()
-
-    @AfterViews
-    fun afterViews() {
-        item = intent.getSerializableExtra("pattern") as MPattern
-        tts = TextToSpeech(this, this)
-        vm.compositeDisposable = compositeDisposable
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
-    override fun onInit(status: Int) {
-        if (status != TextToSpeech.SUCCESS) return
-        val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vmSettings.selectedVoice?.voicelang
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentPatternsWebpagesListBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            model = vm
         }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
+        return binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        tts.shutdown()
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        vm.compositeDisposable = compositeDisposable
 
-    override fun onResume() {
-        super.onResume()
+        setupListView(PatternsWebPagesDragItem(requireContext(), R.layout.list_item_patterns_webpages_edit))
         compositeDisposable.add(vm.getWebPages(item.id).subscribe {
-            mDragListView.recyclerView.isVerticalScrollBarEnabled = true
-            mDragListView.setDragListListener(object : DragListView.DragListListenerAdapter() {
-                override fun onItemDragStarted(position: Int) {
-                    mRefreshLayout.isEnabled = false
-                    Toast.makeText(mDragListView.context, "Start - position: $position", Toast.LENGTH_SHORT).show()
-                }
-                override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
-                    mRefreshLayout.isEnabled = true
-                    Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
-                    vm.reindexWebPage {}
-                }
-            })
-
-            mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-            mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.app_color))
-            mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
-
-            mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
-                override fun onItemSwipeStarted(item: ListSwipeItem?) {
-                    mRefreshLayout.isEnabled = false
-                }
-                override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
-                    mRefreshLayout.isEnabled = true
-                    when (swipedDirection) {
-                        ListSwipeItem.SwipeDirection.LEFT -> vm.isSwipeStarted = true
-                        ListSwipeItem.SwipeDirection.RIGHT -> vm.isSwipeStarted = true
-                        else -> {}
-                    }
-                }
-            })
-
-            mDragListView.setLayoutManager(LinearLayoutManager(this))
             refreshListView()
-            mDragListView.setCanDragHorizontally(false)
-            mDragListView.setCustomDragItem(PatternsWebPagesDragItem(this, R.layout.list_item_patterns_webpages_edit))
             progressBar1.visibility = View.GONE
         })
     }
@@ -117,10 +63,10 @@ class PatternsWebPagesListFragment : Fragment(), TextToSpeech.OnInitListener {
         mDragListView.setAdapter(listAdapter, true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_patterns_webpages_list, menu)
-        setEditMode(menu!!.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
-        return super.onCreateOptionsMenu(menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_patterns_webpages_list, menu)
+        setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
     }
 
     fun setEditMode(item: MenuItem, isEditMode: Boolean) {
@@ -130,8 +76,8 @@ class PatternsWebPagesListFragment : Fragment(), TextToSpeech.OnInitListener {
     }
 
     fun menuAdd() {
-        PatternsWebPagesDetailFragment_.intent(this)
-            .extra("word", vm.newPatternWebPage(item.id, item.pattern)).startForResult(REQUEST_CODE)
+//        PatternsWebPagesDetailFragment_.intent(this)
+//            .extra("word", vm.newPatternWebPage(item.id, item.pattern)).startForResult(REQUEST_CODE)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
@@ -151,11 +97,11 @@ class PatternsWebPagesListFragment : Fragment(), TextToSpeech.OnInitListener {
             else -> super.onOptionsItemSelected(item)
         }
 
-    @OnActivityResult(REQUEST_CODE)
-    fun onResult(resultCode: Int) {
-        if (resultCode == RESULT_OK)
-            menuAdd()
-    }
+//    @OnActivityResult(REQUEST_CODE)
+//    fun onResult(resultCode: Int) {
+//        if (resultCode == RESULT_OK)
+//            menuAdd()
+//    }
 
     private class PatternsWebPagesDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
@@ -205,8 +151,8 @@ class PatternsWebPagesListFragment : Fragment(), TextToSpeech.OnInitListener {
             }
 
             fun edit(item: MPatternWebPage) {
-                PatternsWebPagesDetailFragment_.intent(itemView.context)
-                        .extra("webpage", item).startForResult(REQUEST_CODE)
+//                PatternsWebPagesDetailFragment_.intent(itemView.context)
+//                        .extra("webpage", item).startForResult(REQUEST_CODE)
             }
 
             @SuppressLint("ClickableViewAccessibility")
@@ -279,5 +225,4 @@ class PatternsWebPagesListFragment : Fragment(), TextToSpeech.OnInitListener {
             }
         }
     }
-
 }

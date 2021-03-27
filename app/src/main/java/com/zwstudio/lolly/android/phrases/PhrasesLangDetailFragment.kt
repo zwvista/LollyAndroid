@@ -8,6 +8,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesLangDetailBinding
+import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.phrases.PhrasesLangDetailViewModel
@@ -19,7 +20,7 @@ class PhrasesLangDetailFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesLangViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PhrasesLangDetailViewModel(item) } }
-    lateinit var binding: FragmentPhrasesLangDetailBinding
+    var binding by autoCleared<FragmentPhrasesLangDetailBinding>()
     lateinit var item: MLangPhrase
 
     val compositeDisposable = CompositeDisposable()

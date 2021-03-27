@@ -1,36 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".patterns.PatternsWebPagesListFragment">
 
-    <com.zwstudio.lolly.android.LollySwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
+    <data>
+        <variable name="model" type="com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel"/>
+    </data>
+
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/fragment_horizontal_margin"
-        android:paddingRight="@dimen/fragment_horizontal_margin"
-        android:paddingTop="@dimen/fragment_vertical_margin"
-        android:paddingBottom="@dimen/fragment_vertical_margin">
+        android:background="@android:color/white">
 
-        <!-- Need to wrap DragListView in another layout for
-            wrap_content to work for some reason -->
-        <FrameLayout
+        <com.zwstudio.lolly.android.LollySwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="@dimen/fragment_horizontal_margin">
 
-            <com.woxthebox.draglistview.DragListView
-                android:id="@+id/drag_list_view"
+            <!-- Need to wrap DragListView in another layout for
+                wrap_content to work for some reason -->
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-        </FrameLayout>
-    </com.zwstudio.lolly.android.LollySwipeRefreshLayout>
+                android:layout_height="match_parent">
 
-    <ProgressBar
-        android:id="@+id/progressBar1"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
-</FrameLayout>
+                <com.woxthebox.draglistview.DragListView
+                    android:id="@+id/drag_list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </FrameLayout>
+        </com.zwstudio.lolly.android.LollySwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+</layout>

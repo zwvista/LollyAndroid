@@ -8,6 +8,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPatternsDetailBinding
+import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.patterns.PatternsDetailViewModel
@@ -19,7 +20,7 @@ class PatternsDetailFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PatternsDetailViewModel(item) } }
-    lateinit var binding: FragmentPatternsDetailBinding
+    var binding by autoCleared<FragmentPatternsDetailBinding>()
     lateinit var item: MPattern
 
     val compositeDisposable = CompositeDisposable()
@@ -32,7 +33,7 @@ class PatternsDetailFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 //        item = intent.getSerializableExtra("pattern") as MPattern
         binding = FragmentPatternsDetailBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = this@PatternsDetailFragment
+            lifecycleOwner = viewLifecycleOwner
             model = vmDetail
         }
         return binding.root

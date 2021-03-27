@@ -1,51 +1,54 @@
 package com.zwstudio.lolly.android.patterns
 
-import android.webkit.WebView
-import android.widget.Spinner
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.FragmentPatternsWebpagesBrowseBinding
+import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ItemSelect
-import org.androidannotations.annotations.ViewById
 
 class PatternsWebPagesBrowseFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
+    var binding by autoCleared<FragmentPatternsWebpagesBrowseBinding>()
     lateinit var item: MPattern
 
     val compositeDisposable = CompositeDisposable()
 
-    @ViewById
-    lateinit var spnWebPages: Spinner
-    @ViewById
-    lateinit var webView: WebView
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        item = intent.getSerializableExtra("webpage") as MPatternWebPage
+        binding = FragmentPatternsWebpagesBrowseBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            model = vm
+        }
+        return binding.root
+    }
 
-    @AfterViews
-    fun afterViews() {
-        item = intent.getSerializableExtra("pattern") as MPattern
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        item = intent.getSerializableExtra("pattern") as MPattern
         compositeDisposable.add(vm.getWebPages(item.id).subscribe {
             val lst = vm.lstWebPages
-            val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.title
                 v
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_1)
-            spnWebPages.adapter = adapter
-            spnWebPages.setSelection(0)
+            binding.spnWebPages.adapter = adapter
+            binding.spnWebPages.setSelection(0)
         })
     }
 
-    @ItemSelect
-    fun spnWebPagesItemSelected(selected: Boolean, position: Int) {
-        webView.loadUrl(vm.lstWebPages[position].url)
-    }
+//    fun spnWebPagesItemSelected(selected: Boolean, position: Int) {
+//        webView.loadUrl(vm.lstWebPages[position].url)
+//    }
 }
