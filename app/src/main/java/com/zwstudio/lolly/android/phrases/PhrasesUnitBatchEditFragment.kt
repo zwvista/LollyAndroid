@@ -5,37 +5,34 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.LollySwipeRefreshLayout
 import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.databinding.FragmentPhrasesUnitBatchEditBinding
 import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.data.phrases.PhrasesUnitBatchEditViewModel
 import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
+import org.androidannotations.annotations.AfterViews
+import org.androidannotations.annotations.CheckedChange
+import org.androidannotations.annotations.EActivity
+import org.androidannotations.annotations.ViewById
 
 @EActivity(R.layout.fragment_phrases_unit_batch_edit)
 class PhrasesUnitBatchEditFragment : AppCompatActivity() {
 
-    @Bean
-    lateinit var vm: PhrasesUnitViewModel
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
+    val vmBatch by lazy { vita.with(VitaOwner.Single(this)).getViewModel<PhrasesUnitBatchEditViewModel>() }
+    lateinit var binding: FragmentPhrasesUnitBatchEditBinding
 
-    @ViewById
-    lateinit var chkUnit: CheckBox
-    @ViewById
-    lateinit var spnUnit: Spinner
-    @ViewById
-    lateinit var chkPart: CheckBox
-    @ViewById
-    lateinit var spnPart: Spinner
-    @ViewById
-    lateinit var chkSeqNum: CheckBox
-    @ViewById
-    lateinit var etSeqNum: EditText
     @ViewById(R.id.drag_list_view)
     lateinit var mDragListView: DragListView
     @ViewById(R.id.swipe_refresh_layout)
@@ -46,6 +43,11 @@ class PhrasesUnitBatchEditFragment : AppCompatActivity() {
     @AfterViews
     fun afterViews() {
         vm.lstPhrases = (intent.getSerializableExtra("list") as Array<MUnitPhrase>).toList()
+        binding = DataBindingUtil.inflate<FragmentPhrasesUnitBatchEditBinding>(LayoutInflater.from(this), R.layout.fragment_phrases_unit_batch_edit,
+            findViewById(android.R.id.content), true).apply {
+            lifecycleOwner = this@PhrasesUnitBatchEditFragment
+            model = vmBatch
+        }
         chkUnit(); chkPart(); chkSeqNum()
         run {
             val lst = vm.vmSettings.lstUnits
@@ -55,8 +57,8 @@ class PhrasesUnitBatchEditFragment : AppCompatActivity() {
                 v
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-            spnUnit.adapter = adapter
-            spnUnit.setSelection(vm.vmSettings.lstUnits.indexOfFirst { it.value == vm.vmSettings.usunitto })
+            binding.spnUnit.adapter = adapter
+            binding.spnUnit.setSelection(vm.vmSettings.lstUnits.indexOfFirst { it.value == vm.vmSettings.usunitto })
         }
 
         run {
@@ -67,8 +69,8 @@ class PhrasesUnitBatchEditFragment : AppCompatActivity() {
                 v
             }
             adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-            spnPart.adapter = adapter
-            spnPart.setSelection(vm.vmSettings.lstParts.indexOfFirst { it.value == vm.vmSettings.uspartto })
+            binding.spnPart.adapter = adapter
+            binding.spnPart.setSelection(vm.vmSettings.lstParts.indexOfFirst { it.value == vm.vmSettings.uspartto })
         }
 
         mDragListView.recyclerView.isVerticalScrollBarEnabled = true
@@ -86,17 +88,17 @@ class PhrasesUnitBatchEditFragment : AppCompatActivity() {
 
     @CheckedChange
     fun chkUnit() {
-        spnUnit.isEnabled = chkUnit.isChecked
+        binding.spnUnit.isEnabled = binding.chkUnit.isChecked
     }
 
     @CheckedChange
     fun chkPart() {
-        spnPart.isEnabled = chkPart.isChecked
+        binding.spnPart.isEnabled = binding.chkPart.isChecked
     }
 
     @CheckedChange
     fun chkSeqNum() {
-        etSeqNum.isEnabled = chkSeqNum.isChecked
+        binding.etSeqNum.isEnabled = binding.chkSeqNum.isChecked
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -107,13 +109,13 @@ class PhrasesUnitBatchEditFragment : AppCompatActivity() {
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.menuSave -> {
-                if (chkUnit.isChecked || chkPart.isChecked || chkSeqNum.isChecked) {
+                if (binding.chkUnit.isChecked || binding.chkPart.isChecked || binding.chkSeqNum.isChecked) {
                     for ((i, item) in vm.lstPhrases.withIndex()) {
                         val v = mDragListView.recyclerView.findViewHolderForAdapterPosition(i) as PhrasesUnitBatchItemAdapter.ViewHolder
                         if (v.mCheckmark.visibility == View.INVISIBLE) continue
-                        if (chkUnit.isChecked) item.unit = (spnUnit.selectedItem as MSelectItem).value
-                        if (chkPart.isChecked) item.part = (spnPart.selectedItem as MSelectItem).value
-                        if (chkSeqNum.isChecked) item.seqnum += etSeqNum.text.toString().toInt()
+                        if (binding.chkUnit.isChecked) item.unit = (binding.spnUnit.selectedItem as MSelectItem).value
+                        if (binding.chkPart.isChecked) item.part = (binding.spnPart.selectedItem as MSelectItem).value
+                        if (binding.chkSeqNum.isChecked) item.seqnum += binding.etSeqNum.text.toString().toInt()
                         vm.update(item)
                     }
                     finish()
