@@ -16,7 +16,6 @@ import com.zwstudio.lolly.data.words.WordsLangViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.fragment_words_lang_detail)
 class WordsLangDetailFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsLangViewModel>() }

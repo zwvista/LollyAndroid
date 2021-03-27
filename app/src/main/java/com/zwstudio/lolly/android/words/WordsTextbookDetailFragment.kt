@@ -17,7 +17,6 @@ import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.fragment_words_textbook_detail)
 class WordsTextbookDetailFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }

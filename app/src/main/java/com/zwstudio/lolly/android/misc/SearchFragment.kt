@@ -26,7 +26,6 @@ import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ItemSelect
 
 
-@EFragment(R.layout.fragment_search)
 class SearchFragment : Fragment(), SettingsListener {
 
     val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel<SearchViewModel>() }

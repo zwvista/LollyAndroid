@@ -36,7 +36,6 @@ import org.androidannotations.annotations.OnActivityResult
 
 private const val REQUEST_CODE = 1
 
-@EFragment(R.layout.fragment_words_lang)
 class WordsLangFragment : DrawerListFragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsLangViewModel>() }

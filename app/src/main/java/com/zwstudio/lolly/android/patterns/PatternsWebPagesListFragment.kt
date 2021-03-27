@@ -34,7 +34,6 @@ import java.util.*
 
 private const val REQUEST_CODE = 1
 
-@EActivity(R.layout.fragment_patterns_webpages_list)
 class PatternsWebPagesListFragment : Fragment(), TextToSpeech.OnInitListener {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }

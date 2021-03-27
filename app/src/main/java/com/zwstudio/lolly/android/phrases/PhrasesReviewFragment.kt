@@ -17,7 +17,6 @@ import com.zwstudio.lolly.data.phrases.PhrasesReviewViewModel
 import org.androidannotations.annotations.*
 import java.util.*
 
-@EFragment(R.layout.fragment_phrases_review)
 class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesReviewViewModel>() }

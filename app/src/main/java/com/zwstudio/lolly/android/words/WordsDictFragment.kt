@@ -19,7 +19,6 @@ import org.androidannotations.annotations.EActivity
 import org.androidannotations.annotations.ItemSelect
 import org.androidannotations.annotations.ViewById
 
-@EActivity(R.layout.fragment_words_dict)
 class WordsDictFragment : Fragment(), TouchListener {
 
     @ViewById

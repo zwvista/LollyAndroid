@@ -16,7 +16,6 @@ import com.zwstudio.lolly.data.patterns.PatternsViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.fragment_patterns_detail)
 class PatternsDetailFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsViewModel>() }

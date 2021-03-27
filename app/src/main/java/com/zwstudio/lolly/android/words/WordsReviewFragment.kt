@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentWordsReviewBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.vmSettings
@@ -16,10 +15,8 @@ import com.zwstudio.lolly.data.words.WordsReviewViewModel
 import org.androidannotations.annotations.AfterViews
 import org.androidannotations.annotations.CheckedChange
 import org.androidannotations.annotations.Click
-import org.androidannotations.annotations.EFragment
 import java.util.*
 
-@EFragment(R.layout.fragment_words_review)
 class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsReviewViewModel>() }

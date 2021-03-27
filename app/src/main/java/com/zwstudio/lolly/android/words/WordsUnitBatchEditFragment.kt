@@ -23,7 +23,6 @@ import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import org.androidannotations.annotations.*
 
-@EActivity(R.layout.fragment_words_unit_batch_edit)
 class WordsUnitBatchEditFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }

@@ -22,7 +22,6 @@ import org.androidannotations.annotations.Click
 import org.androidannotations.annotations.EFragment
 import org.androidannotations.annotations.ItemSelect
 
-@EFragment(R.layout.fragment_settings)
 class SettingsFragment : Fragment(), SettingsListener {
 
     var vm = vmSettings
