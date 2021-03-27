@@ -9,17 +9,16 @@ import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
-import com.zwstudio.lolly.android.DrawerListFragment
-import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.*
 import com.zwstudio.lolly.android.databinding.FragmentWordsUnitBinding
 import com.zwstudio.lolly.android.misc.autoCleared
-import com.zwstudio.lolly.android.vmSettings
-import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.*
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
@@ -101,8 +100,8 @@ class WordsUnitFragment : DrawerListFragment() {
     }
 
     fun menuAdd() {
-//        WordsUnitDetailFragment_.intent(this)
-//            .extra("word", vm.newUnitWord()).startForResult(REQUEST_CODE)
+        findNavController().navigate(R.id.action_nav_words_unit_to_wordsUnitDetailFragment,
+            bundleOf("word" to vm.newUnitWord()))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -220,8 +219,9 @@ class WordsUnitFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitWord) {
-//                WordsUnitDetailFragment_.intent(itemView.context)
-//                        .extra("word", item).startForResult(REQUEST_CODE)
+                val navController = (itemView.context as MainActivity).getNavController()
+                navController.navigate(R.id.action_nav_words_unit_to_wordsUnitDetailFragment,
+                    bundleOf("word" to item))
             }
 
             @SuppressLint("ClickableViewAccessibility")
