@@ -1,11 +1,13 @@
 package com.zwstudio.lolly.android.words
 
 import android.content.Context
+import android.os.Bundle
 import android.view.*
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -15,6 +17,8 @@ import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.LollySwipeRefreshLayout
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentWordsUnitBatchEditBinding
+import com.zwstudio.lolly.android.misc.autoCleared
+import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.words.WordsUnitBatchEditViewModel
@@ -22,7 +26,6 @@ import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.*
 
 class WordsUnitBatchEditFragment : Fragment() {
 
@@ -30,25 +33,33 @@ class WordsUnitBatchEditFragment : Fragment() {
     val vmBatch by lazy { vita.with(VitaOwner.Single(this)).getViewModel<WordsUnitBatchEditViewModel>() }
     lateinit var binding: FragmentWordsUnitBatchEditBinding
 
-    @ViewById(R.id.drag_list_view)
-    lateinit var mDragListView: DragListView
-    @ViewById(R.id.swipe_refresh_layout)
-    lateinit var mRefreshLayout: LollySwipeRefreshLayout
+    var mDragListView by autoCleared<DragListView>()
+    var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()
 
     val compositeDisposable = CompositeDisposable()
 
-    @AfterViews
-    fun afterViews() {
-        vm.lstWords = (intent.getSerializableExtra("list") as Array<MUnitWord>).toList()
-        binding = DataBindingUtil.inflate<FragmentWordsUnitBatchEditBinding>(LayoutInflater.from(this), R.layout.fragment_words_unit_batch_edit,
-            findViewById(android.R.id.content), true).apply {
-            lifecycleOwner = this@WordsUnitBatchEditFragment
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        vm.lstWords = (intent.getSerializableExtra("list") as Array<MUnitWord>).toList()
+        binding = FragmentWordsUnitBatchEditBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
             model = vmBatch
         }
-        chkUnit(); chkPart(); chkSeqNum()
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mDragListView = view.findViewById(R.id.drag_list_view)
+        mRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
+//        chkUnit(); chkPart(); chkSeqNum()
         run {
             val lst = vmSettings.lstUnits
-            val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.label
                 v
@@ -60,7 +71,7 @@ class WordsUnitBatchEditFragment : Fragment() {
 
         run {
             val lst = vmSettings.lstParts
-            val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.label
                 v
@@ -73,34 +84,30 @@ class WordsUnitBatchEditFragment : Fragment() {
         mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
         mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.app_color))
+        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
         mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
 
-        mDragListView.setLayoutManager(LinearLayoutManager(this))
+        mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
         val listAdapter = WordsUnitBatchItemAdapter(vm)
         mDragListView.setAdapter(listAdapter, true)
         mDragListView.setCanDragHorizontally(false)
-        mDragListView.setCustomDragItem(WordsUnitBatchDragItem(this, R.layout.list_item_words_unit_batch_edit))
+        mDragListView.setCustomDragItem(WordsUnitBatchDragItem(requireContext(), R.layout.list_item_words_unit_batch_edit))
     }
 
-    @CheckedChange
-    fun chkUnit() {
-        binding.spnUnit.isEnabled = binding.chkUnit.isChecked
-    }
+//    fun chkUnit() {
+//        binding.spnUnit.isEnabled = binding.chkUnit.isChecked
+//    }
 
-    @CheckedChange
-    fun chkPart() {
-        binding.spnPart.isEnabled = binding.chkPart.isChecked
-    }
+//    fun chkPart() {
+//        binding.spnPart.isEnabled = binding.chkPart.isChecked
+//    }
 
-    @CheckedChange
-    fun chkSeqNum() {
-        binding.etSeqNum.isEnabled = binding.chkSeqNum.isChecked
-    }
+//    fun chkSeqNum() {
+//        binding.etSeqNum.isEnabled = binding.chkSeqNum.isChecked
+//    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_save, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_save, menu)
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
@@ -115,7 +122,8 @@ class WordsUnitBatchEditFragment : Fragment() {
                         if (binding.chkSeqNum.isChecked) item.seqnum += binding.etSeqNum.text.toString().toInt()
                         compositeDisposable.add(vm.update(item).subscribe())
                     }
-                    finish()
+                    setNavigationResult( "1")
+                    findNavController().navigateUp()
                 }
                 true
             }

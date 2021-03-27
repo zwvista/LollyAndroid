@@ -1,11 +1,13 @@
 package com.zwstudio.lolly.android.phrases
 
 import android.content.Context
+import android.os.Bundle
 import android.view.*
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -15,6 +17,8 @@ import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.LollySwipeRefreshLayout
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesUnitBatchEditBinding
+import com.zwstudio.lolly.android.misc.autoCleared
+import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.phrases.PhrasesUnitBatchEditViewModel
@@ -22,10 +26,6 @@ import com.zwstudio.lolly.data.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.androidannotations.annotations.AfterViews
-import org.androidannotations.annotations.CheckedChange
-import org.androidannotations.annotations.EActivity
-import org.androidannotations.annotations.ViewById
 
 class PhrasesUnitBatchEditFragment : Fragment() {
 
@@ -33,25 +33,33 @@ class PhrasesUnitBatchEditFragment : Fragment() {
     val vmBatch by lazy { vita.with(VitaOwner.Single(this)).getViewModel<PhrasesUnitBatchEditViewModel>() }
     lateinit var binding: FragmentPhrasesUnitBatchEditBinding
 
-    @ViewById(R.id.drag_list_view)
-    lateinit var mDragListView: DragListView
-    @ViewById(R.id.swipe_refresh_layout)
-    lateinit var mRefreshLayout: LollySwipeRefreshLayout
+    var mDragListView by autoCleared<DragListView>()
+    var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()
 
     val compositeDisposable = CompositeDisposable()
 
-    @AfterViews
-    fun afterViews() {
-        vm.lstPhrases = (intent.getSerializableExtra("list") as Array<MUnitPhrase>).toList()
-        binding = DataBindingUtil.inflate<FragmentPhrasesUnitBatchEditBinding>(LayoutInflater.from(this), R.layout.fragment_phrases_unit_batch_edit,
-            findViewById(android.R.id.content), true).apply {
-            lifecycleOwner = this@PhrasesUnitBatchEditFragment
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        vm.lstPhrases = (intent.getSerializableExtra("list") as Array<MUnitPhrase>).toList()
+        binding = FragmentPhrasesUnitBatchEditBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
             model = vmBatch
         }
-        chkUnit(); chkPart(); chkSeqNum()
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mDragListView = view.findViewById(R.id.drag_list_view)
+        mRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
+//        chkUnit(); chkPart(); chkSeqNum()
         run {
             val lst = vmSettings.lstUnits
-            val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.label
                 v
@@ -63,7 +71,7 @@ class PhrasesUnitBatchEditFragment : Fragment() {
 
         run {
             val lst = vmSettings.lstParts
-            val adapter = makeAdapter(this, android.R.layout.simple_spinner_item, lst) { v, position ->
+            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = getItem(position)!!.label
                 v
@@ -76,34 +84,30 @@ class PhrasesUnitBatchEditFragment : Fragment() {
         mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
         mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.app_color))
+        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
         mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
 
-        mDragListView.setLayoutManager(LinearLayoutManager(this))
+        mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
         val listAdapter = PhrasesUnitBatchItemAdapter(vm)
         mDragListView.setAdapter(listAdapter, true)
         mDragListView.setCanDragHorizontally(false)
-        mDragListView.setCustomDragItem(PhrasesUnitBatchDragItem(this, R.layout.list_item_phrases_unit_batch_edit))
+        mDragListView.setCustomDragItem(PhrasesUnitBatchDragItem(requireContext(), R.layout.list_item_phrases_unit_batch_edit))
     }
 
-    @CheckedChange
-    fun chkUnit() {
-        binding.spnUnit.isEnabled = binding.chkUnit.isChecked
-    }
+//    fun chkUnit() {
+//        binding.spnUnit.isEnabled = binding.chkUnit.isChecked
+//    }
 
-    @CheckedChange
-    fun chkPart() {
-        binding.spnPart.isEnabled = binding.chkPart.isChecked
-    }
+//    fun chkPart() {
+//        binding.spnPart.isEnabled = binding.chkPart.isChecked
+//    }
 
-    @CheckedChange
-    fun chkSeqNum() {
-        binding.etSeqNum.isEnabled = binding.chkSeqNum.isChecked
-    }
+//    fun chkSeqNum() {
+//        binding.etSeqNum.isEnabled = binding.chkSeqNum.isChecked
+//    }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_save, menu)
-        return super.onCreateOptionsMenu(menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_save, menu)
     }
 
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
@@ -118,7 +122,8 @@ class PhrasesUnitBatchEditFragment : Fragment() {
                         if (binding.chkSeqNum.isChecked) item.seqnum += binding.etSeqNum.text.toString().toInt()
                         compositeDisposable.add(vm.update(item).subscribe())
                     }
-                    finish()
+                    setNavigationResult( "1")
+                    findNavController().navigateUp()
                 }
                 true
             }
