@@ -11,10 +11,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp">
+        android:layout_margin="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -22,48 +19,48 @@
 
             <TextView
                 android:id="@+id/tvID"
+                android:text='@{@string/label_id + " " + model.id}'
+                tools:text="ID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text='@{@string/label_id + " " + model.id}' />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvPhrase"
+                android:text="@string/label_phrase"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvID"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/label_phrase" />
+                app:layout_constraintTop_toBottomOf="@+id/tvID" />
 
             <EditText
                 android:id="@+id/etPhrase"
+                android:text="@={model.phrase}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvPhrase"
                 android:layout_marginTop="8dp"
                 android:labelFor="@id/tvPhrase"
-                android:text="@={model.phrase}" />
+                app:layout_constraintTop_toBottomOf="@+id/tvPhrase" />
 
             <TextView
                 android:id="@+id/tvTranslation"
+                android:text="@string/label_translation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/etPhrase"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/label_translation" />
+                app:layout_constraintTop_toBottomOf="@+id/etPhrase" />
 
             <EditText
                 android:id="@+id/etTranslation"
+                android:text="@={model.translation}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvTranslation"
                 android:layout_marginTop="8dp"
                 android:labelFor="@id/tvTranslation"
-                android:text="@={model.translation}" />
-
+                app:layout_constraintTop_toBottomOf="@+id/tvTranslation" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
