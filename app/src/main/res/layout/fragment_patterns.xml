@@ -21,8 +21,8 @@
             android:iconifiedByDefault="false"
             android:queryHint="Filter"
             app:layout_constraintHorizontal_weight="2"
-            app:layout_constraintEnd_toStartOf="@+id/spnScopeFilter"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/spnScopeFilter"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <Spinner

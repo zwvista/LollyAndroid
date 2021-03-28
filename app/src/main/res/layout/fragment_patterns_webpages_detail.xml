@@ -11,10 +11,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp">
+        android:layout_margin="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -22,83 +19,87 @@
 
             <TextView
                 android:id="@+id/tvID"
+                android:text='@{@string/label_id + " " + model.id}'
+                tools:text="ID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text='@{@string/label_id + " " + model.id}' />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvPatternID"
+                android:text='@{@string/label_patternid + " " + model.patternid}'
+                tools:text="PATTERNID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvID"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text='@{@string/label_patternid + " " + model.patternid}' />
+                app:layout_constraintTop_toBottomOf="@+id/tvID" />
 
             <TextView
                 android:id="@+id/tvPattern"
+                android:text="@string/label_pattern"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvPatternID"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/label_pattern" />
+                app:layout_constraintTop_toBottomOf="@+id/tvPatternID" />
 
             <TextView
                 android:id="@+id/tvPattern2"
+                android:text="@={model.pattern}"
+                tools:text="PATTERN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvPattern"
                 android:layout_marginTop="8dp"
-                android:labelFor="@id/tvPattern"
-                android:text="@={model.pattern}" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                app:layout_constraintTop_toBottomOf="@+id/tvPattern" />
 
             <TextView
                 android:id="@+id/tvWebPageID"
+                android:text='@{@string/label_webpageid + " " + model.webpageid}'
+                tools:text="WEBPAGEID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvPattern2"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text='@{@string/label_webpageid + " " + model.webpageid}' />
+                app:layout_constraintTop_toBottomOf="@+id/tvPattern2" />
 
             <TextView
                 android:id="@+id/tvTitle"
+                android:text="@string/label_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvWebPageID"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/label_title" />
+                app:layout_constraintTop_toBottomOf="@+id/tvWebPageID" />
 
             <EditText
                 android:id="@+id/etTitle"
+                android:text="@={model.title}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                 android:layout_marginTop="8dp"
                 android:labelFor="@id/tvTitle"
-                android:text="@={model.title}" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
             <TextView
                 android:id="@+id/tvURL"
+                android:text="@string/label_url"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/etTitle"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/label_url" />
+                app:layout_constraintTop_toBottomOf="@+id/etTitle" />
 
             <EditText
                 android:id="@+id/etURL"
+                android:text="@={model.url}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvURL"
                 android:layout_marginTop="8dp"
                 android:labelFor="@id/tvURL"
-                android:text="@={model.url}" />
+                app:layout_constraintTop_toBottomOf="@+id/tvURL" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

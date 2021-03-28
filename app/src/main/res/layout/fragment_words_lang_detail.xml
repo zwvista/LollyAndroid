@@ -22,65 +22,68 @@
 
             <TextView
                 android:id="@+id/tvID"
+                android:text='@{@string/label_id + " " + model.id}'
+                tools:text="ID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text='@{@string/label_id + " " + model.id}' />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvWord"
+                android:text="@string/label_word"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvID"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/label_word" />
+                app:layout_constraintTop_toBottomOf="@+id/tvID" />
 
             <EditText
                 android:id="@+id/etWord"
+                android:text="@={model.word}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvWord"
                 android:layout_marginTop="8dp"
                 android:labelFor="@id/tvWord"
-                android:text="@={model.word}" />
+                app:layout_constraintTop_toBottomOf="@+id/tvWord" />
 
             <TextView
                 android:id="@+id/tvNote"
+                android:text="@string/label_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/etWord"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/label_note" />
+                app:layout_constraintTop_toBottomOf="@+id/etWord" />
 
             <EditText
                 android:id="@+id/etNote"
+                android:text="@={model.note}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvNote"
                 android:layout_marginTop="8dp"
                 android:labelFor="@id/tvNote"
-                android:text="@={model.note}" />
+                app:layout_constraintTop_toBottomOf="@+id/tvNote" />
 
             <TextView
                 android:id="@+id/tvFamiID"
+                android:text='@{@string/label_famiid + " " + model.famiid}'
+                tools:text="FAMIID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/etNote"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text='@{@string/label_famiid + " " + model.famiid}' />
+                app:layout_constraintTop_toBottomOf="@+id/etNote" />
 
             <TextView
                 android:id="@+id/tvAccuracy"
+                android:text='@{@string/label_accuracy + " " + model.accuracy}'
+                tools:text="ACCURACY: 100%"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvFamiID"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text='@{@string/label_accuracy + " " + model.accuracy}' />
+                app:layout_constraintTop_toBottomOf="@+id/tvFamiID" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
