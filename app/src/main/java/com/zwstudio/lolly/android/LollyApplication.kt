@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
+import android.speech.tts.TextToSpeech
 import android.util.AttributeSet
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -81,6 +82,7 @@ lateinit var retrofitJson: Retrofit
 lateinit var retrofitSP: Retrofit
 lateinit var retrofitHtml: Retrofit
 lateinit var vmSettings: SettingsViewModel
+lateinit var tts: TextToSpeech
 
 fun <T> Observable<T>.applyIO(): Observable<T> =
     this.subscribeOn(Schedulers.io())
@@ -111,3 +113,6 @@ fun <T> Fragment.getNavigationResult(key: String = "result", onResult: (result: 
         }
     })
 }
+
+fun speak(text: String) =
+    tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)

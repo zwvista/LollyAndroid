@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android
 
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -15,35 +14,18 @@ import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.data.DrawerListViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import java.util.*
 
-open class DrawerListFragment : Fragment(), TextToSpeech.OnInitListener {
+open class DrawerListFragment : Fragment() {
 
     var mDragListView by autoCleared<DragListView>()
     var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()
     var progressBar1 by autoCleared<ProgressBar>()
     open val vmDrawerList: DrawerListViewModel? get() = null
-    lateinit var tts: TextToSpeech
 
     val compositeDisposable = CompositeDisposable()
 
-    override fun onInit(status: Int) {
-        if (status != TextToSpeech.SUCCESS) return
-        val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vmSettings.selectedVoice?.voicelang
-        }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        tts.shutdown()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tts = TextToSpeech(requireContext(), this)
         mDragListView = view.findViewById(R.id.drag_list_view)
         mRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
         progressBar1 = view.findViewById(R.id.progressBar1)

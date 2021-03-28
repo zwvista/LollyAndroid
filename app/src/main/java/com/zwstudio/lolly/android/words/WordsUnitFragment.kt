@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -83,7 +82,7 @@ class WordsUnitFragment : DrawerListFragment() {
     }
 
     private fun refreshListView() {
-        val listAdapter = WordsUnitItemAdapter(vm, mDragListView, tts, compositeDisposable)
+        val listAdapter = WordsUnitItemAdapter(vm, mDragListView, compositeDisposable)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -179,7 +178,7 @@ class WordsUnitFragment : DrawerListFragment() {
         }
     }
 
-    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
+    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -306,7 +305,7 @@ class WordsUnitFragment : DrawerListFragment() {
                     if (vm.isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null, null)
+                        speak(item.word)
                 }
             }
 

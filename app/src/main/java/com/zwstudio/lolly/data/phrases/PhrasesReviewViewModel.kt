@@ -2,8 +2,8 @@ package com.zwstudio.lolly.data.phrases
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.android.applyIO
+import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.domain.misc.MReviewOptions
 import com.zwstudio.lolly.domain.misc.ReviewMode
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase

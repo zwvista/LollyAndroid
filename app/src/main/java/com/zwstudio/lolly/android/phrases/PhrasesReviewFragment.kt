@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android.phrases
 
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +9,14 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesReviewBinding
 import com.zwstudio.lolly.android.misc.autoCleared
-import com.zwstudio.lolly.android.vmSettings
+import com.zwstudio.lolly.android.speak
 import com.zwstudio.lolly.data.phrases.PhrasesReviewViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import java.util.*
 
-class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
+class PhrasesReviewFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesReviewViewModel>() }
     var binding by autoCleared<FragmentPhrasesReviewBinding>()
-    lateinit var tts: TextToSpeech
 
     val compositeDisposable = CompositeDisposable()
 
@@ -44,25 +41,14 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         binding.btnCheck.setOnClickListener { vm.check() }
         binding.chkSpeak.setOnClickListener {
             if (binding.chkSpeak.isChecked)
-                tts.speak(vm.currentPhrase, TextToSpeech.QUEUE_FLUSH, null, null)
+                speak(vm.currentPhrase)
         }
 
-        tts = TextToSpeech(requireContext(), this)
         btnNewTest()
     }
 
     override fun onDestroyView() {
         vm.subscriptionTimer?.dispose()
         super.onDestroyView()
-        tts.shutdown()
-    }
-
-    override fun onInit(status: Int) {
-        if (status != TextToSpeech.SUCCESS) return
-        val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vmSettings.selectedVoice?.voicelang
-        }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
     }
 }

@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android.words
 
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +9,14 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.databinding.FragmentWordsReviewBinding
 import com.zwstudio.lolly.android.misc.autoCleared
-import com.zwstudio.lolly.android.vmSettings
+import com.zwstudio.lolly.android.speak
 import com.zwstudio.lolly.data.words.WordsReviewViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import java.util.*
 
-class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
+class WordsReviewFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsReviewViewModel>() }
     var binding by autoCleared<FragmentWordsReviewBinding>()
-    lateinit var tts: TextToSpeech
 
     val compositeDisposable = CompositeDisposable()
 
@@ -44,25 +41,14 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         binding.btnCheck.setOnClickListener { vm.check() }
         binding.chkSpeak.setOnClickListener {
             if (binding.chkSpeak.isChecked)
-                tts.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null, null)
+                speak(vm.currentWord)
         }
 
-        tts = TextToSpeech(requireContext(), this)
         btnNewTest()
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         vm.subscriptionTimer?.dispose()
-        super.onDestroy()
-        tts.shutdown()
-    }
-
-    override fun onInit(status: Int) {
-        if (status != TextToSpeech.SUCCESS) return
-        val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == vmSettings.selectedVoice?.voicelang
-        }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-        tts.language = locale
+        super.onDestroyView()
     }
 }

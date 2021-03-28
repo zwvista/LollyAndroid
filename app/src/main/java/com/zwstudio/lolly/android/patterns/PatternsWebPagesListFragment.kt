@@ -3,7 +3,6 @@ package com.zwstudio.lolly.android.patterns
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,12 +15,9 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
-import com.zwstudio.lolly.android.DrawerListFragment
-import com.zwstudio.lolly.android.MainActivity
-import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.*
 import com.zwstudio.lolly.android.databinding.FragmentPatternsWebpagesListBinding
 import com.zwstudio.lolly.android.misc.autoCleared
-import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
@@ -63,7 +59,7 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
     }
 
     private fun refreshListView() {
-        val listAdapter = PatternsWebPagesItemAdapter(vm, mDragListView, tts, compositeDisposable)
+        val listAdapter = PatternsWebPagesItemAdapter(vm, mDragListView, compositeDisposable)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -116,7 +112,7 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
         }
     }
 
-    private class PatternsWebPagesItemAdapter(val vm: PatternsWebPagesViewModel, val mDragListView: DragListView, val tts: TextToSpeech, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MPatternWebPage, PatternsWebPagesItemAdapter.ViewHolder>() {
+    private class PatternsWebPagesItemAdapter(val vm: PatternsWebPagesViewModel, val mDragListView: DragListView, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MPatternWebPage, PatternsWebPagesItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWebPages
@@ -218,7 +214,7 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
                     if (vm.isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.title, TextToSpeech.QUEUE_FLUSH, null, null)
+                        speak(item.title)
                 }
             }
 
