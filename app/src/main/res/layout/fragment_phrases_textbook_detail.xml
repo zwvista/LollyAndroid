@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:labelFor="@id/tvUnit"
+                android:labelFor="@+id/tvUnit"
                 app:layout_constraintTop_toBottomOf="@+id/tvUnit" />
 
             <TextView
@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:labelFor="@id/tvPart"
+                android:labelFor="@+id/tvPart"
                 app:layout_constraintTop_toBottomOf="@+id/tvPart" />
 
             <TextView
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:labelFor="@id/tvSeqNum"
+                android:labelFor="@+id/tvSeqNum"
                 app:layout_constraintTop_toBottomOf="@+id/tvSeqNum" />
 
             <TextView
@@ -118,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:labelFor="@id/tvPhrase"
+                android:labelFor="@+id/tvPhrase"
                 app:layout_constraintTop_toBottomOf="@+id/tvPhrase" />
 
             <TextView
@@ -136,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:labelFor="@id/tvTranslation"
+                android:labelFor="@+id/tvTranslation"
                 app:layout_constraintTop_toBottomOf="@+id/tvTranslation" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

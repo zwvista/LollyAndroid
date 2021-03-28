@@ -9,7 +9,7 @@
     app:swipeViewId="@+id/item_swipe">
 
     <RelativeLayout
-        android:id="@id/item_left"
+        android:id="@+id/item_left"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/item_swipe"
@@ -35,7 +35,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@id/item_right"
+        android:id="@+id/item_right"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/item_swipe"
@@ -78,13 +78,13 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@id/item_swipe"
+        android:id="@+id/item_swipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
         android:orientation="vertical">
         <LinearLayout
-            android:id="@id/item_swipe"
+            android:id="@+id/item_swipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
@@ -98,7 +98,7 @@
                 android:layout_width="8dp"
                 android:layout_height="0dp"/>
             <LinearLayout
-                android:id="@id/item_swipe"
+                android:id="@+id/item_swipe"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"

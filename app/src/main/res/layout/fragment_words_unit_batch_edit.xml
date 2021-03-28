@@ -59,9 +59,9 @@
             android:layout_height="0dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/etSeqNum"
+            app:layout_constraintEnd_toStartOf="@+id/etSeqNum"
             app:layout_constraintBottom_toBottomOf="@+id/etSeqNum"
-            app:layout_constraintTop_toTopOf="@id/etSeqNum" />
+            app:layout_constraintTop_toTopOf="@+id/etSeqNum" />
 
         <EditText
             android:id="@+id/etSeqNum"

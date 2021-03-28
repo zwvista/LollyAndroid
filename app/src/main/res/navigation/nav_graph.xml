@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/nav_search">
+    app:startDestination="@+id/nav_search">
     <fragment
         android:id="@+id/nav_search"
         android:name="com.zwstudio.lolly.android.misc.SearchFragment"
@@ -21,13 +21,13 @@
         tools:layout="@layout/fragment_words_unit" >
         <action
             android:id="@+id/action_nav_words_unit_to_wordsUnitDetailFragment"
-            app:destination="@id/wordsUnitDetailFragment" />
+            app:destination="@+id/wordsUnitDetailFragment" />
         <action
             android:id="@+id/action_nav_words_unit_to_wordsUnitBatchEditFragment"
-            app:destination="@id/wordsUnitBatchEditFragment" />
+            app:destination="@+id/wordsUnitBatchEditFragment" />
         <action
             android:id="@+id/action_nav_words_unit_to_wordsDictFragment"
-            app:destination="@id/wordsDictFragment" />
+            app:destination="@+id/wordsDictFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_phrases_unit"
@@ -36,10 +36,10 @@
         tools:layout="@layout/fragment_phrases_unit" >
         <action
             android:id="@+id/action_nav_phrases_unit_to_phrasesUnitDetailFragment"
-            app:destination="@id/phrasesUnitDetailFragment" />
+            app:destination="@+id/phrasesUnitDetailFragment" />
         <action
             android:id="@+id/action_nav_phrases_unit_to_phrasesUnitBatchEditFragment"
-            app:destination="@id/phrasesUnitBatchEditFragment" />
+            app:destination="@+id/phrasesUnitBatchEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_words_review"
@@ -58,10 +58,10 @@
         tools:layout="@layout/fragment_words_textbook" >
         <action
             android:id="@+id/action_nav_words_textbook_to_wordsTextbookDetailFragment"
-            app:destination="@id/wordsTextbookDetailFragment" />
+            app:destination="@+id/wordsTextbookDetailFragment" />
         <action
             android:id="@+id/action_nav_words_textbook_to_wordsDictFragment"
-            app:destination="@id/wordsDictFragment" />
+            app:destination="@+id/wordsDictFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_phrases_textbook"
@@ -70,7 +70,7 @@
         tools:layout="@layout/fragment_phrases_textbook" >
         <action
             android:id="@+id/action_nav_phrases_textbook_to_phrasesTextbookDetailFragment"
-            app:destination="@id/phrasesTextbookDetailFragment" />
+            app:destination="@+id/phrasesTextbookDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_words_lang"
@@ -79,10 +79,10 @@
         tools:layout="@layout/fragment_words_lang" >
         <action
             android:id="@+id/action_nav_words_lang_to_wordsLangDetailFragment"
-            app:destination="@id/wordsLangDetailFragment" />
+            app:destination="@+id/wordsLangDetailFragment" />
         <action
             android:id="@+id/action_nav_words_lang_to_wordsDictFragment"
-            app:destination="@id/wordsDictFragment" />
+            app:destination="@+id/wordsDictFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_phrases_lang"
@@ -91,7 +91,7 @@
         tools:layout="@layout/fragment_phrases_lang" >
         <action
             android:id="@+id/action_nav_phrases_lang_to_phrasesLangDetailFragment"
-            app:destination="@id/phrasesLangDetailFragment" />
+            app:destination="@+id/phrasesLangDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_patterns"
@@ -100,13 +100,13 @@
         tools:layout="@layout/fragment_patterns" >
         <action
             android:id="@+id/action_nav_patterns_to_patternsDetailFragment"
-            app:destination="@id/patternsDetailFragment" />
+            app:destination="@+id/patternsDetailFragment" />
         <action
             android:id="@+id/action_nav_patterns_to_patternsWebPagesBrowseFragment"
-            app:destination="@id/patternsWebPagesBrowseFragment" />
+            app:destination="@+id/patternsWebPagesBrowseFragment" />
         <action
             android:id="@+id/action_nav_patterns_to_patternsWebPagesListFragment"
-            app:destination="@id/patternsWebPagesListFragment" />
+            app:destination="@+id/patternsWebPagesListFragment" />
     </fragment>
     <fragment
         android:id="@+id/wordsUnitDetailFragment"
@@ -175,6 +175,6 @@
         tools:layout="@layout/fragment_patterns_webpages_list" >
         <action
             android:id="@+id/action_patternsWebPagesListFragment_to_patternsWebPagesDetailFragment"
-            app:destination="@id/patternsWebPagesDetailFragment" />
+            app:destination="@+id/patternsWebPagesDetailFragment" />
     </fragment>
 </navigation>
