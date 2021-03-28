@@ -14,24 +14,22 @@
 
         <SearchView
             android:id="@+id/svWord"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:iconifiedByDefault="false"
             android:queryHint="Enter a word here"
-            app:layout_constraintBottom_toTopOf="@+id/spnLanguage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/spnLanguage" />
 
         <Spinner
             android:id="@+id/spnLanguage"
             android:layout_width="0dp"
             android:layout_height="50dp"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintBottom_toTopOf="@+id/wvDictReference"
-            app:layout_constraintEnd_toStartOf="@+id/spnDictReference"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/svWord" />
+            app:layout_constraintEnd_toStartOf="@+id/spnDictReference"
+            app:layout_constraintTop_toBottomOf="@+id/svWord"
+            app:layout_constraintBottom_toTopOf="@+id/wvDictReference" />
 
         <Spinner
             android:id="@+id/spnDictReference"
@@ -45,11 +43,9 @@
 
         <WebView
             android:id="@+id/wvDictReference"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spnLanguage" />
+            app:layout_constraintTop_toBottomOf="@+id/spnLanguage"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
