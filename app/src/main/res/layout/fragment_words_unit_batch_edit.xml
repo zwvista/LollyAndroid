@@ -8,81 +8,92 @@
         <variable name="model" type="com.zwstudio.lolly.data.words.WordsUnitBatchEditViewModel"/>
     </data>
 
-    <LinearLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"
-        android:orientation="vertical">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/chkUnit"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_unit"/>
-        <Spinner
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/label_unit"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/chkPart" />
+
+        <Spinner
             android:id="@+id/spnUnit"
-            android:layout_gravity="center_horizontal"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toEndOf="@+id/chkSeqNum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/chkUnit"
+            app:layout_constraintBottom_toBottomOf="@+id/chkUnit"/>
+
         <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/chkPart"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_part"/>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spnPart"
-            android:layout_gravity="center_horizontal"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
-        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/chkSeqNum"
+            android:text="@string/label_part"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/label_seqnum_add"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chkUnit"
+            app:layout_constraintBottom_toTopOf="@+id/chkSeqNum" />
+
+        <Spinner
+            android:id="@+id/spnPart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toEndOf="@+id/chkSeqNum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/chkPart"
+            app:layout_constraintBottom_toBottomOf="@+id/chkPart" />
+
+        <CheckBox
+            android:id="@+id/chkSeqNum"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/label_seqnum_add"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintTop_toTopOf="@id/etSeqNum"
+            app:layout_constraintBottom_toBottomOf="@+id/etSeqNum"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/etSeqNum" />
+
         <EditText
             android:id="@+id/etSeqNum"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="0" />
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
+            android:text="0"
+            app:layout_constraintStart_toEndOf="@+id/chkSeqNum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chkPart" />
+
         <TextView
+            android:id="@+id/tvAccuracy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/label_accuracy"
-            android:id="@+id/tvAccuracy"/>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="10dp"/>
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etSeqNum"
+            app:layout_constraintBottom_toTopOf="@+id/swipe_refresh_layout" />
 
         <com.zwstudio.lolly.android.LollySwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="500dp">
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAccuracy">
 
-            <!-- Need to wrap DragListView in another layout for
-                wrap_content to work for some reason -->
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.woxthebox.draglistview.DragListView
-                    android:id="@+id/drag_list_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </FrameLayout>
+            <com.woxthebox.draglistview.DragListView
+                android:id="@+id/drag_list_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </com.zwstudio.lolly.android.LollySwipeRefreshLayout>
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
