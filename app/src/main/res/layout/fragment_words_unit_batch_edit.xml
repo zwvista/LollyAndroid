@@ -16,9 +16,9 @@
 
         <CheckBox
             android:id="@+id/chkUnit"
+            android:text="@string/label_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_unit"
             android:textAppearance="?android:attr/textAppearanceLarge"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -35,9 +35,9 @@
 
         <CheckBox
             android:id="@+id/chkPart"
+            android:text="@string/label_part"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_part"
             android:textAppearance="?android:attr/textAppearanceLarge"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chkUnit"
@@ -54,14 +54,14 @@
 
         <CheckBox
             android:id="@+id/chkSeqNum"
+            android:text="@string/label_seqnum_add"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="@string/label_seqnum_add"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintTop_toTopOf="@id/etSeqNum"
-            app:layout_constraintBottom_toBottomOf="@+id/etSeqNum"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/etSeqNum" />
+            app:layout_constraintEnd_toStartOf="@id/etSeqNum"
+            app:layout_constraintBottom_toBottomOf="@+id/etSeqNum"
+            app:layout_constraintTop_toTopOf="@id/etSeqNum" />
 
         <EditText
             android:id="@+id/etSeqNum"
@@ -74,9 +74,9 @@
 
         <TextView
             android:id="@+id/tvAccuracy"
+            android:text="@string/label_accuracy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_accuracy"
             android:textAppearance="?android:attr/textAppearanceLarge"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etSeqNum"
@@ -84,16 +84,15 @@
 
         <com.zwstudio.lolly.android.LollySwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvAccuracy">
+            app:layout_constraintTop_toBottomOf="@+id/tvAccuracy"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <com.woxthebox.draglistview.DragListView
                 android:id="@+id/drag_list_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </com.zwstudio.lolly.android.LollySwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

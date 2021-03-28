@@ -10,7 +10,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="16dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -18,191 +19,184 @@
 
             <TextView
                 android:id="@+id/tvLanguage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Language:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/spnLanguage"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/spnLanguage" />
 
             <Spinner
                 android:id="@+id/spnLanguage"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvLanguage"
-                app:layout_constraintBottom_toTopOf="@+id/tvVoice"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/tvVoice" />
 
             <TextView
                 android:id="@+id/tvVoice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Voice:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnLanguage"
-                app:layout_constraintBottom_toTopOf="@+id/spnVoice"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/spnVoice" />
 
             <Spinner
                 android:id="@+id/spnVoice"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvVoice"
-                app:layout_constraintBottom_toTopOf="@+id/tvDictReference"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/tvDictReference" />
 
             <TextView
                 android:id="@+id/tvDictReference"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Dictionary(Reference):"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnVoice"
-                app:layout_constraintBottom_toTopOf="@+id/spnDictReference"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/spnDictReference" />
 
             <Spinner
                 android:id="@+id/spnDictReference"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvDictReference"
-                app:layout_constraintBottom_toTopOf="@+id/tvDictNote"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/tvDictNote" />
 
             <TextView
                 android:id="@+id/tvDictNote"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Dictionary(Note):"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnDictReference"
-                app:layout_constraintBottom_toTopOf="@+id/spnDictNote"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/spnDictNote" />
 
             <Spinner
                 android:id="@+id/spnDictNote"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvDictNote"
-                app:layout_constraintBottom_toTopOf="@+id/tvDictTranslation"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/tvDictTranslation" />
 
             <TextView
                 android:id="@+id/tvDictTranslation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Dictionary(Translation):"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnDictNote"
-                app:layout_constraintBottom_toTopOf="@+id/spnDictTranslation"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/spnDictTranslation" />
 
             <Spinner
                 android:id="@+id/spnDictTranslation"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvDictTranslation"
-                app:layout_constraintBottom_toTopOf="@+id/tvTextbook"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/tvTextbook" />
 
             <TextView
                 android:id="@+id/tvTextbook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/label_textbook2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnDictTranslation"
-                app:layout_constraintBottom_toTopOf="@+id/spnTextbook"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/spnTextbook" />
 
             <Spinner
                 android:id="@+id/spnTextbook"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvTextbook"
-                app:layout_constraintBottom_toTopOf="@+id/tvUnitFrom"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/tvUnitFrom" />
 
             <TextView
                 android:id="@+id/tvUnitFrom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/label_units"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnTextbook"
-                app:layout_constraintBottom_toTopOf="@+id/spnUnitFrom"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/spnUnitFrom" />
 
             <Spinner
                 android:id="@+id/spnUnitFrom"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvUnitFrom"
-                app:layout_constraintBottom_toTopOf="@+id/spnPartFrom"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/spnPartFrom" />
 
             <Spinner
                 android:id="@+id/spnPartFrom"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/spnUnitFrom"
-                app:layout_constraintBottom_toTopOf="@+id/spnToType"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/spnToType" />
 
             <Spinner
                 android:id="@+id/spnToType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/spnPartFrom"
-                app:layout_constraintBottom_toTopOf="@+id/spnUnitTo"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHorizontal_weight="2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnPrevious" />
+                app:layout_constraintEnd_toStartOf="@+id/btnPrevious"
+                app:layout_constraintTop_toTopOf="@+id/btnPrevious"
+                app:layout_constraintBottom_toBottomOf="@+id/btnPrevious" />
 
             <Button
                 android:id="@+id/btnPrevious"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/label_previous"
-                app:layout_constraintTop_toTopOf="@+id/spnToType"
-                app:layout_constraintBottom_toBottomOf="@+id/spnToType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintHorizontal_weight="3"
                 app:layout_constraintStart_toEndOf="@+id/spnToType"
-                app:layout_constraintEnd_toStartOf="@+id/btnNext" />
+                app:layout_constraintEnd_toStartOf="@+id/btnNext"
+                app:layout_constraintTop_toBottomOf="@+id/spnPartFrom"
+                app:layout_constraintBottom_toTopOf="@+id/spnUnitTo" />
 
             <Button
                 android:id="@+id/btnNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/label_next"
-                app:layout_constraintTop_toTopOf="@+id/spnToType"
-                app:layout_constraintBottom_toBottomOf="@+id/spnToType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_weight="3"
                 app:layout_constraintStart_toEndOf="@+id/btnPrevious"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btnPrevious"
+                app:layout_constraintBottom_toBottomOf="@+id/btnPrevious" />
 
             <Spinner
                 android:id="@+id/spnUnitTo"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/spnToType"
-                app:layout_constraintBottom_toTopOf="@+id/spnPartTo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/btnPrevious"
+                app:layout_constraintBottom_toTopOf="@+id/spnPartTo" />
 
             <Spinner
                 android:id="@+id/spnPartTo"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/spnUnitTo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/spnUnitTo" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
