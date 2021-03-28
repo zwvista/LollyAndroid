@@ -100,10 +100,9 @@ class WordsUnitFragment : DrawerListFragment() {
         refreshListView()
     }
 
-    fun menuAdd() {
+    fun menuAdd() =
         findNavController().navigate(R.id.action_nav_words_unit_to_wordsUnitDetailFragment,
             bundleOf("word" to vm.newUnitWord()))
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         fun getNotes(ifEmpty: Boolean) {
@@ -156,8 +155,8 @@ class WordsUnitFragment : DrawerListFragment() {
                 true
             }
             R.id.menuBatch -> {
-//                WordsUnitBatchEditFragment_.intent(this)
-//                    .extra("list", vm.lstWords.toTypedArray()).start()
+                findNavController().navigate(R.id.action_nav_words_unit_to_wordsUnitBatchEditFragment,
+                    bundleOf("list" to vm.lstWords.toTypedArray()))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -214,16 +213,15 @@ class WordsUnitFragment : DrawerListFragment() {
             var mMore: TextView = itemView.findViewById(R.id.item_more)
             var mForward: ImageView = itemView.findViewById(R.id.image_forward)
             var mHamburger: ImageView = itemView.findViewById(R.id.image_hamburger)
+            val navController get() = (itemView.context as MainActivity).getNavController()
 
             init {
                 initButtons()
             }
 
-            fun edit(item: MUnitWord) {
-                val navController = (itemView.context as MainActivity).getNavController()
+            fun edit(item: MUnitWord) =
                 navController.navigate(R.id.action_nav_words_unit_to_wordsUnitDetailFragment,
                     bundleOf("word" to item))
-            }
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
@@ -287,9 +285,9 @@ class WordsUnitFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
-//                        WordsDictFragment_.intent(itemView.context)
-//                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
-//                                .extra("index", vm.lstWords.indexOf(item)).start()
+                        navController.navigate(R.id.action_nav_words_unit_to_wordsDictFragment,
+                            bundleOf("list" to vm.lstWords.map { it.word }.toTypedArray(),
+                                "index" to vm.lstWords.indexOf(item)))
                     }
                     true
                 }

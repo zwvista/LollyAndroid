@@ -32,7 +32,7 @@ class PhrasesUnitDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = arguments?.getSerializable("phrase") as MUnitPhrase
+        item = requireArguments().getSerializable("phrase") as MUnitPhrase
         binding = FragmentPhrasesUnitDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail

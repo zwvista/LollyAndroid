@@ -29,7 +29,7 @@ class WordsUnitDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = arguments?.getSerializable("word") as MUnitWord
+        item = requireArguments().getSerializable("word") as MUnitWord
         binding = FragmentWordsUnitDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail

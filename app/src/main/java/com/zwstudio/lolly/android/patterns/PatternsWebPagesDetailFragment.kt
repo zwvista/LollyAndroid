@@ -27,7 +27,7 @@ class PatternsWebPagesDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        item = intent.getSerializableExtra("webpage") as MPatternWebPage
+        item = requireArguments().getSerializable("webpage") as MPatternWebPage
         binding = FragmentPatternsWebpagesDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail

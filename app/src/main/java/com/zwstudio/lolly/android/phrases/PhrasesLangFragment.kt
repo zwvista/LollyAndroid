@@ -156,16 +156,15 @@ class PhrasesLangFragment : DrawerListFragment() {
             var mEdit: TextView = itemView.findViewById(R.id.item_edit)
             var mDelete: TextView = itemView.findViewById(R.id.item_delete)
             var mMore: TextView = itemView.findViewById(R.id.item_more)
+            val navController get() = (itemView.context as MainActivity).getNavController()
 
             init {
                 initButtons()
             }
 
-            fun edit(item: MLangPhrase) {
-                val navController = (itemView.context as MainActivity).getNavController()
+            fun edit(item: MLangPhrase) =
                 navController.navigate(R.id.action_nav_phrases_lang_to_phrasesLangDetailFragment,
                     bundleOf("phrase" to item))
-            }
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {

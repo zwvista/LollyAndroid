@@ -28,7 +28,7 @@ class PhrasesLangDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = arguments?.getSerializable("phrase") as MLangPhrase
+        item = requireArguments().getSerializable("phrase") as MLangPhrase
         binding = FragmentPhrasesLangDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail
