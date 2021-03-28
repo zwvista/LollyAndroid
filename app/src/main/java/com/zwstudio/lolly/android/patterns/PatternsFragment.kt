@@ -218,8 +218,8 @@ class PatternsFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MPattern
-//                        PatternsWebPagesBrowseFragment_.intent(itemView.context)
-//                            .extra("pattern", item).startForResult(REQUEST_CODE)
+                        navController.navigate(R.id.action_nav_patterns_to_patternsWebPagesBrowseFragment,
+                            bundleOf("pattern" to item))
                     }
                     true
                 }

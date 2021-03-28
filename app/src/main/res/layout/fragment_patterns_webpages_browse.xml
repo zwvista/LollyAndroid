@@ -8,20 +8,23 @@
         <variable name="model" type="com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel"/>
     </data>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <Spinner
+            android:id="@+id/spnWebPages"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:id="@+id/spnWebPages"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/webView" />
 
         <WebView
+            android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/webView"/>
-    </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@+id/spnWebPages"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

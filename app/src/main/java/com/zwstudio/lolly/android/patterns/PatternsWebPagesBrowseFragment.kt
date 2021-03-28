@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
@@ -34,6 +35,15 @@ class PatternsWebPagesBrowseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.spnWebPages.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                binding.webView.loadUrl(vm.lstWebPages[position].url)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
         compositeDisposable.add(vm.getWebPages(item.id).subscribe {
             val lst = vm.lstWebPages
             val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
@@ -46,8 +56,4 @@ class PatternsWebPagesBrowseFragment : Fragment() {
             binding.spnWebPages.setSelection(0)
         })
     }
-
-//    fun spnWebPagesItemSelected(selected: Boolean, position: Int) {
-//        webView.loadUrl(vm.lstWebPages[position].url)
-//    }
 }
