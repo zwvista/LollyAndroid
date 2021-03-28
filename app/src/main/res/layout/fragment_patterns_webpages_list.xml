@@ -8,8 +8,7 @@
         <variable name="model" type="com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel"/>
     </data>
 
-    <FrameLayout
-        android:id="@+id/container"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white">
@@ -17,8 +16,9 @@
         <com.zwstudio.lolly.android.LollySwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/fragment_horizontal_margin">
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.woxthebox.draglistview.DragListView
                 android:id="@+id/drag_list_view"
@@ -31,6 +31,9 @@
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-    </FrameLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
