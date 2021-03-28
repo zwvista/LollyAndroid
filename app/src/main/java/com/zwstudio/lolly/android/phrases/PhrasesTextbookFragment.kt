@@ -163,7 +163,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitPhrase) =
-                navController.navigate(R.id.action_nav_phrases_textbook_to_phrasesTextbookDetailFragment,
+                navController.navigate(R.id.action_phrasesTextbookFragment_to_phrasesTextbookDetailFragment,
                     bundleOf("phrase" to item))
 
             @SuppressLint("ClickableViewAccessibility")

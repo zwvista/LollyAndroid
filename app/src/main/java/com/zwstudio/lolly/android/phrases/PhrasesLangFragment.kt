@@ -115,7 +115,7 @@ class PhrasesLangFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                findNavController().navigate(R.id.action_nav_phrases_lang_to_phrasesLangDetailFragment,
+                findNavController().navigate(R.id.action_phrasesLangFragment_to_phrasesLangDetailFragment,
                     bundleOf("phrase" to vm.newLangPhrase()))
                 true
             }
@@ -163,7 +163,7 @@ class PhrasesLangFragment : DrawerListFragment() {
             }
 
             fun edit(item: MLangPhrase) =
-                navController.navigate(R.id.action_nav_phrases_lang_to_phrasesLangDetailFragment,
+                navController.navigate(R.id.action_phrasesLangFragment_to_phrasesLangDetailFragment,
                     bundleOf("phrase" to item))
 
             @SuppressLint("ClickableViewAccessibility")

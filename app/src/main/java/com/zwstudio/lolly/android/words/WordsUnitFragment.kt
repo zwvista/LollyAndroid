@@ -101,7 +101,7 @@ class WordsUnitFragment : DrawerListFragment() {
     }
 
     fun menuAdd() =
-        findNavController().navigate(R.id.action_nav_words_unit_to_wordsUnitDetailFragment,
+        findNavController().navigate(R.id.action_wordsUnitFragment_to_wordsUnitDetailFragment,
             bundleOf("word" to vm.newUnitWord()))
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -155,7 +155,7 @@ class WordsUnitFragment : DrawerListFragment() {
                 true
             }
             R.id.menuBatch -> {
-                findNavController().navigate(R.id.action_nav_words_unit_to_wordsUnitBatchEditFragment,
+                findNavController().navigate(R.id.action_wordsUnitFragment_to_wordsUnitBatchEditFragment,
                     bundleOf("list" to vm.lstWords.toTypedArray()))
                 true
             }
@@ -220,7 +220,7 @@ class WordsUnitFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitWord) =
-                navController.navigate(R.id.action_nav_words_unit_to_wordsUnitDetailFragment,
+                navController.navigate(R.id.action_wordsUnitFragment_to_wordsUnitDetailFragment,
                     bundleOf("word" to item))
 
             @SuppressLint("ClickableViewAccessibility")
@@ -285,7 +285,7 @@ class WordsUnitFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
-                        navController.navigate(R.id.action_nav_words_unit_to_wordsDictFragment,
+                        navController.navigate(R.id.action_wordsUnitFragment_to_wordsDictFragment,
                             bundleOf("list" to vm.lstWords.map { it.word }.toTypedArray(),
                                 "index" to vm.lstWords.indexOf(item)))
                     }

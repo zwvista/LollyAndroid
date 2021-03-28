@@ -112,7 +112,7 @@ class PatternsFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                findNavController().navigate(R.id.action_nav_patterns_to_patternsDetailFragment,
+                findNavController().navigate(R.id.action_patternsFragment_to_patternsDetailFragment,
                     bundleOf("pattern" to vm.newPattern()))
                 true
             }
@@ -161,7 +161,7 @@ class PatternsFragment : DrawerListFragment() {
             }
 
             fun edit(item: MPattern) =
-                navController.navigate(R.id.action_nav_patterns_to_patternsDetailFragment,
+                navController.navigate(R.id.action_patternsFragment_to_patternsDetailFragment,
                     bundleOf("pattern" to item))
 
             @SuppressLint("ClickableViewAccessibility")
@@ -204,9 +204,9 @@ class PatternsFragment : DrawerListFragment() {
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
-                                    2 -> navController.navigate(R.id.action_nav_patterns_to_patternsWebPagesBrowseFragment,
+                                    2 -> navController.navigate(R.id.action_patternsFragment_to_patternsWebPagesBrowseFragment,
                                             bundleOf("pattern" to item))
-                                    3 -> navController.navigate(R.id.action_nav_patterns_to_patternsWebPagesListFragment,
+                                    3 -> navController.navigate(R.id.action_patternsFragment_to_patternsWebPagesListFragment,
                                             bundleOf("pattern" to item))
                                     4 -> itemView.copyText(item.pattern)
                                     5 -> itemView.googleString(item.pattern)
@@ -220,7 +220,7 @@ class PatternsFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MPattern
-                        navController.navigate(R.id.action_nav_patterns_to_patternsWebPagesBrowseFragment,
+                        navController.navigate(R.id.action_patternsFragment_to_patternsWebPagesBrowseFragment,
                             bundleOf("pattern" to item))
                     }
                     true

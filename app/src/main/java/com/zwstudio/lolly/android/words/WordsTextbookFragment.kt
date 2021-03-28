@@ -161,7 +161,7 @@ class WordsTextbookFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitWord) =
-                navController.navigate(R.id.action_nav_words_textbook_to_wordsTextbookDetailFragment,
+                navController.navigate(R.id.action_wordsTextbookFragment_to_wordsTextbookDetailFragment,
                     bundleOf("word" to item))
 
             @SuppressLint("ClickableViewAccessibility")
@@ -221,7 +221,7 @@ class WordsTextbookFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
-                        navController.navigate(R.id.action_nav_words_textbook_to_wordsDictFragment,
+                        navController.navigate(R.id.action_wordsTextbookFragment_to_wordsDictFragment,
                             bundleOf("list" to vm.lstWords.map { it.word }.toTypedArray(),
                                 "index" to vm.lstWords.indexOf(item)))
                     }

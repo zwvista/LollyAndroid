@@ -3,109 +3,109 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@+id/nav_search">
+    app:startDestination="@+id/searchFragment">
     <fragment
-        android:id="@+id/nav_search"
+        android:id="@+id/searchFragment"
         android:name="com.zwstudio.lolly.android.misc.SearchFragment"
         android:label="@string/search"
         tools:layout="@layout/fragment_search" />
     <fragment
-        android:id="@+id/nav_settings"
+        android:id="@+id/settingsFragment"
         android:name="com.zwstudio.lolly.android.misc.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
-        android:id="@+id/nav_words_unit"
+        android:id="@+id/wordsUnitFragment"
         android:name="com.zwstudio.lolly.android.words.WordsUnitFragment"
         android:label="@string/words_unit"
         tools:layout="@layout/fragment_words_unit" >
         <action
-            android:id="@+id/action_nav_words_unit_to_wordsUnitDetailFragment"
+            android:id="@+id/action_wordsUnitFragment_to_wordsUnitDetailFragment"
             app:destination="@+id/wordsUnitDetailFragment" />
         <action
-            android:id="@+id/action_nav_words_unit_to_wordsUnitBatchEditFragment"
+            android:id="@+id/action_wordsUnitFragment_to_wordsUnitBatchEditFragment"
             app:destination="@+id/wordsUnitBatchEditFragment" />
         <action
-            android:id="@+id/action_nav_words_unit_to_wordsDictFragment"
+            android:id="@+id/action_wordsUnitFragment_to_wordsDictFragment"
             app:destination="@+id/wordsDictFragment" />
     </fragment>
     <fragment
-        android:id="@+id/nav_phrases_unit"
+        android:id="@+id/phrasesUnitFragment"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesUnitFragment"
         android:label="@string/phrases_unit"
         tools:layout="@layout/fragment_phrases_unit" >
         <action
-            android:id="@+id/action_nav_phrases_unit_to_phrasesUnitDetailFragment"
+            android:id="@+id/action_phrasesUnitFragment_to_phrasesUnitDetailFragment"
             app:destination="@+id/phrasesUnitDetailFragment" />
         <action
-            android:id="@+id/action_nav_phrases_unit_to_phrasesUnitBatchEditFragment"
+            android:id="@+id/action_phrasesUnitFragment_to_phrasesUnitBatchEditFragment"
             app:destination="@+id/phrasesUnitBatchEditFragment" />
     </fragment>
     <fragment
-        android:id="@+id/nav_words_review"
+        android:id="@+id/wordsReviewFragment"
         android:name="com.zwstudio.lolly.android.words.WordsReviewFragment"
         android:label="@string/words_review"
         tools:layout="@layout/fragment_words_review" />
     <fragment
-        android:id="@+id/nav_phrases_review"
+        android:id="@+id/phrasesReviewFragment"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesReviewFragment"
         android:label="@string/phrases_review"
         tools:layout="@layout/fragment_phrases_review" />
     <fragment
-        android:id="@+id/nav_words_textbook"
+        android:id="@+id/wordsTextbookFragment"
         android:name="com.zwstudio.lolly.android.words.WordsTextbookFragment"
         android:label="@string/words_textbook"
         tools:layout="@layout/fragment_words_textbook" >
         <action
-            android:id="@+id/action_nav_words_textbook_to_wordsTextbookDetailFragment"
+            android:id="@+id/action_wordsTextbookFragment_to_wordsTextbookDetailFragment"
             app:destination="@+id/wordsTextbookDetailFragment" />
         <action
-            android:id="@+id/action_nav_words_textbook_to_wordsDictFragment"
+            android:id="@+id/action_wordsTextbookFragment_to_wordsDictFragment"
             app:destination="@+id/wordsDictFragment" />
     </fragment>
     <fragment
-        android:id="@+id/nav_phrases_textbook"
+        android:id="@+id/phrasesTextbookFragment"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesTextbookFragment"
         android:label="@string/phrases_textbook"
         tools:layout="@layout/fragment_phrases_textbook" >
         <action
-            android:id="@+id/action_nav_phrases_textbook_to_phrasesTextbookDetailFragment"
+            android:id="@+id/action_phrasesTextbookFragment_to_phrasesTextbookDetailFragment"
             app:destination="@+id/phrasesTextbookDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/nav_words_lang"
+        android:id="@+id/wordsLangFragment"
         android:name="com.zwstudio.lolly.android.words.WordsLangFragment"
         android:label="@string/words_lang"
         tools:layout="@layout/fragment_words_lang" >
         <action
-            android:id="@+id/action_nav_words_lang_to_wordsLangDetailFragment"
+            android:id="@+id/action_wordsLangFragment_to_wordsLangDetailFragment"
             app:destination="@+id/wordsLangDetailFragment" />
         <action
-            android:id="@+id/action_nav_words_lang_to_wordsDictFragment"
+            android:id="@+id/action_wordsLangFragment_to_wordsDictFragment"
             app:destination="@+id/wordsDictFragment" />
     </fragment>
     <fragment
-        android:id="@+id/nav_phrases_lang"
+        android:id="@+id/phrasesLangFragment"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesLangFragment"
         android:label="@string/phrases_lang"
         tools:layout="@layout/fragment_phrases_lang" >
         <action
-            android:id="@+id/action_nav_phrases_lang_to_phrasesLangDetailFragment"
+            android:id="@+id/action_phrasesLangFragment_to_phrasesLangDetailFragment"
             app:destination="@+id/phrasesLangDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/nav_patterns"
+        android:id="@+id/patternsFragment"
         android:name="com.zwstudio.lolly.android.patterns.PatternsFragment"
         android:label="@string/patterns"
         tools:layout="@layout/fragment_patterns" >
         <action
-            android:id="@+id/action_nav_patterns_to_patternsDetailFragment"
+            android:id="@+id/action_patternsFragment_to_patternsDetailFragment"
             app:destination="@+id/patternsDetailFragment" />
         <action
-            android:id="@+id/action_nav_patterns_to_patternsWebPagesBrowseFragment"
+            android:id="@+id/action_patternsFragment_to_patternsWebPagesBrowseFragment"
             app:destination="@+id/patternsWebPagesBrowseFragment" />
         <action
-            android:id="@+id/action_nav_patterns_to_patternsWebPagesListFragment"
+            android:id="@+id/action_patternsFragment_to_patternsWebPagesListFragment"
             app:destination="@+id/patternsWebPagesListFragment" />
     </fragment>
     <fragment

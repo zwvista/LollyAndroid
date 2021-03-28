@@ -3,47 +3,47 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_search"
+            android:id="@+id/searchFragment"
             android:icon="@android:drawable/ic_menu_camera"
             android:title="@string/search"/>
         <item
-            android:id="@+id/nav_settings"
+            android:id="@+id/settingsFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/settings"/>
         <item
-            android:id="@+id/nav_words_unit"
+            android:id="@+id/wordsUnitFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/words_unit"/>
         <item
-            android:id="@+id/nav_phrases_unit"
+            android:id="@+id/phrasesUnitFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/phrases_unit"/>
         <item
-            android:id="@+id/nav_words_review"
+            android:id="@+id/wordsReviewFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/words_review"/>
         <item
-            android:id="@+id/nav_phrases_review"
+            android:id="@+id/phrasesReviewFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/phrases_review"/>
         <item
-            android:id="@+id/nav_words_textbook"
+            android:id="@+id/wordsTextbookFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/words_textbook"/>
         <item
-            android:id="@+id/nav_phrases_textbook"
+            android:id="@+id/phrasesTextbookFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/phrases_textbook"/>
         <item
-            android:id="@+id/nav_words_lang"
+            android:id="@+id/wordsLangFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/words_lang"/>
         <item
-            android:id="@+id/nav_phrases_lang"
+            android:id="@+id/phrasesLangFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/phrases_lang"/>
         <item
-            android:id="@+id/nav_patterns"
+            android:id="@+id/patternsFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/patterns"/>
     </group>
