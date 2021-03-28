@@ -28,13 +28,13 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
             lifecycleOwner = viewLifecycleOwner
             model = vm
         }
+        vm.compositeDisposable = compositeDisposable
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        activity?.title = resources.getString(com.zwstudio.lolly.android.R.string.words_review)
-        vm.compositeDisposable = compositeDisposable
         tts = TextToSpeech(requireContext(), this)
         btnNewTest()
     }

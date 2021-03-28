@@ -41,12 +41,12 @@ class WordsUnitFragment : DrawerListFragment() {
             lifecycleOwner = viewLifecycleOwner
             model = vm
         }
+        vm.compositeDisposable = compositeDisposable
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.compositeDisposable = compositeDisposable
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 vm.applyFilters()

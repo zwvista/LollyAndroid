@@ -48,12 +48,12 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
             lifecycleOwner = viewLifecycleOwner
             model = vm
         }
+        vm.compositeDisposable = compositeDisposable
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.compositeDisposable = compositeDisposable
 
         setupListView(PatternsWebPagesDragItem(requireContext(), R.layout.list_item_patterns_webpages_edit))
         compositeDisposable.add(vm.getWebPages(item.id).subscribe {

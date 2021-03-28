@@ -28,12 +28,12 @@ class PhrasesReviewFragment : Fragment(), TextToSpeech.OnInitListener {
             lifecycleOwner = viewLifecycleOwner
             model = vm
         }
+        vm.compositeDisposable = compositeDisposable
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.compositeDisposable = compositeDisposable
         tts = TextToSpeech(requireContext(), this)
         btnNewTest()
     }
