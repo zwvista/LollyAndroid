@@ -30,7 +30,19 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        activity?.title = resources.getString(com.zwstudio.lolly.android.R.string.words_review)
+
+        fun btnNewTest() {
+            binding.progressBar1.visibility = View.VISIBLE
+            vm.newTest()
+            binding.progressBar1.visibility = View.INVISIBLE
+        }
+        binding.btnNewTest.setOnClickListener { btnNewTest() }
+        binding.btnCheck.setOnClickListener { vm.check() }
+        binding.chkSpeak.setOnClickListener {
+            if (binding.chkSpeak.isChecked)
+                tts.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null, null)
+        }
+
         tts = TextToSpeech(requireContext(), this)
         btnNewTest()
     }
@@ -48,20 +60,5 @@ class WordsReviewFragment : Fragment(), TextToSpeech.OnInitListener {
         }
         if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
         tts.language = locale
-    }
-
-    fun btnNewTest() {
-//        binding.progressBar1.visibility = View.VISIBLE
-//        vm.newTest()
-//        binding.progressBar1.visibility = View.INVISIBLE
-    }
-
-    fun btnCheck() {
-//        vm.check()
-    }
-
-    fun chkSpeak(isChecked: Boolean) {
-//        if (isChecked)
-//            tts.speak(vm.currentWord, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 }
