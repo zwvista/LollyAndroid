@@ -20,7 +20,7 @@ import com.zwstudio.lolly.android.databinding.FragmentWordsUnitBatchEditBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
-import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.words.WordsUnitBatchEditViewModel
 import com.zwstudio.lolly.data.words.WordsUnitViewModel
 import com.zwstudio.lolly.domain.misc.MSelectItem
@@ -44,7 +44,7 @@ class WordsUnitBatchEditFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        vm.lstWords = (intent.getSerializableExtra("list") as Array<MUnitWord>).toList()
+        vm.lstWords = (requireArguments().getSerializable("list") as Array<MUnitWord>).toList()
         binding = FragmentWordsUnitBatchEditBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmBatch
@@ -54,32 +54,28 @@ class WordsUnitBatchEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.spnUnit.adapter = makeCustomAdapter(requireContext(), vmSettings.lstUnits) { it.label }
+        binding.spnUnit.setSelection(vmSettings.lstUnits.indexOfFirst { it.value == vmSettings.usunitto })
+        binding.spnPart.adapter = makeCustomAdapter(requireContext(), vmSettings.lstParts) { it.label }
+        binding.spnPart.setSelection(vmSettings.lstParts.indexOfFirst { it.value == vmSettings.uspartto })
+
+        fun chkUnit() {
+            binding.spnUnit.isEnabled = binding.chkUnit.isChecked
+        }
+        fun chkPart() {
+            binding.spnPart.isEnabled = binding.chkPart.isChecked
+        }
+        fun chkSeqNum() {
+            binding.etSeqNum.isEnabled = binding.chkSeqNum.isChecked
+        }
+        binding.chkUnit.setOnCheckedChangeListener { buttonView, isChecked -> chkUnit() }
+        binding.chkPart.setOnCheckedChangeListener { buttonView, isChecked -> chkPart() }
+        binding.chkSeqNum.setOnCheckedChangeListener { buttonView, isChecked -> chkSeqNum() }
+        chkUnit(); chkPart(); chkSeqNum()
+
         mDragListView = view.findViewById(R.id.drag_list_view)
         mRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)
-//        chkUnit(); chkPart(); chkSeqNum()
-        run {
-            val lst = vmSettings.lstUnits
-            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
-                val tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = getItem(position)!!.label
-                v
-            }
-            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-            binding.spnUnit.adapter = adapter
-            binding.spnUnit.setSelection(vmSettings.lstUnits.indexOfFirst { it.value == vmSettings.usunitto })
-        }
-
-        run {
-            val lst = vmSettings.lstParts
-            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
-                val tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = getItem(position)!!.label
-                v
-            }
-            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-            binding.spnPart.adapter = adapter
-            binding.spnPart.setSelection(vmSettings.lstParts.indexOfFirst { it.value == vmSettings.uspartto })
-        }
 
         mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
@@ -93,18 +89,6 @@ class WordsUnitBatchEditFragment : Fragment() {
         mDragListView.setCanDragHorizontally(false)
         mDragListView.setCustomDragItem(WordsUnitBatchDragItem(requireContext(), R.layout.list_item_words_unit_batch_edit))
     }
-
-//    fun chkUnit() {
-//        binding.spnUnit.isEnabled = binding.chkUnit.isChecked
-//    }
-
-//    fun chkPart() {
-//        binding.spnPart.isEnabled = binding.chkPart.isChecked
-//    }
-
-//    fun chkSeqNum() {
-//        binding.etSeqNum.isEnabled = binding.chkSeqNum.isChecked
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_save, menu)
