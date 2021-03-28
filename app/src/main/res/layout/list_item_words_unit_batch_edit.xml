@@ -7,7 +7,7 @@
     app:swipeViewId="@+id/item_swipe">
 
     <LinearLayout
-        android:id="@id/item_swipe"
+        android:id="@+id/item_swipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_selector"
