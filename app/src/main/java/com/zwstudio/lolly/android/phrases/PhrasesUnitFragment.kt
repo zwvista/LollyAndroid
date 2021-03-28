@@ -3,12 +3,11 @@ package com.zwstudio.lolly.android.phrases
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.viewModelScope
 import androidx.core.os.bundleOf
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -84,7 +83,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
     }
 
     private fun refreshListView() {
-        val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView, tts)
+        val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -141,7 +140,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
         }
     }
 
-    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech) : DragItemAdapter<MUnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
+    private class PhrasesUnitItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView) : DragItemAdapter<MUnitPhrase, PhrasesUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases
@@ -245,7 +244,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                     if (vm.isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null, null)
+                        speak(item.phrase)
                 }
             }
 

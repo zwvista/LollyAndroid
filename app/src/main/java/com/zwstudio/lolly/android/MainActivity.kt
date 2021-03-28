@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.android
 
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -15,7 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -44,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        tts = TextToSpeech(this, this)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -54,4 +57,13 @@ class MainActivity : AppCompatActivity() {
     // https://stackoverflow.com/questions/50502269/illegalstateexception-link-does-not-have-a-navcontroller-set
     fun getNavController(): NavController =
         (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
+
+    override fun onInit(status: Int) {
+        if (status != TextToSpeech.SUCCESS) return
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts.shutdown()
+    }
 }

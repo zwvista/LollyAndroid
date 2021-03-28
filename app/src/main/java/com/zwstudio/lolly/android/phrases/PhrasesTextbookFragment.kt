@@ -2,15 +2,14 @@ package com.zwstudio.lolly.android.phrases
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.AdapterView
 import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.viewModelScope
 import androidx.core.os.bundleOf
+import androidx.lifecycle.viewModelScope
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
@@ -96,7 +95,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
     }
 
     private fun refreshListView() {
-        val listAdapter = PhrasesTextbookItemAdapter(vm, mDragListView, tts)
+        val listAdapter = PhrasesTextbookItemAdapter(vm, mDragListView)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -125,7 +124,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
             else -> super.onOptionsItemSelected(item)
         }
 
-    private class PhrasesTextbookItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech) : DragItemAdapter<MUnitPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
+    private class PhrasesTextbookItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView) : DragItemAdapter<MUnitPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases
@@ -226,7 +225,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
                     if (vm.isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null, null)
+                        speak(item.phrase)
                 }
             }
 

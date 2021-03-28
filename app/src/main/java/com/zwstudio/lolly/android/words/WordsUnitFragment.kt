@@ -5,12 +5,11 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.viewModelScope
 import androidx.core.os.bundleOf
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -84,7 +83,7 @@ class WordsUnitFragment : DrawerListFragment() {
     }
 
     private fun refreshListView() {
-        val listAdapter = WordsUnitItemAdapter(vm, mDragListView, tts)
+        val listAdapter = WordsUnitItemAdapter(vm, mDragListView)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -180,7 +179,7 @@ class WordsUnitFragment : DrawerListFragment() {
         }
     }
 
-    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
+    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -306,7 +305,7 @@ class WordsUnitFragment : DrawerListFragment() {
                     if (vm.isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null, null)
+                        speak(item.word)
                 }
             }
 

@@ -1,9 +1,11 @@
 package com.zwstudio.lolly.data.misc
 
 import android.os.Handler
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zwstudio.lolly.android.tts
 import com.zwstudio.lolly.domain.misc.*
 import com.zwstudio.lolly.service.misc.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -11,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class SettingsViewModel : ViewModel() {
 
@@ -109,6 +112,11 @@ class SettingsViewModel : ViewModel() {
         set(value) {
             field = value
             usvoice = field?.id ?: 0
+            val locale = Locale.getAvailableLocales().find {
+                "${it.language}_${it.country}" == field?.voicelang
+            }
+            if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
+            tts.language = locale
         }
     val selectedVoiceIndex: Int
         get() =

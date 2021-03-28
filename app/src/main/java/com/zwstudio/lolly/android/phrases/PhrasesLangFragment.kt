@@ -2,26 +2,22 @@ package com.zwstudio.lolly.android.phrases
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.AdapterView
 import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.viewModelScope
 import androidx.core.os.bundleOf
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
-import com.zwstudio.lolly.android.DrawerListFragment
-import com.zwstudio.lolly.android.MainActivity
-import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.*
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesLangBinding
 import com.zwstudio.lolly.android.misc.autoCleared
-import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
@@ -88,7 +84,7 @@ class PhrasesLangFragment : DrawerListFragment() {
     }
 
     private fun refreshListView() {
-        val listAdapter = PhrasesLangItemAdapter(vm, mDragListView, tts)
+        val listAdapter = PhrasesLangItemAdapter(vm, mDragListView)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -127,7 +123,7 @@ class PhrasesLangFragment : DrawerListFragment() {
 //            mDragListView.resetSwipedViews(null)
 //    }
 
-    private class PhrasesLangItemAdapter(val vm: PhrasesLangViewModel, val mDragListView: DragListView, val tts: TextToSpeech) : DragItemAdapter<MLangPhrase, PhrasesLangItemAdapter.ViewHolder>() {
+    private class PhrasesLangItemAdapter(val vm: PhrasesLangViewModel, val mDragListView: DragListView) : DragItemAdapter<MLangPhrase, PhrasesLangItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases
@@ -226,7 +222,7 @@ class PhrasesLangFragment : DrawerListFragment() {
                     if (vm.isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.phrase, TextToSpeech.QUEUE_FLUSH, null, null)
+                        speak(item.phrase)
                 }
             }
 

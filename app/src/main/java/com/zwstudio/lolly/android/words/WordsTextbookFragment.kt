@@ -2,12 +2,11 @@ package com.zwstudio.lolly.android.words
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.viewModelScope
 import androidx.core.os.bundleOf
+import androidx.lifecycle.viewModelScope
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
@@ -93,7 +92,7 @@ class WordsTextbookFragment : DrawerListFragment() {
     }
 
     private fun refreshListView() {
-        val listAdapter = WordsTextbookItemAdapter(vm, mDragListView, tts)
+        val listAdapter = WordsTextbookItemAdapter(vm, mDragListView)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -122,7 +121,7 @@ class WordsTextbookFragment : DrawerListFragment() {
             else -> super.onOptionsItemSelected(item)
         }
 
-    private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val tts: TextToSpeech) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {
+    private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -240,7 +239,7 @@ class WordsTextbookFragment : DrawerListFragment() {
                     if (vm.isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null, null)
+                        speak(item.word)
                 }
             }
 

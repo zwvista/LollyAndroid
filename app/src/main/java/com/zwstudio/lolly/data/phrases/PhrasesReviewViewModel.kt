@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.data.phrases
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.android.applyIO
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.domain.misc.MReviewOptions

@@ -2,23 +2,19 @@ package com.zwstudio.lolly.android.words
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.viewModelScope
 import androidx.core.os.bundleOf
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
-import com.zwstudio.lolly.android.DrawerListFragment
-import com.zwstudio.lolly.android.MainActivity
-import com.zwstudio.lolly.android.R
+import com.zwstudio.lolly.android.*
 import com.zwstudio.lolly.android.databinding.FragmentWordsLangBinding
 import com.zwstudio.lolly.android.misc.autoCleared
-import com.zwstudio.lolly.android.yesNoDialog
 import com.zwstudio.lolly.data.DrawerListViewModel
 import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.data.misc.copyText
@@ -89,7 +85,7 @@ class WordsLangFragment : DrawerListFragment() {
     }
 
     private fun refreshListView() {
-        val listAdapter = WordsLangItemAdapter(vm, mDragListView, tts)
+        val listAdapter = WordsLangItemAdapter(vm, mDragListView)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -128,7 +124,7 @@ class WordsLangFragment : DrawerListFragment() {
 //            mDragListView.resetSwipedViews(null)
 //    }
 
-    private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView, val tts: TextToSpeech) : DragItemAdapter<MLangWord, WordsLangItemAdapter.ViewHolder>() {
+    private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView) : DragItemAdapter<MLangWord, WordsLangItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -244,7 +240,7 @@ class WordsLangFragment : DrawerListFragment() {
                     if (vm.isEditMode)
                         edit(item)
                     else
-                        tts.speak(item.word, TextToSpeech.QUEUE_FLUSH, null, null)
+                        speak(item.word)
                 }
             }
 
