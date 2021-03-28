@@ -110,7 +110,7 @@ class WordsLangFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                findNavController().navigate(R.id.action_nav_words_lang_to_wordsLangDetailFragment,
+                findNavController().navigate(R.id.action_wordsLangFragment_to_wordsLangDetailFragment,
                     bundleOf("word" to vm.newLangWord()))
                 true
             }
@@ -159,7 +159,7 @@ class WordsLangFragment : DrawerListFragment() {
             }
 
             fun edit(item: MLangWord) =
-                navController.navigate(R.id.action_nav_words_lang_to_wordsLangDetailFragment,
+                navController.navigate(R.id.action_wordsLangFragment_to_wordsLangDetailFragment,
                     bundleOf("word" to item))
 
             @SuppressLint("ClickableViewAccessibility")
@@ -220,7 +220,7 @@ class WordsLangFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MLangWord
-                        navController.navigate(R.id.action_nav_words_lang_to_wordsDictFragment,
+                        navController.navigate(R.id.action_wordsLangFragment_to_wordsDictFragment,
                             bundleOf("list" to vm.lstWords.map { it.word }.toTypedArray(),
                                 "index" to vm.lstWords.indexOf(item)))
                     }

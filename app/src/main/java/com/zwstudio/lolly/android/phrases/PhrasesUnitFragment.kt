@@ -100,7 +100,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
     }
 
     fun menuAdd() =
-        findNavController().navigate(R.id.action_nav_phrases_unit_to_phrasesUnitDetailFragment,
+        findNavController().navigate(R.id.action_phrasesUnitFragment_to_phrasesUnitDetailFragment,
             bundleOf("phrase" to vm.newUnitPhrase()))
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
@@ -118,7 +118,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                 true
             }
             R.id.menuBatch -> {
-                findNavController().navigate(R.id.action_nav_phrases_unit_to_phrasesUnitBatchEditFragment,
+                findNavController().navigate(R.id.action_phrasesUnitFragment_to_phrasesUnitBatchEditFragment,
                     bundleOf("list" to vm.lstPhrases.toTypedArray()))
                 true
             }
@@ -179,7 +179,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitPhrase) =
-                navController.navigate(R.id.action_nav_phrases_unit_to_phrasesUnitDetailFragment,
+                navController.navigate(R.id.action_phrasesUnitFragment_to_phrasesUnitDetailFragment,
                     bundleOf("phrase" to item))
 
             @SuppressLint("ClickableViewAccessibility")
