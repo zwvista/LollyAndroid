@@ -43,17 +43,10 @@
             app:layout_constraintTop_toBottomOf="@id/svTextFilter"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <!-- Need to wrap DragListView in another layout for
-                wrap_content to work for some reason -->
-            <FrameLayout
+            <com.woxthebox.draglistview.DragListView
+                android:id="@+id/drag_list_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.woxthebox.draglistview.DragListView
-                    android:id="@+id/drag_list_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </FrameLayout>
+                android:layout_height="match_parent"/>
         </com.zwstudio.lolly.android.LollySwipeRefreshLayout>
 
         <ProgressBar
