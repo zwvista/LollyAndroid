@@ -35,8 +35,8 @@ class WordsDictFragment : Fragment(), TouchListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        vm.lstWords = (intent.getSerializableExtra("list") as Array<String>).toMutableList()
-//        vm.selectedWordIndex = intent.getIntExtra("index", 0)
+        vm.lstWords = (requireArguments().getSerializable("list") as Array<String>).toMutableList()
+        vm.selectedWordIndex = requireArguments().getInt("index", 0)
 
         binding.webView.setOnTouchListener(OnSwipeWebviewTouchListener(requireContext(), this))
 

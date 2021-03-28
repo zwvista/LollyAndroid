@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_nav_phrases_unit_to_phrasesUnitDetailFragment"
             app:destination="@id/phrasesUnitDetailFragment" />
+        <action
+            android:id="@+id/action_nav_phrases_unit_to_phrasesUnitBatchEditFragment"
+            app:destination="@id/phrasesUnitBatchEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_words_review"

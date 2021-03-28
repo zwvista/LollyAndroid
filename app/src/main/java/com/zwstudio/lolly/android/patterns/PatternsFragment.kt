@@ -6,11 +6,14 @@ import android.speech.tts.TextToSpeech
 import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.DrawerListFragment
+import com.zwstudio.lolly.android.MainActivity
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPatternsBinding
 import com.zwstudio.lolly.android.misc.autoCleared
@@ -107,8 +110,8 @@ class PatternsFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-//                PatternsDetailFragment_.intent(this)
-//                    .extra("pattern", vm.newPattern()).startForResult(REQUEST_CODE)
+                findNavController().navigate(R.id.action_nav_patterns_to_patternsDetailFragment,
+                    bundleOf("pattern" to vm.newPattern()))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -149,15 +152,15 @@ class PatternsFragment : DrawerListFragment() {
             var mDelete: TextView = itemView.findViewById(R.id.item_delete)
             var mMore: TextView = itemView.findViewById(R.id.item_more)
             var mForward: ImageView = itemView.findViewById(R.id.image_forward)
+            val navController get() = (itemView.context as MainActivity).getNavController()
 
             init {
                 initButtons()
             }
 
-            fun edit(item: MPattern) {
-//                PatternsDetailFragment_.intent(itemView.context)
-//                    .extra("pattern", item).startForResult(REQUEST_CODE)
-            }
+            fun edit(item: MPattern) =
+                navController.navigate(R.id.action_nav_patterns_to_patternsDetailFragment,
+                    bundleOf("pattern" to item))
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
@@ -199,14 +202,10 @@ class PatternsFragment : DrawerListFragment() {
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
-                                    2 -> {
-//                                        PatternsWebPagesBrowseFragment_.intent(itemView.context)
-//                                            .extra("pattern", item).startForResult(REQUEST_CODE)
-                                    }
-                                    3 -> {
-//                                        PatternsWebPagesListFragment_.intent(itemView.context)
-//                                            .extra("pattern", item).startForResult(REQUEST_CODE)
-                                    }
+                                    2 -> navController.navigate(R.id.action_nav_patterns_to_patternsWebPagesBrowseFragment,
+                                            bundleOf("pattern" to item))
+                                    3 -> navController.navigate(R.id.action_nav_patterns_to_patternsWebPagesListFragment,
+                                            bundleOf("pattern" to item))
                                     4 -> itemView.copyText(item.pattern)
                                     5 -> itemView.googleString(item.pattern)
                                     else -> {}

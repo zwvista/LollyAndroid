@@ -99,10 +99,9 @@ class PhrasesUnitFragment : DrawerListFragment() {
         refreshListView()
     }
 
-    fun menuAdd() {
+    fun menuAdd() =
         findNavController().navigate(R.id.action_nav_phrases_unit_to_phrasesUnitDetailFragment,
             bundleOf("phrase" to vm.newUnitPhrase()))
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
@@ -119,8 +118,8 @@ class PhrasesUnitFragment : DrawerListFragment() {
                 true
             }
             R.id.menuBatch -> {
-//                PhrasesUnitBatchEditFragment_.intent(this)
-//                    .extra("list", vm.lstPhrases.toTypedArray()).start()
+                findNavController().navigate(R.id.action_nav_phrases_unit_to_phrasesUnitBatchEditFragment,
+                    bundleOf("list" to vm.lstPhrases.toTypedArray()))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -173,16 +172,15 @@ class PhrasesUnitFragment : DrawerListFragment() {
             var mDelete: TextView = itemView.findViewById(R.id.item_delete)
             var mMore: TextView = itemView.findViewById(R.id.item_more)
             var mHamburger: ImageView = itemView.findViewById(R.id.image_hamburger)
+            val navController get() = (itemView.context as MainActivity).getNavController()
 
             init {
                 initButtons()
             }
 
-            fun edit(item: MUnitPhrase) {
-                val navController = (itemView.context as MainActivity).getNavController()
+            fun edit(item: MUnitPhrase) =
                 navController.navigate(R.id.action_nav_phrases_unit_to_phrasesUnitDetailFragment,
                     bundleOf("phrase" to item))
-            }
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {

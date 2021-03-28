@@ -9,12 +9,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.android.DrawerListFragment
+import com.zwstudio.lolly.android.MainActivity
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPatternsWebpagesListBinding
 import com.zwstudio.lolly.android.misc.autoCleared
@@ -40,7 +43,7 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        item = intent.getSerializableExtra("pattern") as MPattern
+        item = requireArguments().getSerializable("pattern") as MPattern
         binding = FragmentPatternsWebpagesListBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
@@ -76,10 +79,9 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
         refreshListView()
     }
 
-    fun menuAdd() {
-//        PatternsWebPagesDetailFragment_.intent(this)
-//            .extra("word", vm.newPatternWebPage(item.id, item.pattern)).startForResult(REQUEST_CODE)
-    }
+    fun menuAdd() =
+        findNavController().navigate(R.id.action_patternsWebPagesListFragment_to_patternsWebPagesDetailFragment,
+            bundleOf("webpage" to vm.newPatternWebPage(item.id, item.pattern)))
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
@@ -146,15 +148,15 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
             var mDelete: TextView = itemView.findViewById(R.id.item_delete)
             var mMore: TextView = itemView.findViewById(R.id.item_more)
             var mHamburger: ImageView = itemView.findViewById(R.id.image_hamburger)
+            val navController get() = (itemView.context as MainActivity).getNavController()
 
             init {
                 initButtons()
             }
 
-            fun edit(item: MPatternWebPage) {
-//                PatternsWebPagesDetailFragment_.intent(itemView.context)
-//                        .extra("webpage", item).startForResult(REQUEST_CODE)
-            }
+            fun edit(item: MPatternWebPage) =
+                navController.navigate(R.id.action_patternsWebPagesListFragment_to_patternsWebPagesDetailFragment,
+                    bundleOf("webpage" to item))
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {

@@ -24,7 +24,7 @@ class PatternsWebPagesBrowseFragment : Fragment() {
     val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        item = intent.getSerializableExtra("webpage") as MPatternWebPage
+        item = requireArguments().getSerializable("pattern") as MPattern
         binding = FragmentPatternsWebpagesBrowseBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
@@ -34,7 +34,6 @@ class PatternsWebPagesBrowseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        item = intent.getSerializableExtra("pattern") as MPattern
         compositeDisposable.add(vm.getWebPages(item.id).subscribe {
             val lst = vm.lstWebPages
             val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->

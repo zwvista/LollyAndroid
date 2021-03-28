@@ -152,16 +152,15 @@ class WordsLangFragment : DrawerListFragment() {
             var mDelete: TextView = itemView.findViewById(R.id.item_delete)
             var mMore: TextView = itemView.findViewById(R.id.item_more)
             var mForward: ImageView = itemView.findViewById(R.id.image_forward)
+            val navController get() = (itemView.context as MainActivity).getNavController()
 
             init {
                 initButtons()
             }
 
-            fun edit(item: MLangWord) {
-                val navController = (itemView.context as MainActivity).getNavController()
+            fun edit(item: MLangWord) =
                 navController.navigate(R.id.action_nav_words_lang_to_wordsLangDetailFragment,
                     bundleOf("word" to item))
-            }
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
@@ -221,9 +220,9 @@ class WordsLangFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MLangWord
-//                        WordsDictFragment_.intent(itemView.context)
-//                                .extra("list", vm.lstWords.map { it.word }.toTypedArray())
-//                                .extra("index", vm.lstWords.indexOf(item)).start()
+                        navController.navigate(R.id.action_nav_words_lang_to_wordsDictFragment,
+                            bundleOf("list" to vm.lstWords.map { it.word }.toTypedArray(),
+                                "index" to vm.lstWords.indexOf(item)))
                     }
                     true
                 }
