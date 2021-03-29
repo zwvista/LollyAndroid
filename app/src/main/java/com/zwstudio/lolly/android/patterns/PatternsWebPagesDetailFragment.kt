@@ -42,7 +42,7 @@ class PatternsWebPagesDetailFragment : Fragment() {
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.menuSave -> {
-                vmDetail.save(item)
+                vmDetail.save()
                 if (item.id == 0)
                     vm.createPatternWebPage(item)
                 else

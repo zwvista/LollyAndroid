@@ -46,7 +46,7 @@ class WordsTextbookDetailFragment : Fragment() {
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.menuSave -> {
-                vmDetail.save(item)
+                vmDetail.save()
                 item.word = vmSettings.autoCorrectInput(item.word)
                 vm.update(item)
                 setNavigationResult( "1")
