@@ -72,6 +72,14 @@
     <string name="label_webpageid">WEBPAGEID:</string>
     <string name="label_title">TITLE:</string>
     <string name="label_url">URL:</string>
+    <string name="label_mode">Mode:</string>
+    <string name="label_shuffled">Order(Shuffled):</string>
+    <string name="label_speak_enabled">Speak(Enabled):</string>
+    <string name="label_interval">Interval:</string>
+    <string name="label_group">Group:</string>
+    <string name="label_groups">Groups:</string>
+    <string name="label_review">Review:</string>
+
     <string name="text_correct">Correct</string>
     <string name="text_incorrect">Incorrect</string>
     <string name="text_new_test">New Test</string>
@@ -80,4 +88,5 @@
     <string name="text_shuffled">Shuffled</string>
     <string name="normal_mode">Normal Mode</string>
     <string name="edit_mode">Edit Mode</string>
+    <string name="review_options">Review Options</string>
 </resources>

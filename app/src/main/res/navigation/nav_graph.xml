@@ -45,12 +45,20 @@
         android:id="@+id/wordsReviewFragment"
         android:name="com.zwstudio.lolly.android.words.WordsReviewFragment"
         android:label="@string/words_review"
-        tools:layout="@layout/fragment_words_review" />
+        tools:layout="@layout/fragment_words_review" >
+        <action
+            android:id="@+id/action_wordsReviewFragment_to_reviewOptionsFragment"
+            app:destination="@id/reviewOptionsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/phrasesReviewFragment"
         android:name="com.zwstudio.lolly.android.phrases.PhrasesReviewFragment"
         android:label="@string/phrases_review"
-        tools:layout="@layout/fragment_phrases_review" />
+        tools:layout="@layout/fragment_phrases_review" >
+        <action
+            android:id="@+id/action_phrasesReviewFragment_to_reviewOptionsFragment"
+            app:destination="@id/reviewOptionsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/wordsTextbookFragment"
         android:name="com.zwstudio.lolly.android.words.WordsTextbookFragment"
@@ -177,4 +185,9 @@
             android:id="@+id/action_patternsWebPagesListFragment_to_patternsWebPagesDetailFragment"
             app:destination="@+id/patternsWebPagesDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/reviewOptionsFragment"
+        android:name="com.zwstudio.lolly.android.misc.ReviewOptionsFragment"
+        android:label="@string/review_options"
+        tools:layout="@layout/fragment_review_options" />
 </navigation>
