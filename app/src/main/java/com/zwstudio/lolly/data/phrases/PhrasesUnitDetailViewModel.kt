@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 
-class PhrasesUnitDetailViewModel(item: MUnitPhrase) : ViewModel() {
+class PhrasesUnitDetailViewModel(val item: MUnitPhrase) : ViewModel() {
     val id = MutableLiveData(item.id)
     val textbookname = MutableLiveData(item.textbookname)
     val unitItemPosition = MutableLiveData(item.unitItemPosition)
@@ -14,7 +14,7 @@ class PhrasesUnitDetailViewModel(item: MUnitPhrase) : ViewModel() {
     val translation = MutableLiveData(item.translation)
     val phraseid = MutableLiveData(item.phraseid)
 
-    fun save(item: MUnitPhrase) {
+    fun save() {
         item.unitItemPosition = unitItemPosition.value!!
         item.partItemPosition = partItemPosition.value!!
         item.seqnum = seqnum.value!!

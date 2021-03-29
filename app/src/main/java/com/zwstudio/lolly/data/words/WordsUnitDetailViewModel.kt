@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitWord
 
-class WordsUnitDetailViewModel(item: MUnitWord) : ViewModel() {
+class WordsUnitDetailViewModel(val item: MUnitWord) : ViewModel() {
     val id = MutableLiveData(item.id)
     val textbookname = MutableLiveData(item.textbookname)
     val unitItemPosition = MutableLiveData(item.unitItemPosition)
@@ -16,7 +16,7 @@ class WordsUnitDetailViewModel(item: MUnitWord) : ViewModel() {
     val famiid = MutableLiveData(item.famiid)
     val accuracy = MutableLiveData(item.accuracy)
 
-    fun save(item: MUnitWord) {
+    fun save() {
         item.unitItemPosition = unitItemPosition.value!!
         item.partItemPosition = partItemPosition.value!!
         item.seqnum = seqnum.value!!

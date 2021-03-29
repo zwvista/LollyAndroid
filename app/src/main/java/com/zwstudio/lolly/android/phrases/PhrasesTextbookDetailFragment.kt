@@ -49,7 +49,7 @@ class PhrasesTextbookDetailFragment : Fragment() {
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.menuSave -> {
-                vmDetail.save(item)
+                vmDetail.save()
                 item.phrase = vmSettings.autoCorrectInput(item.phrase)
                 compositeDisposable.add(vm.update(item).subscribe())
                 setNavigationResult( "1")

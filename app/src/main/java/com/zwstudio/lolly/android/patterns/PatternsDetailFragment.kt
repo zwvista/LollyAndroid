@@ -46,7 +46,7 @@ class PatternsDetailFragment : Fragment() {
     override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.menuSave -> {
-                vmDetail.save(item)
+                vmDetail.save()
                 item.pattern = vmSettings.autoCorrectInput(item.pattern)
                 if (item.id == 0)
                     compositeDisposable.add(vm.create(item).subscribe())
