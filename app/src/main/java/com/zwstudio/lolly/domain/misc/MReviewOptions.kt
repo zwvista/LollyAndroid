@@ -1,5 +1,7 @@
 package com.zwstudio.lolly.domain.misc
 
+import java.io.Serializable
+
 enum class ReviewMode {
     ReviewAuto, ReviewManual, Test, Textbook;
 
@@ -11,7 +13,7 @@ enum class ReviewMode {
     }
 }
 
-class MReviewOptions {
+class MReviewOptions : Serializable {
     val isEmbedded = false
     var mode = ReviewMode.ReviewAuto
     var shuffled = false

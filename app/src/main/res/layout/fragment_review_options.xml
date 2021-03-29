@@ -13,5 +13,22 @@
         android:layout_height="match_parent"
         android:layout_margin="16dp">
 
+        <TextView
+            android:id="@+id/tvMode"
+            android:text="@string/label_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/spnMode" />
+
+        <Spinner
+            android:id="@+id/spnMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:labelFor="@+id/tvMode"
+            app:layout_constraintTop_toBottomOf="@+id/tvMode" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
