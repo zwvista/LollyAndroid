@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/spnMode" />
 
         <Spinner
@@ -28,7 +28,93 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:labelFor="@+id/tvMode"
-            app:layout_constraintTop_toBottomOf="@+id/tvMode" />
+            app:layout_constraintTop_toBottomOf="@+id/tvMode"
+            app:layout_constraintBottom_toTopOf="@+id/chkShuffled"/>
+
+        <CheckBox
+            android:id="@+id/chkShuffled"
+            android:text="@string/label_shuffled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintTop_toBottomOf="@+id/spnMode"
+            app:layout_constraintBottom_toTopOf="@+id/chkSpeakEnabled" />
+
+        <CheckBox
+            android:id="@+id/chkSpeakEnabled"
+            android:text="@string/label_speak_enabled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintTop_toBottomOf="@+id/chkShuffled"
+            app:layout_constraintBottom_toTopOf="@+id/tvInterval" />
+
+        <TextView
+            android:id="@+id/tvInterval"
+            android:text="@string/label_interval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintTop_toBottomOf="@+id/chkSpeakEnabled"
+            app:layout_constraintBottom_toTopOf="@+id/etInterval" />
+
+        <EditText
+            android:id="@+id/etInterval"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+            app:layout_constraintTop_toBottomOf="@+id/tvInterval"
+            app:layout_constraintBottom_toTopOf="@+id/tvGroup"/>
+
+        <TextView
+            android:id="@+id/tvGroup"
+            android:text="@string/label_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintTop_toBottomOf="@+id/etInterval"
+            app:layout_constraintBottom_toTopOf="@+id/etGroup" />
+
+        <EditText
+            android:id="@+id/etGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+            app:layout_constraintTop_toBottomOf="@+id/tvGroup"
+            app:layout_constraintBottom_toTopOf="@+id/tvGroups"/>
+
+        <TextView
+            android:id="@+id/tvGroups"
+            android:text="@string/label_groups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintTop_toBottomOf="@+id/etGroup"
+            app:layout_constraintBottom_toTopOf="@+id/etGroups" />
+
+        <EditText
+            android:id="@+id/etGroups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+            app:layout_constraintTop_toBottomOf="@+id/tvGroups"
+            app:layout_constraintBottom_toTopOf="@+id/tvReview"/>
+
+        <TextView
+            android:id="@+id/tvReview"
+            android:text="@string/label_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintTop_toBottomOf="@+id/etGroups"
+            app:layout_constraintBottom_toTopOf="@+id/etReview" />
+
+        <EditText
+            android:id="@+id/etReview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+            app:layout_constraintTop_toBottomOf="@+id/tvReview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
