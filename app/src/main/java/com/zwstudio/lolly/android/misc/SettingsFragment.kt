@@ -165,6 +165,11 @@ class SettingsFragment : Fragment(), SettingsListener {
         compositeDisposable.add(vm.getData().subscribe())
     }
 
+    override fun onDestroyView() {
+        vm.settingsListener = null
+        super.onDestroyView()
+    }
+
     override fun onGetData() {
         val lst = vm.lstLanguages
         val adapter = makeAdapter(requireActivity(), android.R.layout.simple_spinner_item, lst) { v, position ->
