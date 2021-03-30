@@ -19,10 +19,9 @@
 
             <TextView
                 android:id="@+id/tvLanguage"
-                android:text="Language:"
+                android:text="@string/label_language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/spnLanguage" />
@@ -31,16 +30,16 @@
                 android:id="@+id/spnLanguage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvLanguage"
                 app:layout_constraintBottom_toTopOf="@+id/tvVoice" />
 
             <TextView
                 android:id="@+id/tvVoice"
-                android:text="Voice:"
+                android:text="@string/label_voice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnLanguage"
                 app:layout_constraintBottom_toTopOf="@+id/spnVoice" />
@@ -49,16 +48,16 @@
                 android:id="@+id/spnVoice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvVoice"
                 app:layout_constraintBottom_toTopOf="@+id/tvDictReference" />
 
             <TextView
                 android:id="@+id/tvDictReference"
-                android:text="Dictionary(Reference):"
+                android:text="@string/label_dict_reference"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnVoice"
                 app:layout_constraintBottom_toTopOf="@+id/spnDictReference" />
@@ -67,16 +66,16 @@
                 android:id="@+id/spnDictReference"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvDictReference"
                 app:layout_constraintBottom_toTopOf="@+id/tvDictNote" />
 
             <TextView
                 android:id="@+id/tvDictNote"
-                android:text="Dictionary(Note):"
+                android:text="@string/label_dict_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnDictReference"
                 app:layout_constraintBottom_toTopOf="@+id/spnDictNote" />
@@ -85,16 +84,16 @@
                 android:id="@+id/spnDictNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvDictNote"
                 app:layout_constraintBottom_toTopOf="@+id/tvDictTranslation" />
 
             <TextView
                 android:id="@+id/tvDictTranslation"
-                android:text="Dictionary(Translation):"
+                android:text="@string/label_dict_translation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnDictNote"
                 app:layout_constraintBottom_toTopOf="@+id/spnDictTranslation" />
@@ -103,7 +102,7 @@
                 android:id="@+id/spnDictTranslation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvDictTranslation"
                 app:layout_constraintBottom_toTopOf="@+id/tvTextbook" />
 
@@ -112,7 +111,7 @@
                 android:text="@string/label_textbook2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnDictTranslation"
                 app:layout_constraintBottom_toTopOf="@+id/spnTextbook" />
@@ -121,7 +120,7 @@
                 android:id="@+id/spnTextbook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvTextbook"
                 app:layout_constraintBottom_toTopOf="@+id/tvUnitFrom" />
 
@@ -130,7 +129,7 @@
                 android:text="@string/label_units"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnTextbook"
                 app:layout_constraintBottom_toTopOf="@+id/spnUnitFrom" />
@@ -139,7 +138,7 @@
                 android:id="@+id/spnUnitFrom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvUnitFrom"
                 app:layout_constraintBottom_toTopOf="@+id/spnPartFrom" />
 
@@ -147,7 +146,7 @@
                 android:id="@+id/spnPartFrom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/spnUnitFrom"
                 app:layout_constraintBottom_toTopOf="@+id/spnToType" />
 
@@ -166,7 +165,7 @@
                 android:text="@string/label_previous"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintHorizontal_weight="3"
                 app:layout_constraintStart_toEndOf="@+id/spnToType"
                 app:layout_constraintEnd_toStartOf="@+id/btnNext"
@@ -188,6 +187,7 @@
                 android:id="@+id/spnUnitTo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/btnPrevious"
                 app:layout_constraintBottom_toTopOf="@+id/spnPartTo" />
 

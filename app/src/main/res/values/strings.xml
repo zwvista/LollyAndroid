@@ -89,4 +89,9 @@
     <string name="normal_mode">Normal Mode</string>
     <string name="edit_mode">Edit Mode</string>
     <string name="review_options">Review Options</string>
+    <string name="label_language">Language:</string>
+    <string name="label_voice">Voice:</string>
+    <string name="label_dict_reference">Dictionary(Reference):</string>
+    <string name="label_dict_note">Dictionary(Note):</string>
+    <string name="label_dict_translation">Dictionary(Translation):</string>
 </resources>
