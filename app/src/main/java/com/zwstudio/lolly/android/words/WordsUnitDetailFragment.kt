@@ -2,14 +2,15 @@ package com.zwstudio.lolly.android.words
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentWordsUnitDetailBinding
 import com.zwstudio.lolly.android.misc.autoCleared
-import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.words.WordsUnitDetailViewModel
@@ -55,7 +56,7 @@ class WordsUnitDetailFragment : Fragment() {
                     compositeDisposable.add(vm.create(item).subscribe())
                 else
                     compositeDisposable.add(vm.update(item).subscribe())
-                setNavigationResult( "1")
+                setFragmentResult("result", bundleOf("result" to "1"))
                 findNavController().navigateUp()
                 true
             }

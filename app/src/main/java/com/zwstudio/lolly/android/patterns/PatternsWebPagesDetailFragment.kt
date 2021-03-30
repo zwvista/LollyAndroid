@@ -2,14 +2,15 @@ package com.zwstudio.lolly.android.patterns
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPatternsWebpagesDetailBinding
 import com.zwstudio.lolly.android.misc.autoCleared
-import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.data.patterns.PatternsWebPageDetailViewModel
 import com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.domain.wpp.MPatternWebPage
@@ -50,7 +51,7 @@ class PatternsWebPagesDetailFragment : Fragment() {
                     compositeDisposable.add(vm.createPatternWebPage(item).subscribe())
                 else
                     compositeDisposable.add(vm.updatePatternWebPage(item).subscribe())
-                setNavigationResult( "1")
+                setFragmentResult("result", bundleOf("result" to "1"))
                 findNavController().navigateUp()
                 true
             }
