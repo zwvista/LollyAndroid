@@ -8,6 +8,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -72,6 +73,10 @@ class PhrasesUnitFragment : DrawerListFragment() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+        }
+
+        setFragmentResultListener("PhrasesUnitDetailFragment") { requestKey, bundle ->
+            menuAdd()
         }
 
         setupListView(PhrasesUnitDragItem(requireContext(), R.layout.list_item_phrases_unit_edit))

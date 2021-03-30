@@ -53,7 +53,7 @@ class WordsUnitDetailFragment : Fragment() {
                     vm.create(item)
                 else
                     vm.update(item)
-                setFragmentResult("result", bundleOf("result" to "1"))
+                setFragmentResult("WordsUnitDetailFragment", bundleOf("result" to "1"))
                 findNavController().navigateUp()
                 true
             }

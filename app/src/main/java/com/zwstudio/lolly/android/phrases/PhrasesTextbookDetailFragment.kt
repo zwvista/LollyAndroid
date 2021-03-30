@@ -50,7 +50,7 @@ class PhrasesTextbookDetailFragment : Fragment() {
                 vmDetail.save()
                 item.phrase = vmSettings.autoCorrectInput(item.phrase)
                 vm.update(item)
-                setFragmentResult("result", bundleOf("result" to "1"))
+                setFragmentResult("PhrasesTextbookDetailFragment", bundleOf("result" to "1"))
                 findNavController().navigateUp()
                 true
             }

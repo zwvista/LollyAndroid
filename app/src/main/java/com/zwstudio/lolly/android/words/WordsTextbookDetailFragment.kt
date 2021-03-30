@@ -50,7 +50,7 @@ class WordsTextbookDetailFragment : Fragment() {
                 vmDetail.save()
                 item.word = vmSettings.autoCorrectInput(item.word)
                 vm.update(item)
-                setFragmentResult("result", bundleOf("result" to "1"))
+                setFragmentResult("WordsTextbookDetailFragment", bundleOf("result" to "1"))
                 findNavController().navigateUp()
                 true
             }

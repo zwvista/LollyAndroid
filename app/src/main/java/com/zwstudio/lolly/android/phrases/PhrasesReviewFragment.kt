@@ -37,6 +37,7 @@ class PhrasesReviewFragment : Fragment() {
         fun newTest() =
             findNavController().navigate(R.id.action_wordsReviewFragment_to_reviewOptionsFragment,
                 bundleOf("options" to vm.options))
+
         binding.btnNewTest.setOnClickListener { newTest() }
         binding.btnCheck.setOnClickListener { vm.check() }
         binding.chkSpeak.setOnClickListener {
@@ -44,7 +45,7 @@ class PhrasesReviewFragment : Fragment() {
                 speak(vm.currentPhrase)
         }
 
-        setFragmentResultListener("result") { requestKey, bundle ->
+        setFragmentResultListener("ReviewOptionsFragment") { requestKey, bundle ->
             vm.options = bundle.getSerializable("result") as MReviewOptions
             binding.progressBar1.visibility = View.VISIBLE
             vm.newTest()
