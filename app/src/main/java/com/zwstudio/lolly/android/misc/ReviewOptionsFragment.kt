@@ -2,13 +2,14 @@ package com.zwstudio.lolly.android.misc
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentReviewOptionsBinding
-import com.zwstudio.lolly.android.setNavigationResult
 import com.zwstudio.lolly.data.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.domain.misc.MReviewOptions
 
@@ -40,7 +41,7 @@ class ReviewOptionsFragment : Fragment() {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vm.save()
-                setNavigationResult(vm.options)
+                setFragmentResult("result", bundleOf("result" to vm.options))
                 findNavController().navigateUp()
                 true
             }
