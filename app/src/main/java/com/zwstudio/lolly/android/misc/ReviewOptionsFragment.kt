@@ -11,6 +11,8 @@ import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentReviewOptionsBinding
 import com.zwstudio.lolly.data.misc.ReviewOptionsViewModel
+import com.zwstudio.lolly.data.misc.SettingsViewModel
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.domain.misc.MReviewOptions
 
 class ReviewOptionsFragment : Fragment() {
@@ -31,6 +33,11 @@ class ReviewOptionsFragment : Fragment() {
             model = vm
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.spnMode.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstReviewModes) { it.label }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
