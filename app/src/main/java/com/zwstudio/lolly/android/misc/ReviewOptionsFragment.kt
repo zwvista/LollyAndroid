@@ -15,9 +15,9 @@ import com.zwstudio.lolly.domain.misc.MReviewOptions
 
 class ReviewOptionsFragment : Fragment() {
 
-    val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel { ReviewOptionsViewModel(item) } }
+    val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel { ReviewOptionsViewModel(options) } }
     var binding by autoCleared<FragmentReviewOptionsBinding>()
-    lateinit var item: MReviewOptions
+    lateinit var options: MReviewOptions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class ReviewOptionsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = requireArguments().getSerializable("options") as MReviewOptions
+        options = requireArguments().getSerializable("options") as MReviewOptions
         binding = FragmentReviewOptionsBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
@@ -41,7 +41,7 @@ class ReviewOptionsFragment : Fragment() {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vm.save()
-                setFragmentResult("result", bundleOf("result" to vm.options))
+                setFragmentResult("result", bundleOf("result" to options))
                 findNavController().navigateUp()
                 true
             }
