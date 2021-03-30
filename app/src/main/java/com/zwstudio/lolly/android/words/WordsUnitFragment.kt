@@ -9,6 +9,7 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -72,6 +73,10 @@ class WordsUnitFragment : DrawerListFragment() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
+        }
+
+        setFragmentResultListener("WordsUnitDetailFragment") { requestKey, bundle ->
+            menuAdd()
         }
 
         setupListView(WordsUnitDragItem(requireContext(), R.layout.list_item_words_unit_edit))
@@ -160,12 +165,6 @@ class WordsUnitFragment : DrawerListFragment() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-//    @OnActivityResult(REQUEST_CODE)
-//    fun onResult(resultCode: Int) {
-//        if (resultCode == RESULT_OK)
-//            menuAdd()
-//    }
 
     private class WordsUnitDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 

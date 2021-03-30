@@ -53,7 +53,7 @@ class PhrasesLangDetailFragment : Fragment() {
                     compositeDisposable.add(vm.create(item).subscribe())
                 else
                     compositeDisposable.add(vm.update(item).subscribe())
-                setFragmentResult("result", bundleOf("result" to "1"))
+                setFragmentResult("PhrasesLangDetailFragment", bundleOf("result" to "1"))
                 findNavController().navigateUp()
                 true
             }

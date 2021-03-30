@@ -53,7 +53,7 @@ class PatternsDetailFragment : Fragment() {
                     compositeDisposable.add(vm.create(item).subscribe())
                 else
                     compositeDisposable.add(vm.update(item).subscribe())
-                setFragmentResult("result", bundleOf("result" to "1"))
+                setFragmentResult("PatternsDetailFragment", bundleOf("result" to "1"))
                 findNavController().navigateUp()
                 true
             }

@@ -53,7 +53,7 @@ class PhrasesTextbookDetailFragment : Fragment() {
                 vmDetail.save()
                 item.phrase = vmSettings.autoCorrectInput(item.phrase)
                 compositeDisposable.add(vm.update(item).subscribe())
-                setFragmentResult("result", bundleOf("result" to "1"))
+                setFragmentResult("PhrasesTextbookDetailFragment", bundleOf("result" to "1"))
                 findNavController().navigateUp()
                 true
             }

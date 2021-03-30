@@ -41,7 +41,7 @@ class ReviewOptionsFragment : Fragment() {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vm.save()
-                setFragmentResult("result", bundleOf("result" to options))
+                setFragmentResult("ReviewOptionsFragment", bundleOf("result" to options))
                 findNavController().navigateUp()
                 true
             }
