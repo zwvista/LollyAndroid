@@ -29,7 +29,7 @@ class WordsReviewViewModel : ViewModel() {
     val hasNext get() = index < count
     val currentItem get() = if (hasNext) lstWords[index] else null
     val currentWord get() = if (hasNext) lstWords[index].word else ""
-    val options = MReviewOptions()
+    var options = MReviewOptions()
     val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
     var subscriptionTimer: Disposable? = null
 

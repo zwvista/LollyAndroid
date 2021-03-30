@@ -4,19 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
+import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentPhrasesReviewBinding
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.speak
 import com.zwstudio.lolly.data.phrases.PhrasesReviewViewModel
+import com.zwstudio.lolly.domain.misc.MReviewOptions
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PhrasesReviewFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesReviewViewModel>() }
     var binding by autoCleared<FragmentPhrasesReviewBinding>()
+    var mAlreadyLoaded = false
 
     val compositeDisposable = CompositeDisposable()
 
@@ -32,19 +38,28 @@ class PhrasesReviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fun btnNewTest() {
-            binding.progressBar1.visibility = View.VISIBLE
-            vm.newTest()
-            binding.progressBar1.visibility = View.INVISIBLE
-        }
-        binding.btnNewTest.setOnClickListener { btnNewTest() }
+        fun newTest() =
+            findNavController().navigate(R.id.action_wordsReviewFragment_to_reviewOptionsFragment,
+                bundleOf("options" to vm.options))
+        binding.btnNewTest.setOnClickListener { newTest() }
         binding.btnCheck.setOnClickListener { vm.check() }
         binding.chkSpeak.setOnClickListener {
             if (binding.chkSpeak.isChecked)
                 speak(vm.currentPhrase)
         }
 
-        btnNewTest()
+        setFragmentResultListener("result") { requestKey, bundle ->
+            vm.options = bundle.getSerializable("result") as MReviewOptions
+            binding.progressBar1.visibility = View.VISIBLE
+            vm.newTest()
+            binding.progressBar1.visibility = View.INVISIBLE
+        }
+
+        // https://stackoverflow.com/questions/7919681/how-to-determine-fragment-restored-from-backstack
+        if (!mAlreadyLoaded) {
+            mAlreadyLoaded = true
+            newTest()
+        }
     }
 
     override fun onDestroyView() {

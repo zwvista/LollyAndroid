@@ -27,7 +27,7 @@ class PhrasesReviewViewModel : ViewModel() {
     val hasNext get() = index < count
     val currentItem get() = if (hasNext) lstPhrases[index] else null
     val currentPhrase get() = if (hasNext) lstPhrases[index].phrase else ""
-    val options = MReviewOptions()
+    var options = MReviewOptions()
     val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
     var subscriptionTimer: Disposable? = null
 
