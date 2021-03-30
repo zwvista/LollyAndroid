@@ -1,9 +1,12 @@
 package com.zwstudio.lolly.android.words
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -70,28 +73,34 @@ class WordsDictFragment : Fragment(), TouchListener {
             binding.spnDictReference.setSelection(vmSettings.selectedDictReferenceIndex)
         }
 
+        binding.spnWord.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedWordIndex == position) return
+                vm.selectedWordIndex = position
+                selectedWordChanged()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+        binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vmSettings.selectedDictReferenceIndex == position) return
+                vmSettings.selectedDictReference = vmSettings.lstDictsReference[position]
+                Log.d("", String.format("Checked position:%d", position))
+                (binding.spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                compositeDisposable.add(vmSettings.updateDictReference().subscribe())
+                selectedDictChanged()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
         onlineDict = OnlineDict(binding.webView, vm, compositeDisposable)
         onlineDict.initWebViewClient()
         selectedWordChanged()
     }
 
-//    fun spnWordItemSelected(selected: Boolean, position: Int) {
-//        if (vm.selectedWordIndex == position) return
-//        vm.selectedWordIndex = position
-//        selectedWordChanged()
-//    }
-
-//    fun spnDictReferenceItemSelected(selected: Boolean, position: Int) {
-//        if (vmSettings.selectedDictReferenceIndex == position) return
-//        vmSettings.selectedDictReference = vmSettings.lstDictsReference[position]
-//        Log.d("", String.format("Checked position:%d", position))
-//        (spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-//        compositeDisposable.add(vmSettings.updateDictReference().subscribe())
-//        selectedDictChanged()
-//    }
-
     private fun selectedWordChanged() {
-//        title = vm.selectedWord
         selectedDictChanged()
     }
 
