@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.data.words
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.IOnlineDict
@@ -8,7 +9,8 @@ import com.zwstudio.lolly.service.misc.HtmlService
 
 class WordsDictViewModel : ViewModel(), IOnlineDict {
     var lstWords = mutableListOf<String>()
-    var selectedWordIndex = 0
+    var selectedWordIndex_ = MutableLiveData(0)
+    var selectedWordIndex get() = selectedWordIndex_.value!!; set(v) { selectedWordIndex_.value = v }
     val selectedWord: String
         get() = lstWords[selectedWordIndex]
 

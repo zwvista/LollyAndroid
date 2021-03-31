@@ -18,6 +18,7 @@ import com.zwstudio.lolly.android.misc.OnlineDict
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.words.WordsDictViewModel
 
 class WordsDictFragment : Fragment(), TouchListener {
@@ -41,17 +42,9 @@ class WordsDictFragment : Fragment(), TouchListener {
 
         binding.webView.setOnTouchListener(OnSwipeWebviewTouchListener(requireContext(), this))
 
-        run {
-            val lst = vm.lstWords
-            val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
-                val tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = getItem(position)
-                v
-            }
-            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-            binding.spnWord.adapter = adapter
-
-            binding.spnWord.setSelection(vm.selectedWordIndex)
+        binding.spnWord.adapter = makeCustomAdapter(requireContext(), vm.lstWords) { it }
+        vm.selectedWordIndex_.observe(viewLifecycleOwner) {
+            selectedWordChanged()
         }
 
         run {
@@ -73,8 +66,6 @@ class WordsDictFragment : Fragment(), TouchListener {
 
         binding.spnWord.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vm.selectedWordIndex == position) return
-                vm.selectedWordIndex = position
                 selectedWordChanged()
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
