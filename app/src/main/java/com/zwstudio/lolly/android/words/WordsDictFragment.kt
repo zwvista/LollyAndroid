@@ -47,30 +47,18 @@ class WordsDictFragment : Fragment(), TouchListener {
             selectedWordChanged()
         }
 
-        run {
-            val lst = vmSettings.lstDictsReference
-            val adapter = makeAdapter(requireContext(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
-                val item = getItem(position)!!
-                var tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = item.dictname
-                (tv as? CheckedTextView)?.isChecked = binding.spnDictReference.selectedItemPosition == position
-                tv = v.findViewById<TextView>(android.R.id.text2)
-                tv.text = item.url
-                v
-            }
-            adapter.setDropDownViewResource(R.layout.list_item_2)
-            binding.spnDictReference.adapter = adapter
-
-            binding.spnDictReference.setSelection(vmSettings.selectedDictReferenceIndex)
+        binding.spnDictReference.adapter = makeAdapter(requireContext(), R.layout.spinner_item_2, android.R.id.text1, vmSettings.lstDictsReference) { v, position ->
+            val item = getItem(position)!!
+            var tv = v.findViewById<TextView>(android.R.id.text1)
+            tv.text = item.dictname
+            (tv as? CheckedTextView)?.isChecked = binding.spnDictReference.selectedItemPosition == position
+            tv = v.findViewById<TextView>(android.R.id.text2)
+            tv.text = item.url
+            v
+        }.apply {
+            setDropDownViewResource(R.layout.list_item_2)
         }
-
-        binding.spnWord.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                selectedWordChanged()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
+        binding.spnDictReference.setSelection(vmSettings.selectedDictReferenceIndex)
         binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (vmSettings.selectedDictReferenceIndex == position) return
