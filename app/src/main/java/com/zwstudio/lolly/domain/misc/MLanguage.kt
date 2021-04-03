@@ -18,8 +18,5 @@ class MLanguage: Serializable {
     var id = 0
     @SerializedName("NAME")
     @Expose
-    var langname: String? = null
-    @SerializedName("VOICE")
-    @Expose
-    var voice: String? = null
+    var langname = ""
 }
