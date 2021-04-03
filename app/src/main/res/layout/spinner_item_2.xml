@@ -17,7 +17,7 @@
         />
 
     <TextView
-        android:id="@+id/android:text2"
+        android:id="@android:id/text2"
         style="?android:attr/spinnerItemStyle"
         android:singleLine="true"
         android:layout_width="match_parent"
