@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.android.misc
 
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -17,7 +16,7 @@ import com.zwstudio.lolly.android.databinding.FragmentSettingsBinding
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
-import com.zwstudio.lolly.domain.misc.MSelectItem
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SettingsFragment : Fragment(), SettingsListener {
@@ -171,16 +170,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     }
 
     override fun onGetData() {
-        val lst = vm.lstLanguages
-        val adapter = makeAdapter(requireActivity(), android.R.layout.simple_spinner_item, lst) { v, position ->
-            val ctv = v.findViewById<TextView>(android.R.id.text1)
-            ctv.text = lst[position].langname
-            ctv.setTextColor(Color.BLUE)
-            v
-        }
-        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-        binding.spnLanguage.adapter = adapter
-
+        binding.spnLanguage.adapter = makeCustomAdapter(requireContext(), vm.lstLanguages) { it.langname }
         binding.spnLanguage.setSelection(vm.selectedLangIndex)
     }
 
@@ -275,37 +265,24 @@ class SettingsFragment : Fragment(), SettingsListener {
     }
 
     override fun onUpdateTextbook() {
-
-        fun makeAdapter(lst: List<MSelectItem>): ArrayAdapter<MSelectItem> {
-            val adapter = makeAdapter(requireActivity(), android.R.layout.simple_spinner_item, lst) { v, position ->
-                val tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = getItem(position)!!.label
-                v
-            }
-            adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-            return adapter
-        }
-
         run {
-            val adapter = makeAdapter(vm.lstUnits)
+            val adapter = makeCustomAdapter(requireContext(), vm.lstUnits) { it.label }
             binding.spnUnitFrom.adapter = adapter
             binding.spnUnitTo.adapter = adapter
 
             onUpdateUnitFrom()
             onUpdateUnitTo()
         }
-
         run {
-            val adapter = makeAdapter(vm.lstParts)
+            val adapter = makeCustomAdapter(requireContext(), vm.lstParts) { it.label }
             binding.spnPartFrom.adapter = adapter
             binding.spnPartTo.adapter = adapter
 
             onUpdatePartFrom()
             onUpdatePartTo()
         }
-
         run {
-            val adapter = makeAdapter(vm.lstToTypes)
+            val adapter = makeCustomAdapter(requireContext(), vm.lstToTypes) { it.label }
             binding.spnToType.adapter = adapter
             binding.spnToType.setSelection(vm.toType.ordinal)
         }

@@ -88,11 +88,8 @@ fun <T> makeAdapter(context: Context, @LayoutRes resource: Int, @IdRes textViewR
             convert(super.getDropDownView(position, convertView, parent), position)
     }
 
-fun <T> makeAdapter(context: Context, @LayoutRes resource: Int, objects: List<T>, convert: ArrayAdapter<T>.(View, Int) -> View): ArrayAdapter<T> =
-    makeAdapter(context, resource, 0, objects, convert)
-
 fun <T> makeCustomAdapter(context: Context, objects: List<T>, labelFunc: (T) -> String): ArrayAdapter<T> =
-    makeAdapter(context, android.R.layout.simple_spinner_item, objects) { v, position ->
+    makeAdapter(context, android.R.layout.simple_spinner_item, 0, objects) { v, position ->
         val tv = v.findViewById<TextView>(android.R.id.text1)
         tv.text = labelFunc(getItem(position)!!)
         v

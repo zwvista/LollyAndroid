@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.android.misc
 
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,6 +19,7 @@ import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SearchViewModel
 import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeAdapter
+import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SearchFragment : Fragment(), SettingsListener {
@@ -85,16 +85,7 @@ class SearchFragment : Fragment(), SettingsListener {
     }
 
     override fun onGetData() {
-        val lst = vmSettings.lstLanguages
-        val adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, lst) { v, position ->
-            val ctv = v.findViewById<TextView>(android.R.id.text1)
-            ctv.text = lst[position].langname
-            ctv.setTextColor(Color.BLUE)
-            v
-        }
-        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
-        binding.spnLanguage.adapter = adapter
-
+        binding.spnLanguage.adapter = makeCustomAdapter(requireContext(), vmSettings.lstLanguages) { it.langname }
         binding.spnLanguage.setSelection(vmSettings.selectedLangIndex)
     }
 
