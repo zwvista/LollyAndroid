@@ -9,7 +9,7 @@ class MLangPhrases {
     var lst: List<MLangPhrase>? = null
 }
 
-class MLangPhrase(): Serializable {
+class MLangPhrase : Serializable {
 
     @SerializedName("ID")
     var id = 0
@@ -19,11 +19,4 @@ class MLangPhrase(): Serializable {
     var phrase = ""
     @SerializedName("TRANSLATION")
     var translation = ""
-
-    constructor(phraseid: Int, langid: Int, phrase: String, translation: String) : this() {
-        this.id = phraseid
-        this.langid = langid
-        this.phrase = phrase
-        this.translation = translation
-    }
 }

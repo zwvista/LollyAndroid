@@ -9,7 +9,7 @@ class MPatternWebPages {
     var lst: List<MPatternWebPage>? = null
 }
 
-class MPatternWebPage: Serializable {
+class MPatternWebPage : Serializable {
 
     @SerializedName("ID")
     var id = 0

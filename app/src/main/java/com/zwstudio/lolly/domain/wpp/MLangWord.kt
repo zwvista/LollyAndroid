@@ -12,7 +12,7 @@ class MLangWords {
     var lst: List<MLangWord>? = null
 }
 
-class MLangWord: Serializable {
+class MLangWord : Serializable {
 
     @SerializedName("ID")
     var id = 0

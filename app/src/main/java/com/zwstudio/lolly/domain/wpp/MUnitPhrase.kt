@@ -10,7 +10,7 @@ class MUnitPhrases {
     var lst: List<MUnitPhrase>? = null
 }
 
-class MUnitPhrase: Serializable {
+class MUnitPhrase : Serializable {
 
     @SerializedName("ID")
     var id = 0

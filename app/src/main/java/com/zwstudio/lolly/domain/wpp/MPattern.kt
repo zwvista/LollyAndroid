@@ -9,7 +9,7 @@ class MPatterns {
     var lst: List<MPattern>? = null
 }
 
-class MPattern: Serializable {
+class MPattern : Serializable {
 
     @SerializedName("ID")
     var id = 0

@@ -15,7 +15,7 @@ class MDictionaries {
     var lst: List<MDictionary>? = null
 }
 
-class MDictionary: Serializable {
+class MDictionary : Serializable {
 
     @SerializedName("ID")
     var id = 0
