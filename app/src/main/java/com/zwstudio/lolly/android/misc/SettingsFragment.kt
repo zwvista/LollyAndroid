@@ -8,15 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.CheckedTextView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentSettingsBinding
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SettingsListener
-import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
+import com.zwstudio.lolly.data.misc.makeCustomAdapter2
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SettingsFragment : Fragment(), SettingsListener {
@@ -175,93 +172,25 @@ class SettingsFragment : Fragment(), SettingsListener {
     }
 
     override fun onUpdateLang() {
-        run {
-            val lst = vm.lstVoices
-            val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
-                val m = getItem(position)!!
-                var tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = m.voicelang
-                (tv as? CheckedTextView)?.isChecked = binding.spnVoice.selectedItemPosition == position
-                tv = v.findViewById<TextView>(android.R.id.text2)
-                val item = vm.lstVoices.firstOrNull { it.voicelang == m.voicelang }
-                tv.text = item?.voicename ?: ""
-                v
-            }
-            adapter.setDropDownViewResource(R.layout.list_item_2)
-            binding.spnVoice.adapter = adapter
+        binding.spnVoice.makeCustomAdapter2(requireActivity(), vm.lstVoices, { it.voicelang }, { it.voicename })
+        binding.spnVoice.setSelection(vm.selectedVoiceIndex)
+        onUpdateVoice()
 
-            binding.spnVoice.setSelection(vm.selectedVoiceIndex)
-            onUpdateVoice()
-        }
-        run {
-            val lst = vm.lstDictsReference
-            val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
-                val m = getItem(position)!!
-                var tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = m.dictname
-                (tv as? CheckedTextView)?.isChecked = binding.spnDictReference.selectedItemPosition == position
-                tv = v.findViewById<TextView>(android.R.id.text2)
-                val item = vm.lstDictsReference.firstOrNull { it.dictname == m.dictname }
-                tv.text = item?.url ?: ""
-                v
-            }
-            adapter.setDropDownViewResource(R.layout.list_item_2)
-            binding.spnDictReference.adapter = adapter
+        binding.spnDictReference.makeCustomAdapter2(requireActivity(), vm.lstDictsReference, { it.dictname }, { it.url })
+        binding.spnDictReference.setSelection(vm.selectedDictReferenceIndex)
+        onUpdateDictReference()
 
-            binding.spnDictReference.setSelection(vm.selectedDictReferenceIndex)
-            onUpdateDictReference()
-        }
-        run {
-            val lst = vm.lstDictsNote
-            val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
-                val m = getItem(position)!!
-                var tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = m.dictname
-                (tv as? CheckedTextView)?.isChecked = binding.spnDictNote.selectedItemPosition == position
-                tv = v.findViewById<TextView>(android.R.id.text2)
-                tv.text = m.url
-                v
-            }
-            adapter.setDropDownViewResource(R.layout.list_item_2)
-            binding.spnDictNote.adapter = adapter
+        binding.spnDictNote.makeCustomAdapter2(requireActivity(), vm.lstDictsNote, { it.dictname }, { it.url })
+        binding.spnDictNote.setSelection(vm.selectedDictNoteIndex)
+        onUpdateDictNote()
 
-            binding.spnDictNote.setSelection(vm.selectedDictNoteIndex)
-            onUpdateDictNote()
-        }
-        run {
-            val lst = vm.lstDictsTranslation
-            val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
-                val m = getItem(position)!!
-                var tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = m.dictname
-                (tv as? CheckedTextView)?.isChecked = binding.spnDictTranslation.selectedItemPosition == position
-                tv = v.findViewById<TextView>(android.R.id.text2)
-                tv.text = m.url
-                v
-            }
-            adapter.setDropDownViewResource(R.layout.list_item_2)
-            binding.spnDictTranslation.adapter = adapter
+        binding.spnDictTranslation.makeCustomAdapter2(requireActivity(), vm.lstDictsTranslation, { it.dictname }, { it.url })
+        binding.spnDictTranslation.setSelection(vm.selectedDictTranslationIndex)
+        onUpdateDictTranslation()
 
-            binding.spnDictTranslation.setSelection(vm.selectedDictTranslationIndex)
-            onUpdateDictTranslation()
-        }
-        run {
-            val lst = vm.lstTextbooks
-            val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
-                val m = getItem(position)!!
-                var tv = v.findViewById<TextView>(android.R.id.text1)
-                tv.text = m.textbookname
-                (tv as? CheckedTextView)?.isChecked = binding.spnTextbook.selectedItemPosition == position
-                tv = v.findViewById<TextView>(android.R.id.text2)
-                tv.text = "${vm.unitCount} units"
-                v
-            }
-            adapter.setDropDownViewResource(R.layout.list_item_2)
-            binding.spnTextbook.adapter = adapter
-
-            binding.spnTextbook.setSelection(vm.selectedTextbookIndex)
-            onUpdateTextbook()
-        }
+        binding.spnTextbook.makeCustomAdapter2(requireActivity(), vm.lstTextbooks, { it.textbookname }, { "${vm.unitCount} units" })
+        binding.spnTextbook.setSelection(vm.selectedTextbookIndex)
+        onUpdateTextbook()
     }
 
     override fun onUpdateTextbook() {

@@ -7,19 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.CheckedTextView
 import android.widget.SearchView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentSearchBinding
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SearchViewModel
 import com.zwstudio.lolly.data.misc.SettingsListener
-import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
+import com.zwstudio.lolly.data.misc.makeCustomAdapter2
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SearchFragment : Fragment(), SettingsListener {
@@ -90,19 +87,7 @@ class SearchFragment : Fragment(), SettingsListener {
     }
 
     override fun onUpdateLang() {
-        val lst = vmSettings.lstDictsReference
-        val adapter = makeAdapter(requireActivity(), R.layout.spinner_item_2, android.R.id.text1, lst) { v, position ->
-            val item = getItem(position)!!
-            var tv = v.findViewById<TextView>(android.R.id.text1)
-            tv.text = item.dictname
-            (tv as? CheckedTextView)?.isChecked = binding.spnDictReference.selectedItemPosition == position
-            tv = v.findViewById<TextView>(android.R.id.text2)
-            tv.text = item.url
-            v
-        }
-        adapter.setDropDownViewResource(R.layout.list_item_2)
-        binding.spnDictReference.adapter = adapter
-
+        binding.spnDictReference.makeCustomAdapter2(requireContext(), vmSettings.lstDictsReference,  { it.dictname }, { it.url })
         binding.spnDictReference.setSelection(vmSettings.selectedDictReferenceIndex)
         searchDict()
     }

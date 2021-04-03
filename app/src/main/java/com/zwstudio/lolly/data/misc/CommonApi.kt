@@ -5,9 +5,12 @@ import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.CheckedTextView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import com.zwstudio.lolly.android.R
 import java.net.URLEncoder
 
 object GlobalConstants {
@@ -96,3 +99,17 @@ fun <T> makeCustomAdapter(context: Context, objects: List<T>, labelFunc: (T) -> 
     }.apply {
         setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
     }
+
+fun <T> Spinner.makeCustomAdapter2(context: Context, objects: List<T>, labelFunc: (T) -> String, labelFunc2: (T) -> String) {
+    adapter = makeAdapter(context, R.layout.spinner_item_2, android.R.id.text1, objects) { v, position ->
+        val item = getItem(position)!!
+        var tv = v.findViewById<TextView>(android.R.id.text1)
+        tv.text = labelFunc(item)
+        (tv as? CheckedTextView)?.isChecked = selectedItemPosition == position
+        tv = v.findViewById<TextView>(android.R.id.text2)
+        tv.text = labelFunc2(item)
+        v
+    }.apply {
+        setDropDownViewResource(R.layout.list_item_2)
+    }
+}
