@@ -11,7 +11,7 @@ class MTextbooks {
     var lst: List<MTextbook>? = null
 }
 
-class MTextbook: Serializable {
+class MTextbook : Serializable {
 
     @SerializedName("ID")
     var id = 0

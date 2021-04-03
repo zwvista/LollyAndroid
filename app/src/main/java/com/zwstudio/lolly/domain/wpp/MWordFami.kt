@@ -9,7 +9,7 @@ class MWordsFami {
     var lst: List<MWordFami>? = null
 }
 
-class MWordFami: Serializable {
+class MWordFami : Serializable {
 
     @SerializedName("ID")
     var id = 0

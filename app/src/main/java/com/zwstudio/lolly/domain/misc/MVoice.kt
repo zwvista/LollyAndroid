@@ -9,7 +9,7 @@ class MVoices {
     var lst: List<MVoice>? = null
 }
 
-class MVoice: Serializable {
+class MVoice : Serializable {
 
     @SerializedName("ID")
     var id = 0

@@ -9,7 +9,7 @@ class MAutoCorrects {
     var lst: List<MAutoCorrect>? = null
 }
 
-class MAutoCorrect: Serializable {
+class MAutoCorrect : Serializable {
 
     @SerializedName("ID")
     var id = 0

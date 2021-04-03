@@ -9,7 +9,7 @@ class MLanguages {
     var lst: List<MLanguage>? = null
 }
 
-class MLanguage: Serializable {
+class MLanguage : Serializable {
 
     @SerializedName("ID")
     var id = 0

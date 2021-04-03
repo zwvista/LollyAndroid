@@ -9,7 +9,7 @@ class MWebPages {
     var lst: List<MWebPage>? = null
 }
 
-class MWebPage: Serializable {
+class MWebPage : Serializable {
 
     @SerializedName("ID")
     var id = 0

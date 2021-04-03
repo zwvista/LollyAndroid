@@ -11,7 +11,7 @@ class MUnitWords {
     var lst: List<MUnitWord>? = null
 }
 
-class MUnitWord: Serializable {
+class MUnitWord : Serializable {
 
     @SerializedName("ID")
     var id = 0

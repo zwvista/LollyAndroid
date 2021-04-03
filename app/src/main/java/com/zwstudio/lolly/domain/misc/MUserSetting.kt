@@ -9,7 +9,7 @@ class MUserSettings {
     var lst: List<MUserSetting>? = null
 }
 
-class MUserSetting: Serializable {
+class MUserSetting : Serializable {
 
     @SerializedName("ID")
     var id = 0

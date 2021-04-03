@@ -9,7 +9,7 @@ class MUSMappings {
     var lst: List<MUSMapping>? = null
 }
 
-class MUSMapping: Serializable {
+class MUSMapping : Serializable {
 
     @SerializedName("ID")
     var id = 0
