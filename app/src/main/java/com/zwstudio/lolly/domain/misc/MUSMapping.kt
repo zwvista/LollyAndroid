@@ -1,35 +1,27 @@
 package com.zwstudio.lolly.domain.misc
 
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class MUSMappings {
 
     @SerializedName("records")
-    @Expose
     var lst: List<MUSMapping>? = null
 }
 
 class MUSMapping: Serializable {
 
     @SerializedName("ID")
-    @Expose
     var id = 0
     @SerializedName("NAME")
-    @Expose
     var name = ""
     @SerializedName("KIND")
-    @Expose
     var kind = 0
     @SerializedName("ENTITYID")
-    @Expose
     var entityid = 0
     @SerializedName("VALUEID")
-    @Expose
     var valueid = 0
     @SerializedName("LEVEL")
-    @Expose
     var level = 0
 
     companion object Companion {

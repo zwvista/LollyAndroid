@@ -6,7 +6,7 @@
               android:orientation="vertical">
 
     <CheckedTextView
-        android:id="@+id/android:text1"
+        android:id="@android:id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceListItem"
@@ -15,7 +15,7 @@
         android:textColor="#A05000"/>
 
     <TextView
-        android:id="@+id/android:text2"
+        android:id="@android:id/text2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
