@@ -7,18 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.CheckedTextView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentWordsDictBinding
 import com.zwstudio.lolly.android.misc.OnlineDict
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.vmSettings
-import com.zwstudio.lolly.data.misc.makeAdapter
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
+import com.zwstudio.lolly.data.misc.makeCustomAdapter2
 import com.zwstudio.lolly.data.words.WordsDictViewModel
 
 class WordsDictFragment : Fragment(), TouchListener {
@@ -47,17 +44,7 @@ class WordsDictFragment : Fragment(), TouchListener {
             selectedWordChanged()
         }
 
-        binding.spnDictReference.adapter = makeAdapter(requireContext(), R.layout.spinner_item_2, android.R.id.text1, vmSettings.lstDictsReference) { v, position ->
-            val item = getItem(position)!!
-            var tv = v.findViewById<TextView>(android.R.id.text1)
-            tv.text = item.dictname
-            (tv as? CheckedTextView)?.isChecked = binding.spnDictReference.selectedItemPosition == position
-            tv = v.findViewById<TextView>(android.R.id.text2)
-            tv.text = item.url
-            v
-        }.apply {
-            setDropDownViewResource(R.layout.list_item_2)
-        }
+        binding.spnDictReference.makeCustomAdapter2(requireContext(), vmSettings.lstDictsReference, { it.dictname },  { it.url })
         binding.spnDictReference.setSelection(vmSettings.selectedDictReferenceIndex)
         binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
