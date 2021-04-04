@@ -11,18 +11,18 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PhrasesUnitViewModel : DrawerListViewModel() {
 
-    var lstPhrasesAll_ = MutableLiveData(listOf<MUnitPhrase>())
+    private var lstPhrasesAll_ = MutableLiveData(listOf<MUnitPhrase>())
     var lstPhrasesAll get() = lstPhrasesAll_.value!!; set(v) { lstPhrasesAll_.value = v }
-    var lstPhrases_ = MutableLiveData(listOf<MUnitPhrase>())
+    private var lstPhrases_ = MutableLiveData(listOf<MUnitPhrase>())
     var lstPhrases get() = lstPhrases_.value!!; set(v) { lstPhrases_.value = v }
     val scopeFilterIndex = MutableLiveData(0)
     val textbookFilterIndex = MutableLiveData(0)
-    val textbookFilter get() = vmSettings.lstTextbookFilters[textbookFilterIndex.value!!].value
+    private val textbookFilter get() = vmSettings.lstTextbookFilters[textbookFilterIndex.value!!].value
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
     lateinit var compositeDisposable: CompositeDisposable
 
-    val unitPhraseService = UnitPhraseService()
+    private val unitPhraseService = UnitPhraseService()
 
     fun applyFilters() {
         lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {

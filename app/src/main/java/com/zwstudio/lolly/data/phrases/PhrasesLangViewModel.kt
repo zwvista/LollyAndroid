@@ -10,12 +10,12 @@ import io.reactivex.rxjava3.core.Observable
 
 class PhrasesLangViewModel : DrawerListViewModel() {
 
-    var lstPhrasesAll_ = MutableLiveData(listOf<MLangPhrase>())
+    private var lstPhrasesAll_ = MutableLiveData(listOf<MLangPhrase>())
     var lstPhrasesAll get() = lstPhrasesAll_.value!!; set(v) { lstPhrasesAll_.value = v }
-    var lstPhrases_ = MutableLiveData(listOf<MLangPhrase>())
+    private var lstPhrases_ = MutableLiveData(listOf<MLangPhrase>())
     var lstPhrases get() = lstPhrases_.value!!; set(v) { lstPhrases_.value = v }
     val scopeFilterIndex = MutableLiveData(0)
-    val noFilter get() = textFilter.isEmpty()
+    private val noFilter get() = textFilter.isEmpty()
 
     val langPhraseService = LangPhraseService()
 

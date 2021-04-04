@@ -11,16 +11,16 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PatternsViewModel : DrawerListViewModel() {
 
-    var lstPatternsAll_ = MutableLiveData(listOf<MPattern>())
+    private var lstPatternsAll_ = MutableLiveData(listOf<MPattern>())
     var lstPatternsAll get() = lstPatternsAll_.value!!; set(v) { lstPatternsAll_.value = v }
-    var lstPatterns_ = MutableLiveData(listOf<MPattern>())
+    private var lstPatterns_ = MutableLiveData(listOf<MPattern>())
     var lstPatterns get() = lstPatterns_.value!!; set(v) { lstPatterns_.value = v }
     val scopeFilterIndex = MutableLiveData(0)
-    val noFilter get() = textFilter.isEmpty()
+    private val noFilter get() = textFilter.isEmpty()
 
     lateinit var compositeDisposable: CompositeDisposable
 
-    val patternService = PatternService()
+    private val patternService = PatternService()
 
     fun applyFilters() {
         lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {
