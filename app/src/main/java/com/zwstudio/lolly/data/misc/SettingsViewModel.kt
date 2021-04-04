@@ -44,14 +44,6 @@ class SettingsViewModel : ViewModel() {
     var uslang: Int
         get() = getUSValue(INFO_USLANG)!!.toInt()
         set(value) = setUSValue(INFO_USLANG, value.toString())
-    private var INFO_USLEVELCOLORS = MUserSettingInfo()
-    var uslevelcolors = mapOf<Int, List<String>>()
-    private var INFO_USSCANINTERVAL = MUserSettingInfo()
-    val usscaninterval: Int
-        get() = getUSValue(INFO_USSCANINTERVAL)!!.toInt()
-    private var INFO_USREVIEWINTERVAL = MUserSettingInfo()
-    val usreviewinterval: Int
-        get() = getUSValue(INFO_USREVIEWINTERVAL)!!.toInt()
     private var INFO_USTEXTBOOK = MUserSettingInfo()
     var ustextbook: Int
         get() = getUSValue(INFO_USTEXTBOOK)!!.toInt()
@@ -233,12 +225,6 @@ class SettingsViewModel : ViewModel() {
             lstUSMappings = it.second
             lstUserSettings = it.third
             INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
-            INFO_USLEVELCOLORS = getUSInfo(MUSMapping.NAME_USLEVELCOLORS)
-            INFO_USSCANINTERVAL = getUSInfo(MUSMapping.NAME_USSCANINTERVAL)
-            INFO_USREVIEWINTERVAL = getUSInfo(MUSMapping.NAME_USREVIEWINTERVAL)
-            val lst = getUSValue(INFO_USLEVELCOLORS)!!.split("\r\n").map { it.split(',') }
-            // https://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
-            uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
             handler?.post { settingsListener?.onGetData() }
             setSelectedLang(lstLanguages.first { it.id == uslang })
         }.applyIO()

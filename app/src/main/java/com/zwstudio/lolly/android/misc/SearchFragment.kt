@@ -77,7 +77,8 @@ class SearchFragment : Fragment(), SettingsListener {
     }
 
     override fun onDestroyView() {
-        vmSettings.settingsListener = null
+        if (vmSettings.settingsListener == this)
+            vmSettings.settingsListener = null
         super.onDestroyView()
     }
 
