@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.zwstudio.lolly.android.applyIO
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.DrawerListViewModel
-import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.domain.wpp.MLangWord
 import com.zwstudio.lolly.service.wpp.LangWordService
 import io.reactivex.rxjava3.core.Observable
@@ -15,15 +14,14 @@ class WordsLangViewModel : DrawerListViewModel() {
     var lstWordsAll get() = lstWordsAll_.value!!; set(v) { lstWordsAll_.value = v }
     var lstWords_ = MutableLiveData(listOf<MLangWord>())
     var lstWords get() = lstWords_.value!!; set(v) { lstWords_.value = v }
-    var scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopeWordFilters[0].label)
-    var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
+    val scopeFilterIndex = MutableLiveData(0)
     val noFilter get() = textFilter.isEmpty()
 
     val langWordService = LangWordService()
 
     fun applyFilters() {
         lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilter == "Word") it.word else it.note).contains(textFilter, true))
+            (textFilter.isEmpty() || (if (scopeFilterIndex.value == 0) it.word else it.note).contains(textFilter, true))
         }
     }
 

@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.zwstudio.lolly.android.applyIO
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.DrawerListViewModel
-import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.domain.wpp.MLangPhrase
 import com.zwstudio.lolly.service.wpp.LangPhraseService
 import io.reactivex.rxjava3.core.Observable
@@ -15,15 +14,14 @@ class PhrasesLangViewModel : DrawerListViewModel() {
     var lstPhrasesAll get() = lstPhrasesAll_.value!!; set(v) { lstPhrasesAll_.value = v }
     var lstPhrases_ = MutableLiveData(listOf<MLangPhrase>())
     var lstPhrases get() = lstPhrases_.value!!; set(v) { lstPhrases_.value = v }
-    var scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopePhraseFilters[0].label)
-    var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
+    val scopeFilterIndex = MutableLiveData(0)
     val noFilter get() = textFilter.isEmpty()
 
     val langPhraseService = LangPhraseService()
 
     fun applyFilters() {
         lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilter == "Phrase") it.phrase else it.translation).contains(textFilter, true))
+            (textFilter.isEmpty() || (if (scopeFilterIndex.value == 0) it.phrase else it.translation).contains(textFilter, true))
         }
     }
 

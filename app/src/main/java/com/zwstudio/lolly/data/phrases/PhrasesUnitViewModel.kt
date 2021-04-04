@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.zwstudio.lolly.android.applyIO
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.DrawerListViewModel
-import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.domain.wpp.MUnitPhrase
 import com.zwstudio.lolly.service.wpp.UnitPhraseService
 import io.reactivex.rxjava3.core.Observable
@@ -16,10 +15,9 @@ class PhrasesUnitViewModel : DrawerListViewModel() {
     var lstPhrasesAll get() = lstPhrasesAll_.value!!; set(v) { lstPhrasesAll_.value = v }
     var lstPhrases_ = MutableLiveData(listOf<MUnitPhrase>())
     var lstPhrases get() = lstPhrases_.value!!; set(v) { lstPhrases_.value = v }
-    var scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopePhraseFilters[0].label)
-    var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
-    var textbookFilter_ = MutableLiveData(0)
-    var textbookFilter get() = textbookFilter_.value!!; set(v) { textbookFilter_.value = v }
+    val scopeFilterIndex = MutableLiveData(0)
+    val textbookFilterIndex = MutableLiveData(0)
+    val textbookFilter get() = vmSettings.lstTextbookFilters[textbookFilterIndex.value!!].value
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
     lateinit var compositeDisposable: CompositeDisposable
@@ -28,7 +26,7 @@ class PhrasesUnitViewModel : DrawerListViewModel() {
 
     fun applyFilters() {
         lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilter == "Phrase") it.phrase else it.translation).contains(textFilter, true)) &&
+            (textFilter.isEmpty() || (if (scopeFilterIndex.value == 0) it.phrase else it.translation).contains(textFilter, true)) &&
             (textbookFilter == 0 || it.textbookid == textbookFilter)
         }
     }

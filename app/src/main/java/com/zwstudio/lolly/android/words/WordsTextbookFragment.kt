@@ -3,7 +3,10 @@ package com.zwstudio.lolly.android.words
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
-import android.widget.*
+import android.widget.ImageView
+import android.widget.SearchView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import com.androidisland.vita.VitaOwner
@@ -58,28 +61,14 @@ class WordsTextbookFragment : DrawerListFragment() {
         })
 
         binding.spnTextbookFilter.adapter = makeCustomAdapter(requireContext(), vmSettings.lstTextbookFilters) { it.label }
-        binding.spnTextbookFilter.setSelection(0)
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopeWordFilters) { it.label }
-        binding.spnScopeFilter.setSelection(0)
-
-        binding.spnTextbookFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                vm.textbookFilter = vmSettings.lstTextbookFilters[position].value
-                vm.applyFilters()
-                refreshListView()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        vm.textbookFilterIndex.observe(viewLifecycleOwner) {
+            vm.applyFilters()
+            refreshListView()
         }
-
-        binding.spnScopeFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                vm.scopeFilter = SettingsViewModel.lstScopeWordFilters[position].label
-                vm.applyFilters()
-                refreshListView()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        vm.scopeFilterIndex.observe(viewLifecycleOwner) {
+            vm.applyFilters()
+            refreshListView()
         }
 
         setupListView()

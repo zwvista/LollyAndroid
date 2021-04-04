@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.zwstudio.lolly.android.applyIO
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.DrawerListViewModel
-import com.zwstudio.lolly.data.misc.SettingsViewModel
 import com.zwstudio.lolly.domain.wpp.MPattern
 import com.zwstudio.lolly.service.wpp.PatternService
 import io.reactivex.rxjava3.core.Observable
@@ -16,8 +15,7 @@ class PatternsViewModel : DrawerListViewModel() {
     var lstPatternsAll get() = lstPatternsAll_.value!!; set(v) { lstPatternsAll_.value = v }
     var lstPatterns_ = MutableLiveData(listOf<MPattern>())
     var lstPatterns get() = lstPatterns_.value!!; set(v) { lstPatterns_.value = v }
-    var scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopePatternFilters[0].label)
-    var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
+    val scopeFilterIndex = MutableLiveData(0)
     val noFilter get() = textFilter.isEmpty()
 
     lateinit var compositeDisposable: CompositeDisposable
@@ -26,7 +24,7 @@ class PatternsViewModel : DrawerListViewModel() {
 
     fun applyFilters() {
         lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilter == "Pattern") it.pattern else if (scopeFilter == "Note") it.note else it.tags).contains(textFilter, true))
+            (textFilter.isEmpty() || (if (scopeFilterIndex.value == 0) it.pattern else if (scopeFilterIndex.value == 1) it.note else it.tags).contains(textFilter, true))
         }
     }
 
