@@ -159,7 +159,8 @@ class SettingsFragment : Fragment(), SettingsListener {
     }
 
     override fun onDestroyView() {
-        vm.settingsListener = null
+        if (vm.settingsListener == this)
+            vm.settingsListener = null
         super.onDestroyView()
     }
 
