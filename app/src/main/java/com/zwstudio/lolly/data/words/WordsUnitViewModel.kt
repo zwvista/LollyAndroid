@@ -11,16 +11,16 @@ import kotlinx.coroutines.launch
 
 class WordsUnitViewModel : DrawerListViewModel() {
 
-    val lstWordsAll_ = MutableLiveData(listOf<MUnitWord>())
+    private val lstWordsAll_ = MutableLiveData(listOf<MUnitWord>())
     var lstWordsAll get() = lstWordsAll_.value!!; set(v) { lstWordsAll_.value = v }
-    val lstWords_ = MutableLiveData(listOf<MUnitWord>())
+    private val lstWords_ = MutableLiveData(listOf<MUnitWord>())
     var lstWords get() = lstWords_.value!!; set(v) { lstWords_.value = v }
     val scopeFilterIndex = MutableLiveData(0)
     val textbookFilterIndex = MutableLiveData(0)
-    val textbookFilter get() = vmSettings.lstTextbookFilters[textbookFilterIndex.value!!].value
+    private val textbookFilter get() = vmSettings.lstTextbookFilters[textbookFilterIndex.value!!].value
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
-    val unitWordService = UnitWordService()
+    private val unitWordService = UnitWordService()
 
     fun applyFilters() {
         lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {

@@ -10,14 +10,14 @@ import kotlinx.coroutines.launch
 
 class WordsLangViewModel : DrawerListViewModel() {
 
-    var lstWordsAll_ = MutableLiveData(listOf<MLangWord>())
+    private var lstWordsAll_ = MutableLiveData(listOf<MLangWord>())
     var lstWordsAll get() = lstWordsAll_.value!!; set(v) { lstWordsAll_.value = v }
-    var lstWords_ = MutableLiveData(listOf<MLangWord>())
+    private var lstWords_ = MutableLiveData(listOf<MLangWord>())
     var lstWords get() = lstWords_.value!!; set(v) { lstWords_.value = v }
     val scopeFilterIndex = MutableLiveData(0)
-    val noFilter get() = textFilter.isEmpty()
+    private val noFilter get() = textFilter.isEmpty()
 
-    val langWordService = LangWordService()
+    private val langWordService = LangWordService()
 
     fun applyFilters() {
         lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
