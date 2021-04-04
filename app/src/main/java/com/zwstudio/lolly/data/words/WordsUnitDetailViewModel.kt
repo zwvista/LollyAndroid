@@ -7,8 +7,8 @@ import com.zwstudio.lolly.domain.wpp.MUnitWord
 class WordsUnitDetailViewModel(val item: MUnitWord) : ViewModel() {
     val id = MutableLiveData(item.id)
     val textbookname = MutableLiveData(item.textbookname)
-    val unitItemPosition = MutableLiveData(item.unitItemPosition)
-    val partItemPosition = MutableLiveData(item.partItemPosition)
+    val unitIndex = MutableLiveData(item.unitIndex)
+    val partIndex = MutableLiveData(item.partIndex)
     val seqnum = MutableLiveData(item.seqnum)
     val word = MutableLiveData(item.word)
     val note = MutableLiveData(item.note)
@@ -17,8 +17,8 @@ class WordsUnitDetailViewModel(val item: MUnitWord) : ViewModel() {
     val accuracy = MutableLiveData(item.accuracy)
 
     fun save() {
-        item.unitItemPosition = unitItemPosition.value!!
-        item.partItemPosition = partItemPosition.value!!
+        item.unitIndex = unitIndex.value!!
+        item.partIndex = partIndex.value!!
         item.seqnum = seqnum.value!!
         item.word = word.value!!
         item.note = note.value!!

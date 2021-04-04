@@ -46,7 +46,7 @@
 
             <Spinner
                 android:id="@+id/spnUnit"
-                android:selectedItemPosition="@={model.unitItemPosition}"
+                android:selectedItemPosition="@={model.unitIndex}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -64,7 +64,7 @@
 
             <Spinner
                 android:id="@+id/spnPart"
-                android:selectedItemPosition="@={model.partItemPosition}"
+                android:selectedItemPosition="@={model.partIndex}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
