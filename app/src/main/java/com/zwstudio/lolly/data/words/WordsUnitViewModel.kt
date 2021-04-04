@@ -15,17 +15,16 @@ class WordsUnitViewModel : DrawerListViewModel() {
     var lstWordsAll get() = lstWordsAll_.value!!; set(v) { lstWordsAll_.value = v }
     val lstWords_ = MutableLiveData(listOf<MUnitWord>())
     var lstWords get() = lstWords_.value!!; set(v) { lstWords_.value = v }
-    val scopeFilter_ = MutableLiveData(SettingsViewModel.lstScopeWordFilters[0].label)
-    var scopeFilter get() = scopeFilter_.value!!; set(v) { scopeFilter_.value = v }
-    val textbookFilter_ = MutableLiveData(0)
-    var textbookFilter get() = textbookFilter_.value!!; set(v) { textbookFilter_.value = v }
+    val scopeFilterIndex = MutableLiveData(0)
+    val textbookFilterIndex = MutableLiveData(0)
+    val textbookFilter get() = vmSettings.lstTextbookFilters[textbookFilterIndex.value!!].value
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
     val unitWordService = UnitWordService()
 
     fun applyFilters() {
         lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilter == "Word") it.word else it.note).contains(textFilter, true)) &&
+            (textFilter.isEmpty() || (if (scopeFilterIndex.value == 0) it.word else it.note).contains(textFilter, true)) &&
             (textbookFilter == 0 || it.textbookid == textbookFilter)
         }
     }

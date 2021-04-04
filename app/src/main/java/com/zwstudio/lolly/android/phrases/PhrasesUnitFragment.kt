@@ -4,11 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.*
+import android.widget.ImageView
+import android.widget.SearchView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
-import androidx.lifecycle.viewModelScope
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -63,16 +66,9 @@ class PhrasesUnitFragment : DrawerListFragment() {
         })
 
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
-        binding.spnScopeFilter.setSelection(0)
-
-        binding.spnScopeFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                vm.scopeFilter = SettingsViewModel.lstScopePhraseFilters[position].label
-                vm.applyFilters()
-                refreshListView()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        vm.scopeFilterIndex.observe(viewLifecycleOwner) {
+            vm.applyFilters()
+            refreshListView()
         }
 
         setFragmentResultListener("PhrasesUnitDetailFragment") { requestKey, bundle ->
@@ -236,7 +232,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                     }
                     true
                 }
-                if (!(vm.isEditMode && vmSettings.isSingleUnitPart))
+                if (!(vm.isEditMode && vmSettings.isSingleUnitPart && vm.noFilter))
                     mHamburger.visibility = View.GONE
             }
 

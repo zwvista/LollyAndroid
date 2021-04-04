@@ -3,7 +3,6 @@ package com.zwstudio.lolly.android.phrases
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
-import android.widget.AdapterView
 import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
@@ -63,16 +62,9 @@ class PhrasesLangFragment : DrawerListFragment() {
         })
 
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
-        binding.spnScopeFilter.setSelection(0)
-
-        binding.spnScopeFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                vm.scopeFilter = SettingsViewModel.lstScopePhraseFilters[position].label
-                vm.applyFilters()
-                refreshListView()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        vm.scopeFilterIndex.observe(viewLifecycleOwner) {
+            vm.applyFilters()
+            refreshListView()
         }
 
         setupListView()
