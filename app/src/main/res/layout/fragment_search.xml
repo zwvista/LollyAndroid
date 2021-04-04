@@ -6,6 +6,7 @@
 
     <data>
         <variable name="model" type="com.zwstudio.lolly.data.misc.SearchViewModel"/>
+        <variable name="modelSettings" type="com.zwstudio.lolly.data.misc.SettingsViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,6 +24,7 @@
 
         <Spinner
             android:id="@+id/spnLanguage"
+            android:selectedItemPosition="@={modelSettings.selectedLangIndex}"
             android:layout_width="0dp"
             android:layout_height="50dp"
             app:layout_constraintHorizontal_weight="1"
