@@ -28,7 +28,6 @@ class SearchFragment : Fragment(), SettingsListener {
         binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
-            modelSettings = vmSettings
         }
         return binding.root
     }
@@ -50,8 +49,13 @@ class SearchFragment : Fragment(), SettingsListener {
             }
         })
 
-        vmSettings.selectedLangIndex.observe(viewLifecycleOwner) {
-            vmSettings.updateSelectedLang()
+        binding.spnLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vmSettings.selectedLang == vmSettings.lstLanguages[position]) return
+                vmSettings.setSelectedLang(vmSettings.lstLanguages[position])
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
         }
 
         binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -77,6 +81,7 @@ class SearchFragment : Fragment(), SettingsListener {
 
     override fun onGetData() {
         binding.spnLanguage.adapter = makeCustomAdapter(requireContext(), vmSettings.lstLanguages) { it.langname }
+        binding.spnLanguage.setSelection(vmSettings.selectedLangIndex)
     }
 
     override fun onUpdateLang() {
