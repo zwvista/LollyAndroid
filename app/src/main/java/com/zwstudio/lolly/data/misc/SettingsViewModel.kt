@@ -3,7 +3,6 @@ package com.zwstudio.lolly.data.misc
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.android.applyIO
 import com.zwstudio.lolly.android.tts
@@ -45,6 +44,14 @@ class SettingsViewModel : ViewModel() {
     var uslang: Int
         get() = getUSValue(INFO_USLANG)!!.toInt()
         set(value) = setUSValue(INFO_USLANG, value.toString())
+    private var INFO_USLEVELCOLORS = MUserSettingInfo()
+    var uslevelcolors = mapOf<Int, List<String>>()
+    private var INFO_USSCANINTERVAL = MUserSettingInfo()
+    val usscaninterval: Int
+        get() = getUSValue(INFO_USSCANINTERVAL)!!.toInt()
+    private var INFO_USREVIEWINTERVAL = MUserSettingInfo()
+    val usreviewinterval: Int
+        get() = getUSValue(INFO_USREVIEWINTERVAL)!!.toInt()
     private var INFO_USTEXTBOOK = MUserSettingInfo()
     var ustextbook: Int
         get() = getUSValue(INFO_USTEXTBOOK)!!.toInt()
@@ -97,8 +104,9 @@ class SettingsViewModel : ViewModel() {
         get() = usunitpartfrom > usunitpartto
 
     var lstLanguages = listOf<MLanguage>()
-    val selectedLangIndex = MutableLiveData(0)
-    val selectedLang get() = lstLanguages[selectedLangIndex.value!!]
+    lateinit var selectedLang: MLanguage
+    val selectedLangIndex: Int
+        get() = lstLanguages.indexOf(selectedLang)
 
     var lstVoices = listOf<MVoice>()
     var selectedVoice: MVoice? = null
@@ -220,19 +228,24 @@ class SettingsViewModel : ViewModel() {
         Observables.zip(languageService.getData(),
             usMappingService.getData(),
             userSettingService.getDataByUser(GlobalConstants.userid))
-        .applyIO()
-        .map {
+        .flatMap {
             lstLanguages = it.first
             lstUSMappings = it.second
             lstUserSettings = it.third
             INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
-            settingsListener?.onGetData()
-            selectedLangIndex.value = lstLanguages.indexOfFirst { it.id == uslang }
-        }
+            INFO_USLEVELCOLORS = getUSInfo(MUSMapping.NAME_USLEVELCOLORS)
+            INFO_USSCANINTERVAL = getUSInfo(MUSMapping.NAME_USSCANINTERVAL)
+            INFO_USREVIEWINTERVAL = getUSInfo(MUSMapping.NAME_USREVIEWINTERVAL)
+            val lst = getUSValue(INFO_USLEVELCOLORS)!!.split("\r\n").map { it.split(',') }
+            // https://stackoverflow.com/questions/32935470/how-to-convert-list-to-map-in-kotlin
+            uslevelcolors = lst.associateBy({ it[0].toInt() }, { listOf(it[1], it[2]) })
+            handler?.post { settingsListener?.onGetData() }
+            setSelectedLang(lstLanguages.first { it.id == uslang })
+        }.applyIO()
 
-    fun updateSelectedLang(): Observable<Unit> {
-        if (lstLanguages.isEmpty()) return Observable.just(Unit)
-        val isinit = selectedLang.id == uslang
+    fun setSelectedLang(lang: MLanguage): Observable<Unit> {
+        val isinit = lang.id == uslang
+        selectedLang = lang
         uslang = selectedLang.id
         INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
         INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)

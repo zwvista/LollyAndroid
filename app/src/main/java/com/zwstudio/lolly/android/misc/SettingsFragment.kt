@@ -34,8 +34,13 @@ class SettingsFragment : Fragment(), SettingsListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.selectedLangIndex.observe(viewLifecycleOwner) {
-            compositeDisposable.add(vm.updateSelectedLang().subscribe())
+        binding.spnLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (vm.selectedLang == vm.lstLanguages[position]) return
+                compositeDisposable.add(vm.setSelectedLang(vm.lstLanguages[position]).subscribe())
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
         }
 
         binding.spnVoice.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -163,6 +168,7 @@ class SettingsFragment : Fragment(), SettingsListener {
 
     override fun onGetData() {
         binding.spnLanguage.adapter = makeCustomAdapter(requireContext(), vm.lstLanguages) { it.langname }
+        binding.spnLanguage.setSelection(vm.selectedLangIndex)
     }
 
     override fun onUpdateLang() {
