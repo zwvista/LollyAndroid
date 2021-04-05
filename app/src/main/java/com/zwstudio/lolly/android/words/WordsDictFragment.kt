@@ -1,12 +1,10 @@
 package com.zwstudio.lolly.android.words
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.distinctUntilChanged
 import com.androidisland.vita.VitaOwner
@@ -51,10 +49,6 @@ class WordsDictFragment : Fragment(), TouchListener {
         binding.spnDictReference.setSelection(vmSettings.selectedDictReferenceIndex)
         binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vmSettings.selectedDictReferenceIndex == position) return
-                vmSettings.selectedDictReference = vmSettings.lstDictsReference[position]
-                Log.d("", String.format("Checked position:%d", position))
-                (binding.spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
                 compositeDisposable.add(vmSettings.updateDictReference().subscribe())
                 selectedDictChanged()
             }

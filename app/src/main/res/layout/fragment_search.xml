@@ -25,6 +25,7 @@
         <Spinner
             android:id="@+id/spnLanguage"
             android:selectedItemPosition="@={modelSettings.selectedLangIndex_}"
+            android:onItemSelected="@{modelSettings.onLangItemSelected}"
             android:layout_width="0dp"
             android:layout_height="50dp"
             app:layout_constraintHorizontal_weight="1"
@@ -35,6 +36,8 @@
 
         <Spinner
             android:id="@+id/spnDictReference"
+            android:selectedItemPosition="@={modelSettings.selectedDictReferenceIndex_}"
+            android:onItemSelected="@{modelSettings.onDictReferenceItemSelected}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintHorizontal_weight="2"

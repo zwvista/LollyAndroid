@@ -7,9 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.distinctUntilChanged
 import com.zwstudio.lolly.android.databinding.FragmentSettingsBinding
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SettingsListener
@@ -34,65 +32,6 @@ class SettingsFragment : Fragment(), SettingsListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        vmSettings.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            compositeDisposable.add(vmSettings.updateLang().subscribe())
-        }
-
-        binding.spnVoice.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vm.selectedVoice == vm.lstVoices[position]) return
-                vm.selectedVoice = vm.lstVoices[position]
-                (binding.spnVoice.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-                compositeDisposable.add(vm.updateVoice().subscribe())
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
-
-        binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vm.selectedDictReference == vm.lstDictsReference[position]) return
-                vm.selectedDictReference = vm.lstDictsReference[position]
-                (binding.spnDictReference.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-                compositeDisposable.add(vm.updateDictReference().subscribe())
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
-
-        binding.spnDictNote.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vm.selectedDictNote == vm.lstDictsNote[position]) return
-                vm.selectedDictNote = vm.lstDictsNote[position]
-                (binding.spnDictNote.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-                compositeDisposable.add(vm.updateDictNote().subscribe())
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
-
-        binding.spnDictTranslation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vm.selectedDictTranslation == vm.lstDictsTranslation[position]) return
-                vm.selectedDictTranslation = vm.lstDictsTranslation[position]
-                (binding.spnDictTranslation.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-                compositeDisposable.add(vm.updateDictTranslation().subscribe())
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
-
-        binding.spnTextbook.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vm.selectedTextbook == vm.lstTextbooks[position]) return
-                vm.selectedTextbook = vm.lstTextbooks[position]
-                (binding.spnTextbook.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-                compositeDisposable.add(vm.updateTextbook().subscribe())
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
 
         binding.spnUnitFrom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -165,29 +104,14 @@ class SettingsFragment : Fragment(), SettingsListener {
 
     override fun onGetData() {
         binding.spnLanguage.adapter = makeCustomAdapter(requireContext(), vm.lstLanguages) { it.langname }
-        binding.spnLanguage.setSelection(vm.selectedLangIndex)
     }
 
     override fun onUpdateLang() {
         binding.spnVoice.makeCustomAdapter2(requireActivity(), vm.lstVoices, { it.voicelang }, { it.voicename })
-        binding.spnVoice.setSelection(vm.selectedVoiceIndex)
-        onUpdateVoice()
-
         binding.spnDictReference.makeCustomAdapter2(requireActivity(), vm.lstDictsReference, { it.dictname }, { it.url })
-        binding.spnDictReference.setSelection(vm.selectedDictReferenceIndex)
-        onUpdateDictReference()
-
         binding.spnDictNote.makeCustomAdapter2(requireActivity(), vm.lstDictsNote, { it.dictname }, { it.url })
-        binding.spnDictNote.setSelection(vm.selectedDictNoteIndex)
-        onUpdateDictNote()
-
         binding.spnDictTranslation.makeCustomAdapter2(requireActivity(), vm.lstDictsTranslation, { it.dictname }, { it.url })
-        binding.spnDictTranslation.setSelection(vm.selectedDictTranslationIndex)
-        onUpdateDictTranslation()
-
         binding.spnTextbook.makeCustomAdapter2(requireActivity(), vm.lstTextbooks, { it.textbookname }, { "${vm.unitCount} units" })
-        binding.spnTextbook.setSelection(vm.selectedTextbookIndex)
-        onUpdateTextbook()
     }
 
     override fun onUpdateTextbook() {
