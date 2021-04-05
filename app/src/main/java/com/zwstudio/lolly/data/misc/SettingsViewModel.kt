@@ -3,6 +3,7 @@ package com.zwstudio.lolly.data.misc
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.android.applyIO
 import com.zwstudio.lolly.android.tts
@@ -96,9 +97,9 @@ class SettingsViewModel : ViewModel() {
         get() = usunitpartfrom > usunitpartto
 
     var lstLanguages = listOf<MLanguage>()
-    lateinit var selectedLang: MLanguage
-    val selectedLangIndex: Int
-        get() = lstLanguages.indexOf(selectedLang)
+    val selectedLangIndex_= MutableLiveData(-1)
+    var selectedLangIndex get() = selectedLangIndex_.value!!; set(v) { selectedLangIndex_.value = v }
+    val selectedLang get() = lstLanguages[selectedLangIndex]
 
     var lstVoices = listOf<MVoice>()
     var selectedVoice: MVoice? = null
@@ -216,22 +217,28 @@ class SettingsViewModel : ViewModel() {
 
     var handler: Handler? = null
     var settingsListener: SettingsListener? = null
-    fun getData(): Observable<Unit> =
-        Observables.zip(languageService.getData(),
+    fun getData(): Observable<Unit> {
+        lstLanguages = listOf()
+        selectedLangIndex = -1
+        return Observables.zip(languageService.getData(),
             usMappingService.getData(),
             userSettingService.getDataByUser(GlobalConstants.userid))
-        .flatMap {
-            lstLanguages = it.first
-            lstUSMappings = it.second
-            lstUserSettings = it.third
-            INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
-            handler?.post { settingsListener?.onGetData() }
-            setSelectedLang(lstLanguages.first { it.id == uslang })
-        }.applyIO()
+            .map {
+                lstLanguages = it.first
+                lstUSMappings = it.second
+                lstUserSettings = it.third
+                INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
+                handler?.post {
+                    selectedLangIndex = 0.coerceAtLeast(lstLanguages.indexOfFirst { it.id == uslang })
+                    settingsListener?.onGetData()
+                }
+                Unit
+            }.applyIO()
+    }
 
-    fun setSelectedLang(lang: MLanguage): Observable<Unit> {
-        val isinit = lang.id == uslang
-        selectedLang = lang
+    fun updateLang(): Observable<Unit> {
+        if (lstLanguages.isEmpty()) return Observable.empty()
+        val isinit = selectedLang.id == uslang
         uslang = selectedLang.id
         INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
         INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
@@ -244,33 +251,26 @@ class SettingsViewModel : ViewModel() {
             dictionaryService.getDictsTranslationByLang(uslang),
             textbookService.getDataByLang(uslang),
             autoCorrectService.getDataByLang(uslang),
-            voiceService.getDataByLang(uslang), {
-            res1, res2, res3, res4, res5, res6 ->
+            voiceService.getDataByLang(uslang),
+            if (isinit) userSettingService.update(INFO_USLANG, uslang) else Observable.just(Unit), { res1, res2, res3, res4, res5, res6, _ ->
             lstDictsReference = res1
             selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
             lstDictsNote = res2
-            selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnote } ?: lstDictsNote.firstOrNull()
+            selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnote }
+                ?: lstDictsNote.firstOrNull()
             lstDictsTranslation = res3
-            selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslation } ?: lstDictsTranslation.firstOrNull()
+            selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslation }
+                ?: lstDictsTranslation.firstOrNull()
             lstTextbooks = res4
             selectedTextbook = lstTextbooks.first { it.id == ustextbook }
             lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
             lstAutoCorrect = res5
             lstVoices = res6
             selectedVoice = lstVoices.firstOrNull { it.id == usvoice } ?: lstVoices.firstOrNull()
-        }).flatMap {
-            if (isinit) {
-                handler?.post { settingsListener?.onUpdateLang() }
-                Observable.just(Unit)
-            } else
-                updateLang()
-        }.applyIO()
+        })
+        .map { handler?.post { settingsListener?.onUpdateLang() }; Unit }
+        .applyIO()
     }
-
-    fun updateLang(): Observable<Unit> =
-        userSettingService.update(INFO_USLANG, uslang)
-            .map { handler?.post { settingsListener?.onUpdateLang() }; Unit }
-            .applyIO()
 
     fun updateTextbook(): Observable<Unit> =
         userSettingService.update(INFO_USTEXTBOOK, ustextbook)

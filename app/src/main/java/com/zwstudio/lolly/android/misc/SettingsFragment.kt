@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.distinctUntilChanged
 import com.zwstudio.lolly.android.databinding.FragmentSettingsBinding
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SettingsListener
@@ -34,13 +35,8 @@ class SettingsFragment : Fragment(), SettingsListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.spnLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vm.selectedLang == vm.lstLanguages[position]) return
-                compositeDisposable.add(vm.setSelectedLang(vm.lstLanguages[position]).subscribe())
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        vmSettings.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            compositeDisposable.add(vmSettings.updateLang().subscribe())
         }
 
         binding.spnVoice.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
