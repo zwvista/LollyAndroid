@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
+import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -63,7 +64,7 @@ class PhrasesLangFragment : DrawerListFragment() {
         })
 
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
-        vm.scopeFilterIndex.observe(viewLifecycleOwner) {
+        vm.scopeFilterIndex.distinctUntilChanged().observe(viewLifecycleOwner) {
             vm.applyFilters()
             refreshListView()
         }
