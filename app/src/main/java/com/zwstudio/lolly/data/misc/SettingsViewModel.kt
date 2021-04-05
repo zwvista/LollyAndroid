@@ -3,6 +3,8 @@ package com.zwstudio.lolly.data.misc
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -101,72 +103,30 @@ class SettingsViewModel : ViewModel() {
     val selectedLang get() = lstLanguages[selectedLangIndex]
 
     var lstVoices = listOf<MVoice>()
-    var selectedVoice: MVoice? = null
-        set(value) {
-            field = value
-            usvoice = field?.id ?: 0
-            val locale = Locale.getAvailableLocales().find {
-                "${it.language}_${it.country}" == field?.voicelang
-            }
-            if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return
-            tts.language = locale
-        }
-    val selectedVoiceIndex: Int
-        get() =
-            if (selectedVoice == null) 0
-            else lstVoices.indexOf(selectedVoice!!)
+    val selectedVoiceIndex_= MutableLiveData(-1)
+    var selectedVoiceIndex get() = selectedVoiceIndex_.value!!; set(v) { selectedVoiceIndex_.value = v }
+    val selectedVoice get() = lstVoices.getOrNull(selectedVoiceIndex)
 
     var lstTextbooks = listOf<MTextbook>()
-    // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter
-    private var _selectedTextbook: MTextbook? = null
-    var selectedTextbook: MTextbook
-        get() = _selectedTextbook!!
-        set(value) {
-            _selectedTextbook = value
-            ustextbook = value.id
-            INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
-            INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
-            INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
-            INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
-            toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
-        }
-    val selectedTextbookIndex: Int
-        get() = lstTextbooks.indexOf(selectedTextbook)
+    val selectedTextbookIndex_= MutableLiveData(-1)
+    var selectedTextbookIndex get() = selectedTextbookIndex_.value!!; set(v) { selectedTextbookIndex_.value = v }
+    val selectedTextbook get() = lstTextbooks[selectedTextbookIndex]
     var lstTextbookFilters = listOf<MSelectItem>()
 
     var lstDictsReference = listOf<MDictionary>()
-    // https://stackoverflow.com/questions/46366869/kotlin-workaround-for-no-lateinit-when-using-custom-setter
-    private var _selectedDictReference: MDictionary? = null
-    var selectedDictReference: MDictionary
-        get() = _selectedDictReference!!
-        set(value) {
-            _selectedDictReference = value
-            usdictreference = selectedDictReference.dictid.toString()
-        }
-    val selectedDictReferenceIndex: Int
-        get() = lstDictsReference.indexOf(selectedDictReference)
+    val selectedDictReferenceIndex_= MutableLiveData(-1)
+    var selectedDictReferenceIndex get() = selectedDictReferenceIndex_.value!!; set(v) { selectedDictReferenceIndex_.value = v }
+    val selectedDictReference get() = lstDictsReference[selectedDictReferenceIndex]
 
     var lstDictsNote = listOf<MDictionary>()
-    var selectedDictNote: MDictionary? = null
-        set(value) {
-            field = value
-            usdictnote = selectedDictNote?.dictid ?: 0
-        }
-    val selectedDictNoteIndex: Int
-        get() =
-            if (selectedDictNote == null) 0
-            else lstDictsNote.indexOf(selectedDictNote!!)
+    val selectedDictNoteIndex_= MutableLiveData(-1)
+    var selectedDictNoteIndex get() = selectedDictNoteIndex_.value!!; set(v) { selectedDictNoteIndex_.value = v }
+    val selectedDictNote get() = lstDictsNote.getOrNull(selectedDictNoteIndex)
 
     var lstDictsTranslation = listOf<MDictionary>()
-    var selectedDictTranslation: MDictionary? = null
-        set(value) {
-            field = value
-            usdicttranslation = selectedDictTranslation?.dictid ?: 0
-        }
-    val selectedDictTranslationIndex: Int
-        get() =
-            if (selectedDictTranslation == null) 0
-            else lstDictsTranslation.indexOf(selectedDictTranslation!!)
+    val selectedDictTranslationIndex_= MutableLiveData(-1)
+    var selectedDictTranslationIndex get() = selectedDictTranslationIndex_.value!!; set(v) { selectedDictTranslationIndex_.value = v }
+    val selectedDictTranslation get() = lstDictsTranslation.getOrNull(selectedDictTranslationIndex)
 
     val lstUnits: List<MSelectItem>
         get() = selectedTextbook.lstUnits
@@ -217,7 +177,6 @@ class SettingsViewModel : ViewModel() {
     var handler: Handler? = null
     var settingsListener: SettingsListener? = null
     fun getData() = viewModelScope.launch {
-        lstLanguages = listOf()
         selectedLangIndex = -1
         // TODO async
         lstLanguages = languageService.getData()
@@ -226,6 +185,7 @@ class SettingsViewModel : ViewModel() {
         INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
         selectedLangIndex = 0.coerceAtLeast(lstLanguages.indexOfFirst { it.id == uslang })
         settingsListener?.onGetData()
+        updateLang()
     }
 
     fun updateLang() = viewModelScope.launch {
@@ -238,44 +198,70 @@ class SettingsViewModel : ViewModel() {
         INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
         INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
         INFO_USANDROIDVOICE = getUSInfo(MUSMapping.NAME_USANDROIDVOICE)
+        selectedDictReferenceIndex = -1
+        selectedDictNoteIndex = -1
+        selectedDictTranslationIndex = -1
+        selectedTextbookIndex = -1
+        selectedVoiceIndex = -1
         // TODO async
         lstDictsReference = dictionaryService.getDictsReferenceByLang(uslang)
-        selectedDictReference = lstDictsReference.first { it.dictid.toString() == usdictreference }
         lstDictsNote = dictionaryService.getDictsNoteByLang(uslang)
-        selectedDictNote = lstDictsNote.firstOrNull { it.dictid == usdictnote } ?: lstDictsNote.firstOrNull()
         lstDictsTranslation = dictionaryService.getDictsTranslationByLang(uslang)
-        selectedDictTranslation = lstDictsTranslation.firstOrNull { it.dictid == usdicttranslation } ?: lstDictsTranslation.firstOrNull()
         lstTextbooks = textbookService.getDataByLang(uslang)
-        selectedTextbook = lstTextbooks.first { it.id == ustextbook }
         lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
         lstAutoCorrect = autoCorrectService.getDataByLang(uslang)
         lstVoices = voiceService.getDataByLang(uslang)
-        selectedVoice = lstVoices.firstOrNull { it.id == usvoice } ?: lstVoices.firstOrNull()
         if (isinit) userSettingService.update(INFO_USLANG, uslang)
+        selectedDictReferenceIndex = 0.coerceAtLeast(lstDictsReference.indexOfFirst { it.dictid.toString() == usdictreference })
+        selectedDictNoteIndex = 0.coerceAtLeast(lstDictsNote.indexOfFirst { it.dictid == usdictnote })
+        selectedDictTranslationIndex = 0.coerceAtLeast(lstDictsTranslation.indexOfFirst { it.dictid == usdicttranslation })
+        selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
+        selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
         settingsListener?.onUpdateLang()
+        updateTextbook()
     }
 
     fun updateTextbook() = viewModelScope.launch {
+        if (lstTextbooks.isEmpty()) return@launch
+        ustextbook = selectedTextbook.id
+        INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
+        INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
+        INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
+        INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
+        toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
         userSettingService.update(INFO_USTEXTBOOK, ustextbook)
         settingsListener?.onUpdateTextbook()
     }
 
     fun updateDictReference() = viewModelScope.launch {
+        if (lstDictsReference.isEmpty()) return@launch
+        usdictreference = selectedDictReference.dictid.toString()
         userSettingService.update(INFO_USDICTREFERENCE, usdictreference)
         settingsListener?.onUpdateDictReference()
     }
 
     fun updateDictNote() = viewModelScope.launch {
+        if (lstDictsNote.isEmpty()) return@launch
+        usdictnote = selectedDictNote?.dictid ?: 0
         userSettingService.update(INFO_USDICTNOTE, usdictnote)
         settingsListener?.onUpdateDictNote()
     }
 
     fun updateDictTranslation() = viewModelScope.launch {
+        if (lstDictsTranslation.isEmpty()) return@launch
+        usdicttranslation = selectedDictTranslation?.dictid ?: 0
         userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation)
         settingsListener?.onUpdateDictTranslation()
     }
 
     fun updateVoice() = viewModelScope.launch {
+        if (lstVoices.isEmpty()) return@launch
+        usvoice = selectedVoice?.id ?: 0
+        val locale = Locale.getAvailableLocales().find {
+            "${it.language}_${it.country}" == selectedVoice?.voicelang
+        }
+        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return@launch
+        tts.language = locale
         userSettingService.update(INFO_USANDROIDVOICE, usvoice)
         withContext(Dispatchers.Main) { settingsListener?.onUpdateVoice() }
     }
@@ -449,6 +435,42 @@ class SettingsViewModel : ViewModel() {
             i++
         }
         allComplete()
+    }
+
+    fun onLangItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (selectedLangIndex == -1) return
+        selectedLangIndex = position
+        updateLang()
+    }
+
+    fun onVoiceItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (selectedVoiceIndex == -1) return
+        selectedVoiceIndex = position
+        updateVoice()
+    }
+
+    fun onDictReferenceItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (selectedDictReferenceIndex == -1) return
+        selectedDictReferenceIndex = position
+        updateDictReference()
+    }
+
+    fun onDictNoteItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (selectedDictNoteIndex == -1) return
+        selectedDictNoteIndex = position
+        updateDictNote()
+    }
+
+    fun onDictTranslationItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (selectedDictTranslationIndex == -1) return
+        selectedDictTranslationIndex = position
+        updateDictTranslation()
+    }
+
+    fun onTextbookItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        if (selectedLangIndex == -1) return
+        selectedTextbookIndex = position
+        updateTextbook()
     }
 }
 

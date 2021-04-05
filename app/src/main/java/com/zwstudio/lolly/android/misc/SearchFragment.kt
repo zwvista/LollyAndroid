@@ -6,10 +6,8 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.distinctUntilChanged
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.databinding.FragmentSearchBinding
@@ -29,6 +27,7 @@ class SearchFragment : Fragment(), SettingsListener {
         binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
+            modelSettings = vmSettings
         }
         return binding.root
     }
@@ -50,21 +49,6 @@ class SearchFragment : Fragment(), SettingsListener {
             }
         })
 
-        vmSettings.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            vmSettings.updateLang()
-        }
-
-        binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vmSettings.selectedDictReference == vmSettings.lstDictsReference[position]) return
-                vmSettings.selectedDictReference = vmSettings.lstDictsReference[position]
-                vmSettings.updateDictReference()
-                searchDict()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
-
         vmSettings.handler = Handler(Looper.getMainLooper())
         vmSettings.settingsListener = this
         vmSettings.getData()
@@ -78,12 +62,13 @@ class SearchFragment : Fragment(), SettingsListener {
 
     override fun onGetData() {
         binding.spnLanguage.adapter = makeCustomAdapter(requireContext(), vmSettings.lstLanguages) { it.langname }
-        binding.spnLanguage.setSelection(vmSettings.selectedLangIndex)
     }
 
     override fun onUpdateLang() {
         binding.spnDictReference.makeCustomAdapter2(requireContext(), vmSettings.lstDictsReference,  { it.dictname }, { it.url })
-        binding.spnDictReference.setSelection(vmSettings.selectedDictReferenceIndex)
+    }
+
+    override fun onUpdateDictReference() {
         searchDict()
     }
 

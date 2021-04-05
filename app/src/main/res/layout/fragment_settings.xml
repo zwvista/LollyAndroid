@@ -29,6 +29,7 @@
             <Spinner
                 android:id="@+id/spnLanguage"
                 android:selectedItemPosition="@={model.selectedLangIndex_}"
+                android:onItemSelected="@{model.onLangItemSelected}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -47,6 +48,8 @@
 
             <Spinner
                 android:id="@+id/spnVoice"
+                android:selectedItemPosition="@={model.selectedVoiceIndex_}"
+                android:onItemSelected="@{model.onVoiceItemSelected}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -65,6 +68,8 @@
 
             <Spinner
                 android:id="@+id/spnDictReference"
+                android:selectedItemPosition="@={model.selectedDictReferenceIndex_}"
+                android:onItemSelected="@{model.onDictReferenceItemSelected}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -83,6 +88,8 @@
 
             <Spinner
                 android:id="@+id/spnDictNote"
+                android:selectedItemPosition="@={model.selectedDictNoteIndex_}"
+                android:onItemSelected="@{model.onDictNoteItemSelected}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -101,6 +108,8 @@
 
             <Spinner
                 android:id="@+id/spnDictTranslation"
+                android:selectedItemPosition="@={model.selectedDictTranslationIndex_}"
+                android:onItemSelected="@{model.onDictTranslationItemSelected}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -119,6 +128,8 @@
 
             <Spinner
                 android:id="@+id/spnTextbook"
+                android:selectedItemPosition="@={model.selectedTextbookIndex_}"
+                android:onItemSelected="@{model.onTextbookItemSelected}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
