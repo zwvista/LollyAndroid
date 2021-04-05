@@ -3,6 +3,7 @@ package com.zwstudio.lolly.data.misc
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.android.tts
@@ -95,9 +96,9 @@ class SettingsViewModel : ViewModel() {
         get() = usunitpartfrom > usunitpartto
 
     var lstLanguages = listOf<MLanguage>()
-    lateinit var selectedLang: MLanguage
-    val selectedLangIndex: Int
-        get() = lstLanguages.indexOf(selectedLang)
+    val selectedLangIndex_= MutableLiveData(-1)
+    var selectedLangIndex get() = selectedLangIndex_.value!!; set(v) { selectedLangIndex_.value = v }
+    val selectedLang get() = lstLanguages[selectedLangIndex]
 
     var lstVoices = listOf<MVoice>()
     var selectedVoice: MVoice? = null
@@ -216,18 +217,20 @@ class SettingsViewModel : ViewModel() {
     var handler: Handler? = null
     var settingsListener: SettingsListener? = null
     fun getData() = viewModelScope.launch {
+        lstLanguages = listOf()
+        selectedLangIndex = -1
         // TODO async
         lstLanguages = languageService.getData()
         lstUSMappings = usMappingService.getData()
         lstUserSettings = userSettingService.getDataByUser(GlobalConstants.userid)
         INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
-        handler?.post { settingsListener?.onGetData() }
-        setSelectedLang(lstLanguages.first { it.id == uslang })
+        selectedLangIndex = 0.coerceAtLeast(lstLanguages.indexOfFirst { it.id == uslang })
+        settingsListener?.onGetData()
     }
 
-    fun setSelectedLang(lang: MLanguage) = viewModelScope.launch {
-        val isinit = lang.id == uslang
-        selectedLang = lang
+    fun updateLang() = viewModelScope.launch {
+        if (lstLanguages.isEmpty()) return@launch
+        val isinit = selectedLang.id == uslang
         uslang = selectedLang.id
         INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
         INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
@@ -248,14 +251,7 @@ class SettingsViewModel : ViewModel() {
         lstAutoCorrect = autoCorrectService.getDataByLang(uslang)
         lstVoices = voiceService.getDataByLang(uslang)
         selectedVoice = lstVoices.firstOrNull { it.id == usvoice } ?: lstVoices.firstOrNull()
-        if (isinit)
-            settingsListener?.onUpdateLang()
-        else
-            updateLang()
-    }
-
-    private suspend fun updateLang() {
-        userSettingService.update(INFO_USLANG, uslang)
+        if (isinit) userSettingService.update(INFO_USLANG, uslang)
         settingsListener?.onUpdateLang()
     }
 

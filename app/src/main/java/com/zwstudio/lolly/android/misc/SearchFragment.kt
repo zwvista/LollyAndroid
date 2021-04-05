@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.distinctUntilChanged
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.databinding.FragmentSearchBinding
@@ -49,13 +50,8 @@ class SearchFragment : Fragment(), SettingsListener {
             }
         })
 
-        binding.spnLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vmSettings.selectedLang == vmSettings.lstLanguages[position]) return
-                vmSettings.setSelectedLang(vmSettings.lstLanguages[position])
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        vmSettings.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            vmSettings.updateLang()
         }
 
         binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
