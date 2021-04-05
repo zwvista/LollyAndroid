@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.distinctUntilChanged
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.databinding.FragmentWordsDictBinding
@@ -40,7 +41,7 @@ class WordsDictFragment : Fragment(), TouchListener {
         binding.webView.setOnTouchListener(OnSwipeWebviewTouchListener(requireContext(), this))
 
         binding.spnWord.adapter = makeCustomAdapter(requireContext(), vm.lstWords) { it }
-        vm.selectedWordIndex_.observe(viewLifecycleOwner) {
+        vm.selectedWordIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
             selectedWordChanged()
         }
 
