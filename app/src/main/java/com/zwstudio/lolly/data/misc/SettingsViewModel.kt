@@ -3,8 +3,6 @@ package com.zwstudio.lolly.data.misc
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import android.view.View
-import android.widget.AdapterView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.android.applyIO
@@ -179,6 +177,11 @@ class SettingsViewModel : ViewModel() {
     var settingsListener: SettingsListener? = null
     fun getData(): Observable<Unit> {
         selectedLangIndex = -1
+        selectedDictReferenceIndex = -1
+        selectedDictNoteIndex = -1
+        selectedDictTranslationIndex = -1
+        selectedTextbookIndex = -1
+        selectedVoiceIndex = -1
         return Observable.zip(languageService.getData(),
             usMappingService.getData(),
             userSettingService.getDataByUser(GlobalConstants.userid)) { res1, res2, res3 ->
@@ -186,10 +189,9 @@ class SettingsViewModel : ViewModel() {
             lstUSMappings = res2
             lstUserSettings = res3
             INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
-        }.applyIO().flatMap {
+        }.applyIO().map {
             selectedLangIndex = 0.coerceAtLeast(lstLanguages.indexOfFirst { it.id == uslang })
             settingsListener?.onGetData()
-            updateLang()
         }
     }
 
@@ -203,11 +205,6 @@ class SettingsViewModel : ViewModel() {
         INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
         INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
         INFO_USANDROIDVOICE = getUSInfo(MUSMapping.NAME_USANDROIDVOICE)
-        selectedDictReferenceIndex = -1
-        selectedDictNoteIndex = -1
-        selectedDictTranslationIndex = -1
-        selectedTextbookIndex = -1
-        selectedVoiceIndex = -1
         return Observable.zip(dictionaryService.getDictsReferenceByLang(uslang),
             dictionaryService.getDictsNoteByLang(uslang),
             dictionaryService.getDictsTranslationByLang(uslang),
@@ -222,14 +219,13 @@ class SettingsViewModel : ViewModel() {
             lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
             lstAutoCorrect = res5
             lstVoices = res6
-        }.applyIO().flatMap {
+        }.applyIO().map {
             selectedDictReferenceIndex = 0.coerceAtLeast(lstDictsReference.indexOfFirst { it.dictid.toString() == usdictreference })
             selectedDictNoteIndex = 0.coerceAtLeast(lstDictsNote.indexOfFirst { it.dictid == usdictnote })
             selectedDictTranslationIndex = 0.coerceAtLeast(lstDictsTranslation.indexOfFirst { it.dictid == usdicttranslation })
             selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
             selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
             settingsListener?.onUpdateLang()
-            updateTextbook()
         }
     }
 
@@ -448,42 +444,6 @@ class SettingsViewModel : ViewModel() {
             i++
         }
         allComplete()
-    }
-
-    fun onLangItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (selectedLangIndex == -1) return
-        selectedLangIndex = position
-        compositeDisposable.add(updateLang().subscribe())
-    }
-
-    fun onVoiceItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (selectedVoiceIndex == -1) return
-        selectedVoiceIndex = position
-        compositeDisposable.add(updateVoice().subscribe())
-    }
-
-    fun onDictReferenceItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (selectedDictReferenceIndex == -1) return
-        selectedDictReferenceIndex = position
-        compositeDisposable.add(updateDictReference().subscribe())
-    }
-
-    fun onDictNoteItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (selectedDictNoteIndex == -1) return
-        selectedDictNoteIndex = position
-        compositeDisposable.add(updateDictNote().subscribe())
-    }
-
-    fun onDictTranslationItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (selectedDictTranslationIndex == -1) return
-        selectedDictTranslationIndex = position
-        compositeDisposable.add(updateDictTranslation().subscribe())
-    }
-
-    fun onTextbookItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (selectedLangIndex == -1) return
-        selectedTextbookIndex = position
-        compositeDisposable.add(updateTextbook().subscribe())
     }
 }
 

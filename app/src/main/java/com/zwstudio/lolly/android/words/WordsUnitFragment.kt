@@ -266,8 +266,7 @@ class WordsUnitFragment : DrawerListFragment() {
                                     3 -> itemView.copyText(item.word)
                                     4 -> itemView.googleString(item.word)
                                     5 -> {
-                                        val itemDict = vmSettings.lstDictsReference.find { it.dictname == vmSettings.selectedDictReference.dictname }!!
-                                        val url = itemDict.urlString(item.word, vmSettings.lstAutoCorrect)
+                                        val url = vmSettings.selectedDictReference.urlString(item.word, vmSettings.lstAutoCorrect)
                                         itemView.openPage(url)
                                     }
                                     else -> {}

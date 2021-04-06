@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.distinctUntilChanged
 import com.zwstudio.lolly.android.databinding.FragmentSettingsBinding
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SettingsListener
@@ -32,6 +33,31 @@ class SettingsFragment : Fragment(), SettingsListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        vm.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (it != -1)
+                compositeDisposable.add(vm.updateLang().subscribe())
+        }
+        vm.selectedVoiceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (it != -1)
+                compositeDisposable.add(vm.updateVoice().subscribe())
+        }
+        vm.selectedDictReferenceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (it != -1)
+                compositeDisposable.add(vm.updateDictReference().subscribe())
+        }
+        vm.selectedDictNoteIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (it != -1)
+                compositeDisposable.add(vm.updateDictNote().subscribe())
+        }
+        vm.selectedDictTranslationIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (it != -1)
+                compositeDisposable.add(vm.updateDictTranslation().subscribe())
+        }
+        vm.selectedTextbookIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (it != -1)
+                compositeDisposable.add(vm.updateTextbook().subscribe())
+        }
 
         binding.spnUnitFrom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
