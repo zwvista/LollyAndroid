@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.distinctUntilChanged
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.databinding.FragmentSearchBinding
@@ -48,6 +49,19 @@ class SearchFragment : Fragment(), SettingsListener {
                 return false
             }
         })
+
+        vmSettings.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (it != -1)
+                vmSettings.updateLang()
+        }
+        vmSettings.selectedDictReferenceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (it != -1)
+                vmSettings.updateDictReference()
+        }
+        vmSettings.selectedTextbookIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (it != -1)
+                vmSettings.updateTextbook()
+        }
 
         vmSettings.handler = Handler(Looper.getMainLooper())
         vmSettings.settingsListener = this

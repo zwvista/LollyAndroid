@@ -3,8 +3,6 @@ package com.zwstudio.lolly.data.misc
 import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import android.view.View
-import android.widget.AdapterView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -178,6 +176,11 @@ class SettingsViewModel : ViewModel() {
     var settingsListener: SettingsListener? = null
     fun getData() = viewModelScope.launch {
         selectedLangIndex = -1
+        selectedDictReferenceIndex = -1
+        selectedDictNoteIndex = -1
+        selectedDictTranslationIndex = -1
+        selectedTextbookIndex = -1
+        selectedVoiceIndex = -1
         // TODO async
         lstLanguages = languageService.getData()
         lstUSMappings = usMappingService.getData()
@@ -185,7 +188,6 @@ class SettingsViewModel : ViewModel() {
         INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
         selectedLangIndex = 0.coerceAtLeast(lstLanguages.indexOfFirst { it.id == uslang })
         settingsListener?.onGetData()
-        updateLang()
     }
 
     fun updateLang() = viewModelScope.launch {
@@ -198,11 +200,6 @@ class SettingsViewModel : ViewModel() {
         INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
         INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
         INFO_USANDROIDVOICE = getUSInfo(MUSMapping.NAME_USANDROIDVOICE)
-        selectedDictReferenceIndex = -1
-        selectedDictNoteIndex = -1
-        selectedDictTranslationIndex = -1
-        selectedTextbookIndex = -1
-        selectedVoiceIndex = -1
         // TODO async
         lstDictsReference = dictionaryService.getDictsReferenceByLang(uslang)
         lstDictsNote = dictionaryService.getDictsNoteByLang(uslang)
@@ -218,7 +215,6 @@ class SettingsViewModel : ViewModel() {
         selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
         selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
         settingsListener?.onUpdateLang()
-        updateTextbook()
     }
 
     fun updateTextbook() = viewModelScope.launch {
@@ -435,42 +431,6 @@ class SettingsViewModel : ViewModel() {
             i++
         }
         allComplete()
-    }
-
-    fun onLangItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (selectedLangIndex == -1) return
-        selectedLangIndex = position
-        updateLang()
-    }
-
-    fun onVoiceItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (selectedVoiceIndex == -1) return
-        selectedVoiceIndex = position
-        updateVoice()
-    }
-
-    fun onDictReferenceItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (selectedDictReferenceIndex == -1) return
-        selectedDictReferenceIndex = position
-        updateDictReference()
-    }
-
-    fun onDictNoteItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (selectedDictNoteIndex == -1) return
-        selectedDictNoteIndex = position
-        updateDictNote()
-    }
-
-    fun onDictTranslationItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (selectedDictTranslationIndex == -1) return
-        selectedDictTranslationIndex = position
-        updateDictTranslation()
-    }
-
-    fun onTextbookItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        if (selectedLangIndex == -1) return
-        selectedTextbookIndex = position
-        updateTextbook()
     }
 }
 
