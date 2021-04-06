@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.android.misc
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +51,6 @@ class SearchFragment : Fragment(), SettingsListener {
         })
 
         vmSettings.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            Log.d("Index", "selectedLangIndex_:$it")
             if (!vmSettings.busy)
                 compositeDisposable.add(vmSettings.updateLang().subscribe())
         }
