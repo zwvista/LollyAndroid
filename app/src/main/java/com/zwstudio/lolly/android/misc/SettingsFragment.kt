@@ -33,27 +33,27 @@ class SettingsFragment : Fragment(), SettingsListener {
         super.onViewCreated(view, savedInstanceState)
 
         vm.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vm.busy)
                 compositeDisposable.add(vm.updateLang().subscribe())
         }
         vm.selectedVoiceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vm.busy)
                 compositeDisposable.add(vm.updateVoice().subscribe())
         }
         vm.selectedDictReferenceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vm.busy)
                 compositeDisposable.add(vm.updateDictReference().subscribe())
         }
         vm.selectedDictNoteIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vm.busy)
                 compositeDisposable.add(vm.updateDictNote().subscribe())
         }
         vm.selectedDictTranslationIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vm.busy)
                 compositeDisposable.add(vm.updateDictTranslation().subscribe())
         }
         vm.selectedTextbookIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vm.busy)
                 compositeDisposable.add(vm.updateTextbook().subscribe())
         }
 

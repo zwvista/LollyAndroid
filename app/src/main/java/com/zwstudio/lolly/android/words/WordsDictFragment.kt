@@ -52,7 +52,7 @@ class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
 
         binding.spnDictReference.makeCustomAdapter2(requireContext(), vmSettings.lstDictsReference, { it.dictname },  { it.url })
         vmSettings.selectedDictReferenceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vmSettings.busy)
                 compositeDisposable.add(vmSettings.updateDictReference().subscribe())
         }
     }
