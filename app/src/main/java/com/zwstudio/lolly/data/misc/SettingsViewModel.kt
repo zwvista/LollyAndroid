@@ -206,11 +206,11 @@ class SettingsViewModel : ViewModel() {
         lstAutoCorrect = autoCorrectService.getDataByLang(uslang)
         lstVoices = voiceService.getDataByLang(uslang)
         if (isinit) userSettingService.update(INFO_USLANG, uslang)
+        selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
         selectedDictReferenceIndex = 0.coerceAtLeast(lstDictsReference.indexOfFirst { it.dictid.toString() == usdictreference })
         selectedDictNoteIndex = 0.coerceAtLeast(lstDictsNote.indexOfFirst { it.dictid == usdictnote })
         selectedDictTranslationIndex = 0.coerceAtLeast(lstDictsTranslation.indexOfFirst { it.dictid == usdicttranslation })
         selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
-        selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
         settingsListener?.onUpdateLang()
         updateVoice(); updateDictReference(); updateDictNote(); updateDictTranslation(); updateTextbook()
         busy = false
