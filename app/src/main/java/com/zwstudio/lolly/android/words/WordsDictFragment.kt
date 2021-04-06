@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.distinctUntilChanged
 import com.androidisland.vita.VitaOwner
@@ -13,12 +12,13 @@ import com.zwstudio.lolly.android.databinding.FragmentWordsDictBinding
 import com.zwstudio.lolly.android.misc.OnlineDict
 import com.zwstudio.lolly.android.misc.autoCleared
 import com.zwstudio.lolly.android.vmSettings
+import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.misc.makeCustomAdapter2
 import com.zwstudio.lolly.data.words.WordsDictViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class WordsDictFragment : Fragment(), TouchListener {
+class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
 
     val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel<WordsDictViewModel>() }
     var binding by autoCleared<FragmentWordsDictBinding>()
@@ -29,6 +29,7 @@ class WordsDictFragment : Fragment(), TouchListener {
         binding = FragmentWordsDictBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
+            modelSettings = vmSettings
         }
         return binding.root
     }
@@ -45,20 +46,21 @@ class WordsDictFragment : Fragment(), TouchListener {
             selectedWordChanged()
         }
 
-        binding.spnDictReference.makeCustomAdapter2(requireContext(), vmSettings.lstDictsReference, { it.dictname },  { it.url })
-        binding.spnDictReference.setSelection(vmSettings.selectedDictReferenceIndex)
-        binding.spnDictReference.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                compositeDisposable.add(vmSettings.updateDictReference().subscribe())
-                selectedDictChanged()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
-
+        vmSettings.settingsListener = this
         onlineDict = OnlineDict(binding.webView, vm, compositeDisposable)
         onlineDict.initWebViewClient()
-        selectedWordChanged()
+
+        binding.spnDictReference.makeCustomAdapter2(requireContext(), vmSettings.lstDictsReference, { it.dictname },  { it.url })
+        vmSettings.selectedDictReferenceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (it != -1)
+                compositeDisposable.add(vmSettings.updateDictReference().subscribe())
+        }
+    }
+
+    override fun onDestroyView() {
+        if (vmSettings.settingsListener == this)
+            vmSettings.settingsListener = null
+        super.onDestroyView()
     }
 
     private fun selectedWordChanged() {
@@ -67,6 +69,10 @@ class WordsDictFragment : Fragment(), TouchListener {
 
     private fun selectedDictChanged() {
         onlineDict.searchDict()
+    }
+
+    override fun onUpdateDictReference() {
+        selectedDictChanged()
     }
 
     override fun onSwipeLeft() {
