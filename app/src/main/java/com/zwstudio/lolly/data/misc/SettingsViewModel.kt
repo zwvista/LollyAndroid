@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.data.misc
 
-import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -173,7 +172,6 @@ class SettingsViewModel : ViewModel() {
         return MUserSettingInfo(o2.id, o.valueid)
     }
 
-    var handler: Handler? = null
     var settingsListener: SettingsListener? = null
     fun getData(): Observable<Unit> {
         selectedLangIndex = -1
@@ -238,32 +236,32 @@ class SettingsViewModel : ViewModel() {
         INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
         toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
         return userSettingService.update(INFO_USTEXTBOOK, ustextbook)
-            .map { handler?.post { settingsListener?.onUpdateTextbook() }; Unit }
             .applyIO()
+            .map { settingsListener?.onUpdateTextbook() }
     }
 
     fun updateDictReference(): Observable<Unit> {
         if (lstDictsReference.isEmpty()) return Observable.empty()
         usdictreference = selectedDictReference.dictid.toString()
         return userSettingService.update(INFO_USDICTREFERENCE, usdictreference)
-            .map { handler?.post { settingsListener?.onUpdateDictReference() }; Unit }
             .applyIO()
+            .map { settingsListener?.onUpdateDictReference() }
     }
 
     fun updateDictNote(): Observable<Unit> {
         if (lstDictsNote.isEmpty()) return Observable.empty()
         usdictnote = selectedDictNote?.dictid ?: 0
         return userSettingService.update(INFO_USDICTNOTE, usdictnote)
-            .map { handler?.post { settingsListener?.onUpdateDictNote() }; Unit }
             .applyIO()
+            .map { settingsListener?.onUpdateDictNote() }
     }
 
     fun updateDictTranslation(): Observable<Unit> {
         if (lstDictsTranslation.isEmpty()) return Observable.empty()
         usdicttranslation = selectedDictTranslation?.dictid ?: 0
         return userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation)
-            .map { handler?.post { settingsListener?.onUpdateDictTranslation() }; Unit }
             .applyIO()
+            .map { settingsListener?.onUpdateDictTranslation() }
     }
 
     fun updateVoice(): Observable<Unit> {
@@ -275,8 +273,8 @@ class SettingsViewModel : ViewModel() {
         if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return Observable.empty()
         tts.language = locale
         return userSettingService.update(INFO_USANDROIDVOICE, usvoice)
-            .map { handler?.post { settingsListener?.onUpdateVoice() }; Unit }
             .applyIO()
+            .map { settingsListener?.onUpdateVoice() }
     }
 
     fun autoCorrectInput(text: String): String =
@@ -375,32 +373,32 @@ class SettingsViewModel : ViewModel() {
         if (check && usunitfrom == v) return Observable.just(Unit)
         usunitfrom = v
         return userSettingService.update(INFO_USUNITFROM, usunitfrom)
-            .map { handler?.post { settingsListener?.onUpdateUnitFrom() }; Unit }
             .applyIO()
+            .map { settingsListener?.onUpdateUnitFrom() }
     }
 
     private fun doUpdatePartFrom(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && uspartfrom == v) return Observable.just(Unit)
         uspartfrom = v
         return userSettingService.update(INFO_USPARTFROM, uspartfrom)
-            .map { handler?.post { settingsListener?.onUpdatePartFrom() }; Unit }
             .applyIO()
+            .map { settingsListener?.onUpdatePartFrom() }
     }
 
     private fun doUpdateUnitTo(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && usunitto == v) return Observable.just(Unit)
         usunitto = v
         return userSettingService.update(INFO_USUNITTO, usunitto)
-            .map { handler?.post { settingsListener?.onUpdateUnitTo() }; Unit }
             .applyIO()
+            .map { settingsListener?.onUpdateUnitTo() }
     }
 
     private fun doUpdatePartTo(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && uspartto == v) return Observable.just(Unit)
         uspartto = v
         return userSettingService.update(INFO_USPARTTO, uspartto)
-            .map { handler?.post { settingsListener?.onUpdatePartTo() }; Unit }
             .applyIO()
+            .map { settingsListener?.onUpdatePartTo() }
     }
 
     fun getHtml(url: String): Observable<String> =

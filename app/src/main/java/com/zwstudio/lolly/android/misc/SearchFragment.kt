@@ -1,8 +1,6 @@
 package com.zwstudio.lolly.android.misc
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,7 +63,6 @@ class SearchFragment : Fragment(), SettingsListener {
                 compositeDisposable.add(vmSettings.updateTextbook().subscribe())
         }
 
-        vmSettings.handler = Handler(Looper.getMainLooper())
         vmSettings.settingsListener = this
         compositeDisposable.add(vmSettings.getData().subscribe())
     }
