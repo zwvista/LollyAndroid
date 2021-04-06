@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.android.misc
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,15 +50,15 @@ class SearchFragment : Fragment(), SettingsListener {
         })
 
         vmSettings.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vmSettings.busy)
                 vmSettings.updateLang()
         }
         vmSettings.selectedDictReferenceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vmSettings.busy)
                 vmSettings.updateDictReference()
         }
         vmSettings.selectedTextbookIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vmSettings.busy)
                 vmSettings.updateTextbook()
         }
 

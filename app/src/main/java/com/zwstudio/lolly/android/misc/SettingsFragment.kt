@@ -30,27 +30,27 @@ class SettingsFragment : Fragment(), SettingsListener {
         super.onViewCreated(view, savedInstanceState)
 
         vm.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vm.busy)
                 vm.updateLang()
         }
         vm.selectedVoiceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vm.busy)
                 vm.updateVoice()
         }
         vm.selectedDictReferenceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vm.busy)
                 vm.updateDictReference()
         }
         vm.selectedDictNoteIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vm.busy)
                 vm.updateDictNote()
         }
         vm.selectedDictTranslationIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vm.busy)
                 vm.updateDictTranslation()
         }
         vm.selectedTextbookIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (it != -1)
+            if (!vm.busy)
                 vm.updateTextbook()
         }
 

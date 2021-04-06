@@ -95,33 +95,33 @@ class SettingsViewModel : ViewModel() {
         get() = usunitpartfrom > usunitpartto
 
     var lstLanguages = listOf<MLanguage>()
-    val selectedLangIndex_= MutableLiveData(-1)
+    val selectedLangIndex_= MutableLiveData(0)
     var selectedLangIndex get() = selectedLangIndex_.value!!; set(v) { selectedLangIndex_.value = v }
     val selectedLang get() = lstLanguages[selectedLangIndex]
 
     var lstVoices = listOf<MVoice>()
-    val selectedVoiceIndex_= MutableLiveData(-1)
+    val selectedVoiceIndex_= MutableLiveData(0)
     var selectedVoiceIndex get() = selectedVoiceIndex_.value!!; set(v) { selectedVoiceIndex_.value = v }
     val selectedVoice get() = lstVoices.getOrNull(selectedVoiceIndex)
 
     var lstTextbooks = listOf<MTextbook>()
-    val selectedTextbookIndex_= MutableLiveData(-1)
+    val selectedTextbookIndex_= MutableLiveData(0)
     var selectedTextbookIndex get() = selectedTextbookIndex_.value!!; set(v) { selectedTextbookIndex_.value = v }
     val selectedTextbook get() = lstTextbooks[selectedTextbookIndex]
     var lstTextbookFilters = listOf<MSelectItem>()
 
     var lstDictsReference = listOf<MDictionary>()
-    val selectedDictReferenceIndex_= MutableLiveData(-1)
+    val selectedDictReferenceIndex_= MutableLiveData(0)
     var selectedDictReferenceIndex get() = selectedDictReferenceIndex_.value!!; set(v) { selectedDictReferenceIndex_.value = v }
     val selectedDictReference get() = lstDictsReference[selectedDictReferenceIndex]
 
     var lstDictsNote = listOf<MDictionary>()
-    val selectedDictNoteIndex_= MutableLiveData(-1)
+    val selectedDictNoteIndex_= MutableLiveData(0)
     var selectedDictNoteIndex get() = selectedDictNoteIndex_.value!!; set(v) { selectedDictNoteIndex_.value = v }
     val selectedDictNote get() = lstDictsNote.getOrNull(selectedDictNoteIndex)
 
     var lstDictsTranslation = listOf<MDictionary>()
-    val selectedDictTranslationIndex_= MutableLiveData(-1)
+    val selectedDictTranslationIndex_= MutableLiveData(0)
     var selectedDictTranslationIndex get() = selectedDictTranslationIndex_.value!!; set(v) { selectedDictTranslationIndex_.value = v }
     val selectedDictTranslation get() = lstDictsTranslation.getOrNull(selectedDictTranslationIndex)
 
@@ -171,14 +171,10 @@ class SettingsViewModel : ViewModel() {
         return MUserSettingInfo(o2.id, o.valueid)
     }
 
+    var busy = false
     var settingsListener: SettingsListener? = null
     fun getData() = viewModelScope.launch {
-        selectedLangIndex = -1
-        selectedDictReferenceIndex = -1
-        selectedDictNoteIndex = -1
-        selectedDictTranslationIndex = -1
-        selectedTextbookIndex = -1
-        selectedVoiceIndex = -1
+        busy = true
         // TODO async
         lstLanguages = languageService.getData()
         lstUSMappings = usMappingService.getData()
@@ -186,10 +182,13 @@ class SettingsViewModel : ViewModel() {
         INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
         selectedLangIndex = 0.coerceAtLeast(lstLanguages.indexOfFirst { it.id == uslang })
         settingsListener?.onGetData()
+        updateLang()
+        busy = false
     }
 
     fun updateLang() = viewModelScope.launch {
         if (lstLanguages.isEmpty()) return@launch
+        busy = true
         val isinit = selectedLang.id == uslang
         uslang = selectedLang.id
         INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
@@ -213,6 +212,8 @@ class SettingsViewModel : ViewModel() {
         selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
         selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
         settingsListener?.onUpdateLang()
+        updateVoice(); updateDictReference(); updateDictNote(); updateDictTranslation(); updateTextbook()
+        busy = false
     }
 
     fun updateTextbook() = viewModelScope.launch {
