@@ -1,8 +1,6 @@
 package com.zwstudio.lolly.android.misc
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +61,6 @@ class SearchFragment : Fragment(), SettingsListener {
                 vmSettings.updateTextbook()
         }
 
-        vmSettings.handler = Handler(Looper.getMainLooper())
         vmSettings.settingsListener = this
         vmSettings.getData()
     }

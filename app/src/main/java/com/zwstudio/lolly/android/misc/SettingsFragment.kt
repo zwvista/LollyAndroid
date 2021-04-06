@@ -1,8 +1,6 @@
 package com.zwstudio.lolly.android.misc
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -114,7 +112,6 @@ class SettingsFragment : Fragment(), SettingsListener {
             }
         }
 
-        vm.handler = Handler(Looper.getMainLooper())
         vm.settingsListener = this
         vm.getData()
     }

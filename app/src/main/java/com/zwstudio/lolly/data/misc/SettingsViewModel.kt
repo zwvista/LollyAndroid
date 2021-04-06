@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.data.misc
 
-import android.os.Handler
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -172,7 +171,6 @@ class SettingsViewModel : ViewModel() {
         return MUserSettingInfo(o2.id, o.valueid)
     }
 
-    var handler: Handler? = null
     var settingsListener: SettingsListener? = null
     fun getData() = viewModelScope.launch {
         selectedLangIndex = -1
