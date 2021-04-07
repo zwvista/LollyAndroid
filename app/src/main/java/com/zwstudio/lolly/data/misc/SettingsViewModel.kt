@@ -202,8 +202,9 @@ class SettingsViewModel : ViewModel() {
     fun updateLang(): Observable<Unit> {
         if (lstLanguages.isEmpty()) return Observable.empty()
         busy = true
-        val isinit = selectedLang.id == uslang
-        uslang = selectedLang.id
+        val newVal = selectedLang.id
+        val dirty = uslang != newVal
+        uslang = newVal
         INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
         INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
         INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
@@ -216,7 +217,7 @@ class SettingsViewModel : ViewModel() {
             textbookService.getDataByLang(uslang),
             autoCorrectService.getDataByLang(uslang),
             voiceService.getDataByLang(uslang),
-            if (isinit) Observable.just(Unit) else userSettingService.update(INFO_USLANG, uslang)) { res1, res2, res3, res4, res5, res6, _ ->
+            if (dirty) userSettingService.update(INFO_USLANG, uslang) else Observable.just(Unit)) { res1, res2, res3, res4, res5, res6, _ ->
             lstDictsReference = res1
             lstDictsNote = res2
             lstDictsTranslation = res3
@@ -238,45 +239,50 @@ class SettingsViewModel : ViewModel() {
     fun updateTextbook(): Observable<Unit> {
         if (lstTextbooks.isEmpty()) return Observable.empty()
         busy = true
-        ustextbook = selectedTextbook.id
+        val newVal = selectedTextbook.id
+        val dirty = ustextbook != newVal
+        ustextbook = newVal
         INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
         INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
         INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
         INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
-        return userSettingService.update(INFO_USTEXTBOOK, ustextbook)
-            .applyIO()
-            .map {
+        return (if (dirty) userSettingService.update(INFO_USTEXTBOOK, ustextbook) else Observable.just(Unit))
+            .applyIO().map {
                 unitfromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
                 partfromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
                 unittoIndex = lstUnits.indexOfFirst { it.value == usunitto }
                 parttoIndex = lstParts.indexOfFirst { it.value == uspartto }
                 toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
                 settingsListener?.onUpdateTextbook()
-            }.map { busy = false }
+                busy = false
+            }
     }
 
     fun updateDictReference(): Observable<Unit> {
         if (lstDictsReference.isEmpty()) return Observable.empty()
-        usdictreference = selectedDictReference.dictid.toString()
-        return userSettingService.update(INFO_USDICTREFERENCE, usdictreference)
-            .applyIO()
-            .map { settingsListener?.onUpdateDictReference() }
+        val newVal = selectedDictReference.dictid.toString()
+        val dirty = usdictreference != newVal
+        usdictreference = newVal
+        return (if (dirty) userSettingService.update(INFO_USDICTREFERENCE, usdictreference) else Observable.just(Unit))
+            .applyIO().map { settingsListener?.onUpdateDictReference() }
     }
 
     fun updateDictNote(): Observable<Unit> {
         if (lstDictsNote.isEmpty()) return Observable.empty()
-        usdictnote = selectedDictNote?.dictid ?: 0
-        return userSettingService.update(INFO_USDICTNOTE, usdictnote)
-            .applyIO()
-            .map { settingsListener?.onUpdateDictNote() }
+        val newVal = selectedDictNote?.dictid ?: 0
+        val dirty = usdictnote != newVal
+        usdictnote = newVal
+        return (if (dirty) userSettingService.update(INFO_USDICTNOTE, usdictnote) else Observable.just(Unit))
+            .applyIO().map { settingsListener?.onUpdateDictNote() }
     }
 
     fun updateDictTranslation(): Observable<Unit> {
         if (lstDictsTranslation.isEmpty()) return Observable.empty()
-        usdicttranslation = selectedDictTranslation?.dictid ?: 0
-        return userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation)
-            .applyIO()
-            .map { settingsListener?.onUpdateDictTranslation() }
+        val newVal = selectedDictTranslation?.dictid ?: 0
+        val dirty = usdicttranslation != newVal
+        usdicttranslation = newVal
+        return (if (dirty) userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation) else Observable.just(Unit))
+            .applyIO().map { settingsListener?.onUpdateDictTranslation() }
     }
 
     fun updateVoice(): Observable<Unit> {
@@ -288,8 +294,7 @@ class SettingsViewModel : ViewModel() {
         if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return Observable.empty()
         tts.language = locale
         return userSettingService.update(INFO_USANDROIDVOICE, usvoice)
-            .applyIO()
-            .map { settingsListener?.onUpdateVoice() }
+            .applyIO().map { settingsListener?.onUpdateVoice() }
     }
 
     fun autoCorrectInput(text: String): String =
@@ -427,7 +432,7 @@ class SettingsViewModel : ViewModel() {
         val dictNote = selectedDictNote ?: return Observable.empty()
         val url = dictNote.urlString(word, lstAutoCorrect)
         return getHtml(url).map {
-            Log.d("", it)
+            Log.d("API Result", it)
             extractTextFrom(it, dictNote.transform, "") { text, _ -> text }
         }
     }

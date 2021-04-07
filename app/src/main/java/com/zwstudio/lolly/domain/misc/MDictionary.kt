@@ -6,7 +6,6 @@ import android.util.Log
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.data.misc.extractTextFrom
 import java.io.Serializable
-import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
 class MDictionaries {
@@ -58,13 +57,8 @@ class MDictionary : Serializable {
                 autoCorrect(word, lstAutoCorrects, { it.extended }, { it.basic })
             else
                 word
-        var wordUrl: String? = null
-        try {
-            wordUrl = url.replace("{0}", URLEncoder.encode(word2, "UTF-8"))
-        } catch (e: UnsupportedEncodingException) {
-            e.printStackTrace()
-        }
-        Log.d("", "urlString: " + wordUrl!!)
+        val wordUrl = url.replace("{0}", URLEncoder.encode(word2, "UTF-8"))
+        Log.d("urlString", "urlString: " + wordUrl)
         return wordUrl
     }
 
