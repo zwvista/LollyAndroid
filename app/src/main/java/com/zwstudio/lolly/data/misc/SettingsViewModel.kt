@@ -275,35 +275,37 @@ class SettingsViewModel : ViewModel() {
 
     fun updateVoice() = viewModelScope.launch {
         if (lstVoices.isEmpty()) return@launch
-        usvoice = selectedVoice?.id ?: 0
+        val newVal = selectedVoice?.id ?: 0
+        val dirty = usvoice != newVal
+        usvoice = newVal
         val locale = Locale.getAvailableLocales().find {
             "${it.language}_${it.country}" == selectedVoice?.voicelang
         }
         if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return@launch
         tts.language = locale
-        userSettingService.update(INFO_USANDROIDVOICE, usvoice)
+        if (dirty) userSettingService.update(INFO_USANDROIDVOICE, usvoice)
         withContext(Dispatchers.Main) { settingsListener?.onUpdateVoice() }
     }
 
     fun autoCorrectInput(text: String): String =
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
 
-    fun updateUnitFrom(v: Int) = viewModelScope.launch {
-        doUpdateUnitFrom(v, false)
+    fun updateUnitFrom(newVal: Int) = viewModelScope.launch {
+        doUpdateUnitFrom(newVal)
         if (toType == UnitPartToType.Unit)
             doUpdateSingleUnit()
         else if (toType == UnitPartToType.Part || isInvalidUnitPart)
             doUpdateUnitPartTo()
     }
 
-    fun updatePartFrom(v: Int) = viewModelScope.launch {
-        doUpdatePartFrom(v, false)
+    fun updatePartFrom(newVal: Int) = viewModelScope.launch {
+        doUpdatePartFrom(newVal)
         if (toType == UnitPartToType.Part || isInvalidUnitPart)
             doUpdateUnitPartTo()
     }
 
-    fun updateToType(v: Int) = viewModelScope.launch {
-        toType = UnitPartToType.values()[v]
+    fun updateToType(newVal: Int) = viewModelScope.launch {
+        toType = UnitPartToType.values()[newVal]
         if (toType == UnitPartToType.Unit)
             doUpdateSingleUnit()
         else if (toType == UnitPartToType.Part)
@@ -360,14 +362,14 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
-    fun updateUnitTo(v: Int) = viewModelScope.launch {
-        doUpdateUnitTo(v, false)
+    fun updateUnitTo(newVal: Int) = viewModelScope.launch {
+        doUpdateUnitTo(newVal)
         if (isInvalidUnitPart)
             doUpdateUnitPartFrom()
     }
 
-    fun updatePartTo(v: Int) = viewModelScope.launch {
-        doUpdatePartTo(v, false)
+    fun updatePartTo(newVal: Int) = viewModelScope.launch {
+        doUpdatePartTo(newVal)
         if (isInvalidUnitPart)
             doUpdateUnitPartFrom()
     }
@@ -391,35 +393,35 @@ class SettingsViewModel : ViewModel() {
         doUpdatePartTo(partCount)
     }
 
-    private suspend fun doUpdateUnitFrom(v: Int, check: Boolean = true) {
-        if (check && usunitfrom == v) return
-        usunitfrom = v
+    private suspend fun doUpdateUnitFrom(newVal: Int) {
+        val dirty = usunitfrom != newVal
+        usunitfrom = newVal
+        if (dirty) userSettingService.update(INFO_USUNITFROM, usunitfrom)
         unitfromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
-        userSettingService.update(INFO_USUNITFROM, usunitfrom)
         settingsListener?.onUpdateUnitFrom()
     }
 
-    private suspend fun doUpdatePartFrom(v: Int, check: Boolean = true) {
-        if (check && uspartfrom == v) return
-        uspartfrom = v
+    private suspend fun doUpdatePartFrom(newVal: Int) {
+        val dirty = uspartfrom != newVal
+        uspartfrom = newVal
+        if (dirty) userSettingService.update(INFO_USPARTFROM, uspartfrom)
         partfromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
-        userSettingService.update(INFO_USPARTFROM, uspartfrom)
         settingsListener?.onUpdatePartFrom()
     }
 
-    private suspend fun doUpdateUnitTo(v: Int, check: Boolean = true) {
-        if (check && usunitto == v) return
-        usunitto = v
+    private suspend fun doUpdateUnitTo(newVal: Int) {
+        val dirty = usunitto != newVal
+        usunitto = newVal
+        if (dirty) userSettingService.update(INFO_USUNITTO, usunitto)
         unittoIndex = lstUnits.indexOfFirst { it.value == usunitto }
-        userSettingService.update(INFO_USUNITTO, usunitto)
         settingsListener?.onUpdateUnitTo()
     }
 
-    private suspend fun doUpdatePartTo(v: Int, check: Boolean = true) {
-        if (check && uspartto == v) return
-        uspartto = v
+    private suspend fun doUpdatePartTo(newVal: Int) {
+        val dirty = uspartto != newVal
+        uspartto = newVal
+        if (dirty) userSettingService.update(INFO_USPARTTO, uspartto)
         parttoIndex = lstParts.indexOfFirst { it.value == uspartto }
-        userSettingService.update(INFO_USPARTTO, uspartto)
         settingsListener?.onUpdatePartTo()
     }
 
