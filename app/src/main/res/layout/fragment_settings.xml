@@ -31,7 +31,6 @@
                 android:selectedItemPosition="@={model.selectedLangIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvLanguage"
                 app:layout_constraintBottom_toTopOf="@+id/tvVoice" />
 
@@ -40,7 +39,6 @@
                 android:text="@string/label_voice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnLanguage"
                 app:layout_constraintBottom_toTopOf="@+id/spnVoice" />
@@ -50,7 +48,6 @@
                 android:selectedItemPosition="@={model.selectedVoiceIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvVoice"
                 app:layout_constraintBottom_toTopOf="@+id/tvDictReference" />
 
@@ -59,7 +56,6 @@
                 android:text="@string/label_dict_reference"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnVoice"
                 app:layout_constraintBottom_toTopOf="@+id/spnDictReference" />
@@ -69,7 +65,6 @@
                 android:selectedItemPosition="@={model.selectedDictReferenceIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvDictReference"
                 app:layout_constraintBottom_toTopOf="@+id/tvDictNote" />
 
@@ -78,7 +73,6 @@
                 android:text="@string/label_dict_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnDictReference"
                 app:layout_constraintBottom_toTopOf="@+id/spnDictNote" />
@@ -88,7 +82,6 @@
                 android:selectedItemPosition="@={model.selectedDictNoteIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvDictNote"
                 app:layout_constraintBottom_toTopOf="@+id/tvDictTranslation" />
 
@@ -97,7 +90,6 @@
                 android:text="@string/label_dict_translation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnDictNote"
                 app:layout_constraintBottom_toTopOf="@+id/spnDictTranslation" />
@@ -107,7 +99,6 @@
                 android:selectedItemPosition="@={model.selectedDictTranslationIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvDictTranslation"
                 app:layout_constraintBottom_toTopOf="@+id/tvTextbook" />
 
@@ -116,7 +107,6 @@
                 android:text="@string/label_textbook2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnDictTranslation"
                 app:layout_constraintBottom_toTopOf="@+id/spnTextbook" />
@@ -126,7 +116,6 @@
                 android:selectedItemPosition="@={model.selectedTextbookIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvTextbook"
                 app:layout_constraintBottom_toTopOf="@+id/tvUnitFrom" />
 
@@ -135,7 +124,6 @@
                 android:text="@string/label_units"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/spnTextbook"
                 app:layout_constraintBottom_toTopOf="@+id/spnUnitFrom" />
@@ -145,7 +133,6 @@
                 android:selectedItemPosition="@={model.unitfromIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/tvUnitFrom"
                 app:layout_constraintBottom_toTopOf="@+id/spnPartFrom" />
 
@@ -154,7 +141,6 @@
                 android:selectedItemPosition="@={model.partfromIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/spnUnitFrom"
                 app:layout_constraintBottom_toTopOf="@+id/spnToType" />
 
@@ -163,6 +149,7 @@
                 android:selectedItemPosition="@={model.toTypeIndex_}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintHorizontal_weight="2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btnPrevious"
@@ -174,7 +161,6 @@
                 android:text="@string/label_previous"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintHorizontal_weight="3"
                 app:layout_constraintStart_toEndOf="@+id/spnToType"
                 app:layout_constraintEnd_toStartOf="@+id/btnNext"
@@ -197,7 +183,6 @@
                 android:selectedItemPosition="@={model.unittoIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/btnPrevious"
                 app:layout_constraintBottom_toTopOf="@+id/spnPartTo" />
 
