@@ -140,7 +140,16 @@ class SettingsViewModel : ViewModel() {
     var lstAutoCorrect = listOf<MAutoCorrect>()
 
     val lstToTypes = UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) }
-    var toType = UnitPartToType.To
+    val unitfromIndex_ = MutableLiveData(0)
+    var unitfromIndex get() = unitfromIndex_.value!!; set(v) { unitfromIndex_.value = v }
+    val partfromIndex_ = MutableLiveData(0)
+    var partfromIndex get() = partfromIndex_.value!!; set(v) { partfromIndex_.value = v }
+    val unittoIndex_ = MutableLiveData(0)
+    var unittoIndex get() = unittoIndex_.value!!; set(v) { unittoIndex_.value = v }
+    val parttoIndex_ = MutableLiveData(0)
+    var parttoIndex get() = parttoIndex_.value!!; set(v) { parttoIndex_.value = v }
+    val toTypeIndex_ = MutableLiveData(0)
+    var toType get() = UnitPartToType.values()[toTypeIndex_.value!!]; set(v) { toTypeIndex_.value = v.ordinal }
 
     companion object {
         val lstScopeWordFilters = listOf("Word", "Note").mapIndexed { index, s -> MSelectItem(index, s.toString()) }
@@ -228,15 +237,22 @@ class SettingsViewModel : ViewModel() {
 
     fun updateTextbook(): Observable<Unit> {
         if (lstTextbooks.isEmpty()) return Observable.empty()
+        busy = true
         ustextbook = selectedTextbook.id
         INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
         INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
         INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
         INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
-        toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
         return userSettingService.update(INFO_USTEXTBOOK, ustextbook)
             .applyIO()
-            .map { settingsListener?.onUpdateTextbook() }
+            .map {
+                unitfromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
+                partfromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
+                unittoIndex = lstUnits.indexOfFirst { it.value == usunitto }
+                parttoIndex = lstParts.indexOfFirst { it.value == uspartto }
+                toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
+                settingsListener?.onUpdateTextbook()
+            }.map { busy = false }
     }
 
     fun updateDictReference(): Observable<Unit> {
@@ -371,6 +387,7 @@ class SettingsViewModel : ViewModel() {
     private fun doUpdateUnitFrom(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && usunitfrom == v) return Observable.just(Unit)
         usunitfrom = v
+        unitfromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
         return userSettingService.update(INFO_USUNITFROM, usunitfrom)
             .applyIO()
             .map { settingsListener?.onUpdateUnitFrom() }
@@ -379,6 +396,7 @@ class SettingsViewModel : ViewModel() {
     private fun doUpdatePartFrom(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && uspartfrom == v) return Observable.just(Unit)
         uspartfrom = v
+        partfromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
         return userSettingService.update(INFO_USPARTFROM, uspartfrom)
             .applyIO()
             .map { settingsListener?.onUpdatePartFrom() }
@@ -387,6 +405,7 @@ class SettingsViewModel : ViewModel() {
     private fun doUpdateUnitTo(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && usunitto == v) return Observable.just(Unit)
         usunitto = v
+        unittoIndex = lstUnits.indexOfFirst { it.value == usunitto }
         return userSettingService.update(INFO_USUNITTO, usunitto)
             .applyIO()
             .map { settingsListener?.onUpdateUnitTo() }
@@ -395,6 +414,7 @@ class SettingsViewModel : ViewModel() {
     private fun doUpdatePartTo(v: Int, check: Boolean = true): Observable<Unit> {
         if (check && uspartto == v) return Observable.just(Unit)
         uspartto = v
+        parttoIndex = lstParts.indexOfFirst { it.value == uspartto }
         return userSettingService.update(INFO_USPARTTO, uspartto)
             .applyIO()
             .map { settingsListener?.onUpdatePartTo() }
