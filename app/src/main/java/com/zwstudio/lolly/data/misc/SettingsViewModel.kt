@@ -287,21 +287,23 @@ class SettingsViewModel : ViewModel() {
 
     fun updateVoice(): Observable<Unit> {
         if (lstVoices.isEmpty()) return Observable.empty()
-        usvoice = selectedVoice?.id ?: 0
+        val newVal = selectedVoice?.id ?: 0
+        val dirty = usvoice != newVal
+        usvoice = newVal
         val locale = Locale.getAvailableLocales().find {
             "${it.language}_${it.country}" == selectedVoice?.voicelang
         }
         if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return Observable.empty()
         tts.language = locale
-        return userSettingService.update(INFO_USANDROIDVOICE, usvoice)
+        return (if (dirty) userSettingService.update(INFO_USANDROIDVOICE, usvoice) else Observable.just(Unit))
             .applyIO().map { settingsListener?.onUpdateVoice() }
     }
 
     fun autoCorrectInput(text: String): String =
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
 
-    fun updateUnitFrom(v: Int): Observable<Unit> =
-        doUpdateUnitFrom(v, false).flatMap {
+    fun updateUnitFrom(newVal: Int): Observable<Unit> =
+        doUpdateUnitFrom(newVal).flatMap {
             if (toType == UnitPartToType.Unit)
                 doUpdateSingleUnit()
             else if (toType == UnitPartToType.Part || isInvalidUnitPart)
@@ -310,16 +312,16 @@ class SettingsViewModel : ViewModel() {
                 Observable.just(Unit)
         }
 
-    fun updatePartFrom(v: Int): Observable<Unit> =
-        doUpdatePartFrom(v, false).flatMap {
+    fun updatePartFrom(newVal: Int): Observable<Unit> =
+        doUpdatePartFrom(newVal).flatMap {
             if (toType == UnitPartToType.Part || isInvalidUnitPart)
                 doUpdateUnitPartTo()
             else
                 Observable.just(Unit)
         }
 
-    fun updateToType(v: Int): Observable<Unit> {
-        toType = UnitPartToType.values()[v]
+    fun updateToType(newVal: Int): Observable<Unit> {
+        toType = UnitPartToType.values()[newVal]
         return if (toType == UnitPartToType.Unit)
             doUpdateSingleUnit()
         else if (toType == UnitPartToType.Part)
@@ -364,16 +366,16 @@ class SettingsViewModel : ViewModel() {
         else
             Observable.just(Unit)
 
-    fun updateUnitTo(v: Int): Observable<Unit> =
-        doUpdateUnitTo(v, false).flatMap {
+    fun updateUnitTo(newVal: Int): Observable<Unit> =
+        doUpdateUnitTo(newVal).flatMap {
             if (isInvalidUnitPart)
                 doUpdateUnitPartFrom()
             else
                 Observable.just(Unit)
         }
 
-    fun updatePartTo(v: Int): Observable<Unit> =
-        doUpdatePartTo(v, false).flatMap {
+    fun updatePartTo(newVal: Int): Observable<Unit> =
+        doUpdatePartTo(newVal).flatMap {
             if (isInvalidUnitPart)
                 doUpdateUnitPartFrom()
             else
@@ -389,40 +391,44 @@ class SettingsViewModel : ViewModel() {
     private fun doUpdateSingleUnit(): Observable<Unit> =
         Observables.zip(doUpdateUnitTo(usunitfrom), doUpdatePartFrom(1), doUpdatePartTo(partCount)).map { Unit }
 
-    private fun doUpdateUnitFrom(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && usunitfrom == v) return Observable.just(Unit)
-        usunitfrom = v
-        unitfromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
-        return userSettingService.update(INFO_USUNITFROM, usunitfrom)
-            .applyIO()
-            .map { settingsListener?.onUpdateUnitFrom() }
+    private fun doUpdateUnitFrom(newVal: Int): Observable<Unit> {
+        val dirty = usunitfrom != newVal
+        usunitfrom = newVal
+        return (if (dirty) userSettingService.update(INFO_USUNITFROM, usunitfrom) else Observable.just(Unit))
+            .applyIO().map {
+                unitfromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
+                settingsListener?.onUpdateUnitFrom()
+            }
     }
 
-    private fun doUpdatePartFrom(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && uspartfrom == v) return Observable.just(Unit)
-        uspartfrom = v
-        partfromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
-        return userSettingService.update(INFO_USPARTFROM, uspartfrom)
-            .applyIO()
-            .map { settingsListener?.onUpdatePartFrom() }
+    private fun doUpdatePartFrom(newVal: Int): Observable<Unit> {
+        val dirty = uspartfrom != newVal
+        uspartfrom = newVal
+        return (if (dirty) userSettingService.update(INFO_USPARTFROM, uspartfrom) else Observable.just(Unit))
+            .applyIO().map {
+                partfromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
+                settingsListener?.onUpdatePartFrom()
+            }
     }
 
-    private fun doUpdateUnitTo(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && usunitto == v) return Observable.just(Unit)
-        usunitto = v
-        unittoIndex = lstUnits.indexOfFirst { it.value == usunitto }
-        return userSettingService.update(INFO_USUNITTO, usunitto)
-            .applyIO()
-            .map { settingsListener?.onUpdateUnitTo() }
+    private fun doUpdateUnitTo(newVal: Int): Observable<Unit> {
+        val dirty = usunitto != newVal
+        usunitto = newVal
+        return (if (dirty) userSettingService.update(INFO_USUNITTO, usunitto) else Observable.just(Unit))
+            .applyIO().map {
+                unittoIndex = lstUnits.indexOfFirst { it.value == usunitto }
+                settingsListener?.onUpdateUnitTo()
+            }
     }
 
-    private fun doUpdatePartTo(v: Int, check: Boolean = true): Observable<Unit> {
-        if (check && uspartto == v) return Observable.just(Unit)
-        uspartto = v
-        parttoIndex = lstParts.indexOfFirst { it.value == uspartto }
-        return userSettingService.update(INFO_USPARTTO, uspartto)
-            .applyIO()
-            .map { settingsListener?.onUpdatePartTo() }
+    private fun doUpdatePartTo(newVal: Int): Observable<Unit> {
+        val dirty = uspartto != newVal
+        uspartto = newVal
+        return (if (dirty) userSettingService.update(INFO_USPARTTO, uspartto) else Observable.just(Unit))
+            .applyIO().map {
+                parttoIndex = lstParts.indexOfFirst { it.value == uspartto }
+                settingsListener?.onUpdatePartTo()
+            }
     }
 
     fun getHtml(url: String): Observable<String> =
