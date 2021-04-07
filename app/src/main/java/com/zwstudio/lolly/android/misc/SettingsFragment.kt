@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.distinctUntilChanged
 import com.zwstudio.lolly.android.databinding.FragmentSettingsBinding
@@ -53,37 +52,31 @@ class SettingsFragment : Fragment(), SettingsListener {
             if (!vm.busy)
                 vm.updateTextbook()
         }
-
-        binding.spnUnitFrom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vm.usunitfrom == vm.lstUnits[position].value) return
-                vm.updateUnitFrom(vm.lstUnits[position].value)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        vm.unitfromIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (!vm.busy)
+                vm.updateUnitFrom(vm.lstUnits[it].value)
         }
-
-        binding.spnPartFrom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vm.uspartfrom == vm.lstParts[position].value) return
-                vm.updatePartFrom(vm.lstParts[position].value)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        vm.partfromIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (!vm.busy)
+                vm.updatePartFrom(it)
         }
-
-        binding.spnToType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val b = position == 2
-                binding.spnUnitTo.isEnabled = b
-                binding.spnPartTo.isEnabled = b && !vm.isSinglePart
-                binding.btnPrevious.isEnabled = !b
-                binding.btnNext.isEnabled = !b
-                binding.spnPartFrom.isEnabled = position != 0 && !vm.isSinglePart
-                vm.updateToType(position)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        vm.toTypeIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            val b = it == 2
+            binding.spnUnitTo.isEnabled = b
+            binding.spnPartTo.isEnabled = b && !vm.isSinglePart
+            binding.btnPrevious.isEnabled = !b
+            binding.btnNext.isEnabled = !b
+            binding.spnPartFrom.isEnabled = it != 0 && !vm.isSinglePart
+            if (!vm.busy)
+                vm.updateToType(it)
+        }
+        vm.unittoIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (!vm.busy)
+                vm.updateUnitTo(vm.lstUnits[it].value)
+        }
+        vm.parttoIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+            if (!vm.busy)
+                vm.updatePartTo(vm.lstParts[it].value)
         }
 
         binding.btnPrevious.setOnClickListener {
@@ -92,24 +85,6 @@ class SettingsFragment : Fragment(), SettingsListener {
 
         binding.btnNext.setOnClickListener {
             vm.nextUnitPart()
-        }
-
-        binding.spnUnitTo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vm.usunitto == vm.lstUnits[position].value) return
-                vm.updateUnitTo(vm.lstUnits[position].value)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
-
-        binding.spnPartTo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (vm.uspartto == vm.lstParts[position].value) return
-                vm.updatePartTo(vm.lstParts[position].value)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
         }
 
         vm.settingsListener = this
@@ -139,38 +114,15 @@ class SettingsFragment : Fragment(), SettingsListener {
             val adapter = makeCustomAdapter(requireContext(), vm.lstUnits) { it.label }
             binding.spnUnitFrom.adapter = adapter
             binding.spnUnitTo.adapter = adapter
-
-            onUpdateUnitFrom()
-            onUpdateUnitTo()
         }
         run {
             val adapter = makeCustomAdapter(requireContext(), vm.lstParts) { it.label }
             binding.spnPartFrom.adapter = adapter
             binding.spnPartTo.adapter = adapter
-
-            onUpdatePartFrom()
-            onUpdatePartTo()
         }
         run {
             val adapter = makeCustomAdapter(requireContext(), vm.lstToTypes) { it.label }
             binding.spnToType.adapter = adapter
-            binding.spnToType.setSelection(vm.toType.ordinal)
         }
-    }
-
-    override fun onUpdateUnitFrom() {
-        binding.spnUnitFrom.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitfrom })
-    }
-
-    override fun onUpdatePartFrom() {
-        binding.spnPartFrom.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartfrom })
-    }
-
-    override fun onUpdateUnitTo() {
-        binding.spnUnitTo.setSelection(vm.lstUnits.indexOfFirst { it.value == vm.usunitto })
-    }
-
-    override fun onUpdatePartTo() {
-        binding.spnPartTo.setSelection(vm.lstParts.indexOfFirst { it.value == vm.uspartto })
     }
 }
