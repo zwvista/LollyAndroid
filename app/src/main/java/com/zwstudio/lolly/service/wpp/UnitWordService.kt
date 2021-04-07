@@ -50,26 +50,26 @@ class UnitWordService {
     suspend fun updateSeqNum(id: Int, seqnum: Int) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestUnitWord::class.java)
             .updateSeqNum(id, seqnum)
-            .let { Log.d("", it.toString()) }
+            .let { Log.d("API Result", it.toString()) }
     }
 
     suspend fun updateNote(id: Int, note: String?) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestUnitWord::class.java)
             .updateNote(id, note)
-            .let { Log.d("", it.toString()) }
+            .let { Log.d("API Result", it.toString()) }
     }
 
     suspend fun update(o: MUnitWord) = withContext(Dispatchers.IO) {
         retrofitSP.create(RestUnitWord::class.java)
             .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .let { Log.d("", it.toString()) }
+            .let { Log.d("API Result", it.toString()) }
     }
 
     suspend fun create(o: MUnitWord): Int = withContext(Dispatchers.IO) {
         retrofitSP.create(RestUnitWord::class.java)
             .create(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
             .let {
-                Log.d("", it.toString())
+                Log.d("API Result", it.toString())
                 it[0][0].newid!!.toInt()
             }
     }
@@ -77,6 +77,6 @@ class UnitWordService {
     suspend fun delete(o: MUnitWord) = withContext(Dispatchers.IO) {
         retrofitSP.create(RestUnitWord::class.java)
             .delete(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .let { Log.d("", it.toString()) }
+            .let { Log.d("API Result", it.toString()) }
     }
 }

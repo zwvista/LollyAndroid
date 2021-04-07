@@ -50,10 +50,10 @@ class OnSwipeWebviewTouchListener(ctx: Context, touchListener: TouchListener) : 
 
 interface TouchListener {
     fun onSwipeLeft() {
-        Log.d("", "Swipe left")
+        Log.d("Swipe", "Swipe left")
     }
 
     fun onSwipeRight() {
-        Log.d("", "Swipe right")
+        Log.d("Swipe", "Swipe right")
     }
 }

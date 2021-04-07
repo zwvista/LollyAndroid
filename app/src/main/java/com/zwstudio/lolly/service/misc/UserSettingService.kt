@@ -23,16 +23,16 @@ class UserSettingService {
         when (info.valueid) {
             1 -> retrofitJson.create(RestUserSetting::class.java)
                 .updateValue1(info.usersettingid, v)
-                .also { Log.d("", it.toString()) }
+                .also { Log.d("API Result", it.toString()) }
             2 -> retrofitJson.create(RestUserSetting::class.java)
                 .updateValue2(info.usersettingid, v)
-                .also { Log.d("", it.toString()) }
+                .also { Log.d("API Result", it.toString()) }
             3 -> retrofitJson.create(RestUserSetting::class.java)
                 .updateValue3(info.usersettingid, v)
-                .also { Log.d("", it.toString()) }
+                .also { Log.d("API Result", it.toString()) }
             4 -> retrofitJson.create(RestUserSetting::class.java)
                 .updateValue4(info.usersettingid, v)
-                .also { Log.d("", it.toString()) }
+                .also { Log.d("API Result", it.toString()) }
             else -> 0
         }
     }

@@ -17,18 +17,18 @@ class WordFamiService {
     suspend fun update(id: Int, userid: Int, wordid: Int, correct: Int, total: Int) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
             .update(id, userid, wordid, correct, total)
-            .let { Log.d("", it.toString()) }
+            .let { Log.d("API Result", it.toString()) }
     }
 
     suspend fun create(userid: Int, wordid: Int, correct: Int, total: Int): Int = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
             .create(userid, wordid, correct, total)
-            .also { Log.d("", it.toString()) }
+            .also { Log.d("API Result", it.toString()) }
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
             .delete(id)
-            .let { Log.d("", it.toString()) }
+            .let { Log.d("API Result", it.toString()) }
     }
 }

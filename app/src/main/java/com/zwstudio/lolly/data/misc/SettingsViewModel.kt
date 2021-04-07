@@ -198,8 +198,9 @@ class SettingsViewModel : ViewModel() {
     fun updateLang() = viewModelScope.launch {
         if (lstLanguages.isEmpty()) return@launch
         busy = true
-        val isinit = selectedLang.id == uslang
-        uslang = selectedLang.id
+        val newVal = selectedLang.id
+        val dirty = uslang != newVal
+        uslang = newVal
         INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
         INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
         INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
@@ -214,7 +215,7 @@ class SettingsViewModel : ViewModel() {
         lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
         lstAutoCorrect = autoCorrectService.getDataByLang(uslang)
         lstVoices = voiceService.getDataByLang(uslang)
-        if (isinit) userSettingService.update(INFO_USLANG, uslang)
+        if (dirty) userSettingService.update(INFO_USLANG, uslang)
         selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
         selectedDictReferenceIndex = 0.coerceAtLeast(lstDictsReference.indexOfFirst { it.dictid.toString() == usdictreference })
         selectedDictNoteIndex = 0.coerceAtLeast(lstDictsNote.indexOfFirst { it.dictid == usdictnote })
@@ -228,12 +229,14 @@ class SettingsViewModel : ViewModel() {
     fun updateTextbook() = viewModelScope.launch {
         if (lstTextbooks.isEmpty()) return@launch
         busy = true
-        ustextbook = selectedTextbook.id
+        val newVal = selectedTextbook.id
+        val dirty = ustextbook != newVal
+        ustextbook = newVal
         INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
         INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
         INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
         INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
-        userSettingService.update(INFO_USTEXTBOOK, ustextbook)
+        if (dirty) userSettingService.update(INFO_USTEXTBOOK, ustextbook)
         unitfromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
         partfromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
         unittoIndex = lstUnits.indexOfFirst { it.value == usunitto }
@@ -245,22 +248,28 @@ class SettingsViewModel : ViewModel() {
 
     fun updateDictReference() = viewModelScope.launch {
         if (lstDictsReference.isEmpty()) return@launch
-        usdictreference = selectedDictReference.dictid.toString()
-        userSettingService.update(INFO_USDICTREFERENCE, usdictreference)
+        val newVal = selectedDictReference.dictid.toString()
+        val dirty = usdictreference != newVal
+        usdictreference = newVal
+        if (dirty) userSettingService.update(INFO_USDICTREFERENCE, usdictreference)
         settingsListener?.onUpdateDictReference()
     }
 
     fun updateDictNote() = viewModelScope.launch {
         if (lstDictsNote.isEmpty()) return@launch
-        usdictnote = selectedDictNote?.dictid ?: 0
-        userSettingService.update(INFO_USDICTNOTE, usdictnote)
+        val newVal = selectedDictNote?.dictid ?: 0
+        val dirty = usdictnote != newVal
+        usdictnote = newVal
+        if (dirty) userSettingService.update(INFO_USDICTNOTE, usdictnote)
         settingsListener?.onUpdateDictNote()
     }
 
     fun updateDictTranslation() = viewModelScope.launch {
         if (lstDictsTranslation.isEmpty()) return@launch
-        usdicttranslation = selectedDictTranslation?.dictid ?: 0
-        userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation)
+        val newVal = selectedDictTranslation?.dictid ?: 0
+        val dirty = usdicttranslation != newVal
+        usdicttranslation = newVal
+        if (dirty) userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation)
         settingsListener?.onUpdateDictTranslation()
     }
 
@@ -421,7 +430,7 @@ class SettingsViewModel : ViewModel() {
         val dictNote = selectedDictNote ?: return ""
         val url = dictNote.urlString(word, lstAutoCorrect)
         val html = getHtml(url)
-        Log.d("", html)
+        Log.d("API Result", html)
         return extractTextFrom(html, dictNote.transform, "") { text, _ -> text }
     }
 
