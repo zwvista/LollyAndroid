@@ -13,8 +13,8 @@ import androidx.annotation.LayoutRes
 import com.zwstudio.lolly.android.R
 import java.net.URLEncoder
 
-object GlobalConstants {
-    val userid = 1
+object Global {
+    var userid = 1
 }
 
 enum class UnitPartToType {

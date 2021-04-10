@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.distinctUntilChanged
+import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
+import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentSearchBinding
 import com.zwstudio.lolly.android.vmSettings
 import com.zwstudio.lolly.data.misc.SearchViewModel
@@ -16,6 +18,7 @@ import com.zwstudio.lolly.data.misc.SettingsListener
 import com.zwstudio.lolly.data.misc.makeCustomAdapter
 import com.zwstudio.lolly.data.misc.makeCustomAdapter2
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import com.zwstudio.lolly.data.misc.*
 
 class SearchFragment : Fragment(), SettingsListener {
 
@@ -33,8 +36,7 @@ class SearchFragment : Fragment(), SettingsListener {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    fun setup() {
         onlineDict = OnlineDict(binding.wvDictReference, vm, compositeDisposable)
         onlineDict.initWebViewClient()
 
@@ -65,6 +67,16 @@ class SearchFragment : Fragment(), SettingsListener {
 
         vmSettings.settingsListener = this
         compositeDisposable.add(vmSettings.getData().subscribe())
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        Global.userid = requireContext().getSharedPreferences("userid", 0).getInt("userid", 0)
+        if (Global.userid == 0) {
+            findNavController().navigate(R.id.action_searchFragment_to_loginFragment)
+        } else
+            setup()
     }
 
     override fun onDestroyView() {

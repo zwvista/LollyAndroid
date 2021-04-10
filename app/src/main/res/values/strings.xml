@@ -94,4 +94,6 @@
     <string name="label_dict_reference">Dictionary(Reference):</string>
     <string name="label_dict_note">Dictionary(Note):</string>
     <string name="label_dict_translation">Dictionary(Translation):</string>
+    <string name="lolly">Lolly</string>
+    <string name="login">Login</string>
 </resources>

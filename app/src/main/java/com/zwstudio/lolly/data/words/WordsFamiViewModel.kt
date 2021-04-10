@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.data.words
 
 import com.zwstudio.lolly.android.applyIO
-import com.zwstudio.lolly.data.misc.GlobalConstants
+import com.zwstudio.lolly.data.misc.Global
 import com.zwstudio.lolly.domain.wpp.MWordFami
 import com.zwstudio.lolly.service.wpp.WordFamiService
 import io.reactivex.rxjava3.core.Observable
@@ -27,10 +27,10 @@ class WordsFamiViewModel {
             .applyIO()
 
     fun update(wordid: Int, isCorrect: Boolean): Observable<MWordFami> {
-        return getDataByUserWord(GlobalConstants.userid, wordid).flatMap { lst ->
+        return getDataByUserWord(Global.userid, wordid).flatMap { lst ->
             val d = if (isCorrect) 1 else 0
             val item = MWordFami().apply {
-                userid = GlobalConstants.userid
+                userid = Global.userid
                 this.wordid = wordid
             }
             if (lst.isEmpty()) {
