@@ -187,7 +187,7 @@ class SettingsViewModel : ViewModel() {
         // TODO async
         lstLanguages = languageService.getData()
         lstUSMappings = usMappingService.getData()
-        lstUserSettings = userSettingService.getDataByUser(GlobalConstants.userid)
+        lstUserSettings = userSettingService.getDataByUser(Global.userid)
         INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
         selectedLangIndex = 0.coerceAtLeast(lstLanguages.indexOfFirst { it.id == uslang })
         settingsListener?.onGetData()

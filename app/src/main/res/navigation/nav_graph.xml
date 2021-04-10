@@ -8,7 +8,11 @@
         android:id="@+id/searchFragment"
         android:name="com.zwstudio.lolly.android.misc.SearchFragment"
         android:label="@string/search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.zwstudio.lolly.android.misc.SettingsFragment"
@@ -190,4 +194,9 @@
         android:name="com.zwstudio.lolly.android.misc.ReviewOptionsFragment"
         android:label="@string/review_options"
         tools:layout="@layout/fragment_review_options" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.zwstudio.lolly.android.misc.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>

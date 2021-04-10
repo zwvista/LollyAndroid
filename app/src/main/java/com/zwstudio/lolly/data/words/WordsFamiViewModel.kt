@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.data.words
 
-import com.zwstudio.lolly.data.misc.GlobalConstants
+import com.zwstudio.lolly.data.misc.Global
 import com.zwstudio.lolly.domain.wpp.MWordFami
 import com.zwstudio.lolly.service.wpp.WordFamiService
 
@@ -21,10 +21,10 @@ class WordsFamiViewModel {
         wordFamiService.delete(id)
 
     suspend fun update(wordid: Int, isCorrect: Boolean): MWordFami {
-        val lst = getDataByUserWord(GlobalConstants.userid, wordid)
+        val lst = getDataByUserWord(Global.userid, wordid)
         val d = if (isCorrect) 1 else 0
         val item = MWordFami().apply {
-            userid = GlobalConstants.userid
+            userid = Global.userid
             this.wordid = wordid
         }
         if (lst.isEmpty()) {
