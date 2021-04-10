@@ -49,7 +49,7 @@ class WordsReviewFragment : Fragment() {
                 speak(vm.currentWord)
         }
 
-        setFragmentResultListener("ReviewOptionsFragment") { requestKey, bundle ->
+        setFragmentResultListener("ReviewOptionsFragment") { _, bundle ->
             vm.options = bundle.getSerializable("result") as MReviewOptions
             binding.progressBar1.visibility = View.VISIBLE
             vm.newTest()

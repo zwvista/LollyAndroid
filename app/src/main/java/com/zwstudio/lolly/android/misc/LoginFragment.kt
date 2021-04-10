@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.databinding.FragmentLoginBinding
+import com.zwstudio.lolly.data.misc.Global
 import com.zwstudio.lolly.data.misc.LoginViewModel
 
 class LoginFragment : Fragment() {
@@ -26,7 +27,9 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.login.setOnClickListener {
-
+            vm.login().subscribe {
+                Global.userid = it
+            }
         }
     }
 }

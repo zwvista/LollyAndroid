@@ -70,9 +70,9 @@ class PhrasesUnitBatchEditFragment : Fragment() {
         fun chkSeqNum() {
             binding.etSeqNum.isEnabled = binding.chkSeqNum.isChecked
         }
-        binding.chkUnit.setOnCheckedChangeListener { buttonView, isChecked -> chkUnit() }
-        binding.chkPart.setOnCheckedChangeListener { buttonView, isChecked -> chkPart() }
-        binding.chkSeqNum.setOnCheckedChangeListener { buttonView, isChecked -> chkSeqNum() }
+        binding.chkUnit.setOnCheckedChangeListener { _, _ -> chkUnit() }
+        binding.chkPart.setOnCheckedChangeListener { _, _ -> chkPart() }
+        binding.chkSeqNum.setOnCheckedChangeListener { _, _ -> chkSeqNum() }
         chkUnit(); chkPart(); chkSeqNum()
 
         mDragListView = view.findViewById(R.id.drag_list_view)
