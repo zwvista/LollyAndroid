@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewModelScope
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.databinding.FragmentLoginBinding
+import com.zwstudio.lolly.data.misc.Global
 import com.zwstudio.lolly.data.misc.LoginViewModel
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
 
@@ -26,7 +29,9 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.login.setOnClickListener {
-
+            vm.viewModelScope.launch {
+                Global.userid = vm.login()
+            }
         }
     }
 }

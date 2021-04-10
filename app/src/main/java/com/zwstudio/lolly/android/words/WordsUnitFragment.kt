@@ -72,7 +72,7 @@ class WordsUnitFragment : DrawerListFragment() {
             refreshListView()
         }
 
-        setFragmentResultListener("WordsUnitDetailFragment") { requestKey, bundle ->
+        setFragmentResultListener("WordsUnitDetailFragment") { _, _ ->
             menuAdd()
         }
 
