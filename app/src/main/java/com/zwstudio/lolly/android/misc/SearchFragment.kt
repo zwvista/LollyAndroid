@@ -1,9 +1,7 @@
 package com.zwstudio.lolly.android.misc
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.distinctUntilChanged
@@ -13,12 +11,8 @@ import com.androidisland.vita.vita
 import com.zwstudio.lolly.android.R
 import com.zwstudio.lolly.android.databinding.FragmentSearchBinding
 import com.zwstudio.lolly.android.vmSettings
-import com.zwstudio.lolly.data.misc.SearchViewModel
-import com.zwstudio.lolly.data.misc.SettingsListener
-import com.zwstudio.lolly.data.misc.makeCustomAdapter
-import com.zwstudio.lolly.data.misc.makeCustomAdapter2
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import com.zwstudio.lolly.data.misc.*
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SearchFragment : Fragment(), SettingsListener {
 
@@ -26,6 +20,11 @@ class SearchFragment : Fragment(), SettingsListener {
     var binding by autoCleared<FragmentSearchBinding>()
     var onlineDict by autoCleared<OnlineDict>()
     val compositeDisposable = CompositeDisposable()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
@@ -84,6 +83,24 @@ class SearchFragment : Fragment(), SettingsListener {
             vmSettings.settingsListener = null
         super.onDestroyView()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_logout, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.menuLogout -> {
+                requireContext().getSharedPreferences("userid", 0)
+                    .edit()
+                    .remove("userid")
+                    .apply()
+                findNavController().navigate(R.id.action_searchFragment_to_loginFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 
     override fun onGetData() {
         binding.spnLanguage.adapter = makeCustomAdapter(requireContext(), vmSettings.lstLanguages) { it.langname }
