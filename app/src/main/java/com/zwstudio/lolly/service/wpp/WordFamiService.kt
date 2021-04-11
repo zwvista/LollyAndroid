@@ -8,19 +8,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class WordFamiService {
-    suspend fun getDataByUserWord(userid: Int, wordid: Int): List<MWordFami> = withContext(Dispatchers.IO) {
+    suspend fun getDataByUserWord(userid: String, wordid: Int): List<MWordFami> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
             .getDataByUserWord("USERID,eq,$userid", "WORDID,eq,$wordid")
             .lst!!
     }
 
-    suspend fun update(id: Int, userid: Int, wordid: Int, correct: Int, total: Int) = withContext(Dispatchers.IO) {
+    suspend fun update(id: Int, userid: String, wordid: Int, correct: Int, total: Int) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
             .update(id, userid, wordid, correct, total)
             .let { Log.d("API Result", it.toString()) }
     }
 
-    suspend fun create(userid: Int, wordid: Int, correct: Int, total: Int): Int = withContext(Dispatchers.IO) {
+    suspend fun create(userid: String, wordid: Int, correct: Int, total: Int): Int = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
             .create(userid, wordid, correct, total)
             .also { Log.d("API Result", it.toString()) }

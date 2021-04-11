@@ -11,7 +11,7 @@ class LoginViewModel : ViewModel() {
 
     private val userService = UserService()
 
-    suspend fun login(): Int =
+    suspend fun login(): String =
         userService.getData(username.value!!, password.value!!)
-            .let { if (it.isEmpty()) 0 else it[0].id }
+            .let { if (it.isEmpty()) "" else it[0].userid }
 }

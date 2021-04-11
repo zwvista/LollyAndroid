@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class UserSettingService {
-    suspend fun getDataByUser(userid: Int): List<MUserSetting> = withContext(Dispatchers.IO) {
+    suspend fun getDataByUser(userid: String): List<MUserSetting> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestUserSetting::class.java)
             .getDataByUser("USERID,eq,$userid")
             .lst!!

@@ -9,13 +9,13 @@ interface RestWordFami {
 
     @FormUrlEncoded
     @PUT("WORDSFAMI/{id}")
-    suspend fun update(@Path("id") id: Int, @Field("USERID") userid: Int,
+    suspend fun update(@Path("id") id: Int, @Field("USERID") userid: String,
                @Field("WORDID") wordid: Int,
                @Field("CORRECT") correct: Int, @Field("TOTAL") total: Int): Int
 
     @FormUrlEncoded
     @POST("WORDSFAMI")
-    suspend fun create(@Field("USERID") userid: Int,
+    suspend fun create(@Field("USERID") userid: String,
                @Field("WORDID") wordid: Int,
                @Field("CORRECT") correct: Int, @Field("TOTAL") total: Int): Int
 

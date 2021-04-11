@@ -70,8 +70,8 @@ class SearchFragment : Fragment(), SettingsListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Global.userid = requireContext().getSharedPreferences("userid", 0).getInt("userid", 0)
-        if (Global.userid == 0) {
+        Global.userid = requireContext().getSharedPreferences("users", 0).getString("userid", "")!!
+        if (Global.userid.isEmpty()) {
             findNavController().navigate(R.id.action_searchFragment_to_loginFragment)
         } else
             setup()
@@ -91,7 +91,7 @@ class SearchFragment : Fragment(), SettingsListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
             R.id.menuLogout -> {
-                requireContext().getSharedPreferences("userid", 0)
+                requireContext().getSharedPreferences("users", 0)
                     .edit()
                     .remove("userid")
                     .apply()

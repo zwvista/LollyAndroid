@@ -13,6 +13,8 @@ class MUser : Serializable {
 
     @SerializedName("ID")
     var id = 0
+    @SerializedName("USERID")
+    var userid = ""
     @SerializedName("USERNAME")
     var username = ""
     @SerializedName("PASSWORD")

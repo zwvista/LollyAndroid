@@ -14,7 +14,7 @@ import com.zwstudio.lolly.android.R
 import java.net.URLEncoder
 
 object Global {
-    var userid = 1
+    var userid = ""
 }
 
 enum class UnitPartToType {

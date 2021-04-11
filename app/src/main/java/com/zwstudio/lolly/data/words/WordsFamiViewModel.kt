@@ -8,7 +8,7 @@ class WordsFamiViewModel {
 
     val wordFamiService = WordFamiService()
 
-    private suspend fun getDataByUserWord(userid: Int, wordid: Int): List<MWordFami> =
+    private suspend fun getDataByUserWord(userid: String, wordid: Int): List<MWordFami> =
         wordFamiService.getDataByUserWord(userid, wordid)
 
     private suspend fun update(o: MWordFami) =
