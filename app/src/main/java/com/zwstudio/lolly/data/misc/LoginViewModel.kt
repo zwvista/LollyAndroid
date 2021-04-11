@@ -12,8 +12,8 @@ class LoginViewModel : ViewModel() {
 
     private val userService = UserService()
 
-    fun login(): Observable<Int> =
+    fun login(): Observable<String> =
         userService.getData(username.value!!, password.value!!)
-            .map { if (it.isEmpty()) 0 else it[0].id }
+            .map { if (it.isEmpty()) "" else it[0].userid }
             .applyIO()
 }

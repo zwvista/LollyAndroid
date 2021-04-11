@@ -10,13 +10,13 @@ interface RestWordFami {
 
     @FormUrlEncoded
     @PUT("WORDSFAMI/{id}")
-    fun update(@Path("id") id: Int, @Field("USERID") userid: Int,
+    fun update(@Path("id") id: Int, @Field("USERID") userid: String,
                @Field("WORDID") wordid: Int,
                @Field("CORRECT") correct: Int, @Field("TOTAL") total: Int): Observable<Int>
 
     @FormUrlEncoded
     @POST("WORDSFAMI")
-    fun create(@Field("USERID") userid: Int,
+    fun create(@Field("USERID") userid: String,
                @Field("WORDID") wordid: Int,
                @Field("CORRECT") correct: Int, @Field("TOTAL") total: Int): Observable<Int>
 

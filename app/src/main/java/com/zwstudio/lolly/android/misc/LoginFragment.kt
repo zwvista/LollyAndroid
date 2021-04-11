@@ -31,15 +31,15 @@ class LoginFragment : Fragment() {
         binding.login.setOnClickListener {
             vm.login().subscribe {
                 Global.userid = it
-                if (Global.userid == 0)
+                if (Global.userid.isEmpty())
                     AlertDialog.Builder(requireContext())
                         .setTitle("Login")
                         .setMessage("Wrong username or password!")
                         .show()
                 else {
-                    requireContext().getSharedPreferences("userid", 0)
+                    requireContext().getSharedPreferences("users", 0)
                         .edit()
-                        .putInt("userid", Global.userid)
+                        .putString("userid", Global.userid)
                         .apply()
                     findNavController().navigateUp()
                 }

@@ -14,7 +14,7 @@ class MUserSetting : Serializable {
     @SerializedName("ID")
     var id = 0
     @SerializedName("USERID")
-    var userid = 0
+    var userid = ""
     @SerializedName("KIND")
     var kind = 0
     @SerializedName("ENTITYID")

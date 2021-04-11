@@ -10,7 +10,7 @@ class WordsFamiViewModel {
 
     val wordFamiService = WordFamiService()
 
-    private fun getDataByUserWord(userid: Int, wordid: Int): Observable<List<MWordFami>> =
+    private fun getDataByUserWord(userid: String, wordid: Int): Observable<List<MWordFami>> =
         wordFamiService.getDataByUserWord(userid, wordid)
             .applyIO()
 

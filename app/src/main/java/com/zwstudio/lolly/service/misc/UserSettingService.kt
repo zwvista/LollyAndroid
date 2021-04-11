@@ -8,7 +8,7 @@ import com.zwstudio.lolly.restapi.misc.RestUserSetting
 import io.reactivex.rxjava3.core.Observable
 
 class UserSettingService {
-    fun getDataByUser(userid: Int): Observable<List<MUserSetting>> =
+    fun getDataByUser(userid: String): Observable<List<MUserSetting>> =
         retrofitJson.create(RestUserSetting::class.java)
             .getDataByUser("USERID,eq,$userid")
             .map { it.lst!! }

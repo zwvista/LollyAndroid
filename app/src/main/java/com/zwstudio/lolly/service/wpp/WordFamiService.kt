@@ -7,17 +7,17 @@ import com.zwstudio.lolly.restapi.wpp.RestWordFami
 import io.reactivex.rxjava3.core.Observable
 
 class WordFamiService {
-    fun getDataByUserWord(userid: Int, wordid: Int): Observable<List<MWordFami>> =
+    fun getDataByUserWord(userid: String, wordid: Int): Observable<List<MWordFami>> =
         retrofitJson.create(RestWordFami::class.java)
             .getDataByUserWord("USERID,eq,$userid", "WORDID,eq,$wordid")
             .map { it.lst!! }
 
-    fun update(id: Int, userid: Int, wordid: Int, correct: Int, total: Int): Observable<Unit> =
+    fun update(id: Int, userid: String, wordid: Int, correct: Int, total: Int): Observable<Unit> =
         retrofitJson.create(RestWordFami::class.java)
             .update(id, userid, wordid, correct, total)
             .map { Log.d("API Result", it.toString()); Unit }
 
-    fun create(userid: Int, wordid: Int, correct: Int, total: Int): Observable<Int> =
+    fun create(userid: String, wordid: Int, correct: Int, total: Int): Observable<Int> =
         retrofitJson.create(RestWordFami::class.java)
             .create(userid, wordid, correct, total)
             .doAfterNext { Log.d("API Result", it.toString()) }
