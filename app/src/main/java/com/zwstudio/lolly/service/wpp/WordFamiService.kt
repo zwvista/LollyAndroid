@@ -2,27 +2,28 @@ package com.zwstudio.lolly.service.wpp
 
 import android.util.Log
 import com.zwstudio.lolly.android.retrofitJson
+import com.zwstudio.lolly.data.misc.Global
 import com.zwstudio.lolly.domain.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class WordFamiService {
-    suspend fun getDataByUserWord(userid: String, wordid: Int): List<MWordFami> = withContext(Dispatchers.IO) {
+    suspend fun getDataByWord(wordid: Int): List<MWordFami> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
-            .getDataByUserWord("USERID,eq,$userid", "WORDID,eq,$wordid")
+            .getDataByUserWord("USERID,eq,${Global.userid}", "WORDID,eq,$wordid")
             .lst!!
     }
 
-    suspend fun update(id: Int, userid: String, wordid: Int, correct: Int, total: Int) = withContext(Dispatchers.IO) {
+    suspend fun update(o: MWordFami) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
-            .update(id, userid, wordid, correct, total)
+            .update(o.id, o.userid, o.wordid, o.correct, o.total)
             .let { Log.d("API Result", it.toString()) }
     }
 
-    suspend fun create(userid: String, wordid: Int, correct: Int, total: Int): Int = withContext(Dispatchers.IO) {
+    suspend fun create(o: MWordFami): Int = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
-            .create(userid, wordid, correct, total)
+            .create(o.userid, o.wordid, o.correct, o.total)
             .also { Log.d("API Result", it.toString()) }
     }
 
