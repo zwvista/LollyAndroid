@@ -5,7 +5,7 @@
     tools:context=".misc.SettingsFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.data.misc.SettingsViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.misc.SettingsViewModel"/>
     </data>
 
     <ScrollView

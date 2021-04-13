@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.restapi.misc
 
-import com.zwstudio.lolly.domain.misc.MUserSettings
+import com.zwstudio.lolly.models.misc.MUserSettings
 import retrofit2.http.*
 
 // https://stackoverflow.com/questions/46892100/how-to-use-rxjava2-with-retrofit-in-android

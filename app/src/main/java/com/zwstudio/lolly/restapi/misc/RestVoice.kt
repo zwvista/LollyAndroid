@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.restapi.misc
 
-import com.zwstudio.lolly.domain.misc.MVoices
+import com.zwstudio.lolly.models.misc.MVoices
 import retrofit2.http.GET
 import retrofit2.http.Query
 

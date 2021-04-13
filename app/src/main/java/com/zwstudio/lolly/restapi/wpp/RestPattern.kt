@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.restapi.wpp
 
-import com.zwstudio.lolly.domain.misc.MSPResult
-import com.zwstudio.lolly.domain.wpp.MPatterns
+import com.zwstudio.lolly.models.misc.MSPResult
+import com.zwstudio.lolly.models.wpp.MPatterns
 import retrofit2.http.*
 
 interface RestPattern {

@@ -1,6 +1,6 @@
 package com.zwstudio.suspendapi.restapi.misc
 
-import com.zwstudio.lolly.domain.misc.MTextbooks
+import com.zwstudio.lolly.models.misc.MTextbooks
 import retrofit2.http.GET
 import retrofit2.http.Query
 

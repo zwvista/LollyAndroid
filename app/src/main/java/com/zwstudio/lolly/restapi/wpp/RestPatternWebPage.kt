@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.restapi.wpp
 
-import com.zwstudio.lolly.domain.wpp.MPatternWebPages
+import com.zwstudio.lolly.models.wpp.MPatternWebPages
 import retrofit2.http.*
 
 interface RestPatternWebPage {

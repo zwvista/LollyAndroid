@@ -5,7 +5,7 @@
     tools:context=".words.WordsLangDetailFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.data.words.WordsLangDetailViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.words.WordsLangDetailViewModel"/>
     </data>
 
     <ScrollView

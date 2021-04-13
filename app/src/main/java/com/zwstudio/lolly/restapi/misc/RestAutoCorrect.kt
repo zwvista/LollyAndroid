@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.restapi.misc
 
-import com.zwstudio.lolly.domain.misc.MAutoCorrects
+import com.zwstudio.lolly.models.misc.MAutoCorrects
 import retrofit2.http.GET
 import retrofit2.http.Query
 
