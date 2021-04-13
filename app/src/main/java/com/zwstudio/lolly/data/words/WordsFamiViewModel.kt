@@ -10,24 +10,8 @@ class WordsFamiViewModel {
 
     val wordFamiService = WordFamiService()
 
-    private fun getDataByUserWord(userid: String, wordid: Int): Observable<List<MWordFami>> =
-        wordFamiService.getDataByUserWord(userid, wordid)
-            .applyIO()
-
-    private fun update(o: MWordFami): Observable<Unit> =
-        wordFamiService.update(o.id, o.userid, o.wordid, o.correct, o.total)
-            .applyIO()
-
-    private fun create(o: MWordFami): Observable<Int> =
-        wordFamiService.create(o.userid, o.wordid, o.correct, o.total)
-            .applyIO()
-
-    private fun delete(id: Int): Observable<Unit> =
-        wordFamiService.delete(id)
-            .applyIO()
-
     fun update(wordid: Int, isCorrect: Boolean): Observable<MWordFami> {
-        return getDataByUserWord(Global.userid, wordid).flatMap { lst ->
+        return wordFamiService.getDataByWord(wordid).flatMap { lst ->
             val d = if (isCorrect) 1 else 0
             val item = MWordFami().apply {
                 userid = Global.userid
@@ -36,7 +20,7 @@ class WordsFamiViewModel {
             if (lst.isEmpty()) {
                 item.correct = d
                 item.total = 1
-                create(item).map {
+                wordFamiService.create(item).map {
                     item.id = it
                     item
                 }
@@ -46,7 +30,7 @@ class WordsFamiViewModel {
                 item.id = o.id
                 item.correct = o.correct + d
                 item.total = o.total + 1
-                update(item).map {
+                wordFamiService.update(item).map {
                     item
                 }
             }

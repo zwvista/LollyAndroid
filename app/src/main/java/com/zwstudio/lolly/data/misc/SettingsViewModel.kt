@@ -187,7 +187,7 @@ class SettingsViewModel : ViewModel() {
         busy = true
         return Observable.zip(languageService.getData(),
             usMappingService.getData(),
-            userSettingService.getDataByUser(Global.userid)) { res1, res2, res3 ->
+            userSettingService.getData()) { res1, res2, res3 ->
             lstLanguages = res1
             lstUSMappings = res2
             lstUserSettings = res3

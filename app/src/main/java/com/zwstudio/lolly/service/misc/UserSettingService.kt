@@ -2,15 +2,16 @@ package com.zwstudio.lolly.service.misc
 
 import android.util.Log
 import com.zwstudio.lolly.android.retrofitJson
+import com.zwstudio.lolly.data.misc.Global
 import com.zwstudio.lolly.domain.misc.MUserSetting
 import com.zwstudio.lolly.domain.misc.MUserSettingInfo
 import com.zwstudio.lolly.restapi.misc.RestUserSetting
 import io.reactivex.rxjava3.core.Observable
 
 class UserSettingService {
-    fun getDataByUser(userid: String): Observable<List<MUserSetting>> =
+    fun getData(): Observable<List<MUserSetting>> =
         retrofitJson.create(RestUserSetting::class.java)
-            .getDataByUser("USERID,eq,$userid")
+            .getDataByUser("USERID,eq,${Global.userid}")
             .map { it.lst!! }
 
     fun update(info: MUserSettingInfo, v: Int): Observable<Int> =
