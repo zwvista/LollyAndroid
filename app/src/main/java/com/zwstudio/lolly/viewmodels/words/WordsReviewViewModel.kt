@@ -3,20 +3,20 @@ package com.zwstudio.lolly.viewmodels.words
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zwstudio.lolly.ui.applyIO
-import com.zwstudio.lolly.ui.vmSettings
-import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
 import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
+import com.zwstudio.lolly.ui.applyIO
+import com.zwstudio.lolly.ui.vmSettings
+import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
-class WordsReviewViewModel : ViewModel() {
+class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> Unit) : ViewModel() {
 
     val unitWordService = UnitWordService()
     val vmWordFami = WordsFamiViewModel()
@@ -155,6 +155,7 @@ class WordsReviewViewModel : ViewModel() {
         translationString.value = ""
         wordInputString.value = ""
         searchIsEnabled.value = false
+        doTestAction()
         if (hasNext) {
             indexString.value = "${index + 1}/$count"
             accuracyString.value = currentItem!!.accuracy

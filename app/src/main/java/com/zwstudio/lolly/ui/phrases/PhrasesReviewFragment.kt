@@ -17,7 +17,12 @@ import com.zwstudio.lolly.viewmodels.phrases.PhrasesReviewViewModel
 
 class PhrasesReviewFragment : Fragment() {
 
-    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesReviewViewModel>() }
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel {
+        PhrasesReviewViewModel {
+            if (hasNext && isSpeaking.value!!)
+                speak(currentPhrase)
+        }
+    }}
     var binding by autoCleared<FragmentPhrasesReviewBinding>()
     var mAlreadyLoaded = false
 
