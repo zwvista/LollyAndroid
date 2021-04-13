@@ -2,19 +2,19 @@ package com.zwstudio.lolly.viewmodels.phrases
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.zwstudio.lolly.ui.applyIO
-import com.zwstudio.lolly.ui.vmSettings
 import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
+import com.zwstudio.lolly.ui.applyIO
+import com.zwstudio.lolly.ui.vmSettings
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
-class PhrasesReviewViewModel : ViewModel() {
+class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.() -> Unit) : ViewModel() {
 
     val unitPhraseService = UnitPhraseService()
 
@@ -117,6 +117,7 @@ class PhrasesReviewViewModel : ViewModel() {
         translationString.value = currentItem?.translation ?: ""
         phraseTargetIsVisible.value = !isTestMode
         phraseInputString.value = ""
+        doTestAction()
         if (hasNext)
             indexString.value = "${index + 1}/$count"
         else if (options.mode == ReviewMode.ReviewAuto)

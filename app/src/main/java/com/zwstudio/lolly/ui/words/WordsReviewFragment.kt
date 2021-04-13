@@ -18,7 +18,12 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class WordsReviewFragment : Fragment() {
 
-    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsReviewViewModel>() }
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel {
+        WordsReviewViewModel {
+            if (hasNext && isSpeaking.value!!)
+                speak(currentWord)
+        }
+    }}
     var binding by autoCleared<FragmentWordsReviewBinding>()
     var mAlreadyLoaded = false
 
