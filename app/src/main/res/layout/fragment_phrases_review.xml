@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnNewTest" />
+            app:layout_constraintBottom_toTopOf="@+id/chkSpeak" />
 
         <TextView
             android:id="@+id/tvCorrect"
@@ -48,25 +48,15 @@
             app:layout_constraintTop_toTopOf="@+id/tvIndex"
             app:layout_constraintBottom_toBottomOf="@+id/tvIndex" />
 
-        <Button
-            android:id="@+id/btnNewTest"
-            android:text="@string/text_new_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvIndex" />
-
         <CheckBox
             android:id="@+id/chkSpeak"
             android:text="@string/text_speak"
             android:checked="@{model.isSpeaking}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btnNewTest"
-            app:layout_constraintBottom_toBottomOf="@+id/btnNewTest" />
+            app:layout_constraintTop_toBottomOf="@+id/tvIndex" />
 
         <Button
             android:id="@+id/btnCheck"
@@ -76,8 +66,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btnNewTest"
-            app:layout_constraintBottom_toBottomOf="@+id/btnNewTest"  />
+            app:layout_constraintTop_toTopOf="@+id/chkSpeak"
+            app:layout_constraintBottom_toBottomOf="@+id/chkSpeak"  />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -93,6 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size3"
+                android:textColor="@color/color_text1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/tvTranslation" />
@@ -101,6 +92,7 @@
                 android:id="@+id/tvTranslation"
                 android:text="@{model.translationString}"
                 tools:text="Translation"
+                android:textColor="@color/color_text3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/tvPhraseTarget"
