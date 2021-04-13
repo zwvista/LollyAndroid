@@ -5,7 +5,7 @@
     tools:context=".misc.LoginFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.data.misc.LoginViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.misc.LoginViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

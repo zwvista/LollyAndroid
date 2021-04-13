@@ -5,7 +5,7 @@
     tools:context=".patterns.PatternsFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.data.patterns.PatternsWebPagesViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

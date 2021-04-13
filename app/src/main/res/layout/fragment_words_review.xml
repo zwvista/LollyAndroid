@@ -5,7 +5,7 @@
     tools:context=".words.WordsReviewFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.data.words.WordsReviewViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

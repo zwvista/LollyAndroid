@@ -5,7 +5,7 @@
     tools:context=".words.WordsUnitFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.data.words.WordsUnitViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +42,7 @@
             app:layout_constraintTop_toTopOf="@+id/spnTextbookFilter"
             app:layout_constraintBottom_toBottomOf="@+id/spnTextbookFilter" />
 
-        <com.zwstudio.lolly.android.LollySwipeRefreshLayout
+        <com.zwstudio.lolly.ui.LollySwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -54,7 +54,7 @@
                 android:id="@+id/drag_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-        </com.zwstudio.lolly.android.LollySwipeRefreshLayout>
+        </com.zwstudio.lolly.ui.LollySwipeRefreshLayout>
 
         <ProgressBar
             android:id="@+id/progressBar1"

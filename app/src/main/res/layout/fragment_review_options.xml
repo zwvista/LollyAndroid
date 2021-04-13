@@ -5,7 +5,7 @@
     tools:context=".misc.ReviewOptionsFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.data.misc.ReviewOptionsViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

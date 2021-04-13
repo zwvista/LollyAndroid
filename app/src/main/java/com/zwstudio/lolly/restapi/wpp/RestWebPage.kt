@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.restapi.wpp
 
-import com.zwstudio.lolly.domain.wpp.MWebPages
+import com.zwstudio.lolly.models.wpp.MWebPages
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*
 

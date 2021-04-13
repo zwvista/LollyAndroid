@@ -1,0 +1,70 @@
+package com.zwstudio.lolly.ui.words
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.fragment.findNavController
+import com.androidisland.vita.VitaOwner
+import com.androidisland.vita.vita
+import com.zwstudio.lolly.ui.R
+import com.zwstudio.lolly.ui.databinding.FragmentWordsReviewBinding
+import com.zwstudio.lolly.ui.misc.autoCleared
+import com.zwstudio.lolly.ui.speak
+import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
+import com.zwstudio.lolly.models.misc.MReviewOptions
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+
+class WordsReviewFragment : Fragment() {
+
+    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsReviewViewModel>() }
+    var binding by autoCleared<FragmentWordsReviewBinding>()
+    var mAlreadyLoaded = false
+
+    val compositeDisposable = CompositeDisposable()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentWordsReviewBinding.inflate(inflater, container, false).apply {
+            lifecycleOwner = viewLifecycleOwner
+            model = vm
+        }
+        vm.compositeDisposable = compositeDisposable
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fun newTest() =
+            findNavController().navigate(R.id.action_wordsReviewFragment_to_reviewOptionsFragment,
+                bundleOf("options" to vm.options))
+
+        binding.btnNewTest.setOnClickListener { newTest() }
+        binding.btnCheck.setOnClickListener { vm.check() }
+        binding.chkSpeak.setOnClickListener {
+            if (binding.chkSpeak.isChecked)
+                speak(vm.currentWord)
+        }
+
+        setFragmentResultListener("ReviewOptionsFragment") { _, bundle ->
+            vm.options = bundle.getSerializable("result") as MReviewOptions
+            binding.progressBar1.visibility = View.VISIBLE
+            vm.newTest()
+            binding.progressBar1.visibility = View.INVISIBLE
+        }
+
+        // https://stackoverflow.com/questions/7919681/how-to-determine-fragment-restored-from-backstack
+        if (!mAlreadyLoaded) {
+            mAlreadyLoaded = true
+            newTest()
+        }
+    }
+
+    override fun onDestroyView() {
+        vm.subscriptionTimer?.dispose()
+        super.onDestroyView()
+    }
+}

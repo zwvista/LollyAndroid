@@ -5,8 +5,8 @@
     tools:context=".misc.SearchFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.data.misc.SearchViewModel"/>
-        <variable name="modelSettings" type="com.zwstudio.lolly.data.misc.SettingsViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.misc.SearchViewModel"/>
+        <variable name="modelSettings" type="com.zwstudio.lolly.viewmodels.misc.SettingsViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

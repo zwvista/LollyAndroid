@@ -5,7 +5,7 @@
     tools:context=".patterns.PatternsDetailFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.data.patterns.PatternsDetailViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel"/>
     </data>
 
     <ScrollView

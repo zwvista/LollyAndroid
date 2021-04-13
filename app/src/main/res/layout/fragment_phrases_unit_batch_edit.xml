@@ -5,7 +5,7 @@
     tools:context=".phrases.PhrasesUnitBatchEditFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.data.phrases.PhrasesUnitBatchEditViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitBatchEditViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -82,7 +82,7 @@
             app:layout_constraintTop_toBottomOf="@+id/etSeqNum"
             app:layout_constraintBottom_toTopOf="@+id/swipe_refresh_layout" />
 
-        <com.zwstudio.lolly.android.LollySwipeRefreshLayout
+        <com.zwstudio.lolly.ui.LollySwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -93,6 +93,6 @@
                 android:id="@+id/drag_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </com.zwstudio.lolly.android.LollySwipeRefreshLayout>
+        </com.zwstudio.lolly.ui.LollySwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
