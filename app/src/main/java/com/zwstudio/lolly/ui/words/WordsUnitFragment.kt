@@ -20,13 +20,13 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
+import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.ui.*
 import com.zwstudio.lolly.ui.databinding.FragmentWordsUnitBinding
 import com.zwstudio.lolly.ui.misc.autoCleared
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.*
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
-import com.zwstudio.lolly.models.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class WordsUnitFragment : DrawerListFragment() {
@@ -251,7 +251,7 @@ class WordsUnitFragment : DrawerListFragment() {
 
                         val item = itemView.tag as MUnitWord
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
-                        val builder = AlertDialog.Builder(itemView.context)
+                        AlertDialog.Builder(itemView.context)
                             .setTitle(item.wordnote)
                             .setItems(arrayOf("Delete", "Edit", "Retrieve Note", "Copy Word", "Google Word", "Online Dictionary", "Cancel")) { _, which ->
                                 when (which) {
@@ -271,8 +271,7 @@ class WordsUnitFragment : DrawerListFragment() {
                                     }
                                     else -> {}
                                 }
-                            }
-                        builder.show()
+                            }.show()
                     }
                     true
                 }

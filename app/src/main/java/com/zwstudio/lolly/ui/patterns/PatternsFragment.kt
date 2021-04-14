@@ -15,6 +15,7 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
+import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.ui.*
 import com.zwstudio.lolly.ui.databinding.FragmentPatternsBinding
 import com.zwstudio.lolly.ui.misc.autoCleared
@@ -24,7 +25,6 @@ import com.zwstudio.lolly.viewmodels.misc.copyText
 import com.zwstudio.lolly.viewmodels.misc.googleString
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
-import com.zwstudio.lolly.models.wpp.MPattern
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PatternsFragment : DrawerListFragment() {
@@ -189,7 +189,7 @@ class PatternsFragment : DrawerListFragment() {
 
                         val item = itemView.tag as MPattern
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
-                        val builder = AlertDialog.Builder(itemView.context)
+                        AlertDialog.Builder(itemView.context)
                             .setTitle(item.pattern)
                             .setItems(arrayOf("Delete", "Edit", "Browse Web Pages", "Edit Web Pages", "Copy Pattern", "Google Pattern", "Cancel")) { _, which ->
                                 when (which) {
@@ -203,8 +203,7 @@ class PatternsFragment : DrawerListFragment() {
                                     5 -> itemView.googleString(item.pattern)
                                     else -> {}
                                 }
-                            }
-                        builder.show()
+                            }.show()
                     }
                     true
                 }
