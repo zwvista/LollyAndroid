@@ -47,10 +47,7 @@ class PhrasesReviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnCheck.setOnClickListener { vm.check() }
-        binding.chkSpeak.setOnClickListener {
-            if (binding.chkSpeak.isChecked)
-                speak(vm.currentPhrase)
-        }
+        binding.btnSpeak.setOnClickListener { speak(vm.currentPhrase) }
 
         setFragmentResultListener("ReviewOptionsFragment") { _, bundle ->
             vm.options = bundle.getSerializable("result") as MReviewOptions
