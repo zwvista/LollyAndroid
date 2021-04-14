@@ -17,7 +17,7 @@ import com.zwstudio.lolly.viewmodels.phrases.PhrasesReviewViewModel
 
 class PhrasesReviewFragment : Fragment() {
 
-    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel {
+    val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel {
         PhrasesReviewViewModel {
             if (hasNext && isSpeaking.value!!)
                 speak(currentPhrase)
@@ -67,7 +67,7 @@ class PhrasesReviewFragment : Fragment() {
         super.onDestroyView()
     }
 
-    fun newTest() =
+    private fun newTest() =
         findNavController().navigate(R.id.action_wordsReviewFragment_to_reviewOptionsFragment,
             bundleOf("options" to vm.options))
 

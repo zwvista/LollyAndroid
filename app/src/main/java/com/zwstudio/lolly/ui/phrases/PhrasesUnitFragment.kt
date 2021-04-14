@@ -19,6 +19,7 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
+import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.ui.*
 import com.zwstudio.lolly.ui.databinding.FragmentPhrasesUnitBinding
 import com.zwstudio.lolly.ui.misc.autoCleared
@@ -28,7 +29,6 @@ import com.zwstudio.lolly.viewmodels.misc.copyText
 import com.zwstudio.lolly.viewmodels.misc.googleString
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
-import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import kotlinx.coroutines.launch
 
 class PhrasesUnitFragment : DrawerListFragment() {
@@ -218,7 +218,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
 
                         val item = itemView.tag as MUnitPhrase
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
-                        val builder = AlertDialog.Builder(itemView.context)
+                        AlertDialog.Builder(itemView.context)
                             .setTitle(item.phrase)
                             .setItems(arrayOf("Delete", "Edit", "Copy Phrase", "Google Phrase", "Cancel")) { _, which ->
                                 when (which) {
@@ -228,8 +228,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                                     3 -> itemView.googleString(item.phrase)
                                     else -> {}
                                 }
-                            }
-                        builder.show()
+                            }.show()
                     }
                     true
                 }

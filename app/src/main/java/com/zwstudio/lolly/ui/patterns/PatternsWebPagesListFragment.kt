@@ -15,13 +15,13 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
+import com.zwstudio.lolly.models.wpp.MPattern
+import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.ui.*
 import com.zwstudio.lolly.ui.databinding.FragmentPatternsWebpagesListBinding
 import com.zwstudio.lolly.ui.misc.autoCleared
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
-import com.zwstudio.lolly.models.wpp.MPattern
-import com.zwstudio.lolly.models.wpp.MPatternWebPage
 
 private const val REQUEST_CODE = 1
 
@@ -185,16 +185,15 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
 
                         val item = itemView.tag as MPatternWebPage
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
-                        val builder = AlertDialog.Builder(itemView.context)
-                                .setTitle(item.title)
-                                .setItems(arrayOf("Delete", "Edit", "Cancel")) { _, which ->
-                                    when (which) {
-                                        0 -> delete(item)
-                                        1 -> edit(item)
-                                        else -> {}
-                                    }
+                        AlertDialog.Builder(itemView.context)
+                            .setTitle(item.title)
+                            .setItems(arrayOf("Delete", "Edit", "Cancel")) { _, which ->
+                                when (which) {
+                                    0 -> delete(item)
+                                    1 -> edit(item)
+                                    else -> {}
                                 }
-                        builder.show()
+                            }.show()
                     }
                     true
                 }

@@ -48,8 +48,8 @@ fun yesNoDialog(context: Context, message: String, yesAction: () -> Unit, noActi
         }
     }
 
-    val builder = AlertDialog.Builder(context)
-    builder.setMessage(message).setPositiveButton("Yes", dialogClickListener)
+    AlertDialog.Builder(context)
+        .setMessage(message).setPositiveButton("Yes", dialogClickListener)
         .setNegativeButton("No", dialogClickListener).show()
 }
 
