@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.services.misc
 
-import com.zwstudio.lolly.ui.applyIO
-import com.zwstudio.lolly.ui.retrofitHtml
+import com.zwstudio.lolly.views.applyIO
+import com.zwstudio.lolly.views.retrofitHtml
 import com.zwstudio.lolly.restapi.misc.RestHtml
 import io.reactivex.rxjava3.core.Observable
 

@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.viewmodels.patterns
 
 import androidx.lifecycle.MutableLiveData
-import com.zwstudio.lolly.ui.applyIO
+import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.services.wpp.PatternWebPageService

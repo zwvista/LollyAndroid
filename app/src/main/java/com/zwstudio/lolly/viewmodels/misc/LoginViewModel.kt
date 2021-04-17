@@ -2,7 +2,7 @@ package com.zwstudio.lolly.viewmodels.misc
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.zwstudio.lolly.ui.applyIO
+import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.services.misc.UserService
 import io.reactivex.rxjava3.core.Observable
 

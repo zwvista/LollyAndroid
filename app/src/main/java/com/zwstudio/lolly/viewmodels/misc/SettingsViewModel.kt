@@ -4,8 +4,8 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.zwstudio.lolly.ui.applyIO
-import com.zwstudio.lolly.ui.tts
+import com.zwstudio.lolly.views.applyIO
+import com.zwstudio.lolly.views.tts
 import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
 import io.reactivex.rxjava3.core.Observable

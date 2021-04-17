@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.services.wpp
 
 import android.util.Log
-import com.zwstudio.lolly.ui.retrofitJson
+import com.zwstudio.lolly.views.retrofitJson
 import com.zwstudio.lolly.viewmodels.misc.Global
 import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami

@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.ui.retrofitJson
+import com.zwstudio.lolly.views.retrofitJson
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.models.wpp.MWebPage
 import com.zwstudio.lolly.restapi.wpp.RestWebPage

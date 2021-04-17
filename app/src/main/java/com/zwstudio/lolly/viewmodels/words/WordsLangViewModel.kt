@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.viewmodels.words
 
 import androidx.lifecycle.MutableLiveData
-import com.zwstudio.lolly.ui.applyIO
-import com.zwstudio.lolly.ui.vmSettings
+import com.zwstudio.lolly.views.applyIO
+import com.zwstudio.lolly.views.vmSettings
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.services.wpp.LangWordService
