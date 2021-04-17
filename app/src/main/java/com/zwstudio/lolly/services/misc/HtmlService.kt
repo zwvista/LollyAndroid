@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.services.misc
 
-import com.zwstudio.lolly.ui.retrofitHtml
+import com.zwstudio.lolly.views.retrofitHtml
 import com.zwstudio.lolly.restapi.misc.RestHtml
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

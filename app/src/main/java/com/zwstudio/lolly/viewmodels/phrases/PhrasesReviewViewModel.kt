@@ -7,8 +7,8 @@ import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
-import com.zwstudio.lolly.ui.applyIO
-import com.zwstudio.lolly.ui.vmSettings
+import com.zwstudio.lolly.views.applyIO
+import com.zwstudio.lolly.views.vmSettings
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch

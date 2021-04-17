@@ -10,7 +10,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import com.zwstudio.lolly.ui.R
+import com.zwstudio.lolly.views.R
 import java.net.URLEncoder
 
 object Global {

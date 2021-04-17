@@ -7,8 +7,8 @@ import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
-import com.zwstudio.lolly.ui.applyIO
-import com.zwstudio.lolly.ui.vmSettings
+import com.zwstudio.lolly.views.applyIO
+import com.zwstudio.lolly.views.vmSettings
 import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable

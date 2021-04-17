@@ -2,7 +2,7 @@ package com.zwstudio.lolly.viewmodels.words
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.zwstudio.lolly.ui.vmSettings
+import com.zwstudio.lolly.views.vmSettings
 import com.zwstudio.lolly.viewmodels.misc.IOnlineDict
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.services.misc.HtmlService

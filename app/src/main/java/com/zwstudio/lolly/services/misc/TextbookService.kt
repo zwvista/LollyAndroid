@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.services.misc
 
-import com.zwstudio.lolly.ui.retrofitJson
+import com.zwstudio.lolly.views.retrofitJson
 import com.zwstudio.lolly.models.misc.MSelectItem
 import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.suspendapi.restapi.misc.RestTextbook

@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.viewmodels.misc
 
 import androidx.lifecycle.ViewModel
-import com.zwstudio.lolly.ui.vmSettings
+import com.zwstudio.lolly.views.vmSettings
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.services.misc.HtmlService
 
