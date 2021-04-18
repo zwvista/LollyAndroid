@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class WordsUnitBatchEditViewModel : ViewModel() {
-    val unitIsChecked = MutableLiveData(false)
-    val partIsChecked = MutableLiveData(false)
-    val seqnumIsChecked = MutableLiveData(false)
+    val unitChecked = MutableLiveData(false)
+    val partChecked = MutableLiveData(false)
+    val seqnumChecked = MutableLiveData(false)
 
     fun save() {
     }
