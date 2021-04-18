@@ -33,12 +33,12 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
 
     val isSpeaking = MutableLiveData(true)
     val indexString = MutableLiveData("")
-    val indexIsVisible = MutableLiveData(true)
-    val correctIsVisible = MutableLiveData(false)
-    val incorrectIsVisible = MutableLiveData(false)
+    val indexVisible = MutableLiveData(true)
+    val correctVisible = MutableLiveData(false)
+    val incorrectVisible = MutableLiveData(false)
     val checkEnabled = MutableLiveData(false)
     val phraseTargetString = MutableLiveData("")
-    val phraseTargetIsVisible = MutableLiveData(true)
+    val phraseTargetVisible = MutableLiveData(true)
     val translationString = MutableLiveData("")
     val phraseInputString = MutableLiveData("")
     val checkString = MutableLiveData("Check")
@@ -83,19 +83,19 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
             var b = true
             if (options.mode == ReviewMode.ReviewManual && phraseInputString.value!!.isNotEmpty() && phraseInputString.value != currentPhrase) {
                 b = false
-                incorrectIsVisible.value = true
+                incorrectVisible.value = true
             }
             if (b) {
                 next()
                 doTest()
             }
-        } else if (!correctIsVisible.value!! && !incorrectIsVisible.value!!) {
+        } else if (!correctVisible.value!! && !incorrectVisible.value!!) {
             phraseInputString.value = vmSettings.autoCorrectInput(phraseInputString.value!!)
-            phraseTargetIsVisible.value = true
+            phraseTargetVisible.value = true
             if (phraseInputString.value == currentPhrase)
-                correctIsVisible.value = true
+                correctVisible.value = true
             else
-                incorrectIsVisible.value = true
+                incorrectVisible.value = true
             checkString.value = "Next"
             if (!hasNext) return
             val o = currentItem!!
@@ -109,13 +109,13 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     }
 
     private fun doTest() {
-        indexIsVisible.value = hasNext
-        correctIsVisible.value = false
-        incorrectIsVisible.value = false
+        indexVisible.value = hasNext
+        correctVisible.value = false
+        incorrectVisible.value = false
         checkEnabled.value = hasNext
         phraseTargetString.value = currentPhrase
         translationString.value = currentItem?.translation ?: ""
-        phraseTargetIsVisible.value = !isTestMode
+        phraseTargetVisible.value = !isTestMode
         phraseInputString.value = ""
         doTestAction()
         if (hasNext)

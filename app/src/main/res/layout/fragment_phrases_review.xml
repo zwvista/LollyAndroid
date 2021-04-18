@@ -18,7 +18,7 @@
         <TextView
             android:id="@+id/tvIndex"
             android:text="@{model.indexString}"
-            android:visibility="@{model.indexIsVisible}"
+            android:visibility="@{model.indexVisible}"
             tools:text="1/36"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         <TextView
             android:id="@+id/tvCorrect"
             android:text="@string/text_correct"
-            android:visibility="@{model.correctIsVisible}"
+            android:visibility="@{model.correctVisible}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_correct"
@@ -40,7 +40,7 @@
         <TextView
             android:id="@+id/tvIncorrect"
             android:text="@string/text_incorrect"
-            android:visibility="@{model.incorrectIsVisible}"
+            android:visibility="@{model.incorrectVisible}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_incorrect"
@@ -88,7 +88,7 @@
             <TextView
                 android:id="@+id/tvPhraseTarget"
                 android:text="@{model.phraseTargetString}"
-                android:visibility="@{model.phraseTargetIsVisible}"
+                android:visibility="@{model.phraseTargetVisible}"
                 tools:text="Phrase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

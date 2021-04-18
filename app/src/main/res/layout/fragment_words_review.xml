@@ -17,7 +17,7 @@
         <TextView
             android:id="@+id/tvIndex"
             android:text="@{model.indexString}"
-            android:visibility="@{model.indexIsVisible}"
+            android:visibility="@{model.indexVisible}"
             tools:text="1/36"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         <TextView
             android:id="@+id/tvAccuracy"
             android:text="@{model.accuracyString}"
-            android:visibility="@{model.accuracyIsVisible}"
+            android:visibility="@{model.accuracyVisible}"
             tools:text="100%"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         <TextView
             android:id="@+id/tvCorrect"
             android:text="@string/text_correct"
-            android:visibility="@{model.correctIsVisible}"
+            android:visibility="@{model.correctVisible}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_correct"
@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/tvIncorrect"
-            android:visibility="@{model.incorrectIsVisible}"
+            android:visibility="@{model.incorrectVisible}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_incorrect"
@@ -99,7 +99,7 @@
             <TextView
                 android:id="@+id/tvWordTarget"
                 android:text="@{model.wordTargetString}"
-                android:visibility="@{model.wordTargetIsVisible}"
+                android:visibility="@{model.wordTargetVisible}"
                 tools:text="Word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
             <TextView
                 android:id="@+id/tvNoteTarget"
                 android:text="@{model.noteTargetString}"
-                android:visibility="@{model.noteTargetIsVisible}"
+                android:visibility="@{model.noteTargetVisible}"
                 tools:text="Note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

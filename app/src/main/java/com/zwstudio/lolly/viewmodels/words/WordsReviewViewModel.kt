@@ -35,18 +35,18 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
 
     val isSpeaking = MutableLiveData(true)
     val indexString = MutableLiveData("")
-    val indexIsVisible = MutableLiveData(true)
-    val correctIsVisible = MutableLiveData(false)
-    val incorrectIsVisible = MutableLiveData(false)
+    val indexVisible = MutableLiveData(true)
+    val correctVisible = MutableLiveData(false)
+    val incorrectVisible = MutableLiveData(false)
     val accuracyString = MutableLiveData("")
-    val accuracyIsVisible = MutableLiveData(true)
+    val accuracyVisible = MutableLiveData(true)
     val checkEnabled = MutableLiveData(false)
     val wordTargetString = MutableLiveData("")
     val noteTargetString = MutableLiveData("")
     val wordHintString = MutableLiveData("")
-    val wordTargetIsVisible = MutableLiveData(true)
-    val noteTargetIsVisible = MutableLiveData(true)
-    val wordHintIsVisible = MutableLiveData(true)
+    val wordTargetVisible = MutableLiveData(true)
+    val noteTargetVisible = MutableLiveData(true)
+    val wordHintVisible = MutableLiveData(true)
     val translationString = MutableLiveData("")
     val wordInputString = MutableLiveData("")
     val checkString = MutableLiveData("Check")
@@ -114,20 +114,20 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             var b = true
             if (options.mode == ReviewMode.ReviewManual && wordInputString.value!!.isNotEmpty() && wordInputString.value != currentWord) {
                 b = false
-                incorrectIsVisible.value = true
+                incorrectVisible.value = true
             }
             if (b) {
                 next()
                 doTest()
             }
-        } else if (!correctIsVisible.value!! && !incorrectIsVisible.value!!) {
+        } else if (!correctVisible.value!! && !incorrectVisible.value!!) {
             wordInputString.value = vmSettings.autoCorrectInput(wordInputString.value!!)
-            wordTargetIsVisible.value = true
+            wordTargetVisible.value = true
             if (wordInputString.value == currentWord)
-                correctIsVisible.value = true
+                correctVisible.value = true
             else
-                incorrectIsVisible.value = true
-            wordHintIsVisible.value = false
+                incorrectVisible.value = true
+            wordHintVisible.value = false
             searchIsEnabled.value = true
             checkString.value = "Next"
             if (!hasNext) return
@@ -147,17 +147,17 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     }
 
     private fun doTest() {
-        indexIsVisible.value = hasNext
-        correctIsVisible.value = false
-        incorrectIsVisible.value = false
-        accuracyIsVisible.value = isTestMode && hasNext
+        indexVisible.value = hasNext
+        correctVisible.value = false
+        incorrectVisible.value = false
+        accuracyVisible.value = isTestMode && hasNext
         checkEnabled.value = hasNext
         wordTargetString.value = currentWord
         noteTargetString.value = currentItem?.note ?: ""
-        wordTargetIsVisible.value = !isTestMode
-        noteTargetIsVisible.value = !isTestMode
+        wordTargetVisible.value = !isTestMode
+        noteTargetVisible.value = !isTestMode
         wordHintString.value = currentItem?.word?.length?.toString() ?: ""
-        wordHintIsVisible.value = isTestMode
+        wordHintVisible.value = isTestMode
         translationString.value = ""
         wordInputString.value = ""
         searchIsEnabled.value = false
