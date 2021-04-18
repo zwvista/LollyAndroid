@@ -49,7 +49,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     val translationString = MutableLiveData("")
     val wordInputString = MutableLiveData("")
     val checkString = MutableLiveData("Check")
-    val searchIsEnabled = MutableLiveData(false)
+    val searchEnabled = MutableLiveData(false)
 
     fun newTest() = viewModelScope.launch {
         fun f() {
@@ -123,7 +123,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             else
                 incorrectVisible.value = true
             wordHintVisible.value = false
-            searchIsEnabled.value = true
+            searchEnabled.value = true
             checkString.value = "Next"
             if (!hasNext) return@launch
             val o = currentItem!!
@@ -154,7 +154,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         wordHintVisible.value = isTestMode
         translationString.value = ""
         wordInputString.value = ""
-        searchIsEnabled.value = false
+        searchEnabled.value = false
         doTestAction()
         if (hasNext) {
             indexString.value = "${index + 1}/$count"
