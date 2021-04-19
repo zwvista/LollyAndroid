@@ -5,9 +5,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zwstudio.lolly.views.tts
 import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
+import com.zwstudio.lolly.views.tts
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -290,22 +290,22 @@ class SettingsViewModel : ViewModel() {
     fun autoCorrectInput(text: String): String =
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
 
-    fun updateUnitFrom(newVal: Int) = viewModelScope.launch {
-        doUpdateUnitFrom(newVal)
+    fun updateUnitFrom(v: Int) = viewModelScope.launch {
+        doUpdateUnitFrom(v)
         if (toType == UnitPartToType.Unit)
             doUpdateSingleUnit()
         else if (toType == UnitPartToType.Part || isInvalidUnitPart)
             doUpdateUnitPartTo()
     }
 
-    fun updatePartFrom(newVal: Int) = viewModelScope.launch {
-        doUpdatePartFrom(newVal)
+    fun updatePartFrom(v: Int) = viewModelScope.launch {
+        doUpdatePartFrom(v)
         if (toType == UnitPartToType.Part || isInvalidUnitPart)
             doUpdateUnitPartTo()
     }
 
-    fun updateToType(newVal: Int) = viewModelScope.launch {
-        toType = UnitPartToType.values()[newVal]
+    fun updateToType(v: Int) = viewModelScope.launch {
+        toType = UnitPartToType.values()[v]
         if (toType == UnitPartToType.Unit)
             doUpdateSingleUnit()
         else if (toType == UnitPartToType.Part)
@@ -362,14 +362,14 @@ class SettingsViewModel : ViewModel() {
         }
     }
 
-    fun updateUnitTo(newVal: Int) = viewModelScope.launch {
-        doUpdateUnitTo(newVal)
+    fun updateUnitTo(v: Int) = viewModelScope.launch {
+        doUpdateUnitTo(v)
         if (isInvalidUnitPart)
             doUpdateUnitPartFrom()
     }
 
-    fun updatePartTo(newVal: Int) = viewModelScope.launch {
-        doUpdatePartTo(newVal)
+    fun updatePartTo(v: Int) = viewModelScope.launch {
+        doUpdatePartTo(v)
         if (isInvalidUnitPart)
             doUpdateUnitPartFrom()
     }
@@ -393,33 +393,33 @@ class SettingsViewModel : ViewModel() {
         doUpdatePartTo(partCount)
     }
 
-    private suspend fun doUpdateUnitFrom(newVal: Int) {
-        val dirty = usunitfrom != newVal
-        usunitfrom = newVal
+    private suspend fun doUpdateUnitFrom(v: Int) {
+        val dirty = usunitfrom != v
+        usunitfrom = v
         if (dirty) userSettingService.update(INFO_USUNITFROM, usunitfrom)
         unitfromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
         settingsListener?.onUpdateUnitFrom()
     }
 
-    private suspend fun doUpdatePartFrom(newVal: Int) {
-        val dirty = uspartfrom != newVal
-        uspartfrom = newVal
+    private suspend fun doUpdatePartFrom(v: Int) {
+        val dirty = uspartfrom != v
+        uspartfrom = v
         if (dirty) userSettingService.update(INFO_USPARTFROM, uspartfrom)
         partfromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
         settingsListener?.onUpdatePartFrom()
     }
 
-    private suspend fun doUpdateUnitTo(newVal: Int) {
-        val dirty = usunitto != newVal
-        usunitto = newVal
+    private suspend fun doUpdateUnitTo(v: Int) {
+        val dirty = usunitto != v
+        usunitto = v
         if (dirty) userSettingService.update(INFO_USUNITTO, usunitto)
         unittoIndex = lstUnits.indexOfFirst { it.value == usunitto }
         settingsListener?.onUpdateUnitTo()
     }
 
-    private suspend fun doUpdatePartTo(newVal: Int) {
-        val dirty = uspartto != newVal
-        uspartto = newVal
+    private suspend fun doUpdatePartTo(v: Int) {
+        val dirty = uspartto != v
+        uspartto = v
         if (dirty) userSettingService.update(INFO_USPARTTO, uspartto)
         parttoIndex = lstParts.indexOfFirst { it.value == uspartto }
         settingsListener?.onUpdatePartTo()
