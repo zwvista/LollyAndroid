@@ -1,22 +1,24 @@
 package com.zwstudio.lolly.viewmodels.patterns
 
 import androidx.lifecycle.MutableLiveData
-import com.zwstudio.lolly.views.applyIO
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.services.wpp.PatternWebPageService
 import com.zwstudio.lolly.services.wpp.WebPageService
+import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.views.applyIO
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class PatternsWebPagesViewModel : DrawerListViewModel() {
+class PatternsWebPagesViewModel : DrawerListViewModel(), KoinComponent {
 
     var lstWebPages_ = MutableLiveData(mutableListOf<MPatternWebPage>())
     var lstWebPages get() = lstWebPages_.value!!; set(v) { lstWebPages_.value = v }
 
     lateinit var compositeDisposable: CompositeDisposable
 
-    val patternWebPageService = PatternWebPageService()
-    val webPageService = WebPageService()
+    private val patternWebPageService by inject<PatternWebPageService>()
+    private val webPageService by inject<WebPageService>()
 
     fun getWebPages(patternid: Int) =
         patternWebPageService.getDataByPattern(patternid)

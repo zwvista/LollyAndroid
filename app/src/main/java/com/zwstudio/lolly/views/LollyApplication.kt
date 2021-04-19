@@ -9,10 +9,16 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.androidisland.vita.startVita
+import com.zwstudio.lolly.services.misc.*
+import com.zwstudio.lolly.services.wpp.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -37,6 +43,34 @@ class LollyApplication : Application() {
             .build()
         vmSettings = SettingsViewModel()
         startVita()
+        startKoin {
+            // Koin Android logger
+            androidLogger()
+            //inject Android context
+            androidContext(this@LollyApplication)
+            // use modules
+            modules(lollyModule)
+        }
+    }
+    val lollyModule = module {
+        single { AutoCorrectService() }
+        single { DictionaryService() }
+        single { HtmlService() }
+        single { LanguageService() }
+        single { TextbookService() }
+        single { UserService() }
+        single { UserSettingService() }
+        single { USMappingService() }
+        single { VoiceService() }
+
+        single { LangPhraseService() }
+        single { LangWordService() }
+        single { PatternService() }
+        single { PatternWebPageService() }
+        single { UnitPhraseService() }
+        single { UnitWordService() }
+        single { WebPageService() }
+        single { WordFamiService() }
     }
 }
 

@@ -1,16 +1,18 @@
 package com.zwstudio.lolly.viewmodels.words
 
 import androidx.lifecycle.MutableLiveData
-import com.zwstudio.lolly.views.applyIO
-import com.zwstudio.lolly.views.vmSettings
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
-import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
+import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
+import com.zwstudio.lolly.views.applyIO
+import com.zwstudio.lolly.views.vmSettings
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class WordsUnitViewModel : DrawerListViewModel() {
+class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
 
     private val lstWordsAll_ = MutableLiveData(listOf<MUnitWord>())
     var lstWordsAll get() = lstWordsAll_.value!!; set(v) { lstWordsAll_.value = v }
@@ -23,7 +25,7 @@ class WordsUnitViewModel : DrawerListViewModel() {
 
     lateinit var compositeDisposable: CompositeDisposable
 
-    private val unitWordService = UnitWordService()
+    private val unitWordService by inject<UnitWordService>()
 
     fun applyFilters() {
         lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {

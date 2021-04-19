@@ -1,10 +1,12 @@
 package com.zwstudio.lolly.viewmodels.misc
 
 import androidx.lifecycle.ViewModel
-import com.zwstudio.lolly.views.vmSettings
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.services.misc.HtmlService
+import com.zwstudio.lolly.views.vmSettings
 import io.reactivex.rxjava3.core.Observable
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 interface IOnlineDict {
     fun getHtml(url: String): Observable<String>
@@ -13,10 +15,10 @@ interface IOnlineDict {
     val getUrl: String
 }
 
-class SearchViewModel : ViewModel(), IOnlineDict {
+class SearchViewModel : ViewModel(), IOnlineDict, KoinComponent {
     var word = ""
 
-    val htmlService = HtmlService()
+    private val htmlService by inject<HtmlService>()
 
     override fun getHtml(url: String): Observable<String> =
         htmlService.getHtml(url)

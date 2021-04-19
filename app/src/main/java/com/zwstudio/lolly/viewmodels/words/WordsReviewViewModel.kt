@@ -6,19 +6,22 @@ import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
+import com.zwstudio.lolly.services.wpp.WordFamiService
+import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
 import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.vmSettings
-import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
-class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> Unit) : ViewModel() {
+class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> Unit) : ViewModel(), KoinComponent {
 
-    val unitWordService = UnitWordService()
-    val vmWordFami = WordsFamiViewModel()
+    private val unitWordService by inject<UnitWordService>()
+    private val wordFamiService by inject<WordFamiService>()
 
     lateinit var compositeDisposable: CompositeDisposable
 
@@ -134,7 +137,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             val o = currentItem!!
             val isCorrect = o.word == wordInputString.value
             if (isCorrect) lstCorrectIDs.add(o.id)
-            compositeDisposable.add(vmWordFami.update(o.wordid, isCorrect).applyIO().subscribe {
+            compositeDisposable.add(wordFamiService.update(o.wordid, isCorrect).applyIO().subscribe {
                 o.correct = it.correct
                 o.total = it.total
                 accuracyString.value = o.accuracy
