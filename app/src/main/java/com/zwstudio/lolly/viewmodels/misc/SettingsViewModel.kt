@@ -4,10 +4,10 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.zwstudio.lolly.views.applyIO
-import com.zwstudio.lolly.views.tts
 import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
+import com.zwstudio.lolly.views.applyIO
+import com.zwstudio.lolly.views.tts
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -302,8 +302,8 @@ class SettingsViewModel : ViewModel() {
     fun autoCorrectInput(text: String): String =
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
 
-    fun updateUnitFrom(newVal: Int): Observable<Unit> =
-        doUpdateUnitFrom(newVal).flatMap {
+    fun updateUnitFrom(v: Int): Observable<Unit> =
+        doUpdateUnitFrom(v).flatMap {
             if (toType == UnitPartToType.Unit)
                 doUpdateSingleUnit()
             else if (toType == UnitPartToType.Part || isInvalidUnitPart)
@@ -312,16 +312,16 @@ class SettingsViewModel : ViewModel() {
                 Observable.just(Unit)
         }
 
-    fun updatePartFrom(newVal: Int): Observable<Unit> =
-        doUpdatePartFrom(newVal).flatMap {
+    fun updatePartFrom(v: Int): Observable<Unit> =
+        doUpdatePartFrom(v).flatMap {
             if (toType == UnitPartToType.Part || isInvalidUnitPart)
                 doUpdateUnitPartTo()
             else
                 Observable.just(Unit)
         }
 
-    fun updateToType(newVal: Int): Observable<Unit> {
-        toType = UnitPartToType.values()[newVal]
+    fun updateToType(v: Int): Observable<Unit> {
+        toType = UnitPartToType.values()[v]
         return if (toType == UnitPartToType.Unit)
             doUpdateSingleUnit()
         else if (toType == UnitPartToType.Part)
@@ -366,16 +366,16 @@ class SettingsViewModel : ViewModel() {
         else
             Observable.just(Unit)
 
-    fun updateUnitTo(newVal: Int): Observable<Unit> =
-        doUpdateUnitTo(newVal).flatMap {
+    fun updateUnitTo(v: Int): Observable<Unit> =
+        doUpdateUnitTo(v).flatMap {
             if (isInvalidUnitPart)
                 doUpdateUnitPartFrom()
             else
                 Observable.just(Unit)
         }
 
-    fun updatePartTo(newVal: Int): Observable<Unit> =
-        doUpdatePartTo(newVal).flatMap {
+    fun updatePartTo(v: Int): Observable<Unit> =
+        doUpdatePartTo(v).flatMap {
             if (isInvalidUnitPart)
                 doUpdateUnitPartFrom()
             else
@@ -391,9 +391,9 @@ class SettingsViewModel : ViewModel() {
     private fun doUpdateSingleUnit(): Observable<Unit> =
         Observables.zip(doUpdateUnitTo(usunitfrom), doUpdatePartFrom(1), doUpdatePartTo(partCount)).map { Unit }
 
-    private fun doUpdateUnitFrom(newVal: Int): Observable<Unit> {
-        val dirty = usunitfrom != newVal
-        usunitfrom = newVal
+    private fun doUpdateUnitFrom(v: Int): Observable<Unit> {
+        val dirty = usunitfrom != v
+        usunitfrom = v
         return (if (dirty) userSettingService.update(INFO_USUNITFROM, usunitfrom) else Observable.just(Unit))
             .applyIO().map {
                 unitfromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
@@ -401,9 +401,9 @@ class SettingsViewModel : ViewModel() {
             }
     }
 
-    private fun doUpdatePartFrom(newVal: Int): Observable<Unit> {
-        val dirty = uspartfrom != newVal
-        uspartfrom = newVal
+    private fun doUpdatePartFrom(v: Int): Observable<Unit> {
+        val dirty = uspartfrom != v
+        uspartfrom = v
         return (if (dirty) userSettingService.update(INFO_USPARTFROM, uspartfrom) else Observable.just(Unit))
             .applyIO().map {
                 partfromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
@@ -411,9 +411,9 @@ class SettingsViewModel : ViewModel() {
             }
     }
 
-    private fun doUpdateUnitTo(newVal: Int): Observable<Unit> {
-        val dirty = usunitto != newVal
-        usunitto = newVal
+    private fun doUpdateUnitTo(v: Int): Observable<Unit> {
+        val dirty = usunitto != v
+        usunitto = v
         return (if (dirty) userSettingService.update(INFO_USUNITTO, usunitto) else Observable.just(Unit))
             .applyIO().map {
                 unittoIndex = lstUnits.indexOfFirst { it.value == usunitto }
@@ -421,9 +421,9 @@ class SettingsViewModel : ViewModel() {
             }
     }
 
-    private fun doUpdatePartTo(newVal: Int): Observable<Unit> {
-        val dirty = uspartto != newVal
-        uspartto = newVal
+    private fun doUpdatePartTo(v: Int): Observable<Unit> {
+        val dirty = uspartto != v
+        uspartto = v
         return (if (dirty) userSettingService.update(INFO_USPARTTO, uspartto) else Observable.just(Unit))
             .applyIO().map {
                 parttoIndex = lstParts.indexOfFirst { it.value == uspartto }
