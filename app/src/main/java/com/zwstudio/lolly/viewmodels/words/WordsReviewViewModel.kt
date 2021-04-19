@@ -7,19 +7,22 @@ import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
+import com.zwstudio.lolly.services.wpp.WordFamiService
+import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
 import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.vmSettings
-import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
-class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> Unit) : ViewModel() {
+class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> Unit) : ViewModel(), KoinComponent {
 
-    val unitWordService = UnitWordService()
-    val vmWordFami = WordsFamiViewModel()
+    private val unitWordService by inject<UnitWordService>()
+    private val wordFamiService by inject<WordFamiService>()
 
     var lstWords = listOf<MUnitWord>()
     val count get() = lstWords.size
@@ -129,7 +132,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             val o = currentItem!!
             val isCorrect = o.word == wordInputString.value
             if (isCorrect) lstCorrectIDs.add(o.id)
-            val o2 = vmWordFami.update(o.wordid, isCorrect)
+            val o2 = wordFamiService.update(o.wordid, isCorrect)
             o.correct = o2.correct
             o.total = o2.total
             accuracyString.value = o.accuracy

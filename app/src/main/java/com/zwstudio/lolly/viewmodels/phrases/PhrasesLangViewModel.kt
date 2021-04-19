@@ -7,8 +7,10 @@ import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.models.wpp.MLangPhrase
 import com.zwstudio.lolly.services.wpp.LangPhraseService
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class PhrasesLangViewModel : DrawerListViewModel() {
+class PhrasesLangViewModel : DrawerListViewModel(), KoinComponent {
 
     private var lstPhrasesAll_ = MutableLiveData(listOf<MLangPhrase>())
     var lstPhrasesAll get() = lstPhrasesAll_.value!!; set(v) { lstPhrasesAll_.value = v }
@@ -17,7 +19,7 @@ class PhrasesLangViewModel : DrawerListViewModel() {
     val scopeFilterIndex = MutableLiveData(0)
     private val noFilter get() = textFilter.isEmpty()
 
-    val langPhraseService = LangPhraseService()
+    private val langPhraseService by inject<LangPhraseService>()
 
     fun applyFilters() {
         lstPhrases = if (noFilter) lstPhrasesAll else lstPhrasesAll.filter {

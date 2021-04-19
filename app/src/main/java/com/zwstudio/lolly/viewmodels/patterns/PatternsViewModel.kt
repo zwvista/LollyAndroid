@@ -7,8 +7,10 @@ import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.services.wpp.PatternService
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class PatternsViewModel : DrawerListViewModel() {
+class PatternsViewModel : DrawerListViewModel(), KoinComponent {
 
     private var lstPatternsAll_ = MutableLiveData(listOf<MPattern>())
     var lstPatternsAll get() = lstPatternsAll_.value!!; set(v) { lstPatternsAll_.value = v }
@@ -17,7 +19,7 @@ class PatternsViewModel : DrawerListViewModel() {
     val scopeFilterIndex = MutableLiveData(0)
     private val noFilter get() = textFilter.isEmpty()
 
-    private val patternService = PatternService()
+    private val patternService by inject<PatternService>()
 
     fun applyFilters() {
         lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {

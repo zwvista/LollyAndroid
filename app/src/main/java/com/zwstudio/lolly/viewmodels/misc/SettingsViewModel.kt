@@ -13,9 +13,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import java.util.*
 
-class SettingsViewModel : ViewModel() {
+class SettingsViewModel : ViewModel(), KoinComponent {
 
     var lstUSMappings = listOf<MUSMapping>()
     var lstUserSettings = listOf<MUserSetting>()
@@ -158,14 +160,14 @@ class SettingsViewModel : ViewModel() {
         val zeroNote = "O"
     }
 
-    val languageService = LanguageService()
-    val usMappingService = USMappingService()
-    val userSettingService = UserSettingService()
-    val dictionaryService = DictionaryService()
-    val textbookService = TextbookService()
-    val autoCorrectService = AutoCorrectService()
-    val voiceService = VoiceService()
-    val htmlService = HtmlService()
+    private val languageService by inject<LanguageService>()
+    private val usMappingService by inject<USMappingService>()
+    private val userSettingService by inject<UserSettingService>()
+    private val dictionaryService by inject<DictionaryService>()
+    private val textbookService by inject<TextbookService>()
+    private val autoCorrectService by inject<AutoCorrectService>()
+    private val voiceService by inject<VoiceService>()
+    private val htmlService by inject<HtmlService>()
     private val compositeDisposable = CompositeDisposable()
 
     private fun getUSInfo(name: String): MUserSettingInfo {

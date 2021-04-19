@@ -1,27 +1,27 @@
 package com.zwstudio.lolly.services.wpp
 
 import android.util.Log
-import com.zwstudio.lolly.views.retrofitJson
-import com.zwstudio.lolly.viewmodels.misc.Global
 import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
+import com.zwstudio.lolly.viewmodels.misc.Global
+import com.zwstudio.lolly.views.retrofitJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class WordFamiService {
-    suspend fun getDataByWord(wordid: Int): List<MWordFami> = withContext(Dispatchers.IO) {
+    private suspend fun getDataByWord(wordid: Int): List<MWordFami> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
             .getDataByUserWord("USERID,eq,${Global.userid}", "WORDID,eq,$wordid")
             .lst!!
     }
 
-    suspend fun update(o: MWordFami) = withContext(Dispatchers.IO) {
+    private suspend fun update(o: MWordFami) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
             .update(o.id, o.userid, o.wordid, o.correct, o.total)
             .let { Log.d("API Result", it.toString()) }
     }
 
-    suspend fun create(o: MWordFami): Int = withContext(Dispatchers.IO) {
+    private suspend fun create(o: MWordFami): Int = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
             .create(o.userid, o.wordid, o.correct, o.total)
             .also { Log.d("API Result", it.toString()) }
@@ -31,5 +31,27 @@ class WordFamiService {
         retrofitJson.create(RestWordFami::class.java)
             .delete(id)
             .let { Log.d("API Result", it.toString()) }
+    }
+
+    suspend fun update(wordid: Int, isCorrect: Boolean): MWordFami {
+        val lst = getDataByWord(wordid)
+        val d = if (isCorrect) 1 else 0
+        val item = MWordFami().apply {
+            userid = Global.userid
+            this.wordid = wordid
+        }
+        if (lst.isEmpty()) {
+            item.correct = d
+            item.total = 1
+            item.id = create(item)
+        }
+        else {
+            val o = lst[0]
+            item.id = o.id
+            item.correct = o.correct + d
+            item.total = o.total + 1
+            update(item)
+        }
+        return item
     }
 }

@@ -7,14 +7,16 @@ import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.services.wpp.PatternWebPageService
 import com.zwstudio.lolly.services.wpp.WebPageService
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class PatternsWebPagesViewModel : DrawerListViewModel() {
+class PatternsWebPagesViewModel : DrawerListViewModel(), KoinComponent {
 
     var lstWebPages_ = MutableLiveData(mutableListOf<MPatternWebPage>())
     var lstWebPages get() = lstWebPages_.value!!; set(v) { lstWebPages_.value = v }
 
-    val patternWebPageService = PatternWebPageService()
-    val webPageService = WebPageService()
+    private val patternWebPageService by inject<PatternWebPageService>()
+    private val webPageService by inject<WebPageService>()
 
     fun getWebPages(patternid: Int) = viewModelScope.launch {
         val lst = patternWebPageService.getDataByPattern(patternid)

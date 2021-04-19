@@ -8,8 +8,10 @@ import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class WordsUnitViewModel : DrawerListViewModel() {
+class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
 
     private val lstWordsAll_ = MutableLiveData(listOf<MUnitWord>())
     var lstWordsAll get() = lstWordsAll_.value!!; set(v) { lstWordsAll_.value = v }
@@ -20,7 +22,7 @@ class WordsUnitViewModel : DrawerListViewModel() {
     private val textbookFilter get() = vmSettings.lstTextbookFilters[textbookFilterIndex.value!!].value
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
-    private val unitWordService = UnitWordService()
+    private val unitWordService by inject<UnitWordService>()
 
     fun applyFilters() {
         lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
