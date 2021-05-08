@@ -58,18 +58,14 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var usdictnote: Int
         get() = (getUSValue(INFO_USDICTNOTE) ?: "0").toInt()
         set(value) = setUSValue(INFO_USDICTNOTE, value.toString())
-    private var INFO_USDICTSREFERENCE = MUserSettingInfo()
-    var usdictsreference: String
-        get() = getUSValue(INFO_USDICTSREFERENCE) ?: ""
-        set(value) = setUSValue(INFO_USDICTSREFERENCE, value)
     private var INFO_USDICTTRANSLATION = MUserSettingInfo()
     var usdicttranslation: Int
         get() = (getUSValue(INFO_USDICTTRANSLATION) ?: "0").toInt()
         set(value) = setUSValue(INFO_USDICTTRANSLATION, value.toString())
-    private var INFO_USANDROIDVOICE = MUserSettingInfo()
+    private var INFO_USVOICE = MUserSettingInfo()
     var usvoice: Int
-        get() = (getUSValue(INFO_USANDROIDVOICE) ?: "0").toInt()
-        set(value) = setUSValue(INFO_USANDROIDVOICE, value.toString())
+        get() = (getUSValue(INFO_USVOICE) ?: "0").toInt()
+        set(value) = setUSValue(INFO_USVOICE, value.toString())
     private var INFO_USUNITFROM = MUserSettingInfo()
     var usunitfrom: Int
         get() = getUSValue(INFO_USUNITFROM)!!.toInt()
@@ -210,9 +206,8 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
         INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
         INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
-        INFO_USDICTSREFERENCE = getUSInfo(MUSMapping.NAME_USDICTSREFERENCE)
         INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
-        INFO_USANDROIDVOICE = getUSInfo(MUSMapping.NAME_USANDROIDVOICE)
+        INFO_USVOICE = getUSInfo(MUSMapping.NAME_USVOICE)
         return Observable.zip(dictionaryService.getDictsReferenceByLang(uslang),
             dictionaryService.getDictsNoteByLang(uslang),
             dictionaryService.getDictsTranslationByLang(uslang),
@@ -297,7 +292,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         }
         if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return Observable.empty()
         tts.language = locale
-        return (if (dirty) userSettingService.update(INFO_USANDROIDVOICE, usvoice) else Observable.just(Unit))
+        return (if (dirty) userSettingService.update(INFO_USVOICE, usvoice) else Observable.just(Unit))
             .applyIO().map { settingsListener?.onUpdateVoice() }
     }
 
