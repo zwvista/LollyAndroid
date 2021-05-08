@@ -18,6 +18,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -38,9 +39,10 @@ class LollyApplication : Application() {
             .build()
         vmSettings = SettingsViewModel()
         startVita()
+        // https://github.com/InsertKoinIO/koin/issues/1076
         startKoin {
             // Koin Android logger
-            androidLogger()
+            androidLogger(Level.ERROR)
             //inject Android context
             androidContext(this@LollyApplication)
             // use modules
