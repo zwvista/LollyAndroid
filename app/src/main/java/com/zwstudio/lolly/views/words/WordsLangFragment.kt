@@ -8,7 +8,6 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
@@ -17,9 +16,6 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.models.wpp.MLangWord
-import com.zwstudio.lolly.views.*
-import com.zwstudio.lolly.views.databinding.FragmentWordsLangBinding
-import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.copyText
@@ -27,6 +23,9 @@ import com.zwstudio.lolly.viewmodels.misc.googleString
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
 import kotlinx.coroutines.launch
+import com.zwstudio.lolly.views.*
+import com.zwstudio.lolly.views.databinding.FragmentWordsLangBinding
+import com.zwstudio.lolly.views.misc.autoCleared
 
 class WordsLangFragment : DrawerListFragment() {
 
@@ -109,8 +108,7 @@ class WordsLangFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                findNavController().navigate(R.id.action_wordsLangFragment_to_wordsLangDetailFragment,
-                    bundleOf("word" to vm.newLangWord()))
+                findNavController().navigate(WordsLangFragmentDirections.actionWordsLangFragmentToWordsLangDetailFragment(vm.newLangWord()))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -158,8 +156,7 @@ class WordsLangFragment : DrawerListFragment() {
             }
 
             fun edit(item: MLangWord) =
-                navController.navigate(R.id.action_wordsLangFragment_to_wordsLangDetailFragment,
-                    bundleOf("word" to item))
+                navController.navigate(WordsLangFragmentDirections.actionWordsLangFragmentToWordsLangDetailFragment(item))
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
@@ -217,9 +214,9 @@ class WordsLangFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MLangWord
-                        navController.navigate(R.id.action_wordsLangFragment_to_wordsDictFragment,
-                            bundleOf("list" to vm.lstWords.map { it.word }.toTypedArray(),
-                                "index" to vm.lstWords.indexOf(item)))
+                        navController.navigate(WordsLangFragmentDirections.actionWordsLangFragmentToWordsDictFragment(
+                            vm.lstWords.map { it.word }.toTypedArray(), vm.lstWords.indexOf(item)
+                        ))
                     }
                     true
                 }

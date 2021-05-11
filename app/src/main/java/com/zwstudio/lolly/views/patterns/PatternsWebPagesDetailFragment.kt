@@ -8,12 +8,12 @@ import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
+import com.zwstudio.lolly.models.wpp.MPatternWebPage
+import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageDetailViewModel
+import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesDetailBinding
 import com.zwstudio.lolly.views.misc.autoCleared
-import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageDetailViewModel
-import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
-import com.zwstudio.lolly.models.wpp.MPatternWebPage
 
 class PatternsWebPagesDetailFragment : Fragment() {
 
@@ -28,7 +28,7 @@ class PatternsWebPagesDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = requireArguments().getSerializable("webpage") as MPatternWebPage
+        item = PatternsWebPagesDetailFragmentArgs.fromBundle(requireArguments()).item
         binding = FragmentPatternsWebpagesDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail

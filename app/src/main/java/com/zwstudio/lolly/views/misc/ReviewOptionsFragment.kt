@@ -8,12 +8,12 @@ import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.views.R
-import com.zwstudio.lolly.views.databinding.FragmentReviewOptionsBinding
+import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
-import com.zwstudio.lolly.models.misc.MReviewOptions
+import com.zwstudio.lolly.views.R
+import com.zwstudio.lolly.views.databinding.FragmentReviewOptionsBinding
 
 class ReviewOptionsFragment : Fragment() {
 
@@ -27,7 +27,7 @@ class ReviewOptionsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        options = requireArguments().getSerializable("options") as MReviewOptions
+        options = ReviewOptionsFragmentArgs.fromBundle(requireArguments()).options
         binding = FragmentReviewOptionsBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm

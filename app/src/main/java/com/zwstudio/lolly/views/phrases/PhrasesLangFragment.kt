@@ -7,7 +7,6 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
@@ -16,9 +15,6 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.models.wpp.MLangPhrase
-import com.zwstudio.lolly.views.*
-import com.zwstudio.lolly.views.databinding.FragmentPhrasesLangBinding
-import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.copyText
@@ -26,6 +22,9 @@ import com.zwstudio.lolly.viewmodels.misc.googleString
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
 import kotlinx.coroutines.launch
+import com.zwstudio.lolly.views.*
+import com.zwstudio.lolly.views.databinding.FragmentPhrasesLangBinding
+import com.zwstudio.lolly.views.misc.autoCleared
 
 class PhrasesLangFragment : DrawerListFragment() {
 
@@ -104,8 +103,7 @@ class PhrasesLangFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                findNavController().navigate(R.id.action_phrasesLangFragment_to_phrasesLangDetailFragment,
-                    bundleOf("phrase" to vm.newLangPhrase()))
+                findNavController().navigate(PhrasesLangFragmentDirections.actionPhrasesLangFragmentToPhrasesLangDetailFragment(vm.newLangPhrase()))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -152,8 +150,7 @@ class PhrasesLangFragment : DrawerListFragment() {
             }
 
             fun edit(item: MLangPhrase) =
-                navController.navigate(R.id.action_phrasesLangFragment_to_phrasesLangDetailFragment,
-                    bundleOf("phrase" to item))
+                navController.navigate(PhrasesLangFragmentDirections.actionPhrasesLangFragmentToPhrasesLangDetailFragment(item))
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {

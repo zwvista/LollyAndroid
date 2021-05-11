@@ -7,7 +7,6 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.distinctUntilChanged
 import com.androidisland.vita.VitaOwner
@@ -15,9 +14,6 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
-import com.zwstudio.lolly.views.*
-import com.zwstudio.lolly.views.databinding.FragmentPhrasesTextbookBinding
-import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.copyText
@@ -25,6 +21,9 @@ import com.zwstudio.lolly.viewmodels.misc.googleString
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 import kotlinx.coroutines.launch
+import com.zwstudio.lolly.views.*
+import com.zwstudio.lolly.views.databinding.FragmentPhrasesTextbookBinding
+import com.zwstudio.lolly.views.misc.autoCleared
 
 class PhrasesTextbookFragment : DrawerListFragment() {
 
@@ -148,8 +147,7 @@ class PhrasesTextbookFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitPhrase) =
-                navController.navigate(R.id.action_phrasesTextbookFragment_to_phrasesTextbookDetailFragment,
-                    bundleOf("phrase" to item))
+                navController.navigate(PhrasesTextbookFragmentDirections.actionPhrasesTextbookFragmentToPhrasesTextbookDetailFragment(item))
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {

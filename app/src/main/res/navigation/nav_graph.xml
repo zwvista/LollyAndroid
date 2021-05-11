@@ -25,13 +25,28 @@
         tools:layout="@layout/fragment_words_unit" >
         <action
             android:id="@+id/action_wordsUnitFragment_to_wordsUnitDetailFragment"
-            app:destination="@+id/wordsUnitDetailFragment" />
+            app:destination="@+id/wordsUnitDetailFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.wpp.MUnitWord" />
+        </action>
         <action
             android:id="@+id/action_wordsUnitFragment_to_wordsUnitBatchEditFragment"
-            app:destination="@+id/wordsUnitBatchEditFragment" />
+            app:destination="@+id/wordsUnitBatchEditFragment">
+            <argument
+                android:name="list"
+                app:argType="com.zwstudio.lolly.models.wpp.MUnitWord[]" />
+        </action>
         <action
             android:id="@+id/action_wordsUnitFragment_to_wordsDictFragment"
-            app:destination="@+id/wordsDictFragment" />
+            app:destination="@+id/wordsDictFragment">
+            <argument
+                android:name="list"
+                app:argType="string[]" />
+            <argument
+                android:name="index"
+                app:argType="integer" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/phrasesUnitFragment"
@@ -40,10 +55,18 @@
         tools:layout="@layout/fragment_phrases_unit" >
         <action
             android:id="@+id/action_phrasesUnitFragment_to_phrasesUnitDetailFragment"
-            app:destination="@+id/phrasesUnitDetailFragment" />
+            app:destination="@+id/phrasesUnitDetailFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.wpp.MUnitPhrase" />
+        </action>
         <action
             android:id="@+id/action_phrasesUnitFragment_to_phrasesUnitBatchEditFragment"
-            app:destination="@+id/phrasesUnitBatchEditFragment" />
+            app:destination="@+id/phrasesUnitBatchEditFragment">
+            <argument
+                android:name="list"
+                app:argType="com.zwstudio.lolly.models.wpp.MUnitPhrase[]" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/wordsReviewFragment"
@@ -52,7 +75,11 @@
         tools:layout="@layout/fragment_words_review" >
         <action
             android:id="@+id/action_wordsReviewFragment_to_reviewOptionsFragment"
-            app:destination="@id/reviewOptionsFragment" />
+            app:destination="@id/reviewOptionsFragment">
+            <argument
+                android:name="options"
+                app:argType="com.zwstudio.lolly.models.misc.MReviewOptions" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/phrasesReviewFragment"
@@ -61,7 +88,11 @@
         tools:layout="@layout/fragment_phrases_review" >
         <action
             android:id="@+id/action_phrasesReviewFragment_to_reviewOptionsFragment"
-            app:destination="@id/reviewOptionsFragment" />
+            app:destination="@id/reviewOptionsFragment">
+            <argument
+                android:name="options"
+                app:argType="com.zwstudio.lolly.models.misc.MReviewOptions" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/wordsTextbookFragment"
@@ -70,10 +101,21 @@
         tools:layout="@layout/fragment_words_textbook" >
         <action
             android:id="@+id/action_wordsTextbookFragment_to_wordsTextbookDetailFragment"
-            app:destination="@+id/wordsTextbookDetailFragment" />
+            app:destination="@+id/wordsTextbookDetailFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.wpp.MUnitWord" />
+        </action>
         <action
             android:id="@+id/action_wordsTextbookFragment_to_wordsDictFragment"
-            app:destination="@+id/wordsDictFragment" />
+            app:destination="@+id/wordsDictFragment">
+            <argument
+                android:name="list"
+                app:argType="string[]" />
+            <argument
+                android:name="index"
+                app:argType="integer" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/phrasesTextbookFragment"
@@ -82,7 +124,11 @@
         tools:layout="@layout/fragment_phrases_textbook" >
         <action
             android:id="@+id/action_phrasesTextbookFragment_to_phrasesTextbookDetailFragment"
-            app:destination="@+id/phrasesTextbookDetailFragment" />
+            app:destination="@+id/phrasesTextbookDetailFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.wpp.MUnitPhrase" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/wordsLangFragment"
@@ -91,10 +137,21 @@
         tools:layout="@layout/fragment_words_lang" >
         <action
             android:id="@+id/action_wordsLangFragment_to_wordsLangDetailFragment"
-            app:destination="@+id/wordsLangDetailFragment" />
+            app:destination="@+id/wordsLangDetailFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.wpp.MLangWord" />
+        </action>
         <action
             android:id="@+id/action_wordsLangFragment_to_wordsDictFragment"
-            app:destination="@+id/wordsDictFragment" />
+            app:destination="@+id/wordsDictFragment">
+            <argument
+                android:name="list"
+                app:argType="string[]" />
+            <argument
+                android:name="index"
+                app:argType="integer" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/phrasesLangFragment"
@@ -103,7 +160,11 @@
         tools:layout="@layout/fragment_phrases_lang" >
         <action
             android:id="@+id/action_phrasesLangFragment_to_phrasesLangDetailFragment"
-            app:destination="@+id/phrasesLangDetailFragment" />
+            app:destination="@+id/phrasesLangDetailFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.wpp.MLangPhrase" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/patternsFragment"
@@ -112,74 +173,137 @@
         tools:layout="@layout/fragment_patterns" >
         <action
             android:id="@+id/action_patternsFragment_to_patternsDetailFragment"
-            app:destination="@+id/patternsDetailFragment" />
+            app:destination="@+id/patternsDetailFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.wpp.MPattern" />
+        </action>
         <action
             android:id="@+id/action_patternsFragment_to_patternsWebPagesBrowseFragment"
-            app:destination="@+id/patternsWebPagesBrowseFragment" />
+            app:destination="@+id/patternsWebPagesBrowseFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.wpp.MPattern" />
+        </action>
         <action
             android:id="@+id/action_patternsFragment_to_patternsWebPagesListFragment"
-            app:destination="@+id/patternsWebPagesListFragment" />
+            app:destination="@+id/patternsWebPagesListFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.wpp.MPattern" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/wordsUnitDetailFragment"
         android:name="com.zwstudio.lolly.views.words.WordsUnitDetailFragment"
         android:label="@string/words_unit_detail"
-        tools:layout="@layout/fragment_words_unit_detail" />
+        tools:layout="@layout/fragment_words_unit_detail">
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.wpp.MUnitWord" />
+    </fragment>
     <fragment
         android:id="@+id/wordsUnitBatchEditFragment"
         android:name="com.zwstudio.lolly.views.words.WordsUnitBatchEditFragment"
         android:label="@string/words_unit_batch_edit"
-        tools:layout="@layout/fragment_words_unit_batch_edit" />
+        tools:layout="@layout/fragment_words_unit_batch_edit">
+        <argument
+            android:name="list"
+            app:argType="com.zwstudio.lolly.models.wpp.MUnitWord[]" />
+    </fragment>
     <fragment
         android:id="@+id/wordsTextbookDetailFragment"
         android:name="com.zwstudio.lolly.views.words.WordsTextbookDetailFragment"
         android:label="@string/words_textbook_detail"
-        tools:layout="@layout/fragment_words_textbook_detail" />
+        tools:layout="@layout/fragment_words_textbook_detail">
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.wpp.MUnitWord" />
+    </fragment>
     <fragment
         android:id="@+id/wordsLangDetailFragment"
         android:name="com.zwstudio.lolly.views.words.WordsLangDetailFragment"
         android:label="@string/words_lang_detail"
-        tools:layout="@layout/fragment_words_lang_detail" />
+        tools:layout="@layout/fragment_words_lang_detail">
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.wpp.MLangWord" />
+    </fragment>
     <fragment
         android:id="@+id/phrasesUnitDetailFragment"
         android:name="com.zwstudio.lolly.views.phrases.PhrasesUnitDetailFragment"
         android:label="@string/phrases_unit_detail"
-        tools:layout="@layout/fragment_phrases_unit_detail" />
+        tools:layout="@layout/fragment_phrases_unit_detail">
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.wpp.MUnitPhrase" />
+    </fragment>
     <fragment
         android:id="@+id/phrasesUnitBatchEditFragment"
         android:name="com.zwstudio.lolly.views.phrases.PhrasesUnitBatchEditFragment"
         android:label="@string/phrases_unit_batch_edit"
-        tools:layout="@layout/fragment_phrases_unit_batch_edit" />
+        tools:layout="@layout/fragment_phrases_unit_batch_edit">
+        <argument
+            android:name="list"
+            app:argType="com.zwstudio.lolly.models.wpp.MUnitPhrase[]" />
+    </fragment>
     <fragment
         android:id="@+id/phrasesTextbookDetailFragment"
         android:name="com.zwstudio.lolly.views.phrases.PhrasesTextbookDetailFragment"
         android:label="@string/phrases_textbook_detail"
-        tools:layout="@layout/fragment_phrases_textbook_detail" />
+        tools:layout="@layout/fragment_phrases_textbook_detail">
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.wpp.MUnitPhrase" />
+    </fragment>
     <fragment
         android:id="@+id/phrasesLangDetailFragment"
         android:name="com.zwstudio.lolly.views.phrases.PhrasesLangDetailFragment"
         android:label="@string/phrases_lang_detail"
-        tools:layout="@layout/fragment_phrases_lang_detail" />
+        tools:layout="@layout/fragment_phrases_lang_detail">
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.wpp.MLangPhrase" />
+    </fragment>
     <fragment
         android:id="@+id/wordsDictFragment"
         android:name="com.zwstudio.lolly.views.words.WordsDictFragment"
         android:label="@string/words_dict"
-        tools:layout="@layout/fragment_words_dict" />
+        tools:layout="@layout/fragment_words_dict">
+        <argument
+            android:name="list"
+            app:argType="string[]" />
+        <argument
+            android:name="index"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/patternsDetailFragment"
         android:name="com.zwstudio.lolly.views.patterns.PatternsDetailFragment"
         android:label="@string/patterns_detail"
-        tools:layout="@layout/fragment_patterns_detail" />
+        tools:layout="@layout/fragment_patterns_detail">
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.wpp.MPattern" />
+    </fragment>
     <fragment
         android:id="@+id/patternsWebPagesBrowseFragment"
         android:name="com.zwstudio.lolly.views.patterns.PatternsWebPagesBrowseFragment"
         android:label="@string/patterns_webpages_browse"
-        tools:layout="@layout/fragment_patterns_webpages_browse" />
+        tools:layout="@layout/fragment_patterns_webpages_browse">
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.wpp.MPattern" />
+    </fragment>
     <fragment
         android:id="@+id/patternsWebPagesDetailFragment"
         android:name="com.zwstudio.lolly.views.patterns.PatternsWebPagesDetailFragment"
         android:label="@string/patterns_webpages_detail"
-        tools:layout="@layout/fragment_patterns_webpages_detail" />
+        tools:layout="@layout/fragment_patterns_webpages_detail">
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.wpp.MPatternWebPage" />
+    </fragment>
     <fragment
         android:id="@+id/patternsWebPagesListFragment"
         android:name="com.zwstudio.lolly.views.patterns.PatternsWebPagesListFragment"
@@ -187,13 +311,24 @@
         tools:layout="@layout/fragment_patterns_webpages_list" >
         <action
             android:id="@+id/action_patternsWebPagesListFragment_to_patternsWebPagesDetailFragment"
-            app:destination="@+id/patternsWebPagesDetailFragment" />
+            app:destination="@+id/patternsWebPagesDetailFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.wpp.MPatternWebPage" />
+        </action>
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.wpp.MPattern" />
     </fragment>
     <fragment
         android:id="@+id/reviewOptionsFragment"
         android:name="com.zwstudio.lolly.views.misc.ReviewOptionsFragment"
         android:label="@string/review_options"
-        tools:layout="@layout/fragment_review_options" />
+        tools:layout="@layout/fragment_review_options" >
+        <argument
+            android:name="options"
+            app:argType="com.zwstudio.lolly.models.misc.MReviewOptions" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.zwstudio.lolly.views.misc.LoginFragment"

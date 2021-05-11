@@ -1,7 +1,9 @@
 package com.zwstudio.lolly.models.wpp
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.models.misc.MTextbook
+import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 import kotlin.math.floor
 
@@ -11,7 +13,8 @@ class MUnitWords {
     var lst: List<MUnitWord>? = null
 }
 
-class MUnitWord : Serializable {
+@Parcelize
+class MUnitWord : Serializable, Parcelable {
 
     @SerializedName("ID")
     var id = 0

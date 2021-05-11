@@ -9,7 +9,6 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
@@ -20,9 +19,6 @@ import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
-import com.zwstudio.lolly.views.*
-import com.zwstudio.lolly.views.databinding.FragmentPhrasesUnitBinding
-import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.copyText
@@ -30,6 +26,9 @@ import com.zwstudio.lolly.viewmodels.misc.googleString
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 import kotlinx.coroutines.launch
+import com.zwstudio.lolly.views.*
+import com.zwstudio.lolly.views.databinding.FragmentPhrasesUnitBinding
+import com.zwstudio.lolly.views.misc.autoCleared
 
 class PhrasesUnitFragment : DrawerListFragment() {
 
@@ -102,8 +101,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
     }
 
     fun menuAdd() =
-        findNavController().navigate(R.id.action_phrasesUnitFragment_to_phrasesUnitDetailFragment,
-            bundleOf("phrase" to vm.newUnitPhrase()))
+        findNavController().navigate(PhrasesUnitFragmentDirections.actionPhrasesUnitFragmentToPhrasesUnitDetailFragment(vm.newUnitPhrase()))
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
@@ -120,8 +118,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
                 true
             }
             R.id.menuBatch -> {
-                findNavController().navigate(R.id.action_phrasesUnitFragment_to_phrasesUnitBatchEditFragment,
-                    bundleOf("list" to vm.lstPhrases.toTypedArray()))
+                findNavController().navigate(PhrasesUnitFragmentDirections.actionPhrasesUnitFragmentToPhrasesUnitBatchEditFragment(vm.lstPhrases.toTypedArray()))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -181,8 +178,7 @@ class PhrasesUnitFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitPhrase) =
-                navController.navigate(R.id.action_phrasesUnitFragment_to_phrasesUnitDetailFragment,
-                    bundleOf("phrase" to item))
+                navController.navigate(PhrasesUnitFragmentDirections.actionPhrasesUnitFragmentToPhrasesUnitDetailFragment(item))
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {

@@ -8,11 +8,11 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesBrowseBinding
-import com.zwstudio.lolly.views.misc.autoCleared
+import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
-import com.zwstudio.lolly.models.wpp.MPattern
+import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesBrowseBinding
+import com.zwstudio.lolly.views.misc.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PatternsWebPagesBrowseFragment : Fragment() {
@@ -24,7 +24,7 @@ class PatternsWebPagesBrowseFragment : Fragment() {
     val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = requireArguments().getSerializable("pattern") as MPattern
+        item = PatternsWebPagesBrowseFragmentArgs.fromBundle(requireArguments()).item
         binding = FragmentPatternsWebpagesBrowseBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
