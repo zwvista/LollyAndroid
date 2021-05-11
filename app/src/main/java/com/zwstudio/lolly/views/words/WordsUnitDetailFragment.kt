@@ -8,14 +8,14 @@ import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
+import com.zwstudio.lolly.models.wpp.MUnitWord
+import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
+import com.zwstudio.lolly.viewmodels.words.WordsUnitDetailViewModel
+import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentWordsUnitDetailBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.vmSettings
-import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
-import com.zwstudio.lolly.viewmodels.words.WordsUnitDetailViewModel
-import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
-import com.zwstudio.lolly.models.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class WordsUnitDetailFragment : Fragment() {
@@ -33,7 +33,7 @@ class WordsUnitDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = requireArguments().getSerializable("word") as MUnitWord
+        item = WordsUnitDetailFragmentArgs.fromBundle(requireArguments()).item
         binding = FragmentWordsUnitDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail

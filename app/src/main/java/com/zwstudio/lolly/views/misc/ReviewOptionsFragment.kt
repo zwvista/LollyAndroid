@@ -27,7 +27,7 @@ class ReviewOptionsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        options = requireArguments().getSerializable("options") as MReviewOptions
+        options = ReviewOptionsFragmentArgs.fromBundle(requireArguments()).options
         binding = FragmentReviewOptionsBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm

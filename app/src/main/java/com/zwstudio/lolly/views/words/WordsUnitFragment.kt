@@ -11,7 +11,6 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
@@ -21,12 +20,12 @@ import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.models.wpp.MUnitWord
-import com.zwstudio.lolly.views.*
-import com.zwstudio.lolly.views.databinding.FragmentWordsUnitBinding
-import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.*
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
+import com.zwstudio.lolly.views.*
+import com.zwstudio.lolly.views.databinding.FragmentWordsUnitBinding
+import com.zwstudio.lolly.views.misc.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class WordsUnitFragment : DrawerListFragment() {
@@ -101,8 +100,7 @@ class WordsUnitFragment : DrawerListFragment() {
     }
 
     fun menuAdd() =
-        findNavController().navigate(R.id.action_wordsUnitFragment_to_wordsUnitDetailFragment,
-            bundleOf("word" to vm.newUnitWord()))
+        findNavController().navigate(WordsUnitFragmentDirections.actionWordsUnitFragmentToWordsUnitDetailFragment(vm.newUnitWord()))
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         fun getNotes(ifEmpty: Boolean) {
@@ -155,8 +153,7 @@ class WordsUnitFragment : DrawerListFragment() {
                 true
             }
             R.id.menuBatch -> {
-                findNavController().navigate(R.id.action_wordsUnitFragment_to_wordsUnitBatchEditFragment,
-                    bundleOf("list" to vm.lstWords.toTypedArray()))
+                findNavController().navigate(WordsUnitFragmentDirections.actionWordsUnitFragmentToWordsUnitBatchEditFragment(vm.lstWords.toTypedArray()))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -214,8 +211,7 @@ class WordsUnitFragment : DrawerListFragment() {
             }
 
             fun edit(item: MUnitWord) =
-                navController.navigate(R.id.action_wordsUnitFragment_to_wordsUnitDetailFragment,
-                    bundleOf("word" to item))
+                navController.navigate(WordsUnitFragmentDirections.actionWordsUnitFragmentToWordsUnitDetailFragment(item))
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
@@ -278,9 +274,9 @@ class WordsUnitFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
-                        navController.navigate(R.id.action_wordsUnitFragment_to_wordsDictFragment,
-                            bundleOf("list" to vm.lstWords.map { it.word }.toTypedArray(),
-                                "index" to vm.lstWords.indexOf(item)))
+                        navController.navigate(WordsUnitFragmentDirections.actionWordsUnitFragmentToWordsDictFragment(
+                            vm.lstWords.map { it.word }.toTypedArray(), vm.lstWords.indexOf(item)
+                        ))
                     }
                     true
                 }

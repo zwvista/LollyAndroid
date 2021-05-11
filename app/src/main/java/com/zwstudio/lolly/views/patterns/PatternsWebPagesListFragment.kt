@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -17,11 +16,11 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
+import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesListBinding
 import com.zwstudio.lolly.views.misc.autoCleared
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
-import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 private const val REQUEST_CODE = 1
@@ -39,7 +38,7 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = requireArguments().getSerializable("pattern") as MPattern
+        item = PatternsWebPagesListFragmentArgs.fromBundle(requireArguments()).item
         binding = FragmentPatternsWebpagesListBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
@@ -76,8 +75,7 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
     }
 
     fun menuAdd() =
-        findNavController().navigate(R.id.action_patternsWebPagesListFragment_to_patternsWebPagesDetailFragment,
-            bundleOf("webpage" to vm.newPatternWebPage(item.id, item.pattern)))
+        findNavController().navigate(PatternsWebPagesListFragmentDirections.actionPatternsWebPagesListFragmentToPatternsWebPagesDetailFragment(vm.newPatternWebPage(item.id, item.pattern)))
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
@@ -151,8 +149,7 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
             }
 
             fun edit(item: MPatternWebPage) =
-                navController.navigate(R.id.action_patternsWebPagesListFragment_to_patternsWebPagesDetailFragment,
-                    bundleOf("webpage" to item))
+                navController.navigate(PatternsWebPagesListFragmentDirections.actionPatternsWebPagesListFragmentToPatternsWebPagesDetailFragment(item))
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {

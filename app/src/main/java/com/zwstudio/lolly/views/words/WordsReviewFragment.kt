@@ -2,18 +2,17 @@ package com.zwstudio.lolly.views.words
 
 import android.os.Bundle
 import android.view.*
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.models.misc.MReviewOptions
+import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentWordsReviewBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.speak
-import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class WordsReviewFragment : Fragment() {
@@ -69,8 +68,7 @@ class WordsReviewFragment : Fragment() {
     }
 
     private fun newTest() =
-        findNavController().navigate(R.id.action_wordsReviewFragment_to_reviewOptionsFragment,
-            bundleOf("options" to vm.options))
+        findNavController().navigate(WordsReviewFragmentDirections.actionWordsReviewFragmentToReviewOptionsFragment(vm.options))
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)

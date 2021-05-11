@@ -8,13 +8,13 @@ import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
+import com.zwstudio.lolly.models.wpp.MPattern
+import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
+import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentPatternsDetailBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.vmSettings
-import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
-import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
-import com.zwstudio.lolly.models.wpp.MPattern
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PatternsDetailFragment : Fragment() {
@@ -32,7 +32,7 @@ class PatternsDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = requireArguments().getSerializable("pattern") as MPattern
+        item = PatternsDetailFragmentArgs.fromBundle(requireArguments()).item
         binding = FragmentPatternsDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail

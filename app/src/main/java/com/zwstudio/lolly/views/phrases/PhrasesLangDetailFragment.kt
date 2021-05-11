@@ -8,13 +8,13 @@ import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
+import com.zwstudio.lolly.models.wpp.MLangPhrase
+import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangDetailViewModel
+import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentPhrasesLangDetailBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.vmSettings
-import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangDetailViewModel
-import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
-import com.zwstudio.lolly.models.wpp.MLangPhrase
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PhrasesLangDetailFragment : Fragment() {
@@ -32,7 +32,7 @@ class PhrasesLangDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = requireArguments().getSerializable("phrase") as MLangPhrase
+        item = PhrasesLangDetailFragmentArgs.fromBundle(requireArguments()).item
         binding = FragmentPhrasesLangDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail

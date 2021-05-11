@@ -8,10 +8,10 @@ import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
+import com.zwstudio.lolly.viewmodels.misc.*
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentSearchBinding
 import com.zwstudio.lolly.views.vmSettings
-import com.zwstudio.lolly.viewmodels.misc.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SearchFragment : Fragment(), SettingsListener {
@@ -73,7 +73,7 @@ class SearchFragment : Fragment(), SettingsListener {
 
         Global.userid = requireContext().getSharedPreferences("users", 0).getString("userid", "")!!
         if (Global.userid.isEmpty()) {
-            findNavController().navigate(R.id.action_searchFragment_to_loginFragment)
+            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToLoginFragment())
         } else
             setup()
     }
@@ -96,7 +96,7 @@ class SearchFragment : Fragment(), SettingsListener {
                     .edit()
                     .remove("userid")
                     .apply()
-                findNavController().navigate(R.id.action_searchFragment_to_loginFragment)
+                findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToLoginFragment())
                 true
             }
             else -> super.onOptionsItemSelected(item)

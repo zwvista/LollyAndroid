@@ -8,7 +8,6 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
@@ -16,15 +15,15 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.models.wpp.MPattern
-import com.zwstudio.lolly.views.*
-import com.zwstudio.lolly.views.databinding.FragmentPatternsBinding
-import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.copyText
 import com.zwstudio.lolly.viewmodels.misc.googleString
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
+import com.zwstudio.lolly.views.*
+import com.zwstudio.lolly.views.databinding.FragmentPatternsBinding
+import com.zwstudio.lolly.views.misc.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PatternsFragment : DrawerListFragment() {
@@ -103,8 +102,7 @@ class PatternsFragment : DrawerListFragment() {
                 true
             }
             R.id.menuAdd -> {
-                findNavController().navigate(R.id.action_patternsFragment_to_patternsDetailFragment,
-                    bundleOf("pattern" to vm.newPattern()))
+                findNavController().navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsDetailFragment(vm.newPattern()))
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -152,8 +150,7 @@ class PatternsFragment : DrawerListFragment() {
             }
 
             fun edit(item: MPattern) =
-                navController.navigate(R.id.action_patternsFragment_to_patternsDetailFragment,
-                    bundleOf("pattern" to item))
+                navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsDetailFragment(item))
 
             @SuppressLint("ClickableViewAccessibility")
             private fun initButtons() {
@@ -195,10 +192,8 @@ class PatternsFragment : DrawerListFragment() {
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
-                                    2 -> navController.navigate(R.id.action_patternsFragment_to_patternsWebPagesBrowseFragment,
-                                            bundleOf("pattern" to item))
-                                    3 -> navController.navigate(R.id.action_patternsFragment_to_patternsWebPagesListFragment,
-                                            bundleOf("pattern" to item))
+                                    2 -> navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPagesBrowseFragment(item))
+                                    3 -> navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPagesListFragment(item))
                                     4 -> itemView.copyText(item.pattern)
                                     5 -> itemView.googleString(item.pattern)
                                     else -> {}
@@ -210,8 +205,7 @@ class PatternsFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MPattern
-                        navController.navigate(R.id.action_patternsFragment_to_patternsWebPagesBrowseFragment,
-                            bundleOf("pattern" to item))
+                        navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPagesBrowseFragment(item))
                     }
                     true
                 }

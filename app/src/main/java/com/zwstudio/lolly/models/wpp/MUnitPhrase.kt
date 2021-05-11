@@ -1,7 +1,9 @@
 package com.zwstudio.lolly.models.wpp
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.models.misc.MTextbook
+import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
 class MUnitPhrases {
@@ -10,7 +12,8 @@ class MUnitPhrases {
     var lst: List<MUnitPhrase>? = null
 }
 
-class MUnitPhrase : Serializable {
+@Parcelize
+class MUnitPhrase : Serializable, Parcelable {
 
     @SerializedName("ID")
     var id = 0
@@ -33,6 +36,7 @@ class MUnitPhrase : Serializable {
     @SerializedName("TRANSLATION")
     var translation = ""
 
+    @Transient
     lateinit var textbook: MTextbook
     val unitstr: String
         get() = textbook.unitstr(unit)

@@ -16,16 +16,16 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
+import com.zwstudio.lolly.models.misc.MSelectItem
+import com.zwstudio.lolly.models.wpp.MUnitWord
+import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
+import com.zwstudio.lolly.viewmodels.words.WordsUnitBatchEditViewModel
+import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import com.zwstudio.lolly.views.LollySwipeRefreshLayout
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentWordsUnitBatchEditBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.vmSettings
-import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
-import com.zwstudio.lolly.viewmodels.words.WordsUnitBatchEditViewModel
-import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
-import com.zwstudio.lolly.models.misc.MSelectItem
-import com.zwstudio.lolly.models.wpp.MUnitWord
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class WordsUnitBatchEditFragment : Fragment() {
@@ -45,7 +45,7 @@ class WordsUnitBatchEditFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        vm.lstWords = (requireArguments().getSerializable("list") as Array<MUnitWord>).toList()
+        vm.lstWords = WordsUnitBatchEditFragmentArgs.fromBundle(requireArguments()).list.toList()
         binding = FragmentWordsUnitBatchEditBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmBatch

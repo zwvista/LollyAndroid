@@ -8,14 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.distinctUntilChanged
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.views.databinding.FragmentWordsDictBinding
-import com.zwstudio.lolly.views.misc.OnlineDict
-import com.zwstudio.lolly.views.misc.autoCleared
-import com.zwstudio.lolly.views.vmSettings
 import com.zwstudio.lolly.viewmodels.misc.SettingsListener
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter2
 import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
+import com.zwstudio.lolly.views.databinding.FragmentWordsDictBinding
+import com.zwstudio.lolly.views.misc.OnlineDict
+import com.zwstudio.lolly.views.misc.autoCleared
+import com.zwstudio.lolly.views.vmSettings
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
@@ -36,8 +36,9 @@ class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.lstWords = (requireArguments().getSerializable("list") as Array<String>).toMutableList()
-        vm.selectedWordIndex = requireArguments().getInt("index", 0)
+        val args = WordsDictFragmentArgs.fromBundle(requireArguments())
+        vm.lstWords = args.list.toList()
+        vm.selectedWordIndex = args.index
 
         binding.webView.setOnTouchListener(OnSwipeWebviewTouchListener(requireContext(), this))
 
