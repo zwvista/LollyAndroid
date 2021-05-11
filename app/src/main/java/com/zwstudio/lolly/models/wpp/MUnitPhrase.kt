@@ -36,7 +36,6 @@ class MUnitPhrase : Serializable, Parcelable {
     @SerializedName("TRANSLATION")
     var translation = ""
 
-    @Transient
     lateinit var textbook: MTextbook
     val unitstr: String
         get() = textbook.unitstr(unit)
