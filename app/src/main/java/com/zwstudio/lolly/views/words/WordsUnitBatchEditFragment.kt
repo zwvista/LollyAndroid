@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -32,6 +33,7 @@ class WordsUnitBatchEditFragment : Fragment() {
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
     val vmBatch by lazy { vita.with(VitaOwner.Single(this)).getViewModel<WordsUnitBatchEditViewModel>() }
     var binding by autoCleared<FragmentWordsUnitBatchEditBinding>()
+    val args: WordsUnitBatchEditFragmentArgs by navArgs()
 
     var mDragListView by autoCleared<DragListView>()
     var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()
@@ -42,7 +44,7 @@ class WordsUnitBatchEditFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        vm.lstWords = WordsUnitBatchEditFragmentArgs.fromBundle(requireArguments()).list.toList()
+        vm.lstWords = args.list.toList()
         binding = FragmentWordsUnitBatchEditBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmBatch

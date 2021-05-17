@@ -8,8 +8,8 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -22,10 +22,10 @@ import com.zwstudio.lolly.viewmodels.misc.copyText
 import com.zwstudio.lolly.viewmodels.misc.googleString
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
-import kotlinx.coroutines.launch
 import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentWordsLangBinding
 import com.zwstudio.lolly.views.misc.autoCleared
+import kotlinx.coroutines.launch
 
 class WordsLangFragment : DrawerListFragment() {
 

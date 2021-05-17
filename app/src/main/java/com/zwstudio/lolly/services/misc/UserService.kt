@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.services.misc
 
-import com.zwstudio.lolly.views.retrofitJson
 import com.zwstudio.lolly.models.misc.MUser
 import com.zwstudio.lolly.restapi.misc.RestUser
+import com.zwstudio.lolly.views.retrofitJson
 
 class UserService {
     suspend fun getData(username: String, password: String): List<MUser> =

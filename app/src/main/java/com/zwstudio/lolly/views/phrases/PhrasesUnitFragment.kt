@@ -25,10 +25,10 @@ import com.zwstudio.lolly.viewmodels.misc.copyText
 import com.zwstudio.lolly.viewmodels.misc.googleString
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
-import kotlinx.coroutines.launch
 import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentPhrasesUnitBinding
 import com.zwstudio.lolly.views.misc.autoCleared
+import kotlinx.coroutines.launch
 
 class PhrasesUnitFragment : DrawerListFragment() {
 

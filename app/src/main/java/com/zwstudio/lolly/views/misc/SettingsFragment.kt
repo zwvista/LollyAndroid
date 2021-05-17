@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.distinctUntilChanged
-import com.zwstudio.lolly.views.databinding.FragmentSettingsBinding
-import com.zwstudio.lolly.views.vmSettings
 import com.zwstudio.lolly.viewmodels.misc.SettingsListener
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter2
+import com.zwstudio.lolly.views.databinding.FragmentSettingsBinding
+import com.zwstudio.lolly.views.vmSettings
 
 class SettingsFragment : Fragment(), SettingsListener {
 

@@ -2,10 +2,10 @@ package com.zwstudio.lolly.viewmodels.words
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.zwstudio.lolly.views.vmSettings
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.services.wpp.LangWordService
+import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.views.vmSettings
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

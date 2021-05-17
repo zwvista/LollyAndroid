@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
@@ -30,6 +31,7 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<FragmentPatternsWebpagesListBinding>()
     lateinit var item: MPattern
+    val args: PatternsWebPagesListFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +39,7 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = PatternsWebPagesListFragmentArgs.fromBundle(requireArguments()).item
+        item = args.item
         binding = FragmentPatternsWebpagesListBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm

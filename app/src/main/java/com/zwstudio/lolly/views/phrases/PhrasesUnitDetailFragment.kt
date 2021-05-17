@@ -6,6 +6,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
@@ -24,6 +25,7 @@ class PhrasesUnitDetailFragment : Fragment() {
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PhrasesUnitDetailViewModel(item) } }
     var binding by autoCleared<FragmentPhrasesUnitDetailBinding>()
     lateinit var item: MUnitPhrase
+    val args: PhrasesUnitDetailFragmentArgs by navArgs()
 
     val compositeDisposable = CompositeDisposable()
 
@@ -33,7 +35,7 @@ class PhrasesUnitDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = PhrasesUnitDetailFragmentArgs.fromBundle(requireArguments()).item
+        item = args.item
         binding = FragmentPhrasesUnitDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail

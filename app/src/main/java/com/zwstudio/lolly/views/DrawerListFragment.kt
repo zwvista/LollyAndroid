@@ -11,8 +11,8 @@ import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
-import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.views.misc.autoCleared
 
 open class DrawerListFragment : Fragment() {
 

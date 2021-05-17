@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.distinctUntilChanged
+import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.viewmodels.misc.SettingsListener
@@ -22,6 +23,7 @@ class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
     val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel<WordsDictViewModel>() }
     var binding by autoCleared<FragmentWordsDictBinding>()
     var onlineDict by autoCleared<OnlineDict>()
+    val args: WordsDictFragmentArgs by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentWordsDictBinding.inflate(inflater, container, false).apply {
@@ -34,7 +36,6 @@ class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val args = WordsDictFragmentArgs.fromBundle(requireArguments())
         vm.lstWords = args.list.toList()
         vm.selectedWordIndex = args.index
 
