@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
@@ -20,8 +19,8 @@ class ReviewOptionsFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel { ReviewOptionsViewModel(options) } }
     var binding by autoCleared<FragmentReviewOptionsBinding>()
-    lateinit var options: MReviewOptions
     val args: ReviewOptionsFragmentArgs by navArgs()
+    val options get() = args.options
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +28,6 @@ class ReviewOptionsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        options = args.options
         binding = FragmentReviewOptionsBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm

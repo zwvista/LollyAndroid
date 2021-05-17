@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.viewmodels.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
 import com.zwstudio.lolly.views.R
@@ -23,8 +22,8 @@ class WordsLangDetailFragment : Fragment() {
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsLangViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { WordsLangDetailViewModel(item) } }
     var binding by autoCleared<FragmentWordsLangDetailBinding>()
-    lateinit var item: MLangWord
     val args: WordsLangDetailFragmentArgs by navArgs()
+    val item get() = args.item
 
     val compositeDisposable = CompositeDisposable()
 
@@ -34,7 +33,6 @@ class WordsLangDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = args.item
         binding = FragmentWordsLangDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail

@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.R
@@ -22,8 +21,8 @@ class PatternsWebPagesDetailFragment : Fragment() {
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PatternsWebPageDetailViewModel(item) } }
     var binding by autoCleared<FragmentPatternsWebpagesDetailBinding>()
-    lateinit var item: MPatternWebPage
     val args: PatternsWebPagesDetailFragmentArgs by navArgs()
+    val item get() = args.item
 
     val compositeDisposable = CompositeDisposable()
 
@@ -33,7 +32,6 @@ class PatternsWebPagesDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = args.item
         binding = FragmentPatternsWebpagesDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail

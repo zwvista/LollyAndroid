@@ -15,7 +15,6 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
-import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
@@ -31,8 +30,8 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<FragmentPatternsWebpagesListBinding>()
-    lateinit var item: MPattern
     val args: PatternsWebPagesListFragmentArgs by navArgs()
+    val item get() = args.item
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +39,6 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = args.item
         binding = FragmentPatternsWebpagesListBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
