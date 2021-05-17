@@ -27,7 +27,6 @@ import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentPhrasesUnitBatchEditBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.vmSettings
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PhrasesUnitBatchEditFragment : Fragment() {
 
@@ -38,8 +37,6 @@ class PhrasesUnitBatchEditFragment : Fragment() {
 
     var mDragListView by autoCleared<DragListView>()
     var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()
-
-    val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
