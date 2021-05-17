@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.views.retrofitJson
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.restapi.wpp.RestPatternWebPage
+import com.zwstudio.lolly.views.retrofitJson
 import io.reactivex.rxjava3.core.Observable
 
 class PatternWebPageService {

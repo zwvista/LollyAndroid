@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.services.wpp
 
 import android.util.Log
-import com.zwstudio.lolly.views.retrofitJson
 import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.restapi.wpp.RestLangWord
+import com.zwstudio.lolly.views.retrofitJson
 import io.reactivex.rxjava3.core.Observable
 
 class LangWordService {

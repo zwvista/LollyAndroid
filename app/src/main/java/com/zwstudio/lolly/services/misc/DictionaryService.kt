@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.services.misc
 
-import com.zwstudio.lolly.views.retrofitJson
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.restapi.misc.RestDictionary
+import com.zwstudio.lolly.views.retrofitJson
 import io.reactivex.rxjava3.core.Observable
 
 class DictionaryService {

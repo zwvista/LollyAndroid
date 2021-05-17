@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.views.retrofitJson
-import com.zwstudio.lolly.views.retrofitSP
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
+import com.zwstudio.lolly.views.retrofitJson
+import com.zwstudio.lolly.views.retrofitSP
 import io.reactivex.rxjava3.core.Observable
 
 class PatternService {

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.models.wpp.MPattern
@@ -20,11 +21,12 @@ class PatternsWebPagesBrowseFragment : Fragment() {
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
     var binding by autoCleared<FragmentPatternsWebpagesBrowseBinding>()
     lateinit var item: MPattern
+    val args: PatternsWebPagesBrowseFragmentArgs by navArgs()
 
     val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = PatternsWebPagesBrowseFragmentArgs.fromBundle(requireArguments()).item
+        item = args.item
         binding = FragmentPatternsWebpagesBrowseBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm

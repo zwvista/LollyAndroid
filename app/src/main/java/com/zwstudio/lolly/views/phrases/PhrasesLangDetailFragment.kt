@@ -6,6 +6,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.models.wpp.MLangPhrase
@@ -23,6 +24,7 @@ class PhrasesLangDetailFragment : Fragment() {
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PhrasesLangDetailViewModel(item) } }
     var binding by autoCleared<FragmentPhrasesLangDetailBinding>()
     lateinit var item: MLangPhrase
+    val args: PhrasesLangDetailFragmentArgs by navArgs()
 
     val compositeDisposable = CompositeDisposable()
 
@@ -32,7 +34,7 @@ class PhrasesLangDetailFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        item = PhrasesLangDetailFragmentArgs.fromBundle(requireArguments()).item
+        item = args.item
         binding = FragmentPhrasesLangDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail

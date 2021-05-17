@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.services.misc
 
+import com.zwstudio.lolly.restapi.misc.RestHtml
 import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.retrofitHtml
-import com.zwstudio.lolly.restapi.misc.RestHtml
 import io.reactivex.rxjava3.core.Observable
 
 class HtmlService {
