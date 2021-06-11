@@ -55,11 +55,11 @@ class SettingsFragment : Fragment(), SettingsListener {
             if (!vm.busy)
                 compositeDisposable.add(vm.updateTextbook().subscribe())
         }
-        vm.unitfromIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vm.selectedUnitFromIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
             if (!vm.busy)
                 compositeDisposable.add(vm.updateUnitFrom(vm.lstUnits[it].value).subscribe())
         }
-        vm.partfromIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vm.selectedPartFromIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
             if (!vm.busy)
                 compositeDisposable.add(vm.updatePartFrom(it).subscribe())
         }
@@ -73,11 +73,11 @@ class SettingsFragment : Fragment(), SettingsListener {
             if (!vm.busy)
                 compositeDisposable.add(vm.updateToType(it).subscribe())
         }
-        vm.unittoIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vm.selectedUnitToIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
             if (!vm.busy)
                 compositeDisposable.add(vm.updateUnitTo(vm.lstUnits[it].value).subscribe())
         }
-        vm.parttoIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vm.selectedPartToIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
             if (!vm.busy)
                 compositeDisposable.add(vm.updatePartTo(vm.lstParts[it].value).subscribe())
         }

@@ -130,7 +130,7 @@
 
             <Spinner
                 android:id="@+id/spnUnitFrom"
-                android:selectedItemPosition="@={model.unitfromIndex_}"
+                android:selectedItemPosition="@={model.selectedUnitFromIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/tvUnitFrom"
@@ -138,7 +138,7 @@
 
             <Spinner
                 android:id="@+id/spnPartFrom"
-                android:selectedItemPosition="@={model.partfromIndex_}"
+                android:selectedItemPosition="@={model.selectedPartFromIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/spnUnitFrom"
@@ -180,7 +180,7 @@
 
             <Spinner
                 android:id="@+id/spnUnitTo"
-                android:selectedItemPosition="@={model.unittoIndex_}"
+                android:selectedItemPosition="@={model.selectedUnitToIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/btnPrevious"
@@ -188,7 +188,7 @@
 
             <Spinner
                 android:id="@+id/spnPartTo"
-                android:selectedItemPosition="@={model.parttoIndex_}"
+                android:selectedItemPosition="@={model.selectedPartToIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
