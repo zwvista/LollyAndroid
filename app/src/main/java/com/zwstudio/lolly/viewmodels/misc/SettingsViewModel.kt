@@ -137,14 +137,14 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var lstAutoCorrect = listOf<MAutoCorrect>()
 
     val lstToTypes = UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) }
-    val unitfromIndex_ = MutableLiveData(0)
-    var unitfromIndex get() = unitfromIndex_.value!!; set(v) { unitfromIndex_.value = v }
-    val partfromIndex_ = MutableLiveData(0)
-    var partfromIndex get() = partfromIndex_.value!!; set(v) { partfromIndex_.value = v }
-    val unittoIndex_ = MutableLiveData(0)
-    var unittoIndex get() = unittoIndex_.value!!; set(v) { unittoIndex_.value = v }
-    val parttoIndex_ = MutableLiveData(0)
-    var parttoIndex get() = parttoIndex_.value!!; set(v) { parttoIndex_.value = v }
+    val selectedUnitFromIndex_ = MutableLiveData(0)
+    var selectedUnitFromIndex get() = selectedUnitFromIndex_.value!!; set(v) { selectedUnitFromIndex_.value = v }
+    val selectedPartFromIndex_ = MutableLiveData(0)
+    var selectedPartFromIndex get() = selectedPartFromIndex_.value!!; set(v) { selectedPartFromIndex_.value = v }
+    val selectedUnitToIndex_ = MutableLiveData(0)
+    var selectedUnitToIndex get() = selectedUnitToIndex_.value!!; set(v) { selectedUnitToIndex_.value = v }
+    val selectedPartToIndex_ = MutableLiveData(0)
+    var selectedPartToIndex get() = selectedPartToIndex_.value!!; set(v) { selectedPartToIndex_.value = v }
     val toTypeIndex_ = MutableLiveData(0)
     var toType get() = UnitPartToType.values()[toTypeIndex_.value!!]; set(v) { toTypeIndex_.value = v.ordinal }
 
@@ -234,10 +234,10 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
         INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
         if (dirty) userSettingService.update(INFO_USTEXTBOOK, ustextbook)
-        unitfromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
-        partfromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
-        unittoIndex = lstUnits.indexOfFirst { it.value == usunitto }
-        parttoIndex = lstParts.indexOfFirst { it.value == uspartto }
+        selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
+        selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
+        selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
+        selectedPartToIndex = lstParts.indexOfFirst { it.value == uspartto }
         toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
         settingsListener?.onUpdateTextbook()
         busy = false
@@ -394,7 +394,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         val dirty = usunitfrom != v
         usunitfrom = v
         if (dirty) userSettingService.update(INFO_USUNITFROM, usunitfrom)
-        unitfromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
+        selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
         settingsListener?.onUpdateUnitFrom()
     }
 
@@ -402,7 +402,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         val dirty = uspartfrom != v
         uspartfrom = v
         if (dirty) userSettingService.update(INFO_USPARTFROM, uspartfrom)
-        partfromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
+        selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
         settingsListener?.onUpdatePartFrom()
     }
 
@@ -410,7 +410,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         val dirty = usunitto != v
         usunitto = v
         if (dirty) userSettingService.update(INFO_USUNITTO, usunitto)
-        unittoIndex = lstUnits.indexOfFirst { it.value == usunitto }
+        selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
         settingsListener?.onUpdateUnitTo()
     }
 
@@ -418,7 +418,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         val dirty = uspartto != v
         uspartto = v
         if (dirty) userSettingService.update(INFO_USPARTTO, uspartto)
-        parttoIndex = lstParts.indexOfFirst { it.value == uspartto }
+        selectedPartToIndex = lstParts.indexOfFirst { it.value == uspartto }
         settingsListener?.onUpdatePartTo()
     }
 

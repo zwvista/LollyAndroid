@@ -52,11 +52,11 @@ class SettingsFragment : Fragment(), SettingsListener {
             if (!vm.busy)
                 vm.updateTextbook()
         }
-        vm.unitfromIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vm.selectedUnitFromIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
             if (!vm.busy)
                 vm.updateUnitFrom(vm.lstUnits[it].value)
         }
-        vm.partfromIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vm.selectedPartFromIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
             if (!vm.busy)
                 vm.updatePartFrom(it)
         }
@@ -70,11 +70,11 @@ class SettingsFragment : Fragment(), SettingsListener {
             if (!vm.busy)
                 vm.updateToType(it)
         }
-        vm.unittoIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vm.selectedUnitToIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
             if (!vm.busy)
                 vm.updateUnitTo(vm.lstUnits[it].value)
         }
-        vm.parttoIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vm.selectedPartToIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
             if (!vm.busy)
                 vm.updatePartTo(vm.lstParts[it].value)
         }
