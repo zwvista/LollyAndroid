@@ -12,6 +12,8 @@ class ReviewOptionsViewModel(val options: MReviewOptions) : ViewModel() {
     val groupCount = MutableLiveData(options.groupCount)
     val groupSelected = MutableLiveData(options.groupSelected)
     val speakingEnabled = MutableLiveData(options.speakingEnabled)
+    val onRepeat = MutableLiveData(options.onRepeat)
+    val moveForward = MutableLiveData(options.moveForward)
     val reviewCount = MutableLiveData(options.reviewCount)
 
     fun save() {
@@ -21,6 +23,8 @@ class ReviewOptionsViewModel(val options: MReviewOptions) : ViewModel() {
         options.groupCount = groupCount.value!!
         options.groupSelected = groupSelected.value!!
         options.speakingEnabled = speakingEnabled.value!!
+        options.onRepeat = onRepeat.value!!
+        options.moveForward = moveForward.value!!
         options.reviewCount = reviewCount.value!!
     }
 }

@@ -23,9 +23,9 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     val count get() = lstPhrases.size
     var lstCorrectIDs = mutableListOf<Int>()
     var index = 0
-    val hasNext get() = index < count
-    val currentItem get() = if (hasNext) lstPhrases[index] else null
-    val currentPhrase get() = if (hasNext) lstPhrases[index].phrase else ""
+    val hasCurrent get() = index < count
+    val currentItem get() = if (hasCurrent) lstPhrases[index] else null
+    val currentPhrase get() = if (hasCurrent) lstPhrases[index].phrase else ""
     var options = MReviewOptions()
     val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
     var subscriptionTimer: Disposable? = null
@@ -35,20 +35,30 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     val indexVisible = MutableLiveData(true)
     val correctVisible = MutableLiveData(false)
     val incorrectVisible = MutableLiveData(false)
-    val checkEnabled = MutableLiveData(false)
+    val checkNextEnabled = MutableLiveData(false)
+    val checkNextString = MutableLiveData("Check")
+    val checkPrevEnabled = MutableLiveData(false)
+    val checkPrevString = MutableLiveData("Check")
     val phraseTargetString = MutableLiveData("")
     val phraseTargetVisible = MutableLiveData(true)
     val translationString = MutableLiveData("")
     val phraseInputString = MutableLiveData("")
-    val checkString = MutableLiveData("Check")
+    val onRepeat = MutableLiveData(true)
+    val moveForward = MutableLiveData(true)
+    val onRepeatVisible = MutableLiveData(true)
+    val moveForwardVisible = MutableLiveData(true)
 
     fun newTest() = viewModelScope.launch {
         fun f() {
             lstCorrectIDs = mutableListOf()
-            index = 0
+            index = if (moveForward.value!!) 0 else count - 1
             doTest()
-            checkString.value = if (isTestMode) "Check" else "Next"
+            checkNextString.value = if (isTestMode) "Check" else "Next"
+            checkPrevString.value = if (isTestMode) "Check" else "Prev"
         }
+        lstPhrases = listOf()
+        lstCorrectIDs = mutableListOf()
+        index = 0
         subscriptionTimer?.dispose()
         if (options.mode == ReviewMode.Textbook) {
             val lst = unitPhraseService.getDataByTextbook(vmSettings.selectedTextbook)
@@ -63,19 +73,30 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
             if (options.shuffled) lstPhrases = lstPhrases.shuffled()
             f()
             if (options.mode == ReviewMode.ReviewAuto)
-                subscriptionTimer = Observable.interval(options.interval.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check() }
+                subscriptionTimer = Observable.interval(options.interval.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check(true) }
         }
     }
 
-    fun next() {
-        index++
-        if (isTestMode && !hasNext) {
-            index = 0
-            lstPhrases = lstPhrases.filter { !lstCorrectIDs.contains(it.id) }
+    fun move(toNext: Boolean) {
+        fun checkOnRepeat() {
+            if (onRepeat.value!!) {
+                index = (index + count) % count
+            }
+        }
+        if (moveForward.value == toNext) {
+            index++
+            checkOnRepeat()
+            if (isTestMode && !hasCurrent) {
+                index = 0
+                lstPhrases = lstPhrases.filter { !lstCorrectIDs.contains(it.id) }
+            }
+        } else {
+            index--
+            checkOnRepeat()
         }
     }
 
-    fun check() {
+    fun check(toNext: Boolean) {
         if (!isTestMode) {
             var b = true
             if (options.mode == ReviewMode.ReviewManual && phraseInputString.value!!.isNotEmpty() && phraseInputString.value != currentPhrase) {
@@ -83,7 +104,7 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
                 incorrectVisible.value = true
             }
             if (b) {
-                next()
+                move(toNext)
                 doTest()
             }
         } else if (!correctVisible.value!! && !incorrectVisible.value!!) {
@@ -93,29 +114,32 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
                 correctVisible.value = true
             else
                 incorrectVisible.value = true
-            checkString.value = "Next"
-            if (!hasNext) return
+            checkNextString.value = "Next"
+            checkPrevString.value = "Prev"
+            if (!hasCurrent) return
             val o = currentItem!!
             val isCorrect = o.phrase == phraseInputString.value
             if (isCorrect) lstCorrectIDs.add(o.id)
         } else {
-            next()
+            move(toNext)
             doTest()
-            checkString.value = "Check"
+            checkNextString.value = "Check"
+            checkPrevString.value = "Check"
         }
     }
 
     private fun doTest() {
-        indexVisible.value = hasNext
+        indexVisible.value = hasCurrent
         correctVisible.value = false
         incorrectVisible.value = false
-        checkEnabled.value = hasNext
+        checkNextEnabled.value = hasCurrent
+        checkPrevEnabled.value = hasCurrent
         phraseTargetString.value = currentPhrase
         translationString.value = currentItem?.translation ?: ""
         phraseTargetVisible.value = !isTestMode
         phraseInputString.value = ""
         doTestAction()
-        if (hasNext)
+        if (hasCurrent)
             indexString.value = "${index + 1}/$count"
         else if (options.mode == ReviewMode.ReviewAuto)
             subscriptionTimer?.dispose()

@@ -52,6 +52,28 @@
             android:layout_marginTop="8dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             app:layout_constraintTop_toBottomOf="@+id/chkShuffled"
+            app:layout_constraintBottom_toTopOf="@+id/chkOnRepeat" />
+
+        <CheckBox
+            android:id="@+id/chkOnRepeat"
+            android:text="@string/label_on_repeat"
+            android:checked="@={model.onRepeat}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintTop_toBottomOf="@+id/chkSpeakEnabled"
+            app:layout_constraintBottom_toTopOf="@+id/chkMoveForward" />
+
+        <CheckBox
+            android:id="@+id/chkMoveForward"
+            android:text="@string/label_move_forward"
+            android:checked="@={model.moveForward}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            app:layout_constraintTop_toBottomOf="@+id/chkOnRepeat"
             app:layout_constraintBottom_toTopOf="@+id/tvInterval" />
 
         <TextView
