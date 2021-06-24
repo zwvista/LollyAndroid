@@ -23,7 +23,7 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     val count get() = lstPhrases.size
     var lstCorrectIDs = mutableListOf<Int>()
     var index = 0
-    val hasCurrent get() = index < count
+    val hasCurrent get() = lstPhrases.isNotEmpty() && (onRepeat.value == true || index in 0 until count)
     val currentItem get() = if (hasCurrent) lstPhrases[index] else null
     val currentPhrase get() = if (hasCurrent) lstPhrases[index].phrase else ""
     var options = MReviewOptions()
