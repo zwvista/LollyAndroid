@@ -19,7 +19,7 @@ class PhrasesReviewFragment : Fragment() {
 
     val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel {
         PhrasesReviewViewModel {
-            if (hasNext && isSpeaking.value!!)
+            if (hasCurrent && isSpeaking.value!!)
                 speak(currentPhrase)
         }
     }}
@@ -45,7 +45,8 @@ class PhrasesReviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnCheck.setOnClickListener { vm.check() }
+        binding.btnCheckNext.setOnClickListener { vm.check(true) }
+        binding.btnCheckPrev.setOnClickListener { vm.check(false) }
         binding.btnSpeak.setOnClickListener { speak(vm.currentPhrase) }
 
         setFragmentResultListener("ReviewOptionsFragment") { _, bundle ->

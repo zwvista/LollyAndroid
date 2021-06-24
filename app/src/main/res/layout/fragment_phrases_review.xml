@@ -69,15 +69,49 @@
             app:layout_constraintBottom_toBottomOf="@+id/btnSpeak"  />
 
         <Button
-            android:id="@+id/btnCheck"
-            android:text="@{model.checkString}"
-            android:enabled="@{model.checkEnabled}"
+            android:id="@+id/btnCheckNext"
+            android:text="@{model.checkNextString}"
+            android:enabled="@{model.checkNextEnabled}"
             tools:text="Check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btnSpeak"
             app:layout_constraintBottom_toBottomOf="@+id/btnSpeak"  />
+
+        <CheckBox
+            android:id="@+id/chkOnRepeat"
+            android:text="@string/text_on_repeat"
+            android:checked="@{model.onRepeat}"
+            android:visibility="@{model.onRepeatVisible}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btnCheckPrev"
+            app:layout_constraintBottom_toBottomOf="@+id/btnCheckPrev"  />
+
+        <CheckBox
+            android:id="@+id/chkMoveForward"
+            android:text="@string/text_move_forward"
+            android:checked="@{model.moveForward}"
+            android:visibility="@{model.moveForwardVisible}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/btnCheckPrev"
+            app:layout_constraintBottom_toBottomOf="@+id/btnCheckPrev"  />
+
+        <Button
+            android:id="@+id/btnCheckPrev"
+            android:text="@{model.checkPrevString}"
+            android:enabled="@{model.checkPrevEnabled}"
+            tools:text="Check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnCheckNext"  />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

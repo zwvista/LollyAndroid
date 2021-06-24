@@ -22,4 +22,6 @@ class MReviewOptions : Serializable {
     var groupCount = 1
     var speakingEnabled = true
     var reviewCount = 10
+    var onRepeat = true
+    var moveForward = true
 }

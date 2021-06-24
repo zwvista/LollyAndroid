@@ -29,9 +29,9 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     val count get() = lstWords.size
     var lstCorrectIDs = mutableListOf<Int>()
     var index = 0
-    val hasNext get() = index < count
-    val currentItem get() = if (hasNext) lstWords[index] else null
-    val currentWord get() = if (hasNext) lstWords[index].word else ""
+    val hasCurrent get() = index < count
+    val currentItem get() = if (hasCurrent) lstWords[index] else null
+    val currentWord get() = if (hasCurrent) lstWords[index].word else ""
     var options = MReviewOptions()
     val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
     var subscriptionTimer: Disposable? = null
@@ -43,7 +43,10 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     val incorrectVisible = MutableLiveData(false)
     val accuracyString = MutableLiveData("")
     val accuracyVisible = MutableLiveData(true)
-    val checkEnabled = MutableLiveData(false)
+    val checkNextEnabled = MutableLiveData(false)
+    val checkNextString = MutableLiveData("Check")
+    val checkPrevEnabled = MutableLiveData(false)
+    val checkPrevString = MutableLiveData("Check")
     val wordTargetString = MutableLiveData("")
     val noteTargetString = MutableLiveData("")
     val wordHintString = MutableLiveData("")
@@ -52,16 +55,21 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     val wordHintVisible = MutableLiveData(true)
     val translationString = MutableLiveData("")
     val wordInputString = MutableLiveData("")
-    val checkString = MutableLiveData("Check")
-    val searchEnabled = MutableLiveData(false)
+    val onRepeat = MutableLiveData(true)
+    val moveForward = MutableLiveData(true)
+    val onRepeatVisible = MutableLiveData(true)
+    val moveForwardVisible = MutableLiveData(true)
 
     fun newTest() {
         fun f() {
-            lstCorrectIDs = mutableListOf()
-            index = 0
+            index = if (moveForward.value!!) 0 else count - 1
             doTest()
-            checkString.value = if (isTestMode) "Check" else "Next"
+            checkNextString.value = if (isTestMode) "Check" else "Next"
+            checkPrevString.value = if (isTestMode) "Check" else "Prev"
         }
+        lstWords = listOf()
+        lstCorrectIDs = mutableListOf()
+        index = 0
         subscriptionTimer?.dispose()
         if (options.mode == ReviewMode.Textbook)
             compositeDisposable.add(unitWordService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
@@ -92,15 +100,26 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
                 if (options.shuffled) lstWords = lstWords.shuffled()
                 f()
                 if (options.mode == ReviewMode.ReviewAuto)
-                    subscriptionTimer = Observable.interval(options.interval.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check() }
+                    subscriptionTimer = Observable.interval(options.interval.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check(true) }
             })
     }
 
-    fun next() {
-        index++
-        if (isTestMode && !hasNext) {
-            index = 0
-            lstWords = lstWords.filter { !lstCorrectIDs.contains(it.id) }
+    fun move(toNext: Boolean) {
+        fun checkOnRepeat() {
+            if (onRepeat.value!!) {
+                index = (index + count) % count
+            }
+        }
+        if (moveForward.value == toNext) {
+            index++
+            checkOnRepeat()
+            if (isTestMode && !hasCurrent) {
+                index = 0
+                lstWords = lstWords.filter { !lstCorrectIDs.contains(it.id) }
+            }
+        } else {
+            index--
+            checkOnRepeat()
         }
     }
 
@@ -112,7 +131,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             .applyIO()
     }
 
-    fun check() {
+    fun check(toNext: Boolean) {
         if (!isTestMode) {
             var b = true
             if (options.mode == ReviewMode.ReviewManual && wordInputString.value!!.isNotEmpty() && wordInputString.value != currentWord) {
@@ -120,7 +139,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
                 incorrectVisible.value = true
             }
             if (b) {
-                next()
+                move(toNext)
                 doTest()
             }
         } else if (!correctVisible.value!! && !incorrectVisible.value!!) {
@@ -131,9 +150,9 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             else
                 incorrectVisible.value = true
             wordHintVisible.value = false
-            searchEnabled.value = true
-            checkString.value = "Next"
-            if (!hasNext) return
+            checkNextString.value = "Next"
+            checkPrevString.value = "Prev"
+            if (!hasCurrent) return
             val o = currentItem!!
             val isCorrect = o.word == wordInputString.value
             if (isCorrect) lstCorrectIDs.add(o.id)
@@ -143,18 +162,20 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
                 accuracyString.value = o.accuracy
             })
         } else {
-            next()
+            move(toNext)
             doTest()
-            checkString.value = "Check"
+            checkNextString.value = "Check"
+            checkPrevString.value = "Check"
         }
     }
 
     private fun doTest() {
-        indexVisible.value = hasNext
+        indexVisible.value = hasCurrent
         correctVisible.value = false
         incorrectVisible.value = false
-        accuracyVisible.value = isTestMode && hasNext
-        checkEnabled.value = hasNext
+        accuracyVisible.value = isTestMode && hasCurrent
+        checkNextEnabled.value = hasCurrent
+        checkPrevEnabled.value = hasCurrent
         wordTargetString.value = currentWord
         noteTargetString.value = currentItem?.note ?: ""
         wordTargetVisible.value = !isTestMode
@@ -163,9 +184,8 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         wordHintVisible.value = isTestMode
         translationString.value = ""
         wordInputString.value = ""
-        searchEnabled.value = false
         doTestAction()
-        if (hasNext) {
+        if (hasCurrent) {
             indexString.value = "${index + 1}/$count"
             accuracyString.value = currentItem!!.accuracy
             compositeDisposable.add(getTranslation().subscribe {
