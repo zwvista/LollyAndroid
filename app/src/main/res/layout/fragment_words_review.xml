@@ -117,6 +117,7 @@
             android:id="@+id/btnCheckPrev"
             android:text="@{model.checkPrevString}"
             android:enabled="@{model.checkPrevEnabled}"
+            android:visibility="@{model.checkPrevVisible}"
             tools:text="Check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
