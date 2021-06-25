@@ -47,6 +47,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     val checkNextString = MutableLiveData("Check")
     val checkPrevEnabled = MutableLiveData(false)
     val checkPrevString = MutableLiveData("Check")
+    val checkPrevVisible = MutableLiveData(true)
     val wordTargetString = MutableLiveData("")
     val noteTargetString = MutableLiveData("")
     val wordHintString = MutableLiveData("")
@@ -71,6 +72,12 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         lstCorrectIDs = mutableListOf()
         index = 0
         subscriptionTimer?.dispose()
+        isSpeaking.value = options.speakingEnabled
+        moveForward.value = options.moveForward
+        moveForwardVisible.value = !isTestMode
+        onRepeat.value = !isTestMode && options.onRepeat
+        onRepeatVisible.value = !isTestMode
+        checkPrevVisible.value = !isTestMode
         if (options.mode == ReviewMode.Textbook)
             compositeDisposable.add(unitWordService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
                 val lst2 = mutableListOf<MUnitWord>()

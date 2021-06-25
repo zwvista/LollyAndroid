@@ -14,7 +14,6 @@ enum class ReviewMode {
 }
 
 class MReviewOptions : Serializable {
-    val isEmbedded = false
     var mode = ReviewMode.ReviewAuto
     var shuffled = false
     var interval = 5
