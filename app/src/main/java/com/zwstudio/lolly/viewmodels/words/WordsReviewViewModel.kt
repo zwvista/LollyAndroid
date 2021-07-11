@@ -11,8 +11,10 @@ import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
 import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.vmSettings
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
@@ -79,7 +81,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         onRepeatVisible.value = !isTestMode
         checkPrevVisible.value = !isTestMode
         if (options.mode == ReviewMode.Textbook)
-            compositeDisposable.add(unitWordService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
+            compositeDisposable.add(unitWordService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribeBy {
                 val lst2 = mutableListOf<MUnitWord>()
                 for (o in it) {
                     val s = o.accuracy
@@ -99,7 +101,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
                 f()
             })
         else
-            compositeDisposable.add(unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribe {
+            compositeDisposable.add(unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribeBy {
                 lstWords = it
                 val nFrom = count * (options.groupSelected - 1) / options.groupCount
                 val nTo = count * options.groupSelected / options.groupCount
@@ -130,8 +132,8 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         }
     }
 
-    private fun getTranslation(): Observable<String> {
-        val dictTranslation = vmSettings.selectedDictTranslation ?: return Observable.empty()
+    private fun getTranslation(): Single<String> {
+        val dictTranslation = vmSettings.selectedDictTranslation ?: return Single.just("")
         val url = dictTranslation.urlString(currentWord, vmSettings.lstAutoCorrect)
         return vmSettings.getHtml(url)
             .map { extractTextFrom(it, dictTranslation.transform, "") { text, _ -> text } }
@@ -163,7 +165,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             val o = currentItem!!
             val isCorrect = o.word == wordInputString.value
             if (isCorrect) lstCorrectIDs.add(o.id)
-            compositeDisposable.add(wordFamiService.update(o.wordid, isCorrect).applyIO().subscribe {
+            compositeDisposable.add(wordFamiService.update(o.wordid, isCorrect).applyIO().subscribeBy {
                 o.correct = it.correct
                 o.total = it.total
                 accuracyString.value = o.accuracy
@@ -195,7 +197,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         if (hasCurrent) {
             indexString.value = "${index + 1}/$count"
             accuracyString.value = currentItem!!.accuracy
-            compositeDisposable.add(getTranslation().subscribe {
+            compositeDisposable.add(getTranslation().subscribeBy {
                 translationString.value = it
                 if (it.isEmpty() && !options.speakingEnabled)
                     wordInputString.value = currentWord

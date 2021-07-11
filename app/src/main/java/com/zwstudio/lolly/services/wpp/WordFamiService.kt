@@ -5,30 +5,31 @@ import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
 import com.zwstudio.lolly.viewmodels.misc.Global
 import com.zwstudio.lolly.views.retrofitJson
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 class WordFamiService {
-    private fun getDataByWord(wordid: Int): Observable<List<MWordFami>> =
+    private fun getDataByWord(wordid: Int): Single<List<MWordFami>> =
         retrofitJson.create(RestWordFami::class.java)
             .getDataByUserWord("USERID,eq,${Global.userid}", "WORDID,eq,$wordid")
             .map { it.lst!! }
 
-    private fun update(o: MWordFami): Observable<Unit> =
+    private fun update(o: MWordFami): Completable =
         retrofitJson.create(RestWordFami::class.java)
             .update(o.id, o.userid, o.wordid, o.correct, o.total)
-            .map { Log.d("API Result", it.toString()); Unit }
+            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
 
-    private fun create(o: MWordFami): Observable<Int> =
+    private fun create(o: MWordFami): Single<Int> =
         retrofitJson.create(RestWordFami::class.java)
             .create(o.userid, o.wordid, o.correct, o.total)
-            .doAfterNext { Log.d("API Result", it.toString()) }
+            .doAfterSuccess { Log.d("API Result", it.toString()) }
 
-    fun delete(id: Int): Observable<Unit> =
+    fun delete(id: Int): Completable =
         retrofitJson.create(RestWordFami::class.java)
             .delete(id)
-            .map { Log.d("API Result", it.toString()); Unit }
+            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
 
-    fun update(wordid: Int, isCorrect: Boolean): Observable<MWordFami> =
+    fun update(wordid: Int, isCorrect: Boolean): Single<MWordFami> =
         getDataByWord(wordid).flatMap { lst ->
             val d = if (isCorrect) 1 else 0
             val item = MWordFami().apply {
@@ -48,7 +49,7 @@ class WordFamiService {
                 item.id = o.id
                 item.correct = o.correct + d
                 item.total = o.total + 1
-                update(item).map {
+                update(item).toSingle {
                     item
                 }
             }

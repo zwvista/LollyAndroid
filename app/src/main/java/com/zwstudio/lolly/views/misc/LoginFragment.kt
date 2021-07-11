@@ -12,6 +12,7 @@ import com.androidisland.vita.vita
 import com.zwstudio.lolly.viewmodels.misc.Global
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import com.zwstudio.lolly.views.databinding.FragmentLoginBinding
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 class LoginFragment : Fragment() {
 
@@ -29,7 +30,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.login.setOnClickListener {
-            vm.login().subscribe {
+            vm.login().subscribeBy {
                 Global.userid = it
                 if (Global.userid.isEmpty())
                     AlertDialog.Builder(requireContext())

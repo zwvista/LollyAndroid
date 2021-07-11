@@ -7,7 +7,7 @@ import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.vmSettings
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -34,35 +34,35 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         }
     }
 
-    fun getDataInTextbook(): Observable<Unit> =
+    fun getDataInTextbook(): Completable =
         unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
             .applyIO()
-            .map { lstWordsAll = it; applyFilters() }
+            .flatMapCompletable { lstWordsAll = it; applyFilters(); Completable.complete() }
 
-    fun getDataInLang(): Observable<Unit> =
+    fun getDataInLang(): Completable =
         unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
             .applyIO()
-            .map { lstWordsAll = it; applyFilters() }
+            .flatMapCompletable { lstWordsAll = it; applyFilters(); Completable.complete() }
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
+    fun updateSeqNum(id: Int, seqnum: Int): Completable =
         unitWordService.updateSeqNum(id, seqnum)
             .applyIO()
 
-    fun updateNote(id: Int, note: String?): Observable<Unit> =
+    fun updateNote(id: Int, note: String?): Completable =
         unitWordService.updateNote(id, note)
             .applyIO()
 
-    fun update(item: MUnitWord): Observable<Unit> =
+    fun update(item: MUnitWord): Completable =
         unitWordService.update(item)
             .applyIO()
 
-    fun create(item: MUnitWord): Observable<Unit> =
+    fun create(item: MUnitWord): Completable =
         unitWordService.create(item)
-            .map { item.id = it }
+            .flatMapCompletable { item.id = it; Completable.complete() }
             .applyIO()
 
-    fun delete(item: MUnitWord): Observable<Unit> =
+    fun delete(item: MUnitWord): Completable =
         unitWordService.delete(item)
             .applyIO()
 
@@ -88,18 +88,18 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         textbook = vmSettings.selectedTextbook
     }
 
-    fun getNote(index: Int): Observable<Unit> {
+    fun getNote(index: Int): Completable {
         val item = lstWords[index]
-        return vmSettings.getNote(item.word).flatMap {
+        return vmSettings.getNote(item.word).flatMapCompletable {
             item.note = it
             unitWordService.updateNote(item.id, it)
         }
     }
 
-    fun clearNote(index: Int): Observable<Unit> {
+    fun clearNote(index: Int): Completable {
         val item = lstWords[index]
         item.note = SettingsViewModel.zeroNote
-        return vmSettings.getNote(item.word).flatMap {
+        return vmSettings.getNote(item.word).flatMapCompletable {
             unitWordService.updateNote(item.id, it)
         }
     }

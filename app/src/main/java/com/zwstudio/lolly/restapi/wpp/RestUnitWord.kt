@@ -2,29 +2,29 @@ package com.zwstudio.lolly.restapi.wpp
 
 import com.zwstudio.lolly.models.misc.MSPResult
 import com.zwstudio.lolly.models.wpp.MUnitWords
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*
 
 interface RestUnitWord {
     @GET("VUNITWORDS?order=UNITPART&order=SEQNUM")
-    fun getDataByTextbookUnitPart(@Query("filter") vararg filters: String): Observable<MUnitWords>
+    fun getDataByTextbookUnitPart(@Query("filter") vararg filters: String): Single<MUnitWords>
 
     @GET("VUNITWORDS?order=WORDID")
-    fun getDataByTextbook(@Query("filter") filter: String): Observable<MUnitWords>
+    fun getDataByTextbook(@Query("filter") filter: String): Single<MUnitWords>
 
     @GET("VUNITWORDS?order=TEXTBOOKID&order=UNIT&order=PART&order=SEQNUM")
-    fun getDataByLang(@Query("filter") filter: String): Observable<MUnitWords>
+    fun getDataByLang(@Query("filter") filter: String): Single<MUnitWords>
 
     @GET("VUNITWORDS")
-    fun getDataByLangWord(@Query("filter") vararg filters: String): Observable<MUnitWords>
+    fun getDataByLangWord(@Query("filter") vararg filters: String): Single<MUnitWords>
 
     @FormUrlEncoded
     @PUT("UNITWORDS/{id}")
-    fun updateSeqNum(@Path("id") id: Int, @Field("SEQNUM") seqnum: Int): Observable<Int>
+    fun updateSeqNum(@Path("id") id: Int, @Field("SEQNUM") seqnum: Int): Single<Int>
 
     @FormUrlEncoded
     @PUT("UNITWORDS/{id}")
-    fun updateNote(@Path("id") id: Int, @Field("NOTE") note: String?): Observable<Int>
+    fun updateNote(@Path("id") id: Int, @Field("NOTE") note: String?): Single<Int>
 
     @FormUrlEncoded
     @POST("UNITWORDS_UPDATE")
@@ -34,7 +34,7 @@ interface RestUnitWord {
                @Field("P_SEQNUM") seqnum: Int, @Field("P_WORDID") wordid: Int,
                @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
                @Field("P_FAMIID") famiid: Int,
-               @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<List<List<MSPResult>>>
+               @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Single<List<List<MSPResult>>>
 
     @FormUrlEncoded
     @POST("UNITWORDS_CREATE")
@@ -44,7 +44,7 @@ interface RestUnitWord {
                @Field("P_SEQNUM") seqnum: Int, @Field("P_WORDID") wordid: Int,
                @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
                @Field("P_FAMIID") famiid: Int,
-               @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<List<List<MSPResult>>>
+               @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Single<List<List<MSPResult>>>
 
     @FormUrlEncoded
     @POST("UNITWORDS_DELETE")
@@ -54,6 +54,6 @@ interface RestUnitWord {
                @Field("P_SEQNUM") seqnum: Int, @Field("P_WORDID") wordid: Int,
                @Field("P_WORD") word: String, @Field("P_NOTE") note: String?,
                @Field("P_FAMIID") famiid: Int,
-               @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Observable<List<List<MSPResult>>>
+               @Field("P_CORRECT") correct: Int, @Field("P_TOTAL") total: Int): Single<List<List<MSPResult>>>
 
 }

@@ -4,10 +4,10 @@ import com.zwstudio.lolly.models.misc.MSelectItem
 import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.restapi.misc.RestTextbook
 import com.zwstudio.lolly.views.retrofitJson
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 class TextbookService {
-    fun getDataByLang(langid: Int): Observable<List<MTextbook>> {
+    fun getDataByLang(langid: Int): Single<List<MTextbook>> {
         fun f(units: String): List<String> {
             var m = Regex("UNITS,(\\d+)").find(units)
             if (m != null) {

@@ -6,7 +6,7 @@ import com.zwstudio.lolly.services.wpp.LangWordService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.vmSettings
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -27,21 +27,21 @@ class WordsLangViewModel : DrawerListViewModel(), KoinComponent {
         }
     }
 
-    fun getData(): Observable<Unit> =
+    fun getData(): Completable =
         langWordService.getDataByLang(vmSettings.selectedLang.id)
             .applyIO()
-            .map { lstWordsAll = it; applyFilters() }
+            .flatMapCompletable { lstWordsAll = it; applyFilters(); Completable.complete() }
 
-    fun update(item: MLangWord): Observable<Unit> =
+    fun update(item: MLangWord): Completable =
         langWordService.update(item)
             .applyIO()
 
-    fun create(item: MLangWord): Observable<Unit> =
+    fun create(item: MLangWord): Completable =
         langWordService.create(item)
-            .map { item.id = it }
+            .flatMapCompletable { item.id = it; Completable.complete() }
             .applyIO()
 
-    fun delete(item: MLangWord): Observable<Unit> =
+    fun delete(item: MLangWord): Completable =
         langWordService.delete(item)
             .applyIO()
 
@@ -49,9 +49,9 @@ class WordsLangViewModel : DrawerListViewModel(), KoinComponent {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getNote(index: Int): Observable<Unit> {
+    fun getNote(index: Int): Completable {
         val item = lstWords[index]
-        return vmSettings.getNote(item.word).flatMap {
+        return vmSettings.getNote(item.word).flatMapCompletable {
             item.note = it
             langWordService.updateNote(item.id, it)
         }

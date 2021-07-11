@@ -5,31 +5,32 @@ import com.zwstudio.lolly.models.wpp.MLangPhrase
 import com.zwstudio.lolly.restapi.wpp.RestLangPhrase
 import com.zwstudio.lolly.views.retrofitJson
 import com.zwstudio.lolly.views.retrofitSP
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 class LangPhraseService {
-    fun getDataByLang(langid: Int): Observable<List<MLangPhrase>> =
+    fun getDataByLang(langid: Int): Single<List<MLangPhrase>> =
         retrofitJson.create(RestLangPhrase::class.java)
             .getDataByLang("LANGID,eq,$langid")
             .map { it.lst!! }
 
-    fun updateTranslation(id: Int, translation: String?): Observable<Unit> =
+    fun updateTranslation(id: Int, translation: String?): Completable =
         retrofitJson.create(RestLangPhrase::class.java)
             .updateTranslation(id, translation)
-            .map { Log.d("API Result", it.toString()); Unit }
+            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
 
-    fun update(o: MLangPhrase): Observable<Unit> =
+    fun update(o: MLangPhrase): Completable =
         retrofitJson.create(RestLangPhrase::class.java)
             .update(o.id, o.langid, o.phrase, o.translation)
-            .map { Log.d("API Result", it.toString()); Unit }
+            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
 
-    fun create(o: MLangPhrase): Observable<Int> =
+    fun create(o: MLangPhrase): Single<Int> =
         retrofitJson.create(RestLangPhrase::class.java)
             .create(o.langid, o.phrase, o.translation)
-            .doOnNext { Log.d("API Result", it.toString()) }
+            .doAfterSuccess { Log.d("API Result", it.toString()) }
 
-    fun delete(o: MLangPhrase): Observable<Unit> =
+    fun delete(o: MLangPhrase): Completable =
         retrofitSP.create(RestLangPhrase::class.java)
             .delete(o.id, o.langid, o.phrase, o.translation)
-            .map { Log.d("API Result", it.toString()); Unit }
+            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
 }

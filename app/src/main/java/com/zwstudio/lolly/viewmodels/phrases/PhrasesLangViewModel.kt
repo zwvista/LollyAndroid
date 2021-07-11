@@ -6,7 +6,7 @@ import com.zwstudio.lolly.services.wpp.LangPhraseService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.vmSettings
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -27,21 +27,21 @@ class PhrasesLangViewModel : DrawerListViewModel(), KoinComponent {
         }
     }
 
-    fun getData(): Observable<Unit> =
+    fun getData(): Completable =
         langPhraseService.getDataByLang(vmSettings.selectedLang.id)
             .applyIO()
-            .map { lstPhrasesAll = it; applyFilters() }
+            .flatMapCompletable { lstPhrasesAll = it; applyFilters(); Completable.complete() }
 
-    fun update(item: MLangPhrase): Observable<Unit> =
+    fun update(item: MLangPhrase): Completable =
         langPhraseService.update(item)
             .applyIO()
 
-    fun create(item: MLangPhrase): Observable<Unit> =
+    fun create(item: MLangPhrase): Completable =
         langPhraseService.create(item)
-            .map { item.id = it }
+            .flatMapCompletable { item.id = it; Completable.complete() }
             .applyIO()
 
-    fun delete(item: MLangPhrase): Observable<Unit> =
+    fun delete(item: MLangPhrase): Completable =
         langPhraseService.delete(item)
             .applyIO()
 

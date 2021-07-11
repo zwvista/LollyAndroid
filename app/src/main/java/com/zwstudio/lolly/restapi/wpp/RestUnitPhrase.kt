@@ -2,25 +2,25 @@ package com.zwstudio.lolly.restapi.wpp
 
 import com.zwstudio.lolly.models.misc.MSPResult
 import com.zwstudio.lolly.models.wpp.MUnitPhrases
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.*
 
 interface RestUnitPhrase {
     @GET("VUNITPHRASES?order=UNITPART&order=SEQNUM")
-    fun getDataByTextbookUnitPart(@Query("filter") vararg filters: String): Observable<MUnitPhrases>
+    fun getDataByTextbookUnitPart(@Query("filter") vararg filters: String): Single<MUnitPhrases>
 
     @GET("VUNITPHRASES?order=PHRASEID")
-    fun getDataByTextbook(@Query("filter") vararg filters: String): Observable<MUnitPhrases>
+    fun getDataByTextbook(@Query("filter") vararg filters: String): Single<MUnitPhrases>
 
     @GET("VUNITPHRASES?order=TEXTBOOKID&order=UNIT&order=PART&order=SEQNUM")
-    fun getDataByLang(@Query("filter") filter: String): Observable<MUnitPhrases>
+    fun getDataByLang(@Query("filter") filter: String): Single<MUnitPhrases>
 
     @GET("VUNITPHRASES")
-    fun getDataByLangPhrase(@Query("filter") vararg filters: String): Observable<MUnitPhrases>
+    fun getDataByLangPhrase(@Query("filter") vararg filters: String): Single<MUnitPhrases>
 
     @FormUrlEncoded
     @PUT("VUNITPHRASES/{id}")
-    fun updateSeqNum(@Path("id") id: Int, @Field("SEQNUM") seqnum: Int): Observable<Int>
+    fun updateSeqNum(@Path("id") id: Int, @Field("SEQNUM") seqnum: Int): Single<Int>
 
     @FormUrlEncoded
     @POST("VUNITPHRASES_UPDATE")
@@ -29,7 +29,7 @@ interface RestUnitPhrase {
                @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
                @Field("P_SEQNUM") seqnum: Int, @Field("P_PHRASEID") phraseid: Int,
                @Field("P_PHRASE") phrase: String,
-               @Field("P_TRANSLATION") translation: String?): Observable<List<List<MSPResult>>>
+               @Field("P_TRANSLATION") translation: String?): Single<List<List<MSPResult>>>
 
     @FormUrlEncoded
     @POST("VUNITPHRASES_CREATE")
@@ -38,7 +38,7 @@ interface RestUnitPhrase {
                @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
                @Field("P_SEQNUM") seqnum: Int, @Field("P_PHRASEID") phraseid: Int,
                @Field("P_PHRASE") phrase: String,
-               @Field("P_TRANSLATION") translation: String?): Observable<List<List<MSPResult>>>
+               @Field("P_TRANSLATION") translation: String?): Single<List<List<MSPResult>>>
 
     @FormUrlEncoded
     @POST("VUNITPHRASES_DELETE")
@@ -47,6 +47,6 @@ interface RestUnitPhrase {
                @Field("P_UNIT") unit: Int, @Field("P_PART") part: Int,
                @Field("P_SEQNUM") seqnum: Int, @Field("P_PHRASEID") phraseid: Int,
                @Field("P_PHRASE") phrase: String,
-               @Field("P_TRANSLATION") translation: String?): Observable<List<List<MSPResult>>>
+               @Field("P_TRANSLATION") translation: String?): Single<List<List<MSPResult>>>
 
 }

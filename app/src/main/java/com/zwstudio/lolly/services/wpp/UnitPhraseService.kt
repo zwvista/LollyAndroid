@@ -6,10 +6,11 @@ import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.restapi.wpp.RestUnitPhrase
 import com.zwstudio.lolly.views.retrofitJson
 import com.zwstudio.lolly.views.retrofitSP
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 class UnitPhraseService {
-    fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Observable<List<MUnitPhrase>> =
+    fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Single<List<MUnitPhrase>> =
         retrofitJson.create(RestUnitPhrase::class.java)
             .getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",
                 "UNITPART,bt,$unitPartFrom,$unitPartTo")
@@ -20,7 +21,7 @@ class UnitPhraseService {
                 lst
             }
 
-    fun getDataByTextbook(textbook: MTextbook): Observable<List<MUnitPhrase>> =
+    fun getDataByTextbook(textbook: MTextbook): Single<List<MUnitPhrase>> =
         retrofitJson.create(RestUnitPhrase::class.java)
             .getDataByTextbook("TEXTBOOKID,eq,${textbook.id}")
             .map {
@@ -30,7 +31,7 @@ class UnitPhraseService {
                 lst
             }
 
-    fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): Observable<List<MUnitPhrase>> =
+    fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): Single<List<MUnitPhrase>> =
         retrofitJson.create(RestUnitPhrase::class.java)
             .getDataByLang("LANGID,eq,$langid")
             .map {
@@ -40,7 +41,7 @@ class UnitPhraseService {
                 lst
             }
 
-    fun getDataByLangPhrase(langid: Int, phrase: String, lstTextbooks: List<MTextbook>): Observable<List<MUnitPhrase>> =
+    fun getDataByLangPhrase(langid: Int, phrase: String, lstTextbooks: List<MTextbook>): Single<List<MUnitPhrase>> =
         retrofitJson.create(RestUnitPhrase::class.java)
             .getDataByLangPhrase("LANGID,eq,$langid", "PHRASE,eq,$phrase")
             .map {
@@ -50,17 +51,17 @@ class UnitPhraseService {
                 lst
             }
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
+    fun updateSeqNum(id: Int, seqnum: Int): Completable =
         retrofitJson.create(RestUnitPhrase::class.java)
             .updateSeqNum(id, seqnum)
-            .map { Log.d("API Result", it.toString()); Unit }
+            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
 
-    fun update(o: MUnitPhrase): Observable<Unit> =
+    fun update(o: MUnitPhrase): Completable =
         retrofitSP.create(RestUnitPhrase::class.java)
             .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.phraseid, o.phrase, o.translation)
-            .map { Log.d("API Result", it.toString()); Unit }
+            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
 
-    fun create(o: MUnitPhrase): Observable<Int> =
+    fun create(o: MUnitPhrase): Single<Int> =
         retrofitSP.create(RestUnitPhrase::class.java)
             .create(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.phraseid, o.phrase, o.translation)
             .map {
@@ -68,8 +69,8 @@ class UnitPhraseService {
                 it[0][0].newid!!.toInt()
             }
 
-    fun delete(o: MUnitPhrase): Observable<Unit> =
+    fun delete(o: MUnitPhrase): Completable =
         retrofitSP.create(RestUnitPhrase::class.java)
             .delete(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.phraseid, o.phrase, o.translation)
-            .map { Log.d("API Result", it.toString()); Unit }
+            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
 }

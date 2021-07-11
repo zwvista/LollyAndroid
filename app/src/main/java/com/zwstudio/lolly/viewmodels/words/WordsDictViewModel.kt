@@ -6,7 +6,7 @@ import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.services.misc.HtmlService
 import com.zwstudio.lolly.viewmodels.misc.IOnlineDict
 import com.zwstudio.lolly.views.vmSettings
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -19,8 +19,7 @@ class WordsDictViewModel : ViewModel(), IOnlineDict, KoinComponent {
 
     private val htmlService by inject<HtmlService>()
 
-    override fun getHtml(url: String): Observable<String> =
-        htmlService.getHtml(url)
+    override fun getHtml(url: String): Single<String> = htmlService.getHtml(url)
     override val getWord: String get() = selectedWord
     override val getDict: MDictionary get() = vmSettings.selectedDictReference
     override val getUrl: String get() = getDict.urlString(selectedWord, vmSettings.lstAutoCorrect)

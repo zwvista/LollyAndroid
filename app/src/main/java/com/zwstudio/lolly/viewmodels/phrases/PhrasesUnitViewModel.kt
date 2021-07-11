@@ -6,7 +6,7 @@ import com.zwstudio.lolly.services.wpp.UnitPhraseService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.vmSettings
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -33,31 +33,31 @@ class PhrasesUnitViewModel : DrawerListViewModel(), KoinComponent {
         }
     }
 
-    fun getDataInTextbook(): Observable<Unit> =
+    fun getDataInTextbook(): Completable =
         unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
                 vmSettings.usunitpartfrom, vmSettings.usunitpartto)
             .applyIO()
-            .map { lstPhrasesAll = it; applyFilters() }
+            .flatMapCompletable { lstPhrasesAll = it; applyFilters(); Completable.complete() }
 
-    fun getDataInLang(): Observable<Unit> =
+    fun getDataInLang(): Completable =
         unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
             .applyIO()
-            .map { lstPhrasesAll = it; applyFilters() }
+            .flatMapCompletable { lstPhrasesAll = it; applyFilters(); Completable.complete() }
 
-    fun updateSeqNum(id: Int, seqnum: Int): Observable<Unit> =
+    fun updateSeqNum(id: Int, seqnum: Int): Completable =
         unitPhraseService.updateSeqNum(id, seqnum)
             .applyIO()
 
-    fun update(item: MUnitPhrase): Observable<Unit> =
+    fun update(item: MUnitPhrase): Completable =
         unitPhraseService.update(item)
             .applyIO()
 
-    fun create(item: MUnitPhrase): Observable<Unit> =
+    fun create(item: MUnitPhrase): Completable =
         unitPhraseService.create(item)
-            .map { item.id = it }
+            .flatMapCompletable { item.id = it; Completable.complete() }
             .applyIO()
 
-    fun delete(item: MUnitPhrase): Observable<Unit> =
+    fun delete(item: MUnitPhrase): Completable =
         unitPhraseService.delete(item)
             .applyIO()
 

@@ -8,10 +8,11 @@ import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
 import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.tts
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -181,24 +182,24 @@ class SettingsViewModel : ViewModel(), KoinComponent {
 
     var busy = false
     var settingsListener: SettingsListener? = null
-    fun getData(): Observable<Unit> {
+    fun getData(): Completable {
         busy = true
-        return Observable.zip(languageService.getData(),
+        return Single.zip(languageService.getData(),
             usMappingService.getData(),
             userSettingService.getData()) { res1, res2, res3 ->
             lstLanguages = res1
             lstUSMappings = res2
             lstUserSettings = res3
             INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
-        }.applyIO().flatMap {
+        }.applyIO().flatMapCompletable {
             selectedLangIndex = 0.coerceAtLeast(lstLanguages.indexOfFirst { it.id == uslang })
             settingsListener?.onGetData()
             updateLang()
-        }.map { busy = false }
+        }.doAfterTerminate { busy = false }
     }
 
-    fun updateLang(): Observable<Unit> {
-        if (lstLanguages.isEmpty()) return Observable.empty()
+    fun updateLang(): Completable {
+        if (lstLanguages.isEmpty()) return Completable.complete()
         busy = true
         val newVal = selectedLang.id
         val dirty = uslang != newVal
@@ -208,13 +209,13 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
         INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
         INFO_USVOICE = getUSInfo(MUSMapping.NAME_USVOICE)
-        return Observable.zip(dictionaryService.getDictsReferenceByLang(uslang),
+        return Single.zip(dictionaryService.getDictsReferenceByLang(uslang),
             dictionaryService.getDictsNoteByLang(uslang),
             dictionaryService.getDictsTranslationByLang(uslang),
             textbookService.getDataByLang(uslang),
             autoCorrectService.getDataByLang(uslang),
             voiceService.getDataByLang(uslang),
-            if (dirty) userSettingService.update(INFO_USLANG, uslang) else Observable.just(Unit)) { res1, res2, res3, res4, res5, res6, _ ->
+            if (dirty) userSettingService.update(INFO_USLANG, uslang).toSingle { 0 } else Single.just(0)) { res1, res2, res3, res4, res5, res6, _ ->
             lstDictsReference = res1
             lstDictsNote = res2
             lstDictsTranslation = res3
@@ -222,19 +223,19 @@ class SettingsViewModel : ViewModel(), KoinComponent {
             lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
             lstAutoCorrect = res5
             lstVoices = res6
-        }.applyIO().flatMap {
+        }.applyIO().flatMapCompletable {
             selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
             selectedDictReferenceIndex = 0.coerceAtLeast(lstDictsReference.indexOfFirst { it.dictid.toString() == usdictreference })
             selectedDictNoteIndex = 0.coerceAtLeast(lstDictsNote.indexOfFirst { it.dictid == usdictnote })
             selectedDictTranslationIndex = 0.coerceAtLeast(lstDictsTranslation.indexOfFirst { it.dictid == usdicttranslation })
             selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
             settingsListener?.onUpdateLang()
-            Observable.zip(updateVoice(), updateDictReference(), updateDictNote(), updateDictTranslation(), updateTextbook()) {_,_,_,_,_ ->}
-        }.map { busy = false }
+            Completable.mergeArray(updateVoice(), updateDictReference(), updateDictNote(), updateDictTranslation(), updateTextbook())
+        }.doAfterTerminate { busy = false }
     }
 
-    fun updateTextbook(): Observable<Unit> {
-        if (lstTextbooks.isEmpty()) return Observable.empty()
+    fun updateTextbook(): Completable {
+        if (lstTextbooks.isEmpty()) return Completable.complete()
         busy = true
         val newVal = selectedTextbook.id
         val dirty = ustextbook != newVal
@@ -243,8 +244,8 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
         INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
         INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
-        return (if (dirty) userSettingService.update(INFO_USTEXTBOOK, ustextbook) else Observable.just(Unit))
-            .applyIO().map {
+        return (if (dirty) userSettingService.update(INFO_USTEXTBOOK, ustextbook) else Completable.complete())
+            .applyIO().doAfterTerminate {
                 selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
                 selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
                 selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
@@ -255,184 +256,184 @@ class SettingsViewModel : ViewModel(), KoinComponent {
             }
     }
 
-    fun updateDictReference(): Observable<Unit> {
-        if (lstDictsReference.isEmpty()) return Observable.empty()
+    fun updateDictReference(): Completable {
+        if (lstDictsReference.isEmpty()) return Completable.complete()
         val newVal = selectedDictReference.dictid.toString()
         val dirty = usdictreference != newVal
         usdictreference = newVal
-        return (if (dirty) userSettingService.update(INFO_USDICTREFERENCE, usdictreference) else Observable.just(Unit))
-            .applyIO().map { settingsListener?.onUpdateDictReference() }
+        return (if (dirty) userSettingService.update(INFO_USDICTREFERENCE, usdictreference) else Completable.complete())
+            .applyIO().doAfterTerminate { settingsListener?.onUpdateDictReference() }
     }
 
-    fun updateDictNote(): Observable<Unit> {
-        if (lstDictsNote.isEmpty()) return Observable.empty()
+    fun updateDictNote(): Completable {
+        if (lstDictsNote.isEmpty()) return Completable.complete()
         val newVal = selectedDictNote?.dictid ?: 0
         val dirty = usdictnote != newVal
         usdictnote = newVal
-        return (if (dirty) userSettingService.update(INFO_USDICTNOTE, usdictnote) else Observable.just(Unit))
-            .applyIO().map { settingsListener?.onUpdateDictNote() }
+        return (if (dirty) userSettingService.update(INFO_USDICTNOTE, usdictnote) else Completable.complete())
+            .applyIO().doAfterTerminate { settingsListener?.onUpdateDictNote() }
     }
 
-    fun updateDictTranslation(): Observable<Unit> {
-        if (lstDictsTranslation.isEmpty()) return Observable.empty()
+    fun updateDictTranslation(): Completable {
+        if (lstDictsTranslation.isEmpty()) return Completable.complete()
         val newVal = selectedDictTranslation?.dictid ?: 0
         val dirty = usdicttranslation != newVal
         usdicttranslation = newVal
-        return (if (dirty) userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation) else Observable.just(Unit))
-            .applyIO().map { settingsListener?.onUpdateDictTranslation() }
+        return (if (dirty) userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation) else Completable.complete())
+            .applyIO().doAfterTerminate { settingsListener?.onUpdateDictTranslation() }
     }
 
-    fun updateVoice(): Observable<Unit> {
-        if (lstVoices.isEmpty()) return Observable.empty()
+    fun updateVoice(): Completable {
+        if (lstVoices.isEmpty()) return Completable.complete()
         val newVal = selectedVoice?.id ?: 0
         val dirty = usvoice != newVal
         usvoice = newVal
         val locale = Locale.getAvailableLocales().find {
             "${it.language}_${it.country}" == selectedVoice?.voicelang
         }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return Observable.empty()
+        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return Completable.complete()
         tts.language = locale
-        return (if (dirty) userSettingService.update(INFO_USVOICE, usvoice) else Observable.just(Unit))
-            .applyIO().map { settingsListener?.onUpdateVoice() }
+        return (if (dirty) userSettingService.update(INFO_USVOICE, usvoice) else Completable.complete())
+            .applyIO().doAfterTerminate { settingsListener?.onUpdateVoice() }
     }
 
     fun autoCorrectInput(text: String): String =
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
 
-    fun updateUnitFrom(v: Int): Observable<Unit> =
-        doUpdateUnitFrom(v).flatMap {
+    fun updateUnitFrom(v: Int): Completable =
+        doUpdateUnitFrom(v).andThen {
             if (toType == UnitPartToType.Unit)
                 doUpdateSingleUnit()
             else if (toType == UnitPartToType.Part || isInvalidUnitPart)
                 doUpdateUnitPartTo()
             else
-                Observable.just(Unit)
+                Completable.complete()
         }
 
-    fun updatePartFrom(v: Int): Observable<Unit> =
-        doUpdatePartFrom(v).flatMap {
+    fun updatePartFrom(v: Int): Completable =
+        doUpdatePartFrom(v).andThen {
             if (toType == UnitPartToType.Part || isInvalidUnitPart)
                 doUpdateUnitPartTo()
             else
-                Observable.just(Unit)
+                Completable.complete()
         }
 
-    fun updateToType(v: Int): Observable<Unit> {
+    fun updateToType(v: Int): Completable {
         toType = UnitPartToType.values()[v]
         return if (toType == UnitPartToType.Unit)
             doUpdateSingleUnit()
         else if (toType == UnitPartToType.Part)
             doUpdateUnitPartTo()
         else
-            Observable.just(Unit)
+            Completable.complete()
     }
 
-    fun toggleUnitPart(part: Int): Observable<Unit> =
+    fun toggleUnitPart(part: Int): Completable =
         if (toType == UnitPartToType.Unit) {
             toType = UnitPartToType.Part
-            Observables.zip(doUpdatePartFrom(part), doUpdateUnitPartTo()).map { Unit }
+            Completable.mergeArray(doUpdatePartFrom(part), doUpdateUnitPartTo())
         } else if (toType == UnitPartToType.Part) {
             toType = UnitPartToType.Unit
             doUpdateSingleUnit()
         } else
-            Observable.just(Unit)
+            Completable.complete()
 
-    fun previousUnitPart(): Observable<Unit> =
+    fun previousUnitPart(): Completable =
         if (toType == UnitPartToType.Unit)
             if (usunitfrom > 1)
-                Observables.zip(doUpdateUnitFrom(usunitfrom - 1), doUpdateUnitTo(usunitfrom)).map { Unit }
+                Completable.mergeArray(doUpdateUnitFrom(usunitfrom - 1), doUpdateUnitTo(usunitfrom))
             else
-                Observable.just(Unit)
+                Completable.complete()
         else if (uspartfrom > 1)
-            Observables.zip(doUpdatePartFrom(uspartfrom - 1), doUpdateUnitPartTo()).map { Unit }
+            Completable.mergeArray(doUpdatePartFrom(uspartfrom - 1), doUpdateUnitPartTo())
         else if (usunitfrom > 1)
-            Observables.zip(doUpdateUnitFrom(usunitfrom - 1), doUpdatePartFrom(partCount), doUpdateUnitPartTo()).map { Unit }
+            Completable.mergeArray(doUpdateUnitFrom(usunitfrom - 1), doUpdatePartFrom(partCount), doUpdateUnitPartTo())
         else
-            Observable.just(Unit)
+            Completable.complete()
 
-    fun nextUnitPart(): Observable<Unit> =
+    fun nextUnitPart(): Completable =
         if (toType == UnitPartToType.Unit)
             if (usunitfrom < unitCount)
-                Observables.zip(doUpdateUnitFrom(usunitfrom + 1), doUpdateUnitTo(usunitfrom)).map { Unit }
+                Completable.mergeArray(doUpdateUnitFrom(usunitfrom + 1), doUpdateUnitTo(usunitfrom))
             else
-                Observable.just(Unit)
+                Completable.complete()
         else if (uspartfrom < partCount)
-            Observables.zip(doUpdatePartFrom(uspartfrom + 1), doUpdateUnitPartTo()).map { Unit }
+            Completable.mergeArray(doUpdatePartFrom(uspartfrom + 1), doUpdateUnitPartTo())
         else if (usunitfrom < unitCount)
-            Observables.zip(doUpdateUnitFrom(usunitfrom + 1), doUpdatePartFrom(1), doUpdateUnitPartTo()).map { Unit }
+            Completable.mergeArray(doUpdateUnitFrom(usunitfrom + 1), doUpdatePartFrom(1), doUpdateUnitPartTo())
         else
-            Observable.just(Unit)
+            Completable.complete()
 
-    fun updateUnitTo(v: Int): Observable<Unit> =
-        doUpdateUnitTo(v).flatMap {
+    fun updateUnitTo(v: Int): Completable =
+        doUpdateUnitTo(v).andThen {
             if (isInvalidUnitPart)
                 doUpdateUnitPartFrom()
             else
-                Observable.just(Unit)
+                Completable.complete()
         }
 
-    fun updatePartTo(v: Int): Observable<Unit> =
-        doUpdatePartTo(v).flatMap {
+    fun updatePartTo(v: Int): Completable =
+        doUpdatePartTo(v).andThen {
             if (isInvalidUnitPart)
                 doUpdateUnitPartFrom()
             else
-                Observable.just(Unit)
+                Completable.complete()
         }
 
-    private fun doUpdateUnitPartFrom(): Observable<Unit> =
-        Observables.zip(doUpdateUnitFrom(usunitto), doUpdatePartFrom(uspartto)).map { Unit }
+    private fun doUpdateUnitPartFrom(): Completable =
+        Completable.mergeArray(doUpdateUnitFrom(usunitto), doUpdatePartFrom(uspartto))
 
-    private fun doUpdateUnitPartTo(): Observable<Unit> =
-        Observables.zip(doUpdateUnitTo(usunitfrom), doUpdatePartTo(uspartfrom)).map { Unit }
+    private fun doUpdateUnitPartTo(): Completable =
+        Completable.mergeArray(doUpdateUnitTo(usunitfrom), doUpdatePartTo(uspartfrom))
 
-    private fun doUpdateSingleUnit(): Observable<Unit> =
-        Observables.zip(doUpdateUnitTo(usunitfrom), doUpdatePartFrom(1), doUpdatePartTo(partCount)).map { Unit }
+    private fun doUpdateSingleUnit(): Completable =
+        Completable.mergeArray(doUpdateUnitTo(usunitfrom), doUpdatePartFrom(1), doUpdatePartTo(partCount))
 
-    private fun doUpdateUnitFrom(v: Int): Observable<Unit> {
+    private fun doUpdateUnitFrom(v: Int): Completable {
         val dirty = usunitfrom != v
         usunitfrom = v
-        return (if (dirty) userSettingService.update(INFO_USUNITFROM, usunitfrom) else Observable.just(Unit))
-            .applyIO().map {
+        return (if (dirty) userSettingService.update(INFO_USUNITFROM, usunitfrom) else Completable.complete())
+            .applyIO().doAfterTerminate {
                 selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
                 settingsListener?.onUpdateUnitFrom()
             }
     }
 
-    private fun doUpdatePartFrom(v: Int): Observable<Unit> {
+    private fun doUpdatePartFrom(v: Int): Completable {
         val dirty = uspartfrom != v
         uspartfrom = v
-        return (if (dirty) userSettingService.update(INFO_USPARTFROM, uspartfrom) else Observable.just(Unit))
-            .applyIO().map {
+        return (if (dirty) userSettingService.update(INFO_USPARTFROM, uspartfrom) else Completable.complete())
+            .applyIO().doAfterTerminate {
                 selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
                 settingsListener?.onUpdatePartFrom()
             }
     }
 
-    private fun doUpdateUnitTo(v: Int): Observable<Unit> {
+    private fun doUpdateUnitTo(v: Int): Completable {
         val dirty = usunitto != v
         usunitto = v
-        return (if (dirty) userSettingService.update(INFO_USUNITTO, usunitto) else Observable.just(Unit))
-            .applyIO().map {
+        return (if (dirty) userSettingService.update(INFO_USUNITTO, usunitto) else Completable.complete())
+            .applyIO().doAfterTerminate {
                 selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
                 settingsListener?.onUpdateUnitTo()
             }
     }
 
-    private fun doUpdatePartTo(v: Int): Observable<Unit> {
+    private fun doUpdatePartTo(v: Int): Completable {
         val dirty = uspartto != v
         uspartto = v
-        return (if (dirty) userSettingService.update(INFO_USPARTTO, uspartto) else Observable.just(Unit))
-            .applyIO().map {
+        return (if (dirty) userSettingService.update(INFO_USPARTTO, uspartto) else Completable.complete())
+            .applyIO().doAfterTerminate {
                 selectedPartToIndex = lstParts.indexOfFirst { it.value == uspartto }
                 settingsListener?.onUpdatePartTo()
             }
     }
 
-    fun getHtml(url: String): Observable<String> =
+    fun getHtml(url: String): Single<String> =
         htmlService.getHtml(url)
 
-    fun getNote(word: String): Observable<String> {
-        val dictNote = selectedDictNote ?: return Observable.empty()
+    fun getNote(word: String): Single<String> {
+        val dictNote = selectedDictNote ?: return Single.just("")
         val url = dictNote.urlString(word, lstAutoCorrect)
         return getHtml(url).map {
             Log.d("API Result", it)

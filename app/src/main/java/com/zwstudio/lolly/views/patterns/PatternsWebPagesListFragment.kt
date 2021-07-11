@@ -22,6 +22,7 @@ import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesListBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 private const val REQUEST_CODE = 1
 
@@ -51,7 +52,7 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupListView(PatternsWebPagesDragItem(requireContext(), R.layout.list_item_patterns_webpages_edit))
-        compositeDisposable.add(vm.getWebPages(item.id).subscribe {
+        compositeDisposable.add(vm.getWebPages(item.id).subscribeBy {
             refreshListView()
             progressBar1.visibility = View.GONE
         })

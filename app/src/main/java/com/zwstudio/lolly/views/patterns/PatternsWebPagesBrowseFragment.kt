@@ -14,6 +14,7 @@ import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesBrowseBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 class PatternsWebPagesBrowseFragment : Fragment() {
 
@@ -43,7 +44,7 @@ class PatternsWebPagesBrowseFragment : Fragment() {
             }
         }
 
-        compositeDisposable.add(vm.getWebPages(item.id).subscribe {
+        compositeDisposable.add(vm.getWebPages(item.id).subscribeBy {
             binding.spnWebPages.adapter = makeCustomAdapter(requireContext(), vm.lstWebPages) { it.title }
             binding.spnWebPages.setSelection(0)
         })

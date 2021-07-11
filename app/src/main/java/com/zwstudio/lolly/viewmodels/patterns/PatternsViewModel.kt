@@ -6,7 +6,7 @@ import com.zwstudio.lolly.services.wpp.PatternService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.vmSettings
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -30,21 +30,21 @@ class PatternsViewModel : DrawerListViewModel(), KoinComponent {
         }
     }
 
-    fun getData(): Observable<Unit> =
+    fun getData(): Completable =
         patternService.getDataByLang(vmSettings.selectedLang.id)
             .applyIO()
-            .map { lstPatternsAll = it; applyFilters() }
+            .flatMapCompletable { lstPatternsAll = it; applyFilters(); Completable.complete() }
 
-    fun update(item: MPattern): Observable<Unit> =
+    fun update(item: MPattern): Completable =
         patternService.update(item)
             .applyIO()
 
-    fun create(item: MPattern): Observable<Unit> =
+    fun create(item: MPattern): Completable =
         patternService.create(item)
-            .map { item.id = it }
+            .flatMapCompletable { item.id = it; Completable.complete() }
             .applyIO()
 
-    fun delete(id: Int): Observable<Unit> =
+    fun delete(id: Int): Completable =
         patternService.delete(id)
             .applyIO()
 

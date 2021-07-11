@@ -11,6 +11,7 @@ import com.zwstudio.lolly.views.vmSettings
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
@@ -69,13 +70,13 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
         onRepeatVisible.value = !isTestMode
         checkPrevVisible.value = !isTestMode
         if (options.mode == ReviewMode.Textbook)
-            compositeDisposable.add(unitPhraseService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribe {
+            compositeDisposable.add(unitPhraseService.getDataByTextbook(vmSettings.selectedTextbook).applyIO().subscribeBy {
                 val cnt = min(options.reviewCount, it.size)
                 lstPhrases = it.shuffled().subList(0, cnt)
                 f()
             })
         else
-            compositeDisposable.add(unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribe {
+            compositeDisposable.add(unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook, vmSettings.usunitpartfrom, vmSettings.usunitpartto).applyIO().subscribeBy {
                 lstPhrases = it
                 val nFrom = count * (options.groupSelected - 1) / options.groupCount
                 val nTo = count * options.groupSelected / options.groupCount

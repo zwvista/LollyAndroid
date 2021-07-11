@@ -6,6 +6,7 @@ import android.webkit.WebViewClient
 import com.zwstudio.lolly.viewmodels.misc.DictWebViewStatus
 import com.zwstudio.lolly.viewmodels.misc.IOnlineDict
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict, val compositeDisposable: CompositeDisposable) {
 
@@ -16,7 +17,7 @@ class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict, val compositeDis
         val url = iOnlineDict.getUrl
         if (item.dicttypename == "OFFLINE") {
             wv.loadUrl("about:blank")
-            compositeDisposable.add(iOnlineDict.getHtml(url).subscribe {
+            compositeDisposable.add(iOnlineDict.getHtml(url).subscribeBy {
                 Log.d("HTML", it)
                 val str = item.htmlString(it, iOnlineDict.getWord, true)
                 wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
