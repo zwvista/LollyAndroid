@@ -19,6 +19,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // Enable debugging
+            // debuggable true
+            // signingConfig signingConfigs.debug
         }
     }
     compileOptions {
