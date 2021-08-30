@@ -62,7 +62,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    implementation "androidx.fragment:fragment-ktx:1.4.0-alpha06"
+    implementation "androidx.fragment:fragment-ktx:1.4.0-alpha07"
     implementation 'com.androidisland.arch:vita:1.0.0'
     implementation "io.insert-koin:koin-android:$koin_version"
     // debugImplementation because LeakCanary should only run in debug builds.
