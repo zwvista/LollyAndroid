@@ -32,11 +32,11 @@ class LollyApplication : Application() {
         super.onCreate()
         val interceptor = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
         val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-        retrofitJson = Retrofit.Builder().baseUrl("https://zwvista2.tk/lolly/api.php/records/")
+        retrofitJson = Retrofit.Builder().baseUrl("https://zwvista.com/lolly/api.php/records/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        retrofitSP = Retrofit.Builder().baseUrl("https://zwvista2.tk/lolly/sp.php/")
+        retrofitSP = Retrofit.Builder().baseUrl("https://zwvista.com/lolly/sp.php/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

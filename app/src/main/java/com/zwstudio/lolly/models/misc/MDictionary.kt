@@ -72,4 +72,4 @@ class MDictionary : Serializable {
     }
 }
 
-val cssFolder = "https://zwvista2.tk/lolly/css/"
+val cssFolder = "https://zwvista.com/lolly/css/"
