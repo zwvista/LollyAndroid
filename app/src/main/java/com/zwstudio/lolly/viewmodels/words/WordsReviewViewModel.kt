@@ -205,4 +205,9 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         } else if (options.mode == ReviewMode.ReviewAuto)
             subscriptionTimer?.dispose()
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        subscriptionTimer?.dispose()
+    }
 }
