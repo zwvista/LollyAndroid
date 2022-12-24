@@ -12,7 +12,10 @@ import com.zwstudio.lolly.views.vmSettings
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
+import java.util.Timer
+import java.util.TimerTask
 import java.util.concurrent.TimeUnit
+import kotlin.concurrent.schedule
 import kotlin.math.min
 
 class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.() -> Unit) : ViewModel() {
@@ -28,7 +31,7 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     val currentPhrase get() = if (hasCurrent) lstPhrases[index].phrase else ""
     var options = MReviewOptions()
     val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
-    var subscriptionTimer: Disposable? = null
+    var timer = Timer()
 
     val isSpeaking = MutableLiveData(true)
     val indexString = MutableLiveData("")
@@ -60,7 +63,7 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
         lstPhrases = listOf()
         lstCorrectIDs = mutableListOf()
         index = 0
-        subscriptionTimer?.dispose()
+        timer.cancel()
         isSpeaking.value = options.speakingEnabled
         moveForward.value = options.moveForward
         moveForwardVisible.value = !isTestMode
@@ -80,7 +83,7 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
             if (options.shuffled) lstPhrases = lstPhrases.shuffled()
             f()
             if (options.mode == ReviewMode.ReviewAuto)
-                subscriptionTimer = Observable.interval(options.interval.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check(true) }
+                timer.schedule(0, options.interval.toLong() * 1000) { check(true) }
         }
     }
 
@@ -149,6 +152,11 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
         if (hasCurrent)
             indexString.value = "${index + 1}/$count"
         else if (options.mode == ReviewMode.ReviewAuto)
-            subscriptionTimer?.dispose()
+            timer.cancel()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        timer.cancel()
     }
 }

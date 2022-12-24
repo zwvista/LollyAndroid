@@ -16,7 +16,9 @@ import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.concurrent.schedule
 import kotlin.math.min
 
 class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> Unit) : ViewModel(), KoinComponent {
@@ -33,7 +35,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     val currentWord get() = if (hasCurrent) lstWords[index].word else ""
     var options = MReviewOptions()
     val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
-    var subscriptionTimer: Disposable? = null
+    var timer = Timer()
 
     val isSpeaking = MutableLiveData(true)
     val indexString = MutableLiveData("")
@@ -70,7 +72,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         lstWords = listOf()
         lstCorrectIDs = mutableListOf()
         index = 0
-        subscriptionTimer?.dispose()
+        timer.cancel()
         isSpeaking.value = options.speakingEnabled
         moveForward.value = options.moveForward
         moveForwardVisible.value = !isTestMode
@@ -104,7 +106,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             if (options.shuffled) lstWords = lstWords.shuffled()
             f()
             if (options.mode == ReviewMode.ReviewAuto)
-                subscriptionTimer = Observable.interval(options.interval.toLong(), TimeUnit.SECONDS).applyIO().subscribe { check(true) }
+                timer.schedule(0, options.interval.toLong() * 1000) { check(true) }
         }
     }
 
@@ -193,6 +195,11 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             if (translationString.value!!.isEmpty() && !options.speakingEnabled)
                 wordInputString.value = currentWord
         } else if (options.mode == ReviewMode.ReviewAuto)
-            subscriptionTimer?.dispose()
+            timer.cancel()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        timer.cancel()
     }
 }
