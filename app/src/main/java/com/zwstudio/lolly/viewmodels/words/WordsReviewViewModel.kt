@@ -1,5 +1,7 @@
 package com.zwstudio.lolly.viewmodels.words
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,15 +11,11 @@ import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
 import com.zwstudio.lolly.services.wpp.WordFamiService
 import com.zwstudio.lolly.viewmodels.misc.extractTextFrom
-import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.vmSettings
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
-import java.util.concurrent.TimeUnit
 import kotlin.concurrent.schedule
 import kotlin.math.min
 
@@ -35,7 +33,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     val currentWord get() = if (hasCurrent) lstWords[index].word else ""
     var options = MReviewOptions()
     val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
-    var timer = Timer()
+    var timer: Timer? = null
 
     val isSpeaking = MutableLiveData(true)
     val indexString = MutableLiveData("")
@@ -72,7 +70,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         lstWords = listOf()
         lstCorrectIDs = mutableListOf()
         index = 0
-        timer.cancel()
+        timer?.cancel()
         isSpeaking.value = options.speakingEnabled
         moveForward.value = options.moveForward
         moveForwardVisible.value = !isTestMode
@@ -106,7 +104,14 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             if (options.shuffled) lstWords = lstWords.shuffled()
             f()
             if (options.mode == ReviewMode.ReviewAuto)
-                timer.schedule(0, options.interval.toLong() * 1000) { check(true) }
+                timer = Timer().apply {
+                    val handler = Handler(Looper.getMainLooper())
+                    schedule(0, options.interval.toLong() * 1000) {
+                        handler.post {
+                            check(true)
+                        }
+                    }
+                }
         }
     }
 
@@ -195,11 +200,11 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             if (translationString.value!!.isEmpty() && !options.speakingEnabled)
                 wordInputString.value = currentWord
         } else if (options.mode == ReviewMode.ReviewAuto)
-            timer.cancel()
+            timer?.cancel()
     }
 
     override fun onCleared() {
         super.onCleared()
-        timer.cancel()
+        timer?.cancel()
     }
 }

@@ -1,5 +1,7 @@
 package com.zwstudio.lolly.viewmodels.phrases
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,14 +9,9 @@ import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
-import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.vmSettings
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.launch
-import java.util.Timer
-import java.util.TimerTask
-import java.util.concurrent.TimeUnit
+import java.util.*
 import kotlin.concurrent.schedule
 import kotlin.math.min
 
@@ -31,7 +28,7 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     val currentPhrase get() = if (hasCurrent) lstPhrases[index].phrase else ""
     var options = MReviewOptions()
     val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
-    var timer = Timer()
+    var timer: Timer? = null
 
     val isSpeaking = MutableLiveData(true)
     val indexString = MutableLiveData("")
@@ -63,7 +60,7 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
         lstPhrases = listOf()
         lstCorrectIDs = mutableListOf()
         index = 0
-        timer.cancel()
+        timer?.cancel()
         isSpeaking.value = options.speakingEnabled
         moveForward.value = options.moveForward
         moveForwardVisible.value = !isTestMode
@@ -83,7 +80,14 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
             if (options.shuffled) lstPhrases = lstPhrases.shuffled()
             f()
             if (options.mode == ReviewMode.ReviewAuto)
-                timer.schedule(0, options.interval.toLong() * 1000) { check(true) }
+                timer = Timer().apply {
+                    val handler = Handler(Looper.getMainLooper())
+                    schedule(0, options.interval.toLong() * 1000) {
+                        handler.post {
+                            check(true)
+                        }
+                    }
+                }
         }
     }
 
@@ -152,11 +156,11 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
         if (hasCurrent)
             indexString.value = "${index + 1}/$count"
         else if (options.mode == ReviewMode.ReviewAuto)
-            timer.cancel()
+            timer?.cancel()
     }
 
     override fun onCleared() {
         super.onCleared()
-        timer.cancel()
+        timer?.cancel()
     }
 }
