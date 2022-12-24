@@ -59,11 +59,6 @@ class WordsReviewFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        vm.subscriptionTimer?.dispose()
-        super.onDestroyView()
-    }
-
     private fun newTest() =
         findNavController().navigate(WordsReviewFragmentDirections.actionWordsReviewFragmentToReviewOptionsFragment(vm.options))
 

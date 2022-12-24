@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
 import com.zwstudio.lolly.views.tts
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -164,7 +163,6 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     private val autoCorrectService by inject<AutoCorrectService>()
     private val voiceService by inject<VoiceService>()
     private val htmlService by inject<HtmlService>()
-    private val compositeDisposable = CompositeDisposable()
 
     private fun getUSInfo(name: String): MUserSettingInfo {
         val o = lstUSMappings.find { it.name == name }!!

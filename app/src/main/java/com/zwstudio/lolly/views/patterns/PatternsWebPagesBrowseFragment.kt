@@ -13,7 +13,6 @@ import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesBrowseBinding
 import com.zwstudio.lolly.views.misc.autoCleared
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PatternsWebPagesBrowseFragment : Fragment() {
 
@@ -21,8 +20,6 @@ class PatternsWebPagesBrowseFragment : Fragment() {
     var binding by autoCleared<FragmentPatternsWebpagesBrowseBinding>()
     val args: PatternsWebPagesBrowseFragmentArgs by navArgs()
     val item get() = args.item
-
-    val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPatternsWebpagesBrowseBinding.inflate(inflater, container, false).apply {

@@ -12,9 +12,6 @@ import com.androidisland.vita.startVita
 import com.zwstudio.lolly.services.misc.*
 import com.zwstudio.lolly.services.wpp.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -116,10 +113,6 @@ lateinit var retrofitSP: Retrofit
 lateinit var retrofitHtml: Retrofit
 lateinit var vmSettings: SettingsViewModel
 lateinit var tts: TextToSpeech
-
-fun <T> Observable<T>.applyIO(): Observable<T> =
-    this.subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
 
 fun speak(text: String) =
     tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
