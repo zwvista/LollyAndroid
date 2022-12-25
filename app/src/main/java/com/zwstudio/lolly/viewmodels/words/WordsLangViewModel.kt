@@ -56,6 +56,8 @@ class WordsLangViewModel : DrawerListViewModel(), KoinComponent {
             langWordService.updateNote(item.id, item.note)
         }
 
-    fun clearNote(item: MLangWord): Completable =
-        langWordService.updateNote(item.id, SettingsViewModel.zeroNote)
+    fun clearNote(item: MLangWord): Completable {
+        item.note = SettingsViewModel.zeroNote
+        return langWordService.updateNote(item.id, item.note)
+    }
 }
