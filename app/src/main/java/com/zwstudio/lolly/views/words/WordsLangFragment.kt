@@ -197,7 +197,7 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
                                     }
                                     3 -> {
                                         val index = itemList.indexOf(item)
-                                        compositeDisposable.add(vm.getNote(item).subscribe {
+                                        compositeDisposable.add(vm.clearNote(item).subscribe {
                                             mDragListView.adapter.notifyItemChanged(index)
                                         })
                                     }
