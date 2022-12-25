@@ -55,6 +55,7 @@ class WordsLangViewModel : DrawerListViewModel(), KoinComponent {
     }
 
     fun clearNote(item: MLangWord) = viewModelScope.launch {
-        langWordService.updateNote(item.id, SettingsViewModel.zeroNote)
+        item.note = SettingsViewModel.zeroNote
+        langWordService.updateNote(item.id, item.note)
     }
 }

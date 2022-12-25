@@ -87,7 +87,8 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
     }
 
     fun clearNote(item: MUnitWord) = viewModelScope.launch {
-        langWordService.updateNote(item.id, SettingsViewModel.zeroNote)
+        item.note = SettingsViewModel.zeroNote
+        langWordService.updateNote(item.id, item.note)
     }
 
     fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) = viewModelScope.launch {
