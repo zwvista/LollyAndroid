@@ -50,12 +50,11 @@ class WordsLangViewModel : DrawerListViewModel(), KoinComponent {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getNote(item: MLangWord): Completable {
-        return vmSettings.getNote(item.word).flatMapCompletable {
+    fun getNote(item: MLangWord): Completable =
+        vmSettings.getNote(item.word).flatMapCompletable {
             item.note = it
-            langWordService.updateNote(item.id, it)
+            langWordService.updateNote(item.id, item.note)
         }
-    }
 
     fun clearNote(item: MLangWord): Completable {
         item.note = SettingsViewModel.zeroNote
