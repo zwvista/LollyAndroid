@@ -185,18 +185,24 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                         AlertDialog.Builder(itemView.context)
                             .setTitle(item.wordnote)
-                            .setItems(arrayOf("Delete", "Edit", "Retrieve Note", "Copy Word", "Google Word", "Cancel")) { _, which ->
+                            .setItems(arrayOf("Delete", "Edit", "Retrieve Note", "Clear Note", "Copy Word", "Google Word", "Cancel")) { _, which ->
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
                                     2 -> {
                                         val index = itemList.indexOf(item)
-                                        compositeDisposable.add(vm.getNote(index).subscribe {
+                                        compositeDisposable.add(vm.getNote(item).subscribe {
                                             mDragListView.adapter.notifyItemChanged(index)
                                         })
                                     }
-                                    3 -> itemView.copyText(item.word)
-                                    4 -> itemView.googleString(item.word)
+                                    3 -> {
+                                        val index = itemList.indexOf(item)
+                                        compositeDisposable.add(vm.getNote(item).subscribe {
+                                            mDragListView.adapter.notifyItemChanged(index)
+                                        })
+                                    }
+                                    4 -> itemView.copyText(item.word)
+                                    5 -> itemView.googleString(item.word)
                                     else -> {}
                                 }
                             }.show()

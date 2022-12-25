@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.services.wpp.LangWordService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.views.applyIO
 import com.zwstudio.lolly.views.vmSettings
 import io.reactivex.rxjava3.core.Completable
@@ -49,11 +50,15 @@ class WordsLangViewModel : DrawerListViewModel(), KoinComponent {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getNote(index: Int): Completable {
-        val item = lstWords[index]
+    fun getNote(item: MLangWord): Completable {
         return vmSettings.getNote(item.word).flatMapCompletable {
             item.note = it
             langWordService.updateNote(item.id, it)
         }
+    }
+
+    fun clearNote(item: MLangWord): Completable {
+        item.note = SettingsViewModel.zeroNote
+        return langWordService.updateNote(item.id, item.note)
     }
 }

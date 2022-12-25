@@ -56,11 +56,6 @@ class UnitWordService {
             .updateSeqNum(id, seqnum)
             .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
 
-    fun updateNote(id: Int, note: String?): Completable =
-        retrofitJson.create(RestUnitWord::class.java)
-            .updateNote(id, note)
-            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
-
     fun update(o: MUnitWord): Completable =
         retrofitSP.create(RestUnitWord::class.java)
             .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)

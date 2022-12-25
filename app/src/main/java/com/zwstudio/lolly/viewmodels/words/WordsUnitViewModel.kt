@@ -2,6 +2,7 @@ package com.zwstudio.lolly.viewmodels.words
 
 import androidx.lifecycle.MutableLiveData
 import com.zwstudio.lolly.models.wpp.MUnitWord
+import com.zwstudio.lolly.services.wpp.LangWordService
 import com.zwstudio.lolly.services.wpp.UnitWordService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
@@ -26,6 +27,7 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
     lateinit var compositeDisposable: CompositeDisposable
 
     private val unitWordService by inject<UnitWordService>()
+    private val langWordService by inject<LangWordService>()
 
     fun applyFilters() {
         lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
@@ -47,10 +49,6 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
 
     fun updateSeqNum(id: Int, seqnum: Int): Completable =
         unitWordService.updateSeqNum(id, seqnum)
-            .applyIO()
-
-    fun updateNote(id: Int, note: String?): Completable =
-        unitWordService.updateNote(id, note)
             .applyIO()
 
     fun update(item: MUnitWord): Completable =
@@ -88,27 +86,23 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         textbook = vmSettings.selectedTextbook
     }
 
-    fun getNote(index: Int): Completable {
-        val item = lstWords[index]
+    fun getNote(item: MUnitWord): Completable {
         return vmSettings.getNote(item.word).flatMapCompletable {
             item.note = it
-            unitWordService.updateNote(item.id, it)
+            langWordService.updateNote(item.id, item.note)
         }
     }
 
-    fun clearNote(index: Int): Completable {
-        val item = lstWords[index]
+    fun clearNote(item: MUnitWord): Completable {
         item.note = SettingsViewModel.zeroNote
-        return vmSettings.getNote(item.word).flatMapCompletable {
-            unitWordService.updateNote(item.id, it)
-        }
+        return langWordService.updateNote(item.wordid, item.note)
     }
 
     fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
         vmSettings.getNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
-            compositeDisposable.add(getNote(i).subscribe { oneComplete(i) })
+            compositeDisposable.add(getNote(lstWords[i]).subscribe { oneComplete(i) })
         }, allComplete = allComplete)
     }
 
@@ -116,7 +110,7 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         vmSettings.clearNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
-            compositeDisposable.add(clearNote(i).subscribe { oneComplete(i) })
+            compositeDisposable.add(clearNote(lstWords[i]).subscribe { oneComplete(i) })
         }, allComplete = allComplete)
     }
 }
