@@ -53,12 +53,6 @@ class UnitWordService {
             .let { Log.d("API Result", it.toString()) }
     }
 
-    suspend fun updateNote(id: Int, note: String?) = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestUnitWord::class.java)
-            .updateNote(id, note)
-            .let { Log.d("API Result", it.toString()) }
-    }
-
     suspend fun update(o: MUnitWord) = withContext(Dispatchers.IO) {
         retrofitSP.create(RestUnitWord::class.java)
             .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)

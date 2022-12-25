@@ -22,10 +22,6 @@ interface RestUnitWord {
     suspend fun updateSeqNum(@Path("id") id: Int, @Field("SEQNUM") seqnum: Int): Int
 
     @FormUrlEncoded
-    @PUT("UNITWORDS/{id}")
-    suspend fun updateNote(@Path("id") id: Int, @Field("NOTE") note: String?): Int
-
-    @FormUrlEncoded
     @POST("UNITWORDS_UPDATE")
     suspend fun update(@Field("P_ID") id: Int, @Field("P_LANGID") langid: Int,
                @Field("P_TEXTBOOKID") textbookid: Int,

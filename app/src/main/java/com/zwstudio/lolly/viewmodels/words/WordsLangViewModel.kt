@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.services.wpp.LangWordService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.views.vmSettings
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -48,9 +49,13 @@ class WordsLangViewModel : DrawerListViewModel(), KoinComponent {
         langid = vmSettings.selectedLang.id
     }
 
-    fun getNote(index: Int) = viewModelScope.launch {
-        val item = lstWords[index]
+    fun getNote(item: MLangWord) = viewModelScope.launch {
         item.note = vmSettings.getNote(item.word)
+        langWordService.updateNote(item.id, item.note)
+    }
+
+    fun clearNote(item: MLangWord) = viewModelScope.launch {
+        item.note = SettingsViewModel.zeroNote
         langWordService.updateNote(item.id, item.note)
     }
 }

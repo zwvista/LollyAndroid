@@ -3,6 +3,7 @@ package com.zwstudio.lolly.viewmodels.words
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.models.wpp.MUnitWord
+import com.zwstudio.lolly.services.wpp.LangWordService
 import com.zwstudio.lolly.services.wpp.UnitWordService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
@@ -23,6 +24,7 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
     private val unitWordService by inject<UnitWordService>()
+    private val langWordService by inject<LangWordService>()
 
     fun applyFilters() {
         lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
@@ -44,10 +46,6 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
 
     fun updateSeqNum(id: Int, seqnum: Int) = viewModelScope.launch {
         unitWordService.updateSeqNum(id, seqnum)
-    }
-
-    fun updateNote(id: Int, note: String?) = viewModelScope.launch {
-        unitWordService.updateNote(id, note)
     }
 
     fun update(item: MUnitWord) = viewModelScope.launch {
@@ -83,22 +81,20 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         textbook = vmSettings.selectedTextbook
     }
 
-    fun getNote(index: Int) = viewModelScope.launch {
-        val item = lstWords[index]
+    fun getNote(item: MUnitWord) = viewModelScope.launch {
         item.note = vmSettings.getNote(item.word)
-        unitWordService.updateNote(item.id, item.note)
+        langWordService.updateNote(item.id, item.note)
     }
 
-    fun clearNote(index: Int) = viewModelScope.launch {
-        val item = lstWords[index]
-        unitWordService.updateNote(item.id, SettingsViewModel.zeroNote)
+    fun clearNote(item: MUnitWord) = viewModelScope.launch {
+        langWordService.updateNote(item.id, SettingsViewModel.zeroNote)
     }
 
     fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) = viewModelScope.launch {
         vmSettings.getNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
-            getNote(i)
+            getNote(lstWords[i])
             oneComplete(i)
         }, allComplete = allComplete)
     }
@@ -107,7 +103,7 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         vmSettings.clearNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
-            clearNote(i)
+            clearNote(lstWords[i])
             oneComplete(i)
         }, allComplete = allComplete)
     }
