@@ -92,10 +92,8 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
             langWordService.updateNote(item.id, item.note)
         }
 
-    fun clearNote(item: MUnitWord): Completable {
-        item.note = SettingsViewModel.zeroNote
-        return langWordService.updateNote(item.wordid, item.note)
-    }
+    fun clearNote(item: MUnitWord): Completable =
+        langWordService.updateNote(item.wordid, SettingsViewModel.zeroNote)
 
     fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
         vmSettings.getNotes(lstWords.size, isNoteEmpty = {
