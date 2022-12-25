@@ -7,8 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +31,7 @@ import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.vmSettings
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class PhrasesUnitBatchEditFragment : Fragment() {
+class PhrasesUnitBatchEditFragment : Fragment(), MenuProvider {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
     val vmBatch by lazy { vita.with(VitaOwner.Single(this)).getViewModel<PhrasesUnitBatchEditViewModel>() }
@@ -41,12 +43,8 @@ class PhrasesUnitBatchEditFragment : Fragment() {
 
     val compositeDisposable = CompositeDisposable()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         vm.lstPhrases = args.list.toList()
         binding = FragmentPhrasesUnitBatchEditBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
@@ -93,11 +91,11 @@ class PhrasesUnitBatchEditFragment : Fragment() {
         mDragListView.setCustomDragItem(PhrasesUnitBatchDragItem(requireContext(), R.layout.list_item_phrases_unit_batch_edit))
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_save, menu)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_save, menu)
     }
 
-    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 if (binding.chkUnit.isChecked || binding.chkPart.isChecked || binding.chkSeqNum.isChecked) {

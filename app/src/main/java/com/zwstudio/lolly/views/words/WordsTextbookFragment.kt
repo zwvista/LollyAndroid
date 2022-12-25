@@ -8,6 +8,8 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.distinctUntilChanged
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -25,18 +27,14 @@ import com.zwstudio.lolly.views.databinding.FragmentWordsTextbookBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class WordsTextbookFragment : DrawerListFragment() {
+class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<FragmentWordsTextbookBinding>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentWordsTextbookBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
@@ -83,29 +81,28 @@ class WordsTextbookFragment : DrawerListFragment() {
         mDragListView.setAdapter(listAdapter, true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_words_textbook, menu)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_words_textbook, menu)
         setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
     }
 
-    fun setEditMode(item: MenuItem, isEditMode: Boolean) {
+    private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
-        item.isChecked = true
+        menuItem.isChecked = true
         refreshListView()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
+        when (menuItem.itemId) {
             R.id.menuNormalMode -> {
-                setEditMode(item,false)
+                setEditMode(menuItem, false)
                 true
             }
             R.id.menuEditMode -> {
-                setEditMode(item,true)
+                setEditMode(menuItem, true)
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> false
         }
 
     private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {

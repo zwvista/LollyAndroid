@@ -11,7 +11,9 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
@@ -28,18 +30,14 @@ import com.zwstudio.lolly.views.databinding.FragmentWordsUnitBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class WordsUnitFragment : DrawerListFragment() {
+class WordsUnitFragment : DrawerListFragment(), MenuProvider {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<FragmentWordsUnitBinding>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentWordsUnitBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
@@ -87,22 +85,21 @@ class WordsUnitFragment : DrawerListFragment() {
         mDragListView.setAdapter(listAdapter, true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_words_unit, menu)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_words_unit, menu)
         setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
     }
 
-    fun setEditMode(item: MenuItem, isEditMode: Boolean) {
+    private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
-        item.isChecked = true
+        menuItem.isChecked = true
         refreshListView()
     }
 
     fun menuAdd() =
         findNavController().navigate(WordsUnitFragmentDirections.actionWordsUnitFragmentToWordsUnitDetailFragment(vm.newUnitWord()))
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         fun getNotes(ifEmpty: Boolean) {
             val handler = Handler(Looper.getMainLooper())
             progressBar1.visibility = View.VISIBLE
@@ -123,13 +120,13 @@ class WordsUnitFragment : DrawerListFragment() {
                 }
             })
         }
-        return when (item.itemId) {
+        return when (menuItem.itemId) {
             R.id.menuNormalMode -> {
-                setEditMode(item,false)
+                setEditMode(menuItem, false)
                 true
             }
             R.id.menuEditMode -> {
-                setEditMode(item,true)
+                setEditMode(menuItem, true)
                 true
             }
             R.id.menuAdd -> {
@@ -156,7 +153,7 @@ class WordsUnitFragment : DrawerListFragment() {
                 findNavController().navigate(WordsUnitFragmentDirections.actionWordsUnitFragmentToWordsUnitBatchEditFragment(vm.lstWords.toTypedArray()))
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> false
         }
     }
 

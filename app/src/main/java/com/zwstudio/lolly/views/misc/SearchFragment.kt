@@ -3,7 +3,9 @@ package com.zwstudio.lolly.views.misc
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
@@ -14,19 +16,15 @@ import com.zwstudio.lolly.views.databinding.FragmentSearchBinding
 import com.zwstudio.lolly.views.vmSettings
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class SearchFragment : Fragment(), SettingsListener {
+class SearchFragment : Fragment(), SettingsListener, MenuProvider {
 
     val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel<SearchViewModel>() }
     var binding by autoCleared<FragmentSearchBinding>()
     var onlineDict by autoCleared<OnlineDict>()
     val compositeDisposable = CompositeDisposable()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
@@ -84,13 +82,12 @@ class SearchFragment : Fragment(), SettingsListener {
         super.onDestroyView()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_logout, menu)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_logout, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
+        when (menuItem.itemId) {
             R.id.menuLogout -> {
                 requireContext().getSharedPreferences("users", 0)
                     .edit()
@@ -99,7 +96,7 @@ class SearchFragment : Fragment(), SettingsListener {
                 findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToLoginFragment())
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> false
         }
 
     override fun onGetData() {
