@@ -4,7 +4,7 @@ buildscript {
     ext.nav_version = '2.6.0-alpha04'
     ext.retrofit_version = "2.9.0"
     ext.lifecycle_version = '2.6.0-alpha03'
-    ext.koin_version = '3.1.2'
+    ext.koin_version = '3.3.1'
     repositories {
         google()
         mavenCentral()
