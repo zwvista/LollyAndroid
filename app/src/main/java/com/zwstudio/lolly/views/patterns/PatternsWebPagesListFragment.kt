@@ -8,6 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
@@ -24,7 +26,7 @@ import com.zwstudio.lolly.views.misc.autoCleared
 
 private const val REQUEST_CODE = 1
 
-class PatternsWebPagesListFragment : DrawerListFragment() {
+class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
@@ -32,12 +34,8 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
     val args: PatternsWebPagesListFragmentArgs by navArgs()
     val item get() = args.item
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentPatternsWebpagesListBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
@@ -59,36 +57,35 @@ class PatternsWebPagesListFragment : DrawerListFragment() {
         mDragListView.setAdapter(listAdapter, true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_patterns_webpages_list, menu)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_patterns_webpages_list, menu)
         setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
     }
 
-    fun setEditMode(item: MenuItem, isEditMode: Boolean) {
+    private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
-        item.isChecked = true
+        menuItem.isChecked = true
         refreshListView()
     }
 
     fun menuAdd() =
         findNavController().navigate(PatternsWebPagesListFragmentDirections.actionPatternsWebPagesListFragmentToPatternsWebPagesDetailFragment(vm.newPatternWebPage(item.id, item.pattern)))
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
+        when (menuItem.itemId) {
             R.id.menuNormalMode -> {
-                setEditMode(item,false)
+                setEditMode(menuItem, false)
                 true
             }
             R.id.menuEditMode -> {
-                setEditMode(item,true)
+                setEditMode(menuItem, true)
                 true
             }
             R.id.menuAdd -> {
                 menuAdd()
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> false
         }
 
 //    @OnActivityResult(REQUEST_CODE)

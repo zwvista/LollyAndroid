@@ -2,8 +2,10 @@ package com.zwstudio.lolly.views.phrases
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -14,7 +16,7 @@ import com.zwstudio.lolly.views.databinding.FragmentPhrasesReviewBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.speak
 
-class PhrasesReviewFragment : Fragment() {
+class PhrasesReviewFragment : Fragment(), MenuProvider {
 
     val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel {
         PhrasesReviewViewModel {
@@ -25,12 +27,8 @@ class PhrasesReviewFragment : Fragment() {
     var binding by autoCleared<FragmentPhrasesReviewBinding>()
     var mAlreadyLoaded = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentPhrasesReviewBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
@@ -62,17 +60,16 @@ class PhrasesReviewFragment : Fragment() {
     private fun newTest() =
         findNavController().navigate(PhrasesReviewFragmentDirections.actionPhrasesReviewFragmentToReviewOptionsFragment(vm.options))
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu_new_test, menu)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_new_test, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
+        when (menuItem.itemId) {
             R.id.menuNewTest -> {
                 newTest()
                 true
             }
-            else -> super.onOptionsItemSelected(item)
+            else -> false
         }
 }

@@ -3,8 +3,10 @@ package com.zwstudio.lolly.views.words
 import android.os.Bundle
 import android.view.*
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
@@ -16,7 +18,7 @@ import com.zwstudio.lolly.views.databinding.FragmentWordsLangDetailBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.vmSettings
 
-class WordsLangDetailFragment : Fragment() {
+class WordsLangDetailFragment : Fragment(), MenuProvider {
 
     val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsLangViewModel>() }
     val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { WordsLangDetailViewModel(item) } }
@@ -24,12 +26,8 @@ class WordsLangDetailFragment : Fragment() {
     val args: WordsLangDetailFragmentArgs by navArgs()
     val item get() = args.item
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentWordsLangDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vmDetail
@@ -37,11 +35,11 @@ class WordsLangDetailFragment : Fragment() {
         return binding.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_save, menu)
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_save, menu)
     }
 
-    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean =
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vmDetail.save()
