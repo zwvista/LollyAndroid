@@ -177,10 +177,12 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var settingsListener: SettingsListener? = null
     fun getData() = viewModelScope.launch {
         busy = true
-        // TODO async
-        lstLanguages = languageService.getData()
-        lstUSMappings = usMappingService.getData()
-        lstUserSettings = userSettingService.getData()
+        val res1 = async { languageService.getData() }
+        val res2 = async { usMappingService.getData() }
+        val res3 = async { userSettingService.getData() }
+        lstLanguages = res1.await()
+        lstUSMappings = res2.await()
+        lstUserSettings = res3.await()
         INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
         selectedLangIndex = 0.coerceAtLeast(lstLanguages.indexOfFirst { it.id == uslang })
         settingsListener?.onGetData()
