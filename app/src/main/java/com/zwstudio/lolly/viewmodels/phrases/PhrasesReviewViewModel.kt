@@ -62,7 +62,7 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
         lstPhrases = listOf()
         lstCorrectIDs = mutableListOf()
         index = 0
-        subscriptionTimer?.dispose()
+        stopTimer()
         isSpeaking.value = options.speakingEnabled
         moveForward.value = options.moveForward
         moveForwardVisible.value = !isTestMode
@@ -153,11 +153,10 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
         if (hasCurrent)
             indexString.value = "${index + 1}/$count"
         else if (options.mode == ReviewMode.ReviewAuto)
-            subscriptionTimer?.dispose()
+            stopTimer()
     }
 
-    override fun onCleared() {
-        super.onCleared()
+    fun stopTimer() {
         subscriptionTimer?.dispose()
     }
 }

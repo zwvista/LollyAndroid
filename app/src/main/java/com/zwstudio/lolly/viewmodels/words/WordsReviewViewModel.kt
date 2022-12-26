@@ -73,7 +73,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         lstWords = listOf()
         lstCorrectIDs = mutableListOf()
         index = 0
-        subscriptionTimer?.dispose()
+        stopTimer()
         isSpeaking.value = options.speakingEnabled
         moveForward.value = options.moveForward
         moveForwardVisible.value = !isTestMode
@@ -203,11 +203,10 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
                     wordInputString.value = currentWord
             })
         } else if (options.mode == ReviewMode.ReviewAuto)
-            subscriptionTimer?.dispose()
+            stopTimer()
     }
 
-    override fun onCleared() {
-        super.onCleared()
+    fun stopTimer() {
         subscriptionTimer?.dispose()
     }
 }
