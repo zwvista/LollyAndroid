@@ -57,6 +57,11 @@ class PhrasesReviewFragment : Fragment(), MenuProvider {
         }
     }
 
+    override fun onDestroyView() {
+        vm.stopTimer()
+        super.onDestroyView()
+    }
+
     private fun newTest() =
         findNavController().navigate(PhrasesReviewFragmentDirections.actionPhrasesReviewFragmentToReviewOptionsFragment(vm.options))
 
