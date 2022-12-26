@@ -253,13 +253,17 @@ class WordsUnitFragment : DrawerListFragment(), MenuProvider {
                                     1 -> edit(item)
                                     2 -> {
                                         val index = itemList.indexOf(item)
-                                        vm.getNote(item)
-                                        mDragListView.adapter.notifyItemChanged(index)
+                                        vm.viewModelScope.launch {
+                                            vm.getNote(item)
+                                            mDragListView.adapter.notifyItemChanged(index)
+                                        }
                                     }
                                     3 -> {
                                         val index = itemList.indexOf(item)
-                                        vm.clearNote(item)
-                                        mDragListView.adapter.notifyItemChanged(index)
+                                        vm.viewModelScope.launch {
+                                            vm.clearNote(item)
+                                            mDragListView.adapter.notifyItemChanged(index)
+                                        }
                                     }
                                     4 -> itemView.copyText(item.word)
                                     5 -> itemView.googleString(item.word)

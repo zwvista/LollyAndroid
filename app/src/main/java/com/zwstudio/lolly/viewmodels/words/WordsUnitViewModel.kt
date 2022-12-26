@@ -44,7 +44,7 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         applyFilters()
     }
 
-    fun updateSeqNum(id: Int, seqnum: Int) = viewModelScope.launch {
+    suspend fun updateSeqNum(id: Int, seqnum: Int) {
         unitWordService.updateSeqNum(id, seqnum)
     }
 
@@ -60,13 +60,15 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         unitWordService.delete(item)
     }
 
-    override fun reindex(onNext: (Int) -> Unit) = viewModelScope.launch {
+    override fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstWords.size) {
             val item = lstWords[i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
-            updateSeqNum(item.id, i)
-            onNext(i - 1)
+            viewModelScope.launch {
+                updateSeqNum(item.id, i)
+                onNext(i - 1)
+            }
         }
     }
 
@@ -81,12 +83,12 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         textbook = vmSettings.selectedTextbook
     }
 
-    fun getNote(item: MUnitWord) = viewModelScope.launch {
+    suspend fun getNote(item: MUnitWord) {
         item.note = vmSettings.getNote(item.word)
         langWordService.updateNote(item.id, item.note)
     }
 
-    fun clearNote(item: MUnitWord) = viewModelScope.launch {
+    suspend fun clearNote(item: MUnitWord) {
         item.note = SettingsViewModel.zeroNote
         langWordService.updateNote(item.id, item.note)
     }
@@ -95,8 +97,10 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         vmSettings.getNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
-            getNote(lstWords[i])
-            oneComplete(i)
+            viewModelScope.launch {
+                getNote(lstWords[i])
+                oneComplete(i)
+            }
         }, allComplete = allComplete)
     }
 
@@ -104,8 +108,10 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         vmSettings.clearNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
-            clearNote(lstWords[i])
-            oneComplete(i)
+            viewModelScope.launch {
+                clearNote(lstWords[i])
+                oneComplete(i)
+            }
         }, allComplete = allComplete)
     }
 }

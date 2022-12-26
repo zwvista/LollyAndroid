@@ -41,7 +41,7 @@ class PhrasesUnitViewModel : DrawerListViewModel(), KoinComponent {
         applyFilters()
     }
 
-    fun updateSeqNum(id: Int, seqnum: Int) = viewModelScope.launch {
+    suspend fun updateSeqNum(id: Int, seqnum: Int) {
         unitPhraseService.updateSeqNum(id, seqnum)
     }
 
@@ -57,13 +57,15 @@ class PhrasesUnitViewModel : DrawerListViewModel(), KoinComponent {
         unitPhraseService.delete(item)
     }
 
-    override fun reindex(onNext: (Int) -> Unit) = viewModelScope.launch {
+    override fun reindex(onNext: (Int) -> Unit) {
         for (i in 1..lstPhrases.size) {
             val item = lstPhrases[i - 1]
             if (item.seqnum == i) continue
             item.seqnum = i
-            updateSeqNum(item.id, i)
-            onNext(i - 1)
+            viewModelScope.launch {
+                updateSeqNum(item.id, i)
+                onNext(i - 1)
+            }
         }
     }
 
