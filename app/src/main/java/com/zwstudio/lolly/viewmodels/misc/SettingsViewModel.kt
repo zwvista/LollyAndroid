@@ -8,10 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
 import com.zwstudio.lolly.views.tts
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
@@ -202,22 +199,33 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
         INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
         INFO_USVOICE = getUSInfo(MUSMapping.NAME_USVOICE)
-        // TODO async
-        lstDictsReference = dictionaryService.getDictsReferenceByLang(uslang)
-        lstDictsNote = dictionaryService.getDictsNoteByLang(uslang)
-        lstDictsTranslation = dictionaryService.getDictsTranslationByLang(uslang)
-        lstTextbooks = textbookService.getDataByLang(uslang)
+        val res1 = async { dictionaryService.getDictsReferenceByLang(uslang) }
+        val res2 = async { dictionaryService.getDictsNoteByLang(uslang) }
+        val res3 = async { dictionaryService.getDictsTranslationByLang(uslang) }
+        val res4 = async { textbookService.getDataByLang(uslang) }
+        val res5 = async { autoCorrectService.getDataByLang(uslang) }
+        val res6 = async { voiceService.getDataByLang(uslang) }
+        val res7 = async { if (dirty) userSettingService.update(INFO_USLANG, uslang) }
+        lstDictsReference = res1.await()
+        lstDictsNote = res2.await()
+        lstDictsTranslation = res3.await()
+        lstTextbooks = res4.await()
         lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
-        lstAutoCorrect = autoCorrectService.getDataByLang(uslang)
-        lstVoices = voiceService.getDataByLang(uslang)
-        if (dirty) userSettingService.update(INFO_USLANG, uslang)
+        lstAutoCorrect = res5.await()
+        lstVoices = res6.await()
+        res7.await()
         selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
         selectedDictReferenceIndex = 0.coerceAtLeast(lstDictsReference.indexOfFirst { it.dictid.toString() == usdictreference })
         selectedDictNoteIndex = 0.coerceAtLeast(lstDictsNote.indexOfFirst { it.dictid == usdictnote })
         selectedDictTranslationIndex = 0.coerceAtLeast(lstDictsTranslation.indexOfFirst { it.dictid == usdicttranslation })
         selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
         settingsListener?.onUpdateLang()
-        updateVoice(); updateDictReference(); updateDictNote(); updateDictTranslation(); updateTextbook()
+        val res8 = async { updateVoice() }
+        val res9 = async { updateDictReference() }
+        val res10 = async { updateDictNote() }
+        val res11 = async { updateDictTranslation() }
+        val res12 = async { updateTextbook() }
+        res8.await(); res9.await(); res10.await(); res11.await(); res12.await()
         busy = false
     }
 
@@ -310,9 +318,9 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     fun toggleUnitPart(part: Int) = viewModelScope.launch {
         if (toType == UnitPartToType.Unit) {
             toType = UnitPartToType.Part
-            // TODO async
-            doUpdatePartFrom(part)
-            doUpdateUnitPartTo()
+            val res1 = async { doUpdatePartFrom(part) }
+            val res2 = async { doUpdateUnitPartTo() }
+            res1.await(); res2.await()
         } else if (toType == UnitPartToType.Part) {
             toType = UnitPartToType.Unit
             doUpdateSingleUnit()
@@ -322,38 +330,38 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     fun previousUnitPart() = viewModelScope.launch {
         if (toType == UnitPartToType.Unit) {
             if (usunitfrom > 1) {
-                // TODO async
-                doUpdateUnitFrom(usunitfrom - 1)
-                doUpdateUnitTo(usunitfrom)
+                val res1 = async { doUpdateUnitFrom(usunitfrom - 1) }
+                val res2 = async { doUpdateUnitTo(usunitfrom) }
+                res1.await(); res2.await()
             }
         } else if (uspartfrom > 1) {
-            // TODO async
-            doUpdatePartFrom(uspartfrom - 1)
-            doUpdateUnitPartTo()
+            val res1 = async { doUpdatePartFrom(uspartfrom - 1) }
+            val res2 = async { doUpdateUnitPartTo() }
+            res1.await(); res2.await()
         } else if (usunitfrom > 1) {
-            // TODO async
-            doUpdateUnitFrom(usunitfrom - 1)
-            doUpdatePartFrom(partCount)
-            doUpdateUnitPartTo()
+            val res1 = async { doUpdateUnitFrom(usunitfrom - 1) }
+            val res2 = async { doUpdatePartFrom(partCount) }
+            val res3 = async { doUpdateUnitPartTo() }
+            res1.await(); res2.await(); res3.await()
         }
     }
 
     fun nextUnitPart() = viewModelScope.launch {
         if (toType == UnitPartToType.Unit) {
-            // TODO async
             if (usunitfrom < unitCount) {
-                doUpdateUnitFrom(usunitfrom + 1)
-                doUpdateUnitTo(usunitfrom)
+                val res1 = async { doUpdateUnitFrom(usunitfrom + 1) }
+                val res2 = async { doUpdateUnitTo(usunitfrom) }
+                res1.await(); res2.await()
             }
         } else if (uspartfrom < partCount) {
-            // TODO async
-            doUpdatePartFrom(uspartfrom + 1)
-            doUpdateUnitPartTo()
+            val res1 = async { doUpdatePartFrom(uspartfrom + 1) }
+            val res2 = async { doUpdateUnitPartTo() }
+            res1.await(); res2.await()
         } else if (usunitfrom < unitCount) {
-            // TODO async
-            doUpdateUnitFrom(usunitfrom + 1)
-            doUpdatePartFrom(1)
-            doUpdateUnitPartTo()
+            val res1 = async { doUpdateUnitFrom(usunitfrom + 1) }
+            val res2 = async { doUpdatePartFrom(1) }
+            val res3 = async { doUpdateUnitPartTo() }
+            res1.await(); res2.await(); res3.await()
         }
     }
 
@@ -370,22 +378,28 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     }
 
     private suspend fun doUpdateUnitPartFrom() {
-        // TODO async
-        doUpdateUnitFrom(usunitto)
-        doUpdatePartFrom(uspartto)
+        coroutineScope {
+            val res1 = async { doUpdateUnitFrom(usunitto) }
+            val res2 = async { doUpdatePartFrom(uspartto) }
+            res1.await(); res2.await()
+        }
     }
 
     private suspend fun doUpdateUnitPartTo() {
-        // TODO async
-        doUpdateUnitTo(usunitfrom)
-        doUpdatePartTo(uspartfrom)
+        coroutineScope {
+            val res1 = async { doUpdateUnitTo(usunitfrom) }
+            val res2 = async { doUpdatePartTo(uspartfrom) }
+            res1.await(); res2.await()
+        }
     }
 
     private suspend fun doUpdateSingleUnit() {
-        // TODO async
-        doUpdateUnitTo(usunitfrom)
-        doUpdatePartFrom(1)
-        doUpdatePartTo(partCount)
+        coroutineScope {
+            val res1 = async { doUpdateUnitTo(usunitfrom) }
+            val res2 = async { doUpdatePartFrom(1) }
+            val res3 = async { doUpdatePartTo(partCount) }
+            res1.await(); res2.await(); res3.await()
+        }
     }
 
     private suspend fun doUpdateUnitFrom(v: Int) {
@@ -445,7 +459,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         allComplete()
     }
 
-    suspend fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+    fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
         var i = 0
         while (i < wordCount) {
             while (i < wordCount && !isNoteEmpty(i))
