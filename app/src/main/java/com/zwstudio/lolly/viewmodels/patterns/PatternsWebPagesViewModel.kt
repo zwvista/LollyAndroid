@@ -14,6 +14,7 @@ class PatternsWebPagesViewModel : DrawerListViewModel(), KoinComponent {
 
     var lstWebPages_ = MutableLiveData(mutableListOf<MPatternWebPage>())
     var lstWebPages get() = lstWebPages_.value!!; set(v) { lstWebPages_.value = v }
+    fun getWebPageText(position: Int) = "${position + 1}/${lstWebPages.size} ${lstWebPages[position].title}"
 
     private val patternWebPageService by inject<PatternWebPageService>()
     private val webPageService by inject<WebPageService>()
