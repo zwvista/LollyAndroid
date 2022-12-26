@@ -1,15 +1,18 @@
 package com.zwstudio.lolly.views.patterns
 
+import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebViewClient
 import android.widget.AdapterView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
+import com.zwstudio.lolly.viewmodels.misc.makeAdapter
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesBrowseBinding
 import com.zwstudio.lolly.views.misc.autoCleared
@@ -36,6 +39,7 @@ class PatternsWebPagesBrowseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.webView.webViewClient = WebViewClient()
         binding.spnWebPages.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 binding.webView.loadUrl(vm.lstWebPages[position].url)
@@ -45,7 +49,13 @@ class PatternsWebPagesBrowseFragment : Fragment() {
         }
 
         compositeDisposable.add(vm.getWebPages(item.id).subscribeBy {
-            binding.spnWebPages.adapter = makeCustomAdapter(requireContext(), vm.lstWebPages) { it.title }
+            binding.spnWebPages.adapter = makeAdapter(requireContext(), R.layout.simple_spinner_item, 0, vm.lstWebPages) { v, position ->
+                val tv = v.findViewById<TextView>(R.id.text1)
+                tv.text = vm.getWebPageText(position)
+                v
+            }.apply {
+                setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
+            }
             binding.spnWebPages.setSelection(0)
         })
     }

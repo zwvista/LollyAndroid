@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.views.misc
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -31,6 +32,7 @@ class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict, val compositeDis
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     fun initWebViewClient() {
         wv.settings.javaScriptEnabled = true // enable javascript
         // http://stackoverflow.com/questions/7746409/android-webview-launches-browser-when-calling-loadurl
