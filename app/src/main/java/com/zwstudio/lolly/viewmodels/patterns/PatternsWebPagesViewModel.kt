@@ -19,7 +19,7 @@ class PatternsWebPagesViewModel : DrawerListViewModel(), KoinComponent {
     private val patternWebPageService by inject<PatternWebPageService>()
     private val webPageService by inject<WebPageService>()
 
-    fun getWebPages(patternid: Int) = viewModelScope.launch {
+    suspend fun getWebPages(patternid: Int) {
         val lst = patternWebPageService.getDataByPattern(patternid)
         lstWebPages.clear(); lstWebPages.addAll(lst)
     }

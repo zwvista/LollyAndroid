@@ -9,6 +9,7 @@ import android.webkit.WebViewClient
 import android.widget.AdapterView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
@@ -16,6 +17,7 @@ import com.zwstudio.lolly.viewmodels.misc.makeAdapter
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesBrowseBinding
 import com.zwstudio.lolly.views.misc.autoCleared
+import kotlinx.coroutines.launch
 
 class PatternsWebPagesBrowseFragment : Fragment() {
 
@@ -44,14 +46,16 @@ class PatternsWebPagesBrowseFragment : Fragment() {
             }
         }
 
-        vm.getWebPages(item.id)
-        binding.spnWebPages.adapter = makeAdapter(requireContext(), R.layout.simple_spinner_item, 0, vm.lstWebPages) { v, position ->
-            val tv = v.findViewById<TextView>(R.id.text1)
-            tv.text = vm.getWebPageText(position)
-            v
-        }.apply {
-            setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
+        vm.viewModelScope.launch {
+            vm.getWebPages(item.id)
+            binding.spnWebPages.adapter = makeAdapter(requireContext(), R.layout.simple_spinner_item, 0, vm.lstWebPages) { v, position ->
+                val tv = v.findViewById<TextView>(R.id.text1)
+                tv.text = vm.getWebPageText(position)
+                v
+            }.apply {
+                setDropDownViewResource(android.R.layout.simple_list_item_single_choice)
+            }
+            binding.spnWebPages.setSelection(0)
         }
-        binding.spnWebPages.setSelection(0)
     }
 }
