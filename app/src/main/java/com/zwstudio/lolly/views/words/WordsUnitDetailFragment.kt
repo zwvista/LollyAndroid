@@ -55,6 +55,6 @@ class WordsUnitDetailFragment : Fragment(), MenuProvider {
                 findNavController().navigateUp()
                 true
             }
-            else -> super.onOptionsItemSelected(menuItem)
+            else -> false
         }
 }
