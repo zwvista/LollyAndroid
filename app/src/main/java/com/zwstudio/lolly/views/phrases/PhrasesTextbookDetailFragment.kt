@@ -11,13 +11,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
+import com.zwstudio.lolly.services.misc.vmSettings
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentPhrasesTextbookDetailBinding
 import com.zwstudio.lolly.views.misc.autoCleared
-import com.zwstudio.lolly.views.vmSettings
+import com.zwstudio.lolly.views.misc.makeCustomAdapter
 
 class PhrasesTextbookDetailFragment : Fragment(), MenuProvider {
 

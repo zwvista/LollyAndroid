@@ -13,10 +13,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.viewmodels.misc.makeAdapter
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesBrowseBinding
 import com.zwstudio.lolly.views.misc.autoCleared
+import com.zwstudio.lolly.views.misc.makeAdapter
 import kotlinx.coroutines.launch
 
 class PatternsWebPagesBrowseFragment : Fragment() {

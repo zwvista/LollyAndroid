@@ -13,7 +13,6 @@ import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentReviewOptionsBinding
 
@@ -50,6 +49,6 @@ class ReviewOptionsFragment : Fragment(), MenuProvider {
                 findNavController().navigateUp()
                 true
             }
-            else -> super.onOptionsItemSelected(menuItem)
+            else -> false
         }
 }

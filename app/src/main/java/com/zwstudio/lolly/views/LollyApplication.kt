@@ -107,12 +107,3 @@ class LollySwipeRefreshLayout : SwipeRefreshLayout {
         mScrollingView = scrollingView
     }
 }
-
-lateinit var retrofitJson: Retrofit
-lateinit var retrofitSP: Retrofit
-lateinit var retrofitHtml: Retrofit
-lateinit var vmSettings: SettingsViewModel
-lateinit var tts: TextToSpeech
-
-fun speak(text: String) =
-    tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
