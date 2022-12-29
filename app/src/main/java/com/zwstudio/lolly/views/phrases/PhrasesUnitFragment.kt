@@ -20,8 +20,9 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
+import com.zwstudio.lolly.common.speak
+import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
-import com.zwstudio.lolly.speak
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
@@ -31,7 +32,6 @@ import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.misc.copyText
 import com.zwstudio.lolly.views.misc.googleString
 import com.zwstudio.lolly.views.misc.makeCustomAdapter
-import com.zwstudio.lolly.vmSettings
 import kotlinx.coroutines.launch
 
 class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {

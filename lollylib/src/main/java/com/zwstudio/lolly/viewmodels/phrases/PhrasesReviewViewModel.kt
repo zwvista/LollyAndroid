@@ -5,11 +5,11 @@ import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
-import com.zwstudio.lolly.vmSettings
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.schedule

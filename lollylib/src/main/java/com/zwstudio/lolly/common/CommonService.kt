@@ -1,4 +1,4 @@
-package com.zwstudio.lolly
+package com.zwstudio.lolly.common
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
