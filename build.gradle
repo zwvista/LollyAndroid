@@ -1,10 +1,12 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = '1.7.20'
-    ext.nav_version = '2.6.0-alpha04'
-    ext.retrofit_version = "2.9.0"
-    ext.lifecycle_version = '2.6.0-alpha03'
-    ext.koin_version = '3.3.1'
+    ext {
+        kotlin_version = '1.7.20'
+        nav_version = '2.6.0-alpha04'
+        retrofit_version = "2.9.0"
+        lifecycle_version = '2.6.0-alpha03'
+        koin_version = '3.3.2'
+    }
     repositories {
         google()
         mavenCentral()
