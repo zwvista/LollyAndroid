@@ -9,11 +9,10 @@ import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 import kotlin.math.floor
 
-class MUnitWords {
-
+data class MUnitWords(
     @SerializedName("records")
     var lst: List<MUnitWord>? = null
-}
+)
 
 @Parcelize
 data class MUnitWord(

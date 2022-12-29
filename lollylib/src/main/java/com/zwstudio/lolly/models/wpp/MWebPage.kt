@@ -3,18 +3,16 @@ package com.zwstudio.lolly.models.wpp
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MWebPages {
-
+data class MWebPages(
     @SerializedName("records")
     var lst: List<MWebPage>? = null
-}
+)
 
-class MWebPage : Serializable {
-
+data class MWebPage(
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("TITLE")
-    var title = ""
+    var title: String = "",
     @SerializedName("URL")
-    var url = ""
-}
+    var url: String = "",
+) : Serializable {}
