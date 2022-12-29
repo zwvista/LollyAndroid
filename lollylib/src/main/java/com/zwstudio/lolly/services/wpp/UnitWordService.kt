@@ -4,10 +4,10 @@ import android.util.Log
 import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.restapi.wpp.RestUnitWord
-import com.zwstudio.lolly.services.misc.retrofitJson
-import com.zwstudio.lolly.services.misc.retrofitSP
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import com.zwstudio.lolly.retrofitJson
+import com.zwstudio.lolly.retrofitSP
 
 class UnitWordService {
     fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Single<List<MUnitWord>> =

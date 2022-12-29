@@ -1,17 +1,17 @@
 package com.zwstudio.lolly.services.wpp
 
 import android.util.Log
+import com.zwstudio.lolly.GlobalUser
 import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
-import com.zwstudio.lolly.services.misc.Global
-import com.zwstudio.lolly.services.misc.retrofitJson
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import com.zwstudio.lolly.retrofitJson
 
 class WordFamiService {
     private fun getDataByWord(wordid: Int): Single<List<MWordFami>> =
         retrofitJson.create(RestWordFami::class.java)
-            .getDataByUserWord("USERID,eq,${Global.userid}", "WORDID,eq,$wordid")
+            .getDataByUserWord("USERID,eq,${GlobalUser.userid}", "WORDID,eq,$wordid")
             .map { it.lst!! }
 
     private fun update(o: MWordFami): Completable =
@@ -33,7 +33,7 @@ class WordFamiService {
         getDataByWord(wordid).flatMap { lst ->
             val d = if (isCorrect) 1 else 0
             val item = MWordFami().apply {
-                userid = Global.userid
+                userid = GlobalUser.userid
                 this.wordid = wordid
             }
             if (lst.isEmpty()) {

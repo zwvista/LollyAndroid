@@ -22,8 +22,7 @@ import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.models.wpp.MUnitWord
-import com.zwstudio.lolly.services.misc.speak
-import com.zwstudio.lolly.services.misc.vmSettings
+import com.zwstudio.lolly.speak
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.*
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
@@ -31,6 +30,7 @@ import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentWordsUnitBinding
 import com.zwstudio.lolly.views.misc.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import com.zwstudio.lolly.vmSettings
 
 class WordsUnitFragment : DrawerListFragment(), MenuProvider {
 

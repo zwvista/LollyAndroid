@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.distinctUntilChanged
-import com.zwstudio.lolly.services.misc.vmSettings
 import com.zwstudio.lolly.viewmodels.misc.SettingsListener
 import com.zwstudio.lolly.views.databinding.FragmentSettingsBinding
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import com.zwstudio.lolly.vmSettings
 
 class SettingsFragment : Fragment(), SettingsListener {
 

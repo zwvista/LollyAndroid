@@ -3,10 +3,10 @@ package com.zwstudio.lolly.services.wpp
 import android.util.Log
 import com.zwstudio.lolly.models.wpp.MLangPhrase
 import com.zwstudio.lolly.restapi.wpp.RestLangPhrase
-import com.zwstudio.lolly.services.misc.retrofitJson
-import com.zwstudio.lolly.services.misc.retrofitSP
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import com.zwstudio.lolly.retrofitJson
+import com.zwstudio.lolly.retrofitSP
 
 class LangPhraseService {
     fun getDataByLang(langid: Int): Single<List<MLangPhrase>> =

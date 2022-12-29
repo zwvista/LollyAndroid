@@ -4,6 +4,7 @@ import com.zwstudio.lolly.models.misc.MSelectItem
 import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.restapi.misc.RestTextbook
 import io.reactivex.rxjava3.core.Single
+import com.zwstudio.lolly.retrofitJson
 
 class TextbookService {
     fun getDataByLang(langid: Int): Single<List<MTextbook>> {

@@ -2,8 +2,8 @@ package com.zwstudio.lolly.viewmodels.misc
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.zwstudio.lolly.applyIO
 import com.zwstudio.lolly.services.misc.UserService
-import com.zwstudio.lolly.services.misc.applyIO
 import io.reactivex.rxjava3.core.Single
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

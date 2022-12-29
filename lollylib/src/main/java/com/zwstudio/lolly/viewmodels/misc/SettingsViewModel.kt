@@ -4,6 +4,7 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.zwstudio.lolly.applyIO
 import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
 import io.reactivex.rxjava3.core.Completable
@@ -12,10 +13,15 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import com.zwstudio.lolly.tts
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
 import java.util.concurrent.TimeUnit
+
+enum class UnitPartToType {
+    Unit, Part, To
+}
 
 class SettingsViewModel : ViewModel(), KoinComponent {
 
