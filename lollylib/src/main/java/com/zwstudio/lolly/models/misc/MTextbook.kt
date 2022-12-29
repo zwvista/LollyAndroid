@@ -5,25 +5,23 @@ package com.zwstudio.lolly.models.misc
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MTextbooks {
-
+data class MTextbooks(
     @SerializedName("records")
     var lst: List<MTextbook>? = null
-}
+)
 
-class MTextbook : Serializable {
-
+data class MTextbook(
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("LANGID")
-    var langid = 0
+    var langid: Int = 0,
     @SerializedName("NAME")
-    var textbookname = ""
+    var textbookname: String = "",
     @SerializedName("UNITS")
-    var units = ""
+    var units: String = "",
     @SerializedName("PARTS")
-    var parts = ""
-
+    var parts: String = "",
+) : Serializable {
     lateinit var lstUnits: List<MSelectItem>
     fun unitstr(unit: Int) = lstUnits.first { it.value == unit }.label
     lateinit var lstParts: List<MSelectItem>

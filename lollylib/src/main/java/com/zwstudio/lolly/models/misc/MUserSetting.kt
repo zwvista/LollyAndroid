@@ -3,30 +3,29 @@ package com.zwstudio.lolly.models.misc
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MUserSettings {
-
+data class MUserSettings(
     @SerializedName("records")
     var lst: List<MUserSetting>? = null
-}
+)
 
-class MUserSetting : Serializable {
+data class MUserSetting(
 
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("USERID")
-    var userid = ""
+    var userid: String = "",
     @SerializedName("KIND")
-    var kind = 0
+    var kind: Int = 0,
     @SerializedName("ENTITYID")
-    var entityid = 0
+    var entityid: Int = 0,
     @SerializedName("VALUE1")
-    var value1: String? = null
+    var value1: String? = null,
     @SerializedName("VALUE2")
-    var value2: String? = null
+    var value2: String? = null,
     @SerializedName("VALUE3")
-    var value3: String? = null
+    var value3: String? = null,
     @SerializedName("VALUE4")
-    var value4: String? = null
-}
+    var value4: String? = null,
+) : Serializable {}
 
 class MUserSettingInfo(var usersettingid: Int = 0, var valueid: Int = 0)

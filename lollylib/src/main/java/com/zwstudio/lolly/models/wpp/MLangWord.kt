@@ -6,29 +6,27 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import kotlin.math.floor
 
-class MLangWords {
-
+data class MLangWords(
     @SerializedName("records")
     var lst: List<MLangWord>? = null
-}
+)
 
-class MLangWord : Serializable {
-
+data class MLangWord(
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("LANGID")
-    var langid = 0
+    var langid: Int = 0,
     @SerializedName("WORD")
-    var word = ""
+    var word: String = "",
     @SerializedName("NOTE")
-    var note = ""
+    var note: String = "",
     @SerializedName("FAMIID")
-    var famiid = 0
+    var famiid: Int = 0,
     @SerializedName("CORRECT")
-    var correct = 0
+    var correct: Int = 0,
     @SerializedName("TOTAL")
-    var total = 0
-
+    var total: Int = 0,
+) : Serializable {
     val wordnote: String
         get() = "$word($note)"
     val accuracy: String

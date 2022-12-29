@@ -3,20 +3,18 @@ package com.zwstudio.lolly.models.misc
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MUsers {
-
+data class MUsers(
     @SerializedName("records")
     var lst: List<MUser>? = null
-}
+)
 
-class MUser : Serializable {
-
+data class MUser(
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("USERID")
-    var userid = ""
+    var userid: String = "",
     @SerializedName("USERNAME")
-    var username = ""
+    var username: String = "",
     @SerializedName("PASSWORD")
-    var password = ""
-}
+    var password: String = "",
+) : Serializable {}

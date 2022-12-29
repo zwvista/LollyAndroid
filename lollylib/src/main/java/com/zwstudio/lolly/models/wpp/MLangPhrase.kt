@@ -3,20 +3,18 @@ package com.zwstudio.lolly.models.wpp
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MLangPhrases {
-
+data class MLangPhrases(
     @SerializedName("records")
     var lst: List<MLangPhrase>? = null
-}
+)
 
-class MLangPhrase : Serializable {
-
+data class MLangPhrase(
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("LANGID")
-    var langid = 0
+    var langid: Int = 0,
     @SerializedName("PHRASE")
-    var phrase = ""
+    var phrase: String = "",
     @SerializedName("TRANSLATION")
-    var translation = ""
-}
+    var translation: String = "",
+) : Serializable {}

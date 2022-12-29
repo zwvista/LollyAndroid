@@ -3,16 +3,14 @@ package com.zwstudio.lolly.models.misc
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MLanguages {
-
+data class MLanguages(
     @SerializedName("records")
     var lst: List<MLanguage>? = null
-}
+)
 
-class MLanguage : Serializable {
-
+data class MLanguage(
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("NAME")
-    var langname = ""
-}
+    var langname: String = "",
+) : Serializable {}

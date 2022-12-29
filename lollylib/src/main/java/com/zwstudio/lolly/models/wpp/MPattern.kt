@@ -3,29 +3,27 @@ package com.zwstudio.lolly.models.wpp
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MPatterns {
-
+data class MPatterns(
     @SerializedName("records")
     var lst: List<MPattern>? = null
-}
+)
 
-class MPattern : Serializable {
-
+data class MPattern(
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("LANGID")
-    var langid = 0
+    var langid: Int = 0,
     @SerializedName("PATTERN")
-    var pattern = ""
+    var pattern: String = "",
     @SerializedName("NOTE")
-    var note = ""
+    var note: String = "",
     @SerializedName("TAGS")
-    var tags = ""
+    var tags: String = "",
     @SerializedName("IDS_MERGE")
-    var idsMerge = ""
+    var idsMerge: String = "",
     @SerializedName("PATTERNS_SPLIT")
-    var patternsSplit = ""
-}
+    var patternsSplit: String = "",
+) : Serializable {}
 
 class MPatternVariation {
     var index = 0

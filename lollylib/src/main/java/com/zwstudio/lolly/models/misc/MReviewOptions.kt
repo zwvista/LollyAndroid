@@ -13,14 +13,14 @@ enum class ReviewMode {
     }
 }
 
-class MReviewOptions : Serializable {
-    var mode = ReviewMode.ReviewAuto
-    var shuffled = false
-    var interval = 5
-    var groupSelected = 1
-    var groupCount = 1
-    var speakingEnabled = true
-    var reviewCount = 10
-    var onRepeat = true
-    var moveForward = true
-}
+data class MReviewOptions(
+    var mode: ReviewMode = ReviewMode.ReviewAuto,
+    var shuffled: Boolean = false,
+    var interval: Int = 5,
+    var groupSelected: Int = 1,
+    var groupCount: Int = 1,
+    var speakingEnabled: Boolean = true,
+    var reviewCount: Int = 10,
+    var onRepeat: Boolean = true,
+    var moveForward: Boolean = true,
+) : Serializable {}

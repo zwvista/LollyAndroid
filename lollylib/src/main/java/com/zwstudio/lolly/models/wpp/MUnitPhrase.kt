@@ -7,10 +7,10 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
-class MUnitPhrases {
+data class MUnitPhrases(
     @SerializedName("records")
     var lst: List<MUnitPhrase>? = null
-}
+)
 
 @Parcelize
 data class MUnitPhrase(
