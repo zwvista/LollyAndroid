@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.zwstudio.lolly.services.misc.tts
+import com.zwstudio.lolly.common.tts
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 import com.zwstudio.lolly.views.Drawer
 import com.zwstudio.lolly.views.DrawerScreens
