@@ -17,15 +17,16 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.models.wpp.MLangWord
+import com.zwstudio.lolly.services.misc.speak
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import com.zwstudio.lolly.viewmodels.misc.copyText
-import com.zwstudio.lolly.viewmodels.misc.googleString
-import com.zwstudio.lolly.viewmodels.misc.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
 import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentWordsLangBinding
 import com.zwstudio.lolly.views.misc.autoCleared
+import com.zwstudio.lolly.views.misc.copyText
+import com.zwstudio.lolly.views.misc.googleString
+import com.zwstudio.lolly.views.misc.makeCustomAdapter
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class WordsLangFragment : DrawerListFragment(), MenuProvider {

@@ -5,14 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.viewmodels.misc.Global
+import com.zwstudio.lolly.services.misc.Global
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
-import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentLoginBinding
 import io.reactivex.rxjava3.kotlin.subscribeBy
 

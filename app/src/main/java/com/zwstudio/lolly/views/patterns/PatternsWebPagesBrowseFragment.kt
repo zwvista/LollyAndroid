@@ -12,10 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.viewmodels.misc.makeAdapter
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesBrowseBinding
 import com.zwstudio.lolly.views.misc.autoCleared
+import com.zwstudio.lolly.views.misc.makeAdapter
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 

@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
-import android.speech.tts.TextToSpeech
 import android.util.AttributeSet
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -117,24 +116,3 @@ class LollySwipeRefreshLayout : SwipeRefreshLayout {
         mScrollingView = scrollingView
     }
 }
-
-lateinit var retrofitJson: Retrofit
-lateinit var retrofitSP: Retrofit
-lateinit var retrofitHtml: Retrofit
-lateinit var vmSettings: SettingsViewModel
-lateinit var tts: TextToSpeech
-
-fun <T> Observable<T>.applyIO(): Observable<T> =
-    this.subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-
-fun <T> Single<T>.applyIO(): Single<T> =
-    this.subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-
-fun Completable.applyIO(): Completable =
-    this.subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-
-fun speak(text: String) =
-    tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)

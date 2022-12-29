@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.zwstudio.lolly.viewmodels.misc.DictWebViewStatus
+import com.zwstudio.lolly.services.misc.DictWebViewStatus
 import com.zwstudio.lolly.viewmodels.misc.IOnlineDict
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy

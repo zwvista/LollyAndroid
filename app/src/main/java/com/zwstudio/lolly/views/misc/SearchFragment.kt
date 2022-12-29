@@ -10,10 +10,12 @@ import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.viewmodels.misc.*
+import com.zwstudio.lolly.services.misc.Global
+import com.zwstudio.lolly.services.misc.vmSettings
+import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
+import com.zwstudio.lolly.viewmodels.misc.SettingsListener
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentSearchBinding
-import com.zwstudio.lolly.views.vmSettings
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SearchFragment : Fragment(), SettingsListener, MenuProvider {

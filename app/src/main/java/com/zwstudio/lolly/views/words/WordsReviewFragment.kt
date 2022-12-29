@@ -10,11 +10,11 @@ import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
 import com.zwstudio.lolly.models.misc.MReviewOptions
+import com.zwstudio.lolly.services.misc.speak
 import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentWordsReviewBinding
 import com.zwstudio.lolly.views.misc.autoCleared
-import com.zwstudio.lolly.views.speak
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class WordsReviewFragment : Fragment(), MenuProvider {
