@@ -6,7 +6,7 @@ buildscript {
         nav_version = '2.6.0-alpha04'
         retrofit_version = "2.9.0"
         lifecycle_version = '2.6.0-alpha03'
-        koin_version = '3.1.2'
+        koin_version = '3.3.2'
     }
     repositories {
         google()
