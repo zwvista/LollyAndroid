@@ -1,10 +1,10 @@
 package com.zwstudio.lolly.services.wpp
 
+import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.restapi.wpp.RestPatternWebPage
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import com.zwstudio.lolly.retrofitJson
 
 class PatternWebPageService {
     fun getDataByPattern(patternid: Int): Single<List<MPatternWebPage>> =

@@ -1,13 +1,13 @@
 package com.zwstudio.lolly.viewmodels.patterns
 
 import androidx.lifecycle.MutableLiveData
-import com.zwstudio.lolly.applyIO
+import com.zwstudio.lolly.common.applyIO
+import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.services.wpp.PatternService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import com.zwstudio.lolly.vmSettings
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

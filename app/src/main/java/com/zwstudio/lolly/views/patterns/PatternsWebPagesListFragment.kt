@@ -17,8 +17,8 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
+import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
-import com.zwstudio.lolly.speak
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.*

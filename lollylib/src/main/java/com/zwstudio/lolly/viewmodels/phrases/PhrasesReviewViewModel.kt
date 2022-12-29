@@ -2,7 +2,8 @@ package com.zwstudio.lolly.viewmodels.phrases
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.zwstudio.lolly.applyIO
+import com.zwstudio.lolly.common.applyIO
+import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
@@ -12,7 +13,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import java.util.concurrent.TimeUnit
-import com.zwstudio.lolly.vmSettings
 import kotlin.math.min
 
 class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.() -> Unit) : ViewModel() {

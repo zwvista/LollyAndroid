@@ -19,6 +19,7 @@ import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
+import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.misc.MSelectItem
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.viewmodels.words.WordsUnitBatchEditViewModel
@@ -29,7 +30,6 @@ import com.zwstudio.lolly.views.databinding.FragmentWordsUnitBatchEditBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.misc.makeCustomAdapter
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import com.zwstudio.lolly.vmSettings
 
 class WordsUnitBatchEditFragment : Fragment(), MenuProvider {
 

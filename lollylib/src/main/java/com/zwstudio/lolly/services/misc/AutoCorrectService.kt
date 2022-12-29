@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.services.misc
 
+import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.misc.MAutoCorrect
 import com.zwstudio.lolly.restapi.misc.RestAutoCorrect
 import io.reactivex.rxjava3.core.Single
-import com.zwstudio.lolly.retrofitJson
 
 class AutoCorrectService {
     fun getDataByLang(langid: Int): Single<List<MAutoCorrect>> =

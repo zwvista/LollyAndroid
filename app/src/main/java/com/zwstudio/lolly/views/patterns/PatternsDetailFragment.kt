@@ -11,13 +11,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
+import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentPatternsDetailBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import com.zwstudio.lolly.vmSettings
 
 class PatternsDetailFragment : Fragment(), MenuProvider {
 

@@ -1,13 +1,13 @@
 package com.zwstudio.lolly.services.misc
 
 import android.util.Log
-import com.zwstudio.lolly.GlobalUser
+import com.zwstudio.lolly.common.GlobalUser
+import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.misc.MUserSetting
 import com.zwstudio.lolly.models.misc.MUserSettingInfo
 import com.zwstudio.lolly.restapi.misc.RestUserSetting
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import com.zwstudio.lolly.retrofitJson
 
 class UserSettingService {
     fun getData(): Single<List<MUserSetting>> =

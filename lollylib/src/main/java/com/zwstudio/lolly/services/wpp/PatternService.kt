@@ -1,11 +1,11 @@
 package com.zwstudio.lolly.services.wpp
 
+import com.zwstudio.lolly.common.retrofitJson
+import com.zwstudio.lolly.common.retrofitSP
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import com.zwstudio.lolly.retrofitJson
-import com.zwstudio.lolly.retrofitSP
 
 class PatternService {
     fun getDataByLang(langid: Int): Single<List<MPattern>> =

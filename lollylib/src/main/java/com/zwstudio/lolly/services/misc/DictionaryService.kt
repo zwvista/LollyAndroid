@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.services.misc
 
+import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.restapi.misc.RestDictionary
 import io.reactivex.rxjava3.core.Single
-import com.zwstudio.lolly.retrofitJson
 
 class DictionaryService {
     fun getDictsByLang(langid: Int): Single<List<MDictionary>> =

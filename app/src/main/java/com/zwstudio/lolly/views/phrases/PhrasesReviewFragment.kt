@@ -9,8 +9,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
+import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.models.misc.MReviewOptions
-import com.zwstudio.lolly.speak
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesReviewViewModel
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentPhrasesReviewBinding

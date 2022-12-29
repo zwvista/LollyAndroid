@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.GlobalUser
+import com.zwstudio.lolly.common.GlobalUser
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import com.zwstudio.lolly.views.databinding.FragmentLoginBinding
 import io.reactivex.rxjava3.kotlin.subscribeBy

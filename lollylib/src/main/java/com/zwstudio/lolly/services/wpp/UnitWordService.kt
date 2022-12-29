@@ -1,13 +1,13 @@
 package com.zwstudio.lolly.services.wpp
 
 import android.util.Log
+import com.zwstudio.lolly.common.retrofitJson
+import com.zwstudio.lolly.common.retrofitSP
 import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.restapi.wpp.RestUnitWord
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import com.zwstudio.lolly.retrofitJson
-import com.zwstudio.lolly.retrofitSP
 
 class UnitWordService {
     fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Single<List<MUnitWord>> =
