@@ -7,6 +7,10 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LollyAndroid.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LollyAndroid.app.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LollyAndroid.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LollyAndroid.app.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/LollyAndroid.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/LollyAndroid.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/compose/LollyAndroid.compose.iml" filepath="$PROJECT_DIR$/.idea/modules/compose/LollyAndroid.compose.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/compose/LollyAndroid.compose.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/compose/LollyAndroid.compose.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/compose/LollyAndroid.compose.main.iml" filepath="$PROJECT_DIR$/.idea/modules/compose/LollyAndroid.compose.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/compose/LollyAndroid.compose.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/compose/LollyAndroid.compose.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lollylib/LollyAndroid.lollylib.iml" filepath="$PROJECT_DIR$/.idea/modules/lollylib/LollyAndroid.lollylib.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lollylib/LollyAndroid.lollylib.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/lollylib/LollyAndroid.lollylib.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lollylib/LollyAndroid.lollylib.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lollylib/LollyAndroid.lollylib.main.iml" />
