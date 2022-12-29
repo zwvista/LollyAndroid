@@ -21,7 +21,6 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.models.misc.MSelectItem
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
-import com.zwstudio.lolly.services.misc.vmSettings
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitBatchEditViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.views.LollySwipeRefreshLayout
@@ -29,6 +28,7 @@ import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentPhrasesUnitBatchEditBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.misc.makeCustomAdapter
+import com.zwstudio.lolly.vmSettings
 
 class PhrasesUnitBatchEditFragment : Fragment(), MenuProvider {
 

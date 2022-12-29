@@ -7,10 +7,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
+import com.zwstudio.lolly.tts
 import kotlinx.coroutines.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
+
+enum class UnitPartToType {
+    Unit, Part, To
+}
 
 class SettingsViewModel : ViewModel(), KoinComponent {
 

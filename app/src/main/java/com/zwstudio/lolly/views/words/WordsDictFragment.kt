@@ -9,7 +9,6 @@ import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.navArgs
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.services.misc.vmSettings
 import com.zwstudio.lolly.viewmodels.misc.SettingsListener
 import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import com.zwstudio.lolly.views.databinding.FragmentWordsDictBinding
@@ -17,6 +16,7 @@ import com.zwstudio.lolly.views.misc.OnlineDict
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.misc.makeCustomAdapter
 import com.zwstudio.lolly.views.misc.makeCustomAdapter2
+import com.zwstudio.lolly.vmSettings
 
 class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
 

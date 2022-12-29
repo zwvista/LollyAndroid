@@ -4,7 +4,7 @@ import android.util.Log
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.models.wpp.MWebPage
 import com.zwstudio.lolly.restapi.wpp.RestWebPage
-import com.zwstudio.lolly.services.misc.retrofitJson
+import com.zwstudio.lolly.retrofitJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

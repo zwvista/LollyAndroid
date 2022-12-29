@@ -3,9 +3,9 @@ package com.zwstudio.lolly.viewmodels.patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.models.wpp.MPattern
-import com.zwstudio.lolly.services.misc.vmSettings
 import com.zwstudio.lolly.services.wpp.PatternService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.vmSettings
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject

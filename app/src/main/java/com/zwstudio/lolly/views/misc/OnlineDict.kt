@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.zwstudio.lolly.services.misc.DictWebViewStatus
 import com.zwstudio.lolly.viewmodels.misc.IOnlineDict
+
+enum class DictWebViewStatus {
+    Ready, Navigating, Automating
+}
 
 class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict) {
 

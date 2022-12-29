@@ -4,8 +4,8 @@ import android.util.Log
 import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.restapi.wpp.RestUnitPhrase
-import com.zwstudio.lolly.services.misc.retrofitJson
-import com.zwstudio.lolly.services.misc.retrofitSP
+import com.zwstudio.lolly.retrofitJson
+import com.zwstudio.lolly.retrofitSP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

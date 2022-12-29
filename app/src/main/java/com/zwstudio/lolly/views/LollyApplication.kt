@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.androidisland.vita.startVita
-import com.zwstudio.lolly.services.misc.onCreateApp
+import com.zwstudio.lolly.onCreateApp
 
 class LollyApplication : Application() {
 
