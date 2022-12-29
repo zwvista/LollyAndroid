@@ -1,8 +1,10 @@
 package com.zwstudio.lolly.models.wpp
 
 import android.os.Parcelable
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.models.misc.MTextbook
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 import kotlin.math.floor
@@ -14,35 +16,36 @@ class MUnitWords {
 }
 
 @Parcelize
-class MUnitWord : Serializable, Parcelable {
-
+data class MUnitWord(
     @SerializedName("ID")
-    var id = 0
+    var id: Int = 0,
     @SerializedName("LANGID")
-    var langid = 0
+    var langid: Int = 0,
     @SerializedName("TEXTBOOKID")
-    var textbookid = 0
+    var textbookid: Int = 0,
     @SerializedName("TEXTBOOKNAME")
-    var textbookname = ""
+    var textbookname: String = "",
     @SerializedName("UNIT")
-    var unit = 0
+    var unit: Int = 0,
     @SerializedName("PART")
-    var part = 0
+    var part: Int = 0,
     @SerializedName("SEQNUM")
-    var seqnum = 0
+    var seqnum: Int = 0,
     @SerializedName("WORD")
-    var word = ""
+    var word: String = "",
     @SerializedName("NOTE")
-    var note = ""
+    var note: String = "",
     @SerializedName("WORDID")
-    var wordid = 0
+    var wordid: Int = 0,
     @SerializedName("FAMIID")
-    var famiid = 0
+    var famiid: Int = 0,
     @SerializedName("CORRECT")
-    var correct = 0
+    var correct: Int = 0,
     @SerializedName("TOTAL")
-    var total = 0
-
+    var total: Int = 0,
+) : Serializable, Parcelable {
+    @IgnoredOnParcel
+    @Expose(deserialize = false)
     lateinit var textbook: MTextbook
     val unitstr: String
         get() = textbook.unitstr(unit)

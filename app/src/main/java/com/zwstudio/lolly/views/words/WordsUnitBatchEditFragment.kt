@@ -112,7 +112,7 @@ class WordsUnitBatchEditFragment : Fragment(), MenuProvider {
                 }
                 true
             }
-            else -> super.onOptionsItemSelected(menuItem)
+            else -> false
         }
 
     private class WordsUnitBatchDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
