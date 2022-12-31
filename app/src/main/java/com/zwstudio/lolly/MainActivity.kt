@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.views
+package com.zwstudio.lolly
 
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.zwstudio.lolly.common.tts
+import com.zwstudio.lolly.views.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,9 +40,17 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.searchFragment, R.id.settingsFragment, R.id.wordsUnitFragment, R.id.phrasesUnitFragment,
-                R.id.wordsReviewFragment, R.id.phrasesReviewFragment, R.id.wordsLangFragment, R.id.phrasesLangFragment,
-                R.id.wordsTextbookFragment, R.id.phrasesTextbookFragment, R.id.patternsFragment
+                R.id.searchFragment,
+                R.id.settingsFragment,
+                R.id.wordsUnitFragment,
+                R.id.phrasesUnitFragment,
+                R.id.wordsReviewFragment,
+                R.id.phrasesReviewFragment,
+                R.id.wordsLangFragment,
+                R.id.phrasesLangFragment,
+                R.id.wordsTextbookFragment,
+                R.id.phrasesTextbookFragment,
+                R.id.patternsFragment
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
