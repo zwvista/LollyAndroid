@@ -71,11 +71,11 @@ class SearchFragment : Fragment(), SettingsListener, MenuProvider {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        GlobalUserViewModel.userid = requireContext().getSharedPreferences("users", 0).getString("userid", "")!!
-        if (GlobalUserViewModel.userid.isEmpty()) {
-            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToLoginFragment())
-        } else
+        GlobalUserViewModel.load(requireContext())
+        if (GlobalUserViewModel.isLoggedIn)
             setup()
+        else
+            findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToLoginFragment())
     }
 
     override fun onDestroyView() {

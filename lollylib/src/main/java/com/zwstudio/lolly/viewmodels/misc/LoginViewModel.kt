@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.viewmodels.misc
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.common.applyIO
@@ -14,8 +15,16 @@ class LoginViewModel : ViewModel(), KoinComponent {
 
     private val userService by inject<UserService>()
 
-    fun login(): Single<String> =
+    fun login(context: Context): Single<Boolean> =
         userService.getData(username.value!!, password.value!!)
-            .map { if (it.isEmpty()) "" else it[0].userid }
-            .applyIO()
+            .map {
+                if (it.isEmpty()) {
+                    GlobalUserViewModel.save(context, "")
+                    false
+                }
+                else {
+                    GlobalUserViewModel.save(context, it[0].userid)
+                    true
+                }
+            }.applyIO()
 }

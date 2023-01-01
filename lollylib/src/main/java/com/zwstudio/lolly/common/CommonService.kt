@@ -22,11 +22,11 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-fun <T> Observable<T>.applyIO(): Observable<T> =
+fun <T : Any> Observable<T>.applyIO(): Observable<T> =
     this.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
-fun <T> Single<T>.applyIO(): Single<T> =
+fun <T : Any> Single<T>.applyIO(): Single<T> =
     this.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 

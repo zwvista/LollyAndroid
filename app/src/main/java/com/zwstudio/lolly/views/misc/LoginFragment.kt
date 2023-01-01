@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import com.zwstudio.lolly.views.databinding.FragmentLoginBinding
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -30,20 +29,14 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.login.setOnClickListener {
-            vm.login().subscribeBy {
-                GlobalUserViewModel.userid = it
-                if (GlobalUserViewModel.userid.isEmpty())
+            vm.login(requireContext()).subscribeBy {
+                if (it)
+                    findNavController().navigateUp()
+                else
                     AlertDialog.Builder(requireContext())
                         .setTitle("Login")
                         .setMessage("Wrong username or password!")
                         .show()
-                else {
-                    requireContext().getSharedPreferences("users", 0)
-                        .edit()
-                        .putString("userid", GlobalUserViewModel.userid)
-                        .apply()
-                    findNavController().navigateUp()
-                }
             }
         }
     }
