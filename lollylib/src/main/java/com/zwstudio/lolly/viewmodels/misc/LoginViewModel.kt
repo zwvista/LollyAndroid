@@ -13,16 +13,9 @@ class LoginViewModel : ViewModel(), KoinComponent {
 
     private val userService by inject<UserService>()
 
-    suspend fun login(context: Context): Boolean =
-        userService.getData(username.value!!, password.value!!)
-            .let {
-                if (it.isEmpty()) {
-                    GlobalUserViewModel.save(context, "")
-                    false
-                }
-                else {
-                    GlobalUserViewModel.save(context, it[0].userid)
-                    true
-                }
-            }
+    suspend fun login(context: Context) =
+        userService.getData(username.value!!, password.value!!).let {
+            val id = if (it.isEmpty()) "" else it[0].userid
+            GlobalUserViewModel.save(context, id)
+        }
 }

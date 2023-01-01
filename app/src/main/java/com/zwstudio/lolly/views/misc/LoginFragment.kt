@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
+import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import com.zwstudio.lolly.views.databinding.FragmentLoginBinding
 import kotlinx.coroutines.launch
@@ -31,7 +32,8 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.login.setOnClickListener {
             vm.viewModelScope.launch {
-                if (vm.login(requireContext()))
+                vm.login(requireContext())
+                if (GlobalUserViewModel.isLoggedIn)
                     findNavController().navigateUp()
                 else
                     AlertDialog.Builder(requireContext())
