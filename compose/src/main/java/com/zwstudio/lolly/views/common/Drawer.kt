@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.views
+package com.zwstudio.lolly.views.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

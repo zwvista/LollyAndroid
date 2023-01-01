@@ -14,8 +14,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.zwstudio.lolly.common.tts
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
-import com.zwstudio.lolly.views.Drawer
-import com.zwstudio.lolly.views.DrawerScreens
+import com.zwstudio.lolly.views.common.Drawer
+import com.zwstudio.lolly.views.common.DrawerScreens
 import com.zwstudio.lolly.views.misc.*
 import com.zwstudio.lolly.views.patterns.PatternsScreen
 import com.zwstudio.lolly.views.phrases.PhrasesUnitScreen
