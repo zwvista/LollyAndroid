@@ -4,11 +4,13 @@ import android.content.Context
 import android.speech.tts.TextToSpeech
 import com.zwstudio.lolly.services.misc.*
 import com.zwstudio.lolly.services.wpp.*
+import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.dsl.module
@@ -67,6 +69,8 @@ val lollyModule = module {
     single { UnitWordService() }
     single { WebPageService() }
     single { WordFamiService() }
+
+    viewModel { LoginViewModel() }
 }
 
 fun speak(text: String) =
