@@ -10,7 +10,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import com.zwstudio.lolly.views.databinding.FragmentLoginBinding
 import kotlinx.coroutines.launch
@@ -32,19 +31,13 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.login.setOnClickListener {
             vm.viewModelScope.launch {
-                GlobalUserViewModel.userid = vm.login()
-                if (GlobalUserViewModel.userid.isEmpty())
+                if (vm.login(requireContext()))
+                    findNavController().navigateUp()
+                else
                     AlertDialog.Builder(requireContext())
                         .setTitle("Login")
                         .setMessage("Wrong username or password!")
                         .show()
-                else {
-                    requireContext().getSharedPreferences("users", 0)
-                        .edit()
-                        .putString("userid", GlobalUserViewModel.userid)
-                        .apply()
-                    findNavController().navigateUp()
-                }
             }
         }
     }
