@@ -10,8 +10,8 @@ import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
-import com.zwstudio.lolly.common.GlobalUser
 import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsListener
 import com.zwstudio.lolly.views.R
@@ -71,8 +71,8 @@ class SearchFragment : Fragment(), SettingsListener, MenuProvider {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        GlobalUser.userid = requireContext().getSharedPreferences("users", 0).getString("userid", "")!!
-        if (GlobalUser.userid.isEmpty()) {
+        GlobalUserViewModel.userid = requireContext().getSharedPreferences("users", 0).getString("userid", "")!!
+        if (GlobalUserViewModel.userid.isEmpty()) {
             findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToLoginFragment())
         } else
             setup()
