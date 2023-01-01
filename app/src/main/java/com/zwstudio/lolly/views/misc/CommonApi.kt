@@ -1,7 +1,9 @@
 package com.zwstudio.lolly.views.misc
 
+import android.app.AlertDialog
 import android.content.*
 import android.net.Uri
+import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -10,6 +12,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import java.net.URLEncoder
 
 fun View.copyText(text: String) {
@@ -68,5 +71,39 @@ fun <T> Spinner.makeCustomAdapter2(context: Context, objects: List<T>, labelFunc
         v
     }.apply {
         setDropDownViewResource(com.zwstudio.lolly.views.R.layout.list_item_2)
+    }
+}
+
+fun yesNoDialog(context: Context, message: String, yesAction: () -> Unit, noAction: () -> Unit) {
+    val dialogClickListener = DialogInterface.OnClickListener { _, which ->
+        when (which) {
+            DialogInterface.BUTTON_POSITIVE ->
+                //Yes button clicked
+                yesAction()
+            DialogInterface.BUTTON_NEGATIVE -> {
+                //No button clicked
+                noAction()
+            }
+        }
+    }
+
+    AlertDialog.Builder(context)
+        .setMessage(message).setPositiveButton("Yes", dialogClickListener)
+        .setNegativeButton("No", dialogClickListener).show()
+}
+
+class LollySwipeRefreshLayout : SwipeRefreshLayout {
+    private var mScrollingView: View? = null
+
+    constructor(context: Context) : super(context)
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+
+    override fun canChildScrollUp(): Boolean {
+        return mScrollingView != null && mScrollingView!!.canScrollVertically(-1)
+    }
+
+    fun setScrollingView(scrollingView: View) {
+        mScrollingView = scrollingView
     }
 }

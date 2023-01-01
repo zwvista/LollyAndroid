@@ -24,10 +24,7 @@ import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentPatternsBinding
-import com.zwstudio.lolly.views.misc.autoCleared
-import com.zwstudio.lolly.views.misc.copyText
-import com.zwstudio.lolly.views.misc.googleString
-import com.zwstudio.lolly.views.misc.makeCustomAdapter
+import com.zwstudio.lolly.views.misc.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class PatternsFragment : DrawerListFragment(), MenuProvider {

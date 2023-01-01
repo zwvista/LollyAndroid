@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="@+id/svTextFilter"
             app:layout_constraintBottom_toBottomOf="@+id/svTextFilter"/>
 
-        <com.zwstudio.lolly.views.LollySwipeRefreshLayout
+        <com.zwstudio.lolly.views.misc.LollySwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -47,7 +47,7 @@
                 android:id="@+id/drag_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-        </com.zwstudio.lolly.views.LollySwipeRefreshLayout>
+        </com.zwstudio.lolly.views.misc.LollySwipeRefreshLayout>
 
         <ProgressBar
             android:id="@+id/progressBar1"

@@ -24,9 +24,9 @@ import com.zwstudio.lolly.models.misc.MSelectItem
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.viewmodels.words.WordsUnitBatchEditViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
-import com.zwstudio.lolly.views.LollySwipeRefreshLayout
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentWordsUnitBatchEditBinding
+import com.zwstudio.lolly.views.misc.LollySwipeRefreshLayout
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.misc.makeCustomAdapter
 import io.reactivex.rxjava3.disposables.CompositeDisposable

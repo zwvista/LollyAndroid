@@ -27,6 +27,7 @@ import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesListBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import com.zwstudio.lolly.views.misc.yesNoDialog
 
 private const val REQUEST_CODE = 1
 
