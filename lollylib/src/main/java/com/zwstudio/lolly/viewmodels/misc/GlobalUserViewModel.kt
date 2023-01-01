@@ -6,8 +6,14 @@ import androidx.lifecycle.ViewModel
 
 object GlobalUserViewModel: ViewModel() {
     var userid_ = MutableLiveData("")
-    var userid get() = userid_.value!!; set(v) { userid_.value = v }
-    val isLoggedIn: Boolean get() = userid.isNotEmpty()
+    var userid: String
+        get() = userid_.value!!
+        set(v) {
+            userid_.value = v
+            isLoggedIn = userid.isNotEmpty()
+        }
+    val isLoggedIn_ = MutableLiveData(false)
+    var isLoggedIn get() = isLoggedIn_.value!!; set(v) { isLoggedIn_.value = v }
     fun load(context: Context) {
         userid = context.getSharedPreferences("users", 0).getString("userid", "")!!
     }

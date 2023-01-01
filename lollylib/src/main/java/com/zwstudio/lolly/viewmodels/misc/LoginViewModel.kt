@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.services.misc.UserService
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -15,16 +16,11 @@ class LoginViewModel : ViewModel(), KoinComponent {
 
     private val userService by inject<UserService>()
 
-    fun login(context: Context): Single<Boolean> =
+    fun login(context: Context): Completable =
         userService.getData(username.value!!, password.value!!)
-            .map {
-                if (it.isEmpty()) {
-                    GlobalUserViewModel.save(context, "")
-                    false
-                }
-                else {
-                    GlobalUserViewModel.save(context, it[0].userid)
-                    true
-                }
+            .flatMapCompletable {
+                val id = if (it.isEmpty()) "" else it[0].userid
+                GlobalUserViewModel.save(context, id)
+                Completable.complete()
             }.applyIO()
 }

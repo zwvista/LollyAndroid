@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.androidisland.vita.VitaOwner
 import com.androidisland.vita.vita
+import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import com.zwstudio.lolly.views.databinding.FragmentLoginBinding
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -29,8 +30,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.login.setOnClickListener {
-            vm.login(requireContext()).subscribeBy {
-                if (it)
+            vm.login(requireContext()).subscribe {
+                if (GlobalUserViewModel.isLoggedIn)
                     findNavController().navigateUp()
                 else
                     AlertDialog.Builder(requireContext())
