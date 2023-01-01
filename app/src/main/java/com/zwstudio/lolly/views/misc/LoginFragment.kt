@@ -8,16 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import com.zwstudio.lolly.views.databinding.FragmentLoginBinding
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class LoginFragment : Fragment() {
 
-    val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel<LoginViewModel>() }
+    val vm by inject<LoginViewModel>()
     var binding by autoCleared<FragmentLoginBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
