@@ -16,10 +16,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-object GlobalUser {
-    var userid = ""
-}
-
 lateinit var retrofitJson: Retrofit
 lateinit var retrofitSP: Retrofit
 lateinit var retrofitHtml: Retrofit

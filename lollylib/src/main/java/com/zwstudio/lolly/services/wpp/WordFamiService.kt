@@ -1,17 +1,17 @@
 package com.zwstudio.lolly.services.wpp
 
 import android.util.Log
-import com.zwstudio.lolly.common.GlobalUser
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
+import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class WordFamiService {
     private suspend fun getDataByWord(wordid: Int): List<MWordFami> = withContext(Dispatchers.IO) {
         retrofitJson.create(RestWordFami::class.java)
-            .getDataByUserWord("USERID,eq,${GlobalUser.userid}", "WORDID,eq,$wordid")
+            .getDataByUserWord("USERID,eq,${GlobalUserViewModel.userid}", "WORDID,eq,$wordid")
             .lst!!
     }
 
@@ -37,7 +37,7 @@ class WordFamiService {
         val lst = getDataByWord(wordid)
         val d = if (isCorrect) 1 else 0
         val item = MWordFami().apply {
-            userid = GlobalUser.userid
+            userid = GlobalUserViewModel.userid
             this.wordid = wordid
         }
         if (lst.isEmpty()) {
