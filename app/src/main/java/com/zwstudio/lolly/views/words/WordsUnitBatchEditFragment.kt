@@ -14,8 +14,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -30,11 +28,13 @@ import com.zwstudio.lolly.views.misc.LollySwipeRefreshLayout
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.misc.makeCustomAdapter
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WordsUnitBatchEditFragment : Fragment(), MenuProvider {
 
-    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
-    val vmBatch by lazy { vita.with(VitaOwner.Single(this)).getViewModel<WordsUnitBatchEditViewModel>() }
+    val vm by lazy { requireParentFragment().getViewModel<WordsUnitViewModel>() }
+    val vmBatch by viewModel<WordsUnitBatchEditViewModel>()
     var binding by autoCleared<FragmentWordsUnitBatchEditBinding>()
     val args: WordsUnitBatchEditFragmentArgs by navArgs()
 

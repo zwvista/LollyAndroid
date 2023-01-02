@@ -14,8 +14,6 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -28,16 +26,13 @@ import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentPhrasesUnitBinding
-import com.zwstudio.lolly.views.misc.autoCleared
-import com.zwstudio.lolly.views.misc.copyText
-import com.zwstudio.lolly.views.misc.googleString
-import com.zwstudio.lolly.views.misc.makeCustomAdapter
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import com.zwstudio.lolly.views.misc.*
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {
 
-    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesUnitViewModel>() }
+    val vm by viewModel<PhrasesUnitViewModel>()
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<FragmentPhrasesUnitBinding>()
 

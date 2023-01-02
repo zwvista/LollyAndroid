@@ -11,8 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.distinctUntilChanged
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
@@ -26,10 +24,11 @@ import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentWordsTextbookBinding
 import com.zwstudio.lolly.views.misc.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
 
-    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
+    val vm by viewModel<WordsUnitViewModel>()
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<FragmentWordsTextbookBinding>()
 

@@ -9,19 +9,20 @@ import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesDetailBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class PatternsWebPagesDetailFragment : Fragment(), MenuProvider {
 
-    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
-    val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { PatternsWebPageDetailViewModel(item) } }
+    val vm by lazy { requireParentFragment().getViewModel<PatternsWebPagesViewModel>() }
+    val vmDetail by viewModel<PatternsWebPageDetailViewModel>{ parametersOf(item) }
     var binding by autoCleared<FragmentPatternsWebpagesDetailBinding>()
     val args: PatternsWebPagesDetailFragmentArgs by navArgs()
     val item get() = args.item

@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesReviewViewModel
@@ -16,15 +14,15 @@ import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentPhrasesReviewBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class PhrasesReviewFragment : Fragment(), MenuProvider {
 
-    val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel {
-        PhrasesReviewViewModel {
-            if (hasCurrent && isSpeaking.value!!)
-                speak(currentPhrase)
-        }
-    }}
+    val vm by viewModel<PhrasesReviewViewModel>{ parametersOf({ self: PhrasesReviewViewModel ->
+        if (self.hasCurrent && self.isSpeaking.value!!)
+            speak(self.currentPhrase)
+    }) }
     var binding by autoCleared<FragmentPhrasesReviewBinding>()
     var mAlreadyLoaded = false
 

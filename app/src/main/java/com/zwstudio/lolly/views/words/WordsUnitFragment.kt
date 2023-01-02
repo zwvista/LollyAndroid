@@ -16,8 +16,6 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -32,10 +30,11 @@ import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentWordsUnitBinding
 import com.zwstudio.lolly.views.misc.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WordsUnitFragment : DrawerListFragment(), MenuProvider {
 
-    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
+    val vm by viewModel<WordsUnitViewModel>()
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<FragmentWordsUnitBinding>()
 

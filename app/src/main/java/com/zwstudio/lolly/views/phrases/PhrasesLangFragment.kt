@@ -11,8 +11,6 @@ import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
@@ -25,12 +23,13 @@ import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentPhrasesLangBinding
 import com.zwstudio.lolly.views.misc.*
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val REQUEST_CODE = 1
 
 class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
 
-    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PhrasesLangViewModel>() }
+    val vm by viewModel<PhrasesLangViewModel>()
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<FragmentPhrasesLangBinding>()
 

@@ -4,7 +4,15 @@ import android.content.Context
 import android.speech.tts.TextToSpeech
 import com.zwstudio.lolly.services.misc.*
 import com.zwstudio.lolly.services.wpp.*
+import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
+import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
+import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
+import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
+import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageDetailViewModel
+import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
+import com.zwstudio.lolly.viewmodels.phrases.*
+import com.zwstudio.lolly.viewmodels.words.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -14,6 +22,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.dsl.module
@@ -89,6 +98,26 @@ val lollyModule = module {
     single { UnitWordService() }
     single { WebPageService() }
     single { WordFamiService() }
+
+    viewModel { LoginViewModel() }
+    viewModel { parameters -> ReviewOptionsViewModel(options = parameters.get()) }
+    viewModel { SearchViewModel() }
+    viewModel { parameters -> PatternsDetailViewModel(item = parameters.get()) }
+    viewModel { PatternsWebPagesViewModel() }
+    viewModel { parameters -> PatternsWebPageDetailViewModel(item = parameters.get()) }
+    viewModel { PhrasesLangViewModel() }
+    viewModel { parameters -> PhrasesLangDetailViewModel(item = parameters.get()) }
+    viewModel { parameters -> PhrasesReviewViewModel(doTestAction = parameters.get()) }
+    viewModel { PhrasesUnitViewModel() }
+    viewModel { parameters -> PhrasesUnitDetailViewModel(item = parameters.get()) }
+    viewModel { PhrasesUnitBatchEditViewModel() }
+    viewModel { WordsDictViewModel() }
+    viewModel { WordsLangViewModel() }
+    viewModel { parameters -> WordsLangDetailViewModel(item = parameters.get()) }
+    viewModel { parameters -> WordsReviewViewModel(doTestAction = parameters.get()) }
+    viewModel { WordsUnitViewModel() }
+    viewModel { parameters -> WordsUnitDetailViewModel(item = parameters.get()) }
+    viewModel { WordsUnitBatchEditViewModel() }
 }
 
 fun speak(text: String) =
