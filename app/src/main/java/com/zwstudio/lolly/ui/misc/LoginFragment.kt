@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.zwstudio.lolly.databinding.FragmentLoginBinding
+import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import kotlinx.coroutines.launch

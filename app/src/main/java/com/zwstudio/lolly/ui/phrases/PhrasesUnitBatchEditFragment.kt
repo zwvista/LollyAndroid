@@ -24,9 +24,9 @@ import com.zwstudio.lolly.models.misc.MSelectItem
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitBatchEditViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
-import com.zwstudio.lolly.ui.misc.LollySwipeRefreshLayout
-import com.zwstudio.lolly.ui.misc.autoCleared
-import com.zwstudio.lolly.ui.misc.makeCustomAdapter
+import com.zwstudio.lolly.ui.common.LollySwipeRefreshLayout
+import com.zwstudio.lolly.ui.common.autoCleared
+import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

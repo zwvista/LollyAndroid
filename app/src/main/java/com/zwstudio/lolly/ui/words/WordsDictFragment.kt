@@ -11,10 +11,10 @@ import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentWordsDictBinding
 import com.zwstudio.lolly.viewmodels.misc.SettingsListener
 import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
-import com.zwstudio.lolly.ui.misc.OnlineDict
-import com.zwstudio.lolly.ui.misc.autoCleared
-import com.zwstudio.lolly.ui.misc.makeCustomAdapter
-import com.zwstudio.lolly.ui.misc.makeCustomAdapter2
+import com.zwstudio.lolly.ui.common.OnlineDict
+import com.zwstudio.lolly.ui.common.autoCleared
+import com.zwstudio.lolly.ui.common.makeCustomAdapter
+import com.zwstudio.lolly.ui.common.makeCustomAdapter2
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
