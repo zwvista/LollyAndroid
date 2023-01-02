@@ -13,8 +13,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.zwstudio.lolly.common.onCreateApp
 import com.zwstudio.lolly.common.onDestroyApp
-import com.zwstudio.lolly.theme.LollyAndroidTheme
-import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.ui.common.Drawer
 import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.misc.LoginScreen
@@ -22,7 +20,9 @@ import com.zwstudio.lolly.ui.misc.SearchScreen
 import com.zwstudio.lolly.ui.misc.SettingsScreen
 import com.zwstudio.lolly.ui.patterns.PatternsScreen
 import com.zwstudio.lolly.ui.phrases.PhrasesUnitScreen
+import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 import com.zwstudio.lolly.ui.words.WordsUnitScreen
+import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {

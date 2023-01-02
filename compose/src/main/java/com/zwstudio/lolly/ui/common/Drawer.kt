@@ -11,7 +11,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zwstudio.lolly.R
-import com.zwstudio.lolly.theme.LollyAndroidTheme
+import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 
 sealed class DrawerScreens(val title: String, val route: String) {
     object Search : DrawerScreens("Search", "Search")
