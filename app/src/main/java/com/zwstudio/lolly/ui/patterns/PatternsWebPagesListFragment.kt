@@ -23,9 +23,9 @@ import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.ui.*
-import com.zwstudio.lolly.ui.misc.DrawerListFragment
-import com.zwstudio.lolly.ui.misc.autoCleared
-import com.zwstudio.lolly.ui.misc.yesNoDialog
+import com.zwstudio.lolly.ui.common.DrawerListFragment
+import com.zwstudio.lolly.ui.common.autoCleared
+import com.zwstudio.lolly.ui.common.yesNoDialog
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import org.koin.androidx.viewmodel.ext.android.getViewModel

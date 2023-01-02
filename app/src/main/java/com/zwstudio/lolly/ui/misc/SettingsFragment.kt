@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.distinctUntilChanged
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentSettingsBinding
+import com.zwstudio.lolly.ui.common.autoCleared
+import com.zwstudio.lolly.ui.common.makeCustomAdapter
+import com.zwstudio.lolly.ui.common.makeCustomAdapter2
 import com.zwstudio.lolly.viewmodels.misc.SettingsListener
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 

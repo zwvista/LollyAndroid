@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.misc
+package com.zwstudio.lolly.ui.common
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver

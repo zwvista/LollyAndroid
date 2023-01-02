@@ -13,7 +13,7 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.databinding.FragmentPatternsWebpagesDetailBinding
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
-import com.zwstudio.lolly.ui.misc.autoCleared
+import com.zwstudio.lolly.ui.common.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel

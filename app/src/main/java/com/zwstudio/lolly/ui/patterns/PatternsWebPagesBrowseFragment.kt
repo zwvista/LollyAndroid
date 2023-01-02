@@ -12,8 +12,8 @@ import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.databinding.FragmentPatternsWebpagesBrowseBinding
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
-import com.zwstudio.lolly.ui.misc.autoCleared
-import com.zwstudio.lolly.ui.misc.makeAdapter
+import com.zwstudio.lolly.ui.common.autoCleared
+import com.zwstudio.lolly.ui.common.makeAdapter
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import org.koin.androidx.viewmodel.ext.android.viewModel
