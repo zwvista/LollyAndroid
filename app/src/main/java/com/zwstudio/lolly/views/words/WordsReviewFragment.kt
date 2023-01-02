@@ -18,14 +18,14 @@ import org.koin.core.parameter.parametersOf
 
 class WordsReviewFragment : Fragment(), MenuProvider {
 
-    val vm by viewModel<WordsReviewViewModel>{ parametersOf({ self: WordsReviewViewModel ->
-        if (self.hasCurrent && self.isSpeaking.value!!)
-            speak(self.currentWord)
-    }) }
+    val vm by viewModel<WordsReviewViewModel>{ parametersOf({ self: WordsReviewViewModel -> self.run {
+        if (hasCurrent && isSpeaking.value!!)
+            speak(currentWord)
+    }})}
     var binding by autoCleared<FragmentWordsReviewBinding>()
     var mAlreadyLoaded = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentWordsReviewBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner

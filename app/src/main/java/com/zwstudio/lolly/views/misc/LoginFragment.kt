@@ -19,7 +19,7 @@ class LoginFragment : Fragment() {
     val vm by viewModel<LoginViewModel>()
     var binding by autoCleared<FragmentLoginBinding>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm

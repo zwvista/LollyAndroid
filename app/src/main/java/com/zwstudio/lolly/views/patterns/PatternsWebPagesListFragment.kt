@@ -33,12 +33,12 @@ private const val REQUEST_CODE = 1
 class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
 
     val vm by lazy { requireParentFragment().getViewModel<PatternsWebPagesViewModel>() }
-    override val vmDrawerList: DrawerListViewModel? get() = vm
+    override val vmDrawerList: DrawerListViewModel get() = vm
     var binding by autoCleared<FragmentPatternsWebpagesListBinding>()
     val args: PatternsWebPagesListFragmentArgs by navArgs()
     val item get() = args.item
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentPatternsWebpagesListBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner

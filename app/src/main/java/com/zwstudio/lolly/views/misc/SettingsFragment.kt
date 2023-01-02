@@ -15,7 +15,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     var vm = vmSettings
     var binding by autoCleared<FragmentSettingsBinding>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSettingsBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm

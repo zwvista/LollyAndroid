@@ -40,7 +40,7 @@ class WordsUnitBatchEditFragment : Fragment(), MenuProvider {
     var mDragListView by autoCleared<DragListView>()
     var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         vm.lstWords = args.list.toList()
         binding = FragmentWordsUnitBatchEditBinding.inflate(inflater, container, false).apply {

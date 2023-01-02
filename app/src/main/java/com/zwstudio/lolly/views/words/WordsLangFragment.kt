@@ -30,10 +30,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class WordsLangFragment : DrawerListFragment(), MenuProvider {
 
     val vm by viewModel<WordsLangViewModel>()
-    override val vmDrawerList: DrawerListViewModel? get() = vm
+    override val vmDrawerList: DrawerListViewModel get() = vm
     var binding by autoCleared<FragmentWordsLangBinding>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentWordsLangBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner

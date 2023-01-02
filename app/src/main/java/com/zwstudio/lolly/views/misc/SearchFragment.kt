@@ -22,7 +22,7 @@ class SearchFragment : Fragment(), SettingsListener, MenuProvider {
     var binding by autoCleared<FragmentSearchBinding>()
     var onlineDict by autoCleared<OnlineDict>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentSearchBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner

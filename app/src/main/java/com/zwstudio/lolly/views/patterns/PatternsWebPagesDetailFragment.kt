@@ -26,7 +26,7 @@ class PatternsWebPagesDetailFragment : Fragment(), MenuProvider {
     val args: PatternsWebPagesDetailFragmentArgs by navArgs()
     val item get() = args.item
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentPatternsWebpagesDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner

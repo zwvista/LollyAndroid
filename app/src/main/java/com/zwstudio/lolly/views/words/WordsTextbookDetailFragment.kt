@@ -28,7 +28,7 @@ class WordsTextbookDetailFragment : Fragment(), MenuProvider {
     val args: WordsTextbookDetailFragmentArgs by navArgs()
     val item get() = args.item
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentWordsTextbookDetailBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner

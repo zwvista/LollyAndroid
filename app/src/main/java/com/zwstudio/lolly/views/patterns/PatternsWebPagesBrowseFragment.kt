@@ -25,7 +25,7 @@ class PatternsWebPagesBrowseFragment : Fragment() {
     val args: PatternsWebPagesBrowseFragmentArgs by navArgs()
     val item get() = args.item
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentPatternsWebpagesBrowseBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
