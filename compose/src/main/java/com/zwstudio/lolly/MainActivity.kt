@@ -86,37 +86,27 @@ fun AppMainScreen() {
             ) {
                 composable(DrawerScreens.Search.route) {
                     SearchScreen(
-                        openDrawer = {
-                            openDrawer()
-                        }
+                        openDrawer = { openDrawer() }
                     )
                 }
                 composable(DrawerScreens.Settings.route) {
                     SettingsScreen(
-                        openDrawer = {
-                            openDrawer()
-                        }
+                        openDrawer = { openDrawer() }
                     )
                 }
                 composable(DrawerScreens.WordsUnit.route) {
                     WordsUnitScreen(
-                        openDrawer = {
-                            openDrawer()
-                        }
+                        openDrawer = { openDrawer() }
                     )
                 }
                 composable(DrawerScreens.PhrasesUnit.route) {
                     PhrasesUnitScreen(
-                        openDrawer = {
-                            openDrawer()
-                        }
+                        openDrawer = { openDrawer() }
                     )
                 }
                 composable(DrawerScreens.Patterns.route) {
                     PatternsScreen(
-                        openDrawer = {
-                            openDrawer()
-                        }
+                        openDrawer = { openDrawer() }
                     )
                 }
             }
