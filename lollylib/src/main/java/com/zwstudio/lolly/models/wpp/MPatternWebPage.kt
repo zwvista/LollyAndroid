@@ -25,4 +25,4 @@ data class MPatternWebPage(
     var title: String = "",
     @SerializedName("URL")
     var url: String = "",
-) : Serializable {}
+) : Serializable

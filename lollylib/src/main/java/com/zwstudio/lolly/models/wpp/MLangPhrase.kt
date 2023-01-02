@@ -17,4 +17,4 @@ data class MLangPhrase(
     var phrase: String = "",
     @SerializedName("TRANSLATION")
     var translation: String = "",
-) : Serializable {}
+) : Serializable

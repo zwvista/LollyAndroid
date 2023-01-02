@@ -19,4 +19,4 @@ data class MWordFami(
     var correct: Int = 0,
     @SerializedName("TOTAL")
     var total: Int = 0,
-) : Serializable {}
+) : Serializable

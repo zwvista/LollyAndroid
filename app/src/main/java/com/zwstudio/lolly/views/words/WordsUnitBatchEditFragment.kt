@@ -124,7 +124,7 @@ class WordsUnitBatchEditFragment : Fragment(), MenuProvider {
         }
     }
 
-    private class WordsUnitBatchItemAdapter(val vm: WordsUnitViewModel) : DragItemAdapter<MUnitWord, WordsUnitBatchItemAdapter.ViewHolder>() {
+    private class WordsUnitBatchItemAdapter(vm: WordsUnitViewModel) : DragItemAdapter<MUnitWord, WordsUnitBatchItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords

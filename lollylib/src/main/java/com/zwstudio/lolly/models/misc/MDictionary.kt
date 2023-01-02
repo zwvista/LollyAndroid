@@ -55,12 +55,12 @@ data class MDictionary(
             else
                 word
         val wordUrl = url.replace("{0}", URLEncoder.encode(word2, "UTF-8"))
-        Log.d("urlString", "urlString: " + wordUrl)
+        Log.d("urlString", "urlString: $wordUrl")
         return wordUrl
     }
 
     fun htmlString(html: String, word: String, useTemplate2: Boolean): String {
-        val t = if (useTemplate2 && !template2.isEmpty()) template2 else template
+        val t = if (useTemplate2 && template2.isNotEmpty()) template2 else template
         return extractTextFrom(html, transform, t) { text, t ->
             t.replace( "{0}", word)
                 .replace("{1}", cssFolder)
@@ -69,7 +69,7 @@ data class MDictionary(
     }
 }
 
-val cssFolder = "https://zwvista.com/lolly/css/"
+const val cssFolder = "https://zwvista.com/lolly/css/"
 
 fun extractTextFrom(html: String, transform: String, template: String, templateHandler: (String, String) -> String): String {
     val dic = mapOf("<delete>" to "", "\\t" to "\t", "\\n" to "\n")

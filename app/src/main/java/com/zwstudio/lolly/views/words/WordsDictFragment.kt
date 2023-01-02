@@ -77,12 +77,12 @@ class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
     }
 
     override fun onSwipeLeft() {
-        vm.next(-1);
+        vm.next(-1)
         selectedWordChanged()
     }
 
     override fun onSwipeRight() {
-        vm.next(1);
+        vm.next(1)
         selectedWordChanged()
     }
 }

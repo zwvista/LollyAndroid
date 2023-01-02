@@ -26,6 +26,6 @@ data class MUserSetting(
     var value3: String? = null,
     @SerializedName("VALUE4")
     var value4: String? = null,
-) : Serializable {}
+) : Serializable
 
 class MUserSettingInfo(var usersettingid: Int = 0, var valueid: Int = 0)

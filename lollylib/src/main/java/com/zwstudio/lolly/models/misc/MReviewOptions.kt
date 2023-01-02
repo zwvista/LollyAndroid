@@ -23,4 +23,4 @@ data class MReviewOptions(
     var reviewCount: Int = 10,
     var onRepeat: Boolean = true,
     var moveForward: Boolean = true,
-) : Serializable {}
+) : Serializable

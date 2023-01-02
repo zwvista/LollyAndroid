@@ -22,7 +22,6 @@ import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentPhrasesTextbookBinding
 import com.zwstudio.lolly.views.misc.*
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PhrasesTextbookFragment : DrawerListFragment(), MenuProvider {
@@ -76,7 +75,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), MenuProvider {
     }
 
     private fun refreshListView() {
-        val listAdapter = PhrasesTextbookItemAdapter(vm, mDragListView, compositeDisposable)
+        val listAdapter = PhrasesTextbookItemAdapter(vm, mDragListView)
         mDragListView.setAdapter(listAdapter, true)
     }
 
@@ -104,7 +103,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), MenuProvider {
             else -> false
         }
 
-    private class PhrasesTextbookItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
+    private class PhrasesTextbookItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView) : DragItemAdapter<MUnitPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstPhrases

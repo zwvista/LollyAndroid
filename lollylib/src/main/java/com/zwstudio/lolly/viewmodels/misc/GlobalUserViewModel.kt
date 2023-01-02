@@ -24,4 +24,11 @@ object GlobalUserViewModel: ViewModel() {
             .putString("userid", userid)
             .apply()
     }
+    fun remove(context: Context) {
+        userid = ""
+        context.getSharedPreferences("users", 0)
+            .edit()
+            .remove("userid")
+            .apply()
+    }
 }

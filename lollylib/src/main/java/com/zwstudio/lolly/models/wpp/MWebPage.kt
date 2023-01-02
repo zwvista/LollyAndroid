@@ -15,4 +15,4 @@ data class MWebPage(
     var title: String = "",
     @SerializedName("URL")
     var url: String = "",
-) : Serializable {}
+) : Serializable

@@ -17,4 +17,4 @@ data class MUser(
     var username: String = "",
     @SerializedName("PASSWORD")
     var password: String = "",
-) : Serializable {}
+) : Serializable

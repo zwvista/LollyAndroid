@@ -10,4 +10,4 @@ data class MSPResult(
     var newid: String? = null,
     @SerializedName("result")
     var result: String = "",
-) : Serializable {}
+) : Serializable

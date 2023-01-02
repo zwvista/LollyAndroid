@@ -24,18 +24,18 @@ data class MUSMapping(
 ) : Serializable {
     companion object Companion {
 
-        val NAME_USLANG = "USLANG"
+        const val NAME_USLANG = "USLANG"
 
-        val NAME_USTEXTBOOK = "USTEXTBOOK"
-        val NAME_USDICTREFERENCE = "USDICTREFERENCE"
-        val NAME_USDICTNOTE = "USDICTNOTE"
-        val NAME_USDICTTRANSLATION = "USDICTTRANSLATION"
-        val NAME_USVOICE = "USANDROIDVOICE"
+        const val NAME_USTEXTBOOK = "USTEXTBOOK"
+        const val NAME_USDICTREFERENCE = "USDICTREFERENCE"
+        const val NAME_USDICTNOTE = "USDICTNOTE"
+        const val NAME_USDICTTRANSLATION = "USDICTTRANSLATION"
+        const val NAME_USVOICE = "USANDROIDVOICE"
 
-        val NAME_USUNITFROM = "USUNITFROM"
-        val NAME_USPARTFROM = "USPARTFROM"
-        val NAME_USUNITTO = "USUNITTO"
-        val NAME_USPARTTO = "USPARTTO"
+        const val NAME_USUNITFROM = "USUNITFROM"
+        const val NAME_USPARTFROM = "USPARTFROM"
+        const val NAME_USUNITTO = "USUNITTO"
+        const val NAME_USPARTTO = "USPARTTO"
     }
 }
 
