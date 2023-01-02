@@ -10,7 +10,7 @@ object GlobalUserViewModel: ViewModel() {
         get() = userid_.value!!
         set(v) {
             userid_.value = v
-            isLoggedIn = userid.isNotEmpty()
+            isLoggedIn = v.isNotEmpty()
         }
     val isLoggedIn_ = MutableLiveData(false)
     var isLoggedIn get() = isLoggedIn_.value!!; set(v) { isLoggedIn_.value = v }

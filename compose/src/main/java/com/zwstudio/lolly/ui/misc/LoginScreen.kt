@@ -17,13 +17,12 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
-import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun LoginScreen(vm : LoginViewModel = getViewModel()) {
+fun LoginScreen(vm: LoginViewModel = getViewModel()) {
     val context = LocalContext.current
     var showAlert by remember { mutableStateOf(false) }
     Column(
@@ -59,8 +58,8 @@ fun LoginScreen(vm : LoginViewModel = getViewModel()) {
             onClick = {
                 vm.viewModelScope.launch {
                     vm.login(context)
-                    if (!GlobalUserViewModel.isLoggedIn)
-                        showAlert = true
+//                    if (!GlobalUserViewModel.isLoggedIn)
+//                        showAlert = true
                 }
             }
         ) {
