@@ -30,10 +30,10 @@ private const val REQUEST_CODE = 1
 class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
 
     val vm by viewModel<PhrasesLangViewModel>()
-    override val vmDrawerList: DrawerListViewModel? get() = vm
+    override val vmDrawerList: DrawerListViewModel get() = vm
     var binding by autoCleared<FragmentPhrasesLangBinding>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentPhrasesLangBinding.inflate(inflater, container, false).apply {
             model = vm

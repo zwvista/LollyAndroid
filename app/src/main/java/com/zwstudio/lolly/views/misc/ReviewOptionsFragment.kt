@@ -23,7 +23,7 @@ class ReviewOptionsFragment : Fragment(), MenuProvider {
     val args: ReviewOptionsFragmentArgs by navArgs()
     val options get() = args.options
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentReviewOptionsBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner

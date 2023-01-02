@@ -43,7 +43,7 @@ class PhrasesUnitBatchEditFragment : Fragment(), MenuProvider {
 
     val compositeDisposable = CompositeDisposable()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         vm.lstPhrases = args.list.toList()
         binding = FragmentPhrasesUnitBatchEditBinding.inflate(inflater, container, false).apply {

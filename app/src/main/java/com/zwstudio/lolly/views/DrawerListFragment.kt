@@ -16,12 +16,12 @@ import com.zwstudio.lolly.views.misc.LollySwipeRefreshLayout
 import com.zwstudio.lolly.views.misc.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-open class DrawerListFragment : Fragment() {
+abstract class DrawerListFragment : Fragment() {
 
     var mDragListView by autoCleared<DragListView>()
     var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()
     var progressBar1 by autoCleared<ProgressBar>()
-    open val vmDrawerList: DrawerListViewModel? get() = null
+    abstract val vmDrawerList: DrawerListViewModel
 
     val compositeDisposable = CompositeDisposable()
 
@@ -46,8 +46,8 @@ open class DrawerListFragment : Fragment() {
             override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
                 mRefreshLayout.isEnabled = true
                 when (swipedDirection) {
-                    ListSwipeItem.SwipeDirection.LEFT -> vmDrawerList?.isSwipeStarted = true
-                    ListSwipeItem.SwipeDirection.RIGHT -> vmDrawerList?.isSwipeStarted = true
+                    ListSwipeItem.SwipeDirection.LEFT -> vmDrawerList.isSwipeStarted = true
+                    ListSwipeItem.SwipeDirection.RIGHT -> vmDrawerList.isSwipeStarted = true
                     else -> {}
                 }
             }
@@ -65,7 +65,7 @@ open class DrawerListFragment : Fragment() {
                 override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
                     mRefreshLayout.isEnabled = true
                     Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
-                    vmDrawerList?.reindex {}
+                    vmDrawerList.reindex {}
                 }
             })
             mDragListView.setCanDragHorizontally(false)

@@ -26,7 +26,7 @@ class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
     val compositeDisposable = CompositeDisposable()
     val args: WordsDictFragmentArgs by navArgs()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentWordsDictBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm

@@ -19,16 +19,16 @@ import org.koin.core.parameter.parametersOf
 
 class PhrasesReviewFragment : Fragment(), MenuProvider {
 
-    val vm by viewModel<PhrasesReviewViewModel>{ parametersOf({ self: PhrasesReviewViewModel ->
-        if (self.hasCurrent && self.isSpeaking.value!!)
-            speak(self.currentPhrase)
-    }) }
+    val vm by viewModel<PhrasesReviewViewModel>{ parametersOf({ self: PhrasesReviewViewModel -> self.run {
+        if (hasCurrent && isSpeaking.value!!)
+            speak(currentPhrase)
+    }})}
     var binding by autoCleared<FragmentPhrasesReviewBinding>()
     var mAlreadyLoaded = false
 
     val compositeDisposable = CompositeDisposable()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentPhrasesReviewBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
