@@ -1,7 +1,6 @@
 package com.zwstudio.lolly
 
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,7 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.zwstudio.lolly.common.onCreateApp
-import com.zwstudio.lolly.common.tts
+import com.zwstudio.lolly.common.onDestroyApp
 import com.zwstudio.lolly.views.R
 
 class MainActivity : AppCompatActivity() {
@@ -58,11 +57,6 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         onCreateApp(this)
-        tts = TextToSpeech(this, object : TextToSpeech.OnInitListener {
-            override fun onInit(status: Int) {
-                if (status != TextToSpeech.SUCCESS) return
-            }
-        })
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -76,6 +70,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        tts.shutdown()
+        onDestroyApp()
     }
 }

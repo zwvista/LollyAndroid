@@ -77,6 +77,15 @@ fun onCreateApp(context: Context) {
         // use modules
         modules(lollyModule)
     }
+    tts = TextToSpeech(context, object : TextToSpeech.OnInitListener {
+        override fun onInit(status: Int) {
+            if (status != TextToSpeech.SUCCESS) return
+        }
+    })
+}
+
+fun onDestroyApp() {
+    tts.shutdown()
 }
 
 val lollyModule = module {
