@@ -15,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.zwstudio.lolly.common.onCreateApp
 import com.zwstudio.lolly.common.tts
 import com.zwstudio.lolly.views.R
 
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        onCreateApp(this)
         tts = TextToSpeech(this, object : TextToSpeech.OnInitListener {
             override fun onInit(status: Int) {
                 if (status != TextToSpeech.SUCCESS) return

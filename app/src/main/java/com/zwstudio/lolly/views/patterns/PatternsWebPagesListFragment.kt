@@ -23,6 +23,7 @@ import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.*
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesListBinding
+import com.zwstudio.lolly.views.misc.DrawerListFragment
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.misc.yesNoDialog
 import kotlinx.coroutines.launch
