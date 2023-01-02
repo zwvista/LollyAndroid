@@ -36,7 +36,6 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
-    namespace 'com.zwstudio.lolly.views'
 }
 
 dependencies {
