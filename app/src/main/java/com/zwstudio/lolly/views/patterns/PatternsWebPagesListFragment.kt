@@ -13,8 +13,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -28,12 +26,13 @@ import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesListBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.misc.yesNoDialog
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 private const val REQUEST_CODE = 1
 
 class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
 
-    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
+    val vm by lazy { requireParentFragment().getViewModel<PatternsWebPagesViewModel>() }
     override val vmDrawerList: DrawerListViewModel? get() = vm
     var binding by autoCleared<FragmentPatternsWebpagesListBinding>()
     val args: PatternsWebPagesListFragmentArgs by navArgs()

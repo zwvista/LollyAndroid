@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.navArgs
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.viewmodels.misc.SettingsListener
 import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
@@ -17,10 +15,11 @@ import com.zwstudio.lolly.views.misc.OnlineDict
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.misc.makeCustomAdapter
 import com.zwstudio.lolly.views.misc.makeCustomAdapter2
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
 
-    val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel<WordsDictViewModel>() }
+    val vm by viewModel<WordsDictViewModel>()
     var binding by autoCleared<FragmentWordsDictBinding>()
     var onlineDict by autoCleared<OnlineDict>()
     val args: WordsDictFragmentArgs by navArgs()

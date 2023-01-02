@@ -58,7 +58,6 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     implementation 'androidx.fragment:fragment-ktx:1.6.0-alpha04'
-    implementation 'com.androidisland.arch:vita:1.0.0'
     implementation "io.insert-koin:koin-android:$koin_version"
     // debugImplementation because LeakCanary should only run in debug builds.
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'

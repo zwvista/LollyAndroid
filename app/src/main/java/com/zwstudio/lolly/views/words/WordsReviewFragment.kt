@@ -7,23 +7,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentWordsReviewBinding
 import com.zwstudio.lolly.views.misc.autoCleared
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class WordsReviewFragment : Fragment(), MenuProvider {
 
-    val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel {
-        WordsReviewViewModel {
-            if (hasCurrent && isSpeaking.value!!)
-                speak(currentWord)
-        }
-    }}
+    val vm by viewModel<WordsReviewViewModel>{ parametersOf({ self: WordsReviewViewModel ->
+        if (self.hasCurrent && self.isSpeaking.value!!)
+            speak(self.currentWord)
+    }) }
     var binding by autoCleared<FragmentWordsReviewBinding>()
     var mAlreadyLoaded = false
 

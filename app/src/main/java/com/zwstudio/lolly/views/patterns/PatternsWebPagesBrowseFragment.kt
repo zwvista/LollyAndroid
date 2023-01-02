@@ -11,17 +11,16 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesBrowseBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.misc.makeAdapter
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PatternsWebPagesBrowseFragment : Fragment() {
 
-    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<PatternsWebPagesViewModel>() }
+    val vm by viewModel<PatternsWebPagesViewModel>()
     var binding by autoCleared<FragmentPatternsWebpagesBrowseBinding>()
     val args: PatternsWebPagesBrowseFragmentArgs by navArgs()
     val item get() = args.item

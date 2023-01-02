@@ -8,18 +8,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsListener
 import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentSearchBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment(), SettingsListener, MenuProvider {
 
-    val vm by lazy { vita.with(VitaOwner.Single(this)).getViewModel<SearchViewModel>() }
+    val vm by viewModel<SearchViewModel>()
     var binding by autoCleared<FragmentSearchBinding>()
     var onlineDict by autoCleared<OnlineDict>()
 

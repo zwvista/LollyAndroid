@@ -9,8 +9,6 @@ import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.androidisland.vita.VitaOwner
-import com.androidisland.vita.vita
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.viewmodels.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
@@ -18,11 +16,14 @@ import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentWordsTextbookDetailBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.misc.makeCustomAdapter
+import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class WordsTextbookDetailFragment : Fragment(), MenuProvider {
 
-    val vm by lazy { vita.with(VitaOwner.Multiple(this)).getViewModel<WordsUnitViewModel>() }
-    val vmDetail by lazy { vita.with(VitaOwner.Single(this)).getViewModel { WordsUnitDetailViewModel(item) } }
+    val vm by lazy { requireParentFragment().getViewModel<WordsUnitViewModel>() }
+    val vmDetail by viewModel<WordsUnitDetailViewModel>{ parametersOf(item) }
     var binding by autoCleared<FragmentWordsTextbookDetailBinding>()
     val args: WordsTextbookDetailFragmentArgs by navArgs()
     val item get() = args.item
