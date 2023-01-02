@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.views
+package com.zwstudio.lolly.views.misc
 
 import android.os.Bundle
 import android.view.View
@@ -12,8 +12,7 @@ import com.woxthebox.draglistview.DragListView
 import com.woxthebox.draglistview.swipe.ListSwipeHelper
 import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
-import com.zwstudio.lolly.views.misc.LollySwipeRefreshLayout
-import com.zwstudio.lolly.views.misc.autoCleared
+import com.zwstudio.lolly.views.R
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 abstract class DrawerListFragment : Fragment() {
@@ -36,7 +35,9 @@ abstract class DrawerListFragment : Fragment() {
         mDragListView.recyclerView.isVerticalScrollBarEnabled = true
 
         mRefreshLayout.setScrollingView(mDragListView.recyclerView)
-        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.app_color))
+        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(),
+            R.color.app_color
+        ))
         mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
 
         mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {

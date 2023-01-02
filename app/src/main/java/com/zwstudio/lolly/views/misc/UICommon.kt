@@ -3,7 +3,6 @@ package com.zwstudio.lolly.views.misc
 import android.app.AlertDialog
 import android.content.*
 import android.net.Uri
-import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -12,7 +11,6 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import java.net.URLEncoder
 
 fun View.copyText(text: String) {
@@ -90,20 +88,4 @@ fun yesNoDialog(context: Context, message: String, yesAction: () -> Unit, noActi
     AlertDialog.Builder(context)
         .setMessage(message).setPositiveButton("Yes", dialogClickListener)
         .setNegativeButton("No", dialogClickListener).show()
-}
-
-class LollySwipeRefreshLayout : SwipeRefreshLayout {
-    private var mScrollingView: View? = null
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    override fun canChildScrollUp(): Boolean {
-        return mScrollingView != null && mScrollingView!!.canScrollVertically(-1)
-    }
-
-    fun setScrollingView(scrollingView: View) {
-        mScrollingView = scrollingView
-    }
 }
