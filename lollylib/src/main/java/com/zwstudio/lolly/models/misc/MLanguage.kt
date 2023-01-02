@@ -13,4 +13,4 @@ data class MLanguage(
     var id: Int = 0,
     @SerializedName("NAME")
     var langname: String = "",
-) : Serializable {}
+) : Serializable

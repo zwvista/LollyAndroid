@@ -15,7 +15,7 @@ class OnSwipeWebviewTouchListener(ctx: Context, touchListener: TouchListener) : 
         return gestureDetector.onTouchEvent(event)
     }
 
-    private inner class GestureListener internal constructor(private val touchListener: TouchListener) : SimpleOnGestureListener() {
+    private inner class GestureListener constructor(private val touchListener: TouchListener) : SimpleOnGestureListener() {
         override fun onDown(e: MotionEvent): Boolean {
             return false // THIS does the trick
         }

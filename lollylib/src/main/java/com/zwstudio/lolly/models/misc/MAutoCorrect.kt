@@ -21,7 +21,7 @@ data class MAutoCorrect(
     var extended: String = "",
     @SerializedName("BASIC")
     var basic: String = "",
-) : Serializable {}
+) : Serializable
 
 fun autoCorrect(text: String, lstAutoCorrects: List<MAutoCorrect>,
                 colFunc1: (MAutoCorrect) -> String, colFunc2: (MAutoCorrect) -> String) =

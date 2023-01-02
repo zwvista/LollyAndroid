@@ -19,4 +19,4 @@ data class MVoice(
     var voicelang: String = "",
     @SerializedName("VOICENAME")
     var voicename: String = "",
-) : Serializable {}
+) : Serializable

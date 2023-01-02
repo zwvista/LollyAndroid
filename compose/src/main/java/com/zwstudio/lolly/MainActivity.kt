@@ -1,7 +1,6 @@
 package com.zwstudio.lolly
 
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.*
@@ -13,7 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.zwstudio.lolly.common.onCreateApp
-import com.zwstudio.lolly.common.tts
+import com.zwstudio.lolly.common.onDestroyApp
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.views.common.Drawer
@@ -30,11 +29,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         onCreateApp(this)
-        tts = TextToSpeech(this, object : TextToSpeech.OnInitListener {
-            override fun onInit(status: Int) {
-                if (status != TextToSpeech.SUCCESS) return
-            }
-        })
         GlobalUserViewModel.load(this)
         setContent {
             LollyAndroidTheme {
@@ -45,7 +39,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        tts.shutdown()
+        onDestroyApp()
     }
 }
 

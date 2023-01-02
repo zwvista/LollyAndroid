@@ -11,6 +11,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import com.zwstudio.lolly.views.R
 import java.net.URLEncoder
 
 fun View.copyText(text: String) {
@@ -59,16 +60,16 @@ fun <T> makeCustomAdapter(context: Context, objects: List<T>, labelFunc: (T) -> 
     }
 
 fun <T> Spinner.makeCustomAdapter2(context: Context, objects: List<T>, labelFunc: (T) -> String, labelFunc2: (T) -> String) {
-    adapter = makeAdapter(context, com.zwstudio.lolly.views.R.layout.spinner_item_2, android.R.id.text1, objects) { v, position ->
+    adapter = makeAdapter(context, R.layout.spinner_item_2, android.R.id.text1, objects) { v, position ->
         val item = getItem(position)!!
         var tv = v.findViewById<TextView>(android.R.id.text1)
         tv.text = labelFunc(item)
         (tv as? CheckedTextView)?.isChecked = selectedItemPosition == position
-        tv = v.findViewById<TextView>(android.R.id.text2)
+        tv = v.findViewById(android.R.id.text2)
         tv.text = labelFunc2(item)
         v
     }.apply {
-        setDropDownViewResource(com.zwstudio.lolly.views.R.layout.list_item_2)
+        setDropDownViewResource(R.layout.list_item_2)
     }
 }
 

@@ -23,7 +23,7 @@ data class MPattern(
     var idsMerge: String = "",
     @SerializedName("PATTERNS_SPLIT")
     var patternsSplit: String = "",
-) : Serializable {}
+) : Serializable
 
 class MPatternVariation {
     var index = 0

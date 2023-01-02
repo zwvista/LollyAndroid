@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.views.patterns
 
-import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
+import com.zwstudio.lolly.views.R
 import com.zwstudio.lolly.views.databinding.FragmentPatternsWebpagesBrowseBinding
 import com.zwstudio.lolly.views.misc.autoCleared
 import com.zwstudio.lolly.views.misc.makeAdapter
@@ -47,7 +47,7 @@ class PatternsWebPagesBrowseFragment : Fragment() {
 
         vm.viewModelScope.launch {
             vm.getWebPages(item.id)
-            binding.spnWebPages.adapter = makeAdapter(requireContext(), R.layout.simple_spinner_item, 0, vm.lstWebPages) { v, position ->
+            binding.spnWebPages.adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, 0, vm.lstWebPages) { v, position ->
                 val tv = v.findViewById<TextView>(R.id.text1)
                 tv.text = vm.getWebPageText(position)
                 v

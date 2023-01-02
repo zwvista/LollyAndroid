@@ -88,10 +88,7 @@ class SearchFragment : Fragment(), SettingsListener, MenuProvider {
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.menuLogout -> {
-                requireContext().getSharedPreferences("users", 0)
-                    .edit()
-                    .remove("userid")
-                    .apply()
+                GlobalUserViewModel.remove(requireContext())
                 findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToLoginFragment())
                 true
             }

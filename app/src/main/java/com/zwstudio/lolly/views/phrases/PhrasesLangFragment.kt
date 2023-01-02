@@ -26,8 +26,6 @@ import com.zwstudio.lolly.views.misc.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-private const val REQUEST_CODE = 1
-
 class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
 
     val vm by viewModel<PhrasesLangViewModel>()
