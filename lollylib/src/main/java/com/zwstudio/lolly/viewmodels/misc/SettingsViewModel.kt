@@ -2,9 +2,11 @@ package com.zwstudio.lolly.viewmodels.misc
 
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.distinctUntilChanged
 import com.zwstudio.lolly.common.tts
 import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
@@ -179,6 +181,66 @@ class SettingsViewModel : ViewModel(), KoinComponent {
 
     var busy = false
     var settingsListener: SettingsListener? = null
+
+    val unitToEnabled = MutableLiveData(false)
+    val partToEnabled = MutableLiveData(false)
+    val previousEnabled = MutableLiveData(false)
+    val nextEnabled = MutableLiveData(false)
+    val partFromEnabled = MutableLiveData(false)
+
+    fun addObservers(lifecycleOwner: LifecycleOwner) {
+        selectedLangIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                updateLang()
+        }
+        selectedVoiceIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                updateVoice()
+        }
+        selectedDictReferenceIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                updateDictReference()
+        }
+        selectedDictNoteIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                updateDictNote()
+        }
+        selectedDictTranslationIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                updateDictTranslation()
+        }
+        selectedTextbookIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                updateTextbook()
+        }
+        selectedUnitFromIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                updateUnitFrom(lstUnits[it].value)
+        }
+        selectedPartFromIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                updatePartFrom(it)
+        }
+        toTypeIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            val b = it == 2
+            unitToEnabled.value = b
+            partToEnabled.value = b && !isSinglePart
+            previousEnabled.value = !b
+            nextEnabled.value = !b
+            partFromEnabled.value = it != 0 && !isSinglePart
+            if (!busy)
+                updateToType(it)
+        }
+        selectedUnitToIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                updateUnitTo(lstUnits[it].value)
+        }
+        selectedPartToIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                updatePartTo(lstParts[it].value)
+        }
+    }
+
     fun getData() = viewModelScope.launch {
         busy = true
         val res1 = async { languageService.getData() }

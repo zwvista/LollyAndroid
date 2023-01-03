@@ -22,7 +22,8 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun LoginScreen(vm: LoginViewModel = getViewModel()) {
+fun LoginScreen() {
+    val vm = getViewModel<LoginViewModel>()
     val context = LocalContext.current
     var showAlert by remember { mutableStateOf(false) }
     Column(

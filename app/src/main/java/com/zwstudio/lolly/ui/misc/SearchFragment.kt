@@ -6,7 +6,6 @@ import android.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
@@ -52,18 +51,7 @@ class SearchFragment : Fragment(), SettingsListener, MenuProvider {
             }
         })
 
-        vmSettings.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vmSettings.busy)
-                vmSettings.updateLang()
-        }
-        vmSettings.selectedDictReferenceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vmSettings.busy)
-                vmSettings.updateDictReference()
-        }
-        vmSettings.selectedTextbookIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vmSettings.busy)
-                vmSettings.updateTextbook()
-        }
+        vmSettings.addObservers(viewLifecycleOwner)
 
         vmSettings.settingsListener = this
         vmSettings.getData()

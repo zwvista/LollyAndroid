@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.distinctUntilChanged
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentSettingsBinding
 import com.zwstudio.lolly.ui.common.autoCleared
@@ -29,56 +28,7 @@ class SettingsFragment : Fragment(), SettingsListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vm.busy)
-                vm.updateLang()
-        }
-        vm.selectedVoiceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vm.busy)
-                vm.updateVoice()
-        }
-        vm.selectedDictReferenceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vm.busy)
-                vm.updateDictReference()
-        }
-        vm.selectedDictNoteIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vm.busy)
-                vm.updateDictNote()
-        }
-        vm.selectedDictTranslationIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vm.busy)
-                vm.updateDictTranslation()
-        }
-        vm.selectedTextbookIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vm.busy)
-                vm.updateTextbook()
-        }
-        vm.selectedUnitFromIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vm.busy)
-                vm.updateUnitFrom(vm.lstUnits[it].value)
-        }
-        vm.selectedPartFromIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vm.busy)
-                vm.updatePartFrom(it)
-        }
-        vm.toTypeIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            val b = it == 2
-            binding.spnUnitTo.isEnabled = b
-            binding.spnPartTo.isEnabled = b && !vm.isSinglePart
-            binding.btnPrevious.isEnabled = !b
-            binding.btnNext.isEnabled = !b
-            binding.spnPartFrom.isEnabled = it != 0 && !vm.isSinglePart
-            if (!vm.busy)
-                vm.updateToType(it)
-        }
-        vm.selectedUnitToIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vm.busy)
-                vm.updateUnitTo(vm.lstUnits[it].value)
-        }
-        vm.selectedPartToIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vm.busy)
-                vm.updatePartTo(vm.lstParts[it].value)
-        }
+        vm.addObservers(viewLifecycleOwner)
 
         binding.btnPrevious.setOnClickListener {
             vm.previousUnitPart()
