@@ -6,7 +6,6 @@ import android.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.findNavController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
