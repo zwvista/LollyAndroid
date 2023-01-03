@@ -47,18 +47,18 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ApplicationSwitcher() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = TopScreens.Main.route) {
-        composable(TopScreens.Main.route) { MainScreen() }
+    NavHost(navController = navController, startDestination = TopScreens.AppMain.route) {
+        composable(TopScreens.AppMain.route) { AppMainScreen() }
         composable(TopScreens.Login.route) { LoginScreen() }
     }
     if (GlobalUserViewModel.isLoggedIn_.observeAsState().value!!)
-        navController.navigate(TopScreens.Main.route)
+        navController.navigate(TopScreens.AppMain.route)
     else
         navController.navigate(TopScreens.Login.route)
 }
 
 @Composable
-fun MainScreen() {
+fun AppMainScreen() {
     val navController = rememberNavController()
     Surface(color = MaterialTheme.colors.background) {
         val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -113,6 +113,6 @@ fun MainScreen() {
 @Composable
 fun DefaultPreview() {
     LollyAndroidTheme {
-        MainScreen()
+        AppMainScreen()
     }
 }
