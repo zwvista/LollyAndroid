@@ -15,6 +15,7 @@ import com.zwstudio.lolly.common.onCreateApp
 import com.zwstudio.lolly.common.onDestroyApp
 import com.zwstudio.lolly.ui.common.Drawer
 import com.zwstudio.lolly.ui.common.DrawerScreens
+import com.zwstudio.lolly.ui.common.TopScreens
 import com.zwstudio.lolly.ui.misc.LoginScreen
 import com.zwstudio.lolly.ui.misc.SearchScreen
 import com.zwstudio.lolly.ui.misc.SettingsScreen
@@ -45,15 +46,19 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ApplicationSwitcher() {
-    if (GlobalUserViewModel.isLoggedIn_.observeAsState().value!!) {
-        AppMainScreen()
-    } else {
-        LoginScreen()
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = TopScreens.Main.route) {
+        composable(TopScreens.Main.route) { MainScreen() }
+        composable(TopScreens.Login.route) { LoginScreen() }
     }
+    if (GlobalUserViewModel.isLoggedIn_.observeAsState().value!!)
+        navController.navigate(TopScreens.Main.route)
+    else
+        navController.navigate(TopScreens.Login.route)
 }
 
 @Composable
-fun AppMainScreen() {
+fun MainScreen() {
     val navController = rememberNavController()
     Surface(color = MaterialTheme.colors.background) {
         val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -85,29 +90,19 @@ fun AppMainScreen() {
                 startDestination = DrawerScreens.Search.route
             ) {
                 composable(DrawerScreens.Search.route) {
-                    SearchScreen(
-                        openDrawer = { openDrawer() }
-                    )
+                    SearchScreen { openDrawer() }
                 }
                 composable(DrawerScreens.Settings.route) {
-                    SettingsScreen(
-                        openDrawer = { openDrawer() }
-                    )
+                    SettingsScreen { openDrawer() }
                 }
                 composable(DrawerScreens.WordsUnit.route) {
-                    WordsUnitScreen(
-                        openDrawer = { openDrawer() }
-                    )
+                    WordsUnitScreen { openDrawer() }
                 }
                 composable(DrawerScreens.PhrasesUnit.route) {
-                    PhrasesUnitScreen(
-                        openDrawer = { openDrawer() }
-                    )
+                    PhrasesUnitScreen { openDrawer() }
                 }
                 composable(DrawerScreens.Patterns.route) {
-                    PatternsScreen(
-                        openDrawer = { openDrawer() }
-                    )
+                    PatternsScreen { openDrawer() }
                 }
             }
         }
@@ -118,6 +113,6 @@ fun AppMainScreen() {
 @Composable
 fun DefaultPreview() {
     LollyAndroidTheme {
-        AppMainScreen()
+        MainScreen()
     }
 }
