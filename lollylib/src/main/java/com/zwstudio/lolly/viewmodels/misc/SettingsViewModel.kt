@@ -2,8 +2,10 @@ package com.zwstudio.lolly.viewmodels.misc
 
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.distinctUntilChanged
 import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.tts
 import com.zwstudio.lolly.models.misc.*
@@ -186,6 +188,66 @@ class SettingsViewModel : ViewModel(), KoinComponent {
 
     var busy = false
     var settingsListener: SettingsListener? = null
+
+    val unitToEnabled = MutableLiveData(false)
+    val partToEnabled = MutableLiveData(false)
+    val previousEnabled = MutableLiveData(false)
+    val nextEnabled = MutableLiveData(false)
+    val partFromEnabled = MutableLiveData(false)
+
+    fun addObservers(lifecycleOwner: LifecycleOwner) {
+        selectedLangIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                compositeDisposable.add(updateLang().subscribe())
+        }
+        selectedVoiceIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                compositeDisposable.add(updateVoice().subscribe())
+        }
+        selectedDictReferenceIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                compositeDisposable.add(updateDictReference().subscribe())
+        }
+        selectedDictNoteIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                compositeDisposable.add(updateDictNote().subscribe())
+        }
+        selectedDictTranslationIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                compositeDisposable.add(updateDictTranslation().subscribe())
+        }
+        selectedTextbookIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                compositeDisposable.add(updateTextbook().subscribe())
+        }
+        selectedUnitFromIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                compositeDisposable.add(updateUnitFrom(lstUnits[it].value).subscribe())
+        }
+        selectedPartFromIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                compositeDisposable.add(updatePartFrom(it).subscribe())
+        }
+        toTypeIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            val b = it == 2
+            unitToEnabled.value = b
+            partToEnabled.value = b && !isSinglePart
+            previousEnabled.value = !b
+            nextEnabled.value = !b
+            partFromEnabled.value = it != 0 && !isSinglePart
+            if (!busy)
+                compositeDisposable.add(updateToType(it).subscribe())
+        }
+        selectedUnitToIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                compositeDisposable.add(updateUnitTo(lstUnits[it].value).subscribe())
+        }
+        selectedPartToIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+            if (!busy)
+                compositeDisposable.add(updatePartTo(lstParts[it].value).subscribe())
+        }
+    }
+
     fun getData(): Completable {
         busy = true
         return Single.zip(languageService.getData(),

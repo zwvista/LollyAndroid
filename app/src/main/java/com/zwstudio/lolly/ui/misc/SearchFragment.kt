@@ -54,18 +54,7 @@ class SearchFragment : Fragment(), SettingsListener, MenuProvider {
             }
         })
 
-        vmSettings.selectedLangIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vmSettings.busy)
-                compositeDisposable.add(vmSettings.updateLang().subscribe())
-        }
-        vmSettings.selectedDictReferenceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vmSettings.busy)
-                compositeDisposable.add(vmSettings.updateDictReference().subscribe())
-        }
-        vmSettings.selectedTextbookIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
-            if (!vmSettings.busy)
-                compositeDisposable.add(vmSettings.updateTextbook().subscribe())
-        }
+        vmSettings.addObservers(viewLifecycleOwner)
 
         vmSettings.settingsListener = this
         compositeDisposable.add(vmSettings.getData().subscribe())

@@ -139,6 +139,7 @@
             <Spinner
                 android:id="@+id/spnPartFrom"
                 android:selectedItemPosition="@={model.selectedPartFromIndex_}"
+                android:clickable="@{model.partFromEnabled}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/spnUnitFrom"
@@ -158,6 +159,7 @@
 
             <Button
                 android:id="@+id/btnPrevious"
+                android:enabled="@{model.previousEnabled}"
                 android:text="@string/label_previous"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -169,6 +171,7 @@
 
             <Button
                 android:id="@+id/btnNext"
+                android:enabled="@{model.nextEnabled}"
                 android:text="@string/label_next"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -181,6 +184,7 @@
             <Spinner
                 android:id="@+id/spnUnitTo"
                 android:selectedItemPosition="@={model.selectedUnitToIndex_}"
+                android:clickable="@{model.unitToEnabled}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/btnPrevious"
@@ -189,6 +193,7 @@
             <Spinner
                 android:id="@+id/spnPartTo"
                 android:selectedItemPosition="@={model.selectedPartToIndex_}"
+                android:clickable="@{model.partToEnabled}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
