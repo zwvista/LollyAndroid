@@ -51,8 +51,6 @@ class SearchFragment : Fragment(), SettingsListener, MenuProvider {
             }
         })
 
-        vmSettings.addObservers(viewLifecycleOwner)
-
         vmSettings.settingsListener = this
         vmSettings.getData()
     }

@@ -2,7 +2,6 @@ package com.zwstudio.lolly.viewmodels.misc
 
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.common.tts
@@ -179,7 +178,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         return MUserSettingInfo(o2.id, o.valueid)
     }
 
-    var busy = false
+    var busy = true
     var settingsListener: SettingsListener? = null
 
     val unitToEnabled = MutableStateFlow(false)
@@ -188,7 +187,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     val nextEnabled = MutableStateFlow(false)
     val partFromEnabled = MutableStateFlow(false)
 
-    fun addObservers(lifecycleOwner: LifecycleOwner) {
+    init {
         selectedLangIndex_.onEach {
             if (!busy)
                 updateLang()
