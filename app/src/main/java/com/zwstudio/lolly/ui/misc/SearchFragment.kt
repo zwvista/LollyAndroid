@@ -53,8 +53,6 @@ class SearchFragment : Fragment(), SettingsListener, MenuProvider {
             }
         })
 
-        vmSettings.addObservers(viewLifecycleOwner)
-
         vmSettings.settingsListener = this
         compositeDisposable.add(vmSettings.getData().subscribe())
     }

@@ -31,8 +31,6 @@ class SettingsFragment : Fragment(), SettingsListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        vm.addObservers(viewLifecycleOwner)
-
         binding.btnPrevious.setOnClickListener {
             compositeDisposable.add(vm.previousUnitPart().subscribe())
         }
