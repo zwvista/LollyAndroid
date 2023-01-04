@@ -1,6 +1,5 @@
 package com.zwstudio.lolly.viewmodels.phrases
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.vmSettings
@@ -12,6 +11,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
 
@@ -32,29 +32,29 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
     var subscriptionTimer: Disposable? = null
 
-    val isSpeaking = MutableLiveData(true)
-    val indexString = MutableLiveData("")
-    val indexVisible = MutableLiveData(true)
-    val correctVisible = MutableLiveData(false)
-    val incorrectVisible = MutableLiveData(false)
-    val checkNextEnabled = MutableLiveData(false)
-    val checkNextString = MutableLiveData("Check")
-    val checkPrevEnabled = MutableLiveData(false)
-    val checkPrevString = MutableLiveData("Check")
-    val checkPrevVisible = MutableLiveData(true)
-    val phraseTargetString = MutableLiveData("")
-    val phraseTargetVisible = MutableLiveData(true)
-    val translationString = MutableLiveData("")
-    val phraseInputString = MutableLiveData("")
-    val onRepeat = MutableLiveData(true)
-    val moveForward = MutableLiveData(true)
-    val onRepeatVisible = MutableLiveData(true)
-    val moveForwardVisible = MutableLiveData(true)
+    val isSpeaking = MutableStateFlow(true)
+    val indexString = MutableStateFlow("")
+    val indexVisible = MutableStateFlow(true)
+    val correctVisible = MutableStateFlow(false)
+    val incorrectVisible = MutableStateFlow(false)
+    val checkNextEnabled = MutableStateFlow(false)
+    val checkNextString = MutableStateFlow("Check")
+    val checkPrevEnabled = MutableStateFlow(false)
+    val checkPrevString = MutableStateFlow("Check")
+    val checkPrevVisible = MutableStateFlow(true)
+    val phraseTargetString = MutableStateFlow("")
+    val phraseTargetVisible = MutableStateFlow(true)
+    val translationString = MutableStateFlow("")
+    val phraseInputString = MutableStateFlow("")
+    val onRepeat = MutableStateFlow(true)
+    val moveForward = MutableStateFlow(true)
+    val onRepeatVisible = MutableStateFlow(true)
+    val moveForwardVisible = MutableStateFlow(true)
 
     fun newTest() {
         fun f() {
             lstCorrectIDs = mutableListOf()
-            index = if (moveForward.value!!) 0 else count - 1
+            index = if (moveForward.value) 0 else count - 1
             doTest()
             checkNextString.value = if (isTestMode) "Check" else "Next"
             checkPrevString.value = if (isTestMode) "Check" else "Prev"
@@ -90,7 +90,7 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
 
     fun move(toNext: Boolean) {
         fun checkOnRepeat() {
-            if (onRepeat.value!!) {
+            if (onRepeat.value) {
                 index = (index + count) % count
             }
         }
@@ -110,7 +110,7 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     fun check(toNext: Boolean) {
         if (!isTestMode) {
             var b = true
-            if (options.mode == ReviewMode.ReviewManual && phraseInputString.value!!.isNotEmpty() && phraseInputString.value != currentPhrase) {
+            if (options.mode == ReviewMode.ReviewManual && phraseInputString.value.isNotEmpty() && phraseInputString.value != currentPhrase) {
                 b = false
                 incorrectVisible.value = true
             }
@@ -118,8 +118,8 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
                 move(toNext)
                 doTest()
             }
-        } else if (!correctVisible.value!! && !incorrectVisible.value!!) {
-            phraseInputString.value = vmSettings.autoCorrectInput(phraseInputString.value!!)
+        } else if (!correctVisible.value && !incorrectVisible.value) {
+            phraseInputString.value = vmSettings.autoCorrectInput(phraseInputString.value)
             phraseTargetVisible.value = true
             if (phraseInputString.value == currentPhrase)
                 correctVisible.value = true

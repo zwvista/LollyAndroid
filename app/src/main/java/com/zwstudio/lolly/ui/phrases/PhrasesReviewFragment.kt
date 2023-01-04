@@ -20,7 +20,7 @@ import org.koin.core.parameter.parametersOf
 class PhrasesReviewFragment : Fragment(), MenuProvider {
 
     val vm by viewModel<PhrasesReviewViewModel>{ parametersOf({ self: PhrasesReviewViewModel -> self.run {
-        if (hasCurrent && isSpeaking.value!!)
+        if (hasCurrent && isSpeaking.value)
             speak(currentPhrase)
     }})}
     var binding by autoCleared<FragmentPhrasesReviewBinding>()

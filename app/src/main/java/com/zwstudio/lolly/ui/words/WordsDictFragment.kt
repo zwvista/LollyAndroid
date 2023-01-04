@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.distinctUntilChanged
 import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentWordsDictBinding
-import com.zwstudio.lolly.viewmodels.misc.SettingsListener
-import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import com.zwstudio.lolly.ui.common.OnlineDict
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.ui.common.makeCustomAdapter2
+import com.zwstudio.lolly.viewmodels.misc.SettingsListener
+import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
@@ -43,7 +43,7 @@ class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
         binding.webView.setOnTouchListener(OnSwipeWebviewTouchListener(requireContext(), this))
 
         binding.spnWord.adapter = makeCustomAdapter(requireContext(), vm.lstWords) { it }
-        vm.selectedWordIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vm.selectedWordIndex_.onEach {
             selectedWordChanged()
         }
 
@@ -52,7 +52,7 @@ class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
         onlineDict.initWebViewClient()
 
         binding.spnDictReference.makeCustomAdapter2(requireContext(), vmSettings.lstDictsReference, { it.dictname },  { it.url })
-        vmSettings.selectedDictReferenceIndex_.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vmSettings.selectedDictReferenceIndex_.onEach {
             if (!vmSettings.busy)
                 compositeDisposable.add(vmSettings.updateDictReference().subscribe())
         }

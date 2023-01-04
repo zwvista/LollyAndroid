@@ -3,9 +3,7 @@ package com.zwstudio.lolly.viewmodels.misc
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.distinctUntilChanged
 import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.tts
 import com.zwstudio.lolly.models.misc.*
@@ -16,6 +14,8 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
@@ -101,34 +101,34 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         get() = usunitpartfrom > usunitpartto
 
     var lstLanguages = listOf<MLanguage>()
-    val selectedLangIndex_= MutableLiveData(0)
-    var selectedLangIndex get() = selectedLangIndex_.value!!; set(v) { selectedLangIndex_.value = v }
+    val selectedLangIndex_= MutableStateFlow(0)
+    var selectedLangIndex get() = selectedLangIndex_.value; set(v) { selectedLangIndex_.value = v }
     val selectedLang get() = lstLanguages[selectedLangIndex]
 
     var lstVoices = listOf<MVoice>()
-    val selectedVoiceIndex_= MutableLiveData(0)
-    var selectedVoiceIndex get() = selectedVoiceIndex_.value!!; set(v) { selectedVoiceIndex_.value = v }
+    val selectedVoiceIndex_= MutableStateFlow(0)
+    var selectedVoiceIndex get() = selectedVoiceIndex_.value; set(v) { selectedVoiceIndex_.value = v }
     val selectedVoice get() = lstVoices.getOrNull(selectedVoiceIndex)
 
     var lstTextbooks = listOf<MTextbook>()
-    val selectedTextbookIndex_= MutableLiveData(0)
-    var selectedTextbookIndex get() = selectedTextbookIndex_.value!!; set(v) { selectedTextbookIndex_.value = v }
+    val selectedTextbookIndex_= MutableStateFlow(0)
+    var selectedTextbookIndex get() = selectedTextbookIndex_.value; set(v) { selectedTextbookIndex_.value = v }
     val selectedTextbook get() = lstTextbooks[selectedTextbookIndex]
     var lstTextbookFilters = listOf<MSelectItem>()
 
     var lstDictsReference = listOf<MDictionary>()
-    val selectedDictReferenceIndex_= MutableLiveData(0)
-    var selectedDictReferenceIndex get() = selectedDictReferenceIndex_.value!!; set(v) { selectedDictReferenceIndex_.value = v }
+    val selectedDictReferenceIndex_= MutableStateFlow(0)
+    var selectedDictReferenceIndex get() = selectedDictReferenceIndex_.value; set(v) { selectedDictReferenceIndex_.value = v }
     val selectedDictReference get() = lstDictsReference[selectedDictReferenceIndex]
 
     var lstDictsNote = listOf<MDictionary>()
-    val selectedDictNoteIndex_= MutableLiveData(0)
-    var selectedDictNoteIndex get() = selectedDictNoteIndex_.value!!; set(v) { selectedDictNoteIndex_.value = v }
+    val selectedDictNoteIndex_= MutableStateFlow(0)
+    var selectedDictNoteIndex get() = selectedDictNoteIndex_.value; set(v) { selectedDictNoteIndex_.value = v }
     val selectedDictNote get() = lstDictsNote.getOrNull(selectedDictNoteIndex)
 
     var lstDictsTranslation = listOf<MDictionary>()
-    val selectedDictTranslationIndex_= MutableLiveData(0)
-    var selectedDictTranslationIndex get() = selectedDictTranslationIndex_.value!!; set(v) { selectedDictTranslationIndex_.value = v }
+    val selectedDictTranslationIndex_= MutableStateFlow(0)
+    var selectedDictTranslationIndex get() = selectedDictTranslationIndex_.value; set(v) { selectedDictTranslationIndex_.value = v }
     val selectedDictTranslation get() = lstDictsTranslation.getOrNull(selectedDictTranslationIndex)
 
     val lstUnits: List<MSelectItem>
@@ -145,16 +145,16 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var lstAutoCorrect = listOf<MAutoCorrect>()
 
     val lstToTypes = UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) }
-    val selectedUnitFromIndex_ = MutableLiveData(0)
-    var selectedUnitFromIndex get() = selectedUnitFromIndex_.value!!; set(v) { selectedUnitFromIndex_.value = v }
-    val selectedPartFromIndex_ = MutableLiveData(0)
-    var selectedPartFromIndex get() = selectedPartFromIndex_.value!!; set(v) { selectedPartFromIndex_.value = v }
-    val selectedUnitToIndex_ = MutableLiveData(0)
-    var selectedUnitToIndex get() = selectedUnitToIndex_.value!!; set(v) { selectedUnitToIndex_.value = v }
-    val selectedPartToIndex_ = MutableLiveData(0)
-    var selectedPartToIndex get() = selectedPartToIndex_.value!!; set(v) { selectedPartToIndex_.value = v }
-    val toTypeIndex_ = MutableLiveData(0)
-    var toType get() = UnitPartToType.values()[toTypeIndex_.value!!]; set(v) { toTypeIndex_.value = v.ordinal }
+    val selectedUnitFromIndex_ = MutableStateFlow(0)
+    var selectedUnitFromIndex get() = selectedUnitFromIndex_.value; set(v) { selectedUnitFromIndex_.value = v }
+    val selectedPartFromIndex_ = MutableStateFlow(0)
+    var selectedPartFromIndex get() = selectedPartFromIndex_.value; set(v) { selectedPartFromIndex_.value = v }
+    val selectedUnitToIndex_ = MutableStateFlow(0)
+    var selectedUnitToIndex get() = selectedUnitToIndex_.value; set(v) { selectedUnitToIndex_.value = v }
+    val selectedPartToIndex_ = MutableStateFlow(0)
+    var selectedPartToIndex get() = selectedPartToIndex_.value; set(v) { selectedPartToIndex_.value = v }
+    val toTypeIndex_ = MutableStateFlow(0)
+    var toType get() = UnitPartToType.values()[toTypeIndex_.value]; set(v) { toTypeIndex_.value = v.ordinal }
 
     companion object {
         val lstScopeWordFilters = listOf("Word", "Note").mapIndexed { index, s -> MSelectItem(index, s) }
@@ -189,46 +189,46 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var busy = false
     var settingsListener: SettingsListener? = null
 
-    val unitToEnabled = MutableLiveData(false)
-    val partToEnabled = MutableLiveData(false)
-    val previousEnabled = MutableLiveData(false)
-    val nextEnabled = MutableLiveData(false)
-    val partFromEnabled = MutableLiveData(false)
+    val unitToEnabled = MutableStateFlow(false)
+    val partToEnabled = MutableStateFlow(false)
+    val previousEnabled = MutableStateFlow(false)
+    val nextEnabled = MutableStateFlow(false)
+    val partFromEnabled = MutableStateFlow(false)
 
     fun addObservers(lifecycleOwner: LifecycleOwner) {
-        selectedLangIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+        selectedLangIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateLang().subscribe())
         }
-        selectedVoiceIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+        selectedVoiceIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateVoice().subscribe())
         }
-        selectedDictReferenceIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+        selectedDictReferenceIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateDictReference().subscribe())
         }
-        selectedDictNoteIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+        selectedDictNoteIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateDictNote().subscribe())
         }
-        selectedDictTranslationIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+        selectedDictTranslationIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateDictTranslation().subscribe())
         }
-        selectedTextbookIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+        selectedTextbookIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateTextbook().subscribe())
         }
-        selectedUnitFromIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+        selectedUnitFromIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateUnitFrom(lstUnits[it].value).subscribe())
         }
-        selectedPartFromIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+        selectedPartFromIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updatePartFrom(it).subscribe())
         }
-        toTypeIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+        toTypeIndex_.onEach {
             val b = it == 2
             unitToEnabled.value = b
             partToEnabled.value = b && !isSinglePart
@@ -238,11 +238,11 @@ class SettingsViewModel : ViewModel(), KoinComponent {
             if (!busy)
                 compositeDisposable.add(updateToType(it).subscribe())
         }
-        selectedUnitToIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+        selectedUnitToIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateUnitTo(lstUnits[it].value).subscribe())
         }
-        selectedPartToIndex_.distinctUntilChanged().observe(lifecycleOwner) {
+        selectedPartToIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updatePartTo(lstParts[it].value).subscribe())
         }
