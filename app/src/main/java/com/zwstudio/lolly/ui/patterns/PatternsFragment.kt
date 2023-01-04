@@ -25,6 +25,7 @@ import com.zwstudio.lolly.ui.misc.*
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -64,7 +65,7 @@ class PatternsFragment : DrawerListFragment(), MenuProvider {
         vm.scopeFilterIndex.onEach {
             vm.applyFilters()
             refreshListView()
-        }
+        }.launchIn(vm.viewModelScope)
 
         setupListView()
         vm.viewModelScope.launch {

@@ -9,6 +9,7 @@ import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -187,39 +188,39 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     val nextEnabled = MutableStateFlow(false)
     val partFromEnabled = MutableStateFlow(false)
 
-    init {
+    fun addObservers() {
         selectedLangIndex_.onEach {
             if (!busy)
                 updateLang()
-        }
+        }.launchIn(viewModelScope)
         selectedVoiceIndex_.onEach {
             if (!busy)
                 updateVoice()
-        }
+        }.launchIn(viewModelScope)
         selectedDictReferenceIndex_.onEach {
             if (!busy)
                 updateDictReference()
-        }
+        }.launchIn(viewModelScope)
         selectedDictNoteIndex_.onEach {
             if (!busy)
                 updateDictNote()
-        }
+        }.launchIn(viewModelScope)
         selectedDictTranslationIndex_.onEach {
             if (!busy)
                 updateDictTranslation()
-        }
+        }.launchIn(viewModelScope)
         selectedTextbookIndex_.onEach {
             if (!busy)
                 updateTextbook()
-        }
+        }.launchIn(viewModelScope)
         selectedUnitFromIndex_.onEach {
             if (!busy)
                 updateUnitFrom(lstUnits[it].value)
-        }
+        }.launchIn(viewModelScope)
         selectedPartFromIndex_.onEach {
             if (!busy)
                 updatePartFrom(it)
-        }
+        }.launchIn(viewModelScope)
         toTypeIndex_.onEach {
             val b = it == 2
             unitToEnabled.value = b
@@ -233,11 +234,11 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         selectedUnitToIndex_.onEach {
             if (!busy)
                 updateUnitTo(lstUnits[it].value)
-        }
+        }.launchIn(viewModelScope)
         selectedPartToIndex_.onEach {
             if (!busy)
                 updatePartTo(lstParts[it].value)
-        }
+        }.launchIn(viewModelScope)
     }
 
     fun getData() = viewModelScope.launch {

@@ -36,6 +36,7 @@ class SettingsFragment : Fragment(), SettingsListener {
             vm.nextUnitPart()
         }
 
+        vmSettings.addObservers()
         vm.settingsListener = this
         vm.getData()
     }

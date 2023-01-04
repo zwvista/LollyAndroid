@@ -25,6 +25,7 @@ import kotlinx.coroutines.launch
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -64,11 +65,11 @@ class PhrasesTextbookFragment : DrawerListFragment(), MenuProvider {
         vm.textbookFilterIndex.onEach {
             vm.applyFilters()
             refreshListView()
-        }
+        }.launchIn(vm.viewModelScope)
         vm.scopeFilterIndex.onEach {
             vm.applyFilters()
             refreshListView()
-        }
+        }.launchIn(vm.viewModelScope)
 
         setupListView()
         vm.viewModelScope.launch {

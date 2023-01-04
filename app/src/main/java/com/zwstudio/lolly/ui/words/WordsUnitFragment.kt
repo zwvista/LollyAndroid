@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.*
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -71,7 +72,7 @@ class WordsUnitFragment : DrawerListFragment(), MenuProvider {
         vm.scopeFilterIndex.onEach {
             vm.applyFilters()
             refreshListView()
-        }
+        }.launchIn(vm.viewModelScope)
 
         setFragmentResultListener("WordsUnitDetailFragment") { _, _ ->
             menuAdd()
