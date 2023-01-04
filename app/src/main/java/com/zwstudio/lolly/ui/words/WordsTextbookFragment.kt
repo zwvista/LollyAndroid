@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -20,13 +19,14 @@ import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentWordsTextbookBinding
 import com.zwstudio.lolly.models.wpp.MUnitWord
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
-import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import com.zwstudio.lolly.ui.*
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.ui.misc.*
 import kotlinx.coroutines.launch
+import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
+import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
@@ -62,11 +62,11 @@ class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
 
         binding.spnTextbookFilter.adapter = makeCustomAdapter(requireContext(), vmSettings.lstTextbookFilters) { it.label }
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopeWordFilters) { it.label }
-        vm.textbookFilterIndex.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vm.textbookFilterIndex.onEach {
             vm.applyFilters()
             refreshListView()
         }
-        vm.scopeFilterIndex.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vm.scopeFilterIndex.onEach {
             vm.applyFilters()
             refreshListView()
         }

@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
@@ -51,7 +51,7 @@ fun ApplicationSwitcher() {
         composable(TopScreens.AppMain.route) { AppMainScreen() }
         composable(TopScreens.Login.route) { LoginScreen() }
     }
-    if (GlobalUserViewModel.isLoggedIn_.observeAsState().value!!)
+    if (GlobalUserViewModel.isLoggedIn_.collectAsState().value)
         navController.navigate(TopScreens.AppMain.route)
     else
         navController.navigate(TopScreens.Login.route)

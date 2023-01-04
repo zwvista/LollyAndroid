@@ -11,15 +11,15 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentPhrasesReviewBinding
 import com.zwstudio.lolly.models.misc.MReviewOptions
-import com.zwstudio.lolly.viewmodels.phrases.PhrasesReviewViewModel
 import com.zwstudio.lolly.ui.common.autoCleared
+import com.zwstudio.lolly.viewmodels.phrases.PhrasesReviewViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class PhrasesReviewFragment : Fragment(), MenuProvider {
 
     val vm by viewModel<PhrasesReviewViewModel>{ parametersOf({ self: PhrasesReviewViewModel -> self.run {
-        if (hasCurrent && isSpeaking.value!!)
+        if (hasCurrent && isSpeaking.value)
             speak(currentPhrase)
     }})}
     var binding by autoCleared<FragmentPhrasesReviewBinding>()

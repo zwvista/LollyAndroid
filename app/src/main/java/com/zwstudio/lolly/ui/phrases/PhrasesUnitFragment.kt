@@ -12,7 +12,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.woxthebox.draglistview.DragItem
@@ -24,13 +23,14 @@ import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentPhrasesUnitBinding
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
-import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.ui.*
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.ui.misc.*
 import kotlinx.coroutines.launch
+import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
+import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {
@@ -65,7 +65,7 @@ class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {
         })
 
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
-        vm.scopeFilterIndex.distinctUntilChanged().observe(viewLifecycleOwner) {
+        vm.scopeFilterIndex.onEach {
             vm.applyFilters()
             refreshListView()
         }

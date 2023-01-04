@@ -1,19 +1,19 @@
 package com.zwstudio.lolly.viewmodels.patterns
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.services.wpp.PatternWebPageService
 import com.zwstudio.lolly.services.wpp.WebPageService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class PatternsWebPagesViewModel : DrawerListViewModel(), KoinComponent {
 
-    var lstWebPages_ = MutableLiveData(mutableListOf<MPatternWebPage>())
-    var lstWebPages get() = lstWebPages_.value!!; set(v) { lstWebPages_.value = v }
+    var lstWebPages_ = MutableStateFlow(mutableListOf<MPatternWebPage>())
+    var lstWebPages get() = lstWebPages_.value; set(v) { lstWebPages_.value = v }
     fun getWebPageText(position: Int) = "${position + 1}/${lstWebPages.size} ${lstWebPages[position].title}"
 
     private val patternWebPageService by inject<PatternWebPageService>()

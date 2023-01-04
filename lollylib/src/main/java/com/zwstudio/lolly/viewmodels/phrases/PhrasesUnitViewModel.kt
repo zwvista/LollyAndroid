@@ -1,24 +1,24 @@
 package com.zwstudio.lolly.viewmodels.phrases
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class PhrasesUnitViewModel : DrawerListViewModel(), KoinComponent {
 
-    private var lstPhrasesAll_ = MutableLiveData(listOf<MUnitPhrase>())
-    var lstPhrasesAll get() = lstPhrasesAll_.value!!; set(v) { lstPhrasesAll_.value = v }
-    private var lstPhrases_ = MutableLiveData(listOf<MUnitPhrase>())
-    var lstPhrases get() = lstPhrases_.value!!; set(v) { lstPhrases_.value = v }
-    val scopeFilterIndex = MutableLiveData(0)
-    val textbookFilterIndex = MutableLiveData(0)
-    private val textbookFilter get() = vmSettings.lstTextbookFilters[textbookFilterIndex.value!!].value
+    private var lstPhrasesAll_ = MutableStateFlow(listOf<MUnitPhrase>())
+    var lstPhrasesAll get() = lstPhrasesAll_.value; set(v) { lstPhrasesAll_.value = v }
+    private var lstPhrases_ = MutableStateFlow(listOf<MUnitPhrase>())
+    var lstPhrases get() = lstPhrases_.value; set(v) { lstPhrases_.value = v }
+    val scopeFilterIndex = MutableStateFlow(0)
+    val textbookFilterIndex = MutableStateFlow(0)
+    private val textbookFilter get() = vmSettings.lstTextbookFilters[textbookFilterIndex.value].value
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
     private val unitPhraseService by inject<UnitPhraseService>()

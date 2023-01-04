@@ -1,22 +1,22 @@
 package com.zwstudio.lolly.viewmodels.phrases
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.wpp.MLangPhrase
 import com.zwstudio.lolly.services.wpp.LangPhraseService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class PhrasesLangViewModel : DrawerListViewModel(), KoinComponent {
 
-    private var lstPhrasesAll_ = MutableLiveData(listOf<MLangPhrase>())
-    var lstPhrasesAll get() = lstPhrasesAll_.value!!; set(v) { lstPhrasesAll_.value = v }
-    private var lstPhrases_ = MutableLiveData(listOf<MLangPhrase>())
-    var lstPhrases get() = lstPhrases_.value!!; set(v) { lstPhrases_.value = v }
-    val scopeFilterIndex = MutableLiveData(0)
+    private var lstPhrasesAll_ = MutableStateFlow(listOf<MLangPhrase>())
+    var lstPhrasesAll get() = lstPhrasesAll_.value; set(v) { lstPhrasesAll_.value = v }
+    private var lstPhrases_ = MutableStateFlow(listOf<MLangPhrase>())
+    var lstPhrases get() = lstPhrases_.value; set(v) { lstPhrases_.value = v }
+    val scopeFilterIndex = MutableStateFlow(0)
     private val noFilter get() = textFilter.isEmpty()
 
     private val langPhraseService by inject<LangPhraseService>()

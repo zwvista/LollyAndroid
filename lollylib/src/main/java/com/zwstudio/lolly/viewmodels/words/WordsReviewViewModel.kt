@@ -2,7 +2,6 @@ package com.zwstudio.lolly.viewmodels.words
 
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.common.vmSettings
@@ -13,6 +12,7 @@ import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
 import com.zwstudio.lolly.services.wpp.WordFamiService
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
@@ -35,34 +35,34 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
     var timer: Timer? = null
 
-    val isSpeaking = MutableLiveData(true)
-    val indexString = MutableLiveData("")
-    val indexVisible = MutableLiveData(true)
-    val correctVisible = MutableLiveData(false)
-    val incorrectVisible = MutableLiveData(false)
-    val accuracyString = MutableLiveData("")
-    val accuracyVisible = MutableLiveData(true)
-    val checkNextEnabled = MutableLiveData(false)
-    val checkNextString = MutableLiveData("Check")
-    val checkPrevEnabled = MutableLiveData(false)
-    val checkPrevString = MutableLiveData("Check")
-    val checkPrevVisible = MutableLiveData(true)
-    val wordTargetString = MutableLiveData("")
-    val noteTargetString = MutableLiveData("")
-    val wordHintString = MutableLiveData("")
-    val wordTargetVisible = MutableLiveData(true)
-    val noteTargetVisible = MutableLiveData(true)
-    val wordHintVisible = MutableLiveData(true)
-    val translationString = MutableLiveData("")
-    val wordInputString = MutableLiveData("")
-    val onRepeat = MutableLiveData(true)
-    val moveForward = MutableLiveData(true)
-    val onRepeatVisible = MutableLiveData(true)
-    val moveForwardVisible = MutableLiveData(true)
+    val isSpeaking = MutableStateFlow(true)
+    val indexString = MutableStateFlow("")
+    val indexVisible = MutableStateFlow(true)
+    val correctVisible = MutableStateFlow(false)
+    val incorrectVisible = MutableStateFlow(false)
+    val accuracyString = MutableStateFlow("")
+    val accuracyVisible = MutableStateFlow(true)
+    val checkNextEnabled = MutableStateFlow(false)
+    val checkNextString = MutableStateFlow("Check")
+    val checkPrevEnabled = MutableStateFlow(false)
+    val checkPrevString = MutableStateFlow("Check")
+    val checkPrevVisible = MutableStateFlow(true)
+    val wordTargetString = MutableStateFlow("")
+    val noteTargetString = MutableStateFlow("")
+    val wordHintString = MutableStateFlow("")
+    val wordTargetVisible = MutableStateFlow(true)
+    val noteTargetVisible = MutableStateFlow(true)
+    val wordHintVisible = MutableStateFlow(true)
+    val translationString = MutableStateFlow("")
+    val wordInputString = MutableStateFlow("")
+    val onRepeat = MutableStateFlow(true)
+    val moveForward = MutableStateFlow(true)
+    val onRepeatVisible = MutableStateFlow(true)
+    val moveForwardVisible = MutableStateFlow(true)
 
     fun newTest() = viewModelScope.launch {
         fun f() {
-            index = if (moveForward.value!!) 0 else count - 1
+            index = if (moveForward.value) 0 else count - 1
             doTest()
             checkNextString.value = if (isTestMode) "Check" else "Next"
             checkPrevString.value = if (isTestMode) "Check" else "Prev"
@@ -117,7 +117,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
 
     fun move(toNext: Boolean) {
         fun checkOnRepeat() {
-            if (onRepeat.value!!) {
+            if (onRepeat.value) {
                 index = (index + count) % count
             }
         }
@@ -143,7 +143,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     fun check(toNext: Boolean) = viewModelScope.launch {
         if (!isTestMode) {
             var b = true
-            if (options.mode == ReviewMode.ReviewManual && wordInputString.value!!.isNotEmpty() && wordInputString.value != currentWord) {
+            if (options.mode == ReviewMode.ReviewManual && wordInputString.value.isNotEmpty() && wordInputString.value != currentWord) {
                 b = false
                 incorrectVisible.value = true
             }
@@ -151,8 +151,8 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
                 move(toNext)
                 doTest()
             }
-        } else if (!correctVisible.value!! && !incorrectVisible.value!!) {
-            wordInputString.value = vmSettings.autoCorrectInput(wordInputString.value!!)
+        } else if (!correctVisible.value && !incorrectVisible.value) {
+            wordInputString.value = vmSettings.autoCorrectInput(wordInputString.value)
             wordTargetVisible.value = true
             if (wordInputString.value == currentWord)
                 correctVisible.value = true
@@ -197,7 +197,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             indexString.value = "${index + 1}/$count"
             accuracyString.value = currentItem!!.accuracy
             translationString.value = getTranslation()
-            if (translationString.value!!.isEmpty() && !options.speakingEnabled)
+            if (translationString.value.isEmpty() && !options.speakingEnabled)
                 wordInputString.value = currentWord
         } else if (options.mode == ReviewMode.ReviewAuto)
             stopTimer()
