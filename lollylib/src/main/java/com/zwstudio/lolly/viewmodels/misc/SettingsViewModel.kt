@@ -3,6 +3,7 @@ package com.zwstudio.lolly.viewmodels.misc
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.tts
 import com.zwstudio.lolly.models.misc.*
@@ -14,6 +15,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -194,39 +196,39 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     val nextEnabled = MutableStateFlow(false)
     val partFromEnabled = MutableStateFlow(false)
 
-    init {
+    fun addObservers() {
         selectedLangIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateLang().subscribe())
-        }
+        }.launchIn(viewModelScope)
         selectedVoiceIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateVoice().subscribe())
-        }
+        }.launchIn(viewModelScope)
         selectedDictReferenceIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateDictReference().subscribe())
-        }
+        }.launchIn(viewModelScope)
         selectedDictNoteIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateDictNote().subscribe())
-        }
+        }.launchIn(viewModelScope)
         selectedDictTranslationIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateDictTranslation().subscribe())
-        }
+        }.launchIn(viewModelScope)
         selectedTextbookIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateTextbook().subscribe())
-        }
+        }.launchIn(viewModelScope)
         selectedUnitFromIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateUnitFrom(lstUnits[it].value).subscribe())
-        }
+        }.launchIn(viewModelScope)
         selectedPartFromIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updatePartFrom(it).subscribe())
-        }
+        }.launchIn(viewModelScope)
         toTypeIndex_.onEach {
             val b = it == 2
             unitToEnabled.value = b
@@ -236,15 +238,15 @@ class SettingsViewModel : ViewModel(), KoinComponent {
             partFromEnabled.value = it != 0 && !isSinglePart
             if (!busy)
                 compositeDisposable.add(updateToType(it).subscribe())
-        }
+        }.launchIn(viewModelScope)
         selectedUnitToIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updateUnitTo(lstUnits[it].value).subscribe())
-        }
+        }.launchIn(viewModelScope)
         selectedPartToIndex_.onEach {
             if (!busy)
                 compositeDisposable.add(updatePartTo(lstParts[it].value).subscribe())
-        }
+        }.launchIn(viewModelScope)
     }
 
     fun getData(): Completable {

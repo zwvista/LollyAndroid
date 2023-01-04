@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.viewModelScope
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
@@ -23,6 +24,7 @@ import com.zwstudio.lolly.ui.misc.*
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -63,11 +65,11 @@ class PhrasesTextbookFragment : DrawerListFragment(), MenuProvider {
         vm.textbookFilterIndex.onEach {
             vm.applyFilters()
             refreshListView()
-        }
+        }.launchIn(vm.viewModelScope)
         vm.scopeFilterIndex.onEach {
             vm.applyFilters()
             refreshListView()
-        }
+        }.launchIn(vm.viewModelScope)
 
         setupListView()
         compositeDisposable.add(vm.getDataInLang().subscribe {

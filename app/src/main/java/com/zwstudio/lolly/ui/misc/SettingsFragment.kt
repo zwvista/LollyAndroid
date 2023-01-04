@@ -39,6 +39,7 @@ class SettingsFragment : Fragment(), SettingsListener {
             compositeDisposable.add(vm.nextUnitPart().subscribe())
         }
 
+        vmSettings.addObservers()
         vm.settingsListener = this
         compositeDisposable.add(vm.getData().subscribe())
     }
