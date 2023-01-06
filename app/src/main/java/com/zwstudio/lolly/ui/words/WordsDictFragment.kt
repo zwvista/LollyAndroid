@@ -13,14 +13,13 @@ import com.zwstudio.lolly.ui.common.OnlineDict
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.ui.common.makeCustomAdapter2
-import com.zwstudio.lolly.viewmodels.misc.SettingsListener
 import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
+class WordsDictFragment : Fragment(), TouchListener {
 
     val vm by viewModel<WordsDictViewModel>()
     var binding by autoCleared<FragmentWordsDictBinding>()
@@ -44,26 +43,18 @@ class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
 
         binding.webView.setOnTouchListener(OnSwipeWebviewTouchListener(requireContext(), this))
 
+        onlineDict = OnlineDict(binding.webView, vm, compositeDisposable)
+        onlineDict.initWebViewClient()
+
         binding.spnWord.adapter = makeCustomAdapter(requireContext(), vm.lstWords) { it }
         vm.selectedWordIndex_.onEach {
             selectedWordChanged()
         }.launchIn(vm.viewModelScope)
 
-        vmSettings.settingsListener = this
-        onlineDict = OnlineDict(binding.webView, vm, compositeDisposable)
-        onlineDict.initWebViewClient()
-
         binding.spnDictReference.makeCustomAdapter2(requireContext(), vmSettings.lstDictsReference, { it.dictname },  { it.url })
         vmSettings.selectedDictReferenceIndex_.onEach {
-            if (!vmSettings.busy)
-                compositeDisposable.add(vmSettings.updateDictReference().subscribe())
+            selectedDictChanged()
         }.launchIn(vm.viewModelScope)
-    }
-
-    override fun onDestroyView() {
-        if (vmSettings.settingsListener == this)
-            vmSettings.settingsListener = null
-        super.onDestroyView()
     }
 
     private fun selectedWordChanged() {
@@ -72,10 +63,6 @@ class WordsDictFragment : Fragment(), TouchListener, SettingsListener {
 
     private fun selectedDictChanged() {
         onlineDict.searchDict()
-    }
-
-    override fun onUpdateDictReference() {
-        selectedDictChanged()
     }
 
     override fun onSwipeLeft() {
