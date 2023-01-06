@@ -203,145 +203,116 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     val partFromEnabled = MutableStateFlow(false)
 
     init {
-        fun MutableStateFlow<Int>.onChange(action: suspend (Int) -> Unit) =
+        fun MutableStateFlow<Int>.onChange(action: (Int) -> Unit) =
             this.filter { it != -1 }.onEach(action).launchIn(viewModelScope)
 
         selectedLangIndex_.onChange {
-            fun updateLang(): Completable {
-                val newVal = selectedLang.id
-                val dirty = uslang != newVal
-                uslang = newVal
-                INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
-                INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
-                INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
-                INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
-                INFO_USVOICE = getUSInfo(MUSMapping.NAME_USVOICE)
-                return Single.zip(dictionaryService.getDictsReferenceByLang(uslang),
-                    dictionaryService.getDictsNoteByLang(uslang),
-                    dictionaryService.getDictsTranslationByLang(uslang),
-                    textbookService.getDataByLang(uslang),
-                    autoCorrectService.getDataByLang(uslang),
-                    voiceService.getDataByLang(uslang),
-                    if (dirty) userSettingService.update(INFO_USLANG, uslang).toSingle { 0 } else Single.just(0)) { res1, res2, res3, res4, res5, res6, _ ->
-                    lstDictsReference = res1
-                    lstDictsNote = res2
-                    lstDictsTranslation = res3
-                    lstTextbooks = res4
-                    lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
-                    lstAutoCorrect = res5
-                    lstVoices = res6
-                }.applyIO().flatMapCompletable {
-                    selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
-                    selectedDictReferenceIndex = 0.coerceAtLeast(lstDictsReference.indexOfFirst { it.dictid.toString() == usdictreference })
-                    selectedDictNoteIndex = 0.coerceAtLeast(lstDictsNote.indexOfFirst { it.dictid == usdictnote })
-                    selectedDictTranslationIndex = 0.coerceAtLeast(lstDictsTranslation.indexOfFirst { it.dictid == usdicttranslation })
-                    selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
-                    Completable.complete()
-                }
-            }
-
-            compositeDisposable.add(updateLang().subscribe())
+            val newVal = selectedLang.id
+            val dirty = uslang != newVal
+            uslang = newVal
+            INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
+            INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
+            INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
+            INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
+            INFO_USVOICE = getUSInfo(MUSMapping.NAME_USVOICE)
+            compositeDisposable.add(Single.zip(dictionaryService.getDictsReferenceByLang(uslang),
+                dictionaryService.getDictsNoteByLang(uslang),
+                dictionaryService.getDictsTranslationByLang(uslang),
+                textbookService.getDataByLang(uslang),
+                autoCorrectService.getDataByLang(uslang),
+                voiceService.getDataByLang(uslang),
+                if (dirty) userSettingService.update(INFO_USLANG, uslang).toSingle { 0 } else Single.just(0)) { res1, res2, res3, res4, res5, res6, _ ->
+                lstDictsReference = res1
+                lstDictsNote = res2
+                lstDictsTranslation = res3
+                lstTextbooks = res4
+                lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
+                lstAutoCorrect = res5
+                lstVoices = res6
+            }.applyIO().flatMapCompletable {
+                selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
+                selectedDictReferenceIndex = 0.coerceAtLeast(lstDictsReference.indexOfFirst { it.dictid.toString() == usdictreference })
+                selectedDictNoteIndex = 0.coerceAtLeast(lstDictsNote.indexOfFirst { it.dictid == usdictnote })
+                selectedDictTranslationIndex = 0.coerceAtLeast(lstDictsTranslation.indexOfFirst { it.dictid == usdicttranslation })
+                selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
+                Completable.complete()
+            }.subscribe())
         }
 
         selectedVoiceIndex_.onChange {
-            fun updateVoice(): Completable {
-                val newVal = selectedVoice?.id ?: 0
-                val dirty = usvoice != newVal
-                usvoice = newVal
-                val locale = Locale.getAvailableLocales().find {
-                    "${it.language}_${it.country}" == selectedVoice?.voicelang
-                }
-                if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return Completable.complete()
-                tts.language = locale
-                return (if (dirty) userSettingService.update(INFO_USVOICE, usvoice) else Completable.complete())
-                    .applyIO()
+            val newVal = selectedVoice.id
+            val dirty = usvoice != newVal
+            usvoice = newVal
+            val locale = Locale.getAvailableLocales().find {
+                "${it.language}_${it.country}" == selectedVoice.voicelang
             }
-
-            compositeDisposable.add(updateVoice().subscribe())
+            if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return@onChange
+            tts.language = locale
+            if (dirty)
+                compositeDisposable.add(userSettingService.update(INFO_USVOICE, usvoice).applyIO().subscribe())
         }
 
         selectedDictReferenceIndex_.onChange {
-            fun updateDictReference(): Completable {
-                val newVal = selectedDictReference.dictid.toString()
-                val dirty = usdictreference != newVal
-                usdictreference = newVal
-                return (if (dirty) userSettingService.update(INFO_USDICTREFERENCE, usdictreference) else Completable.complete())
-                    .applyIO()
-            }
-
-            compositeDisposable.add(updateDictReference().subscribe())
+            val newVal = selectedDictReference.dictid.toString()
+            val dirty = usdictreference != newVal
+            usdictreference = newVal
+            if (dirty)
+                compositeDisposable.add(userSettingService.update(INFO_USDICTREFERENCE, usdictreference).subscribe())
         }
 
         selectedDictNoteIndex_.onChange {
-            fun updateDictNote(): Completable {
-                val newVal = selectedDictNote?.dictid ?: 0
-                val dirty = usdictnote != newVal
-                usdictnote = newVal
-                return (if (dirty) userSettingService.update(INFO_USDICTNOTE, usdictnote) else Completable.complete())
-                    .applyIO()
-            }
-
-            compositeDisposable.add(updateDictNote().subscribe())
+            val newVal = selectedDictNote.dictid
+            val dirty = usdictnote != newVal
+            usdictnote = newVal
+            if (dirty)
+                compositeDisposable.add(userSettingService.update(INFO_USDICTNOTE, usdictnote).applyIO().subscribe())
         }
 
         selectedDictTranslationIndex_.onChange {
-            fun updateDictTranslation(): Completable {
-                val newVal = selectedDictTranslation?.dictid ?: 0
-                val dirty = usdicttranslation != newVal
-                usdicttranslation = newVal
-                return (if (dirty) userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation) else Completable.complete())
-                    .applyIO()
-            }
-
-            compositeDisposable.add(updateDictTranslation().subscribe())
+            val newVal = selectedDictTranslation.dictid
+            val dirty = usdicttranslation != newVal
+            usdicttranslation = newVal
+            if (dirty)
+                compositeDisposable.add(userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation).applyIO().subscribe())
         }
 
         selectedTextbookIndex_.onChange {
-            fun updateTextbook(): Completable {
-                val newVal = selectedTextbook.id
-                val dirty = ustextbook != newVal
-                ustextbook = newVal
-                INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
-                INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
-                INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
-                INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
-                return (if (dirty) userSettingService.update(INFO_USTEXTBOOK, ustextbook) else Completable.complete())
-                    .applyIO().doAfterTerminate {
-                        selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
-                        selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
-                        selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
-                        selectedPartToIndex = lstParts.indexOfFirst { it.value == uspartto }
-                        toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
-                    }
-            }
-
-            compositeDisposable.add(updateTextbook().subscribe())
+            val newVal = selectedTextbook.id
+            val dirty = ustextbook != newVal
+            ustextbook = newVal
+            INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
+            INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
+            INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
+            INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
+            if (dirty)
+                compositeDisposable.add(userSettingService.update(INFO_USTEXTBOOK, ustextbook)
+                .applyIO().doAfterTerminate {
+                    selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
+                    selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
+                    selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
+                    selectedPartToIndex = lstParts.indexOfFirst { it.value == uspartto }
+                    toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
+                }.subscribe())
         }
 
         selectedUnitFromIndex_.onChange {
-            fun updateUnitFrom(v: Int): Completable =
-                doUpdateUnitFrom(v).andThen {
-                    if (toType == UnitPartToType.Unit)
-                        doUpdateSingleUnit()
-                    else if (toType == UnitPartToType.Part || isInvalidUnitPart)
-                        doUpdateUnitPartTo()
-                    else
-                        Completable.complete()
-                }
-
-            compositeDisposable.add(updateUnitFrom(lstUnits[it].value).subscribe())
+            compositeDisposable.add(doUpdateUnitFrom(lstUnits[it].value).andThen {
+                if (toType == UnitPartToType.Unit)
+                    doUpdateSingleUnit()
+                else if (toType == UnitPartToType.Part || isInvalidUnitPart)
+                    doUpdateUnitPartTo()
+                else
+                    Completable.complete()
+            }.subscribe())
         }
 
         selectedPartFromIndex_.onChange {
-            fun updatePartFrom(v: Int): Completable =
-                doUpdatePartFrom(v).andThen {
-                    if (toType == UnitPartToType.Part || isInvalidUnitPart)
-                        doUpdateUnitPartTo()
-                    else
-                        Completable.complete()
-                }
-
-            compositeDisposable.add(updatePartFrom(it).subscribe())
+            compositeDisposable.add(doUpdatePartFrom(lstParts[it].value).andThen {
+                if (toType == UnitPartToType.Part || isInvalidUnitPart)
+                    doUpdateUnitPartTo()
+                else
+                    Completable.complete()
+            }.subscribe())
         }
 
         toTypeIndex_.onEach {
@@ -351,42 +322,33 @@ class SettingsViewModel : ViewModel(), KoinComponent {
             previousEnabled.value = !b
             nextEnabled.value = !b
             partFromEnabled.value = it != 0 && !isSinglePart
-
-            fun updateToType(v: Int): Completable {
-                toType = UnitPartToType.values()[v]
-                return if (toType == UnitPartToType.Unit)
+            toType = UnitPartToType.values()[it]
+            compositeDisposable.add((
+                if (toType == UnitPartToType.Unit)
                     doUpdateSingleUnit()
                 else if (toType == UnitPartToType.Part)
                     doUpdateUnitPartTo()
                 else
                     Completable.complete()
-            }
-
-            compositeDisposable.add(updateToType(it).subscribe())
+            ).subscribe())
         }.launchIn(viewModelScope)
 
         selectedUnitToIndex_.onChange {
-            fun updateUnitTo(v: Int): Completable =
-                doUpdateUnitTo(v).andThen {
-                    if (isInvalidUnitPart)
-                        doUpdateUnitPartFrom()
-                    else
-                        Completable.complete()
-                }
-
-            compositeDisposable.add(updateUnitTo(lstUnits[it].value).subscribe())
+            compositeDisposable.add(doUpdateUnitTo(lstUnits[it].value).andThen {
+                if (isInvalidUnitPart)
+                    doUpdateUnitPartFrom()
+                else
+                    Completable.complete()
+            }.subscribe())
         }
 
         selectedPartToIndex_.onChange {
-            fun updatePartTo(v: Int): Completable =
-                doUpdatePartTo(v).andThen {
-                    if (isInvalidUnitPart)
-                        doUpdateUnitPartFrom()
-                    else
-                        Completable.complete()
-                }
-
-            compositeDisposable.add(updatePartTo(lstParts[it].value).subscribe())
+            compositeDisposable.add(doUpdatePartTo(lstParts[it].value).andThen {
+                if (isInvalidUnitPart)
+                    doUpdateUnitPartFrom()
+                else
+                    Completable.complete()
+            }.subscribe())
         }
     }
 
@@ -492,7 +454,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         htmlService.getHtml(url)
 
     fun getNote(word: String): Single<String> {
-        val dictNote = selectedDictNote ?: return Single.just("")
+        val dictNote = selectedDictNote
         val url = dictNote.urlString(word, lstAutoCorrect)
         return getHtml(url).map {
             Log.d("API Result", it)
@@ -501,7 +463,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     }
 
     fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
-        val dictNote = selectedDictNote ?: return
+        val dictNote = selectedDictNote
         var i = 0
         var subscription: Disposable? = null
         subscription = Observable.interval(dictNote.wait.toLong(), TimeUnit.MILLISECONDS, Schedulers.io()).subscribe {
