@@ -6,6 +6,7 @@ import android.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
@@ -16,10 +17,11 @@ import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.ui.common.makeCustomAdapter2
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
-import com.zwstudio.lolly.viewmodels.misc.SettingsListener
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchFragment : Fragment(), SettingsListener, MenuProvider {
+class SearchFragment : Fragment(), MenuProvider {
 
     val vm by viewModel<SearchViewModel>()
     var binding by autoCleared<FragmentSearchBinding>()
@@ -51,8 +53,18 @@ class SearchFragment : Fragment(), SettingsListener, MenuProvider {
             }
         })
 
-        vmSettings.addObservers()
-        vmSettings.settingsListener = this
+        vmSettings.lstLanguages_.onEach {
+            binding.spnLanguage.adapter = makeCustomAdapter(requireContext(), vmSettings.lstLanguages) { it.langname }
+        }.launchIn(vmSettings.viewModelScope)
+
+        vmSettings.lstDictsReference_.onEach {
+            binding.spnDictReference.makeCustomAdapter2(requireContext(), vmSettings.lstDictsReference,  { it.dictname }, { it.url })
+        }.launchIn(vmSettings.viewModelScope)
+
+        vmSettings.selectedDictReferenceIndex_.onEach {
+            searchDict()
+        }.launchIn(vmSettings.viewModelScope)
+
         vmSettings.getData()
     }
 
@@ -64,12 +76,6 @@ class SearchFragment : Fragment(), SettingsListener, MenuProvider {
             setup()
         else
             findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToLoginFragment())
-    }
-
-    override fun onDestroyView() {
-        if (vmSettings.settingsListener == this)
-            vmSettings.settingsListener = null
-        super.onDestroyView()
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -85,18 +91,6 @@ class SearchFragment : Fragment(), SettingsListener, MenuProvider {
             }
             else -> false
         }
-
-    override fun onGetData() {
-        binding.spnLanguage.adapter = makeCustomAdapter(requireContext(), vmSettings.lstLanguages) { it.langname }
-    }
-
-    override fun onUpdateLang() {
-        binding.spnDictReference.makeCustomAdapter2(requireContext(), vmSettings.lstDictsReference,  { it.dictname }, { it.url })
-    }
-
-    override fun onUpdateDictReference() {
-        searchDict()
-    }
 
     fun searchDict() {
         vm.word = binding.svWord.query.toString()

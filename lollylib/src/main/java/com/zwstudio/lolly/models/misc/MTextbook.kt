@@ -22,8 +22,8 @@ data class MTextbook(
     @SerializedName("PARTS")
     var parts: String = "",
 ) : Serializable {
-    lateinit var lstUnits: List<MSelectItem>
+    var lstUnits = listOf<MSelectItem>()
     fun unitstr(unit: Int) = lstUnits.first { it.value == unit }.label
-    lateinit var lstParts: List<MSelectItem>
+    var lstParts = listOf<MSelectItem>()
     fun partstr(part: Int) = lstParts.first { it.value == part }.label
 }

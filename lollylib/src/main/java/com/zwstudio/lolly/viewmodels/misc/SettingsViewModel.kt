@@ -9,6 +9,7 @@ import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
@@ -94,36 +95,42 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     val isInvalidUnitPart: Boolean
         get() = usunitpartfrom > usunitpartto
 
-    var lstLanguages = listOf<MLanguage>()
-    val selectedLangIndex_= MutableStateFlow(0)
+    var lstLanguages_ = MutableStateFlow(listOf<MLanguage>())
+    var lstLanguages get() = lstLanguages_.value; set(v) { lstLanguages_.value = v }
+    val selectedLangIndex_= MutableStateFlow(-1)
     var selectedLangIndex get() = selectedLangIndex_.value; set(v) { selectedLangIndex_.value = v }
-    val selectedLang get() = lstLanguages[selectedLangIndex]
+    val selectedLang get() = lstLanguages.getOrNull(selectedLangIndex) ?: MLanguage()
 
-    var lstVoices = listOf<MVoice>()
-    val selectedVoiceIndex_= MutableStateFlow(0)
+    var lstVoices_ = MutableStateFlow(listOf<MVoice>())
+    var lstVoices get() = lstVoices_.value; set(v) { lstVoices_.value = v }
+    val selectedVoiceIndex_= MutableStateFlow(-1)
     var selectedVoiceIndex get() = selectedVoiceIndex_.value; set(v) { selectedVoiceIndex_.value = v }
-    val selectedVoice get() = lstVoices.getOrNull(selectedVoiceIndex)
+    val selectedVoice get() = lstVoices.getOrNull(selectedVoiceIndex) ?: MVoice()
 
-    var lstTextbooks = listOf<MTextbook>()
-    val selectedTextbookIndex_= MutableStateFlow(0)
+    var lstTextbooks_ = MutableStateFlow(listOf<MTextbook>())
+    var lstTextbooks get() = lstTextbooks_.value; set(v) { lstTextbooks_.value = v }
+    val selectedTextbookIndex_= MutableStateFlow(-1)
     var selectedTextbookIndex get() = selectedTextbookIndex_.value; set(v) { selectedTextbookIndex_.value = v }
-    val selectedTextbook get() = lstTextbooks[selectedTextbookIndex]
+    val selectedTextbook get() = lstTextbooks.getOrNull(selectedTextbookIndex) ?: MTextbook()
     var lstTextbookFilters = listOf<MSelectItem>()
 
-    var lstDictsReference = listOf<MDictionary>()
-    val selectedDictReferenceIndex_= MutableStateFlow(0)
+    var lstDictsReference_ = MutableStateFlow(listOf<MDictionary>())
+    var lstDictsReference get() = lstDictsReference_.value; set(v) { lstDictsReference_.value = v }
+    val selectedDictReferenceIndex_= MutableStateFlow(-1)
     var selectedDictReferenceIndex get() = selectedDictReferenceIndex_.value; set(v) { selectedDictReferenceIndex_.value = v }
-    val selectedDictReference get() = lstDictsReference[selectedDictReferenceIndex]
+    val selectedDictReference get() = lstDictsReference.getOrNull(selectedDictReferenceIndex) ?: MDictionary()
 
-    var lstDictsNote = listOf<MDictionary>()
-    val selectedDictNoteIndex_= MutableStateFlow(0)
+    var lstDictsNote_ = MutableStateFlow(listOf<MDictionary>())
+    var lstDictsNote get() = lstDictsNote_.value; set(v) { lstDictsNote_.value = v }
+    val selectedDictNoteIndex_= MutableStateFlow(-1)
     var selectedDictNoteIndex get() = selectedDictNoteIndex_.value; set(v) { selectedDictNoteIndex_.value = v }
-    val selectedDictNote get() = lstDictsNote.getOrNull(selectedDictNoteIndex)
+    val selectedDictNote get() = lstDictsNote.getOrNull(selectedDictNoteIndex) ?: MDictionary()
 
-    var lstDictsTranslation = listOf<MDictionary>()
-    val selectedDictTranslationIndex_= MutableStateFlow(0)
+    var lstDictsTranslation_ = MutableStateFlow(listOf<MDictionary>())
+    var lstDictsTranslation get() = lstDictsTranslation_.value; set(v) { lstDictsTranslation_.value = v }
+    val selectedDictTranslationIndex_= MutableStateFlow(-1)
     var selectedDictTranslationIndex get() = selectedDictTranslationIndex_.value; set(v) { selectedDictTranslationIndex_.value = v }
-    val selectedDictTranslation get() = lstDictsTranslation.getOrNull(selectedDictTranslationIndex)
+    val selectedDictTranslation get() = lstDictsTranslation.getOrNull(selectedDictTranslationIndex) ?: MDictionary()
 
     val lstUnits: List<MSelectItem>
         get() = selectedTextbook.lstUnits
@@ -139,15 +146,15 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var lstAutoCorrect = listOf<MAutoCorrect>()
 
     val lstToTypes = UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) }
-    val selectedUnitFromIndex_ = MutableStateFlow(0)
+    val selectedUnitFromIndex_ = MutableStateFlow(-1)
     var selectedUnitFromIndex get() = selectedUnitFromIndex_.value; set(v) { selectedUnitFromIndex_.value = v }
-    val selectedPartFromIndex_ = MutableStateFlow(0)
+    val selectedPartFromIndex_ = MutableStateFlow(-1)
     var selectedPartFromIndex get() = selectedPartFromIndex_.value; set(v) { selectedPartFromIndex_.value = v }
-    val selectedUnitToIndex_ = MutableStateFlow(0)
+    val selectedUnitToIndex_ = MutableStateFlow(-1)
     var selectedUnitToIndex get() = selectedUnitToIndex_.value; set(v) { selectedUnitToIndex_.value = v }
-    val selectedPartToIndex_ = MutableStateFlow(0)
+    val selectedPartToIndex_ = MutableStateFlow(-1)
     var selectedPartToIndex get() = selectedPartToIndex_.value; set(v) { selectedPartToIndex_.value = v }
-    val toTypeIndex_ = MutableStateFlow(0)
+    val toTypeIndex_ = MutableStateFlow(UnitPartToType.To.ordinal)
     var toType get() = UnitPartToType.values()[toTypeIndex_.value]; set(v) { toTypeIndex_.value = v.ordinal }
 
     companion object {
@@ -179,8 +186,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         return MUserSettingInfo(o2.id, o.valueid)
     }
 
-    var busy = true
-    var settingsListener: SettingsListener? = null
+    var initialized = MutableStateFlow(false)
 
     val unitToEnabled = MutableStateFlow(false)
     val partToEnabled = MutableStateFlow(false)
@@ -188,39 +194,120 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     val nextEnabled = MutableStateFlow(false)
     val partFromEnabled = MutableStateFlow(false)
 
-    fun addObservers() {
-        selectedLangIndex_.onEach {
-            if (!busy)
-                updateLang()
-        }.launchIn(viewModelScope)
-        selectedVoiceIndex_.onEach {
-            if (!busy)
-                updateVoice()
-        }.launchIn(viewModelScope)
-        selectedDictReferenceIndex_.onEach {
-            if (!busy)
-                updateDictReference()
-        }.launchIn(viewModelScope)
-        selectedDictNoteIndex_.onEach {
-            if (!busy)
-                updateDictNote()
-        }.launchIn(viewModelScope)
-        selectedDictTranslationIndex_.onEach {
-            if (!busy)
-                updateDictTranslation()
-        }.launchIn(viewModelScope)
-        selectedTextbookIndex_.onEach {
-            if (!busy)
-                updateTextbook()
-        }.launchIn(viewModelScope)
-        selectedUnitFromIndex_.onEach {
-            if (!busy)
-                updateUnitFrom(lstUnits[it].value)
-        }.launchIn(viewModelScope)
-        selectedPartFromIndex_.onEach {
-            if (!busy)
-                updatePartFrom(it)
-        }.launchIn(viewModelScope)
+    init {
+        fun MutableStateFlow<Int>.onChange(action: suspend (Int) -> Unit) =
+            this.filter { it != -1 }.onEach(action).launchIn(viewModelScope)
+
+        selectedLangIndex_.onChange {
+            viewModelScope.launch {
+                val newVal = selectedLang.id
+                val dirty = uslang != newVal
+                uslang = newVal
+                INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
+                INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
+                INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
+                INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
+                INFO_USVOICE = getUSInfo(MUSMapping.NAME_USVOICE)
+                val res1 = async { dictionaryService.getDictsReferenceByLang(uslang) }
+                val res2 = async { dictionaryService.getDictsNoteByLang(uslang) }
+                val res3 = async { dictionaryService.getDictsTranslationByLang(uslang) }
+                val res4 = async { textbookService.getDataByLang(uslang) }
+                val res5 = async { autoCorrectService.getDataByLang(uslang) }
+                val res6 = async { voiceService.getDataByLang(uslang) }
+                val res7 = async { if (dirty) userSettingService.update(INFO_USLANG, uslang) }
+                lstDictsReference = res1.await()
+                lstDictsNote = res2.await()
+                lstDictsTranslation = res3.await()
+                lstTextbooks = res4.await()
+                lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
+                lstAutoCorrect = res5.await()
+                lstVoices = res6.await()
+                res7.await()
+                selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
+                selectedDictReferenceIndex = 0.coerceAtLeast(lstDictsReference.indexOfFirst { it.dictid.toString() == usdictreference })
+                selectedDictNoteIndex = 0.coerceAtLeast(lstDictsNote.indexOfFirst { it.dictid == usdictnote })
+                selectedDictTranslationIndex = 0.coerceAtLeast(lstDictsTranslation.indexOfFirst { it.dictid == usdicttranslation })
+                selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
+            }
+        }
+
+        selectedVoiceIndex_.onChange {
+            viewModelScope.launch {
+                val newVal = selectedVoice.id
+                val dirty = usvoice != newVal
+                usvoice = newVal
+                val locale = Locale.getAvailableLocales().find {
+                    "${it.language}_${it.country}" == selectedVoice.voicelang
+                }
+                if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return@launch
+                tts.language = locale
+                if (dirty) userSettingService.update(INFO_USVOICE, usvoice)
+            }
+        }
+
+        selectedDictReferenceIndex_.onChange {
+            viewModelScope.launch {
+                val newVal = selectedDictReference.dictid.toString()
+                val dirty = usdictreference != newVal
+                usdictreference = newVal
+                if (dirty) userSettingService.update(INFO_USDICTREFERENCE, usdictreference)
+            }
+        }
+
+        selectedDictNoteIndex_.onChange {
+            viewModelScope.launch {
+                val newVal = selectedDictNote.dictid
+                val dirty = usdictnote != newVal
+                usdictnote = newVal
+                if (dirty) userSettingService.update(INFO_USDICTNOTE, usdictnote)
+            }
+        }
+
+        selectedDictTranslationIndex_.onChange {
+            viewModelScope.launch {
+                val newVal = selectedDictTranslation.dictid
+                val dirty = usdicttranslation != newVal
+                usdicttranslation = newVal
+                if (dirty) userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation)
+            }
+        }
+
+        selectedTextbookIndex_.onChange {
+            viewModelScope.launch {
+                val newVal = selectedTextbook.id
+                val dirty = ustextbook != newVal
+                ustextbook = newVal
+                INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
+                INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
+                INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
+                INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
+                if (dirty) userSettingService.update(INFO_USTEXTBOOK, ustextbook)
+                selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
+                selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
+                selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
+                selectedPartToIndex = lstParts.indexOfFirst { it.value == uspartto }
+                toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
+            }
+        }
+
+        selectedUnitFromIndex_.onChange {
+            viewModelScope.launch {
+                doUpdateUnitFrom(lstUnits[it].value)
+                if (toType == UnitPartToType.Unit)
+                    doUpdateSingleUnit()
+                else if (toType == UnitPartToType.Part || isInvalidUnitPart)
+                    doUpdateUnitPartTo()
+            }
+        }
+
+        selectedPartFromIndex_.onChange {
+            viewModelScope.launch {
+                doUpdatePartFrom(lstParts[it].value)
+                if (toType == UnitPartToType.Part || isInvalidUnitPart)
+                    doUpdateUnitPartTo()
+            }
+        }
+
         toTypeIndex_.onEach {
             val b = it == 2
             unitToEnabled.value = b
@@ -228,21 +315,34 @@ class SettingsViewModel : ViewModel(), KoinComponent {
             previousEnabled.value = !b
             nextEnabled.value = !b
             partFromEnabled.value = it != 0 && !isSinglePart
-            if (!busy)
-                updateToType(it)
+
+            viewModelScope.launch {
+                toType = UnitPartToType.values()[it]
+                if (toType == UnitPartToType.Unit)
+                    doUpdateSingleUnit()
+                else if (toType == UnitPartToType.Part)
+                    doUpdateUnitPartTo()
+            }
+        }.launchIn(viewModelScope)
+
+        selectedUnitToIndex_.onChange {
+            viewModelScope.launch {
+                doUpdateUnitTo(lstUnits[it].value)
+                if (isInvalidUnitPart)
+                    doUpdateUnitPartFrom()
+            }
         }
-        selectedUnitToIndex_.onEach {
-            if (!busy)
-                updateUnitTo(lstUnits[it].value)
-        }.launchIn(viewModelScope)
-        selectedPartToIndex_.onEach {
-            if (!busy)
-                updatePartTo(lstParts[it].value)
-        }.launchIn(viewModelScope)
+
+        selectedPartToIndex_.onChange {
+            viewModelScope.launch {
+                doUpdatePartTo(lstParts[it].value)
+                if (isInvalidUnitPart)
+                    doUpdateUnitPartFrom()
+            }
+        }
     }
 
     fun getData() = viewModelScope.launch {
-        busy = true
         val res1 = async { languageService.getData() }
         val res2 = async { usMappingService.getData() }
         val res3 = async { userSettingService.getData() }
@@ -251,137 +351,10 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         lstUserSettings = res3.await()
         INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
         selectedLangIndex = 0.coerceAtLeast(lstLanguages.indexOfFirst { it.id == uslang })
-        settingsListener?.onGetData()
-        updateLang()
-        busy = false
-    }
-
-    fun updateLang() = viewModelScope.launch {
-        if (lstLanguages.isEmpty()) return@launch
-        busy = true
-        val newVal = selectedLang.id
-        val dirty = uslang != newVal
-        uslang = newVal
-        INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
-        INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
-        INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
-        INFO_USDICTTRANSLATION = getUSInfo(MUSMapping.NAME_USDICTTRANSLATION)
-        INFO_USVOICE = getUSInfo(MUSMapping.NAME_USVOICE)
-        val res1 = async { dictionaryService.getDictsReferenceByLang(uslang) }
-        val res2 = async { dictionaryService.getDictsNoteByLang(uslang) }
-        val res3 = async { dictionaryService.getDictsTranslationByLang(uslang) }
-        val res4 = async { textbookService.getDataByLang(uslang) }
-        val res5 = async { autoCorrectService.getDataByLang(uslang) }
-        val res6 = async { voiceService.getDataByLang(uslang) }
-        val res7 = async { if (dirty) userSettingService.update(INFO_USLANG, uslang) }
-        lstDictsReference = res1.await()
-        lstDictsNote = res2.await()
-        lstDictsTranslation = res3.await()
-        lstTextbooks = res4.await()
-        lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
-        lstAutoCorrect = res5.await()
-        lstVoices = res6.await()
-        res7.await()
-        selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
-        selectedDictReferenceIndex = 0.coerceAtLeast(lstDictsReference.indexOfFirst { it.dictid.toString() == usdictreference })
-        selectedDictNoteIndex = 0.coerceAtLeast(lstDictsNote.indexOfFirst { it.dictid == usdictnote })
-        selectedDictTranslationIndex = 0.coerceAtLeast(lstDictsTranslation.indexOfFirst { it.dictid == usdicttranslation })
-        selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
-        settingsListener?.onUpdateLang()
-        val res8 = async { updateVoice() }
-        val res9 = async { updateDictReference() }
-        val res10 = async { updateDictNote() }
-        val res11 = async { updateDictTranslation() }
-        val res12 = async { updateTextbook() }
-        res8.await(); res9.await(); res10.await(); res11.await(); res12.await()
-        busy = false
-    }
-
-    fun updateTextbook() = viewModelScope.launch {
-        if (lstTextbooks.isEmpty()) return@launch
-        busy = true
-        val newVal = selectedTextbook.id
-        val dirty = ustextbook != newVal
-        ustextbook = newVal
-        INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
-        INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
-        INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
-        INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
-        if (dirty) userSettingService.update(INFO_USTEXTBOOK, ustextbook)
-        selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
-        selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
-        selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
-        selectedPartToIndex = lstParts.indexOfFirst { it.value == uspartto }
-        toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
-        settingsListener?.onUpdateTextbook()
-        busy = false
-    }
-
-    fun updateDictReference() = viewModelScope.launch {
-        if (lstDictsReference.isEmpty()) return@launch
-        val newVal = selectedDictReference.dictid.toString()
-        val dirty = usdictreference != newVal
-        usdictreference = newVal
-        if (dirty) userSettingService.update(INFO_USDICTREFERENCE, usdictreference)
-        settingsListener?.onUpdateDictReference()
-    }
-
-    fun updateDictNote() = viewModelScope.launch {
-        if (lstDictsNote.isEmpty()) return@launch
-        val newVal = selectedDictNote?.dictid ?: 0
-        val dirty = usdictnote != newVal
-        usdictnote = newVal
-        if (dirty) userSettingService.update(INFO_USDICTNOTE, usdictnote)
-        settingsListener?.onUpdateDictNote()
-    }
-
-    fun updateDictTranslation() = viewModelScope.launch {
-        if (lstDictsTranslation.isEmpty()) return@launch
-        val newVal = selectedDictTranslation?.dictid ?: 0
-        val dirty = usdicttranslation != newVal
-        usdicttranslation = newVal
-        if (dirty) userSettingService.update(INFO_USDICTTRANSLATION, usdicttranslation)
-        settingsListener?.onUpdateDictTranslation()
-    }
-
-    fun updateVoice() = viewModelScope.launch {
-        if (lstVoices.isEmpty()) return@launch
-        val newVal = selectedVoice?.id ?: 0
-        val dirty = usvoice != newVal
-        usvoice = newVal
-        val locale = Locale.getAvailableLocales().find {
-            "${it.language}_${it.country}" == selectedVoice?.voicelang
-        }
-        if (tts.isLanguageAvailable(locale) < TextToSpeech.LANG_AVAILABLE) return@launch
-        tts.language = locale
-        if (dirty) userSettingService.update(INFO_USVOICE, usvoice)
-        withContext(Dispatchers.Main) { settingsListener?.onUpdateVoice() }
     }
 
     fun autoCorrectInput(text: String): String =
         autoCorrect(text, lstAutoCorrect, { it.input }, { it.extended })
-
-    fun updateUnitFrom(v: Int) = viewModelScope.launch {
-        doUpdateUnitFrom(v)
-        if (toType == UnitPartToType.Unit)
-            doUpdateSingleUnit()
-        else if (toType == UnitPartToType.Part || isInvalidUnitPart)
-            doUpdateUnitPartTo()
-    }
-
-    fun updatePartFrom(v: Int) = viewModelScope.launch {
-        doUpdatePartFrom(v)
-        if (toType == UnitPartToType.Part || isInvalidUnitPart)
-            doUpdateUnitPartTo()
-    }
-
-    fun updateToType(v: Int) = viewModelScope.launch {
-        toType = UnitPartToType.values()[v]
-        if (toType == UnitPartToType.Unit)
-            doUpdateSingleUnit()
-        else if (toType == UnitPartToType.Part)
-            doUpdateUnitPartTo()
-    }
 
     fun toggleUnitPart(part: Int) = viewModelScope.launch {
         if (toType == UnitPartToType.Unit) {
@@ -433,18 +406,6 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         }
     }
 
-    fun updateUnitTo(v: Int) = viewModelScope.launch {
-        doUpdateUnitTo(v)
-        if (isInvalidUnitPart)
-            doUpdateUnitPartFrom()
-    }
-
-    fun updatePartTo(v: Int) = viewModelScope.launch {
-        doUpdatePartTo(v)
-        if (isInvalidUnitPart)
-            doUpdateUnitPartFrom()
-    }
-
     private suspend fun doUpdateUnitPartFrom() {
         coroutineScope {
             val res1 = async { doUpdateUnitFrom(usunitto) }
@@ -475,7 +436,6 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         usunitfrom = v
         if (dirty) userSettingService.update(INFO_USUNITFROM, usunitfrom)
         selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
-        settingsListener?.onUpdateUnitFrom()
     }
 
     private suspend fun doUpdatePartFrom(v: Int) {
@@ -483,7 +443,6 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         uspartfrom = v
         if (dirty) userSettingService.update(INFO_USPARTFROM, uspartfrom)
         selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
-        settingsListener?.onUpdatePartFrom()
     }
 
     private suspend fun doUpdateUnitTo(v: Int) {
@@ -491,7 +450,6 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         usunitto = v
         if (dirty) userSettingService.update(INFO_USUNITTO, usunitto)
         selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
-        settingsListener?.onUpdateUnitTo()
     }
 
     private suspend fun doUpdatePartTo(v: Int) {
@@ -499,14 +457,13 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         uspartto = v
         if (dirty) userSettingService.update(INFO_USPARTTO, uspartto)
         selectedPartToIndex = lstParts.indexOfFirst { it.value == uspartto }
-        settingsListener?.onUpdatePartTo()
     }
 
     suspend fun getHtml(url: String): String =
         htmlService.getHtml(url)
 
     suspend fun getNote(word: String): String {
-        val dictNote = selectedDictNote ?: return ""
+        val dictNote = selectedDictNote
         val url = dictNote.urlString(word, lstAutoCorrect)
         val html = getHtml(url)
         Log.d("API Result", html)
@@ -514,7 +471,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     }
 
     suspend fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
-        val dictNote = selectedDictNote ?: return
+        val dictNote = selectedDictNote
         var i = 0
         while (i <= wordCount) {
             while (i < wordCount && !isNoteEmpty(i))
@@ -538,18 +495,4 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         }
         allComplete()
     }
-}
-
-interface SettingsListener {
-    fun onGetData() {}
-    fun onUpdateLang() {}
-    fun onUpdateTextbook() {}
-    fun onUpdateDictReference() {}
-    fun onUpdateDictNote() {}
-    fun onUpdateDictTranslation() {}
-    fun onUpdateVoice() {}
-    fun onUpdateUnitFrom() {}
-    fun onUpdatePartFrom() {}
-    fun onUpdateUnitTo() {}
-    fun onUpdatePartTo() {}
 }
