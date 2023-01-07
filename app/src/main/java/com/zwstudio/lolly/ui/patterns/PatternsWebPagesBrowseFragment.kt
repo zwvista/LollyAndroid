@@ -10,12 +10,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
-import com.zwstudio.lolly.R
 import com.zwstudio.lolly.databinding.FragmentPatternsWebpagesBrowseBinding
-import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeAdapter
 import kotlinx.coroutines.launch
+import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PatternsWebPagesBrowseFragment : Fragment() {
@@ -48,7 +47,7 @@ class PatternsWebPagesBrowseFragment : Fragment() {
         vm.viewModelScope.launch {
             vm.getWebPages(item.id)
             binding.spnWebPages.adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, 0, vm.lstWebPages) { v, position ->
-                val tv = v.findViewById<TextView>(R.id.text1)
+                val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = vm.getWebPageText(position)
                 v
             }.apply {
