@@ -1,15 +1,23 @@
-package com.zwstudio.lolly.ui.common
+package com.zwstudio.lolly.common
 
 import android.annotation.SuppressLint
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.zwstudio.lolly.viewmodels.misc.IOnlineDict
+import com.zwstudio.lolly.models.misc.MDictionary
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
 enum class DictWebViewStatus {
     Ready, Navigating, Automating
+}
+
+interface IOnlineDict {
+    fun getHtml(url: String): Single<String>
+    val getWord: String
+    val getDict: MDictionary
+    val getUrl: String
 }
 
 class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict, val compositeDisposable: CompositeDisposable) {

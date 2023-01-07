@@ -1,10 +1,10 @@
 package com.zwstudio.lolly.viewmodels.words
 
 import androidx.lifecycle.ViewModel
+import com.zwstudio.lolly.common.IOnlineDict
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.services.misc.HtmlService
-import com.zwstudio.lolly.viewmodels.misc.IOnlineDict
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.KoinComponent
