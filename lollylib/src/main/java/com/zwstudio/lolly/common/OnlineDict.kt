@@ -5,7 +5,6 @@ import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.zwstudio.lolly.models.misc.MDictionary
-import com.zwstudio.lolly.viewmodels.misc.IOnlineDict
 
 enum class DictWebViewStatus {
     Ready, Navigating, Automating
