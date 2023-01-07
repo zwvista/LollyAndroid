@@ -1,5 +1,7 @@
 package com.zwstudio.lolly.ui.misc
 
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -16,6 +18,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.ui.common.Spinner
@@ -50,14 +53,15 @@ fun SearchScreen(openDrawer: () -> Unit) {
             },
             backgroundColor = MaterialTheme.colors.primaryVariant
         )
-        Column(
-            modifier = Modifier.fillMaxSize()) {
-            Row(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+            ) {
                 Spinner(
                     modifier = Modifier
-                        .background(
-                            color = colorResource(R.color.color_text3)
-                        )
+                        .background(color = colorResource(R.color.color_text3))
                         .wrapContentHeight()
                         .fillMaxWidth()
                         .weight(1f),
@@ -87,9 +91,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
                 )
                 Spinner(
                     modifier = Modifier
-                        .background(
-                            color = colorResource(R.color.color_text1)
-                        )
+                        .background(color = colorResource(R.color.color_text1))
                         .wrapContentHeight()
                         .fillMaxWidth()
                         .weight(1f),
@@ -118,6 +120,16 @@ fun SearchScreen(openDrawer: () -> Unit) {
                     }
                 )
             }
+            AndroidView(
+                factory = {
+                    WebView(it).apply {
+                        webViewClient = WebViewClient()
+                        loadUrl("https://google.com")
+                    }
+                }, update = { webView ->
+//                    webView.loadUrl("https://google.com")
+                }
+            )
         }
     }
 }
