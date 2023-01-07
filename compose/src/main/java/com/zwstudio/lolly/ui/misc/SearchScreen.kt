@@ -1,9 +1,10 @@
 package com.zwstudio.lolly.ui.misc
 
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
@@ -11,15 +12,23 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.common.OnlineDict
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
@@ -27,15 +36,18 @@ import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchScreen(openDrawer: () -> Unit) {
 
     val vm = getViewModel<SearchViewModel>()
+    val onlineDict = remember { OnlineDict() }
     LaunchedEffect(Unit, block = {
         vmSettings.getData()
     })
 
     val context = LocalContext.current
+    val (focusRequester) = FocusRequester.createRefs()
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { Text("Search") },
@@ -56,12 +68,24 @@ fun SearchScreen(openDrawer: () -> Unit) {
         Column(modifier = Modifier.fillMaxSize()) {
             TextField(
                 value = vm.word_.collectAsState().value,
-                onValueChange = {
-                    vm.word = it
-                },
+                onValueChange = { vm.word = it },
+                singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .onKeyEvent {
+                        if (it.key == Key.Enter){
+                            onlineDict.searchDict()
+                            return@onKeyEvent true
+                        }
+                        false
+                    },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        onlineDict.searchDict()
+                    }
+                ),
             )
             Row(
                 modifier = Modifier
@@ -132,11 +156,12 @@ fun SearchScreen(openDrawer: () -> Unit) {
             AndroidView(
                 factory = {
                     WebView(it).apply {
-                        webViewClient = WebViewClient()
+                        onlineDict.wv = this
+                        onlineDict.iOnlineDict = vm
+                        onlineDict.initWebViewClient()
                         loadUrl("https://google.com")
                     }
                 }, update = { webView ->
-//                    webView.loadUrl("https://google.com")
                 }
             )
         }
