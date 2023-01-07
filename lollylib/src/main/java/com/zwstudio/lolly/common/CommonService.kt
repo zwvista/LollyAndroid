@@ -9,6 +9,7 @@ import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
+import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.viewmodels.phrases.*
@@ -112,6 +113,7 @@ val lollyModule = module {
     viewModel { parameters -> ReviewOptionsViewModel(options = parameters.get()) }
     viewModel { SearchViewModel() }
     viewModel { parameters -> PatternsDetailViewModel(item = parameters.get()) }
+    viewModel { PatternsViewModel() }
     viewModel { PatternsWebPagesViewModel() }
     viewModel { parameters -> PatternsWebPageDetailViewModel(item = parameters.get()) }
     viewModel { PhrasesLangViewModel() }
