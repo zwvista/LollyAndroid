@@ -15,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.key
@@ -27,6 +26,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.OnlineDict
 import com.zwstudio.lolly.common.vmSettings
@@ -34,6 +34,8 @@ import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -42,12 +44,19 @@ fun SearchScreen(openDrawer: () -> Unit) {
 
     val vm = getViewModel<SearchViewModel>()
     val onlineDict = remember { OnlineDict() }
+    val context = LocalContext.current
+
+    fun searchDict() {
+        onlineDict.searchDict()
+    }
+
     LaunchedEffect(Unit, block = {
         vmSettings.getData()
+        vmSettings.selectedDictReferenceIndex_.onEach {
+            searchDict()
+        }.launchIn(vmSettings.viewModelScope)
     })
 
-    val context = LocalContext.current
-    val (focusRequester) = FocusRequester.createRefs()
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(
             title = { Text("Search") },
@@ -75,7 +84,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
                     .wrapContentHeight()
                     .onKeyEvent {
                         if (it.key == Key.Enter){
-                            onlineDict.searchDict()
+                            searchDict()
                             return@onKeyEvent true
                         }
                         false
@@ -83,7 +92,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 keyboardActions = KeyboardActions(
                     onSearch = {
-                        onlineDict.searchDict()
+                        searchDict()
                     }
                 ),
             )
@@ -101,7 +110,9 @@ fun SearchScreen(openDrawer: () -> Unit) {
                     dropDownModifier = Modifier.wrapContentSize(),
                     items = vmSettings.lstLanguages_.collectAsState().value,
                     selectedItemIndex = vmSettings.selectedLangIndex_.collectAsState().value,
-                    onItemSelected = {},
+                    onItemSelected = {
+                         vmSettings.selectedLangIndex = it
+                    },
                     selectedItemFactory = { modifier, _ ->
                         Row(
                             modifier = modifier
@@ -131,7 +142,9 @@ fun SearchScreen(openDrawer: () -> Unit) {
                     dropDownModifier = Modifier.wrapContentSize(),
                     items = vmSettings.lstDictsReference_.collectAsState().value,
                     selectedItemIndex = vmSettings.selectedDictReferenceIndex_.collectAsState().value,
-                    onItemSelected = {},
+                    onItemSelected = {
+                         vmSettings.selectedDictReferenceIndex = it
+                    },
                     selectedItemFactory = { modifier, _ ->
                         Row(
                             modifier = modifier
@@ -159,7 +172,6 @@ fun SearchScreen(openDrawer: () -> Unit) {
                         onlineDict.wv = this
                         onlineDict.iOnlineDict = vm
                         onlineDict.initWebViewClient()
-                        loadUrl("https://google.com")
                     }
                 }, update = { webView ->
                 }
