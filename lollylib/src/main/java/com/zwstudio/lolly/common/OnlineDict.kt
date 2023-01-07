@@ -1,13 +1,21 @@
-package com.zwstudio.lolly.ui.common
+package com.zwstudio.lolly.common
 
 import android.annotation.SuppressLint
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.viewmodels.misc.IOnlineDict
 
 enum class DictWebViewStatus {
     Ready, Navigating, Automating
+}
+
+interface IOnlineDict {
+    suspend fun getHtml(url: String): String
+    val getWord: String
+    val getDict: MDictionary
+    val getUrl: String
 }
 
 class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict) {
@@ -51,10 +59,10 @@ class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict) {
                 } else if (dictStatus == DictWebViewStatus.Navigating) {
                     wv.evaluateJavascript("document.documentElement.outerHTML.toString()") {
                         val html = it.replace("\\u003C", "<")
-                                .replace("\\\"", "\"")
-                                .replace("\\n", "\n")
-                                .replace("\\r", "\r")
-                                .replace("\\t", "\t")
+                            .replace("\\\"", "\"")
+                            .replace("\\n", "\n")
+                            .replace("\\r", "\r")
+                            .replace("\\t", "\t")
                         Log.d("HTML", html)
                         val str = item.htmlString(html, iOnlineDict.getWord, true)
                         wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")

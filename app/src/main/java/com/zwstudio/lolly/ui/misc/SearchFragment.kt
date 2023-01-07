@@ -9,9 +9,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.common.OnlineDict
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentSearchBinding
-import com.zwstudio.lolly.ui.common.OnlineDict
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.ui.common.makeCustomAdapter2
