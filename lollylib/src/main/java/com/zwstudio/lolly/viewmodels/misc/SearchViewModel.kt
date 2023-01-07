@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.services.misc.HtmlService
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -15,7 +16,8 @@ interface IOnlineDict {
 }
 
 class SearchViewModel : ViewModel(), IOnlineDict, KoinComponent {
-    var word = ""
+    var word_ = MutableStateFlow("")
+    var word get() = word_.value; set(v) { word_.value = v }
 
     private val htmlService by inject<HtmlService>()
 

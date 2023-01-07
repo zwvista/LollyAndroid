@@ -54,6 +54,15 @@ fun SearchScreen(openDrawer: () -> Unit) {
             backgroundColor = MaterialTheme.colors.primaryVariant
         )
         Column(modifier = Modifier.fillMaxSize()) {
+            TextField(
+                value = vm.word_.collectAsState().value,
+                onValueChange = {
+                    vm.word = it
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+            )
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
