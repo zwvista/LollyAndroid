@@ -38,8 +38,11 @@ class SearchFragment : Fragment(), MenuProvider {
     }
 
     fun setup() {
-        onlineDict = OnlineDict(binding.wvDictReference, vm)
-        onlineDict.initWebViewClient()
+        onlineDict = OnlineDict().apply {
+            wv = binding.wvDictReference
+            iOnlineDict = vm
+            initWebViewClient()
+        }
 
         binding.svWord.setQuery(vm.word, false)
         binding.svWord.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

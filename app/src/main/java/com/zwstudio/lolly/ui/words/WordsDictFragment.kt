@@ -41,8 +41,11 @@ class WordsDictFragment : Fragment(), TouchListener {
 
         binding.webView.setOnTouchListener(OnSwipeWebviewTouchListener(requireContext(), this))
 
-        onlineDict = OnlineDict(binding.webView, vm)
-        onlineDict.initWebViewClient()
+        onlineDict = OnlineDict().apply {
+            wv = binding.webView
+            iOnlineDict = vm
+            initWebViewClient()
+        }
 
         binding.spnWord.adapter = makeCustomAdapter(requireContext(), vm.lstWords) { it }
         vm.selectedWordIndex_.onEach {

@@ -17,8 +17,10 @@ interface IOnlineDict {
     val getUrl: String
 }
 
-class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict) {
+class OnlineDict {
 
+    lateinit var wv: WebView
+    lateinit var iOnlineDict: IOnlineDict
     var dictStatus = DictWebViewStatus.Ready
 
     fun searchDict() {
