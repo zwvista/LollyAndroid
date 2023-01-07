@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.ui.misc
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -9,7 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -51,18 +54,27 @@ fun SearchScreen(openDrawer: () -> Unit) {
             modifier = Modifier.fillMaxSize()) {
             Row(modifier = Modifier.fillMaxSize()) {
                 Spinner(
-                    modifier = Modifier.fillMaxSize().weight(1f),
+                    modifier = Modifier
+                        .background(
+                            color = colorResource(R.color.color_text3)
+                        )
+                        .wrapContentHeight()
+                        .fillMaxWidth()
+                        .weight(1f),
                     dropDownModifier = Modifier.wrapContentSize(),
                     items = vmSettings.lstLanguages_.collectAsState().value,
-                    selectedItem = vmSettings.selectedLang,
+                    selectedItemIndex = vmSettings.selectedLangIndex_.collectAsState().value,
                     onItemSelected = {},
-                    selectedItemFactory = { modifier, item ->
+                    selectedItemFactory = { modifier, _ ->
                         Row(
                             modifier = modifier
                                 .padding(8.dp)
                                 .wrapContentSize()
                         ) {
-                            Text(item.langname)
+                            Text(
+                                text = vmSettings.selectedLang.langname,
+                                color = Color.White
+                            )
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_baseline_arrow_drop_down_24),
                                 contentDescription ="drop down arrow"
@@ -74,18 +86,27 @@ fun SearchScreen(openDrawer: () -> Unit) {
                     }
                 )
                 Spinner(
-                    modifier = Modifier.fillMaxSize().weight(1f),
+                    modifier = Modifier
+                        .background(
+                            color = colorResource(R.color.color_text1)
+                        )
+                        .wrapContentHeight()
+                        .fillMaxWidth()
+                        .weight(1f),
                     dropDownModifier = Modifier.wrapContentSize(),
                     items = vmSettings.lstDictsReference_.collectAsState().value,
-                    selectedItem = vmSettings.selectedDictReference,
+                    selectedItemIndex = vmSettings.selectedDictReferenceIndex_.collectAsState().value,
                     onItemSelected = {},
-                    selectedItemFactory = { modifier, item ->
+                    selectedItemFactory = { modifier, _ ->
                         Row(
                             modifier = modifier
                                 .padding(8.dp)
                                 .wrapContentSize()
                         ) {
-                            Text(item.dictname)
+                            Text(
+                                text = vmSettings.selectedDictReference.dictname,
+                                color = Color.White
+                            )
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_baseline_arrow_drop_down_24),
                                 contentDescription ="drop down arrow"

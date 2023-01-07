@@ -4,7 +4,6 @@ package com.zwstudio.lolly.ui.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,18 +14,21 @@ fun <T> Spinner(
     modifier: Modifier = Modifier,
     dropDownModifier: Modifier = Modifier,
     items: List<T>,
-    selectedItem: T,
+    selectedItemIndex: Int,
     onItemSelected: (T) -> Unit,
-    selectedItemFactory: @Composable (Modifier, T) -> Unit,
+    selectedItemFactory: @Composable (Modifier, Int) -> Unit,
     dropdownItemFactory: @Composable (T, Int) -> Unit,
 ) {
     var expanded: Boolean by remember { mutableStateOf(false) }
 
-    Box(modifier = modifier.wrapContentSize(Alignment.TopStart)) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
         selectedItemFactory(
             Modifier
                 .clickable { expanded = true },
-            selectedItem
+            selectedItemIndex
         )
 
         androidx.compose.material.DropdownMenu(
