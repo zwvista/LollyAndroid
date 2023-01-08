@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,6 +25,7 @@ import org.koin.androidx.compose.getViewModel
 fun PatternsScreen(openDrawer: () -> Unit) {
 
     val vm = getViewModel<PatternsViewModel>()
+    val lstPatterns = vm.lstPatterns_.collectAsState().value
 
     LaunchedEffect(Unit, block = {
         vm.getData()
@@ -39,7 +41,7 @@ fun PatternsScreen(openDrawer: () -> Unit) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            items(vm.lstPatterns) { item ->
+            items(lstPatterns) { item ->
                 Row() {
                     Column() {
                         Text(

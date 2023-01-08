@@ -27,12 +27,12 @@ import org.koin.androidx.compose.getViewModel
 fun WordsLangScreen(openDrawer: () -> Unit) {
 
     val vm = getViewModel<WordsLangViewModel>()
+    val lstWords = vm.lstWords_.collectAsState().value
 
     LaunchedEffect(Unit, block = {
         vm.getData()
     })
 
-    val lstWords = vm.lstWords_.collectAsState().value
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
             title = DrawerScreens.WordsLang.title,
