@@ -3,8 +3,6 @@ package com.zwstudio.lolly.ui.misc
 import android.webkit.WebView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
@@ -16,20 +14,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.OnlineDict
 import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.ui.common.SearchView
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
@@ -54,7 +48,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
         vmSettings.getData()
         vmSettings.selectedDictReferenceIndex_.onEach {
             searchDict()
-        }.launchIn(vmSettings.viewModelScope)
+        }.launchIn(this)
     })
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -74,109 +68,87 @@ fun SearchScreen(openDrawer: () -> Unit) {
             },
             backgroundColor = MaterialTheme.colors.primaryVariant
         )
-        Column(modifier = Modifier.fillMaxSize()) {
-            TextField(
-                value = vm.word_.collectAsState().value,
-                onValueChange = { vm.word = it },
-                singleLine = true,
+        SearchView(stateFlow = vm.word_) {
+            searchDict()
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+        ) {
+            Spinner(
                 modifier = Modifier
+                    .background(color = colorResource(R.color.color_text3))
                     .fillMaxWidth()
-                    .wrapContentHeight()
-                    .onKeyEvent {
-                        if (it.key == Key.Enter){
-                            searchDict()
-                            return@onKeyEvent true
-                        }
-                        false
-                    },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                keyboardActions = KeyboardActions(
-                    onSearch = {
-                        searchDict()
+                    .weight(1f),
+                dropDownModifier = Modifier.wrapContentSize(),
+                items = vmSettings.lstLanguages_.collectAsState().value,
+                selectedItemIndex = vmSettings.selectedLangIndex_.collectAsState().value,
+                onItemSelected = {
+                     vmSettings.selectedLangIndex = it
+                },
+                selectedItemFactory = { modifier, _ ->
+                    Row(
+                        modifier = modifier
+                            .padding(8.dp)
+                            .wrapContentSize()
+                    ) {
+                        Text(
+                            text = vmSettings.selectedLang.langname,
+                            color = Color.White
+                        )
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_drop_down_24),
+                            contentDescription ="drop down arrow"
+                        )
                     }
-                ),
+                },
+                dropdownItemFactory = { item, _ ->
+                    Text(text = item.langname)
+                }
             )
-            Row(
+            Spinner(
                 modifier = Modifier
+                    .background(color = colorResource(R.color.color_text1))
                     .fillMaxWidth()
-                    .wrapContentHeight()
-            ) {
-                Spinner(
-                    modifier = Modifier
-                        .background(color = colorResource(R.color.color_text3))
-                        .wrapContentHeight()
-                        .fillMaxWidth()
-                        .weight(1f),
-                    dropDownModifier = Modifier.wrapContentSize(),
-                    items = vmSettings.lstLanguages_.collectAsState().value,
-                    selectedItemIndex = vmSettings.selectedLangIndex_.collectAsState().value,
-                    onItemSelected = {
-                         vmSettings.selectedLangIndex = it
-                    },
-                    selectedItemFactory = { modifier, _ ->
-                        Row(
-                            modifier = modifier
-                                .padding(8.dp)
-                                .wrapContentSize()
-                        ) {
-                            Text(
-                                text = vmSettings.selectedLang.langname,
-                                color = Color.White
-                            )
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_baseline_arrow_drop_down_24),
-                                contentDescription ="drop down arrow"
-                            )
-                        }
-                    },
-                    dropdownItemFactory = { item, _ ->
-                        Text(text = item.langname)
+                    .weight(1f),
+                dropDownModifier = Modifier.wrapContentSize(),
+                items = vmSettings.lstDictsReference_.collectAsState().value,
+                selectedItemIndex = vmSettings.selectedDictReferenceIndex_.collectAsState().value,
+                onItemSelected = {
+                     vmSettings.selectedDictReferenceIndex = it
+                },
+                selectedItemFactory = { modifier, _ ->
+                    Row(
+                        modifier = modifier
+                            .padding(8.dp)
+                            .wrapContentSize()
+                    ) {
+                        Text(
+                            text = vmSettings.selectedDictReference.dictname,
+                            color = Color.White
+                        )
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_arrow_drop_down_24),
+                            contentDescription ="drop down arrow"
+                        )
                     }
-                )
-                Spinner(
-                    modifier = Modifier
-                        .background(color = colorResource(R.color.color_text1))
-                        .wrapContentHeight()
-                        .fillMaxWidth()
-                        .weight(1f),
-                    dropDownModifier = Modifier.wrapContentSize(),
-                    items = vmSettings.lstDictsReference_.collectAsState().value,
-                    selectedItemIndex = vmSettings.selectedDictReferenceIndex_.collectAsState().value,
-                    onItemSelected = {
-                         vmSettings.selectedDictReferenceIndex = it
-                    },
-                    selectedItemFactory = { modifier, _ ->
-                        Row(
-                            modifier = modifier
-                                .padding(8.dp)
-                                .wrapContentSize()
-                        ) {
-                            Text(
-                                text = vmSettings.selectedDictReference.dictname,
-                                color = Color.White
-                            )
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_baseline_arrow_drop_down_24),
-                                contentDescription ="drop down arrow"
-                            )
-                        }
-                    },
-                    dropdownItemFactory = { item, _ ->
-                        Text(text = item.dictname)
-                    }
-                )
-            }
-            AndroidView(
-                factory = {
-                    WebView(it).apply {
-                        onlineDict.wv = this
-                        onlineDict.iOnlineDict = vm
-                        onlineDict.initWebViewClient()
-                    }
-                }, update = { webView ->
+                },
+                dropdownItemFactory = { item, _ ->
+                    Text(text = item.dictname)
                 }
             )
         }
+        AndroidView(
+            factory = {
+                WebView(it).apply {
+                    onlineDict.wv = this
+                    onlineDict.iOnlineDict = vm
+                    onlineDict.initWebViewClient()
+                }
+            }, update = { webView ->
+            }
+        )
     }
 }
 
