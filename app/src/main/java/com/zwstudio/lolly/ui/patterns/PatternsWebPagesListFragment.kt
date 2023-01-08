@@ -30,8 +30,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
-private const val REQUEST_CODE = 1
-
 class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
 
     val vm by lazy { requireParentFragment().getViewModel<PatternsWebPagesViewModel>() }
@@ -95,12 +93,6 @@ class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
             }
             else -> false
         }
-
-//    @OnActivityResult(REQUEST_CODE)
-//    fun onResult(resultCode: Int) {
-//        if (resultCode == RESULT_OK)
-//            menuAdd()
-//    }
 
     private class PatternsWebPagesDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 

@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.common.OnlineDict
 import com.zwstudio.lolly.common.vmSettings
@@ -49,12 +49,12 @@ class WordsDictFragment : Fragment(), TouchListener {
         binding.spnWord.adapter = makeCustomAdapter(requireContext(), vm.lstWords) { it }
         vm.selectedWordIndex_.onEach {
             selectedWordChanged()
-        }.launchIn(vm.viewModelScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.spnDictReference.makeCustomAdapter2(requireContext(), vmSettings.lstDictsReference, { it.dictname },  { it.url })
         vmSettings.selectedDictReferenceIndex_.onEach {
             selectedDictChanged()
-        }.launchIn(vm.viewModelScope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun selectedWordChanged() {
