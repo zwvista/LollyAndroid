@@ -73,8 +73,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
                     .weight(1f),
                 itemsStateFlow = vmSettings.lstLanguages_,
                 selectedItemIndexStateFlow = vmSettings.selectedLangIndex_,
-                selectedItemText = { vmSettings.selectedLang.langname },
-                dropdownItemText = { it.langname }
+                itemText = { it.langname }
             )
             Spinner(
                 modifier = Modifier
@@ -83,8 +82,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
                     .weight(1f),
                 itemsStateFlow = vmSettings.lstDictsReference_,
                 selectedItemIndexStateFlow = vmSettings.selectedDictReferenceIndex_,
-                selectedItemText = { vmSettings.selectedDictReference.dictname },
-                dropdownItemText = { it.dictname }
+                itemText = { it.dictname }
             )
         }
         AndroidView(

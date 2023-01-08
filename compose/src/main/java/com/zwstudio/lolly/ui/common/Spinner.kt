@@ -28,6 +28,7 @@ fun <T> Spinner(
     onItemSelected: (Int) -> Unit,
     selectedItemFactory: @Composable (Modifier, Int) -> Unit,
     dropdownItemFactory: @Composable (T, Int) -> Unit,
+    enabled: Boolean = true,
 ) {
     var expanded: Boolean by remember { mutableStateOf(false) }
 
@@ -36,8 +37,7 @@ fun <T> Spinner(
         contentAlignment = Alignment.Center
     ) {
         selectedItemFactory(
-            Modifier
-                .clickable { expanded = true },
+            if (enabled) Modifier.clickable { expanded = true } else Modifier,
             selectedItemIndex
         )
 
@@ -63,8 +63,8 @@ fun <T> Spinner(
     modifier: Modifier = Modifier,
     itemsStateFlow: MutableStateFlow<List<T>>,
     selectedItemIndexStateFlow: MutableStateFlow<Int>,
-    selectedItemText: () -> String,
-    dropdownItemText: (T) -> String,
+    itemText: (T) -> String,
+    enabled: Boolean = true,
 ) {
     Spinner(
         modifier = modifier,
@@ -78,8 +78,12 @@ fun <T> Spinner(
                     .wrapContentSize()
             ) {
                 Text(
-                    text = selectedItemText(),
-                    color = Color.White
+                    text = itemsStateFlow.collectAsState().value.getOrNull(
+                            selectedItemIndexStateFlow.collectAsState().value
+                        ).let {
+                              if (it == null) "" else itemText(it)
+                        },
+                    color = if (enabled) Color.White else Color.Gray,
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_arrow_drop_down_24),
@@ -88,7 +92,7 @@ fun <T> Spinner(
             }
         },
         dropdownItemFactory = { item, _ ->
-            Text(text = dropdownItemText(item))
+            Text(text = itemText(item))
         }
     )
 }

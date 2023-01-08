@@ -6,7 +6,9 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,6 +18,7 @@ import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBar
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
+import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 
 @Composable
 fun SettingsScreen(openDrawer: () -> Unit) {
@@ -42,8 +45,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstLanguages_,
                 selectedItemIndexStateFlow = vm.selectedLangIndex_,
-                selectedItemText = { vm.selectedLang.langname },
-                dropdownItemText = { it.langname }
+                itemText = { it.langname }
             )
             Text(text = "Voice:")
             Spinner(
@@ -52,8 +54,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstVoices_,
                 selectedItemIndexStateFlow = vm.selectedVoiceIndex_,
-                selectedItemText = { vm.selectedVoice.voicename },
-                dropdownItemText = { it.voicename }
+                itemText = { it.voicelang }
             )
             Text(text = "Dictionary(Reference):")
             Spinner(
@@ -62,8 +63,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstDictsReference_,
                 selectedItemIndexStateFlow = vm.selectedDictReferenceIndex_,
-                selectedItemText = { vm.selectedDictReference.dictname },
-                dropdownItemText = { it.dictname }
+                itemText = { it.dictname }
             )
             Text(text = "Dictionary(Note):")
             Spinner(
@@ -72,8 +72,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstDictsNote_,
                 selectedItemIndexStateFlow = vm.selectedDictNoteIndex_,
-                selectedItemText = { vm.selectedDictNote.dictname },
-                dropdownItemText = { it.dictname }
+                itemText = { it.dictname }
             )
             Text(text = "Dictionary(Translation):")
             Spinner(
@@ -82,8 +81,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstDictsTranslation_,
                 selectedItemIndexStateFlow = vm.selectedDictTranslationIndex_,
-                selectedItemText = { vm.selectedDictTranslation.dictname },
-                dropdownItemText = { it.dictname }
+                itemText = { it.dictname }
             )
             Text(text = "Textbook:")
             Spinner(
@@ -92,8 +90,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstTextbooks_,
                 selectedItemIndexStateFlow = vm.selectedTextbookIndex_,
-                selectedItemText = { vm.selectedTextbook.textbookname },
-                dropdownItemText = { it.textbookname }
+                itemText = { it.textbookname }
             )
             Text(text = "Units:")
             Spinner(
@@ -102,8 +99,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstUnits_,
                 selectedItemIndexStateFlow = vm.selectedUnitFromIndex_,
-                selectedItemText = { vm.selectedTextbook.textbookname },
-                dropdownItemText = { it.label }
+                itemText = { it.label }
             )
             Spinner(
                 modifier = Modifier
@@ -111,20 +107,31 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstParts_,
                 selectedItemIndexStateFlow = vm.selectedPartFromIndex_,
-                selectedItemText = { vm.selectedTextbook.textbookname },
-                dropdownItemText = { it.label }
+                itemText = { it.label },
+                enabled = vm.partFromEnabled.collectAsState().value
             )
-            Row() {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Spinner(
-                    itemsStateFlow = vm.lstUnits_,
-                    selectedItemIndexStateFlow = vm.selectedUnitToIndex_,
-                    selectedItemText = { vm.selectedTextbook.textbookname },
-                    dropdownItemText = { it.label }
+                    modifier = Modifier
+                        .background(color = colorResource(R.color.color_text2)),
+                    itemsStateFlow = SettingsViewModel.lstToTypes_,
+                    selectedItemIndexStateFlow = vm.toTypeIndex_,
+                    itemText = { it.label }
                 )
-                Button(onClick = { /*TODO*/ }) {
+                Button(
+                    onClick = { vm.previousUnitPart() },
+                    enabled = vm.previousEnabled.collectAsState().value
+                ) {
                     Text(text = "Previous")
                 }
-                Button(onClick = { /*TODO*/ }) {
+                Button(
+                    onClick = { vm.nextUnitPart() },
+                    enabled = vm.nextEnabled.collectAsState().value
+                ) {
                     Text(text = "Next")
                 }
             }
@@ -134,8 +141,8 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstUnits_,
                 selectedItemIndexStateFlow = vm.selectedUnitToIndex_,
-                selectedItemText = { vm.selectedTextbook.textbookname },
-                dropdownItemText = { it.label }
+                itemText = { it.label },
+                enabled = vm.unitToEnabled.collectAsState().value
             )
             Spinner(
                 modifier = Modifier
@@ -143,8 +150,8 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstParts_,
                 selectedItemIndexStateFlow = vm.selectedPartToIndex_,
-                selectedItemText = { vm.selectedTextbook.textbookname },
-                dropdownItemText = { it.label }
+                itemText = { it.label },
+                enabled = vm.partToEnabled.collectAsState().value
             )
         }
     }

@@ -7,11 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.common.tts
 import com.zwstudio.lolly.models.misc.*
 import com.zwstudio.lolly.services.misc.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
@@ -157,7 +160,8 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var toType get() = UnitPartToType.values()[toTypeIndex_.value]; set(v) { toTypeIndex_.value = v.ordinal }
 
     companion object {
-        val lstToTypes = UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) }
+        val lstToTypes_ = MutableStateFlow(UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) })
+        val lstToTypes get() = lstToTypes_.value
         val lstScopeWordFilters = listOf("Word", "Note").mapIndexed { index, s -> MSelectItem(index, s) }
         val lstScopePhraseFilters = listOf("Phrase", "Translation").mapIndexed { index, s -> MSelectItem(index, s) }
         val lstScopePatternFilters = listOf("Pattern", "Note", "Tags").mapIndexed { index, s -> MSelectItem(index, s) }
@@ -291,12 +295,12 @@ class SettingsViewModel : ViewModel(), KoinComponent {
                 INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
                 INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
                 INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
+                lstUnits = selectedTextbook.lstUnits
+                lstParts = selectedTextbook.lstParts
                 selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
                 selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
                 selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
                 selectedPartToIndex = lstParts.indexOfFirst { it.value == uspartto }
-                lstUnits = selectedTextbook.lstUnits
-                lstParts = selectedTextbook.lstParts
                 toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
                 if (dirty) userSettingService.update(INFO_USTEXTBOOK, ustextbook)
             }
