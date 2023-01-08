@@ -3,10 +3,10 @@ package com.zwstudio.lolly.ui.misc
 import android.webkit.WebView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -20,6 +20,7 @@ import com.zwstudio.lolly.common.OnlineDict
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.ui.common.SearchView
 import com.zwstudio.lolly.ui.common.Spinner
+import com.zwstudio.lolly.ui.common.TopBar
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
@@ -46,21 +47,16 @@ fun SearchScreen(openDrawer: () -> Unit) {
     })
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = { Text("Search") },
-            navigationIcon = {
-                IconButton(onClick = { openDrawer() } ) {
-                    Icon(Icons.Filled.Menu, contentDescription = "")
-                }
-            },
+        TopBar(
+            title = "Search",
+            onButtonClicked = { openDrawer() },
             actions = {
                 IconButton(onClick = {
                     GlobalUserViewModel.remove(context)
                 }) {
                     Icon(Icons.Filled.ExitToApp, null)
                 }
-            },
-            backgroundColor = MaterialTheme.colors.primaryVariant
+            }
         )
         SearchView(valueStateFlow = vm.word_) {
             searchDict()

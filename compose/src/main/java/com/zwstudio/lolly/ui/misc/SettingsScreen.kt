@@ -2,9 +2,8 @@ package com.zwstudio.lolly.ui.misc
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -15,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.ui.common.Spinner
+import com.zwstudio.lolly.ui.common.TopBar
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 
 @Composable
@@ -27,14 +27,9 @@ fun SettingsScreen(openDrawer: () -> Unit) {
     })
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = { Text("Settings") },
-            navigationIcon = {
-                IconButton(onClick = { openDrawer() } ) {
-                    Icon(Icons.Filled.Menu, contentDescription = "")
-                }
-            },
-            backgroundColor = MaterialTheme.colors.primaryVariant
+        TopBar(
+            title = "Settings",
+            onButtonClicked = { openDrawer() }
         )
         Column(
             modifier = Modifier
