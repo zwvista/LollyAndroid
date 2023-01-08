@@ -30,12 +30,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @Composable
 fun SearchView(
     valueStateFlow: MutableStateFlow<String>,
-    onSearch: () -> Unit
+    modifier: Modifier = Modifier,
+    onSearch: () -> Unit,
 ) {
     TextField(
         value = valueStateFlow.collectAsState().value,
         onValueChange = { valueStateFlow.value = it },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .onKeyEvent {
                 if (it.key == Key.Enter) {

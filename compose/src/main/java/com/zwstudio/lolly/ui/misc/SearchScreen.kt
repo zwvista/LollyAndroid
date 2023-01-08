@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,12 +37,15 @@ fun SearchScreen(openDrawer: () -> Unit) {
     val vm = getViewModel<SearchViewModel>()
     val onlineDict = remember { OnlineDict() }
     val context = LocalContext.current
+    // https://stackoverflow.com/questions/64181930/request-focus-on-textfield-in-jetpack-compose
+    val focusRequester = remember { FocusRequester() }
 
     fun searchDict() {
         onlineDict.searchDict()
     }
 
     LaunchedEffect(Unit, block = {
+        focusRequester.requestFocus()
         vmSettings.getData()
         vmSettings.selectedDictReferenceIndex_.onEach {
             searchDict()
@@ -59,7 +64,10 @@ fun SearchScreen(openDrawer: () -> Unit) {
                 }
             }
         )
-        SearchView(valueStateFlow = vm.word_) {
+        SearchView(
+            valueStateFlow = vm.word_,
+            modifier = Modifier.focusRequester(focusRequester)
+        ) {
             searchDict()
         }
         Row(
