@@ -43,7 +43,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
             Text(text = "Language:")
             Spinner(
                 modifier = Modifier
-                    .background(color = colorResource(R.color.color_text2))
+                    .background(color = colorResource(R.color.color_text1))
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstLanguages_,
                 selectedItemIndexStateFlow = vm.selectedLangIndex_,
@@ -53,7 +53,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
             Text(text = "Voice:")
             Spinner(
                 modifier = Modifier
-                    .background(color = colorResource(R.color.color_text2))
+                    .background(color = colorResource(R.color.color_text1))
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstVoices_,
                 selectedItemIndexStateFlow = vm.selectedVoiceIndex_,
@@ -63,7 +63,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
             Text(text = "Dictionary(Reference):")
             Spinner(
                 modifier = Modifier
-                    .background(color = colorResource(R.color.color_text2))
+                    .background(color = colorResource(R.color.color_text1))
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstDictsReference_,
                 selectedItemIndexStateFlow = vm.selectedDictReferenceIndex_,
@@ -73,7 +73,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
             Text(text = "Dictionary(Note):")
             Spinner(
                 modifier = Modifier
-                    .background(color = colorResource(R.color.color_text2))
+                    .background(color = colorResource(R.color.color_text1))
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstDictsNote_,
                 selectedItemIndexStateFlow = vm.selectedDictNoteIndex_,
@@ -83,7 +83,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
             Text(text = "Dictionary(Translation):")
             Spinner(
                 modifier = Modifier
-                    .background(color = colorResource(R.color.color_text2))
+                    .background(color = colorResource(R.color.color_text1))
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstDictsTranslation_,
                 selectedItemIndexStateFlow = vm.selectedDictTranslationIndex_,
@@ -93,7 +93,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
             Text(text = "Textbook:")
             Spinner(
                 modifier = Modifier
-                    .background(color = colorResource(R.color.color_text2))
+                    .background(color = colorResource(R.color.color_text1))
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstTextbooks_,
                 selectedItemIndexStateFlow = vm.selectedTextbookIndex_,
@@ -103,7 +103,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
             Text(text = "Units:")
             Spinner(
                 modifier = Modifier
-                    .background(color = colorResource(R.color.color_text1))
+                    .background(color = colorResource(R.color.color_text2))
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstUnits_,
                 selectedItemIndexStateFlow = vm.selectedUnitFromIndex_,
@@ -135,7 +135,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
             }
             Spinner(
                 modifier = Modifier
-                    .background(color = colorResource(R.color.color_text1))
+                    .background(color = colorResource(R.color.color_text2))
                     .fillMaxWidth(),
                 itemsStateFlow = vm.lstUnits_,
                 selectedItemIndexStateFlow = vm.selectedUnitToIndex_,

@@ -92,7 +92,7 @@
                 android:id="@+id/text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_text2"
+                android:textColor="@color/color_text1"
                 android:textSize="@dimen/text_size2"/>
             <Space
                 android:layout_width="8dp"
@@ -108,7 +108,7 @@
                     android:id="@+id/text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/color_text1"/>
+                    android:textColor="@color/color_text2"/>
                 <TextView
                     android:id="@+id/text3"
                     android:layout_width="wrap_content"

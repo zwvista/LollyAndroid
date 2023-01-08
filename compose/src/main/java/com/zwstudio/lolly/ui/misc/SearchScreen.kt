@@ -82,7 +82,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
             )
             Spinner(
                 modifier = Modifier
-                    .background(color = colorResource(R.color.color_text1))
+                    .background(color = colorResource(R.color.color_text2))
                     .fillMaxWidth()
                     .weight(1f),
                 itemsStateFlow = vmSettings.lstDictsReference_,

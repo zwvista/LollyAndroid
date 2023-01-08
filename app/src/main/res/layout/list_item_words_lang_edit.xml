@@ -96,7 +96,7 @@
                     android:id="@+id/text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/color_text1"
+                    android:textColor="@color/color_text2"
                     android:textSize="@dimen/text_size5"/>
                 <Space
                     android:layout_width="0dp"
