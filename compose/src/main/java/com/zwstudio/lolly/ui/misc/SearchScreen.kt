@@ -9,16 +9,12 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.OnlineDict
@@ -68,7 +64,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
             },
             backgroundColor = MaterialTheme.colors.primaryVariant
         )
-        SearchView(stateFlow = vm.word_) {
+        SearchView(valueStateFlow = vm.word_) {
             searchDict()
         }
         Row(
@@ -81,62 +77,20 @@ fun SearchScreen(openDrawer: () -> Unit) {
                     .background(color = colorResource(R.color.color_text3))
                     .fillMaxWidth()
                     .weight(1f),
-                dropDownModifier = Modifier.wrapContentSize(),
-                items = vmSettings.lstLanguages_.collectAsState().value,
-                selectedItemIndex = vmSettings.selectedLangIndex_.collectAsState().value,
-                onItemSelected = {
-                     vmSettings.selectedLangIndex = it
-                },
-                selectedItemFactory = { modifier, _ ->
-                    Row(
-                        modifier = modifier
-                            .padding(8.dp)
-                            .wrapContentSize()
-                    ) {
-                        Text(
-                            text = vmSettings.selectedLang.langname,
-                            color = Color.White
-                        )
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_drop_down_24),
-                            contentDescription ="drop down arrow"
-                        )
-                    }
-                },
-                dropdownItemFactory = { item, _ ->
-                    Text(text = item.langname)
-                }
+                itemsStateFlow = vmSettings.lstLanguages_,
+                selectedItemIndexStateFlow = vmSettings.selectedLangIndex_,
+                selectedItemText = { vmSettings.selectedLang.langname },
+                dropdownItemText = { it.langname }
             )
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text1))
                     .fillMaxWidth()
                     .weight(1f),
-                dropDownModifier = Modifier.wrapContentSize(),
-                items = vmSettings.lstDictsReference_.collectAsState().value,
-                selectedItemIndex = vmSettings.selectedDictReferenceIndex_.collectAsState().value,
-                onItemSelected = {
-                     vmSettings.selectedDictReferenceIndex = it
-                },
-                selectedItemFactory = { modifier, _ ->
-                    Row(
-                        modifier = modifier
-                            .padding(8.dp)
-                            .wrapContentSize()
-                    ) {
-                        Text(
-                            text = vmSettings.selectedDictReference.dictname,
-                            color = Color.White
-                        )
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_arrow_drop_down_24),
-                            contentDescription ="drop down arrow"
-                        )
-                    }
-                },
-                dropdownItemFactory = { item, _ ->
-                    Text(text = item.dictname)
-                }
+                itemsStateFlow = vmSettings.lstDictsReference_,
+                selectedItemIndexStateFlow = vmSettings.selectedDictReferenceIndex_,
+                selectedItemText = { vmSettings.selectedDictReference.dictname },
+                dropdownItemText = { it.dictname }
             )
         }
         AndroidView(
@@ -146,7 +100,6 @@ fun SearchScreen(openDrawer: () -> Unit) {
                     onlineDict.iOnlineDict = vm
                     onlineDict.initWebViewClient()
                 }
-            }, update = { webView ->
             }
         )
     }

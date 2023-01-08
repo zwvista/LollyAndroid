@@ -29,14 +29,12 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchView(
-    stateFlow: MutableStateFlow<String>,
+    valueStateFlow: MutableStateFlow<String>,
     onSearch: () -> Unit
 ) {
     TextField(
-        value = stateFlow.collectAsState().value,
-        onValueChange = { value ->
-            stateFlow.value = value
-        },
+        value = valueStateFlow.collectAsState().value,
+        onValueChange = { valueStateFlow.value = it },
         modifier = Modifier
             .fillMaxWidth()
             .onKeyEvent {
@@ -57,10 +55,10 @@ fun SearchView(
             )
         },
         trailingIcon = {
-            if (stateFlow.collectAsState().value.isNotEmpty()) {
+            if (valueStateFlow.collectAsState().value.isNotEmpty()) {
                 IconButton(
                     onClick = {
-                        stateFlow.value = "" // Remove text from TextField when you press the 'X' icon
+                        valueStateFlow.value = "" // Remove text from TextField when you press the 'X' icon
                     }
                 ) {
                     Icon(
