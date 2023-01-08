@@ -7,6 +7,9 @@ import com.zwstudio.lolly.services.wpp.PatternService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -16,20 +19,22 @@ class PatternsViewModel : DrawerListViewModel(), KoinComponent {
     var lstPatternsAll get() = lstPatternsAll_.value; set(v) { lstPatternsAll_.value = v }
     var lstPatterns_ = MutableStateFlow(listOf<MPattern>())
     var lstPatterns get() = lstPatterns_.value; set(v) { lstPatterns_.value = v }
-    val scopeFilterIndex = MutableStateFlow(0)
+    val scopeFilterIndex_ = MutableStateFlow(0)
+    var scopeFilterIndex get() = scopeFilterIndex_.value; set(v) { scopeFilterIndex_.value = v }
     private val noFilter get() = textFilter.isEmpty()
 
     private val patternService by inject<PatternService>()
 
-    fun applyFilters() {
-        lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilterIndex.value == 0) it.pattern else if (scopeFilterIndex.value == 1) it.note else it.tags).contains(textFilter, true))
-        }
+    init {
+        combine(lstPatternsAll_, textFilter_, scopeFilterIndex_, ::Triple).onEach {
+            lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {
+                (textFilter.isEmpty() || (if (scopeFilterIndex == 0) it.pattern else if (scopeFilterIndex == 1) it.note else it.tags).contains(textFilter, true))
+            }
+        }.launchIn(viewModelScope)
     }
 
     suspend fun getData() {
         lstPatternsAll = patternService.getDataByLang(vmSettings.selectedLang.id)
-        applyFilters()
     }
 
     fun update(item: MPattern) = viewModelScope.launch {

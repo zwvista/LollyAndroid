@@ -8,6 +8,9 @@ import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -17,20 +20,22 @@ class WordsLangViewModel : DrawerListViewModel(), KoinComponent {
     var lstWordsAll get() = lstWordsAll_.value; set(v) { lstWordsAll_.value = v }
     var lstWords_ = MutableStateFlow(listOf<MLangWord>())
     var lstWords get() = lstWords_.value; set(v) { lstWords_.value = v }
-    val scopeFilterIndex = MutableStateFlow(0)
+    val scopeFilterIndex_ = MutableStateFlow(0)
+    var scopeFilterIndex get() = scopeFilterIndex_.value; set(v) { scopeFilterIndex_.value = v }
     private val noFilter get() = textFilter.isEmpty()
 
     private val langWordService by inject<LangWordService>()
 
-    fun applyFilters() {
-        lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilterIndex.value == 0) it.word else it.note).contains(textFilter, true))
-        }
+    init {
+        combine(lstWordsAll_, textFilter_, scopeFilterIndex_, ::Triple).onEach {
+            lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
+                (textFilter.isEmpty() || (if (scopeFilterIndex == 0) it.word else it.note).contains(textFilter, true))
+            }
+        }.launchIn(viewModelScope)
     }
 
     suspend fun getData() {
         lstWordsAll = langWordService.getDataByLang(vmSettings.selectedLang.id)
-        applyFilters()
     }
 
     fun update(item: MLangWord) = viewModelScope.launch {

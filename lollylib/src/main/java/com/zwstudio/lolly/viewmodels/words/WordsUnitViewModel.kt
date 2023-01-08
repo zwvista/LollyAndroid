@@ -9,6 +9,9 @@ import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -18,30 +21,32 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
     var lstWordsAll get() = lstWordsAll_.value; set(v) { lstWordsAll_.value = v }
     val lstWords_ = MutableStateFlow(listOf<MUnitWord>())
     var lstWords get() = lstWords_.value; set(v) { lstWords_.value = v }
-    val scopeFilterIndex = MutableStateFlow(0)
-    val textbookFilterIndex = MutableStateFlow(0)
-    private val textbookFilter get() = vmSettings.lstTextbookFilters[textbookFilterIndex.value].value
+    val scopeFilterIndex_ = MutableStateFlow(0)
+    var scopeFilterIndex get() = scopeFilterIndex_.value; set(v) { scopeFilterIndex_.value = v }
+    val textbookFilterIndex_ = MutableStateFlow(0)
+    var textbookFilterIndex get() = textbookFilterIndex_.value; set(v) { textbookFilterIndex_.value = v }
+    private val textbookFilter get() = vmSettings.lstTextbookFilters[textbookFilterIndex].value
     val noFilter get() = textFilter.isEmpty() && textbookFilter == 0
 
     private val unitWordService by inject<UnitWordService>()
     private val langWordService by inject<LangWordService>()
 
-    fun applyFilters() {
-        lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilterIndex.value == 0) it.word else it.note).contains(textFilter, true)) &&
-            (textbookFilter == 0 || it.textbookid == textbookFilter)
-        }
+    init {
+        combine(combine(lstWordsAll_, textbookFilterIndex_, textFilter_, ::Triple), scopeFilterIndex_, ::Pair).onEach {
+            lstWords = if (noFilter) lstWordsAll else lstWordsAll.filter {
+                (textFilter.isEmpty() || (if (scopeFilterIndex == 0) it.word else it.note).contains(textFilter, true)) &&
+                    (textbookFilter == 0 || it.textbookid == textbookFilter)
+            }
+        }.launchIn(viewModelScope)
     }
 
     suspend fun getDataInTextbook() {
         lstWordsAll = unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
-        applyFilters()
     }
 
     suspend fun getDataInLang() {
         lstWordsAll = unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
-        applyFilters()
     }
 
     suspend fun updateSeqNum(id: Int, seqnum: Int) {

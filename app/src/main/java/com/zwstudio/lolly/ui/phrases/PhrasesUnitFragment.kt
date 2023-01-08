@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.woxthebox.draglistview.DragItem
@@ -30,6 +31,7 @@ import kotlinx.coroutines.launch
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -53,39 +55,29 @@ class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {
         super.onViewCreated(view, savedInstanceState)
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                vm.applyFilters()
-                refreshListView()
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
                 vm.textFilter = newText
-                if (newText.isEmpty())
-                    refreshListView()
                 return false
             }
         })
-
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
-        vm.scopeFilterIndex.onEach {
-            vm.applyFilters()
-            refreshListView()
-        }.launchIn(vm.viewModelScope)
+        setupListView(PhrasesUnitDragItem(requireContext(), R.layout.list_item_phrases_unit_edit))
 
         setFragmentResultListener("PhrasesUnitDetailFragment") { requestKey, bundle ->
             menuAdd()
         }
 
-        setupListView(PhrasesUnitDragItem(requireContext(), R.layout.list_item_phrases_unit_edit))
+        combine(vm.lstPhrases_, vm.isEditMode_, ::Pair).onEach {
+            val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView)
+            mDragListView.setAdapter(listAdapter, true)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
         vm.viewModelScope.launch {
             vm.getDataInTextbook()
-            refreshListView()
             progressBar1.visibility = View.GONE
         }
-    }
-
-    private fun refreshListView() {
-        val listAdapter = PhrasesUnitItemAdapter(vm, mDragListView)
-        mDragListView.setAdapter(listAdapter, true)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -96,7 +88,6 @@ class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {
     private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
         menuItem.isChecked = true
-        refreshListView()
     }
 
     fun menuAdd() =

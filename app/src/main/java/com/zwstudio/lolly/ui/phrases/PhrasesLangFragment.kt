@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.woxthebox.draglistview.DragItemAdapter
@@ -25,6 +26,7 @@ import kotlinx.coroutines.launch
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -48,35 +50,25 @@ class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
         super.onViewCreated(view, savedInstanceState)
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                vm.applyFilters()
-                refreshListView()
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
                 vm.textFilter = newText
-                if (newText.isEmpty())
-                    refreshListView()
                 return false
             }
         })
-
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
-        vm.scopeFilterIndex.onEach {
-            vm.applyFilters()
-            refreshListView()
-        }.launchIn(vm.viewModelScope)
-
         setupListView()
+
+        combine(vm.lstPhrases_, vm.isEditMode_, ::Pair).onEach {
+            val listAdapter = PhrasesLangItemAdapter(vm, mDragListView)
+            mDragListView.setAdapter(listAdapter, true)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
         vm.viewModelScope.launch {
             vm.getData()
-            refreshListView()
             progressBar1.visibility = View.GONE
         }
-    }
-
-    private fun refreshListView() {
-        val listAdapter = PhrasesLangItemAdapter(vm, mDragListView)
-        mDragListView.setAdapter(listAdapter, true)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -87,7 +79,6 @@ class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
     private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
         menuItem.isChecked = true
-        refreshListView()
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
