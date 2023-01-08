@@ -1,10 +1,7 @@
 package com.zwstudio.lolly.ui.misc
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -40,7 +37,9 @@ fun SettingsScreen(openDrawer: () -> Unit) {
             backgroundColor = MaterialTheme.colors.primaryVariant
         )
         Column(
-            modifier = Modifier.fillMaxSize().padding(8.dp)) {
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)) {
             Text(text = "Language:")
             Spinner(
                 modifier = Modifier
@@ -101,16 +100,57 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                 selectedItemText = { vm.selectedTextbook.textbookname },
                 dropdownItemText = { it.textbookname }
             )
-//            Text(text = "Units:")
-//            Spinner(
-//                modifier = Modifier
-//                    .background(color = colorResource(R.color.color_text2))
-//                    .fillMaxWidth(),
-//                itemsStateFlow = vm.lstUnits,
-//                selectedItemIndexStateFlow = vm.selectedUnitFromIndex_,
-//                selectedItemText = { vm.selectedTextbook.textbookname },
-//                dropdownItemText = { it.textbookname }
-//            )
+            Text(text = "Units:")
+            Spinner(
+                modifier = Modifier
+                    .background(color = colorResource(R.color.color_text1))
+                    .fillMaxWidth(),
+                itemsStateFlow = vm.lstUnits_,
+                selectedItemIndexStateFlow = vm.selectedUnitFromIndex_,
+                selectedItemText = { vm.selectedTextbook.textbookname },
+                dropdownItemText = { it.label }
+            )
+            Spinner(
+                modifier = Modifier
+                    .background(color = colorResource(R.color.color_text3))
+                    .fillMaxWidth(),
+                itemsStateFlow = vm.lstParts_,
+                selectedItemIndexStateFlow = vm.selectedPartFromIndex_,
+                selectedItemText = { vm.selectedTextbook.textbookname },
+                dropdownItemText = { it.label }
+            )
+            Row() {
+                Spinner(
+                    itemsStateFlow = vm.lstUnits_,
+                    selectedItemIndexStateFlow = vm.selectedUnitToIndex_,
+                    selectedItemText = { vm.selectedTextbook.textbookname },
+                    dropdownItemText = { it.label }
+                )
+                Button(onClick = { /*TODO*/ }) {
+                    Text(text = "Previous")
+                }
+                Button(onClick = { /*TODO*/ }) {
+                    Text(text = "Next")
+                }
+            }
+            Spinner(
+                modifier = Modifier
+                    .background(color = colorResource(R.color.color_text1))
+                    .fillMaxWidth(),
+                itemsStateFlow = vm.lstUnits_,
+                selectedItemIndexStateFlow = vm.selectedUnitToIndex_,
+                selectedItemText = { vm.selectedTextbook.textbookname },
+                dropdownItemText = { it.label }
+            )
+            Spinner(
+                modifier = Modifier
+                    .background(color = colorResource(R.color.color_text3))
+                    .fillMaxWidth(),
+                itemsStateFlow = vm.lstParts_,
+                selectedItemIndexStateFlow = vm.selectedPartToIndex_,
+                selectedItemText = { vm.selectedTextbook.textbookname },
+                dropdownItemText = { it.label }
+            )
         }
     }
 }
