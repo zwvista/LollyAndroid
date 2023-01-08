@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.lifecycleScope
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
@@ -26,6 +26,7 @@ import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -49,39 +50,25 @@ class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
         super.onViewCreated(view, savedInstanceState)
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                vm.applyFilters()
-                refreshListView()
                 return true
             }
             override fun onQueryTextChange(newText: String): Boolean {
                 vm.textFilter = newText
-                if (newText.isEmpty())
-                    refreshListView()
                 return false
             }
         })
-
         binding.spnTextbookFilter.adapter = makeCustomAdapter(requireContext(), vmSettings.lstTextbookFilters) { it.label }
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopeWordFilters) { it.label }
-        vm.textbookFilterIndex.onEach {
-            vm.applyFilters()
-            refreshListView()
-        }.launchIn(vm.viewModelScope)
-        vm.scopeFilterIndex.onEach {
-            vm.applyFilters()
-            refreshListView()
-        }.launchIn(vm.viewModelScope)
-
         setupListView()
+
+        combine(vm.lstWords_, vm.isEditMode_, ::Pair).onEach {
+            val listAdapter = WordsTextbookItemAdapter(vm, mDragListView, compositeDisposable)
+            mDragListView.setAdapter(listAdapter, true)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
         compositeDisposable.add(vm.getDataInLang().subscribe {
-            refreshListView()
             progressBar1.visibility = View.GONE
         })
-    }
-
-    private fun refreshListView() {
-        val listAdapter = WordsTextbookItemAdapter(vm, mDragListView, compositeDisposable)
-        mDragListView.setAdapter(listAdapter, true)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -92,7 +79,6 @@ class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
     private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
         menuItem.isChecked = true
-        refreshListView()
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =

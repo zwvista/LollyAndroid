@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.viewmodels.patterns
 
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.wpp.MPattern
@@ -8,6 +9,9 @@ import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -17,23 +21,26 @@ class PatternsViewModel : DrawerListViewModel(), KoinComponent {
     var lstPatternsAll get() = lstPatternsAll_.value; set(v) { lstPatternsAll_.value = v }
     var lstPatterns_ = MutableStateFlow(listOf<MPattern>())
     var lstPatterns get() = lstPatterns_.value; set(v) { lstPatterns_.value = v }
-    val scopeFilterIndex = MutableStateFlow(0)
+    val scopeFilterIndex_ = MutableStateFlow(0)
+    var scopeFilterIndex get() = scopeFilterIndex_.value; set(v) { scopeFilterIndex_.value = v }
     private val noFilter get() = textFilter.isEmpty()
 
     lateinit var compositeDisposable: CompositeDisposable
 
     private val patternService by inject<PatternService>()
 
-    fun applyFilters() {
-        lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {
-            (textFilter.isEmpty() || (if (scopeFilterIndex.value == 0) it.pattern else if (scopeFilterIndex.value == 1) it.note else it.tags).contains(textFilter, true))
-        }
+    init {
+        combine(lstPatternsAll_, textFilter_, scopeFilterIndex_, ::Triple).onEach {
+            lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {
+                (textFilter.isEmpty() || (if (scopeFilterIndex == 0) it.pattern else if (scopeFilterIndex == 1) it.note else it.tags).contains(textFilter, true))
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun getData(): Completable =
         patternService.getDataByLang(vmSettings.selectedLang.id)
             .applyIO()
-            .flatMapCompletable { lstPatternsAll = it; applyFilters(); Completable.complete() }
+            .flatMapCompletable { lstPatternsAll = it; Completable.complete() }
 
     fun update(item: MPattern): Completable =
         patternService.update(item)
