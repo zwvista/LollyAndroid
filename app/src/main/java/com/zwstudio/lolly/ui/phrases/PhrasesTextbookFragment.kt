@@ -66,7 +66,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), MenuProvider {
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        vm.viewModelScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             vm.getDataInLang()
             progressBar1.visibility = View.GONE
         }

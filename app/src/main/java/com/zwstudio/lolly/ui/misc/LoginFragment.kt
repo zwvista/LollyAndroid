@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.zwstudio.lolly.databinding.FragmentLoginBinding
 import com.zwstudio.lolly.ui.common.autoCleared
@@ -31,7 +31,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.login.setOnClickListener {
-            vm.viewModelScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 vm.login(requireContext())
                 if (GlobalUserViewModel.isLoggedIn)
                     findNavController().navigateUp()

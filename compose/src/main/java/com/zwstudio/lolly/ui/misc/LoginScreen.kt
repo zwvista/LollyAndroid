@@ -56,7 +56,7 @@ fun LoginScreen() {
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
-                vm.viewModelScope.launch {
+                viewLifecycleOwner.lifecycleScope.launch {
                     vm.login(context)
 //                    if (!GlobalUserViewModel.isLoggedIn)
 //                        showAlert = true

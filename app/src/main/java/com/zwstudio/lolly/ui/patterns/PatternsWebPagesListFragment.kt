@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.woxthebox.draglistview.DragItem
@@ -21,12 +21,12 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentPatternsWebpagesListBinding
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
-import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.ui.*
 import com.zwstudio.lolly.ui.common.DrawerListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.yesNoDialog
+import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -53,7 +53,7 @@ class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
         super.onViewCreated(view, savedInstanceState)
 
         setupListView(PatternsWebPagesDragItem(requireContext(), R.layout.list_item_patterns_webpages_edit))
-        vm.viewModelScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             vm.getWebPages(item.id)
             refreshListView()
             progressBar1.visibility = View.GONE

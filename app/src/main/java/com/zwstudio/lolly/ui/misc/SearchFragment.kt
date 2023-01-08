@@ -56,19 +56,17 @@ class SearchFragment : Fragment(), MenuProvider {
             }
         })
 
-        val scope = viewLifecycleOwner.lifecycleScope
-
         vmSettings.lstLanguages_.onEach {
             binding.spnLanguage.adapter = makeCustomAdapter(requireContext(), vmSettings.lstLanguages) { it.langname }
-        }.launchIn(scope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vmSettings.lstDictsReference_.onEach {
             binding.spnDictReference.makeCustomAdapter2(requireContext(), vmSettings.lstDictsReference,  { it.dictname }, { it.url })
-        }.launchIn(scope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vmSettings.selectedDictReferenceIndex_.onEach {
             searchDict()
-        }.launchIn(scope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vmSettings.getData()
     }

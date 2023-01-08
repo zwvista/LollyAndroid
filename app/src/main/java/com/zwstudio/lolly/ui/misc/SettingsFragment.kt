@@ -41,43 +41,41 @@ class SettingsFragment : Fragment() {
 
         binding.spnToType.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstToTypes) { it.label }
 
-        val scope = viewLifecycleOwner.lifecycleScope
-
         vm.lstLanguages_.onEach {
             binding.spnLanguage.adapter = makeCustomAdapter(requireContext(), vm.lstLanguages) { it.langname }
-        }.launchIn(scope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vm.lstVoices_.onEach {
             binding.spnVoice.makeCustomAdapter2(requireActivity(), vm.lstVoices, { it.voicelang }, { it.voicename })
-        }.launchIn(scope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vm.lstDictsReference_.onEach {
             binding.spnDictReference.makeCustomAdapter2(requireActivity(), vm.lstDictsReference, { it.dictname }, { it.url })
-        }.launchIn(scope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vm.lstDictsNote_.onEach {
             binding.spnDictNote.makeCustomAdapter2(requireActivity(), vm.lstDictsNote, { it.dictname }, { it.url })
-        }.launchIn(scope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vm.lstDictsTranslation_.onEach {
             binding.spnDictTranslation.makeCustomAdapter2(requireActivity(), vm.lstDictsTranslation, { it.dictname }, { it.url })
-        }.launchIn(scope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vm.lstTextbooks_.onEach {
             binding.spnTextbook.makeCustomAdapter2(requireActivity(), vm.lstTextbooks, { it.textbookname }, { "${vm.unitCount} units" })
-        }.launchIn(scope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vm.lstUnits_.onEach {
             val adapter = makeCustomAdapter(requireContext(), vm.lstUnits) { it.label }
             binding.spnUnitFrom.adapter = adapter
             binding.spnUnitTo.adapter = adapter
-        }.launchIn(scope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vm.lstParts_.onEach {
             val adapter = makeCustomAdapter(requireContext(), vm.lstParts) { it.label }
             binding.spnPartFrom.adapter = adapter
             binding.spnPartTo.adapter = adapter
-        }.launchIn(scope)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vm.getData()
     }

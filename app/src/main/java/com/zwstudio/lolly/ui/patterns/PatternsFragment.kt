@@ -11,7 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -66,7 +65,7 @@ class PatternsFragment : DrawerListFragment(), MenuProvider {
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        vm.viewModelScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             vm.getData()
             progressBar1.visibility = View.GONE
         }

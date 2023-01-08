@@ -23,13 +23,13 @@ import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.ui.*
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.ui.misc.*
-import kotlinx.coroutines.launch
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
@@ -67,7 +67,7 @@ class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        vm.viewModelScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             vm.getDataInLang()
             progressBar1.visibility = View.GONE
         }
