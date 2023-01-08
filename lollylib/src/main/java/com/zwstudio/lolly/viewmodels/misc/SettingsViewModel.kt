@@ -295,12 +295,12 @@ class SettingsViewModel : ViewModel(), KoinComponent {
             INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
             INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
             INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
+            lstUnits = selectedTextbook.lstUnits
+            lstParts = selectedTextbook.lstParts
             selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
             selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
             selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
             selectedPartToIndex = lstParts.indexOfFirst { it.value == uspartto }
-            lstUnits = selectedTextbook.lstUnits
-            lstParts = selectedTextbook.lstParts
             toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
             if (dirty)
                 compositeDisposable.add(userSettingService.update(INFO_USTEXTBOOK, ustextbook).subscribe())
