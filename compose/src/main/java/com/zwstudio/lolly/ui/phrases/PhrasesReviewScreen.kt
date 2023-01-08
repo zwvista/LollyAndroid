@@ -6,14 +6,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.zwstudio.lolly.ui.common.DrawerScreens
-import com.zwstudio.lolly.ui.common.TopBar
+import com.zwstudio.lolly.ui.common.TopBarMenu
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 
 @Composable
 fun PhrasesReviewScreen(openDrawer: () -> Unit) {
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopBar(
+        TopBarMenu(
             title = DrawerScreens.PhrasesReview.title,
             onButtonClicked = { openDrawer() }
         )

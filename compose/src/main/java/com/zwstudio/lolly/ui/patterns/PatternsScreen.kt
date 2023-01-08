@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.ui.common.DrawerScreens
-import com.zwstudio.lolly.ui.common.TopBar
+import com.zwstudio.lolly.ui.common.TopBarMenu
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import org.koin.androidx.compose.getViewModel
@@ -32,7 +32,7 @@ fun PatternsScreen(openDrawer: () -> Unit) {
     })
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopBar(
+        TopBarMenu(
             title = DrawerScreens.Patterns.title,
             onButtonClicked = { openDrawer() }
         )

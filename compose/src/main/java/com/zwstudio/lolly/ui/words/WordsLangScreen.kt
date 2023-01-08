@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.ui.common.DrawerScreens
-import com.zwstudio.lolly.ui.common.TopBar
+import com.zwstudio.lolly.ui.common.TopBarMenu
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
 import org.koin.androidx.compose.getViewModel
@@ -34,7 +34,7 @@ fun WordsLangScreen(openDrawer: () -> Unit) {
     })
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopBar(
+        TopBarMenu(
             title = DrawerScreens.WordsLang.title,
             onButtonClicked = { openDrawer() }
         )

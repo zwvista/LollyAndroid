@@ -23,7 +23,7 @@ import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.common.SearchView
 import com.zwstudio.lolly.ui.common.Spinner
-import com.zwstudio.lolly.ui.common.TopBar
+import com.zwstudio.lolly.ui.common.TopBarMenu
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
@@ -53,7 +53,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
     })
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopBar(
+        TopBarMenu(
             title = DrawerScreens.Search.title,
             onButtonClicked = { openDrawer() },
             actions = {
