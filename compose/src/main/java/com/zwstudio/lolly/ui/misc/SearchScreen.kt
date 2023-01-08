@@ -18,6 +18,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.OnlineDict
 import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.common.SearchView
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBar
@@ -48,7 +49,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
-            title = "Search",
+            title = DrawerScreens.Search.title,
             onButtonClicked = { openDrawer() },
             actions = {
                 IconButton(onClick = {

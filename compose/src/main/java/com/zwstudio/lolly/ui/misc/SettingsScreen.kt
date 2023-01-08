@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBar
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
@@ -30,7 +31,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
-            title = "Settings",
+            title = DrawerScreens.Settings.title,
             onButtonClicked = { openDrawer() }
         )
         Column(
