@@ -93,6 +93,7 @@ fun <T> Spinner(
         },
         dropdownItemFactory = { item, _ ->
             Text(text = itemText(item))
-        }
+        },
+        enabled = enabled
     )
 }
