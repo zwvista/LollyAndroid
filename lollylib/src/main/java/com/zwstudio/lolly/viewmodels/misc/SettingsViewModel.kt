@@ -164,7 +164,8 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var toType get() = UnitPartToType.values()[toTypeIndex_.value]; set(v) { toTypeIndex_.value = v.ordinal }
 
     companion object {
-        val lstToTypes = UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) }
+        val lstToTypes_ = MutableStateFlow(UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) })
+        val lstToTypes get() = lstToTypes_.value
         val lstScopeWordFilters = listOf("Word", "Note").mapIndexed { index, s -> MSelectItem(index, s) }
         val lstScopePhraseFilters = listOf("Phrase", "Translation").mapIndexed { index, s -> MSelectItem(index, s) }
         val lstScopePatternFilters = listOf("Pattern", "Note", "Tags").mapIndexed { index, s -> MSelectItem(index, s) }
