@@ -13,9 +13,9 @@ import org.koin.core.component.inject
 
 class WordsLangViewModel : DrawerListViewModel(), KoinComponent {
 
-    private var lstWordsAll_ = MutableStateFlow(listOf<MLangWord>())
+    var lstWordsAll_ = MutableStateFlow(listOf<MLangWord>())
     var lstWordsAll get() = lstWordsAll_.value; set(v) { lstWordsAll_.value = v }
-    private var lstWords_ = MutableStateFlow(listOf<MLangWord>())
+    var lstWords_ = MutableStateFlow(listOf<MLangWord>())
     var lstWords get() = lstWords_.value; set(v) { lstWords_.value = v }
     val scopeFilterIndex = MutableStateFlow(0)
     private val noFilter get() = textFilter.isEmpty()

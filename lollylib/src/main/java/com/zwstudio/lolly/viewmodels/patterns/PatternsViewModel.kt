@@ -13,9 +13,9 @@ import org.koin.core.component.inject
 
 class PatternsViewModel : DrawerListViewModel(), KoinComponent {
 
-    private var lstPatternsAll_ = MutableStateFlow(listOf<MPattern>())
+    var lstPatternsAll_ = MutableStateFlow(listOf<MPattern>())
     var lstPatternsAll get() = lstPatternsAll_.value; set(v) { lstPatternsAll_.value = v }
-    private var lstPatterns_ = MutableStateFlow(listOf<MPattern>())
+    var lstPatterns_ = MutableStateFlow(listOf<MPattern>())
     var lstPatterns get() = lstPatterns_.value; set(v) { lstPatterns_.value = v }
     val scopeFilterIndex = MutableStateFlow(0)
     private val noFilter get() = textFilter.isEmpty()

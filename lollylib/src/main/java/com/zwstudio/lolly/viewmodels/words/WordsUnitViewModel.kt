@@ -15,9 +15,9 @@ import org.koin.core.component.inject
 
 class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
 
-    private val lstWordsAll_ = MutableStateFlow(listOf<MUnitWord>())
+    val lstWordsAll_ = MutableStateFlow(listOf<MUnitWord>())
     var lstWordsAll get() = lstWordsAll_.value; set(v) { lstWordsAll_.value = v }
-    private val lstWords_ = MutableStateFlow(listOf<MUnitWord>())
+    val lstWords_ = MutableStateFlow(listOf<MUnitWord>())
     var lstWords get() = lstWords_.value; set(v) { lstWords_.value = v }
     val scopeFilterIndex = MutableStateFlow(0)
     val textbookFilterIndex = MutableStateFlow(0)

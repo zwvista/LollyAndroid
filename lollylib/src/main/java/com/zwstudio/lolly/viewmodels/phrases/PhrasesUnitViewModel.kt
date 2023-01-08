@@ -13,9 +13,9 @@ import org.koin.core.component.inject
 
 class PhrasesUnitViewModel : DrawerListViewModel(), KoinComponent {
 
-    private var lstPhrasesAll_ = MutableStateFlow(listOf<MUnitPhrase>())
+    var lstPhrasesAll_ = MutableStateFlow(listOf<MUnitPhrase>())
     var lstPhrasesAll get() = lstPhrasesAll_.value; set(v) { lstPhrasesAll_.value = v }
-    private var lstPhrases_ = MutableStateFlow(listOf<MUnitPhrase>())
+    var lstPhrases_ = MutableStateFlow(listOf<MUnitPhrase>())
     var lstPhrases get() = lstPhrases_.value; set(v) { lstPhrases_.value = v }
     val scopeFilterIndex = MutableStateFlow(0)
     val textbookFilterIndex = MutableStateFlow(0)
