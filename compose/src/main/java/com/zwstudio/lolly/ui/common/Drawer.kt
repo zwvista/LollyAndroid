@@ -18,7 +18,11 @@ sealed class DrawerScreens(val title: String, val route: String) {
     object Settings : DrawerScreens("Settings", "Settings")
     object WordsUnit : DrawerScreens( "Words in Unit", "Words in Unit")
     object PhrasesUnit : DrawerScreens( "Phrases in Unit", "Phrases in Unit")
-    object Patterns : DrawerScreens( "Patterns", "Patterns")
+    object WordsTextbook : DrawerScreens( "Words in Textbook", "Words in Unit")
+    object PhrasesTextbook : DrawerScreens( "Phrases in Textbook", "Phrases in Unit")
+    object WordsLang : DrawerScreens( "Words in Language", "Words in Unit")
+    object PhrasesLang : DrawerScreens( "Phrases in Language", "Phrases in Unit")
+    object Patterns : DrawerScreens( "Patterns in Language", "Patterns")
 }
 
 private val screens = listOf(
@@ -26,6 +30,10 @@ private val screens = listOf(
     DrawerScreens.Settings,
     DrawerScreens.WordsUnit,
     DrawerScreens.PhrasesUnit,
+    DrawerScreens.WordsTextbook,
+    DrawerScreens.PhrasesTextbook,
+    DrawerScreens.WordsLang,
+    DrawerScreens.PhrasesLang,
     DrawerScreens.Patterns,
 )
 
