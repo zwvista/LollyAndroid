@@ -241,9 +241,6 @@ class SettingsViewModel : ViewModel(), KoinComponent {
                 selectedDictNoteIndex = 0.coerceAtLeast(lstDictsNote.indexOfFirst { it.dictid == usdictnote })
                 selectedDictTranslationIndex = 0.coerceAtLeast(lstDictsTranslation.indexOfFirst { it.dictid == usdicttranslation })
                 selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
-//                lstUnits = selectedTextbook.lstUnits
-//                lstParts = selectedTextbook.lstParts
-//                toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
                 Completable.complete()
             }.subscribe())
         }
@@ -305,9 +302,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
             lstParts = selectedTextbook.lstParts
             toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
             if (dirty)
-                compositeDisposable.add(userSettingService.update(INFO_USTEXTBOOK, ustextbook)
-                .applyIO().doAfterTerminate {
-                }.subscribe())
+                compositeDisposable.add(userSettingService.update(INFO_USTEXTBOOK, ustextbook).subscribe())
         }
 
         selectedUnitFromIndex_.onChange {
@@ -337,7 +332,6 @@ class SettingsViewModel : ViewModel(), KoinComponent {
             previousEnabled.value = !b
             nextEnabled.value = !b
             partFromEnabled.value = it != UnitPartToType.Unit.ordinal && !isSinglePart
-            toType = UnitPartToType.values()[it]
             compositeDisposable.add((
                 if (toType == UnitPartToType.Unit)
                     doUpdateSingleUnit()
