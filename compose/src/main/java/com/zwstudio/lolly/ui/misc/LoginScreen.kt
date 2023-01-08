@@ -16,6 +16,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
+import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -56,10 +57,10 @@ fun LoginScreen() {
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
-                viewLifecycleOwner.lifecycleScope.launch {
+                vm.viewModelScope.launch {
                     vm.login(context)
-//                    if (!GlobalUserViewModel.isLoggedIn)
-//                        showAlert = true
+                    if (!GlobalUserViewModel.isLoggedIn)
+                        showAlert = true
                 }
             }
         ) {
@@ -73,7 +74,7 @@ fun LoginScreen() {
                 text = { Text(text = "Wrong username or password!") },
                 confirmButton = {
                     Button(onClick = { showAlert = false }) {
-                        Text("This is the Confirm Button")
+                        Text("OK")
                     }
                 },
             )
