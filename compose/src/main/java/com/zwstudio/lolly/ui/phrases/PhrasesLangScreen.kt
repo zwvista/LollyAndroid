@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +30,7 @@ fun PhrasesLangScreen(openDrawer: () -> Unit) {
         vm.getData()
     })
 
+    val lstPhrases = vm.lstPhrases_.collectAsState().value
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
             title = DrawerScreens.PhrasesLang.title,
@@ -39,7 +41,7 @@ fun PhrasesLangScreen(openDrawer: () -> Unit) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            items(vm.lstPhrases) { item ->
+            items(lstPhrases) { item ->
                 Row() {
                     Column() {
                         Text(

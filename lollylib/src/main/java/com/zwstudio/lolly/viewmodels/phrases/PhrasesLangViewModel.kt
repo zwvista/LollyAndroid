@@ -12,9 +12,9 @@ import org.koin.core.component.inject
 
 class PhrasesLangViewModel : DrawerListViewModel(), KoinComponent {
 
-    private var lstPhrasesAll_ = MutableStateFlow(listOf<MLangPhrase>())
+    var lstPhrasesAll_ = MutableStateFlow(listOf<MLangPhrase>())
     var lstPhrasesAll get() = lstPhrasesAll_.value; set(v) { lstPhrasesAll_.value = v }
-    private var lstPhrases_ = MutableStateFlow(listOf<MLangPhrase>())
+    var lstPhrases_ = MutableStateFlow(listOf<MLangPhrase>())
     var lstPhrases get() = lstPhrases_.value; set(v) { lstPhrases_.value = v }
     val scopeFilterIndex = MutableStateFlow(0)
     private val noFilter get() = textFilter.isEmpty()

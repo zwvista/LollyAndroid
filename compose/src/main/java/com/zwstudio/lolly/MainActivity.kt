@@ -20,8 +20,14 @@ import com.zwstudio.lolly.ui.misc.LoginScreen
 import com.zwstudio.lolly.ui.misc.SearchScreen
 import com.zwstudio.lolly.ui.misc.SettingsScreen
 import com.zwstudio.lolly.ui.patterns.PatternsScreen
+import com.zwstudio.lolly.ui.phrases.PhrasesLangScreen
+import com.zwstudio.lolly.ui.phrases.PhrasesReviewScreen
+import com.zwstudio.lolly.ui.phrases.PhrasesTextbookScreen
 import com.zwstudio.lolly.ui.phrases.PhrasesUnitScreen
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
+import com.zwstudio.lolly.ui.words.WordsLangScreen
+import com.zwstudio.lolly.ui.words.WordsReviewScreen
+import com.zwstudio.lolly.ui.words.WordsTextbookScreen
 import com.zwstudio.lolly.ui.words.WordsUnitScreen
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import kotlinx.coroutines.launch
@@ -100,6 +106,24 @@ fun AppMainScreen() {
                 }
                 composable(DrawerScreens.PhrasesUnit.route) {
                     PhrasesUnitScreen { openDrawer() }
+                }
+                composable(DrawerScreens.WordsReview.route) {
+                    WordsReviewScreen { openDrawer() }
+                }
+                composable(DrawerScreens.PhrasesReview.route) {
+                    PhrasesReviewScreen { openDrawer() }
+                }
+                composable(DrawerScreens.WordsTextbook.route) {
+                    WordsTextbookScreen { openDrawer() }
+                }
+                composable(DrawerScreens.PhrasesTextbook.route) {
+                    PhrasesTextbookScreen { openDrawer() }
+                }
+                composable(DrawerScreens.WordsLang.route) {
+                    WordsLangScreen { openDrawer() }
+                }
+                composable(DrawerScreens.PhrasesLang.route) {
+                    PhrasesLangScreen { openDrawer() }
                 }
                 composable(DrawerScreens.Patterns.route) {
                     PatternsScreen { openDrawer() }

@@ -16,12 +16,14 @@ import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 sealed class DrawerScreens(val title: String, val route: String) {
     object Search : DrawerScreens("Search", "Search")
     object Settings : DrawerScreens("Settings", "Settings")
-    object WordsUnit : DrawerScreens( "Words in Unit", "Words in Unit")
-    object PhrasesUnit : DrawerScreens( "Phrases in Unit", "Phrases in Unit")
-    object WordsTextbook : DrawerScreens( "Words in Textbook", "Words in Unit")
-    object PhrasesTextbook : DrawerScreens( "Phrases in Textbook", "Phrases in Unit")
-    object WordsLang : DrawerScreens( "Words in Language", "Words in Unit")
-    object PhrasesLang : DrawerScreens( "Phrases in Language", "Phrases in Unit")
+    object WordsUnit : DrawerScreens( "Words in Unit", "WordsUnit")
+    object PhrasesUnit : DrawerScreens( "Phrases in Unit", "PhrasesUnit")
+    object WordsReview : DrawerScreens( "Words Review", "WordsReview")
+    object PhrasesReview : DrawerScreens( "Phrases Review", "PhrasesReview")
+    object WordsTextbook : DrawerScreens( "Words in Textbook", "WordsTextbook")
+    object PhrasesTextbook : DrawerScreens( "Phrases in Textbook", "PhrasesTextbook")
+    object WordsLang : DrawerScreens( "Words in Language", "WordsLang")
+    object PhrasesLang : DrawerScreens( "Phrases in Language", "PhrasesLang")
     object Patterns : DrawerScreens( "Patterns in Language", "Patterns")
 }
 
@@ -30,6 +32,8 @@ private val screens = listOf(
     DrawerScreens.Settings,
     DrawerScreens.WordsUnit,
     DrawerScreens.PhrasesUnit,
+    DrawerScreens.WordsReview,
+    DrawerScreens.PhrasesReview,
     DrawerScreens.WordsTextbook,
     DrawerScreens.PhrasesTextbook,
     DrawerScreens.WordsLang,

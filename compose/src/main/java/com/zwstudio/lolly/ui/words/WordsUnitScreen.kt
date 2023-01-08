@@ -12,6 +12,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -35,6 +36,7 @@ fun WordsUnitScreen(openDrawer: () -> Unit) {
         vm.getDataInTextbook()
     })
 
+    val lstWords = vm.lstWords_.collectAsState().value
     Column(modifier = Modifier.fillMaxSize()) {
         TopBar(
             title = DrawerScreens.WordsUnit.title,
@@ -45,7 +47,7 @@ fun WordsUnitScreen(openDrawer: () -> Unit) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            items(vm.lstWords) { item ->
+            items(lstWords) { item ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     CompositionLocalProvider(
                         LocalTextStyle provides TextStyle(fontSize = 11.sp),
