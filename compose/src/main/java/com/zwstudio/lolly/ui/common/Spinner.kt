@@ -63,8 +63,8 @@ fun <T> Spinner(
     modifier: Modifier = Modifier,
     itemsStateFlow: MutableStateFlow<List<T>>,
     selectedItemIndexStateFlow: MutableStateFlow<Int>,
-    selectedItemText: @Composable () -> String,
-    dropdownItemText: @Composable (T) -> String,
+    selectedItemText: () -> String,
+    dropdownItemText: (T) -> String,
 ) {
     Spinner(
         modifier = modifier,
