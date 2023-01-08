@@ -101,6 +101,16 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                 selectedItemText = { vm.selectedTextbook.textbookname },
                 dropdownItemText = { it.textbookname }
             )
+//            Text(text = "Units:")
+//            Spinner(
+//                modifier = Modifier
+//                    .background(color = colorResource(R.color.color_text2))
+//                    .fillMaxWidth(),
+//                itemsStateFlow = vm.lstUnits,
+//                selectedItemIndexStateFlow = vm.selectedUnitFromIndex_,
+//                selectedItemText = { vm.selectedTextbook.textbookname },
+//                dropdownItemText = { it.textbookname }
+//            )
         }
     }
 }

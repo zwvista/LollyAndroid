@@ -132,12 +132,12 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var selectedDictTranslationIndex get() = selectedDictTranslationIndex_.value; set(v) { selectedDictTranslationIndex_.value = v }
     val selectedDictTranslation get() = lstDictsTranslation.getOrNull(selectedDictTranslationIndex) ?: MDictionary()
 
-    val lstUnits: List<MSelectItem>
-        get() = selectedTextbook.lstUnits
+    var lstUnits_ = MutableStateFlow(listOf<MSelectItem>())
+    var lstUnits get() = lstUnits_.value; set(v) { lstUnits_.value = v }
     val unitCount: Int
         get() = lstUnits.size
-    val lstParts: List<MSelectItem>
-        get() = selectedTextbook.lstParts
+    var lstParts_ = MutableStateFlow(listOf<MSelectItem>())
+    var lstParts get() = lstParts_.value; set(v) { lstParts_.value = v }
     val partCount: Int
         get() = lstParts.size
     val isSinglePart: Boolean
@@ -145,7 +145,6 @@ class SettingsViewModel : ViewModel(), KoinComponent {
 
     var lstAutoCorrect = listOf<MAutoCorrect>()
 
-    val lstToTypes = UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) }
     val selectedUnitFromIndex_ = MutableStateFlow(-1)
     var selectedUnitFromIndex get() = selectedUnitFromIndex_.value; set(v) { selectedUnitFromIndex_.value = v }
     val selectedPartFromIndex_ = MutableStateFlow(-1)
@@ -158,6 +157,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var toType get() = UnitPartToType.values()[toTypeIndex_.value]; set(v) { toTypeIndex_.value = v.ordinal }
 
     companion object {
+        val lstToTypes = UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) }
         val lstScopeWordFilters = listOf("Word", "Note").mapIndexed { index, s -> MSelectItem(index, s) }
         val lstScopePhraseFilters = listOf("Phrase", "Translation").mapIndexed { index, s -> MSelectItem(index, s) }
         val lstScopePatternFilters = listOf("Pattern", "Note", "Tags").mapIndexed { index, s -> MSelectItem(index, s) }
@@ -203,6 +203,12 @@ class SettingsViewModel : ViewModel(), KoinComponent {
                 val newVal = selectedLang.id
                 val dirty = uslang != newVal
                 uslang = newVal
+                selectedDictReferenceIndex = -1
+                selectedDictNoteIndex = -1
+                selectedDictTranslationIndex = -1
+                selectedTextbookIndex = -1
+                selectedVoiceIndex = -1
+                toType = UnitPartToType.To
                 INFO_USTEXTBOOK = getUSInfo(MUSMapping.NAME_USTEXTBOOK)
                 INFO_USDICTREFERENCE = getUSInfo(MUSMapping.NAME_USDICTREFERENCE)
                 INFO_USDICTNOTE = getUSInfo(MUSMapping.NAME_USDICTNOTE)
@@ -277,16 +283,22 @@ class SettingsViewModel : ViewModel(), KoinComponent {
                 val newVal = selectedTextbook.id
                 val dirty = ustextbook != newVal
                 ustextbook = newVal
+                selectedUnitFromIndex = -1
+                selectedPartFromIndex = -1
+                selectedUnitToIndex = -1
+                selectedPartToIndex = -1
                 INFO_USUNITFROM = getUSInfo(MUSMapping.NAME_USUNITFROM)
                 INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
                 INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
                 INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
-                if (dirty) userSettingService.update(INFO_USTEXTBOOK, ustextbook)
                 selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
                 selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
                 selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
                 selectedPartToIndex = lstParts.indexOfFirst { it.value == uspartto }
+                lstUnits = selectedTextbook.lstUnits
+                lstParts = selectedTextbook.lstParts
                 toType = if (isSingleUnit) UnitPartToType.Unit else if (isSingleUnitPart) UnitPartToType.Part else UnitPartToType.To
+                if (dirty) userSettingService.update(INFO_USTEXTBOOK, ustextbook)
             }
         }
 
@@ -309,15 +321,14 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         }
 
         toTypeIndex_.onEach {
-            val b = it == 2
+            val b = it == UnitPartToType.To.ordinal
             unitToEnabled.value = b
             partToEnabled.value = b && !isSinglePart
             previousEnabled.value = !b
             nextEnabled.value = !b
-            partFromEnabled.value = it != 0 && !isSinglePart
+            partFromEnabled.value = it != UnitPartToType.Unit.ordinal && !isSinglePart
 
             viewModelScope.launch {
-                toType = UnitPartToType.values()[it]
                 if (toType == UnitPartToType.Unit)
                     doUpdateSingleUnit()
                 else if (toType == UnitPartToType.Part)
