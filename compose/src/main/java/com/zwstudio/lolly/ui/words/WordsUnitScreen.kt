@@ -1,78 +1,31 @@
 package com.zwstudio.lolly.ui.words
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.zwstudio.lolly.R
-import com.zwstudio.lolly.ui.common.DrawerScreens
-import com.zwstudio.lolly.ui.common.TopBarMenu
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.zwstudio.lolly.ui.common.INDEX_KEY
+import com.zwstudio.lolly.ui.common.WordsUnitScreens
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
-import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
-import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun WordsUnitScreen(openDrawer: () -> Unit) {
 
-    val vm = getViewModel<WordsUnitViewModel>()
-    val lstWords = vm.lstWords_.collectAsState().value
-
-    LaunchedEffect(Unit, block = {
-        vm.getDataInTextbook()
-    })
-
-    Column(modifier = Modifier.fillMaxSize()) {
-        TopBarMenu(
-            title = DrawerScreens.WordsUnit.title,
-            onButtonClicked = { openDrawer() }
-        )
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = WordsUnitScreens.WordsUnitList.route) {
+        composable(route = WordsUnitScreens.WordsUnitList.route) {
+            WordsUnitListScreen(navController, openDrawer)
+        }
+        composable(
+            route = WordsUnitScreens.WordsUnitDetail.route + "/{$INDEX_KEY}",
+            arguments = listOf(navArgument(INDEX_KEY) {
+                type = NavType.IntType
+            })
         ) {
-            items(lstWords) { item ->
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    CompositionLocalProvider(
-                        LocalTextStyle provides TextStyle(fontSize = 11.sp),
-                        LocalContentColor provides colorResource(R.color.color_text1)
-                    ) {
-                        Column(modifier = Modifier.padding(end = 16.dp)) {
-                            Text(text = item.unitstr)
-                            Text(text = item.partstr)
-                            Text(text = "${item.seqnum}")
-                        }
-                    }
-                    Column() {
-                        Text(
-                            text = item.word,
-                            color = colorResource(R.color.color_text2),
-                            style = TextStyle(fontSize = 25.sp)
-                        )
-                        Text(
-                            text = item.note,
-                            color = colorResource(R.color.color_text3),
-                            style = TextStyle(fontSize = 20.sp)
-                        )
-                    }
-                }
-            }
+            WordsUnitDetailScreen(it.arguments!!.getInt(INDEX_KEY), navController)
         }
     }
 }
