@@ -62,23 +62,19 @@
                 android:labelFor="@+id/tvPart"
                 app:layout_constraintTop_toBottomOf="@+id/tvPart" />
 
-            <TextView
-                android:id="@+id/tvSeqNum"
-                android:text="@string/label_seqnum"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiSeqNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/spnPart" />
-
-            <EditText
-                android:id="@+id/etSeqNum"
-                android:text="@={model.seqnum}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:labelFor="@+id/tvSeqNum"
-                app:layout_constraintTop_toBottomOf="@+id/tvSeqNum" />
+                android:hint="@string/label_seqnum"
+                app:layout_constraintTop_toBottomOf="@+id/spnPart">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSeqNum"
+                    android:text="@={model.seqnum}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/tvPhraseID"
@@ -88,43 +84,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/etSeqNum" />
+                app:layout_constraintTop_toBottomOf="@+id/tiSeqNum" />
 
-            <TextView
-                android:id="@+id/tvPhrase"
-                android:text="@string/label_phrase"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiPhrase"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/tvPhraseID" />
+                android:hint="@string/label_phrase"
+                app:layout_constraintTop_toBottomOf="@+id/tvPhraseID">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etWord"
+                    android:text="@={model.phrase}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/etPhrase"
-                android:text="@={model.phrase}"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiTranslation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:labelFor="@+id/tvPhrase"
-                app:layout_constraintTop_toBottomOf="@+id/tvPhrase" />
-
-            <TextView
-                android:id="@+id/tvTranslation"
-                android:text="@string/label_translation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/etPhrase" />
-
-            <EditText
-                android:id="@+id/etTranslation"
-                android:text="@={model.translation}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:labelFor="@+id/tvTranslation"
-                app:layout_constraintTop_toBottomOf="@+id/tvTranslation" />
+                android:hint="@string/label_translation"
+                app:layout_constraintTop_toBottomOf="@+id/tiPhrase">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNote"
+                    android:text="@={model.translation}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

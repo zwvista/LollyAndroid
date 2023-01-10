@@ -62,23 +62,19 @@
                 android:labelFor="@+id/tvPart"
                 app:layout_constraintTop_toBottomOf="@+id/tvPart" />
 
-            <TextView
-                android:id="@+id/tvSeqNum"
-                android:text="@string/label_seqnum"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiSeqNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/spnPart" />
-
-            <EditText
-                android:id="@+id/etSeqNum"
-                android:text="@={model.seqnum}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:labelFor="@+id/tvSeqNum"
-                app:layout_constraintTop_toBottomOf="@+id/tvSeqNum" />
+                android:hint="@string/label_seqnum"
+                app:layout_constraintTop_toBottomOf="@+id/spnPart">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSeqNum"
+                    android:text="@={model.seqnum}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/tvWordID"
@@ -88,43 +84,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/etSeqNum" />
+                app:layout_constraintTop_toBottomOf="@+id/tiSeqNum" />
 
-            <TextView
-                android:id="@+id/tvWord"
-                android:text="@string/label_word"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiWord"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/tvWordID" />
+                android:hint="@string/label_word"
+                app:layout_constraintTop_toBottomOf="@+id/tvWordID">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etWord"
+                    android:text="@={model.word}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/etWord"
-                android:text="@={model.word}"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:labelFor="@+id/tvWord"
-                app:layout_constraintTop_toBottomOf="@+id/tvWord" />
-
-            <TextView
-                android:id="@+id/tvNote"
-                android:text="@string/label_note"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/etWord" />
-
-            <EditText
-                android:id="@+id/etNote"
-                android:text="@={model.note}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:labelFor="@+id/tvNote"
-                app:layout_constraintTop_toBottomOf="@+id/tvNote" />
+                android:hint="@string/label_note"
+                app:layout_constraintTop_toBottomOf="@+id/tiWord">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNote"
+                    android:text="@={model.note}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/tvFamiID"
@@ -134,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/etNote" />
+                app:layout_constraintTop_toBottomOf="@+id/tiNote" />
 
             <TextView
                 android:id="@+id/tvAccuracy"
