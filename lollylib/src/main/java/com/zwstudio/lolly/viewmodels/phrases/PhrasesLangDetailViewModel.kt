@@ -5,7 +5,7 @@ import com.zwstudio.lolly.models.wpp.MLangPhrase
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class PhrasesLangDetailViewModel(val item: MLangPhrase) : ViewModel() {
-    val id = MutableStateFlow(item.id)
+    val id = item.id
     val phrase = MutableStateFlow(item.phrase)
     val translation = MutableStateFlow(item.translation)
 

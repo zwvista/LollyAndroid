@@ -5,14 +5,14 @@ import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class PhrasesUnitDetailViewModel(val item: MUnitPhrase) : ViewModel() {
-    val id = MutableStateFlow(item.id)
-    val textbookname = MutableStateFlow(item.textbookname)
+    val id = item.id
+    val textbookname = item.textbookname
     val unitIndex = MutableStateFlow(item.unitIndex)
     val partIndex = MutableStateFlow(item.partIndex)
     val seqnum = MutableStateFlow(item.seqnum)
     val phrase = MutableStateFlow(item.phrase)
     val translation = MutableStateFlow(item.translation)
-    val phraseid = MutableStateFlow(item.phraseid)
+    val phraseid = item.phraseid
 
     fun save() {
         item.unitIndex = unitIndex.value
