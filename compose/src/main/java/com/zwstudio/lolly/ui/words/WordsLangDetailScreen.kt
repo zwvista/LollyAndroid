@@ -37,7 +37,8 @@ fun WordsLangDetailScreen(vm: WordsLangViewModel, index: Int, navController: Nav
                         else
                             vm.update(item)
                         navController?.navigateUp()
-                    }
+                    },
+                    enabled = vmDetail.saveEnabled.collectAsState().value
                 ) {
                     Icon(Icons.Filled.Done, null)
                 }

@@ -34,7 +34,8 @@ fun PatternsDetailScreen(vm: PatternsViewModel, index: Int, navController: NavHo
                         else
                             vm.update(item)
                         navController?.navigateUp()
-                    }
+                    },
+                    enabled = vmDetail.saveEnabled.collectAsState().value
                 ) {
                     Icon(Icons.Filled.Done, null)
                 }

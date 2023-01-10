@@ -34,7 +34,8 @@ fun PhrasesLangDetailScreen(vm: PhrasesLangViewModel, index: Int, navController:
                         else
                             vm.update(item)
                         navController?.navigateUp()
-                    }
+                    },
+                    enabled = vmDetail.saveEnabled.collectAsState().value
                 ) {
                     Icon(Icons.Filled.Done, null)
                 }
