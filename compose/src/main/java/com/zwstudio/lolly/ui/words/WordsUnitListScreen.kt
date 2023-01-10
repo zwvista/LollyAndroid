@@ -23,7 +23,7 @@ import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.common.TopBarMenu
-import com.zwstudio.lolly.ui.common.WordsUnitScreens
+import com.zwstudio.lolly.ui.common.WordsScreens
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 
 @Composable
@@ -50,7 +50,7 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
-                        .clickable { navController?.navigate(WordsUnitScreens.WordsUnitDetail.route + "/$index") },
+                        .clickable { navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index") },
                     elevation = 8.dp,
                     backgroundColor = Color.White,
                 ) {

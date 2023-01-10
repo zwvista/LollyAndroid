@@ -22,7 +22,7 @@ import com.zwstudio.lolly.viewmodels.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 
 @Composable
-fun WordsUnitDetailScreen(vm: WordsUnitViewModel, index: Int, navController: NavHostController?) {
+fun WordsTextbookDetailScreen(vm: WordsUnitViewModel, index: Int, navController: NavHostController?) {
 
     val item = vm.lstWords[index]
     val vmDetail = WordsUnitDetailViewModel(item)
@@ -42,6 +42,7 @@ fun WordsUnitDetailScreen(vm: WordsUnitViewModel, index: Int, navController: Nav
         )
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "ID:${vmDetail.id}")
+            Text(text = "ID:${vmDetail.textbookname}")
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2))

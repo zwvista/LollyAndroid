@@ -1,7 +1,10 @@
-package com.zwstudio.lolly.ui.words
+package com.zwstudio.lolly.ui.phrases
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -18,14 +21,14 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBarArrow
-import com.zwstudio.lolly.viewmodels.words.WordsUnitDetailViewModel
-import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
+import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitDetailViewModel
+import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 
 @Composable
-fun WordsUnitDetailScreen(vm: WordsUnitViewModel, index: Int, navController: NavHostController?) {
+fun PhrasesTextbookDetailScreen(vm: PhrasesUnitViewModel, index: Int, navController: NavHostController?) {
 
-    val item = vm.lstWords[index]
-    val vmDetail = WordsUnitDetailViewModel(item)
+    val item = vm.lstPhrases[index]
+    val vmDetail = PhrasesUnitDetailViewModel(item)
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
             title = "",
@@ -42,6 +45,7 @@ fun WordsUnitDetailScreen(vm: WordsUnitViewModel, index: Int, navController: Nav
         )
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "ID:${vmDetail.id}")
+            Text(text = "ID:${vmDetail.textbookname}")
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2))
@@ -62,22 +66,15 @@ fun WordsUnitDetailScreen(vm: WordsUnitViewModel, index: Int, navController: Nav
                 value = vmDetail.seqnum.collectAsState().value,
                 onValueChange = { vmDetail.seqnum.value = it }
             )
-            Row() {
-                Text(text = "WORDID:")
-                Text(text = vmDetail.wordid.toString())
-            }
+            Text(text = "PHRASEID:${vmDetail.phraseid}")
             TextField(
-                value = vmDetail.word.collectAsState().value,
-                onValueChange = { vmDetail.word.value = it }
+                value = vmDetail.phrase.collectAsState().value,
+                onValueChange = { vmDetail.phrase.value = it }
             )
             TextField(
-                value = vmDetail.note.collectAsState().value,
-                onValueChange = { vmDetail.note.value = it }
+                value = vmDetail.translation.collectAsState().value,
+                onValueChange = { vmDetail.translation.value = it }
             )
-            Row() {
-                Text(text = "FAMIID:${vmDetail.famiid}")
-            }
-            Text(text = "ACCURACY:${vmDetail.accuracy}")
         }
     }
 }
