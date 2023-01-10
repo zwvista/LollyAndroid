@@ -65,41 +65,33 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/tvPattern2" />
 
-            <TextView
-                android:id="@+id/tvTitle"
-                android:text="@string/label_title"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/tvWebPageID" />
+                android:hint="@string/label_pattern"
+                app:layout_constraintTop_toBottomOf="@+id/tvWebPageID">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTitle"
+                    android:text="@={model.title}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/etTitle"
-                android:text="@={model.title}"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiURL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:labelFor="@+id/tvTitle"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-            <TextView
-                android:id="@+id/tvURL"
-                android:text="@string/label_url"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/etTitle" />
-
-            <EditText
-                android:id="@+id/etURL"
-                android:text="@={model.url}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:labelFor="@+id/tvURL"
-                app:layout_constraintTop_toBottomOf="@+id/tvURL" />
+                android:hint="@string/label_pattern"
+                app:layout_constraintTop_toBottomOf="@+id/tiTitle">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etURL"
+                    android:text="@={model.url}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

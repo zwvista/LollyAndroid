@@ -81,6 +81,8 @@
     <string name="label_group">Group:</string>
     <string name="label_groups">Groups:</string>
     <string name="label_review">Review:</string>
+    <string name="label_username">USERNAME:</string>
+    <string name="label_password">PASSWORD:</string>
 
     <string name="text_correct">Correct</string>
     <string name="text_incorrect">Incorrect</string>
