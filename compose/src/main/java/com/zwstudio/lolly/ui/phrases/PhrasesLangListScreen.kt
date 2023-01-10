@@ -53,7 +53,7 @@ fun PhrasesLangListScreen(vm: PhrasesLangViewModel, navController: NavHostContro
                         modifier = Modifier.padding(start = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Column() {
+                        Column {
                             Text(
                                 text = item.phrase,
                                 color = colorResource(R.color.color_text2)

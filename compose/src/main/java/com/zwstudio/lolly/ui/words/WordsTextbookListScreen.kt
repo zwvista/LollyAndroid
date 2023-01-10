@@ -68,7 +68,7 @@ fun WordsTextbookListScreen(vm: WordsUnitViewModel, navController: NavHostContro
                                 Text(text = "${item.seqnum}")
                             }
                         }
-                        Column() {
+                        Column {
                             Text(
                                 text = item.word,
                                 color = colorResource(R.color.color_text2),

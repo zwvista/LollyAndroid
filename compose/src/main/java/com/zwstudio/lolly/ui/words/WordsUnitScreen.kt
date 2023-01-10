@@ -29,6 +29,15 @@ fun WordsUnitScreen(openDrawer: () -> Unit) {
         ) {
             WordsUnitDetailScreen(vm, it.arguments!!.getInt(INDEX_KEY), navController)
         }
+        composable(
+            route = WordsScreens.WordsDict.route + "/{$INDEX_KEY}",
+            arguments = listOf(navArgument(INDEX_KEY) {
+                type = NavType.IntType
+            })
+        ) {
+            WordsDictScreen(
+                vm.lstWords.map { it.word }, it.arguments!!.getInt(INDEX_KEY), navController
+            )
+        }
     }
 }
-

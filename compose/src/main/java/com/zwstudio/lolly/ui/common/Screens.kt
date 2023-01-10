@@ -12,6 +12,7 @@ sealed class WordsScreens(val route: String) {
     object WordsTextbookDetail : WordsScreens("WordsTextbookDetail")
     object WordsLangList : WordsScreens("WordsLangList")
     object WordsLangDetail : WordsScreens("WordsLangDetail")
+    object WordsDict : WordsScreens("WordsDict")
 }
 
 sealed class PhrasesScreens(val route: String) {

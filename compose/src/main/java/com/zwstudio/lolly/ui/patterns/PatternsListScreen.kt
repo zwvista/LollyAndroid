@@ -53,7 +53,7 @@ fun PatternsListScreen(vm: PatternsViewModel, navController: NavHostController?,
                         modifier = Modifier.padding(start = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Column() {
+                        Column {
                             Text(
                                 text = item.pattern,
                                 color = colorResource(R.color.color_text2)

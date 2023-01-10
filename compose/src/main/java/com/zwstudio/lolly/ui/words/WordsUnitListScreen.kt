@@ -68,7 +68,7 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
                                 Text(text = "${item.seqnum}")
                             }
                         }
-                        Column() {
+                        Column {
                             Text(
                                 text = item.word,
                                 color = colorResource(R.color.color_text2),

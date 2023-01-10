@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -25,7 +24,6 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.common.PhrasesScreens
 import com.zwstudio.lolly.ui.common.TopBarMenu
-import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 
 @Composable
@@ -70,7 +68,7 @@ fun PhrasesUnitListScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
                                 Text(text = "${item.seqnum}")
                             }
                         }
-                        Column() {
+                        Column {
                             Text(
                                 text = item.phrase,
                                 color = colorResource(R.color.color_text2)
@@ -84,13 +82,5 @@ fun PhrasesUnitListScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PhrasesUnitScreenPreview() {
-    LollyAndroidTheme {
-        PhrasesUnitScreen() {}
     }
 }

@@ -68,7 +68,7 @@ fun PhrasesTextbookListScreen(vm: PhrasesUnitViewModel, navController: NavHostCo
                                 Text(text = "${item.seqnum}")
                             }
                         }
-                        Column() {
+                        Column {
                             Text(
                                 text = item.phrase,
                                 color = colorResource(R.color.color_text2)

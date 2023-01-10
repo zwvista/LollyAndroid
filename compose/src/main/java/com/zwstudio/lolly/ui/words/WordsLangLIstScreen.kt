@@ -55,7 +55,7 @@ fun WordsLangListScreen(vm: WordsLangViewModel, navController: NavHostController
                         modifier = Modifier.padding(start = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Column() {
+                        Column {
                             Text(
                                 text = item.word,
                                 color = colorResource(R.color.color_text2),
