@@ -5,7 +5,7 @@ import com.zwstudio.lolly.models.wpp.MPattern
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class PatternsDetailViewModel(val item: MPattern) : ViewModel() {
-    val id = MutableStateFlow(item.id)
+    val id = item.id
     val pattern = MutableStateFlow(item.pattern)
     val note = MutableStateFlow(item.note)
     val tags = MutableStateFlow(item.tags)
