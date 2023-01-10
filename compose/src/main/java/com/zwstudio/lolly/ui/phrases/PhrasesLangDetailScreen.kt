@@ -47,11 +47,13 @@ fun PhrasesLangDetailScreen(vm: PhrasesLangViewModel, index: Int, navController:
             Text(text = "ID:${vmDetail.id}")
             TextField(
                 modifier = Modifier.fillMaxWidth(),
+                label = { Text("PHRASE") },
                 value = vmDetail.phrase.collectAsState().value,
                 onValueChange = { vmDetail.phrase.value = it }
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
+                label = { Text("TRANSLATION") },
                 value = vmDetail.translation.collectAsState().value,
                 onValueChange = { vmDetail.translation.value = it }
             )

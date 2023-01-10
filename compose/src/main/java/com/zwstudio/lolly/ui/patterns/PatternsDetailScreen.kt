@@ -47,16 +47,19 @@ fun PatternsDetailScreen(vm: PatternsViewModel, index: Int, navController: NavHo
             Text(text = "ID:${vmDetail.id}")
             TextField(
                 modifier = Modifier.fillMaxWidth(),
+                label = { Text("PATTERN") },
                 value = vmDetail.pattern.collectAsState().value,
                 onValueChange = { vmDetail.pattern.value = it }
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
+                label = { Text("NOTE") },
                 value = vmDetail.note.collectAsState().value,
                 onValueChange = { vmDetail.note.value = it }
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
+                label = { Text("TAGS") },
                 value = vmDetail.tags.collectAsState().value,
                 onValueChange = { vmDetail.tags.value = it }
             )

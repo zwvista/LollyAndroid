@@ -10,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
@@ -52,41 +51,40 @@ fun PhrasesTextbookDetailScreen(vm: PhrasesUnitViewModel, index: Int, navControl
         ) {
             Text(text = "ID:${vmDetail.id}")
             Text(text = "ID:${vmDetail.textbookname}")
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "UNIT:")
-                Spinner(
-                    modifier = Modifier
-                        .background(color = colorResource(R.color.color_text2))
-                        .fillMaxWidth(),
-                    itemsStateFlow = vmSettings.lstUnits_,
-                    selectedItemIndexStateFlow = vmDetail.unitIndex,
-                    itemText = { it.label },
-                )
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "PART:")
-                Spinner(
-                    modifier = Modifier
-                        .background(color = colorResource(R.color.color_text3))
-                        .fillMaxWidth(),
-                    itemsStateFlow = vmSettings.lstParts_,
-                    selectedItemIndexStateFlow = vmDetail.partIndex,
-                    itemText = { it.label },
-                )
-            }
+            Text(text = "UNIT:")
+            Spinner(
+                modifier = Modifier
+                    .background(color = colorResource(R.color.color_text2))
+                    .fillMaxWidth(),
+                itemsStateFlow = vmSettings.lstUnits_,
+                selectedItemIndexStateFlow = vmDetail.unitIndex,
+                itemText = { it.label },
+            )
+            Text(text = "PART:")
+            Spinner(
+                modifier = Modifier
+                    .background(color = colorResource(R.color.color_text3))
+                    .fillMaxWidth(),
+                itemsStateFlow = vmSettings.lstParts_,
+                selectedItemIndexStateFlow = vmDetail.partIndex,
+                itemText = { it.label },
+            )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
+                label = { Text("SEQNUM") },
                 value = vmDetail.seqnum.collectAsState().value,
                 onValueChange = { vmDetail.seqnum.value = it }
             )
             Text(text = "PHRASEID:${vmDetail.phraseid}")
             TextField(
                 modifier = Modifier.fillMaxWidth(),
+                label = { Text("PHRASE") },
                 value = vmDetail.phrase.collectAsState().value,
                 onValueChange = { vmDetail.phrase.value = it }
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
+                label = { Text("TRANSLATION") },
                 value = vmDetail.translation.collectAsState().value,
                 onValueChange = { vmDetail.translation.value = it }
             )

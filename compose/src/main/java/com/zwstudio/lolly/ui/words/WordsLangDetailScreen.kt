@@ -47,11 +47,13 @@ fun WordsLangDetailScreen(vm: WordsLangViewModel, index: Int, navController: Nav
             Text(text = "ID:${vmDetail.id}")
             TextField(
                 modifier = Modifier.fillMaxWidth(),
+                label = { Text("WORD") },
                 value = vmDetail.word.collectAsState().value,
                 onValueChange = { vmDetail.word.value = it }
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
+                label = { Text("NOTE") },
                 value = vmDetail.note.collectAsState().value,
                 onValueChange = { vmDetail.note.value = it }
             )
