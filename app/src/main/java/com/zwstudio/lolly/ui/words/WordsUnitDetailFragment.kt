@@ -12,10 +12,10 @@ import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentWordsUnitDetailBinding
-import com.zwstudio.lolly.viewmodels.words.WordsUnitDetailViewModel
-import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
+import com.zwstudio.lolly.viewmodels.words.WordsUnitDetailViewModel
+import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -50,7 +50,6 @@ class WordsUnitDetailFragment : Fragment(), MenuProvider {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vmDetail.save()
-                item.word = vmSettings.autoCorrectInput(item.word)
                 if (item.id == 0)
                     compositeDisposable.add(vm.create(item).subscribe())
                 else

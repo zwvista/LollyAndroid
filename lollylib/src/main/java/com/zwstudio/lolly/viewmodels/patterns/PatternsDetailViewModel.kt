@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.viewmodels.patterns
 
 import androidx.lifecycle.ViewModel
+import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.wpp.MPattern
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -11,7 +12,7 @@ class PatternsDetailViewModel(val item: MPattern) : ViewModel() {
     val tags = MutableStateFlow(item.tags)
 
     fun save() {
-        item.pattern = pattern.value
+        item.pattern = vmSettings.autoCorrectInput(pattern.value)
         item.note = note.value
         item.tags = tags.value
     }

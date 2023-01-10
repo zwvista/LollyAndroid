@@ -10,11 +10,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.R
-import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentPatternsDetailBinding
+import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
-import com.zwstudio.lolly.ui.common.autoCleared
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -47,7 +46,6 @@ class PatternsDetailFragment : Fragment(), MenuProvider {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vmDetail.save()
-                item.pattern = vmSettings.autoCorrectInput(item.pattern)
                 if (item.id == 0)
                     compositeDisposable.add(vm.create(item).subscribe())
                 else

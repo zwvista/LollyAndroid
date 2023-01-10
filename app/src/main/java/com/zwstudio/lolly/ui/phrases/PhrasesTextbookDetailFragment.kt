@@ -12,10 +12,10 @@ import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentPhrasesTextbookDetailBinding
-import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitDetailViewModel
-import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
+import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitDetailViewModel
+import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -50,7 +50,6 @@ class PhrasesTextbookDetailFragment : Fragment(), MenuProvider {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vmDetail.save()
-                item.phrase = vmSettings.autoCorrectInput(item.phrase)
                 compositeDisposable.add(vm.update(item).subscribe())
                 setFragmentResult("PhrasesTextbookDetailFragment", bundleOf("result" to "1"))
                 findNavController().navigateUp()

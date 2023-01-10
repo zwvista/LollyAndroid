@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.viewmodels.words
 
 import androidx.lifecycle.ViewModel
+import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.wpp.MLangWord
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -12,7 +13,7 @@ class WordsLangDetailViewModel(val item: MLangWord) : ViewModel() {
     val accuracy = item.accuracy
 
     fun save() {
-        item.word = word.value
+        item.word = vmSettings.autoCorrectInput(word.value)
         item.note = note.value
     }
 }
