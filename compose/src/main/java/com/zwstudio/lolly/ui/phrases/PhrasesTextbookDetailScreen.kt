@@ -1,10 +1,7 @@
 package com.zwstudio.lolly.ui.phrases
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -48,7 +45,10 @@ fun PhrasesTextbookDetailScreen(vm: PhrasesUnitViewModel, index: Int, navControl
                 }
             }
         )
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             Text(text = "ID:${vmDetail.id}")
             Text(text = "ID:${vmDetail.textbookname}")
             Spinner(
@@ -68,15 +68,18 @@ fun PhrasesTextbookDetailScreen(vm: PhrasesUnitViewModel, index: Int, navControl
                 itemText = { it.label },
             )
             TextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = vmDetail.seqnum.collectAsState().value,
                 onValueChange = { vmDetail.seqnum.value = it }
             )
             Text(text = "PHRASEID:${vmDetail.phraseid}")
             TextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = vmDetail.phrase.collectAsState().value,
                 onValueChange = { vmDetail.phrase.value = it }
             )
             TextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = vmDetail.translation.collectAsState().value,
                 onValueChange = { vmDetail.translation.value = it }
             )

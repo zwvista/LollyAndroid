@@ -1,10 +1,7 @@
 package com.zwstudio.lolly.ui.words
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -48,7 +45,10 @@ fun WordsUnitDetailScreen(vm: WordsUnitViewModel, index: Int, navController: Nav
                 }
             }
         )
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             Text(text = "ID:${vmDetail.id}")
             Spinner(
                 modifier = Modifier
@@ -67,15 +67,18 @@ fun WordsUnitDetailScreen(vm: WordsUnitViewModel, index: Int, navController: Nav
                 itemText = { it.label },
             )
             TextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = vmDetail.seqnum.collectAsState().value,
                 onValueChange = { vmDetail.seqnum.value = it }
             )
             Text(text = "WORDID:${vmDetail.wordid}")
             TextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = vmDetail.word.collectAsState().value,
                 onValueChange = { vmDetail.word.value = it }
             )
             TextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = vmDetail.note.collectAsState().value,
                 onValueChange = { vmDetail.note.value = it }
             )

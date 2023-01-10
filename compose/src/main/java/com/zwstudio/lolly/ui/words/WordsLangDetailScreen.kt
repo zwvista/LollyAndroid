@@ -2,6 +2,7 @@ package com.zwstudio.lolly.ui.words
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
@@ -45,10 +46,12 @@ fun WordsLangDetailScreen(vm: WordsLangViewModel, index: Int, navController: Nav
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = "ID:${vmDetail.id}")
             TextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = vmDetail.word.collectAsState().value,
                 onValueChange = { vmDetail.word.value = it }
             )
             TextField(
+                modifier = Modifier.fillMaxWidth(),
                 value = vmDetail.note.collectAsState().value,
                 onValueChange = { vmDetail.note.value = it }
             )
