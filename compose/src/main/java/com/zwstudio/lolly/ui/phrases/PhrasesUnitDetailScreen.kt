@@ -36,6 +36,11 @@ fun PhrasesUnitDetailScreen(vm: PhrasesUnitViewModel, index: Int, navController:
             actions = {
                 Button(
                     onClick = {
+                        vmDetail.save()
+                        if (item.id == 0)
+                            vm.create(item)
+                        else
+                            vm.update(item)
                         navController?.navigateUp()
                     }
                 ) {

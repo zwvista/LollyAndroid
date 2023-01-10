@@ -31,6 +31,10 @@ fun PhrasesLangDetailScreen(vm: PhrasesLangViewModel, index: Int, navController:
                 Button(
                     onClick = {
                         vmDetail.save()
+                        if (item.id == 0)
+                            vm.create(item)
+                        else
+                            vm.update(item)
                         navController?.navigateUp()
                     }
                 ) {
