@@ -30,4 +30,3 @@ fun PhrasesLangScreen(openDrawer: () -> Unit) {
         }
     }
 }
-

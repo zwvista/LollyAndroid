@@ -40,4 +40,3 @@ fun WordsTextbookScreen(openDrawer: () -> Unit) {
         }
     }
 }
-

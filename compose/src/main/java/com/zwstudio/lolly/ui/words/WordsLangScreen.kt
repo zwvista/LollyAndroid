@@ -40,4 +40,3 @@ fun WordsLangScreen(openDrawer: () -> Unit) {
         }
     }
 }
-

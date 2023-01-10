@@ -30,4 +30,3 @@ fun PatternsScreen(openDrawer: () -> Unit) {
         }
     }
 }
-

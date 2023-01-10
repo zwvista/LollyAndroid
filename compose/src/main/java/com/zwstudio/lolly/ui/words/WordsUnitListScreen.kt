@@ -50,7 +50,8 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
-                        .clickable { navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index") },
+//                        .clickable { navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index") },
+                        .clickable { navController?.navigate(WordsScreens.WordsDict.route + "/$index") },
                     elevation = 8.dp,
                     backgroundColor = Color.White,
                 ) {

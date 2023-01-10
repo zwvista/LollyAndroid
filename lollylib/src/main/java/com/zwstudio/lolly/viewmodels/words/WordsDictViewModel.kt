@@ -10,7 +10,8 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class WordsDictViewModel : ViewModel(), IOnlineDict, KoinComponent {
-    var lstWords = listOf<String>()
+    var lstWords_ = MutableStateFlow(listOf<String>())
+    var lstWords get() = lstWords_.value; set(v) { lstWords_.value = v }
     var selectedWordIndex_ = MutableStateFlow(0)
     var selectedWordIndex get() = selectedWordIndex_.value; set(v) { selectedWordIndex_.value = v }
     val selectedWord: String

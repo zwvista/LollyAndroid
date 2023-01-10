@@ -7,8 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
@@ -19,6 +17,7 @@ import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
@@ -26,21 +25,15 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun WordsDictScreen(lstWords: List<String>, index: Int, navController: NavHostController?) {
 
-    val vm = getViewModel<WordsDictViewModel>()
-    val onlineDict = remember { OnlineDict() }
-    val context = LocalContext.current
-    // https://stackoverflow.com/questions/64181930/request-focus-on-textfield-in-jetpack-compose
-    val focusRequester = remember { FocusRequester() }
-
-    fun searchDict() {
-        onlineDict.searchDict()
+    val vm = getViewModel<WordsDictViewModel>().apply {
+        this.lstWords = lstWords
+        this.selectedWordIndex = index
     }
+    val onlineDict = remember { OnlineDict() }
 
     LaunchedEffect(Unit, block = {
-        focusRequester.requestFocus()
-        vmSettings.getData()
-        vmSettings.selectedDictReferenceIndex_.onEach {
-            searchDict()
+        combine(vm.selectedWordIndex_, vmSettings.selectedDictReferenceIndex_, ::Pair).onEach {
+            onlineDict.searchDict()
         }.launchIn(this)
     })
 
@@ -59,9 +52,9 @@ fun WordsDictScreen(lstWords: List<String>, index: Int, navController: NavHostCo
                     .background(color = colorResource(R.color.color_text3))
                     .fillMaxWidth()
                     .weight(1f),
-                itemsStateFlow = vmSettings.lstLanguages_,
-                selectedItemIndexStateFlow = vmSettings.selectedLangIndex_,
-                itemText = { it.langname }
+                itemsStateFlow = vm.lstWords_,
+                selectedItemIndexStateFlow = vm.selectedWordIndex_,
+                itemText = { it }
             )
             Spinner(
                 modifier = Modifier
