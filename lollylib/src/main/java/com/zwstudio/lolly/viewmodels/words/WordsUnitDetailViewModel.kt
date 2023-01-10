@@ -9,7 +9,7 @@ class WordsUnitDetailViewModel(val item: MUnitWord) : ViewModel() {
     val textbookname = item.textbookname
     val unitIndex = MutableStateFlow(item.unitIndex)
     val partIndex = MutableStateFlow(item.partIndex)
-    val seqnum = MutableStateFlow(item.seqnum)
+    val seqnum = MutableStateFlow(item.seqnum.toString())
     val word = MutableStateFlow(item.word)
     val note = MutableStateFlow(item.note)
     val wordid = item.wordid
@@ -19,7 +19,7 @@ class WordsUnitDetailViewModel(val item: MUnitWord) : ViewModel() {
     fun save() {
         item.unitIndex = unitIndex.value
         item.partIndex = partIndex.value
-        item.seqnum = seqnum.value
+        item.seqnum = seqnum.value.toInt()
         item.word = word.value
         item.note = note.value
     }

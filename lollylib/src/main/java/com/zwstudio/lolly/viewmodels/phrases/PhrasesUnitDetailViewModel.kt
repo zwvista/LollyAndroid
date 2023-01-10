@@ -9,7 +9,7 @@ class PhrasesUnitDetailViewModel(val item: MUnitPhrase) : ViewModel() {
     val textbookname = item.textbookname
     val unitIndex = MutableStateFlow(item.unitIndex)
     val partIndex = MutableStateFlow(item.partIndex)
-    val seqnum = MutableStateFlow(item.seqnum)
+    val seqnum = MutableStateFlow(item.seqnum.toString())
     val phrase = MutableStateFlow(item.phrase)
     val translation = MutableStateFlow(item.translation)
     val phraseid = item.phraseid
@@ -17,7 +17,7 @@ class PhrasesUnitDetailViewModel(val item: MUnitPhrase) : ViewModel() {
     fun save() {
         item.unitIndex = unitIndex.value
         item.partIndex = partIndex.value
-        item.seqnum = seqnum.value
+        item.seqnum = seqnum.value.toInt()
         item.phrase = phrase.value
         item.translation = translation.value
     }
