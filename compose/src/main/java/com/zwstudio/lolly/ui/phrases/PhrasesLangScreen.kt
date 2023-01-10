@@ -12,7 +12,7 @@ import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun WordsLangScreen(openDrawer: () -> Unit) {
+fun PhrasesLangScreen(openDrawer: () -> Unit) {
 
     val navController = rememberNavController()
     val vm = getViewModel<PhrasesLangViewModel>()
