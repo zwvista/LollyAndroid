@@ -1,7 +1,10 @@
 package com.zwstudio.lolly.ui.words
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -68,10 +71,7 @@ fun WordsTextbookDetailScreen(vm: WordsUnitViewModel, index: Int, navController:
                 value = vmDetail.seqnum.collectAsState().value,
                 onValueChange = { vmDetail.seqnum.value = it }
             )
-            Row() {
-                Text(text = "WORDID:")
-                Text(text = vmDetail.wordid.toString())
-            }
+            Text(text = "WORDID:${vmDetail.wordid}")
             TextField(
                 value = vmDetail.word.collectAsState().value,
                 onValueChange = { vmDetail.word.value = it }
@@ -80,9 +80,7 @@ fun WordsTextbookDetailScreen(vm: WordsUnitViewModel, index: Int, navController:
                 value = vmDetail.note.collectAsState().value,
                 onValueChange = { vmDetail.note.value = it }
             )
-            Row() {
-                Text(text = "FAMIID:${vmDetail.famiid}")
-            }
+            Text(text = "FAMIID:${vmDetail.famiid}")
             Text(text = "ACCURACY:${vmDetail.accuracy}")
         }
     }
