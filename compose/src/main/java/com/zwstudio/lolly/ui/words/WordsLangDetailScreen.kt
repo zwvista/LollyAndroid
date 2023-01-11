@@ -18,12 +18,14 @@ import androidx.navigation.NavHostController
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
+import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun WordsLangDetailScreen(vm: WordsLangViewModel, index: Int, navController: NavHostController?) {
 
     val item = vm.lstWords[index]
-    val vmDetail = WordsLangDetailViewModel(item)
+    val vmDetail = getViewModel<WordsLangDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
             title = "",
