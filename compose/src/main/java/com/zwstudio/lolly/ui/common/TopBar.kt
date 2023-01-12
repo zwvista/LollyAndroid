@@ -22,7 +22,7 @@ fun TopBarMenu(
         },
         navigationIcon = {
             IconButton(onClick = { onButtonClicked() } ) {
-                Icon(Icons.Filled.Menu, contentDescription = "")
+                Icon(Icons.Filled.Menu, null)
             }
         },
         actions = actions,
@@ -44,7 +44,7 @@ fun TopBarArrow(
         },
         navigationIcon = {
             IconButton(onClick = { navController?.navigateUp() } ) {
-                Icon(Icons.Filled.ArrowBack, contentDescription = "")
+                Icon(Icons.Filled.ArrowBack, null)
             }
         },
         actions = actions,

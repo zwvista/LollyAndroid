@@ -49,7 +49,7 @@ fun SearchView(
         leadingIcon = {
             Icon(
                 Icons.Default.Search,
-                contentDescription = "",
+                null,
                 modifier = Modifier
                     .padding(15.dp)
                     .size(24.dp)
@@ -64,7 +64,7 @@ fun SearchView(
                 ) {
                     Icon(
                         Icons.Default.Close,
-                        contentDescription = "",
+                        null,
                         modifier = Modifier
                             .padding(15.dp)
                             .size(24.dp)

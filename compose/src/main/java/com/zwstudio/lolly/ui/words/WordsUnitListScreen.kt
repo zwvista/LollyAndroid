@@ -4,14 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Card
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,6 +28,8 @@ import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
     val lstWords = vm.lstWords_.collectAsState().value
+    var expanded by remember { mutableStateOf(false) }
+    var isEditMode by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit, block = {
         vm.getDataInTextbook()
@@ -38,7 +38,45 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
             title = DrawerScreens.WordsUnit.title,
-            onButtonClicked = { openDrawer() }
+            onButtonClicked = { openDrawer() },
+            actions = {
+                Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
+                    IconButton(onClick = { expanded = true }) {
+                        Icon(
+                            Icons.Filled.MoreVert,
+                            null,
+                            tint = MaterialTheme.colors.surface,
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            onClick = {
+                                isEditMode = false
+                                expanded = false
+                            }
+                        ) {
+                            Text(text = "Normal Mode")
+                            if (!isEditMode) {
+                                Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
+                            }
+                        }
+                        DropdownMenuItem(
+                            onClick = {
+                                isEditMode = true
+                                expanded = false
+                            }
+                        ) {
+                            Text(text = "Edit Mode")
+                            if (isEditMode) {
+                                Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
+                            }
+                        }
+                    }
+                }
+            }
         )
         LazyColumn(
             modifier = Modifier
@@ -50,8 +88,7 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
-//                        .clickable { navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index") },
-                        .clickable { navController?.navigate(WordsScreens.WordsDict.route + "/$index") },
+                        .clickable { navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index") },
                     elevation = 8.dp,
                     backgroundColor = Color.White,
                 ) {
@@ -80,6 +117,16 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
                                 color = colorResource(R.color.color_text3),
                                 style = TextStyle(fontSize = 20.sp)
                             )
+                        }
+                        if (!isEditMode) {
+                            Spacer(Modifier.weight(1f))
+                            IconButton(
+                                onClick = {
+                                    navController?.navigate(WordsScreens.WordsDict.route + "/$index")
+                                }
+                            ) {
+                                Icon(Icons.Filled.Info, null, tint = MaterialTheme.colors.primary)
+                            }
                         }
                     }
                 }
