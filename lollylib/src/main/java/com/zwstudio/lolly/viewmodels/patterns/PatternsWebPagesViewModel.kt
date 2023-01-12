@@ -24,7 +24,7 @@ class PatternsWebPagesViewModel : DrawerListViewModel(), KoinComponent {
     fun getWebPages(patternid: Int) =
         patternWebPageService.getDataByPattern(patternid)
             .applyIO()
-            .map { lstWebPages.clear(); lstWebPages.addAll(it) }
+            .map { lstWebPages = it.toMutableList() }
 
     fun updatePatternWebPage(item: MPatternWebPage) =
         patternWebPageService.update(item)

@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.woxthebox.draglistview.DragItem
@@ -20,14 +21,17 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentPatternsWebpagesListBinding
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
-import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.ui.*
 import com.zwstudio.lolly.ui.common.DrawerListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.yesNoDialog
+import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
@@ -52,15 +56,15 @@ class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
         super.onViewCreated(view, savedInstanceState)
 
         setupListView(PatternsWebPagesDragItem(requireContext(), R.layout.list_item_patterns_webpages_edit))
+
+        combine(vm.lstWebPages_, vm.isEditMode_, ::Pair).onEach {
+            val listAdapter = PatternsWebPagesItemAdapter(vm, mDragListView, compositeDisposable)
+            mDragListView.setAdapter(listAdapter, true)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
         compositeDisposable.add(vm.getWebPages(item.id).subscribeBy {
-            refreshListView()
             progressBar1.visibility = View.GONE
         })
-    }
-
-    private fun refreshListView() {
-        val listAdapter = PatternsWebPagesItemAdapter(vm, mDragListView, compositeDisposable)
-        mDragListView.setAdapter(listAdapter, true)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -71,7 +75,6 @@ class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
     private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
         menuItem.isChecked = true
-        refreshListView()
     }
 
     fun menuAdd() =
