@@ -40,7 +40,7 @@ fun PatternsListScreen(vm: PatternsViewModel, navController: NavHostController?,
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            itemsIndexed(lstPatterns) { index, item ->
+            itemsIndexed(lstPatterns, key = { _, item -> item.id }) { index, item ->
                 Card(
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)

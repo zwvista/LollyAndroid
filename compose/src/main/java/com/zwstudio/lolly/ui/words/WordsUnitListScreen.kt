@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,12 +25,17 @@ import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.common.TopBarMenu
 import com.zwstudio.lolly.ui.common.WordsScreens
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
+import org.burnoutcrew.reorderable.ReorderableItem
+import org.burnoutcrew.reorderable.detectReorderAfterLongPress
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
 
 @Composable
 fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
     val lstWords = vm.lstWords_.collectAsState().value
     var expanded by remember { mutableStateOf(false) }
+    val state = rememberReorderableLazyListState(onMove = { _,_ -> }, canDragOver = { _,_ -> true })
 
     LaunchedEffect(Unit, block = {
         vm.getDataInTextbook()
@@ -102,58 +108,68 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
             }
         )
         LazyColumn(
+            state = state.listState,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
+                .reorderable(state)
         ) {
-            itemsIndexed(lstWords) { index, item ->
-                Card(
-                    modifier = Modifier
-                        .padding(top = 8.dp, bottom = 8.dp)
-                        .fillMaxWidth()
-                        .clickable {
-                            if (vm.isEditMode)
-                                navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index")
-                            else
-                                speak(item.word)
-                        },
-                    elevation = 8.dp,
-                    backgroundColor = Color.White,
-                ) {
-                    Row(
-                        modifier = Modifier.padding(start = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+            itemsIndexed(lstWords, key = { _, item -> item.id }) { index, item ->
+                ReorderableItem(state, item.id) { dragging ->
+                    Card(
+                        modifier = Modifier
+                            .padding(top = 8.dp, bottom = 8.dp)
+                            .fillMaxWidth()
+                            .clickable {
+                                if (vm.isEditMode)
+                                    navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index")
+                                else
+                                    speak(item.word)
+                            },
+                        elevation = 8.dp,
+                        backgroundColor = Color.White,
                     ) {
-                        CompositionLocalProvider(
-                            LocalTextStyle provides TextStyle(fontSize = 11.sp),
-                            LocalContentColor provides colorResource(R.color.color_text1)
+                        Row(
+                            modifier = Modifier.padding(start = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Column(modifier = Modifier.padding(end = 16.dp)) {
-                                Text(text = item.unitstr)
-                                Text(text = item.partstr)
-                                Text(text = "${item.seqnum}")
-                            }
-                        }
-                        Column {
-                            Text(
-                                text = item.word,
-                                color = colorResource(R.color.color_text2),
-                                style = TextStyle(fontSize = 25.sp)
-                            )
-                            Text(
-                                text = item.note,
-                                color = colorResource(R.color.color_text3),
-                                style = TextStyle(fontSize = 20.sp)
-                            )
-                        }
-                        if (!vm.isEditMode_.collectAsState().value) {
-                            Spacer(Modifier.weight(1f))
-                            IconButton(
-                                onClick = {
-                                    navController?.navigate(WordsScreens.WordsDict.route + "/$index")
-                                }
+                            CompositionLocalProvider(
+                                LocalTextStyle provides TextStyle(fontSize = 11.sp),
+                                LocalContentColor provides colorResource(R.color.color_text1)
                             ) {
-                                Icon(Icons.Filled.Info, null, tint = MaterialTheme.colors.primary)
+                                Column(modifier = Modifier.padding(end = 16.dp)) {
+                                    Text(text = item.unitstr)
+                                    Text(text = item.partstr)
+                                    Text(text = "${item.seqnum}")
+                                }
+                            }
+                            Column {
+                                Text(
+                                    text = item.word,
+                                    color = colorResource(R.color.color_text2),
+                                    style = TextStyle(fontSize = 25.sp)
+                                )
+                                Text(
+                                    text = item.note,
+                                    color = colorResource(R.color.color_text3),
+                                    style = TextStyle(fontSize = 20.sp)
+                                )
+                            }
+                            Spacer(Modifier.weight(1f))
+                            if (vm.isEditMode_.collectAsState().value) {
+                                Icon(
+                                    Icons.Filled.Menu,
+                                    null,
+                                    modifier = Modifier.detectReorderAfterLongPress(state),
+                                    tint = MaterialTheme.colors.primary)
+                            } else {
+                                IconButton(
+                                    onClick = {
+                                        navController?.navigate(WordsScreens.WordsDict.route + "/$index")
+                                    }
+                                ) {
+                                    Icon(Icons.Filled.Info, null, tint = MaterialTheme.colors.primary)
+                                }
                             }
                         }
                     }

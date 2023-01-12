@@ -45,7 +45,7 @@ fun WordsTextbookListScreen(vm: WordsUnitViewModel, navController: NavHostContro
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            itemsIndexed(lstWords) { index, item ->
+            itemsIndexed(lstWords, key = { _, item -> item.id }) { index, item ->
                 Card(
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)

@@ -40,7 +40,7 @@ fun PhrasesLangListScreen(vm: PhrasesLangViewModel, navController: NavHostContro
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            itemsIndexed(lstPhrases) { index, item ->
+            itemsIndexed(lstPhrases, key = { _, item -> item.id }) { index, item ->
                 Card(
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
