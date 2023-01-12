@@ -20,8 +20,7 @@ class PatternsWebPagesViewModel : DrawerListViewModel(), KoinComponent {
     private val webPageService by inject<WebPageService>()
 
     suspend fun getWebPages(patternid: Int) {
-        val lst = patternWebPageService.getDataByPattern(patternid)
-        lstWebPages.clear(); lstWebPages.addAll(lst)
+        lstWebPages = patternWebPageService.getDataByPattern(patternid).toMutableList()
     }
 
     fun updatePatternWebPage(item: MPatternWebPage) = viewModelScope.launch {

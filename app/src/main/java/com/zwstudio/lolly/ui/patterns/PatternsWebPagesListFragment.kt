@@ -28,6 +28,9 @@ import com.zwstudio.lolly.ui.common.yesNoDialog
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
@@ -51,16 +54,16 @@ class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
         super.onViewCreated(view, savedInstanceState)
 
         setupListView(PatternsWebPagesDragItem(requireContext(), R.layout.list_item_patterns_webpages_edit))
+
+        combine(vm.lstWebPages_, vm.isEditMode_, ::Pair).onEach {
+            val listAdapter = PatternsWebPagesItemAdapter(vm, mDragListView)
+            mDragListView.setAdapter(listAdapter, true)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
         viewLifecycleOwner.lifecycleScope.launch {
             vm.getWebPages(item.id)
-            refreshListView()
             progressBar1.visibility = View.GONE
         }
-    }
-
-    private fun refreshListView() {
-        val listAdapter = PatternsWebPagesItemAdapter(vm, mDragListView)
-        mDragListView.setAdapter(listAdapter, true)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -71,7 +74,6 @@ class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
     private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
         vm.isEditMode = isEditMode
         menuItem.isChecked = true
-        refreshListView()
     }
 
     fun menuAdd() =
