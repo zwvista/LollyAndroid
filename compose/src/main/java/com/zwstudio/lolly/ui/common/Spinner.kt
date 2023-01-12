@@ -9,10 +9,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -91,7 +95,15 @@ fun <T> Spinner(
                 )
             }
         },
-        dropdownItemFactory = { item, _ ->
+        dropdownItemFactory = { item, index ->
+            Icon(
+                Icons.Filled.CheckCircle,
+                null,
+                modifier = Modifier.alpha(
+                    if(index == selectedItemIndexStateFlow.collectAsState().value) 1f else 0f
+                ),
+                tint = MaterialTheme.colors.primary
+            )
             Text(text = itemText(item))
         },
         enabled = enabled
