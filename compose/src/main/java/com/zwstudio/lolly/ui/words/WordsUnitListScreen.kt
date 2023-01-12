@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.common.TopBarMenu
 import com.zwstudio.lolly.ui.common.WordsScreens
@@ -29,7 +30,6 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
 
     val lstWords = vm.lstWords_.collectAsState().value
     var expanded by remember { mutableStateOf(false) }
-    var isEditMode by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit, block = {
         vm.getDataInTextbook()
@@ -42,11 +42,7 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
             actions = {
                 Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
                     IconButton(onClick = { expanded = true }) {
-                        Icon(
-                            Icons.Filled.MoreVert,
-                            null,
-                            tint = MaterialTheme.colors.surface,
-                        )
+                        Icon(Icons.Filled.MoreVert, null, tint = MaterialTheme.colors.surface)
                     }
                     DropdownMenu(
                         expanded = expanded,
@@ -54,26 +50,53 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
                     ) {
                         DropdownMenuItem(
                             onClick = {
-                                isEditMode = false
+                                vm.isEditMode = false
                                 expanded = false
                             }
                         ) {
                             Text(text = "Normal Mode")
-                            if (!isEditMode) {
+                            Spacer(Modifier.weight(1f))
+                            if (!vm.isEditMode_.collectAsState().value) {
                                 Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
                             }
                         }
                         DropdownMenuItem(
                             onClick = {
-                                isEditMode = true
+                                vm.isEditMode = true
                                 expanded = false
                             }
                         ) {
                             Text(text = "Edit Mode")
-                            if (isEditMode) {
+                            Spacer(Modifier.weight(1f))
+                            if (vm.isEditMode_.collectAsState().value) {
                                 Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
                             }
                         }
+                        DropdownMenuItem(
+                            onClick = {
+                                expanded = false
+                            }
+                        ) { Text(text = "Add") }
+                        DropdownMenuItem(
+                            onClick = {
+                                expanded = false
+                            }
+                        ) { Text(text = "Retrieve All Notes") }
+                        DropdownMenuItem(
+                            onClick = {
+                                expanded = false
+                            }
+                        ) { Text(text = "Retrieve Notes If Empty") }
+                        DropdownMenuItem(
+                            onClick = {
+                                expanded = false
+                            }
+                        ) { Text(text = "Clear All Notes") }
+                        DropdownMenuItem(
+                            onClick = {
+                                expanded = false
+                            }
+                        ) { Text(text = "Clear Notes If Empty") }
                     }
                 }
             }
@@ -88,7 +111,12 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
-                        .clickable { navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index") },
+                        .clickable {
+                            if (vm.isEditMode)
+                                navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index")
+                            else
+                                speak(item.word)
+                        },
                     elevation = 8.dp,
                     backgroundColor = Color.White,
                 ) {
@@ -118,7 +146,7 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
                                 style = TextStyle(fontSize = 20.sp)
                             )
                         }
-                        if (!isEditMode) {
+                        if (!vm.isEditMode_.collectAsState().value) {
                             Spacer(Modifier.weight(1f))
                             IconButton(
                                 onClick = {
