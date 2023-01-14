@@ -9,12 +9,12 @@ import io.reactivex.rxjava3.core.Single
 class TextbookService {
     fun getDataByLang(langid: Int): Single<List<MTextbook>> {
         fun f(unitsString: String): List<String> {
-            var m = Regex("UNITS,(\\d+)").find(unitsString)
+            var m = Regex("""UNITS,(\d+)""").find(unitsString)
             if (m != null) {
                 val units = m.groupValues[1].toInt()
                 return (1..units).map { it.toString() }
             }
-            m = Regex("PAGES,(\\d+),(\\d+)").find(unitsString)
+            m = Regex("""PAGES,(\d+),(\d+)""").find(unitsString)
             if (m != null) {
                 val n1 = m.groupValues[1].toInt()
                 val n2 = m.groupValues[2].toInt()
