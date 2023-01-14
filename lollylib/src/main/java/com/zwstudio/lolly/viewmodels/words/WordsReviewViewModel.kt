@@ -133,7 +133,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     }
 
     private fun getTranslation(): Single<String> {
-        val dictTranslation = vmSettings.selectedDictTranslation ?: return Single.just("")
+        val dictTranslation = vmSettings.selectedDictTranslation
         val url = dictTranslation.urlString(currentWord, vmSettings.lstAutoCorrect)
         return vmSettings.getHtml(url)
             .map { extractTextFrom(it, dictTranslation.transform, "") { text, _ -> text } }

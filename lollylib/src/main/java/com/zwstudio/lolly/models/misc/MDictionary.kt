@@ -61,8 +61,8 @@ data class MDictionary(
 
     fun htmlString(html: String, word: String, useTemplate2: Boolean): String {
         val t = if (useTemplate2 && template2.isNotEmpty()) template2 else template
-        return extractTextFrom(html, transform, t) { text, t ->
-            t.replace( "{0}", word)
+        return extractTextFrom(html, transform, t) { text, t2 ->
+            t2.replace( "{0}", word)
                 .replace("{1}", cssFolder)
                 .replace("{2}", text)
         }
