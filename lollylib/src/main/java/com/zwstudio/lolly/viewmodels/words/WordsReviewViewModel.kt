@@ -11,8 +11,8 @@ import com.zwstudio.lolly.models.misc.extractTextFrom
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.UnitWordService
 import com.zwstudio.lolly.services.wpp.WordFamiService
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.*
@@ -135,7 +135,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     }
 
     private suspend fun getTranslation(): String {
-        val dictTranslation = vmSettings.selectedDictTranslation ?: return ""
+        val dictTranslation = vmSettings.selectedDictTranslation
         val url = dictTranslation.urlString(currentWord, vmSettings.lstAutoCorrect)
         return extractTextFrom(vmSettings.getHtml(url), dictTranslation.transform, "") { text, _ -> text }
     }
