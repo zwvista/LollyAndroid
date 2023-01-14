@@ -10,12 +10,12 @@ import kotlinx.coroutines.withContext
 class TextbookService {
     suspend fun getDataByLang(langid: Int): List<MTextbook> = withContext(Dispatchers.IO) {
         fun f(unitsString: String): List<String> {
-            var m = Regex("UNITS,(\\d+)").find(unitsString)
+            var m = Regex("""UNITS,(\d+)""").find(unitsString)
             if (m != null) {
                 val units = m.groupValues[1].toInt()
                 return (1..units).map { it.toString() }
             }
-            m = Regex("PAGES,(\\d+),(\\d+)").find(unitsString)
+            m = Regex("""PAGES,(\d+),(\d+)""").find(unitsString)
             if (m != null) {
                 val n1 = m.groupValues[1].toInt()
                 val n2 = m.groupValues[2].toInt()
