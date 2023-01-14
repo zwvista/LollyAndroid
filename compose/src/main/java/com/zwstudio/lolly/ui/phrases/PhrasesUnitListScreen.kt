@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,13 +60,9 @@ fun PhrasesUnitListScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
                                 expanded = false
                             }
                         ) {
-                            Text(text = "Normal Mode")
+                            Text(text = stringResource(id = R.string.normal_mode))
                             if (!vm.isEditMode_.collectAsState().value) {
-                                Icon(
-                                    Icons.Filled.CheckCircle,
-                                    null,
-                                    tint = MaterialTheme.colors.primary
-                                )
+                                Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
                             }
                         }
                         DropdownMenuItem(
@@ -74,15 +71,21 @@ fun PhrasesUnitListScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
                                 expanded = false
                             }
                         ) {
-                            Text(text = "Edit Mode")
+                            Text(text = stringResource(id = R.string.edit_mode))
                             if (vm.isEditMode_.collectAsState().value) {
-                                Icon(
-                                    Icons.Filled.CheckCircle,
-                                    null,
-                                    tint = MaterialTheme.colors.primary
-                                )
+                                Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
                             }
                         }
+                        DropdownMenuItem(
+                            onClick = {
+                                expanded = false
+                            }
+                        ) { Text(text = stringResource(id = R.string.action_add)) }
+                        DropdownMenuItem(
+                            onClick = {
+                                expanded = false
+                            }
+                        ) { Text(text = stringResource(id = R.string.action_batch)) }
                     }
                 }
             }

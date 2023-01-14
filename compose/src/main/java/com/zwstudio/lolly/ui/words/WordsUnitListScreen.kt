@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,7 +61,7 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
                                 expanded = false
                             }
                         ) {
-                            Text(text = "Normal Mode")
+                            Text(text = stringResource(id = R.string.normal_mode))
                             Spacer(Modifier.weight(1f))
                             if (!vm.isEditMode_.collectAsState().value) {
                                 Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
@@ -72,7 +73,7 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
                                 expanded = false
                             }
                         ) {
-                            Text(text = "Edit Mode")
+                            Text(text = stringResource(id = R.string.edit_mode))
                             Spacer(Modifier.weight(1f))
                             if (vm.isEditMode_.collectAsState().value) {
                                 Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
@@ -82,27 +83,32 @@ fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController
                             onClick = {
                                 expanded = false
                             }
-                        ) { Text(text = "Add") }
+                        ) { Text(text = stringResource(id = R.string.action_add)) }
                         DropdownMenuItem(
                             onClick = {
                                 expanded = false
                             }
-                        ) { Text(text = "Retrieve All Notes") }
+                        ) { Text(text = stringResource(id = R.string.action_retrieve_notes_all)) }
                         DropdownMenuItem(
                             onClick = {
                                 expanded = false
                             }
-                        ) { Text(text = "Retrieve Notes If Empty") }
+                        ) { Text(text = stringResource(id = R.string.action_retrieve_notes_empty)) }
                         DropdownMenuItem(
                             onClick = {
                                 expanded = false
                             }
-                        ) { Text(text = "Clear All Notes") }
+                        ) { Text(text = stringResource(id = R.string.action_clear_notes_all)) }
                         DropdownMenuItem(
                             onClick = {
                                 expanded = false
                             }
-                        ) { Text(text = "Clear Notes If Empty") }
+                        ) { Text(text = stringResource(id = R.string.action_clear_notes_empty)) }
+                        DropdownMenuItem(
+                            onClick = {
+                                expanded = false
+                            }
+                        ) { Text(text = stringResource(id = R.string.action_batch)) }
                     }
                 }
             }
