@@ -54,7 +54,7 @@ fun WordsTextbookDetailScreen(vm: WordsUnitViewModel, index: Int, navController:
         ) {
             Text(text = "ID:${vmDetail.id}")
             Text(text = "ID:${vmDetail.textbookname}")
-            Text(text = "UNIT:")
+            Text(text = stringResource(id = R.string.label_unit))
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2))
@@ -63,7 +63,7 @@ fun WordsTextbookDetailScreen(vm: WordsUnitViewModel, index: Int, navController:
                 selectedItemIndexStateFlow = vmDetail.unitIndex,
                 itemText = { it.label },
             )
-            Text(text = "PART:")
+            Text(text = stringResource(id = R.string.label_part))
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text3))

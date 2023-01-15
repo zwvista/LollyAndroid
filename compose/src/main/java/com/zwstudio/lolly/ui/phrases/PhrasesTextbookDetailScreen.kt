@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
@@ -54,7 +55,7 @@ fun PhrasesTextbookDetailScreen(vm: PhrasesUnitViewModel, index: Int, navControl
         ) {
             Text(text = "ID:${vmDetail.id}")
             Text(text = "ID:${vmDetail.textbookname}")
-            Text(text = "UNIT:")
+            Text(text = stringResource(id = R.string.label_unit))
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2))
@@ -63,7 +64,7 @@ fun PhrasesTextbookDetailScreen(vm: PhrasesUnitViewModel, index: Int, navControl
                 selectedItemIndexStateFlow = vmDetail.unitIndex,
                 itemText = { it.label },
             )
-            Text(text = "PART:")
+            Text(text = stringResource(id = R.string.label_part))
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text3))

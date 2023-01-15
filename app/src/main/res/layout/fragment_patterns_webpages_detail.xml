@@ -5,7 +5,7 @@
     tools:context=".patterns.PatternsWebPagesDetailFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageDetailViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesDetailViewModel"/>
     </data>
 
     <ScrollView
@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/tvID"
-                android:text='@{@string/label_id + " " + model.id}'
+                android:text='@{@string/label_id(model.id)}'
                 tools:text="ID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
 
             <TextView
                 android:id="@+id/tvPatternID"
-                android:text='@{@string/label_patternid + " " + model.patternid}'
+                android:text='@{@string/label_patternid(model.patternid)}'
                 tools:text="PATTERNID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
 
             <TextView
                 android:id="@+id/tvWebPageID"
-                android:text='@{@string/label_webpageid + " " + model.webpageid}'
+                android:text='@{@string/label_webpageid(model.webpageid)}'
                 tools:text="WEBPAGEID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

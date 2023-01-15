@@ -1,12 +1,9 @@
 package com.zwstudio.lolly.ui.words
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.zwstudio.lolly.ui.common.INDEX_KEY
 import com.zwstudio.lolly.ui.common.ReviewScreens
 import com.zwstudio.lolly.ui.misc.ReviewOptionsScreen
 import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
@@ -22,12 +19,7 @@ fun WordsReviewScreen(openDrawer: () -> Unit) {
         composable(route = ReviewScreens.WordsReviewMain.route) {
             WordsReviewMainScreen(vm, navController, openDrawer)
         }
-        composable(
-            route = ReviewScreens.ReviewOptions.route + "/{$INDEX_KEY}",
-            arguments = listOf(navArgument(INDEX_KEY) {
-                type = NavType.IntType
-            })
-        ) {
+        composable(route = ReviewScreens.ReviewOptions.route) {
             ReviewOptionsScreen(ReviewOptionsViewModel(vm.options), navController)
         }
     }

@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/tvID"
-                android:text='@{@string/label_id + " " + model.id}'
+                android:text='@{@string/label_id(model.id)}'
                 tools:text="ID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
 
             <TextView
                 android:id="@+id/tvWordID"
-                android:text='@{@string/label_wordid + " " + model.wordid}'
+                android:text='@{@string/label_wordid(model.wordid)}'
                 tools:text="WORDID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
 
             <TextView
                 android:id="@+id/tvFamiID"
-                android:text='@{@string/label_famiid + " " + model.famiid}'
+                android:text='@{@string/label_famiid(model.famiid)}'
                 tools:text="FAMIID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

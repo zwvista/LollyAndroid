@@ -27,6 +27,9 @@ sealed class PhrasesScreens(val route: String) {
 sealed class PatternsScreens(val route: String) {
     object PatternsMain : PatternsScreens("PatternsMain")
     object PatternsDetail : PatternsScreens("PatternsDetail")
+    object PatternsWebPagesBrowse : PatternsScreens("PatternsWebPagesBrowse")
+    object PatternsWebPagesList : PatternsScreens("PatternsWebPagesList")
+    object PatternsWebPagesDetail : PatternsScreens("PatternsWebPagesDetail")
 }
 
 const val INDEX_KEY = "INDEX_KEY"
