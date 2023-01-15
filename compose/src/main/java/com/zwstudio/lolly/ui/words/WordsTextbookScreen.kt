@@ -16,8 +16,8 @@ fun WordsTextbookScreen(openDrawer: () -> Unit) {
 
     val navController = rememberNavController()
     val vm = getViewModel<WordsUnitViewModel>()
-    NavHost(navController = navController, startDestination = WordsScreens.WordsTextbookList.route) {
-        composable(route = WordsScreens.WordsTextbookList.route) {
+    NavHost(navController = navController, startDestination = WordsScreens.WordsTextbookMain.route) {
+        composable(route = WordsScreens.WordsTextbookMain.route) {
             WordsTextbookMainScreen(vm, navController, openDrawer)
         }
         composable(

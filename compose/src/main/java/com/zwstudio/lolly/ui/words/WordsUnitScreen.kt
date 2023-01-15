@@ -17,8 +17,8 @@ fun WordsUnitScreen(openDrawer: () -> Unit) {
     val navController = rememberNavController()
     // https://stackoverflow.com/questions/68548488/sharing-viewmodel-within-jetpack-compose-navigation
     val vm = getViewModel<WordsUnitViewModel>()
-    NavHost(navController = navController, startDestination = WordsScreens.WordsUnitList.route) {
-        composable(route = WordsScreens.WordsUnitList.route) {
+    NavHost(navController = navController, startDestination = WordsScreens.WordsUnitMain.route) {
+        composable(route = WordsScreens.WordsUnitMain.route) {
             WordsUnitMainScreen(vm, navController, openDrawer)
         }
         composable(

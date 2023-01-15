@@ -16,8 +16,8 @@ fun WordsLangScreen(openDrawer: () -> Unit) {
 
     val navController = rememberNavController()
     val vm = getViewModel<WordsLangViewModel>()
-    NavHost(navController = navController, startDestination = WordsScreens.WordsLangList.route) {
-        composable(route = WordsScreens.WordsLangList.route) {
+    NavHost(navController = navController, startDestination = WordsScreens.WordsLangMain.route) {
+        composable(route = WordsScreens.WordsLangMain.route) {
             WordsLangMainScreen(vm, navController, openDrawer)
         }
         composable(

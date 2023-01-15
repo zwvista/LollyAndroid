@@ -6,27 +6,34 @@ sealed class TopScreens(val route: String) {
 }
 
 sealed class WordsScreens(val route: String) {
-    object WordsUnitList : WordsScreens("WordsUnitList")
+    object WordsUnitMain : WordsScreens("WordsUnitMain")
     object WordsUnitDetail : WordsScreens("WordsUnitDetail")
-    object WordsTextbookList : WordsScreens("WordsTextbookList")
+    object WordsTextbookMain : WordsScreens("WordsTextbookMain")
     object WordsTextbookDetail : WordsScreens("WordsTextbookDetail")
-    object WordsLangList : WordsScreens("WordsLangList")
+    object WordsLangMain : WordsScreens("WordsLangMain")
     object WordsLangDetail : WordsScreens("WordsLangDetail")
     object WordsDict : WordsScreens("WordsDict")
 }
 
 sealed class PhrasesScreens(val route: String) {
-    object PhrasesUnitList : PhrasesScreens("PhrasesUnitList")
+    object PhrasesUnitMain : PhrasesScreens("PhrasesUnitMain")
     object PhrasesUnitDetail : PhrasesScreens("PhrasesUnitDetail")
-    object PhrasesTextbookList : PhrasesScreens("PhrasesTextbookList")
+    object PhrasesTextbookMain : PhrasesScreens("PhrasesTextbookMain")
     object PhrasesTextbookDetail : PhrasesScreens("PhrasesTextbookDetail")
-    object PhrasesLangList : PhrasesScreens("PhrasesLangList")
+    object PhrasesLangMain : PhrasesScreens("PhrasesLangMain")
     object PhrasesLangDetail : PhrasesScreens("PhrasesLangDetail")
 }
 
 sealed class PatternsScreens(val route: String) {
-    object PatternsList : PatternsScreens("PatternsList")
+    object PatternsMain : PatternsScreens("PatternsMain")
     object PatternsDetail : PatternsScreens("PatternsDetail")
 }
 
 const val INDEX_KEY = "INDEX_KEY"
+
+
+sealed class ReviewScreens(val route: String) {
+    object WordsReviewMain : ReviewScreens("WordsReviewMain")
+    object PhrasesReviewMain : ReviewScreens("PhrasesReviewMain")
+    object ReviewOptions : ReviewScreens("ReviewOptions")
+}

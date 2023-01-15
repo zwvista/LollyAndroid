@@ -16,8 +16,8 @@ fun PatternsScreen(openDrawer: () -> Unit) {
 
     val navController = rememberNavController()
     val vm = getViewModel<PatternsViewModel>()
-    NavHost(navController = navController, startDestination = PatternsScreens.PatternsList.route) {
-        composable(route = PatternsScreens.PatternsList.route) {
+    NavHost(navController = navController, startDestination = PatternsScreens.PatternsMain.route) {
+        composable(route = PatternsScreens.PatternsMain.route) {
             PatternsMainScreen(vm, navController, openDrawer)
         }
         composable(

@@ -16,8 +16,8 @@ fun PhrasesLangScreen(openDrawer: () -> Unit) {
 
     val navController = rememberNavController()
     val vm = getViewModel<PhrasesLangViewModel>()
-    NavHost(navController = navController, startDestination = PhrasesScreens.PhrasesLangList.route) {
-        composable(route = PhrasesScreens.PhrasesLangList.route) {
+    NavHost(navController = navController, startDestination = PhrasesScreens.PhrasesLangMain.route) {
+        composable(route = PhrasesScreens.PhrasesLangMain.route) {
             PhrasesLangMainScreen(vm, navController, openDrawer)
         }
         composable(
