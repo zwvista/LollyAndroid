@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.ui.phrases
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,9 +17,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
-import com.zwstudio.lolly.ui.common.DrawerScreens
-import com.zwstudio.lolly.ui.common.PhrasesScreens
-import com.zwstudio.lolly.ui.common.TopBarMenu
+import com.zwstudio.lolly.ui.common.*
+import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
 
 @Composable
@@ -35,6 +35,20 @@ fun PhrasesLangListScreen(vm: PhrasesLangViewModel, navController: NavHostContro
             title = DrawerScreens.PhrasesLang.title,
             onButtonClicked = { openDrawer() }
         )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            SearchView(
+                valueStateFlow = vm.textFilter_,
+                modifier = Modifier.weight(1f)
+            ) {
+            }
+            Spinner(
+                modifier = Modifier
+                    .background(color = colorResource(R.color.color_text2)),
+                itemsStateFlow = SettingsViewModel.lstScopePhraseFilters_,
+                selectedItemIndexStateFlow = vm.scopeFilterIndex_,
+                itemText = { it.label }
+            )
+        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

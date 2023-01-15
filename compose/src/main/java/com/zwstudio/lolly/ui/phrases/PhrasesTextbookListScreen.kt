@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.ui.phrases
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
-import com.zwstudio.lolly.ui.common.DrawerScreens
-import com.zwstudio.lolly.ui.common.PhrasesScreens
-import com.zwstudio.lolly.ui.common.TopBarMenu
+import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.ui.common.*
+import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 
 @Composable
@@ -40,6 +41,28 @@ fun PhrasesTextbookListScreen(vm: PhrasesUnitViewModel, navController: NavHostCo
             title = DrawerScreens.PhrasesTextbook.title,
             onButtonClicked = { openDrawer() }
         )
+        SearchView(
+            valueStateFlow = vm.textFilter_
+        ) {
+        }
+        Row() {
+            Spinner(
+                modifier = Modifier
+                    .background(color = colorResource(R.color.color_text3))
+                    .weight(1f),
+                itemsStateFlow = vmSettings.lstTextbookFilters_,
+                selectedItemIndexStateFlow = vm.textbookFilterIndex_,
+                itemText = { it.label }
+            )
+            Spinner(
+                modifier = Modifier
+                    .background(color = colorResource(R.color.color_text2))
+                    .weight(1f),
+                itemsStateFlow = SettingsViewModel.lstScopePhraseFilters_,
+                selectedItemIndexStateFlow = vm.scopeFilterIndex_,
+                itemText = { it.label }
+            )
+        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

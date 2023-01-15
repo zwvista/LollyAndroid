@@ -115,7 +115,8 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     val selectedTextbookIndex_= MutableStateFlow(-1)
     var selectedTextbookIndex get() = selectedTextbookIndex_.value; set(v) { selectedTextbookIndex_.value = v }
     val selectedTextbook get() = lstTextbooks.getOrNull(selectedTextbookIndex) ?: MTextbook()
-    var lstTextbookFilters = listOf<MSelectItem>()
+    val lstTextbookFilters_ = MutableStateFlow(listOf<MSelectItem>())
+    var lstTextbookFilters get() = lstTextbookFilters_.value; set(v) { lstTextbookFilters_.value = v }
 
     var lstDictsReference_ = MutableStateFlow(listOf<MDictionary>())
     var lstDictsReference get() = lstDictsReference_.value; set(v) { lstDictsReference_.value = v }
@@ -162,10 +163,14 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     companion object {
         val lstToTypes_ = MutableStateFlow(UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) })
         val lstToTypes get() = lstToTypes_.value
-        val lstScopeWordFilters = listOf("Word", "Note").mapIndexed { index, s -> MSelectItem(index, s) }
-        val lstScopePhraseFilters = listOf("Phrase", "Translation").mapIndexed { index, s -> MSelectItem(index, s) }
-        val lstScopePatternFilters = listOf("Pattern", "Note", "Tags").mapIndexed { index, s -> MSelectItem(index, s) }
-        val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
+        val lstScopeWordFilters_ = MutableStateFlow(listOf("Word", "Note").mapIndexed { index, s -> MSelectItem(index, s) })
+        val lstScopeWordFilters = lstScopeWordFilters_.value
+        val lstScopePhraseFilters_ = MutableStateFlow(listOf("Phrase", "Translation").mapIndexed { index, s -> MSelectItem(index, s) })
+        val lstScopePhraseFilters = lstScopePhraseFilters_.value
+        val lstScopePatternFilters_ = MutableStateFlow(listOf("Pattern", "Note", "Tags").mapIndexed { index, s -> MSelectItem(index, s) })
+        val lstScopePatternFilters = lstScopePatternFilters_.value
+        val lstReviewModes_ = MutableStateFlow(ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) })
+        val lstReviewModes = lstReviewModes_.value
         const val zeroNote = "O"
     }
 

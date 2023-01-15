@@ -45,7 +45,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
     }
 
     LaunchedEffect(Unit, block = {
-        focusRequester.requestFocus()
+//        focusRequester.requestFocus()
         vmSettings.getData()
         vmSettings.selectedDictReferenceIndex_.onEach {
             searchDict()
