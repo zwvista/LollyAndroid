@@ -9,10 +9,11 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class PatternsWebPagesDetailViewModel(val item: MPatternWebPage) : ViewModel() {
-    val id = MutableStateFlow(item.id)
-    val patternid = MutableStateFlow(item.patternid)
-    val pattern = MutableStateFlow(item.pattern)
-    val webpageid = MutableStateFlow(item.webpageid)
+    val id = item.id
+    val patternid = item.patternid
+    val pattern = item.pattern
+    val seqnum = MutableStateFlow(item.seqnum.toString())
+    val webpageid = item.webpageid
     val title = MutableStateFlow(item.title)
     val url = MutableStateFlow(item.url)
     val saveEnabled = MutableStateFlow(false)
@@ -24,10 +25,7 @@ class PatternsWebPagesDetailViewModel(val item: MPatternWebPage) : ViewModel() {
     }
 
     fun save() {
-        item.id = id.value
-        item.patternid = patternid.value
-        item.pattern = pattern.value
-        item.webpageid = webpageid.value
+        item.seqnum = seqnum.value.toInt()
         item.title = title.value
         item.url = url.value
     }

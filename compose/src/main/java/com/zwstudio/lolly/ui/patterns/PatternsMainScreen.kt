@@ -81,7 +81,8 @@ fun PatternsMainScreen(vm: PatternsViewModel, navController: NavHostController?,
                         Spacer(Modifier.weight(1f))
                         IconButton(
                             onClick = {
-                                navController?.navigate(PatternsScreens.PatternsWebPagesBrowse.route + "/$index")
+//                                navController?.navigate(PatternsScreens.PatternsWebPagesBrowse.route + "/$index")
+                                navController?.navigate(PatternsScreens.PatternsWebPagesList.route + "/$index")
                             }
                         ) {
                             Icon(Icons.Filled.Info, null, tint = MaterialTheme.colors.primary)

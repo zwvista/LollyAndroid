@@ -42,7 +42,7 @@ fun PatternsWebPagesListScreen(vm: PatternsWebPagesViewModel, item: MPattern,  n
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
-                        .clickable { navController?.navigate(PatternsScreens.PatternsDetail.route + "/$index") },
+                        .clickable { navController?.navigate(PatternsScreens.PatternsWebPagesDetail.route + "/$index") },
                     elevation = 8.dp,
                     backgroundColor = Color.White,
                 ) {

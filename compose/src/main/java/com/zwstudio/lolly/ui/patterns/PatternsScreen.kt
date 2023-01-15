@@ -46,5 +46,13 @@ fun PatternsScreen(openDrawer: () -> Unit) {
         ) {
             PatternsWebPagesListScreen(vmWP, vm.lstPatterns[it.arguments!!.getInt(INDEX_KEY)], navController)
         }
+        composable(
+            route = PatternsScreens.PatternsWebPagesDetail.route + "/{$INDEX_KEY}",
+            arguments = listOf(navArgument(INDEX_KEY) {
+                type = NavType.IntType
+            })
+        ) {
+            PatternsWebPagesDetailScreen(vmWP, it.arguments!!.getInt(INDEX_KEY), navController)
+        }
     }
 }
