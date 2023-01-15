@@ -5,8 +5,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -76,6 +77,14 @@ fun PatternsMainScreen(vm: PatternsViewModel, navController: NavHostController?,
                                 text = item.tags,
                                 color = colorResource(R.color.color_text3)
                             )
+                        }
+                        Spacer(Modifier.weight(1f))
+                        IconButton(
+                            onClick = {
+                                navController?.navigate(PatternsScreens.PatternsWebPagesBrowse.route + "/$index")
+                            }
+                        ) {
+                            Icon(Icons.Filled.Info, null, tint = MaterialTheme.colors.primary)
                         }
                     }
                 }
