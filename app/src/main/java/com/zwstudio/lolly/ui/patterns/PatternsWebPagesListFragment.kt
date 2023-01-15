@@ -76,9 +76,6 @@ class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
         menuItem.isChecked = true
     }
 
-    fun menuAdd() =
-        findNavController().navigate(PatternsWebPagesListFragmentDirections.actionPatternsWebPagesListFragmentToPatternsWebPagesDetailFragment(vm.newPatternWebPage(item.id, item.pattern)))
-
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.menuNormalMode -> {
@@ -90,7 +87,7 @@ class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
                 true
             }
             R.id.menuAdd -> {
-                menuAdd()
+                findNavController().navigate(PatternsWebPagesListFragmentDirections.actionPatternsWebPagesListFragmentToPatternsWebPagesDetailFragment(vm.newPatternWebPage(item.id, item.pattern)))
                 true
             }
             else -> false

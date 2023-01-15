@@ -10,7 +10,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -26,7 +25,6 @@ import kotlinx.coroutines.launch
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -60,7 +58,7 @@ class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
         setupListView()
 
-        combine(vm.lstPhrases_, vm.isEditMode_, ::Pair).onEach {
+        vm.lstPhrases_.onEach {
             val listAdapter = PhrasesLangItemAdapter(vm, mDragListView)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -72,25 +70,11 @@ class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.menu_phrases_lang, menu)
-        setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
-    }
-
-    private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
-        vm.isEditMode = isEditMode
-        menuItem.isChecked = true
+        menuInflater.inflate(R.menu.menu_add, menu)
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
-            R.id.menuNormalMode -> {
-                setEditMode(menuItem, false)
-                true
-            }
-            R.id.menuEditMode -> {
-                setEditMode(menuItem, true)
-                true
-            }
             R.id.menuAdd -> {
                 findNavController().navigate(PhrasesLangFragmentDirections.actionPhrasesLangFragmentToPhrasesLangDetailFragment(vm.newLangPhrase()))
                 true
@@ -197,10 +181,7 @@ class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MLangPhrase
-                    if (vm.isEditMode)
-                        edit(item)
-                    else
-                        speak(item.phrase)
+                    speak(item.phrase)
                 }
             }
 
