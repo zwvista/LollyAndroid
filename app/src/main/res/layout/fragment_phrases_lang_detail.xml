@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/tvID"
-                android:text='@{@string/label_id + " " + model.id}'
+                android:text='@{@string/label_id(model.id)}'
                 tools:text="ID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
