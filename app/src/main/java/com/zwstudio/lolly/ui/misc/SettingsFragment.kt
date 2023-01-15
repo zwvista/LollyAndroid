@@ -13,6 +13,7 @@ import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.ui.common.makeCustomAdapter2
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -68,16 +69,13 @@ class SettingsFragment : Fragment() {
             binding.spnTextbook.makeCustomAdapter2(requireActivity(), vm.lstTextbooks, { it.textbookname }, { "${vm.unitCount} units" })
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        vm.lstUnits_.onEach {
-            val adapter = makeCustomAdapter(requireContext(), vm.lstUnits) { it.label }
-            binding.spnUnitFrom.adapter = adapter
-            binding.spnUnitTo.adapter = adapter
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        vm.lstParts_.onEach {
-            val adapter = makeCustomAdapter(requireContext(), vm.lstParts) { it.label }
-            binding.spnPartFrom.adapter = adapter
-            binding.spnPartTo.adapter = adapter
+        vm.selectedTextbookIndex_.filter { it != -1 }.onEach {
+            val adapterUnits = makeCustomAdapter(requireContext(), vm.lstUnits) { it.label }
+            binding.spnUnitFrom.adapter = adapterUnits
+            binding.spnUnitTo.adapter = adapterUnits
+            val adapterParts = makeCustomAdapter(requireContext(), vm.lstParts) { it.label }
+            binding.spnPartFrom.adapter = adapterParts
+            binding.spnPartTo.adapter = adapterParts
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         compositeDisposable.add(vm.getData().subscribe())
