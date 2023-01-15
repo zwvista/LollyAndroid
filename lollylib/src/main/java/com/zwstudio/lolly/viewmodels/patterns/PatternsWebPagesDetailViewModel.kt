@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class PatternsWebPageDetailViewModel(val item: MPatternWebPage) : ViewModel() {
+class PatternsWebPagesDetailViewModel(val item: MPatternWebPage) : ViewModel() {
     val id = MutableStateFlow(item.id)
     val patternid = MutableStateFlow(item.patternid)
     val pattern = MutableStateFlow(item.pattern)

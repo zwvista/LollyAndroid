@@ -13,7 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.databinding.FragmentPatternsWebpagesDetailBinding
 import com.zwstudio.lolly.ui.common.autoCleared
-import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageDetailViewModel
+import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.launchIn
@@ -25,7 +25,7 @@ import org.koin.core.parameter.parametersOf
 class PatternsWebPagesDetailFragment : Fragment(), MenuProvider {
 
     val vm by lazy { requireParentFragment().getViewModel<PatternsWebPagesViewModel>() }
-    val vmDetail by viewModel<PatternsWebPageDetailViewModel>{ parametersOf(item) }
+    val vmDetail by viewModel<PatternsWebPagesDetailViewModel>{ parametersOf(item) }
     var binding by autoCleared<FragmentPatternsWebpagesDetailBinding>()
     val args: PatternsWebPagesDetailFragmentArgs by navArgs()
     val item get() = args.item

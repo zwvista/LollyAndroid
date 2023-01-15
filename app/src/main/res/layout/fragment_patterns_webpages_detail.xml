@@ -5,7 +5,7 @@
     tools:context=".patterns.PatternsWebPagesDetailFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageDetailViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesDetailViewModel"/>
     </data>
 
     <ScrollView
