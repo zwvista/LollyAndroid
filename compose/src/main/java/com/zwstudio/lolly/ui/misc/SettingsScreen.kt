@@ -118,7 +118,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
                 Spinner(
                     modifier = Modifier
                         .background(color = colorResource(R.color.color_text2)),
-                    itemsStateFlow = SettingsViewModel.lstToTypes_,
+                    items = SettingsViewModel.lstToTypes,
                     selectedItemIndexStateFlow = vm.toTypeIndex_,
                     itemText = { it.label }
                 )

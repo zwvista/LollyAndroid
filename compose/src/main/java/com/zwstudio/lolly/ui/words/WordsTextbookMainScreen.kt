@@ -58,7 +58,7 @@ fun WordsTextbookMainScreen(vm: WordsUnitViewModel, navController: NavHostContro
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2))
                     .weight(1f),
-                itemsStateFlow = SettingsViewModel.lstScopeWordFilters_,
+                items = SettingsViewModel.lstScopeWordFilters,
                 selectedItemIndexStateFlow = vm.scopeFilterIndex_,
                 itemText = { it.label }
             )

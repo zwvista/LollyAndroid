@@ -58,7 +58,7 @@ fun PhrasesTextbookMainScreen(vm: PhrasesUnitViewModel, navController: NavHostCo
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2))
                     .weight(1f),
-                itemsStateFlow = SettingsViewModel.lstScopePhraseFilters_,
+                items = SettingsViewModel.lstScopePhraseFilters,
                 selectedItemIndexStateFlow = vm.scopeFilterIndex_,
                 itemText = { it.label }
             )

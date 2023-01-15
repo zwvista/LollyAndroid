@@ -99,7 +99,7 @@ fun PhrasesUnitMainScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2)),
-                itemsStateFlow = SettingsViewModel.lstScopePhraseFilters_,
+                items = SettingsViewModel.lstScopePhraseFilters,
                 selectedItemIndexStateFlow = vm.scopeFilterIndex_,
                 itemText = { it.label }
             )

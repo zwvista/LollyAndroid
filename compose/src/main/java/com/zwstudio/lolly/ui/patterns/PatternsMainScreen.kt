@@ -44,7 +44,7 @@ fun PatternsMainScreen(vm: PatternsViewModel, navController: NavHostController?,
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2)),
-                itemsStateFlow = SettingsViewModel.lstScopePatternFilters_,
+                items = SettingsViewModel.lstScopePatternFilters,
                 selectedItemIndexStateFlow = vm.scopeFilterIndex_,
                 itemText = { it.label }
             )

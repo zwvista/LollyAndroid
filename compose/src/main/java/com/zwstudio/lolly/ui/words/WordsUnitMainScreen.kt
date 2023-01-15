@@ -122,7 +122,7 @@ fun WordsUnitMainScreen(vm: WordsUnitViewModel, navController: NavHostController
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2)),
-                itemsStateFlow = SettingsViewModel.lstScopeWordFilters_,
+                items = SettingsViewModel.lstScopeWordFilters,
                 selectedItemIndexStateFlow = vm.scopeFilterIndex_,
                 itemText = { it.label }
             )

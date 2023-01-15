@@ -65,14 +65,14 @@ fun <T> Spinner(
 @Composable
 fun <T> Spinner(
     modifier: Modifier = Modifier,
-    itemsStateFlow: MutableStateFlow<List<T>>,
+    items: List<T>,
     selectedItemIndexStateFlow: MutableStateFlow<Int>,
     itemText: (T) -> String,
     enabled: Boolean = true,
 ) {
     Spinner(
         modifier = modifier,
-        items = itemsStateFlow.collectAsState().value,
+        items = items,
         selectedItemIndex = selectedItemIndexStateFlow.collectAsState().value,
         onItemSelected = { selectedItemIndexStateFlow.value = it },
         selectedItemFactory = { modifier, _ ->
@@ -82,7 +82,7 @@ fun <T> Spinner(
                     .wrapContentSize()
             ) {
                 Text(
-                    text = itemsStateFlow.collectAsState().value.getOrNull(
+                    text = items.getOrNull(
                             selectedItemIndexStateFlow.collectAsState().value
                         ).let {
                               if (it == null) "" else itemText(it)
@@ -106,6 +106,41 @@ fun <T> Spinner(
             )
             Text(text = itemText(item))
         },
+        enabled = enabled
+    )
+}
+
+@Composable
+fun <T> Spinner(
+    modifier: Modifier = Modifier,
+    itemsStateFlow: MutableStateFlow<List<T>>,
+    selectedItemIndexStateFlow: MutableStateFlow<Int>,
+    itemText: (T) -> String,
+    enabled: Boolean = true,
+) {
+    Spinner(
+        modifier = modifier,
+        items = itemsStateFlow.collectAsState().value,
+        selectedItemIndexStateFlow = selectedItemIndexStateFlow,
+        itemText = itemText,
+        enabled = enabled
+    )
+}
+
+@JvmName("Spinner1")
+@Composable
+fun <T> Spinner(
+    modifier: Modifier = Modifier,
+    itemsStateFlow: MutableStateFlow<MutableList<T>>,
+    selectedItemIndexStateFlow: MutableStateFlow<Int>,
+    itemText: (T) -> String,
+    enabled: Boolean = true,
+) {
+    Spinner(
+        modifier = modifier,
+        items = itemsStateFlow.collectAsState().value,
+        selectedItemIndexStateFlow = selectedItemIndexStateFlow,
+        itemText = itemText,
         enabled = enabled
     )
 }
