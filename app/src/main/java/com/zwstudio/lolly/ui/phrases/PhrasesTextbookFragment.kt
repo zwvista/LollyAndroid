@@ -7,8 +7,6 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.MenuProvider
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -24,12 +22,11 @@ import com.zwstudio.lolly.ui.misc.*
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PhrasesTextbookFragment : DrawerListFragment(), MenuProvider {
+class PhrasesTextbookFragment : DrawerListFragment() {
 
     val vm by viewModel<PhrasesUnitViewModel>()
     override val vmDrawerList: DrawerListViewModel get() = vm
@@ -46,7 +43,6 @@ class PhrasesTextbookFragment : DrawerListFragment(), MenuProvider {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding.svTextFilter.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return true
@@ -60,7 +56,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), MenuProvider {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
         setupListView()
 
-        combine(vm.lstPhrases_, vm.isEditMode_, ::Pair).onEach {
+        vm.lstPhrases_.onEach {
             val listAdapter = PhrasesTextbookItemAdapter(vm, mDragListView)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -69,29 +65,6 @@ class PhrasesTextbookFragment : DrawerListFragment(), MenuProvider {
             progressBar1.visibility = View.GONE
         })
     }
-
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.menu_phrases_textbook, menu)
-        setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
-    }
-
-    private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
-        vm.isEditMode = isEditMode
-        menuItem.isChecked = true
-    }
-
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
-        when (menuItem.itemId) {
-            R.id.menuNormalMode -> {
-                setEditMode(menuItem, false)
-                true
-            }
-            R.id.menuEditMode -> {
-                setEditMode(menuItem, true)
-                true
-            }
-            else -> false
-        }
 
     private class PhrasesTextbookItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView) : DragItemAdapter<MUnitPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
 
@@ -189,10 +162,7 @@ class PhrasesTextbookFragment : DrawerListFragment(), MenuProvider {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MUnitPhrase
-                    if (vm.isEditMode)
-                        edit(item)
-                    else
-                        speak(item.phrase)
+                    speak(item.phrase)
                 }
             }
 

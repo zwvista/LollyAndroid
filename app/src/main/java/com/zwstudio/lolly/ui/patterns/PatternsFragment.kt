@@ -71,25 +71,11 @@ class PatternsFragment : DrawerListFragment(), MenuProvider {
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.menu_patterns, menu)
-        setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
-    }
-
-    private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
-        vm.isEditMode = isEditMode
-        menuItem.isChecked = true
+        menuInflater.inflate(R.menu.menu_add, menu)
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
-            R.id.menuNormalMode -> {
-                setEditMode(menuItem, false)
-                true
-            }
-            R.id.menuEditMode -> {
-                setEditMode(menuItem, true)
-                true
-            }
             R.id.menuAdd -> {
                 findNavController().navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsDetailFragment(vm.newPattern()))
                 true
@@ -206,10 +192,7 @@ class PatternsFragment : DrawerListFragment(), MenuProvider {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MPattern
-                    if (vm.isEditMode)
-                        edit(item)
-                    else
-                        speak(item.pattern)
+                    speak(item.pattern)
                 }
             }
 

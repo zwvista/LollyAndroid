@@ -8,8 +8,6 @@ import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.MenuProvider
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
@@ -26,19 +24,17 @@ import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
+class WordsTextbookFragment : DrawerListFragment() {
 
     val vm by viewModel<WordsUnitViewModel>()
     override val vmDrawerList: DrawerListViewModel get() = vm
     var binding by autoCleared<FragmentWordsTextbookBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
         binding = FragmentWordsTextbookBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
@@ -61,7 +57,7 @@ class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopeWordFilters) { it.label }
         setupListView()
 
-        combine(vm.lstWords_, vm.isEditMode_, ::Pair).onEach {
+        vm.lstWords_.onEach {
             val listAdapter = WordsTextbookItemAdapter(vm, mDragListView, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -70,29 +66,6 @@ class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
             progressBar1.visibility = View.GONE
         })
     }
-
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.menu_words_textbook, menu)
-        setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
-    }
-
-    private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
-        vm.isEditMode = isEditMode
-        menuItem.isChecked = true
-    }
-
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
-        when (menuItem.itemId) {
-            R.id.menuNormalMode -> {
-                setEditMode(menuItem, false)
-                true
-            }
-            R.id.menuEditMode -> {
-                setEditMode(menuItem, true)
-                true
-            }
-            else -> false
-        }
 
     private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {
 
@@ -204,8 +177,6 @@ class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
                     }
                     true
                 }
-                if (vm.isEditMode)
-                    mForward.visibility = View.GONE
             }
 
             override fun onItemClicked(view: View?) {
@@ -214,10 +185,7 @@ class WordsTextbookFragment : DrawerListFragment(), MenuProvider {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MUnitWord
-                    if (vm.isEditMode)
-                        edit(item)
-                    else
-                        speak(item.word)
+                    speak(item.word)
                 }
             }
 

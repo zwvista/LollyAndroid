@@ -26,7 +26,6 @@ import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -60,7 +59,7 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopeWordFilters) { it.label }
         setupListView()
 
-        combine(vm.lstWords_, vm.isEditMode_, ::Pair).onEach {
+        vm.lstWords_.onEach {
             val listAdapter = WordsLangItemAdapter(vm, mDragListView, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -71,25 +70,11 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.menu_words_lang, menu)
-        setEditMode(menu.findItem(if (vm.isEditMode) R.id.menuEditMode else R.id.menuNormalMode), vm.isEditMode)
-    }
-
-    private fun setEditMode(menuItem: MenuItem, isEditMode: Boolean) {
-        vm.isEditMode = isEditMode
-        menuItem.isChecked = true
+        menuInflater.inflate(R.menu.menu_add, menu)
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
-            R.id.menuNormalMode -> {
-                setEditMode(menuItem, false)
-                true
-            }
-            R.id.menuEditMode -> {
-                setEditMode(menuItem, true)
-                true
-            }
             R.id.menuAdd -> {
                 findNavController().navigate(WordsLangFragmentDirections.actionWordsLangFragmentToWordsLangDetailFragment(vm.newLangWord()))
                 true
@@ -210,8 +195,6 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
                     }
                     true
                 }
-                if (vm.isEditMode)
-                    mForward.visibility = View.GONE
             }
 
             override fun onItemClicked(view: View?) {
@@ -220,10 +203,7 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
                     vm.isSwipeStarted = false
                 } else {
                     val item = view!!.tag as MLangWord
-                    if (vm.isEditMode)
-                        edit(item)
-                    else
-                        speak(item.word)
+                    speak(item.word)
                 }
             }
 
