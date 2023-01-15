@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
-import android.widget.AdapterView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.databinding.FragmentPatternsWebpagesBrowseBinding
 import com.zwstudio.lolly.ui.common.autoCleared
@@ -15,6 +15,9 @@ import com.zwstudio.lolly.ui.common.makeAdapter
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PatternsWebPagesBrowseFragment : Fragment() {
@@ -38,13 +41,10 @@ class PatternsWebPagesBrowseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.webView.webViewClient = WebViewClient()
-        binding.spnWebPages.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                binding.webView.loadUrl(vm.lstWebPages[position].url)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
+
+        vm.currentWebPageIndex_.filter { it != -1 }.onEach {
+            binding.webView.loadUrl(vm.lstWebPages[it].url)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         compositeDisposable.add(vm.getWebPages(item.id).subscribeBy {
             binding.spnWebPages.adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, 0, vm.lstWebPages) { v, position ->

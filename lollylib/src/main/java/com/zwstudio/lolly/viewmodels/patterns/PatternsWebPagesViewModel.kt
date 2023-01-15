@@ -14,6 +14,8 @@ class PatternsWebPagesViewModel : DrawerListViewModel(), KoinComponent {
 
     var lstWebPages_ = MutableStateFlow(mutableListOf<MPatternWebPage>())
     var lstWebPages get() = lstWebPages_.value; set(v) { lstWebPages_.value = v }
+    var currentWebPageIndex_ = MutableStateFlow(-1)
+    var currentWebPageIndex get() = currentWebPageIndex_.value; set(v) { currentWebPageIndex_.value = v }
     fun getWebPageText(position: Int) = "${position + 1}/${lstWebPages.size} ${lstWebPages[position].title}"
 
     lateinit var compositeDisposable: CompositeDisposable
