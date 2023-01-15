@@ -140,10 +140,12 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var selectedDictTranslationIndex get() = selectedDictTranslationIndex_.value; set(v) { selectedDictTranslationIndex_.value = v }
     val selectedDictTranslation get() = lstDictsTranslation.getOrNull(selectedDictTranslationIndex) ?: MDictionary()
 
-    val lstUnits get() = selectedTextbook.lstUnits
+    var lstUnits_ = MutableStateFlow(listOf<MSelectItem>())
+    var lstUnits get() = lstUnits_.value; set(v) { lstUnits_.value = v }
     val unitCount: Int
         get() = lstUnits.size
-    val lstParts get() = selectedTextbook.lstParts
+    var lstParts_ = MutableStateFlow(listOf<MSelectItem>())
+    var lstParts get() = lstParts_.value; set(v) { lstParts_.value = v }
     val partCount: Int
         get() = lstParts.size
     val isSinglePart: Boolean
@@ -298,6 +300,8 @@ class SettingsViewModel : ViewModel(), KoinComponent {
             INFO_USPARTFROM = getUSInfo(MUSMapping.NAME_USPARTFROM)
             INFO_USUNITTO = getUSInfo(MUSMapping.NAME_USUNITTO)
             INFO_USPARTTO = getUSInfo(MUSMapping.NAME_USPARTTO)
+            lstUnits = selectedTextbook.lstUnits
+            lstParts = selectedTextbook.lstParts
             selectedUnitFromIndex = lstUnits.indexOfFirst { it.value == usunitfrom }
             selectedPartFromIndex = lstParts.indexOfFirst { it.value == uspartfrom }
             selectedUnitToIndex = lstUnits.indexOfFirst { it.value == usunitto }
