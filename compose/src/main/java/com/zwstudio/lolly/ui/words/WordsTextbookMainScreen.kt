@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.phrases
+package com.zwstudio.lolly.ui.words
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,12 +25,12 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
+import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 
 @Composable
-fun PhrasesTextbookListScreen(vm: PhrasesUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
+fun WordsTextbookMainScreen(vm: WordsUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
-    val lstPhrases = vm.lstPhrases_.collectAsState().value
+    val lstWords = vm.lstWords_.collectAsState().value
 
     LaunchedEffect(Unit, block = {
         vm.getDataInLang()
@@ -38,7 +38,7 @@ fun PhrasesTextbookListScreen(vm: PhrasesUnitViewModel, navController: NavHostCo
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.PhrasesTextbook.title,
+            title = DrawerScreens.WordsTextbook.title,
             onButtonClicked = { openDrawer() }
         )
         SearchView(
@@ -58,7 +58,7 @@ fun PhrasesTextbookListScreen(vm: PhrasesUnitViewModel, navController: NavHostCo
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2))
                     .weight(1f),
-                itemsStateFlow = SettingsViewModel.lstScopePhraseFilters_,
+                itemsStateFlow = SettingsViewModel.lstScopeWordFilters_,
                 selectedItemIndexStateFlow = vm.scopeFilterIndex_,
                 itemText = { it.label }
             )
@@ -68,12 +68,12 @@ fun PhrasesTextbookListScreen(vm: PhrasesUnitViewModel, navController: NavHostCo
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            itemsIndexed(lstPhrases, key = { _, item -> item.id }) { index, item ->
+            itemsIndexed(lstWords, key = { _, item -> item.id }) { index, item ->
                 Card(
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
-                        .clickable { navController?.navigate(PhrasesScreens.PhrasesTextbookDetail.route + "/$index") },
+                        .clickable { navController?.navigate(WordsScreens.WordsTextbookDetail.route + "/$index") },
                     elevation = 8.dp,
                     backgroundColor = Color.White,
                 ) {
@@ -93,12 +93,14 @@ fun PhrasesTextbookListScreen(vm: PhrasesUnitViewModel, navController: NavHostCo
                         }
                         Column {
                             Text(
-                                text = item.phrase,
-                                color = colorResource(R.color.color_text2)
+                                text = item.word,
+                                color = colorResource(R.color.color_text2),
+                                style = TextStyle(fontSize = 25.sp)
                             )
                             Text(
-                                text = item.translation,
-                                color = colorResource(R.color.color_text3)
+                                text = item.note,
+                                color = colorResource(R.color.color_text3),
+                                style = TextStyle(fontSize = 20.sp)
                             )
                         }
                     }

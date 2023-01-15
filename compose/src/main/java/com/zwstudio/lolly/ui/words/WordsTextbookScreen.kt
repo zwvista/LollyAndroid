@@ -18,7 +18,7 @@ fun WordsTextbookScreen(openDrawer: () -> Unit) {
     val vm = getViewModel<WordsUnitViewModel>()
     NavHost(navController = navController, startDestination = WordsScreens.WordsTextbookList.route) {
         composable(route = WordsScreens.WordsTextbookList.route) {
-            WordsTextbookListScreen(vm, navController, openDrawer)
+            WordsTextbookMainScreen(vm, navController, openDrawer)
         }
         composable(
             route = WordsScreens.WordsTextbookDetail.route + "/{$INDEX_KEY}",

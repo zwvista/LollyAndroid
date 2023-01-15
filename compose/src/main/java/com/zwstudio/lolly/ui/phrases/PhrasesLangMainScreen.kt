@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.words
+package com.zwstudio.lolly.ui.phrases
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,19 +14,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
+import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
 
 @Composable
-fun WordsLangListScreen(vm: WordsLangViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
+fun PhrasesLangMainScreen(vm: PhrasesLangViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
-    val lstWords = vm.lstWords_.collectAsState().value
+    val lstPhrases = vm.lstPhrases_.collectAsState().value
 
     LaunchedEffect(Unit, block = {
         vm.getData()
@@ -34,7 +32,7 @@ fun WordsLangListScreen(vm: WordsLangViewModel, navController: NavHostController
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.WordsLang.title,
+            title = DrawerScreens.PhrasesLang.title,
             onButtonClicked = { openDrawer() }
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -46,7 +44,7 @@ fun WordsLangListScreen(vm: WordsLangViewModel, navController: NavHostController
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2)),
-                itemsStateFlow = SettingsViewModel.lstScopeWordFilters_,
+                itemsStateFlow = SettingsViewModel.lstScopePhraseFilters_,
                 selectedItemIndexStateFlow = vm.scopeFilterIndex_,
                 itemText = { it.label }
             )
@@ -56,12 +54,12 @@ fun WordsLangListScreen(vm: WordsLangViewModel, navController: NavHostController
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            itemsIndexed(lstWords, key = { _, item -> item.id }) { index, item ->
+            itemsIndexed(lstPhrases, key = { _, item -> item.id }) { index, item ->
                 Card(
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
-                        .clickable { navController?.navigate(WordsScreens.WordsLangDetail.route + "/$index") },
+                        .clickable { navController?.navigate(PhrasesScreens.PhrasesLangDetail.route + "/$index") },
                     elevation = 8.dp,
                     backgroundColor = Color.White,
                 ) {
@@ -71,14 +69,12 @@ fun WordsLangListScreen(vm: WordsLangViewModel, navController: NavHostController
                     ) {
                         Column {
                             Text(
-                                text = item.word,
-                                color = colorResource(R.color.color_text2),
-                                style = TextStyle(fontSize = 25.sp)
+                                text = item.phrase,
+                                color = colorResource(R.color.color_text2)
                             )
                             Text(
-                                text = item.note,
-                                color = colorResource(R.color.color_text3),
-                                style = TextStyle(fontSize = 20.sp)
+                                text = item.translation,
+                                color = colorResource(R.color.color_text3)
                             )
                         }
                     }

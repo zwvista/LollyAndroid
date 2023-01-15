@@ -18,7 +18,7 @@ fun WordsLangScreen(openDrawer: () -> Unit) {
     val vm = getViewModel<WordsLangViewModel>()
     NavHost(navController = navController, startDestination = WordsScreens.WordsLangList.route) {
         composable(route = WordsScreens.WordsLangList.route) {
-            WordsLangListScreen(vm, navController, openDrawer)
+            WordsLangMainScreen(vm, navController, openDrawer)
         }
         composable(
             route = WordsScreens.WordsLangDetail.route + "/{$INDEX_KEY}",

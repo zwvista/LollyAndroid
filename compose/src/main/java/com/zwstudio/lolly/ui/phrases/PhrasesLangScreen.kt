@@ -18,7 +18,7 @@ fun PhrasesLangScreen(openDrawer: () -> Unit) {
     val vm = getViewModel<PhrasesLangViewModel>()
     NavHost(navController = navController, startDestination = PhrasesScreens.PhrasesLangList.route) {
         composable(route = PhrasesScreens.PhrasesLangList.route) {
-            PhrasesLangListScreen(vm, navController, openDrawer)
+            PhrasesLangMainScreen(vm, navController, openDrawer)
         }
         composable(
             route = PhrasesScreens.PhrasesLangDetail.route + "/{$INDEX_KEY}",

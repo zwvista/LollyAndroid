@@ -18,7 +18,7 @@ fun PatternsScreen(openDrawer: () -> Unit) {
     val vm = getViewModel<PatternsViewModel>()
     NavHost(navController = navController, startDestination = PatternsScreens.PatternsList.route) {
         composable(route = PatternsScreens.PatternsList.route) {
-            PatternsListScreen(vm, navController, openDrawer)
+            PatternsMainScreen(vm, navController, openDrawer)
         }
         composable(
             route = PatternsScreens.PatternsDetail.route + "/{$INDEX_KEY}",

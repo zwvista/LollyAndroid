@@ -32,7 +32,7 @@ import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 
 @Composable
-fun WordsUnitListScreen(vm: WordsUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
+fun WordsUnitMainScreen(vm: WordsUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
     val lstWords = vm.lstWords_.collectAsState().value
     var expanded by remember { mutableStateOf(false) }
