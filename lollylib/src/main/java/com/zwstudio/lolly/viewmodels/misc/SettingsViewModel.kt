@@ -119,7 +119,8 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     val selectedTextbookIndex_= MutableStateFlow(-1)
     var selectedTextbookIndex get() = selectedTextbookIndex_.value; set(v) { selectedTextbookIndex_.value = v }
     val selectedTextbook get() = lstTextbooks.getOrNull(selectedTextbookIndex) ?: MTextbook()
-    var lstTextbookFilters = listOf<MSelectItem>()
+    val lstTextbookFilters_ = MutableStateFlow(listOf<MSelectItem>())
+    var lstTextbookFilters get() = lstTextbookFilters_.value; set(v) { lstTextbookFilters_.value = v }
 
     var lstDictsReference_ = MutableStateFlow(listOf<MDictionary>())
     var lstDictsReference get() = lstDictsReference_.value; set(v) { lstDictsReference_.value = v }
