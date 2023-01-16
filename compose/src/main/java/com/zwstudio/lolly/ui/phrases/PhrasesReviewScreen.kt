@@ -28,12 +28,23 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
             vm.showOptions = false
             navController?.navigate(ReviewScreens.ReviewOptions.route)
         }
+        if (vm.optionsDone.value) {
+            vm.optionsDone.value = false
+            vm.newTest()
+        }
     })
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
             title = DrawerScreens.PhrasesReview.title,
-            onButtonClicked = { openDrawer() }
+            onButtonClicked = { openDrawer() },
+            actions = {
+                Button(
+                    onClick = { navController?.navigate(ReviewScreens.ReviewOptions.route) }
+                ) {
+                    Text(text = stringResource(id = R.string.newtest))
+                }
+            }
         )
         Column(
             modifier = Modifier.padding(16.dp),

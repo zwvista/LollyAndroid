@@ -10,8 +10,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.ui.common.DrawerScreens
@@ -28,16 +31,27 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
             vm.showOptions = false
             navController?.navigate(ReviewScreens.ReviewOptions.route)
         }
+        if (vm.optionsDone.value) {
+            vm.optionsDone.value = false
+            vm.newTest()
+        }
     })
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
             title = DrawerScreens.WordsReview.title,
-            onButtonClicked = { openDrawer() }
+            onButtonClicked = { openDrawer() },
+            actions = {
+                Button(
+                    onClick = { navController?.navigate(ReviewScreens.ReviewOptions.route) }
+                ) {
+                    Text(text = stringResource(id = R.string.newtest))
+                }
+            }
         )
         Column(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -116,24 +130,37 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
                     Text(text = vm.checkPrevString.collectAsState().value)
                 }
             }
-            Text(
-                text = vm.wordTargetString.collectAsState().value,
-                modifier = Modifier.alpha(
-                    if (vm.wordTargetVisible.collectAsState().value) 1f else 0f
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = vm.wordTargetString.collectAsState().value,
+                    modifier = Modifier.alpha(
+                        if (vm.wordTargetVisible.collectAsState().value) 1f else 0f
+                    ),
+                    style = TextStyle(color = colorResource(R.color.color_text2), fontSize = 30.sp),
                 )
-            )
-            Text(
-                text = vm.noteTargetString.collectAsState().value,
-                modifier = Modifier.alpha(
-                    if (vm.noteTargetVisible.collectAsState().value) 1f else 0f
+            }
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = vm.noteTargetString.collectAsState().value,
+                    modifier = Modifier.alpha(
+                        if (vm.noteTargetVisible.collectAsState().value) 1f else 0f
+                    ),
+                    style = TextStyle(color = colorResource(R.color.color_text3), fontSize = 20.sp),
                 )
-            )
+            }
             Text(
                 text = vm.translationString.collectAsState().value,
             )
             TextField(
                 value = vm.wordInputString.collectAsState().value,
-                onValueChange = { vm.wordInputString.value = it }
+                onValueChange = { vm.wordInputString.value = it },
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }

@@ -35,6 +35,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
     var timer: Timer? = null
     var showOptions = true
+    val optionsDone = MutableStateFlow(false)
 
     val isSpeaking = MutableStateFlow(true)
     val indexString = MutableStateFlow("")

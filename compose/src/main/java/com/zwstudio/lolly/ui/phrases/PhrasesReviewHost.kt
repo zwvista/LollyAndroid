@@ -25,7 +25,7 @@ fun PhrasesReviewHost(openDrawer: () -> Unit) {
             PhrasesReviewScreen(vm, navController, openDrawer)
         }
         composable(route = ReviewScreens.ReviewOptions.route) {
-            ReviewOptionsScreen(ReviewOptionsViewModel(vm.options), navController)
+            ReviewOptionsScreen(ReviewOptionsViewModel(vm.options), vm.optionsDone, navController)
         }
     }
 }

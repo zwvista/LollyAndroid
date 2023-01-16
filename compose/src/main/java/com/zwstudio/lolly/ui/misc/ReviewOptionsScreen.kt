@@ -21,9 +21,14 @@ import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
-fun ReviewOptionsScreen(vm: ReviewOptionsViewModel, navController: NavHostController?) {
+fun ReviewOptionsScreen(
+    vm: ReviewOptionsViewModel,
+    optionsDone: MutableStateFlow<Boolean>
+    , navController: NavHostController?
+) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
@@ -32,6 +37,7 @@ fun ReviewOptionsScreen(vm: ReviewOptionsViewModel, navController: NavHostContro
             actions = {
                 Button(
                     onClick = {
+                        optionsDone.value = true
                         navController?.navigateUp()
                     }
                 ) {
