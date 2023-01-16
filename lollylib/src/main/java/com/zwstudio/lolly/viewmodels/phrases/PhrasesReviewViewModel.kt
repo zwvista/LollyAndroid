@@ -9,10 +9,10 @@ import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.schedule
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.math.min
 
 class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.() -> Unit) : ViewModel() {
@@ -23,12 +23,13 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     val count get() = lstPhrases.size
     var lstCorrectIDs = mutableListOf<Int>()
     var index = 0
-    val hasCurrent get() = lstPhrases.isNotEmpty() && (onRepeat.value == true || index in 0 until count)
+    val hasCurrent get() = lstPhrases.isNotEmpty() && (onRepeat.value || index in 0 until count)
     val currentItem get() = if (hasCurrent) lstPhrases[index] else null
     val currentPhrase get() = if (hasCurrent) lstPhrases[index].phrase else ""
     var options = MReviewOptions()
     val isTestMode get() = options.mode == ReviewMode.Test || options.mode == ReviewMode.Textbook
     var timer: Timer? = null
+    var showOptions = true
 
     val isSpeaking = MutableStateFlow(true)
     val indexString = MutableStateFlow("")
