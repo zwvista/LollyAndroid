@@ -1,42 +1,111 @@
 package com.zwstudio.lolly.ui.words
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.Card
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.zwstudio.lolly.ui.common.INDEX_KEY
-import com.zwstudio.lolly.ui.common.WordsScreens
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.zwstudio.lolly.R
+import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.ui.common.*
+import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
-import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun WordsTextbookScreen(openDrawer: () -> Unit) {
+fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
-    val navController = rememberNavController()
-    val vm = getViewModel<WordsUnitViewModel>()
-    NavHost(navController = navController, startDestination = WordsScreens.WordsTextbookMain.route) {
-        composable(route = WordsScreens.WordsTextbookMain.route) {
-            WordsTextbookMainScreen(vm, navController, openDrawer)
-        }
-        composable(
-            route = WordsScreens.WordsTextbookDetail.route + "/{$INDEX_KEY}",
-            arguments = listOf(navArgument(INDEX_KEY) {
-                type = NavType.IntType
-            })
+    val lstWords = vm.lstWords_.collectAsState().value
+
+    LaunchedEffect(Unit, block = {
+        vm.getDataInLang()
+    })
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopBarMenu(
+            title = DrawerScreens.WordsTextbook.title,
+            onButtonClicked = { openDrawer() }
+        )
+        SearchView(
+            valueStateFlow = vm.textFilter_
         ) {
-            WordsTextbookDetailScreen(vm, it.arguments!!.getInt(INDEX_KEY), navController)
         }
-        composable(
-            route = WordsScreens.WordsDict.route + "/{$INDEX_KEY}",
-            arguments = listOf(navArgument(INDEX_KEY) {
-                type = NavType.IntType
-            })
-        ) {
-            WordsDictScreen(
-                vm.lstWords.map { it.word }, it.arguments!!.getInt(INDEX_KEY), navController
+        Row() {
+            Spinner(
+                modifier = Modifier
+                    .background(color = colorResource(R.color.color_text3))
+                    .weight(1f),
+                itemsStateFlow = vmSettings.lstTextbookFilters_,
+                selectedItemIndexStateFlow = vm.textbookFilterIndex_,
+                itemText = { it.label }
             )
+            Spinner(
+                modifier = Modifier
+                    .background(color = colorResource(R.color.color_text2))
+                    .weight(1f),
+                items = SettingsViewModel.lstScopeWordFilters,
+                selectedItemIndexStateFlow = vm.scopeFilterIndex_,
+                itemText = { it.label }
+            )
+        }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            itemsIndexed(lstWords, key = { _, item -> item.id }) { index, item ->
+                Card(
+                    modifier = Modifier
+                        .padding(top = 8.dp, bottom = 8.dp)
+                        .fillMaxWidth()
+                        .clickable { navController?.navigate(WordsScreens.WordsTextbookDetail.route + "/$index") },
+                    elevation = 8.dp,
+                    backgroundColor = Color.White,
+                ) {
+                    Row(
+                        modifier = Modifier.padding(start = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        CompositionLocalProvider(
+                            LocalTextStyle provides TextStyle(fontSize = 11.sp),
+                            LocalContentColor provides colorResource(R.color.color_text1)
+                        ) {
+                            Column(modifier = Modifier.padding(end = 16.dp)) {
+                                Text(text = item.unitstr)
+                                Text(text = item.partstr)
+                                Text(text = "${item.seqnum}")
+                            }
+                        }
+                        Column {
+                            Text(
+                                text = item.word,
+                                color = colorResource(R.color.color_text2),
+                                style = TextStyle(fontSize = 25.sp)
+                            )
+                            Text(
+                                text = item.note,
+                                color = colorResource(R.color.color_text3),
+                                style = TextStyle(fontSize = 20.sp)
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }

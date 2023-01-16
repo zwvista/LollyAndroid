@@ -24,12 +24,12 @@ sealed class PhrasesScreens(val route: String) {
     object PhrasesLangDetail : PhrasesScreens("PhrasesLangDetail")
 }
 
-sealed class PatternsScreens(val route: String) {
-    object PatternsMain : PatternsScreens("PatternsMain")
-    object PatternsDetail : PatternsScreens("PatternsDetail")
-    object PatternsWebPagesBrowse : PatternsScreens("PatternsWebPagesBrowse")
-    object PatternsWebPagesList : PatternsScreens("PatternsWebPagesList")
-    object PatternsWebPagesDetail : PatternsScreens("PatternsWebPagesDetail")
+sealed class PatternsHosts(val route: String) {
+    object PatternsMain : PatternsHosts("PatternsMain")
+    object PatternsDetail : PatternsHosts("PatternsDetail")
+    object PatternsWebPagesBrowse : PatternsHosts("PatternsWebPagesBrowse")
+    object PatternsWebPagesList : PatternsHosts("PatternsWebPagesList")
+    object PatternsWebPagesDetail : PatternsHosts("PatternsWebPagesDetail")
 }
 
 const val INDEX_KEY = "INDEX_KEY"

@@ -1,31 +1,30 @@
 package com.zwstudio.lolly.ui.phrases
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.zwstudio.lolly.common.speak
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.common.ReviewScreens
-import com.zwstudio.lolly.ui.misc.ReviewOptionsScreen
-import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
+import com.zwstudio.lolly.ui.common.TopBarMenu
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesReviewViewModel
-import org.koin.androidx.compose.getViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
-fun PhrasesReviewScreen(openDrawer: () -> Unit) {
+fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
-    val navController = rememberNavController()
-    val vm = getViewModel<PhrasesReviewViewModel> { parametersOf({ self: PhrasesReviewViewModel -> self.run {
-        if (hasCurrent && isSpeaking.value)
-            speak(currentPhrase)
-    }})}
-    NavHost(navController = navController, startDestination = ReviewScreens.PhrasesReviewMain.route) {
-        composable(route = ReviewScreens.PhrasesReviewMain.route) {
-            PhrasesReviewMainScreen(vm, navController, openDrawer)
+    LaunchedEffect(Unit, block = {
+        if (vm.showOptions) {
+            vm.showOptions = false
+            navController?.navigate(ReviewScreens.ReviewOptions.route)
         }
-        composable(route = ReviewScreens.ReviewOptions.route) {
-            ReviewOptionsScreen(ReviewOptionsViewModel(vm.options), navController)
-        }
+    })
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        TopBarMenu(
+            title = DrawerScreens.PhrasesReview.title,
+            onButtonClicked = { openDrawer() }
+        )
     }
 }

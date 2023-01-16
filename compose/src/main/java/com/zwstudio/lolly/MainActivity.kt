@@ -19,16 +19,16 @@ import com.zwstudio.lolly.ui.common.TopScreens
 import com.zwstudio.lolly.ui.misc.LoginScreen
 import com.zwstudio.lolly.ui.misc.SearchScreen
 import com.zwstudio.lolly.ui.misc.SettingsScreen
-import com.zwstudio.lolly.ui.patterns.PatternsScreen
-import com.zwstudio.lolly.ui.phrases.PhrasesLangScreen
-import com.zwstudio.lolly.ui.phrases.PhrasesReviewScreen
-import com.zwstudio.lolly.ui.phrases.PhrasesTextbookScreen
-import com.zwstudio.lolly.ui.phrases.PhrasesUnitScreen
+import com.zwstudio.lolly.ui.patterns.PatternsHost
+import com.zwstudio.lolly.ui.phrases.PhrasesLangHost
+import com.zwstudio.lolly.ui.phrases.PhrasesReviewHost
+import com.zwstudio.lolly.ui.phrases.PhrasesTextbookHost
+import com.zwstudio.lolly.ui.phrases.PhrasesUnitHost
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
-import com.zwstudio.lolly.ui.words.WordsLangScreen
-import com.zwstudio.lolly.ui.words.WordsReviewScreen
-import com.zwstudio.lolly.ui.words.WordsTextbookScreen
-import com.zwstudio.lolly.ui.words.WordsUnitScreen
+import com.zwstudio.lolly.ui.words.WordsLangHost
+import com.zwstudio.lolly.ui.words.WordsReviewHost
+import com.zwstudio.lolly.ui.words.WordsTextbookHost
+import com.zwstudio.lolly.ui.words.WordsUnitHost
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import kotlinx.coroutines.launch
 
@@ -102,31 +102,31 @@ fun AppMainScreen() {
                     SettingsScreen { openDrawer() }
                 }
                 composable(DrawerScreens.WordsUnit.route) {
-                    WordsUnitScreen { openDrawer() }
+                    WordsUnitHost { openDrawer() }
                 }
                 composable(DrawerScreens.PhrasesUnit.route) {
-                    PhrasesUnitScreen { openDrawer() }
+                    PhrasesUnitHost { openDrawer() }
                 }
                 composable(DrawerScreens.WordsReview.route) {
-                    WordsReviewScreen { openDrawer() }
+                    WordsReviewHost { openDrawer() }
                 }
                 composable(DrawerScreens.PhrasesReview.route) {
-                    PhrasesReviewScreen { openDrawer() }
+                    PhrasesReviewHost { openDrawer() }
                 }
                 composable(DrawerScreens.WordsTextbook.route) {
-                    WordsTextbookScreen { openDrawer() }
+                    WordsTextbookHost { openDrawer() }
                 }
                 composable(DrawerScreens.PhrasesTextbook.route) {
-                    PhrasesTextbookScreen { openDrawer() }
+                    PhrasesTextbookHost { openDrawer() }
                 }
                 composable(DrawerScreens.WordsLang.route) {
-                    WordsLangScreen { openDrawer() }
+                    WordsLangHost { openDrawer() }
                 }
                 composable(DrawerScreens.PhrasesLang.route) {
-                    PhrasesLangScreen { openDrawer() }
+                    PhrasesLangHost { openDrawer() }
                 }
                 composable(DrawerScreens.Patterns.route) {
-                    PatternsScreen { openDrawer() }
+                    PatternsHost { openDrawer() }
                 }
             }
         }
