@@ -13,8 +13,10 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.zwstudio.lolly.R
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
@@ -47,7 +49,7 @@ fun WordsLangDetailScreen(vm: WordsLangViewModel, index: Int, navController: Nav
             }
         )
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "ID:${vmDetail.id}")
+            Text(text = stringResource(id = R.string.label_id, vmDetail.id))
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text("WORD") },

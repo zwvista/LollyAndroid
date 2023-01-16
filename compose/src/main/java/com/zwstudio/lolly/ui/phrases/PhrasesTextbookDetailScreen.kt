@@ -75,20 +75,20 @@ fun PhrasesTextbookDetailScreen(vm: PhrasesUnitViewModel, index: Int, navControl
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("SEQNUM") },
+                label = { Text(stringResource(id = R.string.label_seqnum)) },
                 value = vmDetail.seqnum.collectAsState().value,
                 onValueChange = { vmDetail.seqnum.value = it }
             )
-            Text(text = "PHRASEID:${vmDetail.phraseid}")
+            Text(text = stringResource(id = R.string.label_phraseid, vmDetail.phraseid))
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("PHRASE") },
+                label = { Text(stringResource(id = R.string.label_phrase)) },
                 value = vmDetail.phrase.collectAsState().value,
                 onValueChange = { vmDetail.phrase.value = it }
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("TRANSLATION") },
+                label = { Text(stringResource(id = R.string.label_translation)) },
                 value = vmDetail.translation.collectAsState().value,
                 onValueChange = { vmDetail.translation.value = it }
             )

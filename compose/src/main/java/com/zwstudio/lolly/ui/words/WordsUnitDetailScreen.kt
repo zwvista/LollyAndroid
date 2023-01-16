@@ -74,24 +74,24 @@ fun WordsUnitDetailScreen(vm: WordsUnitViewModel, index: Int, navController: Nav
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("SEQNUM") },
+                label = { Text(stringResource(id = R.string.label_seqnum)) },
                 value = vmDetail.seqnum.collectAsState().value,
                 onValueChange = { vmDetail.seqnum.value = it }
             )
             Text(text = stringResource(id = R.string.label_wordid, vmDetail.wordid))
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("WORD") },
+                label = { Text(stringResource(id = R.string.label_word)) },
                 value = vmDetail.word.collectAsState().value,
                 onValueChange = { vmDetail.word.value = it }
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("NOTE") },
+                label = { Text(stringResource(id = R.string.label_note)) },
                 value = vmDetail.note.collectAsState().value,
                 onValueChange = { vmDetail.note.value = it }
             )
-            Text(text = "FAMIID:${vmDetail.famiid}")
+            Text(text = stringResource(id = R.string.label_famiid, vmDetail.famiid))
             Text(text = "ACCURACY:${vmDetail.accuracy}")
         }
     }

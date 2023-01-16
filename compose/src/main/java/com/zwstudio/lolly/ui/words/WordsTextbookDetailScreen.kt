@@ -53,7 +53,7 @@ fun WordsTextbookDetailScreen(vm: WordsUnitViewModel, index: Int, navController:
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(text = "ID:${vmDetail.id}")
+            Text(text = stringResource(id = R.string.label_id, vmDetail.id))
             Text(text = "ID:${vmDetail.textbookname}")
             Text(text = stringResource(id = R.string.label_unit))
             Spinner(

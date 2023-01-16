@@ -10,8 +10,10 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.zwstudio.lolly.R
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
@@ -47,16 +49,16 @@ fun PhrasesLangDetailScreen(vm: PhrasesLangViewModel, index: Int, navController:
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(text = "ID:${vmDetail.id}")
+            Text(text = stringResource(id = R.string.label_id, vmDetail.id))
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("PHRASE") },
+                label = { Text(stringResource(id = R.string.label_phrase)) },
                 value = vmDetail.phrase.collectAsState().value,
                 onValueChange = { vmDetail.phrase.value = it }
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("TRANSLATION") },
+                label = { Text(stringResource(id = R.string.label_translation)) },
                 value = vmDetail.translation.collectAsState().value,
                 onValueChange = { vmDetail.translation.value = it }
             )

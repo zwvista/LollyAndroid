@@ -10,8 +10,10 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.zwstudio.lolly.R
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
@@ -47,25 +49,25 @@ fun PatternsWebPagesDetailScreen(vm: PatternsWebPagesViewModel, index: Int, navC
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(text = "ID:${vmDetail.id}")
-            Text(text = "PATTERNID:${vmDetail.patternid}")
+            Text(text = stringResource(id = R.string.label_id, vmDetail.id))
+            Text(text = stringResource(id = R.string.label_patternid, vmDetail.patternid))
             Text(text = "PATTERN:${vmDetail.pattern}")
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("SEQNUM") },
+                label = { Text(stringResource(id = R.string.label_seqnum)) },
                 value = vmDetail.seqnum.collectAsState().value,
                 onValueChange = { vmDetail.seqnum.value = it }
             )
             Text(text = "WEBPAGEID:${vmDetail.webpageid}")
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("NOTE") },
+                label = { Text(stringResource(id = R.string.label_note)) },
                 value = vmDetail.title.collectAsState().value,
                 onValueChange = { vmDetail.title.value = it }
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("TAGS") },
+                label = { Text(stringResource(id = R.string.label_tags)) },
                 value = vmDetail.url.collectAsState().value,
                 onValueChange = { vmDetail.url.value = it }
             )
