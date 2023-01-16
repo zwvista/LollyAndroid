@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.concurrent.TimeUnit
+import java.util.*
 import kotlin.math.min
 
 class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.() -> Unit) : ViewModel() {
@@ -25,7 +26,7 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     val count get() = lstPhrases.size
     var lstCorrectIDs = mutableListOf<Int>()
     var index = 0
-    val hasCurrent get() = lstPhrases.isNotEmpty() && (onRepeat.value == true || index in 0 until count)
+    val hasCurrent get() = lstPhrases.isNotEmpty() && (onRepeat.value || index in 0 until count)
     val currentItem get() = if (hasCurrent) lstPhrases[index] else null
     val currentPhrase get() = if (hasCurrent) lstPhrases[index].phrase else ""
     var options = MReviewOptions()

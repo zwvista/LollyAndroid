@@ -31,7 +31,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     val count get() = lstWords.size
     var lstCorrectIDs = mutableListOf<Int>()
     var index = 0
-    val hasCurrent get() = lstWords.isNotEmpty() && (onRepeat.value == true || index in 0 until count)
+    val hasCurrent get() = lstWords.isNotEmpty() && (onRepeat.value || index in 0 until count)
     val currentItem get() = if (hasCurrent) lstWords[index] else null
     val currentWord get() = if (hasCurrent) lstWords[index].word else ""
     var options = MReviewOptions()
