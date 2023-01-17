@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.common.LabelledCheckBox
 import com.zwstudio.lolly.ui.common.ReviewScreens
@@ -90,7 +91,7 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = { speak(vm.currentWord) }) {
                     Text(text = stringResource(id = R.string.speak))
                 }
                 Spacer(modifier = Modifier.weight(1f))
@@ -101,7 +102,7 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { vm.check(true) },
                     enabled = vm.checkNextEnabled.collectAsState().value
                 ) {
                     Text(text = vm.checkNextString.collectAsState().value)
@@ -124,7 +125,7 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { vm.check(false) },
                     enabled = vm.checkPrevEnabled.collectAsState().value,
                     modifier = Modifier.alpha(
                         if (vm.checkPrevVisible.collectAsState().value) 1f else 0f
