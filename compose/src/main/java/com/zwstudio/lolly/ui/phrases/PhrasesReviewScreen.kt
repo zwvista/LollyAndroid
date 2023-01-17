@@ -10,8 +10,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.ui.common.DrawerScreens
@@ -52,7 +55,6 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
@@ -61,7 +63,7 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
                         if (vm.indexVisible.collectAsState().value) 1f else 0f
                     )
                 )
-                Text(text = "")
+                Spacer(modifier = Modifier.weight(1f))
                 Box {
                     Text(
                         text = stringResource(id = R.string.text_correct),
@@ -79,17 +81,18 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Button(onClick = { /*TODO*/ }) {
                     Text(text = stringResource(id = R.string.speak))
                 }
+                Spacer(modifier = Modifier.weight(1f))
                 LabelledCheckBox(
                     checked = vm.isSpeaking.collectAsState().value,
                     onCheckedChange = { vm.isSpeaking.value = it },
                     label = stringResource(id = R.string.text_speak)
                 )
+                Spacer(modifier = Modifier.weight(1f))
                 Button(
                     onClick = { /*TODO*/ },
                     enabled = vm.checkNextEnabled.collectAsState().value
@@ -99,7 +102,6 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 LabelledCheckBox(
@@ -107,11 +109,13 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
                     onCheckedChange = { vm.onRepeat.value = it },
                     label = stringResource(id = R.string.text_on_repeat)
                 )
+                Spacer(modifier = Modifier.weight(1f))
                 LabelledCheckBox(
                     checked = vm.moveForward.collectAsState().value,
                     onCheckedChange = { vm.moveForward.value = it },
                     label = stringResource(id = R.string.text_move_forward)
                 )
+                Spacer(modifier = Modifier.weight(1f))
                 Button(
                     onClick = { /*TODO*/ },
                     enabled = vm.checkPrevEnabled.collectAsState().value,
@@ -122,18 +126,31 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
                     Text(text = vm.checkPrevString.collectAsState().value)
                 }
             }
-            Text(
-                text = vm.phraseTargetString.collectAsState().value,
-                modifier = Modifier.alpha(
-                    if (vm.phraseTargetVisible.collectAsState().value) 1f else 0f
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = vm.phraseTargetString.collectAsState().value,
+                    modifier = Modifier.alpha(
+                        if (vm.phraseTargetVisible.collectAsState().value) 1f else 0f
+                    ),
+                    style = TextStyle(color = colorResource(R.color.color_text2), fontSize = 30.sp),
                 )
-            )
-            Text(
-                text = vm.translationString.collectAsState().value,
-            )
+            }
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = vm.translationString.collectAsState().value,
+                    style = TextStyle(color = colorResource(R.color.color_text3), fontSize = 20.sp),
+                )
+            }
             TextField(
                 value = vm.phraseInputString.collectAsState().value,
-                onValueChange = { vm.phraseInputString.value = it }
+                onValueChange = { vm.phraseInputString.value = it },
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }

@@ -55,7 +55,6 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
@@ -64,12 +63,14 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
                         if (vm.indexVisible.collectAsState().value) 1f else 0f
                     )
                 )
+                Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = vm.accuracyString.collectAsState().value,
                     modifier = Modifier.alpha(
                         if (vm.accuracyVisible.collectAsState().value) 1f else 0f
                     )
                 )
+                Spacer(modifier = Modifier.weight(1f))
                 Box {
                     Text(
                         text = stringResource(id = R.string.text_correct),
@@ -87,17 +88,18 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Button(onClick = { /*TODO*/ }) {
                     Text(text = stringResource(id = R.string.speak))
                 }
+                Spacer(modifier = Modifier.weight(1f))
                 LabelledCheckBox(
                     checked = vm.isSpeaking.collectAsState().value,
                     onCheckedChange = { vm.isSpeaking.value = it },
                     label = stringResource(id = R.string.text_speak)
                 )
+                Spacer(modifier = Modifier.weight(1f))
                 Button(
                     onClick = { /*TODO*/ },
                     enabled = vm.checkNextEnabled.collectAsState().value
@@ -107,7 +109,6 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 LabelledCheckBox(
@@ -115,11 +116,13 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
                     onCheckedChange = { vm.onRepeat.value = it },
                     label = stringResource(id = R.string.text_on_repeat)
                 )
+                Spacer(modifier = Modifier.weight(1f))
                 LabelledCheckBox(
                     checked = vm.moveForward.collectAsState().value,
                     onCheckedChange = { vm.moveForward.value = it },
                     label = stringResource(id = R.string.text_move_forward)
                 )
+                Spacer(modifier = Modifier.weight(1f))
                 Button(
                     onClick = { /*TODO*/ },
                     enabled = vm.checkPrevEnabled.collectAsState().value,
