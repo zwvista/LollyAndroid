@@ -68,7 +68,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                         modifier = Modifier.padding(start = 16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Column {
+                        Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 text = item.pattern,
                                 color = colorResource(R.color.color_text2)
@@ -78,7 +78,6 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                                 color = colorResource(R.color.color_text3)
                             )
                         }
-                        Spacer(Modifier.weight(1f))
                         IconButton(
                             onClick = {
 //                                navController?.navigate(PatternsHosts.PatternsWebPagesBrowse.route + "/$index")

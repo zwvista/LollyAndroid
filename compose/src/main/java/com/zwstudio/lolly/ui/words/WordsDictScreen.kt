@@ -12,8 +12,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.OnlineDict
+import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
-import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
@@ -33,13 +33,14 @@ fun WordsDictScreen(lstWords: List<String>, index: Int, navController: NavHostCo
 
     LaunchedEffect(Unit, block = {
         combine(vm.selectedWordIndex_, vmSettings.selectedDictReferenceIndex_, ::Pair).onEach {
+            speak(vm.selectedWord)
             onlineDict.searchDict()
         }.launchIn(this)
     })
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = DrawerScreens.Search.title,
+            title = "",
             navController = navController
         )
         Row(

@@ -140,7 +140,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                                     Text(text = "${item.seqnum}")
                                 }
                             }
-                            Column {
+                            Column(modifier = Modifier.weight(1f)) {
                                 Text(
                                     text = item.phrase,
                                     color = colorResource(R.color.color_text2)
@@ -150,7 +150,6 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                                     color = colorResource(R.color.color_text3)
                                 )
                             }
-                            Spacer(Modifier.weight(1f))
                             if (vm.isEditMode_.collectAsState().value) {
                                 Icon(
                                     Icons.Filled.Menu,

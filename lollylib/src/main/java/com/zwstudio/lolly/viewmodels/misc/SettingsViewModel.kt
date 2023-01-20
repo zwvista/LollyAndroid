@@ -102,19 +102,19 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var lstLanguages get() = lstLanguages_.value; set(v) { lstLanguages_.value = v }
     val selectedLangIndex_= MutableStateFlow(-1)
     var selectedLangIndex get() = selectedLangIndex_.value; set(v) { selectedLangIndex_.value = v }
-    val selectedLang get() = lstLanguages.getOrNull(selectedLangIndex) ?: MLanguage()
+    val selectedLang get() = lstLanguages.getOrElse(selectedLangIndex) { MLanguage() }
 
     var lstVoices_ = MutableStateFlow(listOf<MVoice>())
     var lstVoices get() = lstVoices_.value; set(v) { lstVoices_.value = v }
     val selectedVoiceIndex_= MutableStateFlow(-1)
     var selectedVoiceIndex get() = selectedVoiceIndex_.value; set(v) { selectedVoiceIndex_.value = v }
-    val selectedVoice get() = lstVoices.getOrNull(selectedVoiceIndex) ?: MVoice()
+    val selectedVoice get() = lstVoices.getOrElse(selectedVoiceIndex) { MVoice() }
 
     var lstTextbooks_ = MutableStateFlow(listOf<MTextbook>())
     var lstTextbooks get() = lstTextbooks_.value; set(v) { lstTextbooks_.value = v }
     val selectedTextbookIndex_= MutableStateFlow(-1)
     var selectedTextbookIndex get() = selectedTextbookIndex_.value; set(v) { selectedTextbookIndex_.value = v }
-    val selectedTextbook get() = lstTextbooks.getOrNull(selectedTextbookIndex) ?: MTextbook()
+    val selectedTextbook get() = lstTextbooks.getOrElse(selectedTextbookIndex) { MTextbook() }
     val lstTextbookFilters_ = MutableStateFlow(listOf<MSelectItem>())
     var lstTextbookFilters get() = lstTextbookFilters_.value; set(v) { lstTextbookFilters_.value = v }
 
@@ -122,19 +122,19 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var lstDictsReference get() = lstDictsReference_.value; set(v) { lstDictsReference_.value = v }
     val selectedDictReferenceIndex_= MutableStateFlow(-1)
     var selectedDictReferenceIndex get() = selectedDictReferenceIndex_.value; set(v) { selectedDictReferenceIndex_.value = v }
-    val selectedDictReference get() = lstDictsReference.getOrNull(selectedDictReferenceIndex) ?: MDictionary()
+    val selectedDictReference get() = lstDictsReference.getOrElse(selectedDictReferenceIndex) { MDictionary() }
 
     var lstDictsNote_ = MutableStateFlow(listOf<MDictionary>())
     var lstDictsNote get() = lstDictsNote_.value; set(v) { lstDictsNote_.value = v }
     val selectedDictNoteIndex_= MutableStateFlow(-1)
     var selectedDictNoteIndex get() = selectedDictNoteIndex_.value; set(v) { selectedDictNoteIndex_.value = v }
-    val selectedDictNote get() = lstDictsNote.getOrNull(selectedDictNoteIndex) ?: MDictionary()
+    val selectedDictNote get() = lstDictsNote.getOrElse(selectedDictNoteIndex) { MDictionary() }
 
     var lstDictsTranslation_ = MutableStateFlow(listOf<MDictionary>())
     var lstDictsTranslation get() = lstDictsTranslation_.value; set(v) { lstDictsTranslation_.value = v }
     val selectedDictTranslationIndex_= MutableStateFlow(-1)
     var selectedDictTranslationIndex get() = selectedDictTranslationIndex_.value; set(v) { selectedDictTranslationIndex_.value = v }
-    val selectedDictTranslation get() = lstDictsTranslation.getOrNull(selectedDictTranslationIndex) ?: MDictionary()
+    val selectedDictTranslation get() = lstDictsTranslation.getOrElse(selectedDictTranslationIndex) { MDictionary() }
 
     var lstUnits_ = MutableStateFlow(listOf<MSelectItem>())
     var lstUnits get() = lstUnits_.value; set(v) { lstUnits_.value = v }

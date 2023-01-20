@@ -163,7 +163,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                                     Text(text = "${item.seqnum}")
                                 }
                             }
-                            Column {
+                            Column(modifier = Modifier.weight(1f)) {
                                 Text(
                                     text = item.word,
                                     color = colorResource(R.color.color_text2),
@@ -175,7 +175,6 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                                     style = TextStyle(fontSize = 20.sp)
                                 )
                             }
-                            Spacer(Modifier.weight(1f))
                             if (vm.isEditMode_.collectAsState().value) {
                                 Icon(
                                     Icons.Filled.Menu,
