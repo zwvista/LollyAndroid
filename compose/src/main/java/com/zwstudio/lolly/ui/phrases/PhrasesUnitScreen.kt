@@ -183,22 +183,27 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Delete")
+                        Text(stringResource(id = R.string.action_delete))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Edit")
+                        Text(stringResource(id = R.string.action_edit))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Copy Word")
+                        Text(stringResource(id = R.string.action_copy_phrase))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Google Word")
+                        Text(stringResource(id = R.string.action_google_phrase))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_cancel))
                     }
                 },
             )

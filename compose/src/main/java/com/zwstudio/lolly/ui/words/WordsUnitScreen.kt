@@ -215,32 +215,42 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Delete")
+                        Text(stringResource(id = R.string.action_delete))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Edit")
+                        Text(stringResource(id = R.string.action_edit))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Retrieve Note")
+                        Text(stringResource(id = R.string.action_retrieve_note))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Clear Note")
+                        Text(stringResource(id = R.string.action_clear_note))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Copy Word")
+                        Text(stringResource(id = R.string.action_copy_word))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Google Word")
+                        Text(stringResource(id = R.string.action_google_word))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_online_dict))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_cancel))
                     }
                 },
             )

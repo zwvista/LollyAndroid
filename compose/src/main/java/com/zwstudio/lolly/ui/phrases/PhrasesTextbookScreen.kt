@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -119,22 +120,27 @@ fun PhrasesTextbookScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Delete")
+                        Text(stringResource(id = R.string.action_delete))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Edit")
+                        Text(stringResource(id = R.string.action_edit))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Copy Word")
+                        Text(stringResource(id = R.string.action_copy_phrase))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Google Word")
+                        Text(stringResource(id = R.string.action_google_phrase))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_cancel))
                     }
                 },
             )

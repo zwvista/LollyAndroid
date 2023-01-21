@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -105,32 +106,42 @@ fun WordsLangScreen(vm: WordsLangViewModel, navController: NavHostController?, o
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Delete")
+                        Text(stringResource(id = R.string.action_delete))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Edit")
+                        Text(stringResource(id = R.string.action_edit))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Retrieve Note")
+                        Text(stringResource(id = R.string.action_retrieve_note))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Clear Note")
+                        Text(stringResource(id = R.string.action_clear_note))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Copy Word")
+                        Text(stringResource(id = R.string.action_copy_word))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Google Word")
+                        Text(stringResource(id = R.string.action_google_word))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_online_dict))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_cancel))
                     }
                 },
             )

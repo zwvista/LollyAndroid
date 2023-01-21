@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
@@ -29,6 +30,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
     val lstPatterns = vm.lstPatterns_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
     var currentItem by remember { mutableStateOf<MPattern?>(null) }
+    var currentItemIndex by remember { mutableStateOf(0) }
 
     LaunchedEffect(Unit, block = {
         vm.getData()
@@ -67,6 +69,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                             onClick = { navController?.navigate(PatternsHosts.PatternsDetail.route + "/$index") },
                             onLongClick = {
                                 currentItem = item
+                                currentItemIndex = index
                                 showItemDialog = true
                             },
                         ),
@@ -89,8 +92,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                         }
                         IconButton(
                             onClick = {
-//                                navController?.navigate(PatternsHosts.PatternsWebPagesBrowse.route + "/$index")
-                                navController?.navigate(PatternsHosts.PatternsWebPagesList.route + "/$index")
+                                navController?.navigate(PatternsHosts.PatternsWebPagesBrowse.route + "/$index")
                             }
                         ) {
                             Icon(Icons.Filled.Info, null, tint = MaterialTheme.colors.primary)
@@ -108,22 +110,39 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Delete")
+                        Text(stringResource(id = R.string.action_delete))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Edit")
+                        Text(stringResource(id = R.string.action_edit))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        navController?.navigate(PatternsHosts.PatternsWebPagesBrowse.route + "/$currentItemIndex")
+                    }) {
+                        Text(stringResource(id = R.string.action_browse_web_pages))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        navController?.navigate(PatternsHosts.PatternsWebPagesList.route + "/$currentItemIndex")
+                    }) {
+                        Text(stringResource(id = R.string.action_edit_web_pages))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Copy Word")
+                        Text(stringResource(id = R.string.action_copy_pattern))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
                     }) {
-                        Text("Google Word")
+                        Text(stringResource(id = R.string.action_google_pattern))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_cancel))
                     }
                 },
             )
