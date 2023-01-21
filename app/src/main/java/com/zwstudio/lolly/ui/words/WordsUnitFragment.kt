@@ -243,7 +243,16 @@ class WordsUnitFragment : DrawerListFragment(), MenuProvider {
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                         AlertDialog.Builder(itemView.context)
                             .setTitle(item.wordnote)
-                            .setItems(arrayOf("Delete", "Edit", "Retrieve Note", "Clear Note", "Copy Word", "Google Word", "Online Dictionary", "Cancel")) { _, which ->
+                            .setItems(arrayOf(
+                                itemView.context.getString(R.string.action_delete),
+                                itemView.context.getString(R.string.action_edit),
+                                itemView.context.getString(R.string.action_retrieve_note),
+                                itemView.context.getString(R.string.action_clear_note),
+                                itemView.context.getString(R.string.action_copy_word),
+                                itemView.context.getString(R.string.action_google_word),
+                                itemView.context.getString(R.string.action_online_dict),
+                                itemView.context.getString(R.string.action_cancel),
+                            )) { _, which ->
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
