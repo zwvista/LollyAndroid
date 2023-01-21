@@ -1,18 +1,13 @@
 package com.zwstudio.lolly.ui.words
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Card
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,14 +18,18 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
     val lstWords = vm.lstWords_.collectAsState().value
+    var showItemDialog by remember { mutableStateOf(false) }
+    var currentItem by remember { mutableStateOf<MUnitWord?>(null) }
 
     LaunchedEffect(Unit, block = {
         vm.getDataInLang()
@@ -73,7 +72,13 @@ fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
-                        .clickable { navController?.navigate(WordsScreens.WordsTextbookDetail.route + "/$index") },
+                        .combinedClickable(
+                            onClick = { navController?.navigate(WordsScreens.WordsTextbookDetail.route + "/$index") },
+                            onLongClick = {
+                                currentItem = item
+                                showItemDialog = true
+                            },
+                        ),
                     elevation = 8.dp,
                     backgroundColor = Color.White,
                 ) {
@@ -106,6 +111,45 @@ fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController
                     }
                 }
             }
+        }
+        if (showItemDialog) {
+            val item = currentItem!!
+            AlertDialog(
+                onDismissRequest = { showItemDialog = false },
+                title = { Text(text = item.word) },
+                buttons = {
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Delete")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Edit")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Retrieve Note")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Clear Note")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Copy Word")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Google Word")
+                    }
+                },
+            )
         }
     }
 }

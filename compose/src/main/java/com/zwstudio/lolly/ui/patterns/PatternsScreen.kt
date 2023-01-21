@@ -1,16 +1,15 @@
 package com.zwstudio.lolly.ui.patterns
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,14 +17,18 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
     val lstPatterns = vm.lstPatterns_.collectAsState().value
+    var showItemDialog by remember { mutableStateOf(false) }
+    var currentItem by remember { mutableStateOf<MPattern?>(null) }
 
     LaunchedEffect(Unit, block = {
         vm.getData()
@@ -60,7 +63,13 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
-                        .clickable { navController?.navigate(PatternsHosts.PatternsDetail.route + "/$index") },
+                        .combinedClickable(
+                            onClick = { navController?.navigate(PatternsHosts.PatternsDetail.route + "/$index") },
+                            onLongClick = {
+                                currentItem = item
+                                showItemDialog = true
+                            },
+                        ),
                     elevation = 8.dp,
                     backgroundColor = Color.White,
                 ) {
@@ -89,6 +98,35 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                     }
                 }
             }
+        }
+        if (showItemDialog) {
+            val item = currentItem!!
+            AlertDialog(
+                onDismissRequest = { showItemDialog = false },
+                title = { Text(text = item.pattern) },
+                buttons = {
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Delete")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Edit")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Copy Word")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Google Word")
+                    }
+                },
+            )
         }
     }
 }

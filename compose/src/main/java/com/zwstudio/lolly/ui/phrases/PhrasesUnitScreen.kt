@@ -1,7 +1,8 @@
 package com.zwstudio.lolly.ui.phrases
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.speak
+import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
@@ -30,12 +32,15 @@ import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
     val lstPhrases = vm.lstPhrases_.collectAsState().value
     var expanded by remember { mutableStateOf(false) }
     val state = rememberReorderableLazyListState(onMove = { _,_ -> }, canDragOver = { _,_ -> true })
+    var showItemDialog by remember { mutableStateOf(false) }
+    var currentItem by remember { mutableStateOf<MUnitPhrase?>(null) }
 
     LaunchedEffect(Unit, block = {
         vm.getDataInTextbook()
@@ -117,12 +122,18 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                         modifier = Modifier
                             .padding(top = 8.dp, bottom = 8.dp)
                             .fillMaxWidth()
-                            .clickable {
-                                if (vm.isEditMode)
-                                    navController?.navigate(PhrasesScreens.PhrasesUnitDetail.route + "/$index")
-                                else
-                                    speak(item.phrase)
-                            },
+                            .combinedClickable(
+                                onClick = {
+                                    if (vm.isEditMode)
+                                        navController?.navigate(PhrasesScreens.PhrasesUnitDetail.route + "/$index")
+                                    else
+                                        speak(item.phrase)
+                                },
+                                onLongClick = {
+                                    currentItem = item
+                                    showItemDialog = true
+                                },
+                            ),
                         elevation = 8.dp,
                         backgroundColor = Color.White,
                     ) {
@@ -162,6 +173,35 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                     }
                 }
             }
+        }
+        if (showItemDialog) {
+            val item = currentItem!!
+            AlertDialog(
+                onDismissRequest = { showItemDialog = false },
+                title = { Text(text = item.phrase) },
+                buttons = {
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Delete")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Edit")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Copy Word")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Google Word")
+                    }
+                },
+            )
         }
     }
 }

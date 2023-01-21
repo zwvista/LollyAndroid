@@ -1,15 +1,16 @@
 package com.zwstudio.lolly.ui.words
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material.TextButton
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,14 +20,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WordsLangScreen(vm: WordsLangViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
     val lstWords = vm.lstWords_.collectAsState().value
+    var showItemDialog by remember { mutableStateOf(false) }
+    var currentItem by remember { mutableStateOf<MLangWord?>(null) }
 
     LaunchedEffect(Unit, block = {
         vm.getData()
@@ -61,7 +66,13 @@ fun WordsLangScreen(vm: WordsLangViewModel, navController: NavHostController?, o
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
-                        .clickable { navController?.navigate(WordsScreens.WordsLangDetail.route + "/$index") },
+                        .combinedClickable(
+                            onClick = { navController?.navigate(WordsScreens.WordsLangDetail.route + "/$index") },
+                            onLongClick = {
+                                currentItem = item
+                                showItemDialog = true
+                            },
+                        ),
                     elevation = 8.dp,
                     backgroundColor = Color.White,
                 ) {
@@ -84,6 +95,45 @@ fun WordsLangScreen(vm: WordsLangViewModel, navController: NavHostController?, o
                     }
                 }
             }
+        }
+        if (showItemDialog) {
+            val item = currentItem!!
+            AlertDialog(
+                onDismissRequest = { showItemDialog = false },
+                title = { Text(text = item.word) },
+                buttons = {
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Delete")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Edit")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Retrieve Note")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Clear Note")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Copy Word")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Google Word")
+                    }
+                },
+            )
         }
     }
 }

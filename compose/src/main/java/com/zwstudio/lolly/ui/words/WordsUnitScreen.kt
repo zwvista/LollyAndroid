@@ -1,7 +1,8 @@
 package com.zwstudio.lolly.ui.words
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.speak
+import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
@@ -31,12 +33,15 @@ import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
     val lstWords = vm.lstWords_.collectAsState().value
     var expanded by remember { mutableStateOf(false) }
     val state = rememberReorderableLazyListState(onMove = { _,_ -> }, canDragOver = { _,_ -> true })
+    var showItemDialog by remember { mutableStateOf(false) }
+    var currentItem by remember { mutableStateOf<MUnitWord?>(null) }
 
     LaunchedEffect(Unit, block = {
         vm.getDataInTextbook()
@@ -140,12 +145,18 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                         modifier = Modifier
                             .padding(top = 8.dp, bottom = 8.dp)
                             .fillMaxWidth()
-                            .clickable {
-                                if (vm.isEditMode)
-                                    navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index")
-                                else
-                                    speak(item.word)
-                            },
+                            .combinedClickable(
+                                onClick = {
+                                    if (vm.isEditMode)
+                                        navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index")
+                                    else
+                                        speak(item.word)
+                                },
+                                onLongClick = {
+                                    currentItem = item
+                                    showItemDialog = true
+                                },
+                            ),
                         elevation = 8.dp,
                         backgroundColor = Color.White,
                     ) {
@@ -194,6 +205,45 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                     }
                 }
             }
+        }
+        if (showItemDialog) {
+            val item = currentItem!!
+            AlertDialog(
+                onDismissRequest = { showItemDialog = false },
+                title = { Text(text = item.word) },
+                buttons = {
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Delete")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Edit")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Retrieve Note")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Clear Note")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Copy Word")
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text("Google Word")
+                    }
+                },
+            )
         }
     }
 }
