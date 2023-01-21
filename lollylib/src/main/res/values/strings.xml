@@ -38,6 +38,8 @@
     <string name="patterns_webpages_detail">Patterns Web Pages(Detail)</string>
     <string name="words_dict">Word Dictionary</string>
 
+    <string name="action_delete">Delete</string>
+    <string name="action_more">More</string>
     <string name="action_edit">Edit</string>
     <string name="action_add">Add</string>
     <string name="action_retrieve_notes_all">Retrieve All Notes</string>
@@ -46,6 +48,18 @@
     <string name="action_clear_notes_empty">Clear Notes If Empty</string>
     <string name="action_batch">Batch Edit</string>
     <string name="action_save">Save</string>
+    <string name="action_retrieve_note">Retrieve Note</string>
+    <string name="action_clear_note">Clear Note</string>
+    <string name="action_copy_word">Copy Word</string>
+    <string name="action_google_word">Google Word</string>
+    <string name="action_copy_phrase">Copy Phrase</string>
+    <string name="action_google_phrase">Google Phrase</string>
+    <string name="action_copy_pattern">Copy Pattern</string>
+    <string name="action_google_pattern">Google Pattern</string>
+    <string name="action_online_dict">Online Dictionary</string>
+    <string name="action_browse_web_pages">Browse Web Pages</string>
+    <string name="action_edit_web_pages">Edit Web Pages</string>
+    <string name="action_cancel">Cancel</string>
     <string name="label_id">ID: %1$d</string>
     <string name="label_unit">UNIT:</string>
     <string name="label_part">PART:</string>

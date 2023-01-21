@@ -17,6 +17,7 @@ import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.speak
+import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentWordsLangBinding
 import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.ui.*
@@ -162,7 +163,16 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                         AlertDialog.Builder(itemView.context)
                             .setTitle(item.wordnote)
-                            .setItems(arrayOf("Delete", "Edit", "Retrieve Note", "Clear Note", "Copy Word", "Google Word", "Cancel")) { _, which ->
+                            .setItems(arrayOf(
+                                itemView.context.getString(R.string.action_delete),
+                                itemView.context.getString(R.string.action_edit),
+                                itemView.context.getString(R.string.action_retrieve_note),
+                                itemView.context.getString(R.string.action_clear_note),
+                                itemView.context.getString(R.string.action_copy_word),
+                                itemView.context.getString(R.string.action_google_word),
+                                itemView.context.getString(R.string.action_online_dict),
+                                itemView.context.getString(R.string.action_cancel),
+                            )) { _, which ->
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
@@ -180,6 +190,10 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
                                     }
                                     4 -> itemView.copyText(item.word)
                                     5 -> itemView.googleString(item.word)
+                                    6 -> {
+                                        val url = vmSettings.selectedDictReference.urlString(item.word, vmSettings.lstAutoCorrect)
+                                        itemView.openPage(url)
+                                    }
                                     else -> {}
                                 }
                             }.show()
