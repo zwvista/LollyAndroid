@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.words
+package com.zwstudio.lolly.common
 
 import android.content.Context
 import android.util.Log

@@ -7,13 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
-import com.zwstudio.lolly.common.OnlineDict
-import com.zwstudio.lolly.common.speak
-import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.common.*
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
@@ -30,6 +30,7 @@ fun WordsDictScreen(lstWords: List<String>, index: Int, navController: NavHostCo
         this.selectedWordIndex = index
     }
     val onlineDict = remember { OnlineDict() }
+    val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
         combine(vm.selectedWordIndex_, vmSettings.selectedDictReferenceIndex_, ::Pair).onEach {
@@ -40,7 +41,7 @@ fun WordsDictScreen(lstWords: List<String>, index: Int, navController: NavHostCo
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = "",
+            title = stringResource(id = R.string.words_dict),
             navController = navController
         )
         Row(
@@ -73,6 +74,12 @@ fun WordsDictScreen(lstWords: List<String>, index: Int, navController: NavHostCo
                     onlineDict.wv = this
                     onlineDict.iOnlineDict = vm
                     onlineDict.initWebViewClient()
+                    setOnTouchListener(OnSwipeWebviewTouchListener(context, object : TouchListener {
+                        override fun onSwipeLeft() =
+                            vm.next(-1)
+                        override fun onSwipeRight() =
+                            vm.next(1)
+                    }))
                 }
             }
         )
