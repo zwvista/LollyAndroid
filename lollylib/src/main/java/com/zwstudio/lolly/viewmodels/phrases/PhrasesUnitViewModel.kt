@@ -88,6 +88,7 @@ class PhrasesUnitViewModel : DrawerListViewModel(), KoinComponent {
         unit = maxItem?.unit ?: vmSettings.usunitto
         part = maxItem?.part ?: vmSettings.uspartto
         seqnum = (maxItem?.seqnum ?: 0) + 1
+        textbook = vmSettings.selectedTextbook
     }
 
 }
