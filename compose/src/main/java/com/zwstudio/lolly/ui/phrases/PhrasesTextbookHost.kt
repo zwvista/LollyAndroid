@@ -26,7 +26,7 @@ fun PhrasesTextbookHost(openDrawer: () -> Unit) {
                 type = NavType.IntType
             })
         ) {
-            PhrasesTextbookDetailScreen(vm, it.arguments!!.getInt(INDEX_KEY), navController)
+            PhrasesTextbookDetailScreen(vm, vm.lstPhrases[it.arguments!!.getInt(INDEX_KEY)], navController)
         }
     }
 }

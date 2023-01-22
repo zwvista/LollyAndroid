@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
@@ -21,9 +22,8 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun PatternsWebPagesDetailScreen(vm: PatternsWebPagesViewModel, index: Int, navController: NavHostController?) {
+fun PatternsWebPagesDetailScreen(vm: PatternsWebPagesViewModel, item: MPatternWebPage, navController: NavHostController?) {
 
-    val item = vm.lstWebPages[index]
     val vmDetail = getViewModel<PatternsWebPagesDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(

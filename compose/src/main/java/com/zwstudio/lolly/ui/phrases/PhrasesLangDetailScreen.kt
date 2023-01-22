@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.models.wpp.MLangPhrase
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
@@ -21,9 +22,8 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun PhrasesLangDetailScreen(vm: PhrasesLangViewModel, index: Int, navController: NavHostController?) {
+fun PhrasesLangDetailScreen(vm: PhrasesLangViewModel, item: MLangPhrase, navController: NavHostController?) {
 
-    val item = vm.lstPhrases[index]
     val vmDetail = getViewModel<PhrasesLangDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(

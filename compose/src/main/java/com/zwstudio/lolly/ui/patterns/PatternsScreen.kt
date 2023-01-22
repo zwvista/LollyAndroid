@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -42,7 +43,14 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
             title = DrawerScreens.Patterns.title,
-            onButtonClicked = { openDrawer() }
+            onButtonClicked = { openDrawer() },
+            actions = {
+                IconButton(onClick = {
+                    navController?.navigate(PatternsScreens.PatternsAdd.route)
+                }) {
+                    Icon(Icons.Filled.Add, null)
+                }
+            }
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             SearchView(

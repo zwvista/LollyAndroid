@@ -77,6 +77,7 @@ fun PatternsWebPagesListScreen(vm: PatternsWebPagesViewModel, item: MPattern,  n
                         DropdownMenuItem(
                             onClick = {
                                 expanded = false
+                                navController?.navigate(PatternsScreens.PatternsWebPagesAdd.route)
                             }
                         ) { Text(text = stringResource(id = R.string.action_add)) }
                     }

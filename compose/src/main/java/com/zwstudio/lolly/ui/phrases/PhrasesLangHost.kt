@@ -26,7 +26,10 @@ fun PhrasesLangHost(openDrawer: () -> Unit) {
                 type = NavType.IntType
             })
         ) {
-            PhrasesLangDetailScreen(vm, it.arguments!!.getInt(INDEX_KEY), navController)
+            PhrasesLangDetailScreen(vm, vm.lstPhrases[it.arguments!!.getInt(INDEX_KEY)], navController)
+        }
+        composable(route = PhrasesScreens.PhrasesLangAdd.route) {
+            PhrasesLangDetailScreen(vm, vm.newLangPhrase(), navController)
         }
     }
 }

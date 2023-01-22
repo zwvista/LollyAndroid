@@ -6,10 +6,9 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Card
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +42,14 @@ fun PhrasesLangScreen(vm: PhrasesLangViewModel, navController: NavHostController
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
             title = DrawerScreens.PhrasesLang.title,
-            onButtonClicked = { openDrawer() }
+            onButtonClicked = { openDrawer() },
+            actions = {
+                IconButton(onClick = {
+                    navController?.navigate(PhrasesScreens.PhrasesLangAdd.route)
+                }) {
+                    Icon(Icons.Filled.Add, null)
+                }
+            }
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             SearchView(

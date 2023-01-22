@@ -88,6 +88,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                         DropdownMenuItem(
                             onClick = {
                                 expanded = false
+                                navController?.navigate(WordsScreens.WordsUnitAdd.route)
                             }
                         ) { Text(text = stringResource(id = R.string.action_add)) }
                         DropdownMenuItem(

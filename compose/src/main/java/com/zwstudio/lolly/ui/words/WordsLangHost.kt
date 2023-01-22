@@ -26,7 +26,10 @@ fun WordsLangHost(openDrawer: () -> Unit) {
                 type = NavType.IntType
             })
         ) {
-            WordsLangDetailScreen(vm, it.arguments!!.getInt(INDEX_KEY), navController)
+            WordsLangDetailScreen(vm, vm.lstWords[it.arguments!!.getInt(INDEX_KEY)], navController)
+        }
+        composable(route = WordsScreens.WordsLangAdd.route) {
+            WordsLangDetailScreen(vm, vm.newLangWord(), navController)
         }
         composable(
             route = WordsScreens.WordsDict.route + "/{$INDEX_KEY}",

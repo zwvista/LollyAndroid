@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
@@ -21,9 +22,8 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun PatternsDetailScreen(vm: PatternsViewModel, index: Int, navController: NavHostController?) {
+fun PatternsDetailScreen(vm: PatternsViewModel, item: MPattern, navController: NavHostController?) {
 
-    val item = vm.lstPatterns[index]
     val vmDetail = getViewModel<PatternsDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(

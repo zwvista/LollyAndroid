@@ -26,7 +26,10 @@ fun PhrasesUnitHost(openDrawer: () -> Unit) {
                 type = NavType.IntType
             })
         ) {
-            PhrasesUnitDetailScreen(vm, it.arguments!!.getInt(INDEX_KEY), navController)
+            PhrasesUnitDetailScreen(vm, vm.lstPhrases[it.arguments!!.getInt(INDEX_KEY)], navController)
+        }
+        composable(route = PhrasesScreens.PhrasesUnitAdd.route) {
+            PhrasesUnitDetailScreen(vm, vm.newUnitPhrase(), navController)
         }
     }
 }

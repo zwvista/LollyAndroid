@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitDetailViewModel
@@ -25,9 +26,8 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun PhrasesTextbookDetailScreen(vm: PhrasesUnitViewModel, index: Int, navController: NavHostController?) {
+fun PhrasesTextbookDetailScreen(vm: PhrasesUnitViewModel, item: MUnitPhrase, navController: NavHostController?) {
 
-    val item = vm.lstPhrases[index]
     val vmDetail = getViewModel<PhrasesUnitDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(

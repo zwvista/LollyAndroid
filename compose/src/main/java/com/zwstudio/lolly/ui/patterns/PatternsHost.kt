@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.zwstudio.lolly.ui.common.INDEX_KEY
 import com.zwstudio.lolly.ui.common.PatternsScreens
+import com.zwstudio.lolly.ui.common.WordsScreens
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import org.koin.androidx.compose.getViewModel
@@ -28,7 +29,10 @@ fun PatternsHost(openDrawer: () -> Unit) {
                 type = NavType.IntType
             })
         ) {
-            PatternsDetailScreen(vm, it.arguments!!.getInt(INDEX_KEY), navController)
+            PatternsDetailScreen(vm, vm.lstPatterns[it.arguments!!.getInt(INDEX_KEY)], navController)
+        }
+        composable(route = WordsScreens.WordsUnitAdd.route) {
+            PatternsDetailScreen(vm, vm.newPattern(), navController)
         }
         composable(
             route = PatternsScreens.PatternsWebPagesBrowse.route + "/{$INDEX_KEY}",
@@ -52,7 +56,10 @@ fun PatternsHost(openDrawer: () -> Unit) {
                 type = NavType.IntType
             })
         ) {
-            PatternsWebPagesDetailScreen(vmWP, it.arguments!!.getInt(INDEX_KEY), navController)
+            PatternsWebPagesDetailScreen(vmWP, vmWP.lstWebPages[it.arguments!!.getInt(INDEX_KEY)], navController)
         }
+//        composable(route = WordsScreens.WordsUnitAdd.route) {
+//            PatternsWebPagesDetailScreen(vmWP, vmWP.newPatternWebPage(), navController)
+//        }
     }
 }

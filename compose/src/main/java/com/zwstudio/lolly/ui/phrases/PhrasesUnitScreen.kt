@@ -87,6 +87,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                         DropdownMenuItem(
                             onClick = {
                                 expanded = false
+                                navController?.navigate(PhrasesScreens.PhrasesUnitAdd.route)
                             }
                         ) { Text(text = stringResource(id = R.string.action_add)) }
                         DropdownMenuItem(
