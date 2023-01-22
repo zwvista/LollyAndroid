@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.ui.common.INDEX_KEY
 import com.zwstudio.lolly.ui.common.PatternsScreens
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
@@ -18,6 +19,7 @@ fun PatternsHost(openDrawer: () -> Unit) {
     val navController = rememberNavController()
     val vm = getViewModel<PatternsViewModel>()
     val vmWP = getViewModel<PatternsWebPagesViewModel>()
+    var item = MPattern()
     NavHost(navController = navController, startDestination = PatternsScreens.PatternsMain.route) {
         composable(route = PatternsScreens.PatternsMain.route) {
             PatternsScreen(vm, navController, openDrawer)
@@ -47,7 +49,8 @@ fun PatternsHost(openDrawer: () -> Unit) {
                 type = NavType.IntType
             })
         ) {
-            PatternsWebPagesListScreen(vmWP, vm.lstPatterns[it.arguments!!.getInt(INDEX_KEY)], navController)
+            item = vm.lstPatterns[it.arguments!!.getInt(INDEX_KEY)]
+            PatternsWebPagesListScreen(vmWP, item, navController)
         }
         composable(
             route = PatternsScreens.PatternsWebPagesDetail.route + "/{$INDEX_KEY}",
@@ -57,8 +60,8 @@ fun PatternsHost(openDrawer: () -> Unit) {
         ) {
             PatternsWebPagesDetailScreen(vmWP, vmWP.lstWebPages[it.arguments!!.getInt(INDEX_KEY)], navController)
         }
-//        composable(route = WordsScreens.WordsUnitAdd.route) {
-//            PatternsWebPagesDetailScreen(vmWP, vmWP.newPatternWebPage(), navController)
-//        }
+        composable(route = PatternsScreens.PatternsWebPagesAdd.route) {
+            PatternsWebPagesDetailScreen(vmWP, vmWP.newPatternWebPage(item.id, item.pattern), navController)
+        }
     }
 }
