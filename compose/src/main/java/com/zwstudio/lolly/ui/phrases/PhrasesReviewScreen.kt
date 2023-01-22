@@ -98,7 +98,7 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
                     onClick = { vm.check(true) },
                     enabled = vm.checkNextEnabled.collectAsState().value
                 ) {
-                    Text(text = stringResource(id = vm.checkNextString.collectAsState().value))
+                    Text(text = stringResource(id = vm.checkNextStringRes.collectAsState().value))
                 }
             }
             Row(
@@ -124,7 +124,7 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
                         if (vm.checkPrevVisible.collectAsState().value) 1f else 0f
                     )
                 ) {
-                    Text(text = stringResource(id = vm.checkPrevString.collectAsState().value))
+                    Text(text = stringResource(id = vm.checkPrevStringRes.collectAsState().value))
                 }
             }
             Row(
