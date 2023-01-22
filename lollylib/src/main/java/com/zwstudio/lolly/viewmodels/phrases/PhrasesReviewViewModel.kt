@@ -32,6 +32,7 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     var timer: Timer? = null
     var showOptions = true
     val optionsDone = MutableStateFlow(false)
+    val inputFocused = MutableStateFlow(false)
 
     val isSpeaking = MutableStateFlow(true)
     val indexString = MutableStateFlow("")

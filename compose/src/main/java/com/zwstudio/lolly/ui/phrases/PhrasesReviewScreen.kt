@@ -4,13 +4,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -25,9 +24,14 @@ import com.zwstudio.lolly.ui.common.LabelledCheckBox
 import com.zwstudio.lolly.ui.common.ReviewScreens
 import com.zwstudio.lolly.ui.common.TopBarMenu
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesReviewViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit, block = {
         if (vm.showOptions) {
@@ -38,8 +42,10 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
             vm.optionsDone.value = false
             vm.newTest()
         }
+        vm.inputFocused.onEach {
+            focusRequester.requestFocus()
+        }.launchIn(this)
     })
-    val lifecycleOwner = LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         onDispose {
             vm.stopTimer()
@@ -159,7 +165,7 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
             TextField(
                 value = vm.phraseInputString.collectAsState().value,
                 onValueChange = { vm.phraseInputString.value = it },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth().focusRequester(focusRequester)
             )
         }
     }

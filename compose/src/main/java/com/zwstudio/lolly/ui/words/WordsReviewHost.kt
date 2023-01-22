@@ -17,6 +17,7 @@ fun WordsReviewHost(openDrawer: () -> Unit) {
 
     val navController = rememberNavController()
     val vm = getViewModel<WordsReviewViewModel> { parametersOf({ self: WordsReviewViewModel -> self.run {
+        inputFocused.value = true
         if (hasCurrent && isSpeaking.value)
             speak(currentWord)
     }})}
