@@ -19,14 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.speak
-import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.ui.common.PatternsScreens
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PatternsWebPagesListScreen(vm: PatternsWebPagesViewModel, item: MPattern,  navController: NavHostController?) {
+fun PatternsWebPagesListScreen(vm: PatternsWebPagesViewModel, patternid: Int,  navController: NavHostController?) {
 
     val lstWebPages = vm.lstWebPages_.collectAsState().value
     var expanded by remember { mutableStateOf(false) }
@@ -34,7 +33,7 @@ fun PatternsWebPagesListScreen(vm: PatternsWebPagesViewModel, item: MPattern,  n
     var currentItemIndex by remember { mutableStateOf(0) }
 
     LaunchedEffect(Unit, block = {
-        vm.getWebPages(item.id)
+        vm.getWebPages(patternid)
     })
 
     Column(modifier = Modifier.fillMaxSize()) {

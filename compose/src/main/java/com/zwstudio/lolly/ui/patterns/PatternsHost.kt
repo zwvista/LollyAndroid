@@ -50,7 +50,7 @@ fun PatternsHost(openDrawer: () -> Unit) {
             })
         ) {
             item = vm.lstPatterns[it.arguments!!.getInt(INDEX_KEY)]
-            PatternsWebPagesListScreen(vmWP, item, navController)
+            PatternsWebPagesListScreen(vmWP, item.id, navController)
         }
         composable(
             route = PatternsScreens.PatternsWebPagesDetail.route + "/{$INDEX_KEY}",
