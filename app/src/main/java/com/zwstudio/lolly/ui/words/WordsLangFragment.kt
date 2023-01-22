@@ -16,8 +16,7 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
 import com.zwstudio.lolly.R
-import com.zwstudio.lolly.common.speak
-import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.common.*
 import com.zwstudio.lolly.databinding.FragmentWordsLangBinding
 import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.ui.*
@@ -191,11 +190,11 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
                                         vm.clearNote(item)
                                         mDragListView.adapter.notifyItemChanged(index)
                                     }
-                                    4 -> itemView.copyText(item.word)
-                                    5 -> itemView.googleString(item.word)
+                                    4 -> copyText(itemView.context, item.word)
+                                    5 -> googleString(itemView.context, item.word)
                                     6 -> {
                                         val url = vmSettings.selectedDictReference.urlString(item.word, vmSettings.lstAutoCorrect)
-                                        itemView.openPage(url)
+                                        openPage(itemView.context, url)
                                     }
                                     else -> {}
                                 }

@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.common
 
-import android.content.Context
+import android.content.*
+import android.net.Uri
 import android.speech.tts.TextToSpeech
 import com.zwstudio.lolly.services.misc.*
 import com.zwstudio.lolly.services.wpp.*
@@ -25,6 +26,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.net.URLEncoder
 
 lateinit var retrofitJson: Retrofit
 lateinit var retrofitSP: Retrofit
@@ -111,3 +113,30 @@ val lollyModule = module {
 
 fun speak(text: String) =
     tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+
+fun copyText(context: Context, text: String) {
+    // https://stackoverflow.com/questions/19177231/android-copy-paste-from-clipboard-manager
+    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("", text)
+    // https://stackoverflow.com/questions/57128725/kotlin-android-studio-var-is-seen-as-val-in-sdk-29
+    clipboard.setPrimaryClip(clip)
+}
+
+fun openPage(context: Context, url: String) {
+    // https://stackoverflow.com/questions/12013416/is-there-any-way-in-android-to-force-open-a-link-to-open-in-chrome
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    intent.`package` = "com.android.chrome"
+    try {
+        context.startActivity(intent)
+    } catch (ex: ActivityNotFoundException) {
+        // Chrome browser presumably not installed so allow user to choose instead
+        intent.`package` = null
+        context.startActivity(intent)
+    }
+}
+
+fun googleString(context: Context, text: String) {
+    val url = "https://www.google.com/search?q=" + URLEncoder.encode(text, "UTF-8")
+    openPage(context, url)
+}
