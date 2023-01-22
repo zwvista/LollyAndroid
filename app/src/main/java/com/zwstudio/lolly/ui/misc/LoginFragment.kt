@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.zwstudio.lolly.R
 import com.zwstudio.lolly.databinding.FragmentLoginBinding
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
@@ -37,8 +38,8 @@ class LoginFragment : Fragment() {
                     findNavController().navigateUp()
                 else
                     AlertDialog.Builder(requireContext())
-                        .setTitle("Login")
-                        .setMessage("Wrong username or password!")
+                        .setTitle(requireContext().getString(R.string.login))
+                        .setMessage(requireContext().getString(R.string.login_fail_message))
                         .show()
             }
         }

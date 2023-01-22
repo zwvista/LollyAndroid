@@ -43,7 +43,6 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
     var showItemDialog by remember { mutableStateOf(false) }
     var currentItemIndex by remember { mutableStateOf(0) }
     val context = LocalContext.current
-    var showDetail by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit, block = {
         vm.getDataInTextbook()
@@ -149,10 +148,8 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                             .fillMaxWidth()
                             .combinedClickable(
                                 onClick = {
-                                    if (vm.isEditMode) {
-                                        currentItemIndex = index
-                                        showDetail = true
-                                    }
+                                    if (vm.isEditMode)
+                                        navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index")
                                     else
                                         speak(item.word)
                                 },
@@ -225,7 +222,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                 }
                 TextButton(onClick = {
                     showItemDialog = false
-                    showDetail = true
+                    navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$currentItemIndex")
                 }) {
                     Text(stringResource(id = R.string.action_edit))
                 }
@@ -265,10 +262,5 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                 }
             },
         )
-    }
-
-    if (showDetail) {
-        showDetail = false
-        navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$currentItemIndex")
     }
 }

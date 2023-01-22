@@ -44,7 +44,6 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
     var showItemDialog by remember { mutableStateOf(false) }
     var currentItemIndex by remember { mutableStateOf(0) }
     val context = LocalContext.current
-    var showDetail by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit, block = {
         vm.getDataInTextbook()
@@ -128,10 +127,8 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                             .fillMaxWidth()
                             .combinedClickable(
                                 onClick = {
-                                    if (vm.isEditMode) {
-                                        currentItemIndex = index
-                                        showDetail = true
-                                    }
+                                    if (vm.isEditMode)
+                                        navController?.navigate(PhrasesScreens.PhrasesUnitDetail.route + "/$index")
                                     else
                                         speak(item.phrase)
                                 },
@@ -195,7 +192,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                 }
                 TextButton(onClick = {
                     showItemDialog = false
-                    showDetail = true
+                    navController?.navigate(PhrasesScreens.PhrasesUnitDetail.route + "/$currentItemIndex")
                 }) {
                     Text(stringResource(id = R.string.action_edit))
                 }
@@ -218,10 +215,5 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                 }
             },
         )
-    }
-
-    if (showDetail) {
-        showDetail = false
-        navController?.navigate(PhrasesScreens.PhrasesUnitDetail.route + "/$currentItemIndex")
     }
 }

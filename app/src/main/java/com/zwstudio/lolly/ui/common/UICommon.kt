@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.ui.common
 
 import android.app.AlertDialog
-import android.content.*
-import android.net.Uri
+import android.content.Context
+import android.content.DialogInterface
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -12,7 +12,6 @@ import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import com.zwstudio.lolly.R
-import java.net.URLEncoder
 
 fun <T> makeAdapter(context: Context, @LayoutRes resource: Int, @IdRes textViewResourceId: Int, objects: List<T>, convert: ArrayAdapter<T>.(View, Int) -> View): ArrayAdapter<T> =
     object : ArrayAdapter<T>(context, resource, textViewResourceId, objects) {
@@ -60,6 +59,6 @@ fun yesNoDialog(context: Context, message: String, yesAction: () -> Unit, noActi
     }
 
     AlertDialog.Builder(context)
-        .setMessage(message).setPositiveButton("Yes", dialogClickListener)
-        .setNegativeButton("No", dialogClickListener).show()
+        .setMessage(message).setPositiveButton(context.getString(R.string.yes), dialogClickListener)
+        .setNegativeButton(context.getString(R.string.no), dialogClickListener).show()
 }

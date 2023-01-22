@@ -35,7 +35,6 @@ fun PhrasesLangScreen(vm: PhrasesLangViewModel, navController: NavHostController
     var showItemDialog by remember { mutableStateOf(false) }
     var currentItemIndex by remember { mutableStateOf(0) }
     val context = LocalContext.current
-    var showDetail by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit, block = {
         vm.getData()
@@ -113,7 +112,7 @@ fun PhrasesLangScreen(vm: PhrasesLangViewModel, navController: NavHostController
                 }
                 TextButton(onClick = {
                     showItemDialog = false
-                    showDetail = true
+                    navController?.navigate(PhrasesScreens.PhrasesLangDetail.route + "/$currentItemIndex")
                 }) {
                     Text(stringResource(id = R.string.action_edit))
                 }
@@ -136,10 +135,5 @@ fun PhrasesLangScreen(vm: PhrasesLangViewModel, navController: NavHostController
                 }
             },
         )
-    }
-
-    if (showDetail) {
-        showDetail = false
-        navController?.navigate(PhrasesScreens.PhrasesLangDetail.route + "/$currentItemIndex")
     }
 }

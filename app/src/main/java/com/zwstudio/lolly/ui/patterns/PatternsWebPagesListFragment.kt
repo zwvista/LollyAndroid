@@ -180,7 +180,11 @@ class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
                         // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                         AlertDialog.Builder(itemView.context)
                             .setTitle(item.title)
-                            .setItems(arrayOf("Delete", "Edit", "Cancel")) { _, which ->
+                            .setItems(arrayOf(
+                                itemView.context.getString(R.string.action_delete),
+                                itemView.context.getString(R.string.action_edit),
+                                itemView.context.getString(R.string.action_cancel),
+                            )) { _, which ->
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)

@@ -32,7 +32,7 @@ fun ReviewOptionsScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = "",
+            title = stringResource(id = R.string.review_options),
             navController = navController,
             actions = {
                 Button(

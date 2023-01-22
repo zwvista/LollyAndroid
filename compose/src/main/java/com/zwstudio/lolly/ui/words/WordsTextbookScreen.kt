@@ -32,7 +32,6 @@ fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController
     var showItemDialog by remember { mutableStateOf(false) }
     var currentItemIndex by remember { mutableStateOf(0) }
     val context = LocalContext.current
-    var showDetail by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit, block = {
         vm.getDataInLang()
@@ -130,7 +129,7 @@ fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController
                 }
                 TextButton(onClick = {
                     showItemDialog = false
-                    showDetail = true
+                    navController?.navigate(WordsScreens.WordsTextbookDetail.route + "/$currentItemIndex")
                 }) {
                     Text(stringResource(id = R.string.action_edit))
                 }
@@ -170,10 +169,5 @@ fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController
                 }
             },
         )
-    }
-
-    if (showDetail) {
-        showDetail = false
-        navController?.navigate(WordsScreens.WordsTextbookDetail.route + "/$currentItemIndex")
     }
 }

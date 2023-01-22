@@ -34,7 +34,6 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
     var showItemDialog by remember { mutableStateOf(false) }
     var currentItemIndex by remember { mutableStateOf(0) }
     val context = LocalContext.current
-    var showDetail by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit, block = {
         vm.getData()
@@ -119,7 +118,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                 }
                 TextButton(onClick = {
                     showItemDialog = false
-                    showDetail = true
+                    navController?.navigate(PatternsScreens.PatternsDetail.route + "/$currentItemIndex")
                 }) {
                     Text(stringResource(id = R.string.action_edit))
                 }
@@ -154,10 +153,5 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                 }
             },
         )
-    }
-
-    if (showDetail) {
-        showDetail = false
-        navController?.navigate(PatternsScreens.PatternsDetail.route + "/$currentItemIndex")
     }
 }
