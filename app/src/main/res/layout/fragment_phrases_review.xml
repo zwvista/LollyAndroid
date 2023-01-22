@@ -70,7 +70,7 @@
 
         <Button
             android:id="@+id/btnCheckNext"
-            android:text="@{model.checkNextString}"
+            android:text="@{model.checkNextStringRes}"
             android:enabled="@{model.checkNextEnabled}"
             tools:text="Check"
             android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
 
         <Button
             android:id="@+id/btnCheckPrev"
-            android:text="@{model.checkPrevString}"
+            android:text="@{model.checkPrevStringRes}"
             android:enabled="@{model.checkPrevEnabled}"
             android:visibility="@{model.checkPrevVisible}"
             tools:text="Check"
