@@ -81,7 +81,7 @@ fun PhrasesUnitDetailScreen(vm: PhrasesUnitViewModel, item: MUnitPhrase, navCont
             Text(text = stringResource(id = R.string.label_phraseid, vmDetail.phraseid))
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text(stringResource(id = R.string.label_phraseid)) },
+                label = { Text(stringResource(id = R.string.label_phrase)) },
                 value = vmDetail.phrase.collectAsState().value,
                 onValueChange = { vmDetail.phrase.value = it }
             )

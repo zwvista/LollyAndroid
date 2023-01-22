@@ -8,7 +8,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.zwstudio.lolly.ui.common.INDEX_KEY
 import com.zwstudio.lolly.ui.common.PatternsScreens
-import com.zwstudio.lolly.ui.common.WordsScreens
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import org.koin.androidx.compose.getViewModel
@@ -31,7 +30,7 @@ fun PatternsHost(openDrawer: () -> Unit) {
         ) {
             PatternsDetailScreen(vm, vm.lstPatterns[it.arguments!!.getInt(INDEX_KEY)], navController)
         }
-        composable(route = WordsScreens.WordsUnitAdd.route) {
+        composable(route = PatternsScreens.PatternsAdd.route) {
             PatternsDetailScreen(vm, vm.newPattern(), navController)
         }
         composable(

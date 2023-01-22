@@ -5,11 +5,11 @@ import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -82,6 +82,7 @@ class PhrasesUnitViewModel : DrawerListViewModel(), KoinComponent {
         unit = maxItem?.unit ?: vmSettings.usunitto
         part = maxItem?.part ?: vmSettings.uspartto
         seqnum = (maxItem?.seqnum ?: 0) + 1
+        textbook = vmSettings.selectedTextbook
     }
 
 }
