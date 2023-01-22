@@ -118,7 +118,10 @@
     <string name="label_dict_translation">Dictionary(Translation):</string>
     <string name="lolly">Lolly</string>
     <string name="login">Login</string>
+    <string name="login_fail_message">Wrong username or password!</string>
     <string name="logout">Logout</string>
     <string name="newtest">NewTest</string>
     <string name="speak">Speak</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

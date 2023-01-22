@@ -7,16 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.zwstudio.lolly.R
 import com.zwstudio.lolly.databinding.FragmentLoginBinding
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
 
     val vm by viewModel<LoginViewModel>()
     var binding by autoCleared<FragmentLoginBinding>()
+
+    val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false).apply {
@@ -29,15 +33,15 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.login.setOnClickListener {
-            vm.login(requireContext()).subscribe {
+            compositeDisposable.add(vm.login(requireContext()).subscribe {
                 if (GlobalUserViewModel.isLoggedIn)
                     findNavController().navigateUp()
                 else
                     AlertDialog.Builder(requireContext())
-                        .setTitle("Login")
-                        .setMessage("Wrong username or password!")
+                        .setTitle(requireContext().getString(R.string.login))
+                        .setMessage(requireContext().getString(R.string.login_fail_message))
                         .show()
-            }
+            })
         }
     }
 }
