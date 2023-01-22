@@ -23,8 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnSpeak" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvCorrect"
@@ -130,8 +129,7 @@
                 android:textSize="@dimen/text_size3"
                 android:textColor="@color/color_text2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/tvTranslation" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvTranslation"
@@ -140,15 +138,19 @@
                 android:textColor="@color/color_text3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvPhraseTarget"
-                app:layout_constraintBottom_toTopOf="@+id/etPhraseInput"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvPhraseTarget"/>
 
-            <EditText
-                android:id="@+id/etPhraseInput"
-                android:text="@={model.phraseInputString}"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiPhraseInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvTranslation" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTranslation">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPhraseInput"
+                    android:text="@={model.phraseInputString}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar

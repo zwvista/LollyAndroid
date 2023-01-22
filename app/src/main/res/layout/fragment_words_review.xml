@@ -22,8 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/btnSpeak" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvAccuracy"
@@ -142,8 +141,7 @@
                 android:textColor="@color/color_text2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/tvNoteTarget" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvNoteTarget"
@@ -156,8 +154,7 @@
                 android:textColor="@color/color_text3"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvWordTarget"
-                app:layout_constraintBottom_toTopOf="@+id/tvTranslation" />
+                app:layout_constraintTop_toBottomOf="@+id/tvWordTarget" />
 
             <TextView
                 android:id="@+id/tvTranslation"
@@ -165,15 +162,19 @@
                 tools:text="Translation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvNoteTarget"
-                app:layout_constraintBottom_toTopOf="@+id/etWordInput"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvNoteTarget"/>
 
-            <EditText
-                android:id="@+id/etWordInput"
-                android:text="@={model.wordInputString}"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiWordInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvTranslation" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTranslation">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etWordInput"
+                    android:text="@={model.wordInputString}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar

@@ -23,118 +23,117 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/spnLanguage" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
                 android:id="@+id/spnLanguage"
                 android:selectedItemPosition="@={model.selectedLangIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvLanguage"
-                app:layout_constraintBottom_toTopOf="@+id/tvVoice" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvLanguage" />
 
             <TextView
                 android:id="@+id/tvVoice"
                 android:text="@string/label_voice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/spnLanguage"
-                app:layout_constraintBottom_toTopOf="@+id/spnVoice" />
+                app:layout_constraintTop_toBottomOf="@+id/spnLanguage" />
 
             <Spinner
                 android:id="@+id/spnVoice"
                 android:selectedItemPosition="@={model.selectedVoiceIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvVoice"
-                app:layout_constraintBottom_toTopOf="@+id/tvDictReference" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvVoice" />
 
             <TextView
                 android:id="@+id/tvDictReference"
                 android:text="@string/label_dict_reference"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/spnVoice"
-                app:layout_constraintBottom_toTopOf="@+id/spnDictReference" />
+                app:layout_constraintTop_toBottomOf="@+id/spnVoice" />
 
             <Spinner
                 android:id="@+id/spnDictReference"
                 android:selectedItemPosition="@={model.selectedDictReferenceIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvDictReference"
-                app:layout_constraintBottom_toTopOf="@+id/tvDictNote" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvDictReference" />
 
             <TextView
                 android:id="@+id/tvDictNote"
                 android:text="@string/label_dict_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/spnDictReference"
-                app:layout_constraintBottom_toTopOf="@+id/spnDictNote" />
+                app:layout_constraintTop_toBottomOf="@+id/spnDictReference" />
 
             <Spinner
                 android:id="@+id/spnDictNote"
                 android:selectedItemPosition="@={model.selectedDictNoteIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvDictNote"
-                app:layout_constraintBottom_toTopOf="@+id/tvDictTranslation" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvDictNote" />
 
             <TextView
                 android:id="@+id/tvDictTranslation"
                 android:text="@string/label_dict_translation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/spnDictNote"
-                app:layout_constraintBottom_toTopOf="@+id/spnDictTranslation" />
+                app:layout_constraintTop_toBottomOf="@+id/spnDictNote" />
 
             <Spinner
                 android:id="@+id/spnDictTranslation"
                 android:selectedItemPosition="@={model.selectedDictTranslationIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvDictTranslation"
-                app:layout_constraintBottom_toTopOf="@+id/tvTextbook" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvDictTranslation" />
 
             <TextView
                 android:id="@+id/tvTextbook"
                 android:text="@string/label_textbook2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/spnDictTranslation"
-                app:layout_constraintBottom_toTopOf="@+id/spnTextbook" />
+                app:layout_constraintTop_toBottomOf="@+id/spnDictTranslation" />
 
             <Spinner
                 android:id="@+id/spnTextbook"
                 android:selectedItemPosition="@={model.selectedTextbookIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvTextbook"
-                app:layout_constraintBottom_toTopOf="@+id/tvUnitFrom" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvTextbook" />
 
             <TextView
                 android:id="@+id/tvUnitFrom"
                 android:text="@string/label_units"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                app:layout_constraintTop_toBottomOf="@+id/spnTextbook"
-                app:layout_constraintBottom_toTopOf="@+id/spnUnitFrom" />
+                app:layout_constraintTop_toBottomOf="@+id/spnTextbook" />
 
             <Spinner
                 android:id="@+id/spnUnitFrom"
                 android:selectedItemPosition="@={model.selectedUnitFromIndex_}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvUnitFrom"
-                app:layout_constraintBottom_toTopOf="@+id/spnPartFrom" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvUnitFrom" />
 
             <Spinner
                 android:id="@+id/spnPartFrom"
@@ -142,8 +141,8 @@
                 android:enabled="@{model.partFromEnabled}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/spnUnitFrom"
-                app:layout_constraintBottom_toTopOf="@+id/spnToType" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/spnUnitFrom" />
 
             <Spinner
                 android:id="@+id/spnToType"
@@ -166,8 +165,7 @@
                 app:layout_constraintHorizontal_weight="3"
                 app:layout_constraintStart_toEndOf="@+id/spnToType"
                 app:layout_constraintEnd_toStartOf="@+id/btnNext"
-                app:layout_constraintTop_toBottomOf="@+id/spnPartFrom"
-                app:layout_constraintBottom_toTopOf="@+id/spnUnitTo" />
+                app:layout_constraintTop_toBottomOf="@+id/spnPartFrom" />
 
             <Button
                 android:id="@+id/btnNext"
@@ -187,8 +185,8 @@
                 android:enabled="@{model.unitToEnabled}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/btnPrevious"
-                app:layout_constraintBottom_toTopOf="@+id/spnPartTo" />
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/btnPrevious" />
 
             <Spinner
                 android:id="@+id/spnPartTo"
