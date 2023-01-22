@@ -21,8 +21,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/chkPart" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Spinner
             android:id="@+id/spnUnit"
@@ -40,8 +39,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chkUnit"
-            app:layout_constraintBottom_toTopOf="@+id/chkSeqNum" />
+            app:layout_constraintTop_toBottomOf="@+id/chkUnit" />
 
         <Spinner
             android:id="@+id/spnPart"
@@ -79,20 +77,19 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etSeqNum"
-            app:layout_constraintBottom_toTopOf="@+id/swipe_refresh_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/etSeqNum" />
 
-        <com.zwstudio.lolly.ui.common.LollySwipeRefreshLayout
-            android:id="@+id/swipe_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/tvAccuracy"
-            app:layout_constraintBottom_toBottomOf="parent">
+<!--        <com.zwstudio.lolly.ui.common.LollySwipeRefreshLayout-->
+<!--            android:id="@+id/swipe_refresh_layout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/tvAccuracy"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent">-->
 
-            <com.woxthebox.draglistview.DragListView
-                android:id="@+id/drag_list_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </com.zwstudio.lolly.ui.common.LollySwipeRefreshLayout>
+<!--            <com.woxthebox.draglistview.DragListView-->
+<!--                android:id="@+id/drag_list_view"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent" />-->
+<!--        </com.zwstudio.lolly.ui.common.LollySwipeRefreshLayout>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

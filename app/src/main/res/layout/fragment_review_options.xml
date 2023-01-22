@@ -19,8 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/spnMode" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Spinner
             android:id="@+id/spnMode"
@@ -29,8 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:labelFor="@+id/tvMode"
-            app:layout_constraintTop_toBottomOf="@+id/tvMode"
-            app:layout_constraintBottom_toTopOf="@+id/chkShuffled"/>
+            app:layout_constraintTop_toBottomOf="@+id/tvMode" />
 
         <CheckBox
             android:id="@+id/chkShuffled"
@@ -40,8 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintTop_toBottomOf="@+id/spnMode"
-            app:layout_constraintBottom_toTopOf="@+id/chkSpeakEnabled" />
+            app:layout_constraintTop_toBottomOf="@+id/spnMode" />
 
         <CheckBox
             android:id="@+id/chkSpeakEnabled"
@@ -51,8 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintTop_toBottomOf="@+id/chkShuffled"
-            app:layout_constraintBottom_toTopOf="@+id/chkOnRepeat" />
+            app:layout_constraintTop_toBottomOf="@+id/chkShuffled" />
 
         <CheckBox
             android:id="@+id/chkOnRepeat"
@@ -62,8 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintTop_toBottomOf="@+id/chkSpeakEnabled"
-            app:layout_constraintBottom_toTopOf="@+id/chkMoveForward" />
+            app:layout_constraintTop_toBottomOf="@+id/chkSpeakEnabled" />
 
         <CheckBox
             android:id="@+id/chkMoveForward"
@@ -73,82 +68,62 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintTop_toBottomOf="@+id/chkOnRepeat"
-            app:layout_constraintBottom_toTopOf="@+id/tvInterval" />
+            app:layout_constraintTop_toBottomOf="@+id/chkOnRepeat" />
 
-        <TextView
-            android:id="@+id/tvInterval"
-            android:text="@string/label_interval"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiInterval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintTop_toBottomOf="@+id/chkSpeakEnabled"
-            app:layout_constraintBottom_toTopOf="@+id/etInterval" />
+            android:hint="@string/label_interval"
+            app:layout_constraintTop_toBottomOf="@+id/chkMoveForward">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etInterval"
+                android:text="@={`` + model.interval}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/etInterval"
-            android:text="@={`` + model.interval}"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/tvInterval"
-            app:layout_constraintBottom_toTopOf="@+id/tvGroup"/>
+            android:hint="@string/label_group"
+            app:layout_constraintTop_toBottomOf="@+id/tiInterval">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etGroup"
+                android:text="@={`` + model.groupSelected}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/tvGroup"
-            android:text="@string/label_group"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiGroups"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintTop_toBottomOf="@+id/etInterval"
-            app:layout_constraintBottom_toTopOf="@+id/etGroup" />
+            android:hint="@string/label_groups"
+            app:layout_constraintTop_toBottomOf="@+id/tiGroup">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etGroups"
+                android:text="@={`` + model.groupCount}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/etGroup"
-            android:text="@={`` + model.groupSelected}"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiReview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/tvGroup"
-            app:layout_constraintBottom_toTopOf="@+id/tvGroups"/>
-
-        <TextView
-            android:id="@+id/tvGroups"
-            android:text="@string/label_groups"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintTop_toBottomOf="@+id/etGroup"
-            app:layout_constraintBottom_toTopOf="@+id/etGroups" />
-
-        <EditText
-            android:id="@+id/etGroups"
-            android:text="@={`` + model.groupCount}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/tvGroups"
-            app:layout_constraintBottom_toTopOf="@+id/tvReview"/>
-
-        <TextView
-            android:id="@+id/tvReview"
-            android:text="@string/label_review"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintTop_toBottomOf="@+id/etGroups"
-            app:layout_constraintBottom_toTopOf="@+id/etReview" />
-
-        <EditText
-            android:id="@+id/etReview"
-            android:text="@={`` + model.reviewCount}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/tvReview" />
+            android:hint="@string/label_review"
+            app:layout_constraintTop_toBottomOf="@+id/tiGroups">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tvReview"
+                android:text="@={`` + model.reviewCount}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
