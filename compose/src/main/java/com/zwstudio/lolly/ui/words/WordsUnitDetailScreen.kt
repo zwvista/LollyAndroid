@@ -31,7 +31,7 @@ fun WordsUnitDetailScreen(vm: WordsUnitViewModel, index: Int, navController: Nav
     val vmDetail = getViewModel<WordsUnitDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = "",
+            title = stringResource(id = R.string.words_unit_detail),
             navController = navController,
             actions = {
                 Button(

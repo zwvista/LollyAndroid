@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
@@ -29,7 +30,7 @@ fun PatternsWebPagesListScreen(vm: PatternsWebPagesViewModel, item: MPattern,  n
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = "",
+            title = stringResource(id = R.string.patterns_webpages_list),
             navController = navController
         )
         LazyColumn(

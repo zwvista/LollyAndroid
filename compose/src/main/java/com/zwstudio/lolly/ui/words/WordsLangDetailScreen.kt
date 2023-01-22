@@ -30,7 +30,7 @@ fun WordsLangDetailScreen(vm: WordsLangViewModel, index: Int, navController: Nav
     val vmDetail = getViewModel<WordsLangDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = "",
+            title = stringResource(id = R.string.words_lang_detail),
             navController = navController,
             actions = {
                 Button(

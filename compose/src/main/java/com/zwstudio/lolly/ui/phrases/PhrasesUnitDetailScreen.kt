@@ -31,7 +31,7 @@ fun PhrasesUnitDetailScreen(vm: PhrasesUnitViewModel, index: Int, navController:
     val vmDetail = getViewModel<PhrasesUnitDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = "",
+            title = stringResource(id = R.string.phrases_unit_detail),
             navController = navController,
             actions = {
                 Button(

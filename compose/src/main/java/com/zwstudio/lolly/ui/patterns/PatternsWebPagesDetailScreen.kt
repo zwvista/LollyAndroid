@@ -27,7 +27,7 @@ fun PatternsWebPagesDetailScreen(vm: PatternsWebPagesViewModel, index: Int, navC
     val vmDetail = getViewModel<PatternsWebPagesDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = "",
+            title = stringResource(id = R.string.patterns_webpages_detail),
             navController = navController,
             actions = {
                 Button(

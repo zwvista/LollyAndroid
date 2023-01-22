@@ -27,7 +27,7 @@ fun PhrasesLangDetailScreen(vm: PhrasesLangViewModel, index: Int, navController:
     val vmDetail = getViewModel<PhrasesLangDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = "",
+            title = stringResource(id = R.string.phrases_lang_detail),
             navController = navController,
             actions = {
                 Button(
