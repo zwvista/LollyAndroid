@@ -39,9 +39,9 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     val correctVisible = MutableStateFlow(false)
     val incorrectVisible = MutableStateFlow(false)
     val checkNextEnabled = MutableStateFlow(false)
-    val checkNextString = MutableStateFlow(R.string.text_check)
+    val checkNextStringRes = MutableStateFlow(R.string.text_check)
     val checkPrevEnabled = MutableStateFlow(false)
-    val checkPrevString = MutableStateFlow(R.string.text_check)
+    val checkPrevStringRes = MutableStateFlow(R.string.text_check)
     val checkPrevVisible = MutableStateFlow(true)
     val phraseTargetString = MutableStateFlow("")
     val phraseTargetVisible = MutableStateFlow(true)
@@ -57,8 +57,8 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
             lstCorrectIDs = mutableListOf()
             index = if (moveForward.value) 0 else count - 1
             doTest()
-            checkNextString.value = if (isTestMode) R.string.text_check else R.string.text_next
-            checkPrevString.value = if (isTestMode) R.string.text_check else R.string.text_prev
+            checkNextStringRes.value = if (isTestMode) R.string.text_check else R.string.text_next
+            checkPrevStringRes.value = if (isTestMode) R.string.text_check else R.string.text_prev
         }
         lstPhrases = listOf()
         lstCorrectIDs = mutableListOf()
@@ -126,8 +126,8 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
                 correctVisible.value = true
             else
                 incorrectVisible.value = true
-            checkNextString.value = R.string.text_next
-            checkPrevString.value = R.string.text_prev
+            checkNextStringRes.value = R.string.text_next
+            checkPrevStringRes.value = R.string.text_prev
             if (!hasCurrent) return
             val o = currentItem!!
             val isCorrect = o.phrase == phraseInputString.value
@@ -135,8 +135,8 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
         } else {
             move(toNext)
             doTest()
-            checkNextString.value = R.string.text_check
-            checkPrevString.value = R.string.text_check
+            checkNextStringRes.value = R.string.text_check
+            checkPrevStringRes.value = R.string.text_check
         }
     }
 
