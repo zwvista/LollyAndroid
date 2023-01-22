@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -22,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.common.copyText
+import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
 import com.zwstudio.lolly.ui.common.*
@@ -41,6 +44,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
     val state = rememberReorderableLazyListState(onMove = { _,_ -> }, canDragOver = { _,_ -> true })
     var showItemDialog by remember { mutableStateOf(false) }
     var currentItem by remember { mutableStateOf<MUnitPhrase?>(null) }
+    val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
         vm.getDataInTextbook()
@@ -192,11 +196,13 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                     }
                     TextButton(onClick = {
                         showItemDialog = false
+                        copyText(context, item.phrase)
                     }) {
                         Text(stringResource(id = R.string.action_copy_phrase))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
+                        googleString(context, item.phrase)
                     }) {
                         Text(stringResource(id = R.string.action_google_phrase))
                     }

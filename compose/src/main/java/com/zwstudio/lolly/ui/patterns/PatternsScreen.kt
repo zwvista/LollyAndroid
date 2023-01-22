@@ -13,11 +13,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.common.copyText
+import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
@@ -31,6 +34,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
     var showItemDialog by remember { mutableStateOf(false) }
     var currentItem by remember { mutableStateOf<MPattern?>(null) }
     var currentItemIndex by remember { mutableStateOf(0) }
+    val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
         vm.getData()
@@ -131,11 +135,13 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                     }
                     TextButton(onClick = {
                         showItemDialog = false
+                        copyText(context, item.pattern)
                     }) {
                         Text(stringResource(id = R.string.action_copy_pattern))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
+                        googleString(context, item.pattern)
                     }) {
                         Text(stringResource(id = R.string.action_google_pattern))
                     }
