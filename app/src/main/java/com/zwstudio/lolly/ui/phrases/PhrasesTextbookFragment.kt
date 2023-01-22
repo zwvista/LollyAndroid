@@ -12,6 +12,8 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.common.copyText
+import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentPhrasesTextbookBinding
@@ -152,8 +154,8 @@ class PhrasesTextbookFragment : DrawerListFragment() {
                                 when (which) {
                                     0 -> delete(item)
                                     1 -> edit(item)
-                                    2 -> itemView.copyText(item.phrase)
-                                    3 -> itemView.googleString(item.phrase)
+                                    2 -> copyText(itemView.context, item.phrase)
+                                    3 -> googleString(itemView.context, item.phrase)
                                     else -> {}
                                 }
                             }.show()

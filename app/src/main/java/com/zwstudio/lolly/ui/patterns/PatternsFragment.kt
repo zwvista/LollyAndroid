@@ -16,6 +16,8 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.common.copyText
+import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentPatternsBinding
 import com.zwstudio.lolly.models.wpp.MPattern
@@ -177,8 +179,8 @@ class PatternsFragment : DrawerListFragment(), MenuProvider {
                                     1 -> edit(item)
                                     2 -> navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPagesBrowseFragment(item))
                                     3 -> navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPagesListFragment(item))
-                                    4 -> itemView.copyText(item.pattern)
-                                    5 -> itemView.googleString(item.pattern)
+                                    4 -> copyText(itemView.context, item.pattern)
+                                    5 -> googleString(itemView.context, item.pattern)
                                     else -> {}
                                 }
                             }.show()
