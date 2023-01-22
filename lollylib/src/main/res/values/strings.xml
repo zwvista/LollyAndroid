@@ -102,6 +102,8 @@
     <string name="text_incorrect">Incorrect</string>
     <string name="text_new_test">New Test</string>
     <string name="text_check">Check</string>
+    <string name="text_next">Next</string>
+    <string name="text_prev">Prev</string>
     <string name="text_speak">Speak</string>
     <string name="text_shuffled">Shuffled</string>
     <string name="text_on_repeat">On Repeat</string>

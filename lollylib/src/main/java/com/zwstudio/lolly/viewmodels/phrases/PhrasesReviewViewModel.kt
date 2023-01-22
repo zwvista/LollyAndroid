@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.viewmodels.phrases
 
 import androidx.lifecycle.ViewModel
+import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.misc.MReviewOptions
@@ -13,7 +14,6 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.concurrent.TimeUnit
-import java.util.*
 import kotlin.math.min
 
 class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.() -> Unit) : ViewModel() {
@@ -39,9 +39,9 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
     val correctVisible = MutableStateFlow(false)
     val incorrectVisible = MutableStateFlow(false)
     val checkNextEnabled = MutableStateFlow(false)
-    val checkNextString = MutableStateFlow("Check")
+    val checkNextString = MutableStateFlow(R.string.text_check)
     val checkPrevEnabled = MutableStateFlow(false)
-    val checkPrevString = MutableStateFlow("Check")
+    val checkPrevString = MutableStateFlow(R.string.text_check)
     val checkPrevVisible = MutableStateFlow(true)
     val phraseTargetString = MutableStateFlow("")
     val phraseTargetVisible = MutableStateFlow(true)
@@ -57,8 +57,8 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
             lstCorrectIDs = mutableListOf()
             index = if (moveForward.value) 0 else count - 1
             doTest()
-            checkNextString.value = if (isTestMode) "Check" else "Next"
-            checkPrevString.value = if (isTestMode) "Check" else "Prev"
+            checkNextString.value = if (isTestMode) R.string.text_check else R.string.text_next
+            checkPrevString.value = if (isTestMode) R.string.text_check else R.string.text_prev
         }
         lstPhrases = listOf()
         lstCorrectIDs = mutableListOf()
@@ -126,8 +126,8 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
                 correctVisible.value = true
             else
                 incorrectVisible.value = true
-            checkNextString.value = "Next"
-            checkPrevString.value = "Prev"
+            checkNextString.value = R.string.text_next
+            checkPrevString.value = R.string.text_prev
             if (!hasCurrent) return
             val o = currentItem!!
             val isCorrect = o.phrase == phraseInputString.value
@@ -135,8 +135,8 @@ class PhrasesReviewViewModel(private val doTestAction: PhrasesReviewViewModel.()
         } else {
             move(toNext)
             doTest()
-            checkNextString.value = "Check"
-            checkPrevString.value = "Check"
+            checkNextString.value = R.string.text_check
+            checkPrevString.value = R.string.text_check
         }
     }
 
