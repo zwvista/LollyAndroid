@@ -21,7 +21,7 @@ import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.copyText
 import com.zwstudio.lolly.common.googleString
-import com.zwstudio.lolly.models.wpp.MPattern
+import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
@@ -32,9 +32,9 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
 
     val lstPatterns = vm.lstPatterns_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
-    var currentItem by remember { mutableStateOf<MPattern?>(null) }
     var currentItemIndex by remember { mutableStateOf(0) }
     val context = LocalContext.current
+    var showDetail by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit, block = {
         vm.getData()
@@ -70,9 +70,8 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
                         .combinedClickable(
-                            onClick = { navController?.navigate(PatternsHosts.PatternsDetail.route + "/$index") },
+                            onClick = { speak(item.pattern) },
                             onLongClick = {
-                                currentItem = item
                                 currentItemIndex = index
                                 showItemDialog = true
                             },
@@ -96,7 +95,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                         }
                         IconButton(
                             onClick = {
-                                navController?.navigate(PatternsHosts.PatternsWebPagesBrowse.route + "/$index")
+                                navController?.navigate(PatternsScreens.PatternsWebPagesBrowse.route + "/$index")
                             }
                         ) {
                             Icon(Icons.Filled.Info, null, tint = MaterialTheme.colors.primary)
@@ -105,53 +104,60 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                 }
             }
         }
-        if (showItemDialog) {
-            val item = currentItem!!
-            AlertDialog(
-                onDismissRequest = { showItemDialog = false },
-                title = { Text(text = item.pattern) },
-                buttons = {
-                    TextButton(onClick = {
-                        showItemDialog = false
-                    }) {
-                        Text(stringResource(id = R.string.action_delete))
-                    }
-                    TextButton(onClick = {
-                        showItemDialog = false
-                    }) {
-                        Text(stringResource(id = R.string.action_edit))
-                    }
-                    TextButton(onClick = {
-                        showItemDialog = false
-                        navController?.navigate(PatternsHosts.PatternsWebPagesBrowse.route + "/$currentItemIndex")
-                    }) {
-                        Text(stringResource(id = R.string.action_browse_web_pages))
-                    }
-                    TextButton(onClick = {
-                        showItemDialog = false
-                        navController?.navigate(PatternsHosts.PatternsWebPagesList.route + "/$currentItemIndex")
-                    }) {
-                        Text(stringResource(id = R.string.action_edit_web_pages))
-                    }
-                    TextButton(onClick = {
-                        showItemDialog = false
-                        copyText(context, item.pattern)
-                    }) {
-                        Text(stringResource(id = R.string.action_copy_pattern))
-                    }
-                    TextButton(onClick = {
-                        showItemDialog = false
-                        googleString(context, item.pattern)
-                    }) {
-                        Text(stringResource(id = R.string.action_google_pattern))
-                    }
-                    TextButton(onClick = {
-                        showItemDialog = false
-                    }) {
-                        Text(stringResource(id = R.string.action_cancel))
-                    }
-                },
-            )
-        }
+    }
+
+    if (showItemDialog) {
+        val item = lstPatterns[currentItemIndex]
+        AlertDialog(
+            onDismissRequest = { showItemDialog = false },
+            title = { Text(text = item.pattern) },
+            buttons = {
+                TextButton(onClick = {
+                    showItemDialog = false
+                }) {
+                    Text(stringResource(id = R.string.action_delete))
+                }
+                TextButton(onClick = {
+                    showItemDialog = false
+                    showDetail = true
+                }) {
+                    Text(stringResource(id = R.string.action_edit))
+                }
+                TextButton(onClick = {
+                    showItemDialog = false
+                    navController?.navigate(PatternsScreens.PatternsWebPagesBrowse.route + "/$currentItemIndex")
+                }) {
+                    Text(stringResource(id = R.string.action_browse_web_pages))
+                }
+                TextButton(onClick = {
+                    showItemDialog = false
+                    navController?.navigate(PatternsScreens.PatternsWebPagesList.route + "/$currentItemIndex")
+                }) {
+                    Text(stringResource(id = R.string.action_edit_web_pages))
+                }
+                TextButton(onClick = {
+                    showItemDialog = false
+                    copyText(context, item.pattern)
+                }) {
+                    Text(stringResource(id = R.string.action_copy_pattern))
+                }
+                TextButton(onClick = {
+                    showItemDialog = false
+                    googleString(context, item.pattern)
+                }) {
+                    Text(stringResource(id = R.string.action_google_pattern))
+                }
+                TextButton(onClick = {
+                    showItemDialog = false
+                }) {
+                    Text(stringResource(id = R.string.action_cancel))
+                }
+            },
+        )
+    }
+
+    if (showDetail) {
+        showDetail = false
+        navController?.navigate(PatternsScreens.PatternsDetail.route + "/$currentItemIndex")
     }
 }

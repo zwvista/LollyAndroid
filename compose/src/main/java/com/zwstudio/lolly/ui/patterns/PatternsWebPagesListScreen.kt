@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.models.wpp.MPattern
-import com.zwstudio.lolly.ui.common.PatternsHosts
+import com.zwstudio.lolly.ui.common.PatternsScreens
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 
@@ -42,7 +42,7 @@ fun PatternsWebPagesListScreen(vm: PatternsWebPagesViewModel, item: MPattern,  n
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
-                        .clickable { navController?.navigate(PatternsHosts.PatternsWebPagesDetail.route + "/$index") },
+                        .clickable { navController?.navigate(PatternsScreens.PatternsWebPagesDetail.route + "/$index") },
                     elevation = 8.dp,
                     backgroundColor = Color.White,
                 ) {

@@ -22,7 +22,7 @@ import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.copyText
 import com.zwstudio.lolly.common.googleString
-import com.zwstudio.lolly.models.wpp.MLangPhrase
+import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
@@ -33,8 +33,9 @@ fun PhrasesLangScreen(vm: PhrasesLangViewModel, navController: NavHostController
 
     val lstPhrases = vm.lstPhrases_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
-    var currentItem by remember { mutableStateOf<MLangPhrase?>(null) }
+    var currentItemIndex by remember { mutableStateOf(0) }
     val context = LocalContext.current
+    var showDetail by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit, block = {
         vm.getData()
@@ -70,9 +71,9 @@ fun PhrasesLangScreen(vm: PhrasesLangViewModel, navController: NavHostController
                         .padding(top = 8.dp, bottom = 8.dp)
                         .fillMaxWidth()
                         .combinedClickable(
-                            onClick = { navController?.navigate(PhrasesScreens.PhrasesLangDetail.route + "/$index") },
+                            onClick = { speak(item.phrase) },
                             onLongClick = {
-                                currentItem = item
+                                currentItemIndex = index
                                 showItemDialog = true
                             },
                         ),
@@ -97,41 +98,48 @@ fun PhrasesLangScreen(vm: PhrasesLangViewModel, navController: NavHostController
                 }
             }
         }
-        if (showItemDialog) {
-            val item = currentItem!!
-            AlertDialog(
-                onDismissRequest = { showItemDialog = false },
-                title = { Text(text = item.phrase) },
-                buttons = {
-                    TextButton(onClick = {
-                        showItemDialog = false
-                    }) {
-                        Text(stringResource(id = R.string.action_delete))
-                    }
-                    TextButton(onClick = {
-                        showItemDialog = false
-                    }) {
-                        Text(stringResource(id = R.string.action_edit))
-                    }
-                    TextButton(onClick = {
-                        showItemDialog = false
-                        copyText(context, item.phrase)
-                    }) {
-                        Text(stringResource(id = R.string.action_copy_phrase))
-                    }
-                    TextButton(onClick = {
-                        showItemDialog = false
-                        googleString(context, item.phrase)
-                    }) {
-                        Text(stringResource(id = R.string.action_google_phrase))
-                    }
-                    TextButton(onClick = {
-                        showItemDialog = false
-                    }) {
-                        Text(stringResource(id = R.string.action_cancel))
-                    }
-                },
-            )
-        }
+    }
+
+    if (showItemDialog) {
+        val item = lstPhrases[currentItemIndex]
+        AlertDialog(
+            onDismissRequest = { showItemDialog = false },
+            title = { Text(text = item.phrase) },
+            buttons = {
+                TextButton(onClick = {
+                    showItemDialog = false
+                }) {
+                    Text(stringResource(id = R.string.action_delete))
+                }
+                TextButton(onClick = {
+                    showItemDialog = false
+                    showDetail = true
+                }) {
+                    Text(stringResource(id = R.string.action_edit))
+                }
+                TextButton(onClick = {
+                    showItemDialog = false
+                    copyText(context, item.phrase)
+                }) {
+                    Text(stringResource(id = R.string.action_copy_phrase))
+                }
+                TextButton(onClick = {
+                    showItemDialog = false
+                    googleString(context, item.phrase)
+                }) {
+                    Text(stringResource(id = R.string.action_google_phrase))
+                }
+                TextButton(onClick = {
+                    showItemDialog = false
+                }) {
+                    Text(stringResource(id = R.string.action_cancel))
+                }
+            },
+        )
+    }
+
+    if (showDetail) {
+        showDetail = false
+        navController?.navigate(PhrasesScreens.PhrasesLangDetail.route + "/$currentItemIndex")
     }
 }
