@@ -57,11 +57,12 @@ class PhrasesUnitDetailFragment : Fragment(), MenuProvider {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vmDetail.save()
-                if (item.id == 0)
+                val isAdd = item.id == 0
+                if (isAdd)
                     vm.create(item)
                 else
                     vm.update(item)
-                setFragmentResult("PhrasesUnitDetailFragment", bundleOf("result" to "1"))
+                setFragmentResult("PhrasesUnitDetailFragment", bundleOf("isAdd" to isAdd))
                 findNavController().navigateUp()
                 true
             }

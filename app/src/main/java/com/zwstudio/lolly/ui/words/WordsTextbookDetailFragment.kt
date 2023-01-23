@@ -58,7 +58,7 @@ class WordsTextbookDetailFragment : Fragment(), MenuProvider {
             R.id.menuSave -> {
                 vmDetail.save()
                 vm.update(item)
-                setFragmentResult("WordsTextbookDetailFragment", bundleOf("result" to "1"))
+                setFragmentResult("WordsTextbookDetailFragment", bundleOf())
                 findNavController().navigateUp()
                 true
             }

@@ -57,7 +57,7 @@ class WordsLangDetailFragment : Fragment(), MenuProvider {
                     vm.create(item)
                 else
                     vm.update(item)
-                setFragmentResult("WordsLangDetailFragment", bundleOf("result" to "1"))
+                setFragmentResult("WordsLangDetailFragment", bundleOf())
                 findNavController().navigateUp()
                 true
             }

@@ -104,7 +104,7 @@ class PhrasesUnitBatchEditFragment : Fragment(), MenuProvider {
                         if (binding.chkSeqNum.isChecked) item.seqnum += binding.etSeqNum.text.toString().toInt()
                         vm.update(item)
                     }
-                    setFragmentResult("PhrasesUnitBatchEditFragment", bundleOf("result" to "1"))
+                    setFragmentResult("PhrasesUnitBatchEditFragment", bundleOf())
                     findNavController().navigateUp()
                 }
                 true

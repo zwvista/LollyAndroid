@@ -57,7 +57,7 @@ class PatternsDetailFragment : Fragment(), MenuProvider {
                     vm.create(item)
                 else
                     vm.update(item)
-                setFragmentResult("PatternsDetailFragment", bundleOf("result" to "1"))
+                setFragmentResult("PatternsDetailFragment", bundleOf())
                 findNavController().navigateUp()
                 true
             }

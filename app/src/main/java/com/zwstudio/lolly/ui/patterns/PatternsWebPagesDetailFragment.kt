@@ -57,7 +57,7 @@ class PatternsWebPagesDetailFragment : Fragment(), MenuProvider {
                     vm.createPatternWebPage(item)
                 else
                     vm.updatePatternWebPage(item)
-                setFragmentResult("PatternsWebPagesDetailFragment", bundleOf("result" to "1"))
+                setFragmentResult("PatternsWebPagesDetailFragment", bundleOf())
                 findNavController().navigateUp()
                 true
             }

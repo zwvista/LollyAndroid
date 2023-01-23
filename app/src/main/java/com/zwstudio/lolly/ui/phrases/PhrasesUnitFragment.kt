@@ -66,8 +66,9 @@ class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopePhraseFilters) { it.label }
         setupListView(PhrasesUnitDragItem(requireContext(), R.layout.list_item_phrases_unit_edit))
 
-        setFragmentResultListener("PhrasesUnitDetailFragment") { requestKey, bundle ->
-            menuAdd()
+        setFragmentResultListener("PhrasesUnitDetailFragment") { _, bundle ->
+            if (bundle.getBoolean("isAdd"))
+                menuAdd()
         }
 
         combine(vm.lstPhrases_, vm.isEditMode_, ::Pair).onEach {
