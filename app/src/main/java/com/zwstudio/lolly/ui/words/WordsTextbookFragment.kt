@@ -145,9 +145,7 @@ class WordsTextbookFragment : DrawerListFragment() {
                                     val pos = mDragListView.adapter.getPositionForItem(item)
                                     mDragListView.adapter.removeItem(pos)
                                     vm.delete(item)
-                                }, {
-                                    mDragListView.resetSwipedViews(null)
-                                })
+                                }, {})
                             1 -> edit(item)
                             2 -> {
                                 val index = itemList.indexOf(item)

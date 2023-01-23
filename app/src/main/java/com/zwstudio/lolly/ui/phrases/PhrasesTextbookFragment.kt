@@ -124,10 +124,8 @@ class PhrasesTextbookFragment : DrawerListFragment() {
                                 yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
                                     val pos = mDragListView.adapter.getPositionForItem(item)
                                     mDragListView.adapter.removeItem(pos)
-//                                            compositeDisposable.add(vm.delete(item.id).subscribe())
-                                }, {
-                                    mDragListView.resetSwipedViews(null)
-                                })
+                                    vm.delete(item)
+                                }, {})
 
                             1 -> navController.navigate(PhrasesTextbookFragmentDirections.actionPhrasesTextbookFragmentToPhrasesTextbookDetailFragment(item))
                             2 -> copyText(itemView.context, item.phrase)
