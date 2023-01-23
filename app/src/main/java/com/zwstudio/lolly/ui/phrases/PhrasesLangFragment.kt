@@ -30,6 +30,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.nio.file.Files.delete
 
 class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
 
@@ -85,11 +86,6 @@ class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
             else -> false
         }
 
-//    fun onResult(resultCode: Int) {
-//        if (resultCode == Activity.RESULT_OK)
-//            mDragListView.resetSwipedViews(null)
-//    }
-
     private class PhrasesLangItemAdapter(val vm: PhrasesLangViewModel, val mDragListView: DragListView, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangPhrase, PhrasesLangItemAdapter.ViewHolder>() {
 
         init {
@@ -116,86 +112,40 @@ class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
         inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView = itemView.findViewById(R.id.text1)
             var mText2: TextView = itemView.findViewById(R.id.text2)
-            var mEdit: TextView = itemView.findViewById(R.id.item_edit)
-            var mDelete: TextView = itemView.findViewById(R.id.item_delete)
-            var mMore: TextView = itemView.findViewById(R.id.item_more)
             val navController get() = (itemView.context as MainActivity).getNavController()
 
-            init {
-                initButtons()
-            }
-
-            fun edit(item: MLangPhrase) =
-                navController.navigate(PhrasesLangFragmentDirections.actionPhrasesLangFragmentToPhrasesLangDetailFragment(item))
-
-            @SuppressLint("ClickableViewAccessibility")
-            private fun initButtons() {
-                fun delete(item: MLangPhrase) {
-                    yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
-                        val pos = mDragListView.adapter.getPositionForItem(item)
-                        mDragListView.adapter.removeItem(pos)
-                        compositeDisposable.add(vm.delete(item).subscribe())
-                        vm.isSwipeStarted = false
-                    }, {
-                        mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
-                    })
-                }
-                mEdit.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MLangPhrase
-                        edit(item)
-                    }
-                    true
-                }
-                mDelete.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MLangPhrase
-                        delete(item)
-                    }
-                    true
-                }
-                mMore.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
-
-                        val item = itemView.tag as MLangPhrase
-                        // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
-                        AlertDialog.Builder(itemView.context)
-                            .setTitle(item.phrase)
-                            .setItems(arrayOf(
-                                itemView.context.getString(R.string.action_delete),
-                                itemView.context.getString(R.string.action_edit),
-                                itemView.context.getString(R.string.action_copy_phrase),
-                                itemView.context.getString(R.string.action_google_phrase),
-                                itemView.context.getString(R.string.action_cancel),
-                            )) { _, which ->
-                                when (which) {
-                                    0 -> delete(item)
-                                    1 -> edit(item)
-                                    2 -> copyText(itemView.context, item.phrase)
-                                    3 -> googleString(itemView.context, item.phrase)
-                                    else -> {}
-                                }
-                            }.show()
-                    }
-                    true
-                }
-            }
-
             override fun onItemClicked(view: View?) {
-                if (vm.isSwipeStarted) {
-                    mDragListView.resetSwipedViews(null)
-                    vm.isSwipeStarted = false
-                } else {
-                    val item = view!!.tag as MLangPhrase
-                    speak(item.phrase)
-                }
+                val item = itemView.tag as MLangPhrase
+                speak(item.phrase)
             }
 
             override fun onItemLongClicked(view: View?): Boolean {
-                Toast.makeText(view!!.context, "Item long clicked", Toast.LENGTH_SHORT).show()
+                val item = itemView.tag as MLangPhrase
+                // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
+                AlertDialog.Builder(itemView.context)
+                    .setTitle(item.phrase)
+                    .setItems(arrayOf(
+                        itemView.context.getString(R.string.action_delete),
+                        itemView.context.getString(R.string.action_edit),
+                        itemView.context.getString(R.string.action_copy_phrase),
+                        itemView.context.getString(R.string.action_google_phrase),
+                        itemView.context.getString(R.string.action_cancel),
+                    )) { _, which ->
+                        when (which) {
+                            0 ->
+                                yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
+                                    val pos = mDragListView.adapter.getPositionForItem(item)
+                                    mDragListView.adapter.removeItem(pos)
+                                    compositeDisposable.add(vm.delete(item).subscribe())
+                                }, {
+                                    mDragListView.resetSwipedViews(null)
+                                })
+                            1 -> navController.navigate(PhrasesLangFragmentDirections.actionPhrasesLangFragmentToPhrasesLangDetailFragment(item))
+                            2 -> copyText(itemView.context, item.phrase)
+                            3 -> googleString(itemView.context, item.phrase)
+                            else -> {}
+                        }
+                    }.show()
                 return true
             }
         }
