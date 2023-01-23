@@ -22,7 +22,9 @@ class PatternsWebPagesViewModel : DrawerListViewModel(), KoinComponent {
     private val webPageService by inject<WebPageService>()
 
     suspend fun getWebPages(patternid: Int) {
+        isBusy = true
         lstWebPages = patternWebPageService.getDataByPattern(patternid).toMutableList()
+        isBusy = false
         currentWebPageIndex = 0
     }
 

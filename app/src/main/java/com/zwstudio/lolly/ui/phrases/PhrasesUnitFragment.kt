@@ -75,9 +75,12 @@ class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
+        vm.isBusy_.onEach {
+            progressBar1.visibility = if (it) View.VISIBLE else View.GONE
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
         viewLifecycleOwner.lifecycleScope.launch {
             vm.getDataInTextbook()
-            progressBar1.visibility = View.GONE
         }
     }
 

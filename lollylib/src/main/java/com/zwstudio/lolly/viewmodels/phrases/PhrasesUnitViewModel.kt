@@ -38,12 +38,16 @@ class PhrasesUnitViewModel : DrawerListViewModel(), KoinComponent {
     }
 
     suspend fun getDataInTextbook() {
+        isBusy = true
         lstPhrasesAll = unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
+        isBusy = false
     }
 
     suspend fun getDataInLang() {
+        isBusy = true
         lstPhrasesAll = unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+        isBusy = false
     }
 
     suspend fun updateSeqNum(id: Int, seqnum: Int) {

@@ -7,11 +7,11 @@ import com.zwstudio.lolly.services.wpp.LangWordService
 import com.zwstudio.lolly.services.wpp.UnitWordService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -41,12 +41,16 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
     }
 
     suspend fun getDataInTextbook() {
+        isBusy = true
         lstWordsAll = unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
             vmSettings.usunitpartfrom, vmSettings.usunitpartto)
+        isBusy = false
     }
 
     suspend fun getDataInLang() {
+        isBusy = true
         lstWordsAll = unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+        isBusy = false
     }
 
     suspend fun updateSeqNum(id: Int, seqnum: Int) {
@@ -99,6 +103,7 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
     }
 
     fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) = viewModelScope.launch {
+        isBusy = true
         vmSettings.getNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
@@ -106,10 +111,16 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
                 getNote(lstWords[i])
                 oneComplete(i)
             }
-        }, allComplete = allComplete)
+        }, allComplete = {
+            viewModelScope.launch {
+                isBusy = false
+                allComplete()
+            }
+        })
     }
 
     fun clearNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) = viewModelScope.launch {
+        isBusy = true
         vmSettings.clearNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
@@ -117,6 +128,11 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
                 clearNote(lstWords[i])
                 oneComplete(i)
             }
-        }, allComplete = allComplete)
+        }, allComplete = {
+            viewModelScope.launch {
+                isBusy = false
+                allComplete()
+            }
+        })
     }
 }

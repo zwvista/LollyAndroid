@@ -5,11 +5,11 @@ import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.wpp.MLangPhrase
 import com.zwstudio.lolly.services.wpp.LangPhraseService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -34,7 +34,9 @@ class PhrasesLangViewModel : DrawerListViewModel(), KoinComponent {
     }
 
     suspend fun getData() {
+        isBusy = true
         lstPhrasesAll = langPhraseService.getDataByLang(vmSettings.selectedLang.id)
+        isBusy = false
     }
 
     fun update(item: MLangPhrase) = viewModelScope.launch {
