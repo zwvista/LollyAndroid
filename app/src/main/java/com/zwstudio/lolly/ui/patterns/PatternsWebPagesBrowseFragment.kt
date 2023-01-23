@@ -14,7 +14,6 @@ import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeAdapter
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -46,7 +45,7 @@ class PatternsWebPagesBrowseFragment : Fragment() {
             binding.webView.loadUrl(vm.lstWebPages[it].url)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        compositeDisposable.add(vm.getWebPages(item.id).subscribeBy {
+        compositeDisposable.add(vm.getWebPages(item.id).subscribe {
             binding.spnWebPages.adapter = makeAdapter(requireContext(), android.R.layout.simple_spinner_item, 0, vm.lstWebPages) { v, position ->
                 val tv = v.findViewById<TextView>(android.R.id.text1)
                 tv.text = vm.getWebPageText(position)

@@ -34,10 +34,12 @@ class PhrasesLangViewModel : DrawerListViewModel(), KoinComponent {
         }.launchIn(viewModelScope)
     }
 
-    fun getData(): Completable =
-        langPhraseService.getDataByLang(vmSettings.selectedLang.id)
+    fun getData(): Completable {
+        isBusy = true
+        return langPhraseService.getDataByLang(vmSettings.selectedLang.id)
             .applyIO()
-            .flatMapCompletable { lstPhrasesAll = it; Completable.complete() }
+            .flatMapCompletable { lstPhrasesAll = it; isBusy = false; Completable.complete() }
+    }
 
     fun update(item: MLangPhrase): Completable =
         langPhraseService.update(item)

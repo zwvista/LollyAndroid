@@ -41,16 +41,22 @@ class PhrasesUnitViewModel : DrawerListViewModel(), KoinComponent {
         }.launchIn(viewModelScope)
     }
 
-    fun getDataInTextbook(): Completable =
-        unitPhraseService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
-                vmSettings.usunitpartfrom, vmSettings.usunitpartto)
+    fun getDataInTextbook(): Completable {
+        isBusy = true
+        return unitPhraseService.getDataByTextbookUnitPart(
+            vmSettings.selectedTextbook,
+            vmSettings.usunitpartfrom, vmSettings.usunitpartto
+        )
             .applyIO()
-            .flatMapCompletable { lstPhrasesAll = it; Completable.complete() }
+            .flatMapCompletable { lstPhrasesAll = it; isBusy = false; Completable.complete() }
+    }
 
-    fun getDataInLang(): Completable =
-        unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+    fun getDataInLang(): Completable {
+        isBusy = true
+        return unitPhraseService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
             .applyIO()
-            .flatMapCompletable { lstPhrasesAll = it; Completable.complete() }
+            .flatMapCompletable { lstPhrasesAll = it; isBusy = false; Completable.complete() }
+    }
 
     fun updateSeqNum(id: Int, seqnum: Int): Completable =
         unitPhraseService.updateSeqNum(id, seqnum)

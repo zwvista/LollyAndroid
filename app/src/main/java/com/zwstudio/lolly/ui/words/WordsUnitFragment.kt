@@ -76,9 +76,11 @@ class WordsUnitFragment : DrawerListFragment(), MenuProvider {
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        compositeDisposable.add(vm.getDataInTextbook().subscribe {
-            progressBar1.visibility = View.GONE
-        })
+        vm.isBusy_.onEach {
+            progressBar1.visibility = if (it) View.VISIBLE else View.GONE
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        compositeDisposable.add(vm.getDataInTextbook().subscribe())
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -95,26 +97,16 @@ class WordsUnitFragment : DrawerListFragment(), MenuProvider {
         findNavController().navigate(WordsUnitFragmentDirections.actionWordsUnitFragmentToWordsUnitDetailFragment(vm.newUnitWord()))
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-        fun getNotes(ifEmpty: Boolean) {
-            val handler = Handler(Looper.getMainLooper())
-            progressBar1.visibility = View.VISIBLE
-            vm.getNotes(ifEmpty, oneComplete = {}, allComplete = {
-                handler.post {
-                    mDragListView.adapter.notifyDataSetChanged()
-                    progressBar1.visibility = View.GONE
-                }
-            })
-        }
-        fun clearNotes(ifEmpty: Boolean) {
-            val handler = Handler(Looper.getMainLooper())
-            progressBar1.visibility = View.VISIBLE
-            vm.clearNotes(ifEmpty, oneComplete = {}, allComplete = {
-                handler.post {
-                    mDragListView.adapter.notifyDataSetChanged()
-                    progressBar1.visibility = View.GONE
-                }
-            })
-        }
+        fun getNotes(ifEmpty: Boolean) =
+            vm.getNotes(ifEmpty, oneComplete = {
+                mDragListView.adapter.notifyItemChanged(it)
+            }, allComplete = {})
+
+        fun clearNotes(ifEmpty: Boolean) =
+            vm.clearNotes(ifEmpty, oneComplete = {
+                mDragListView.adapter.notifyItemChanged(it)
+            }, allComplete = {})
+
         return when (menuItem.itemId) {
             R.id.menuNormalMode -> {
                 setEditMode(menuItem, false)

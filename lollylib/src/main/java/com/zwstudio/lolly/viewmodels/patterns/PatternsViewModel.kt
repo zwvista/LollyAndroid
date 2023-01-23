@@ -37,10 +37,12 @@ class PatternsViewModel : DrawerListViewModel(), KoinComponent {
         }.launchIn(viewModelScope)
     }
 
-    fun getData(): Completable =
-        patternService.getDataByLang(vmSettings.selectedLang.id)
+    fun getData(): Completable {
+        isBusy = true
+        return patternService.getDataByLang(vmSettings.selectedLang.id)
             .applyIO()
-            .flatMapCompletable { lstPatternsAll = it; Completable.complete() }
+            .flatMapCompletable { lstPatternsAll = it; isBusy = false; Completable.complete() }
+    }
 
     fun update(item: MPattern): Completable =
         patternService.update(item)

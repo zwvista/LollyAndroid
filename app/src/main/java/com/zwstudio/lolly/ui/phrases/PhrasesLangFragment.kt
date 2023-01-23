@@ -65,9 +65,11 @@ class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        compositeDisposable.add(vm.getData().subscribe {
-            progressBar1.visibility = View.GONE
-        })
+        vm.isBusy_.onEach {
+            progressBar1.visibility = if (it) View.VISIBLE else View.GONE
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        compositeDisposable.add(vm.getData().subscribe())
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

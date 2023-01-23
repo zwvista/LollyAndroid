@@ -61,9 +61,11 @@ class WordsTextbookFragment : DrawerListFragment() {
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        compositeDisposable.add(vm.getDataInLang().subscribe {
-            progressBar1.visibility = View.GONE
-        })
+        vm.isBusy_.onEach {
+            progressBar1.visibility = if (it) View.VISIBLE else View.GONE
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        compositeDisposable.add(vm.getDataInLang().subscribe())
     }
 
     private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {

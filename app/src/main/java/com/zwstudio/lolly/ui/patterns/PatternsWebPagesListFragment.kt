@@ -28,7 +28,6 @@ import com.zwstudio.lolly.ui.common.yesNoDialog
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -62,9 +61,7 @@ class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        compositeDisposable.add(vm.getWebPages(item.id).subscribeBy {
-            progressBar1.visibility = View.GONE
-        })
+        compositeDisposable.add(vm.getWebPages(item.id).subscribe())
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {

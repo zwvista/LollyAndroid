@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -44,16 +45,22 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         }.launchIn(viewModelScope)
     }
 
-    fun getDataInTextbook(): Completable =
-        unitWordService.getDataByTextbookUnitPart(vmSettings.selectedTextbook,
-            vmSettings.usunitpartfrom, vmSettings.usunitpartto)
+    fun getDataInTextbook(): Completable {
+        isBusy = true
+        return unitWordService.getDataByTextbookUnitPart(
+            vmSettings.selectedTextbook,
+            vmSettings.usunitpartfrom, vmSettings.usunitpartto
+        )
             .applyIO()
-            .flatMapCompletable { lstWordsAll = it; Completable.complete() }
+            .flatMapCompletable { lstWordsAll = it; isBusy = false; Completable.complete() }
+    }
 
-    fun getDataInLang(): Completable =
-        unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
+    fun getDataInLang(): Completable {
+        isBusy = true
+        return unitWordService.getDataByLang(vmSettings.selectedLang.id, vmSettings.lstTextbooks)
             .applyIO()
-            .flatMapCompletable { lstWordsAll = it; Completable.complete() }
+            .flatMapCompletable { lstWordsAll = it; isBusy = false; Completable.complete() }
+    }
 
     fun updateSeqNum(id: Int, seqnum: Int): Completable =
         unitWordService.updateSeqNum(id, seqnum)
@@ -106,18 +113,26 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
     }
 
     fun getNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
+        isBusy = true
         vmSettings.getNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
             compositeDisposable.add(getNote(lstWords[i]).subscribe { oneComplete(i) })
-        }, allComplete = allComplete)
+        }, allComplete = {
+            isBusy = false
+            allComplete()
+        })
     }
 
     fun clearNotes(ifEmpty: Boolean, oneComplete: (Int) -> Unit, allComplete: () -> Unit) {
+        isBusy = true
         vmSettings.clearNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
             compositeDisposable.add(clearNote(lstWords[i]).subscribe { oneComplete(i) })
-        }, allComplete = allComplete)
+        }, allComplete = {
+            isBusy = false
+            allComplete()
+        })
     }
 }

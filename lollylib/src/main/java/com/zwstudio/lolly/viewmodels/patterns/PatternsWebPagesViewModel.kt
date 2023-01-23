@@ -5,6 +5,7 @@ import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.services.wpp.PatternWebPageService
 import com.zwstudio.lolly.services.wpp.WebPageService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.KoinComponent
@@ -23,10 +24,12 @@ class PatternsWebPagesViewModel : DrawerListViewModel(), KoinComponent {
     private val patternWebPageService by inject<PatternWebPageService>()
     private val webPageService by inject<WebPageService>()
 
-    fun getWebPages(patternid: Int) =
-        patternWebPageService.getDataByPattern(patternid)
+    fun getWebPages(patternid: Int): Completable {
+        isBusy = true
+        return patternWebPageService.getDataByPattern(patternid)
             .applyIO()
-            .map { lstWebPages = it.toMutableList() }
+            .flatMapCompletable { lstWebPages = it.toMutableList(); isBusy = false; Completable.complete() }
+    }
 
     fun updatePatternWebPage(item: MPatternWebPage) =
         patternWebPageService.update(item)
