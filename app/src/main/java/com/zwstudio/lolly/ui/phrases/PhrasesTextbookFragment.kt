@@ -100,86 +100,41 @@ class PhrasesTextbookFragment : DrawerListFragment() {
             var mText1: TextView = itemView.findViewById(R.id.text1)
             var mText2: TextView = itemView.findViewById(R.id.text2)
             var mText3: TextView = itemView.findViewById(R.id.text3)
-            var mEdit: TextView = itemView.findViewById(R.id.item_edit)
-            var mDelete: TextView = itemView.findViewById(R.id.item_delete)
-            var mMore: TextView = itemView.findViewById(R.id.item_more)
             val navController get() = (itemView.context as MainActivity).getNavController()
 
-            init {
-                initButtons()
-            }
-
-            fun edit(item: MUnitPhrase) =
-                navController.navigate(PhrasesTextbookFragmentDirections.actionPhrasesTextbookFragmentToPhrasesTextbookDetailFragment(item))
-
-            @SuppressLint("ClickableViewAccessibility")
-            private fun initButtons() {
-                fun delete(item: MUnitPhrase) {
-                    yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
-                        val pos = mDragListView.adapter.getPositionForItem(item)
-                        mDragListView.adapter.removeItem(pos)
-//                        compositeDisposable.add(vm.delete(item.id).subscribe())
-                        vm.isSwipeStarted = false
-                    }, {
-                        mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
-                    })
-                }
-                mEdit.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MUnitPhrase
-                        edit(item)
-                    }
-                    true
-                }
-                mDelete.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MUnitPhrase
-                        delete(item)
-                    }
-                    true
-                }
-                mMore.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
-
-                        val item = itemView.tag as MUnitPhrase
-                        // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
-                        AlertDialog.Builder(itemView.context)
-                            .setTitle(item.phrase)
-                            .setItems(arrayOf(
-                                itemView.context.getString(R.string.action_delete),
-                                itemView.context.getString(R.string.action_edit),
-                                itemView.context.getString(R.string.action_copy_phrase),
-                                itemView.context.getString(R.string.action_google_phrase),
-                                itemView.context.getString(R.string.action_cancel),
-                            )) { _, which ->
-                                when (which) {
-                                    0 -> delete(item)
-                                    1 -> edit(item)
-                                    2 -> copyText(itemView.context, item.phrase)
-                                    3 -> googleString(itemView.context, item.phrase)
-                                    else -> {}
-                                }
-                            }.show()
-                    }
-                    true
-                }
-            }
-
             override fun onItemClicked(view: View?) {
-                if (vm.isSwipeStarted) {
-                    mDragListView.resetSwipedViews(null)
-                    vm.isSwipeStarted = false
-                } else {
-                    val item = view!!.tag as MUnitPhrase
-                    speak(item.phrase)
-                }
+                val item = itemView.tag as MUnitPhrase
+                speak(item.phrase)
             }
 
             override fun onItemLongClicked(view: View?): Boolean {
-                Toast.makeText(view!!.context, "Item long clicked", Toast.LENGTH_SHORT).show()
+                val item = itemView.tag as MUnitPhrase
+                // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
+                AlertDialog.Builder(itemView.context)
+                    .setTitle(item.phrase)
+                    .setItems(arrayOf(
+                        itemView.context.getString(R.string.action_delete),
+                        itemView.context.getString(R.string.action_edit),
+                        itemView.context.getString(R.string.action_copy_phrase),
+                        itemView.context.getString(R.string.action_google_phrase),
+                        itemView.context.getString(R.string.action_cancel),
+                    )) { _, which ->
+                        when (which) {
+                            0 ->
+                                yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
+                                    val pos = mDragListView.adapter.getPositionForItem(item)
+                                    mDragListView.adapter.removeItem(pos)
+//                                            compositeDisposable.add(vm.delete(item.id).subscribe())
+                                }, {
+                                    mDragListView.resetSwipedViews(null)
+                                })
+
+                            1 -> navController.navigate(PhrasesTextbookFragmentDirections.actionPhrasesTextbookFragmentToPhrasesTextbookDetailFragment(item))
+                            2 -> copyText(itemView.context, item.phrase)
+                            3 -> googleString(itemView.context, item.phrase)
+                            else -> {}
+                        }
+                    }.show()
                 return true
             }
         }

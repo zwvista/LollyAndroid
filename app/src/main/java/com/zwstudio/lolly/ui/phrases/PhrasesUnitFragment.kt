@@ -36,6 +36,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.nio.file.Files.delete
 
 class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {
 
@@ -162,92 +163,52 @@ class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {
             var mText1: TextView = itemView.findViewById(R.id.text1)
             var mText2: TextView = itemView.findViewById(R.id.text2)
             var mText3: TextView = itemView.findViewById(R.id.text3)
-            var mEdit: TextView = itemView.findViewById(R.id.item_edit)
-            var mDelete: TextView = itemView.findViewById(R.id.item_delete)
-            var mMore: TextView = itemView.findViewById(R.id.item_more)
             var mHamburger: ImageView = itemView.findViewById(R.id.image_hamburger)
             val navController get() = (itemView.context as MainActivity).getNavController()
 
             init {
-                initButtons()
+                if (!(vm.isEditMode && vmSettings.isSingleUnitPart && vm.noFilter))
+                    mHamburger.visibility = View.GONE
             }
 
             fun edit(item: MUnitPhrase) =
                 navController.navigate(PhrasesUnitFragmentDirections.actionPhrasesUnitFragmentToPhrasesUnitDetailFragment(item))
 
-            @SuppressLint("ClickableViewAccessibility")
-            private fun initButtons() {
-                fun delete(item: MUnitPhrase) {
-                    yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
-                        val pos = mDragListView.adapter.getPositionForItem(item)
-                        mDragListView.adapter.removeItem(pos)
-                        vm.delete(item)
-                        vm.isSwipeStarted = false
-                    }, {
-                        mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
-                    })
-                }
-                mEdit.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MUnitPhrase
-                        edit(item)
-                    }
-                    true
-                }
-                mDelete.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MUnitPhrase
-                        delete(item)
-                    }
-                    true
-                }
-                mMore.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
-
-                        val item = itemView.tag as MUnitPhrase
-                        // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
-                        AlertDialog.Builder(itemView.context)
-                            .setTitle(item.phrase)
-                            .setItems(arrayOf(
-                                itemView.context.getString(R.string.action_delete),
-                                itemView.context.getString(R.string.action_edit),
-                                itemView.context.getString(R.string.action_copy_phrase),
-                                itemView.context.getString(R.string.action_google_phrase),
-                                itemView.context.getString(R.string.action_cancel),
-                            )) { _, which ->
-                                when (which) {
-                                    0 -> delete(item)
-                                    1 -> edit(item)
-                                    2 -> copyText(itemView.context, item.phrase)
-                                    3 -> googleString(itemView.context, item.phrase)
-                                    else -> {}
-                                }
-                            }.show()
-                    }
-                    true
-                }
-                if (!(vm.isEditMode && vmSettings.isSingleUnitPart && vm.noFilter))
-                    mHamburger.visibility = View.GONE
-            }
-
             override fun onItemClicked(view: View?) {
-                if (vm.isSwipeStarted) {
-                    mDragListView.resetSwipedViews(null)
-                    vm.isSwipeStarted = false
-                } else {
-                    val item = view!!.tag as MUnitPhrase
-                    if (vm.isEditMode)
-                        edit(item)
-                    else
-                        speak(item.phrase)
-                }
+                val item = itemView.tag as MUnitPhrase
+                if (vm.isEditMode)
+                    edit(item)
+                else
+                    speak(item.phrase)
             }
 
             override fun onItemLongClicked(view: View?): Boolean {
-                Toast.makeText(view!!.context, "Item long clicked", Toast.LENGTH_SHORT).show()
+                val item = itemView.tag as MUnitPhrase
+                // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
+                AlertDialog.Builder(itemView.context)
+                    .setTitle(item.phrase)
+                    .setItems(arrayOf(
+                        itemView.context.getString(R.string.action_delete),
+                        itemView.context.getString(R.string.action_edit),
+                        itemView.context.getString(R.string.action_copy_phrase),
+                        itemView.context.getString(R.string.action_google_phrase),
+                        itemView.context.getString(R.string.action_cancel),
+                    )) { _, which ->
+                        when (which) {
+                            0 ->
+                                yesNoDialog(itemView.context, "Are you sure you want to delete the phrase \"${item.phrase}\"?", {
+                                    val pos = mDragListView.adapter.getPositionForItem(item)
+                                    mDragListView.adapter.removeItem(pos)
+                                    vm.delete(item)
+                                }, {
+                                    mDragListView.resetSwipedViews(null)
+                                })
+                            1 -> edit(item)
+                            2 -> copyText(itemView.context, item.phrase)
+                            3 -> googleString(itemView.context, item.phrase)
+                            else -> {}
+                        }
+                    }.show()
                 return true
             }
         }

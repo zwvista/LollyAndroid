@@ -4,8 +4,6 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
 open class DrawerListViewModel : ViewModel() {
-    val isSwipeStarted_ = MutableStateFlow(false)
-    var isSwipeStarted get() = isSwipeStarted_.value; set(v) { isSwipeStarted_.value = v }
     var isEditMode_ = MutableStateFlow(false)
     var isEditMode get() = isEditMode_.value; set(v) { isEditMode_.value = v }
     var textFilter_ = MutableStateFlow("")

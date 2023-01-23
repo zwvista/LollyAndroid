@@ -37,20 +37,6 @@ abstract class DrawerListFragment : Fragment() {
         ))
         mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
 
-        mDragListView.setSwipeListener(object : ListSwipeHelper.OnSwipeListenerAdapter() {
-            override fun onItemSwipeStarted(item: ListSwipeItem?) {
-                mRefreshLayout.isEnabled = false
-            }
-            override fun onItemSwipeEnded(item: ListSwipeItem?, swipedDirection: ListSwipeItem.SwipeDirection?) {
-                mRefreshLayout.isEnabled = true
-                when (swipedDirection) {
-                    ListSwipeItem.SwipeDirection.LEFT -> vmDrawerList.isSwipeStarted = true
-                    ListSwipeItem.SwipeDirection.RIGHT -> vmDrawerList.isSwipeStarted = true
-                    else -> {}
-                }
-            }
-        })
-
         mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
         if (dragItem == null)
             mDragListView.isDragEnabled = false

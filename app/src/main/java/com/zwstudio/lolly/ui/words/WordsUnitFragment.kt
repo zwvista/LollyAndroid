@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.nio.file.Files.delete
 
 class WordsUnitFragment : DrawerListFragment(), MenuProvider {
 
@@ -180,99 +181,16 @@ class WordsUnitFragment : DrawerListFragment(), MenuProvider {
             return mItemList[position].id.toLong()
         }
 
+        @SuppressLint("ClickableViewAccessibility")
         inner class ViewHolder(itemView: View) : DragItemAdapter.ViewHolder(itemView, R.id.image_hamburger, false) {
             var mText1: TextView = itemView.findViewById(R.id.text1)
             var mText2: TextView = itemView.findViewById(R.id.text2)
             var mText3: TextView = itemView.findViewById(R.id.text3)
-            var mEdit: TextView = itemView.findViewById(R.id.item_edit)
-            var mDelete: TextView = itemView.findViewById(R.id.item_delete)
-            var mMore: TextView = itemView.findViewById(R.id.item_more)
             var mForward: ImageView = itemView.findViewById(R.id.image_forward)
             var mHamburger: ImageView = itemView.findViewById(R.id.image_hamburger)
             val navController get() = (itemView.context as MainActivity).getNavController()
 
             init {
-                initButtons()
-            }
-
-            fun edit(item: MUnitWord) =
-                navController.navigate(WordsUnitFragmentDirections.actionWordsUnitFragmentToWordsUnitDetailFragment(item))
-
-            @SuppressLint("ClickableViewAccessibility")
-            private fun initButtons() {
-                fun delete(item: MUnitWord) {
-                    yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
-                        val pos = mDragListView.adapter.getPositionForItem(item)
-                        mDragListView.adapter.removeItem(pos)
-                        vm.delete(item)
-                        vm.isSwipeStarted = false
-                    }, {
-                        mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
-                    })
-                }
-                mEdit.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MUnitWord
-                        edit(item)
-                    }
-                    true
-                }
-                mDelete.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MUnitWord
-                        delete(item)
-                    }
-                    true
-                }
-                mMore.setOnTouchListener { _, event ->
-                    if (event.action == MotionEvent.ACTION_DOWN) {
-                        mDragListView.resetSwipedViews(null)
-                        vm.isSwipeStarted = false
-
-                        val item = itemView.tag as MUnitWord
-                        // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
-                        AlertDialog.Builder(itemView.context)
-                            .setTitle(item.wordnote)
-                            .setItems(arrayOf(
-                                itemView.context.getString(R.string.action_delete),
-                                itemView.context.getString(R.string.action_edit),
-                                itemView.context.getString(R.string.action_retrieve_note),
-                                itemView.context.getString(R.string.action_clear_note),
-                                itemView.context.getString(R.string.action_copy_word),
-                                itemView.context.getString(R.string.action_google_word),
-                                itemView.context.getString(R.string.action_online_dict),
-                                itemView.context.getString(R.string.action_cancel),
-                            )) { _, which ->
-                                when (which) {
-                                    0 -> delete(item)
-                                    1 -> edit(item)
-                                    2 -> {
-                                        val index = itemList.indexOf(item)
-                                        vm.viewModelScope.launch {
-                                            vm.getNote(item)
-                                            mDragListView.adapter.notifyItemChanged(index)
-                                        }
-                                    }
-                                    3 -> {
-                                        val index = itemList.indexOf(item)
-                                        vm.viewModelScope.launch {
-                                            vm.clearNote(item)
-                                            mDragListView.adapter.notifyItemChanged(index)
-                                        }
-                                    }
-                                    4 -> copyText(itemView.context, item.word)
-                                    5 -> googleString(itemView.context, item.word)
-                                    6 -> {
-                                        val url = vmSettings.selectedDictReference.urlString(item.word, vmSettings.lstAutoCorrect)
-                                        openPage(itemView.context, url)
-                                    }
-                                    else -> {}
-                                }
-                            }.show()
-                    }
-                    true
-                }
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MUnitWord
@@ -288,21 +206,65 @@ class WordsUnitFragment : DrawerListFragment(), MenuProvider {
                     mHamburger.visibility = View.GONE
             }
 
+            fun edit(item: MUnitWord) =
+                navController.navigate(WordsUnitFragmentDirections.actionWordsUnitFragmentToWordsUnitDetailFragment(item))
+
             override fun onItemClicked(view: View?) {
-                if (vm.isSwipeStarted) {
-                    mDragListView.resetSwipedViews(null)
-                    vm.isSwipeStarted = false
-                } else {
-                    val item = view!!.tag as MUnitWord
-                    if (vm.isEditMode)
-                        edit(item)
-                    else
-                        speak(item.word)
-                }
+                val item = itemView.tag as MUnitWord
+                if (vm.isEditMode)
+                    edit(item)
+                else
+                    speak(item.word)
             }
 
             override fun onItemLongClicked(view: View?): Boolean {
-                Toast.makeText(view!!.context, "Item long clicked", Toast.LENGTH_SHORT).show()
+                val item = itemView.tag as MUnitWord
+                // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
+                AlertDialog.Builder(itemView.context)
+                    .setTitle(item.wordnote)
+                    .setItems(arrayOf(
+                        itemView.context.getString(R.string.action_delete),
+                        itemView.context.getString(R.string.action_edit),
+                        itemView.context.getString(R.string.action_retrieve_note),
+                        itemView.context.getString(R.string.action_clear_note),
+                        itemView.context.getString(R.string.action_copy_word),
+                        itemView.context.getString(R.string.action_google_word),
+                        itemView.context.getString(R.string.action_online_dict),
+                        itemView.context.getString(R.string.action_cancel),
+                    )) { _, which ->
+                        when (which) {
+                            0 ->
+                                yesNoDialog(itemView.context, "Are you sure you want to delete the word \"${item.word}\"?", {
+                                    val pos = mDragListView.adapter.getPositionForItem(item)
+                                    mDragListView.adapter.removeItem(pos)
+                                    vm.delete(item)
+                                }, {
+                                    mDragListView.resetSwipedViews(null)
+                                })
+                            1 -> edit(item)
+                            2 -> {
+                                val index = itemList.indexOf(item)
+                                vm.viewModelScope.launch {
+                                    vm.getNote(item)
+                                    mDragListView.adapter.notifyItemChanged(index)
+                                }
+                            }
+                            3 -> {
+                                val index = itemList.indexOf(item)
+                                vm.viewModelScope.launch {
+                                    vm.clearNote(item)
+                                    mDragListView.adapter.notifyItemChanged(index)
+                                }
+                            }
+                            4 -> copyText(itemView.context, item.word)
+                            5 -> googleString(itemView.context, item.word)
+                            6 -> {
+                                val url = vmSettings.selectedDictReference.urlString(item.word, vmSettings.lstAutoCorrect)
+                                openPage(itemView.context, url)
+                            }
+                            else -> {}
+                        }
+                    }.show()
                 return true
             }
         }
