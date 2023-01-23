@@ -67,49 +67,54 @@ fun PhrasesTextbookScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
                 itemText = { it.label }
             )
         }
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            itemsIndexed(lstPhrases, key = { _, item -> item.id }) { index, item ->
-                Card(
-                    modifier = Modifier
-                        .padding(top = 8.dp, bottom = 8.dp)
-                        .fillMaxWidth()
-                        .combinedClickable(
-                            onClick = { speak(item.phrase) },
-                            onLongClick = {
-                                currentItemIndex = index
-                                showItemDialog = true
-                            },
-                        ),
-                    elevation = 8.dp,
-                    backgroundColor = Color.White,
-                ) {
-                    Row(
-                        modifier = Modifier.padding(start = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+        if (vm.isBusy) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                itemsIndexed(lstPhrases, key = { _, item -> item.id }) { index, item ->
+                    Card(
+                        modifier = Modifier
+                            .padding(top = 8.dp, bottom = 8.dp)
+                            .fillMaxWidth()
+                            .combinedClickable(
+                                onClick = { speak(item.phrase) },
+                                onLongClick = {
+                                    currentItemIndex = index
+                                    showItemDialog = true
+                                },
+                            ),
+                        elevation = 8.dp,
+                        backgroundColor = Color.White,
                     ) {
-                        CompositionLocalProvider(
-                            LocalTextStyle provides TextStyle(fontSize = 11.sp),
-                            LocalContentColor provides colorResource(R.color.color_text1)
+                        Row(
+                            modifier = Modifier.padding(start = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Column(modifier = Modifier.padding(end = 16.dp)) {
-                                Text(text = item.unitstr)
-                                Text(text = item.partstr)
-                                Text(text = "${item.seqnum}")
+                            CompositionLocalProvider(
+                                LocalTextStyle provides TextStyle(fontSize = 11.sp),
+                                LocalContentColor provides colorResource(R.color.color_text1)
+                            ) {
+                                Column(modifier = Modifier.padding(end = 16.dp)) {
+                                    Text(text = item.unitstr)
+                                    Text(text = item.partstr)
+                                    Text(text = "${item.seqnum}")
+                                }
                             }
-                        }
-                        Column {
-                            Text(
-                                text = item.phrase,
-                                color = colorResource(R.color.color_text2)
-                            )
-                            Text(
-                                text = item.translation,
-                                color = colorResource(R.color.color_text3)
-                            )
+                            Column {
+                                Text(
+                                    text = item.phrase,
+                                    color = colorResource(R.color.color_text2)
+                                )
+                                Text(
+                                    text = item.translation,
+                                    color = colorResource(R.color.color_text3)
+                                )
+                            }
                         }
                     }
                 }

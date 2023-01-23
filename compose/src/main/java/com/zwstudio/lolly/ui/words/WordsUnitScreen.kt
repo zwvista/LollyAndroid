@@ -134,73 +134,87 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                 itemText = { it.label }
             )
         }
-        LazyColumn(
-            state = state.listState,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-                .reorderable(state)
-        ) {
-            itemsIndexed(lstWords, key = { _, item -> item.id }) { index, item ->
-                ReorderableItem(state, item.id) { dragging ->
-                    Card(
-                        modifier = Modifier
-                            .padding(top = 8.dp, bottom = 8.dp)
-                            .fillMaxWidth()
-                            .combinedClickable(
-                                onClick = {
-                                    if (vm.isEditMode)
-                                        navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index")
-                                    else
-                                        speak(item.word)
-                                },
-                                onLongClick = {
-                                    currentItemIndex = index
-                                    showItemDialog = true
-                                },
-                            ),
-                        elevation = 8.dp,
-                        backgroundColor = Color.White,
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(start = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            CompositionLocalProvider(
-                                LocalTextStyle provides TextStyle(fontSize = 11.sp),
-                                LocalContentColor provides colorResource(R.color.color_text1)
-                            ) {
-                                Column(modifier = Modifier.padding(end = 16.dp)) {
-                                    Text(text = item.unitstr)
-                                    Text(text = item.partstr)
-                                    Text(text = "${item.seqnum}")
-                                }
-                            }
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = item.word,
-                                    color = colorResource(R.color.color_text2),
-                                    style = TextStyle(fontSize = 25.sp)
-                                )
-                                Text(
-                                    text = item.note,
-                                    color = colorResource(R.color.color_text3),
-                                    style = TextStyle(fontSize = 20.sp)
-                                )
-                            }
-                            if (vm.isEditMode_.collectAsState().value) {
-                                Icon(
-                                    Icons.Filled.Menu,
-                                    null,
-                                    modifier = Modifier.detectReorderAfterLongPress(state),
-                                    tint = MaterialTheme.colors.primary)
-                            } else {
-                                IconButton(
+        if (vm.isBusy) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            LazyColumn(
+                state = state.listState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .reorderable(state)
+            ) {
+                itemsIndexed(lstWords, key = { _, item -> item.id }) { index, item ->
+                    ReorderableItem(state, item.id) { dragging ->
+                        Card(
+                            modifier = Modifier
+                                .padding(top = 8.dp, bottom = 8.dp)
+                                .fillMaxWidth()
+                                .combinedClickable(
                                     onClick = {
-                                        navController?.navigate(WordsScreens.WordsDict.route + "/$index")
-                                    }
+                                        if (vm.isEditMode)
+                                            navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$index")
+                                        else
+                                            speak(item.word)
+                                    },
+                                    onLongClick = {
+                                        currentItemIndex = index
+                                        showItemDialog = true
+                                    },
+                                ),
+                            elevation = 8.dp,
+                            backgroundColor = Color.White,
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(start = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                CompositionLocalProvider(
+                                    LocalTextStyle provides TextStyle(fontSize = 11.sp),
+                                    LocalContentColor provides colorResource(R.color.color_text1)
                                 ) {
-                                    Icon(Icons.Filled.Info, null, tint = MaterialTheme.colors.primary)
+                                    Column(modifier = Modifier.padding(end = 16.dp)) {
+                                        Text(text = item.unitstr)
+                                        Text(text = item.partstr)
+                                        Text(text = "${item.seqnum}")
+                                    }
+                                }
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = item.word,
+                                        color = colorResource(R.color.color_text2),
+                                        style = TextStyle(fontSize = 25.sp)
+                                    )
+                                    Text(
+                                        text = item.note,
+                                        color = colorResource(R.color.color_text3),
+                                        style = TextStyle(fontSize = 20.sp)
+                                    )
+                                }
+                                if (vm.isEditMode_.collectAsState().value) {
+                                    Icon(
+                                        Icons.Filled.Menu,
+                                        null,
+                                        modifier = Modifier.detectReorderAfterLongPress(state),
+                                        tint = MaterialTheme.colors.primary
+                                    )
+                                } else {
+                                    IconButton(
+                                        onClick = {
+                                            navController?.navigate(WordsScreens.WordsDict.route + "/$index")
+                                        }
+                                    ) {
+                                        Icon(
+                                            Icons.Filled.Info,
+                                            null,
+                                            tint = MaterialTheme.colors.primary
+                                        )
+                                    }
                                 }
                             }
                         }

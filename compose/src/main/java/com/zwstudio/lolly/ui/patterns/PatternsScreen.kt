@@ -66,46 +66,51 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                 itemText = { it.label }
             )
         }
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            itemsIndexed(lstPatterns, key = { _, item -> item.id }) { index, item ->
-                Card(
-                    modifier = Modifier
-                        .padding(top = 8.dp, bottom = 8.dp)
-                        .fillMaxWidth()
-                        .combinedClickable(
-                            onClick = { speak(item.pattern) },
-                            onLongClick = {
-                                currentItemIndex = index
-                                showItemDialog = true
-                            },
-                        ),
-                    elevation = 8.dp,
-                    backgroundColor = Color.White,
-                ) {
-                    Row(
-                        modifier = Modifier.padding(start = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
+        if (vm.isBusy) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                itemsIndexed(lstPatterns, key = { _, item -> item.id }) { index, item ->
+                    Card(
+                        modifier = Modifier
+                            .padding(top = 8.dp, bottom = 8.dp)
+                            .fillMaxWidth()
+                            .combinedClickable(
+                                onClick = { speak(item.pattern) },
+                                onLongClick = {
+                                    currentItemIndex = index
+                                    showItemDialog = true
+                                },
+                            ),
+                        elevation = 8.dp,
+                        backgroundColor = Color.White,
                     ) {
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = item.pattern,
-                                color = colorResource(R.color.color_text2)
-                            )
-                            Text(
-                                text = item.tags,
-                                color = colorResource(R.color.color_text3)
-                            )
-                        }
-                        IconButton(
-                            onClick = {
-                                navController?.navigate(PatternsScreens.PatternsWebPagesBrowse.route + "/$index")
-                            }
+                        Row(
+                            modifier = Modifier.padding(start = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(Icons.Filled.Info, null, tint = MaterialTheme.colors.primary)
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = item.pattern,
+                                    color = colorResource(R.color.color_text2)
+                                )
+                                Text(
+                                    text = item.tags,
+                                    color = colorResource(R.color.color_text3)
+                                )
+                            }
+                            IconButton(
+                                onClick = {
+                                    navController?.navigate(PatternsScreens.PatternsWebPagesBrowse.route + "/$index")
+                                }
+                            ) {
+                                Icon(Icons.Filled.Info, null, tint = MaterialTheme.colors.primary)
+                            }
                         }
                     }
                 }
