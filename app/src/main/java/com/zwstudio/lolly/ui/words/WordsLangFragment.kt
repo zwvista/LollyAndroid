@@ -73,10 +73,6 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.menu_add, menu)
     }
