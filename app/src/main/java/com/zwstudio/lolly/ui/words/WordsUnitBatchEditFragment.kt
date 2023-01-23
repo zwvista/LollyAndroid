@@ -107,7 +107,7 @@ class WordsUnitBatchEditFragment : Fragment(), MenuProvider {
                         if (binding.chkSeqNum.isChecked) item.seqnum += binding.etSeqNum.text.toString().toInt()
                         compositeDisposable.add(vm.update(item).subscribe())
                     }
-                    setFragmentResult("WordsUnitBatchEditFragment", bundleOf("result" to "1"))
+                    setFragmentResult("WordsUnitBatchEditFragment", bundleOf())
                     findNavController().navigateUp()
                 }
                 true

@@ -60,7 +60,7 @@ class PatternsWebPagesDetailFragment : Fragment(), MenuProvider {
                     compositeDisposable.add(vm.createPatternWebPage(item).subscribe())
                 else
                     compositeDisposable.add(vm.updatePatternWebPage(item).subscribe())
-                setFragmentResult("PatternsWebPagesDetailFragment", bundleOf("result" to "1"))
+                setFragmentResult("PatternsWebPagesDetailFragment", bundleOf())
                 findNavController().navigateUp()
                 true
             }

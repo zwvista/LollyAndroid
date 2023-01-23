@@ -60,11 +60,12 @@ class WordsUnitDetailFragment : Fragment(), MenuProvider {
         when (menuItem.itemId) {
             R.id.menuSave -> {
                 vmDetail.save()
-                if (item.id == 0)
+                val isAdd = item.id == 0
+                if (isAdd)
                     compositeDisposable.add(vm.create(item).subscribe())
                 else
                     compositeDisposable.add(vm.update(item).subscribe())
-                setFragmentResult("WordsUnitDetailFragment", bundleOf("result" to "1"))
+                setFragmentResult("WordsUnitDetailFragment", bundleOf("isAdd" to isAdd))
                 findNavController().navigateUp()
                 true
             }

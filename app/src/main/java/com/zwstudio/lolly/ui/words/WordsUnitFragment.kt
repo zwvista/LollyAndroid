@@ -3,8 +3,6 @@ package com.zwstudio.lolly.ui.words
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.*
 import android.widget.ImageView
 import android.widget.SearchView
@@ -67,8 +65,9 @@ class WordsUnitFragment : DrawerListFragment(), MenuProvider {
         binding.spnScopeFilter.adapter = makeCustomAdapter(requireContext(), SettingsViewModel.lstScopeWordFilters) { it.label }
         setupListView(WordsUnitDragItem(requireContext(), R.layout.list_item_words_unit_edit))
 
-        setFragmentResultListener("WordsUnitDetailFragment") { _, _ ->
-            menuAdd()
+        setFragmentResultListener("WordsUnitDetailFragment") { _, bundle ->
+            if (bundle.getBoolean("isAdd"))
+                menuAdd()
         }
 
         combine(vm.lstWords_, vm.isEditMode_, ::Pair).onEach {

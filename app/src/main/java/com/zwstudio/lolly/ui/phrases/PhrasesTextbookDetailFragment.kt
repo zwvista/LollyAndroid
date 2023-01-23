@@ -61,7 +61,7 @@ class PhrasesTextbookDetailFragment : Fragment(), MenuProvider {
             R.id.menuSave -> {
                 vmDetail.save()
                 compositeDisposable.add(vm.update(item).subscribe())
-                setFragmentResult("PhrasesTextbookDetailFragment", bundleOf("result" to "1"))
+                setFragmentResult("PhrasesTextbookDetailFragment", bundleOf())
                 findNavController().navigateUp()
                 true
             }
