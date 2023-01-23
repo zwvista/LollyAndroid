@@ -119,11 +119,6 @@ class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {
             else -> false
         }
 
-//    fun onResult(resultCode: Int) {
-//        if (resultCode == Activity.RESULT_OK)
-//            mDragListView.resetSwipedViews(null)
-//    }
-
     private class PhrasesUnitDragItem(context: Context, layoutId: Int) : DragItem(context, layoutId) {
 
         override fun onBindDragView(clickedView: View, dragView: View) {
@@ -199,9 +194,7 @@ class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {
                                     val pos = mDragListView.adapter.getPositionForItem(item)
                                     mDragListView.adapter.removeItem(pos)
                                     compositeDisposable.add(vm.delete(item).subscribe())
-                                }, {
-                                    mDragListView.resetSwipedViews(null)
-                                })
+                                }, {})
                             1 -> edit(item)
                             2 -> copyText(itemView.context, item.phrase)
                             3 -> googleString(itemView.context, item.phrase)

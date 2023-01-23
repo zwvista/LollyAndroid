@@ -165,9 +165,7 @@ class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
                                     val pos = mDragListView.adapter.getPositionForItem(item)
                                     mDragListView.adapter.removeItem(pos)
                                     compositeDisposable.add(vm.deletePatternWebPage(item.id).subscribe())
-                                }, {
-                                    mDragListView.resetSwipedViews(null)
-                                })
+                                }, {})
                             1 -> edit(item)
                             else -> {}
                         }

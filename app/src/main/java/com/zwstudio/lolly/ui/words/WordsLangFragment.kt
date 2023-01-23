@@ -85,11 +85,6 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
             else -> false
         }
 
-//    fun onResult(resultCode: Int) {
-//        if (resultCode == Activity.RESULT_OK)
-//            mDragListView.resetSwipedViews(null)
-//    }
-
     private class WordsLangItemAdapter(val vm: WordsLangViewModel, val mDragListView: DragListView, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangWord, WordsLangItemAdapter.ViewHolder>() {
 
         init {
@@ -158,9 +153,7 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
                                     val pos = mDragListView.adapter.getPositionForItem(item)
                                     mDragListView.adapter.removeItem(pos)
                                     compositeDisposable.add(vm.delete(item).subscribe())
-                                }, {
-                                    mDragListView.resetSwipedViews(null)
-                                })
+                                }, {})
                             1 -> navController.navigate(WordsLangFragmentDirections.actionWordsLangFragmentToWordsLangDetailFragment(item))
                             2 -> {
                                 val index = itemList.indexOf(item)

@@ -236,9 +236,7 @@ class WordsUnitFragment : DrawerListFragment(), MenuProvider {
                                     val pos = mDragListView.adapter.getPositionForItem(item)
                                     mDragListView.adapter.removeItem(pos)
                                     compositeDisposable.add(vm.delete(item).subscribe())
-                                }, {
-                                    mDragListView.resetSwipedViews(null)
-                                })
+                                }, {})
                             1 -> edit(item)
                             2 -> {
                                 val index = itemList.indexOf(item)

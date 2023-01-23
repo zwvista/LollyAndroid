@@ -137,9 +137,7 @@ class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
                                     val pos = mDragListView.adapter.getPositionForItem(item)
                                     mDragListView.adapter.removeItem(pos)
                                     compositeDisposable.add(vm.delete(item).subscribe())
-                                }, {
-                                    mDragListView.resetSwipedViews(null)
-                                })
+                                }, {})
                             1 -> navController.navigate(PhrasesLangFragmentDirections.actionPhrasesLangFragmentToPhrasesLangDetailFragment(item))
                             2 -> copyText(itemView.context, item.phrase)
                             3 -> googleString(itemView.context, item.phrase)
