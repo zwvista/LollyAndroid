@@ -70,20 +70,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chkPart" />
 
-        <TextView
-            android:id="@+id/tvAccuracy"
-            android:text="@string/label_accuracy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etSeqNum" />
-
         <com.zwstudio.lolly.ui.common.LollySwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/tvAccuracy"
+            app:layout_constraintTop_toBottomOf="@+id/chkPart"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <com.woxthebox.draglistview.DragListView
