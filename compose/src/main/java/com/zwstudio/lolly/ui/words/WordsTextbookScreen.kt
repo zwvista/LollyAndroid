@@ -17,12 +17,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.*
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -140,11 +142,17 @@ fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController
                 }
                 TextButton(onClick = {
                     showItemDialog = false
+                    vm.viewModelScope.launch {
+                        vm.getNote(item)
+                    }
                 }) {
                     Text(stringResource(id = R.string.action_retrieve_note))
                 }
                 TextButton(onClick = {
                     showItemDialog = false
+                    vm.viewModelScope.launch {
+                        vm.clearNote(item)
+                    }
                 }) {
                     Text(stringResource(id = R.string.action_clear_note))
                 }
