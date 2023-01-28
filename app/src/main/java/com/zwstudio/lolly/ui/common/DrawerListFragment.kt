@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragListView
-import com.woxthebox.draglistview.swipe.ListSwipeHelper
-import com.woxthebox.draglistview.swipe.ListSwipeItem
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 

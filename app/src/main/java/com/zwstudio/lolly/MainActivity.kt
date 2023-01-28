@@ -16,7 +16,6 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.zwstudio.lolly.common.onCreateApp
 import com.zwstudio.lolly.common.onDestroyApp
-import com.zwstudio.lolly.R
 
 class MainActivity : AppCompatActivity() {
 

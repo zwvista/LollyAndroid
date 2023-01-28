@@ -23,9 +23,10 @@ import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentPhrasesUnitBinding
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
-import com.zwstudio.lolly.ui.*
-import com.zwstudio.lolly.ui.common.*
-import com.zwstudio.lolly.ui.misc.*
+import com.zwstudio.lolly.ui.common.DrawerListFragment
+import com.zwstudio.lolly.ui.common.autoCleared
+import com.zwstudio.lolly.ui.common.makeCustomAdapter
+import com.zwstudio.lolly.ui.common.yesNoDialog
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel

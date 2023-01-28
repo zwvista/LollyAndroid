@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.common.*
 import com.zwstudio.lolly.databinding.FragmentWordsDictBinding

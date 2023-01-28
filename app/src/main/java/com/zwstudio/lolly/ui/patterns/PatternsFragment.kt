@@ -6,7 +6,6 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
@@ -32,7 +31,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.nio.file.Files.delete
 
 class PatternsFragment : DrawerListFragment(), MenuProvider {
 
