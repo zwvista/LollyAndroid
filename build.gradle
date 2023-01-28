@@ -5,7 +5,7 @@ buildscript {
         kotlin_version = '1.7.20'
         nav_version = '2.6.0-alpha04'
         retrofit_version = "2.9.0"
-        lifecycle_version = '2.6.0-alpha03'
+        lifecycle_version = '2.6.0-alpha04'
         koin_version = '3.3.2'
         koin_android_compose_version= "3.4.1"
     }

@@ -9,7 +9,7 @@ android {
     buildToolsVersion '33.0.1'
 
     defaultConfig {
-        applicationId "com.zwstudio.lolly.android"
+        applicationId "com.zwstudio.lolly"
         minSdkVersion 23
         targetSdkVersion 33
         versionCode 1
@@ -44,7 +44,7 @@ dependencies {
     implementation project(path: ':lollylib')
     testImplementation 'junit:junit:4.13.2'
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'javax.persistence:persistence-api:1.0.2'
     implementation 'com.github.woxthebox:draglistview:1.7.2'
