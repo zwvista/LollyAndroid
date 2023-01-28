@@ -4,9 +4,9 @@ import android.util.Log
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
+import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 
 class WordFamiService {
     private fun getDataByWord(wordid: Int): Single<List<MWordFami>> =

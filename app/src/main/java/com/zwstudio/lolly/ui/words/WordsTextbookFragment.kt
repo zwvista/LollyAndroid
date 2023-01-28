@@ -6,7 +6,6 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.woxthebox.draglistview.DragItemAdapter
@@ -26,7 +25,6 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.nio.file.Files.delete
 
 class WordsTextbookFragment : DrawerListFragment() {
 

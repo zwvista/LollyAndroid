@@ -1,12 +1,10 @@
 package com.zwstudio.lolly.ui.patterns
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
@@ -21,7 +19,6 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentPatternsWebpagesListBinding
 import com.zwstudio.lolly.models.wpp.MPatternWebPage
-import com.zwstudio.lolly.ui.*
 import com.zwstudio.lolly.ui.common.DrawerListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.yesNoDialog
@@ -32,7 +29,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.getViewModel
-import java.nio.file.Files.delete
 
 class PatternsWebPagesListFragment : DrawerListFragment(), MenuProvider {
 

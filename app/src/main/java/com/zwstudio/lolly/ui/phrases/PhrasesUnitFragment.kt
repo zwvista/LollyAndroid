@@ -1,13 +1,11 @@
 package com.zwstudio.lolly.ui.phrases
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.setFragmentResultListener
@@ -25,9 +23,10 @@ import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentPhrasesUnitBinding
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
-import com.zwstudio.lolly.ui.*
-import com.zwstudio.lolly.ui.common.*
-import com.zwstudio.lolly.ui.misc.*
+import com.zwstudio.lolly.ui.common.DrawerListFragment
+import com.zwstudio.lolly.ui.common.autoCleared
+import com.zwstudio.lolly.ui.common.makeCustomAdapter
+import com.zwstudio.lolly.ui.common.yesNoDialog
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
@@ -36,7 +35,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.nio.file.Files.delete
 
 class PhrasesUnitFragment : DrawerListFragment(), MenuProvider {
 

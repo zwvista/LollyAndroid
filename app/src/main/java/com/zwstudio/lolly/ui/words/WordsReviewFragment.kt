@@ -11,8 +11,8 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentWordsReviewBinding
 import com.zwstudio.lolly.models.misc.MReviewOptions
-import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
 import com.zwstudio.lolly.ui.common.autoCleared
+import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
