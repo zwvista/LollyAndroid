@@ -100,19 +100,19 @@ class SettingsViewModel : ViewModel(), KoinComponent {
 
     var lstLanguages_ = MutableStateFlow(listOf<MLanguage>())
     var lstLanguages get() = lstLanguages_.value; set(v) { lstLanguages_.value = v }
-    val selectedLangIndex_= MutableStateFlow(-1)
+    val selectedLangIndex_ = MutableStateFlow(-1)
     var selectedLangIndex get() = selectedLangIndex_.value; set(v) { selectedLangIndex_.value = v }
     val selectedLang get() = lstLanguages.getOrElse(selectedLangIndex) { MLanguage() }
 
     var lstVoices_ = MutableStateFlow(listOf<MVoice>())
     var lstVoices get() = lstVoices_.value; set(v) { lstVoices_.value = v }
-    val selectedVoiceIndex_= MutableStateFlow(-1)
+    val selectedVoiceIndex_ = MutableStateFlow(-1)
     var selectedVoiceIndex get() = selectedVoiceIndex_.value; set(v) { selectedVoiceIndex_.value = v }
     val selectedVoice get() = lstVoices.getOrElse(selectedVoiceIndex) { MVoice() }
 
     var lstTextbooks_ = MutableStateFlow(listOf<MTextbook>())
     var lstTextbooks get() = lstTextbooks_.value; set(v) { lstTextbooks_.value = v }
-    val selectedTextbookIndex_= MutableStateFlow(-1)
+    val selectedTextbookIndex_ = MutableStateFlow(-1)
     var selectedTextbookIndex get() = selectedTextbookIndex_.value; set(v) { selectedTextbookIndex_.value = v }
     val selectedTextbook get() = lstTextbooks.getOrElse(selectedTextbookIndex) { MTextbook() }
     val lstTextbookFilters_ = MutableStateFlow(listOf<MSelectItem>())
@@ -120,19 +120,19 @@ class SettingsViewModel : ViewModel(), KoinComponent {
 
     var lstDictsReference_ = MutableStateFlow(listOf<MDictionary>())
     var lstDictsReference get() = lstDictsReference_.value; set(v) { lstDictsReference_.value = v }
-    val selectedDictReferenceIndex_= MutableStateFlow(-1)
+    val selectedDictReferenceIndex_ = MutableStateFlow(-1)
     var selectedDictReferenceIndex get() = selectedDictReferenceIndex_.value; set(v) { selectedDictReferenceIndex_.value = v }
     val selectedDictReference get() = lstDictsReference.getOrElse(selectedDictReferenceIndex) { MDictionary() }
 
     var lstDictsNote_ = MutableStateFlow(listOf<MDictionary>())
     var lstDictsNote get() = lstDictsNote_.value; set(v) { lstDictsNote_.value = v }
-    val selectedDictNoteIndex_= MutableStateFlow(-1)
+    val selectedDictNoteIndex_ = MutableStateFlow(-1)
     var selectedDictNoteIndex get() = selectedDictNoteIndex_.value; set(v) { selectedDictNoteIndex_.value = v }
     val selectedDictNote get() = lstDictsNote.getOrElse(selectedDictNoteIndex) { MDictionary() }
 
     var lstDictsTranslation_ = MutableStateFlow(listOf<MDictionary>())
     var lstDictsTranslation get() = lstDictsTranslation_.value; set(v) { lstDictsTranslation_.value = v }
-    val selectedDictTranslationIndex_= MutableStateFlow(-1)
+    val selectedDictTranslationIndex_ = MutableStateFlow(-1)
     var selectedDictTranslationIndex get() = selectedDictTranslationIndex_.value; set(v) { selectedDictTranslationIndex_.value = v }
     val selectedDictTranslation get() = lstDictsTranslation.getOrElse(selectedDictTranslationIndex) { MDictionary() }
 
@@ -225,19 +225,24 @@ class SettingsViewModel : ViewModel(), KoinComponent {
                 val res5 = async { autoCorrectService.getDataByLang(uslang) }
                 val res6 = async { voiceService.getDataByLang(uslang) }
                 val res7 = async { if (dirty) userSettingService.update(INFO_USLANG, uslang) }
-                lstDictsReference = res1.await()
-                lstDictsNote = res2.await()
-                lstDictsTranslation = res3.await()
-                lstTextbooks = res4.await()
-                lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lstTextbooks.map { MSelectItem(it.id, it.textbookname) }
+                val lst1 = res1.await()
+                val lst2 = res2.await()
+                val lst3 = res3.await()
+                val lst4 = res4.await()
                 lstAutoCorrect = res5.await()
-                lstVoices = res6.await()
+                val lst6 = res6.await()
                 res7.await()
-                selectedVoiceIndex = 0.coerceAtLeast(lstVoices.indexOfFirst { it.id == usvoice })
-                selectedDictReferenceIndex = 0.coerceAtLeast(lstDictsReference.indexOfFirst { it.dictid.toString() == usdictreference })
-                selectedDictNoteIndex = 0.coerceAtLeast(lstDictsNote.indexOfFirst { it.dictid == usdictnote })
-                selectedDictTranslationIndex = 0.coerceAtLeast(lstDictsTranslation.indexOfFirst { it.dictid == usdicttranslation })
-                selectedTextbookIndex = 0.coerceAtLeast(lstTextbooks.indexOfFirst { it.id == ustextbook })
+                selectedDictReferenceIndex = lst1.indexOfFirst { it.dictid.toString() == usdictreference }
+                lstDictsReference = lst1
+                selectedDictNoteIndex = lst2.indexOfFirst { it.dictid == usdictnote }
+                lstDictsNote = lst2
+                selectedDictTranslationIndex = lst3.indexOfFirst { it.dictid == usdicttranslation }
+                lstDictsTranslation = lst3
+                selectedTextbookIndex = lst4.indexOfFirst { it.id == ustextbook }
+                lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lst4.map { MSelectItem(it.id, it.textbookname) }
+                lstTextbooks = lst4
+                selectedVoiceIndex = lst6.indexOfFirst { it.id == usvoice }
+                lstVoices = lst6
             }
         }
 
@@ -361,11 +366,12 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         val res1 = async { languageService.getData() }
         val res2 = async { usMappingService.getData() }
         val res3 = async { userSettingService.getData() }
-        lstLanguages = res1.await()
+        val lst1 = res1.await()
         lstUSMappings = res2.await()
         lstUserSettings = res3.await()
         INFO_USLANG = getUSInfo(MUSMapping.NAME_USLANG)
-        selectedLangIndex = 0.coerceAtLeast(lstLanguages.indexOfFirst { it.id == uslang })
+        selectedLangIndex = lst1.indexOfFirst { it.id == uslang }
+        lstLanguages = lst1
     }
 
     fun autoCorrectInput(text: String): String =
