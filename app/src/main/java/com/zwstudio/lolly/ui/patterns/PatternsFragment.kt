@@ -122,7 +122,7 @@ class PatternsFragment : DrawerListFragment(), MenuProvider {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MPattern
-                        navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPagesBrowseFragment(item))
+                        navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPageFragment(item))
                     }
                     true
                 }
@@ -139,26 +139,17 @@ class PatternsFragment : DrawerListFragment(), MenuProvider {
                 AlertDialog.Builder(itemView.context)
                     .setTitle(item.pattern)
                     .setItems(arrayOf(
-                        itemView.context.getString(R.string.action_delete),
                         itemView.context.getString(R.string.action_edit),
-                        itemView.context.getString(R.string.action_browse_web_pages),
-                        itemView.context.getString(R.string.action_edit_web_pages),
+                        itemView.context.getString(R.string.action_browse_web_page),
                         itemView.context.getString(R.string.action_copy_pattern),
                         itemView.context.getString(R.string.action_google_pattern),
                         itemView.context.getString(R.string.action_cancel),
                     )) { _, which ->
                         when (which) {
-                            0 ->
-                                yesNoDialog(itemView.context, "Are you sure you want to delete the pattern \"${item.pattern}\"?", {
-                                    val pos = mDragListView.adapter.getPositionForItem(item)
-                                    mDragListView.adapter.removeItem(pos)
-                                    vm.delete(item.id)
-                                }, {})
-                            1 -> navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsDetailFragment(item))
-                            2 -> navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPagesBrowseFragment(item))
-                            3 -> navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPagesListFragment(item))
-                            4 -> copyText(itemView.context, item.pattern)
-                            5 -> googleString(itemView.context, item.pattern)
+                            0 -> navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsDetailFragment(item))
+                            1 -> navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPageFragment(item))
+                            2 -> copyText(itemView.context, item.pattern)
+                            3 -> googleString(itemView.context, item.pattern)
                             else -> {}
                         }
                     }.show()

@@ -126,7 +126,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                     showItemDialog = false
                     navController?.navigate(PatternsScreens.PatternsWebPage.route + "/$currentItemIndex")
                 }) {
-                    Text(stringResource(id = R.string.action_browse_web_pages))
+                    Text(stringResource(id = R.string.action_browse_web_page))
                 }
                 TextButton(onClick = {
                     showItemDialog = false

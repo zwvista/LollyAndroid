@@ -17,6 +17,10 @@
             android:text="@{model.item.pattern}"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@color/color_text2"
+            android:textColor="@color/white"
+            android:gravity="center"
+            tools:text="ABCD"
             app:layout_constraintTop_toTopOf="parent" />
 
         <WebView
