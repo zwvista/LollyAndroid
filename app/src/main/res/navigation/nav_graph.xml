@@ -179,15 +179,8 @@
                 app:argType="com.zwstudio.lolly.models.wpp.MPattern" />
         </action>
         <action
-            android:id="@+id/action_patternsFragment_to_patternsWebPagesBrowseFragment"
-            app:destination="@+id/patternsWebPagesBrowseFragment">
-            <argument
-                android:name="item"
-                app:argType="com.zwstudio.lolly.models.wpp.MPattern" />
-        </action>
-        <action
-            android:id="@+id/action_patternsFragment_to_patternsWebPagesListFragment"
-            app:destination="@+id/patternsWebPagesListFragment">
+            android:id="@+id/action_patternsFragment_to_patternsWebPageFragment"
+            app:destination="@+id/patternsWebPageFragment">
             <argument
                 android:name="item"
                 app:argType="com.zwstudio.lolly.models.wpp.MPattern" />
