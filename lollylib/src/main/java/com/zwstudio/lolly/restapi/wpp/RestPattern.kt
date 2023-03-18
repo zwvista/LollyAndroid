@@ -18,14 +18,18 @@ interface RestPattern {
     @FormUrlEncoded
     @PUT("PATTERNS/{id}")
     suspend fun update(@Path("id") id: Int, @Field("LANGID") langid: Int,
-               @Field("PATTERN") pattern: String, @Field("NOTE") note: String,
-               @Field("TAGS") tags: String): Int
+               @Field("PATTERN") pattern: String,
+               @Field("TAGS") tags: String,
+               @Field("TITLE") title: String,
+               @Field("URL") url: String): Int
 
     @FormUrlEncoded
     @POST("PATTERNS")
     suspend fun create(@Field("LANGID") langid: Int,
-               @Field("PATTERN") pattern: String, @Field("NOTE") note: String,
-               @Field("TAGS") tags: String): Int
+               @Field("PATTERN") pattern: String,
+               @Field("TAGS") tags: String,
+               @Field("TITLE") title: String,
+               @Field("URL") url: String): Int
 
     @DELETE("PATTERNS/{id}")
     suspend fun delete(@Path("id") id: Int): Int

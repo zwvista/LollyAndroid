@@ -164,7 +164,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         val lstToTypes = UnitPartToType.values().map { v -> MSelectItem(v.ordinal, v.toString()) }
         val lstScopeWordFilters = listOf("Word", "Note").mapIndexed { index, s -> MSelectItem(index, s) }
         val lstScopePhraseFilters = listOf("Phrase", "Translation").mapIndexed { index, s -> MSelectItem(index, s) }
-        val lstScopePatternFilters = listOf("Pattern", "Note", "Tags").mapIndexed { index, s -> MSelectItem(index, s) }
+        val lstScopePatternFilters = listOf("Pattern", "Tags").mapIndexed { index, s -> MSelectItem(index, s) }
         val lstReviewModes = ReviewMode.values().mapIndexed { index, s -> MSelectItem(index, s.toString()) }
         const val zeroNote = "O"
     }

@@ -15,14 +15,12 @@ data class MPattern(
     var langid: Int = 0,
     @SerializedName("PATTERN")
     var pattern: String = "",
-    @SerializedName("NOTE")
-    var note: String = "",
     @SerializedName("TAGS")
     var tags: String = "",
-    @SerializedName("IDS_MERGE")
-    var idsMerge: String = "",
-    @SerializedName("PATTERNS_SPLIT")
-    var patternsSplit: String = "",
+    @SerializedName("TITLE")
+    var title: String = "",
+    @SerializedName("URL")
+    var url: String = "",
 ) : Serializable
 
 class MPatternVariation {

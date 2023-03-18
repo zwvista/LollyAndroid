@@ -19,7 +19,7 @@
 
             <TextView
                 android:id="@+id/tvID"
-                android:text='@{@string/label_id(model.id)}'
+                android:text='@{@string/label_id(model.item.id)}'
                 tools:text="ID: 12345"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,21 +35,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvID">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPattern"
-                    android:text="@={model.pattern}"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tiNote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:hint="@string/label_note"
-                app:layout_constraintTop_toBottomOf="@+id/tiPattern">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etNote"
-                    android:text="@={model.note}"
+                    android:text="@={model.item.pattern}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -60,10 +46,38 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:hint="@string/label_tags"
-                app:layout_constraintTop_toBottomOf="@+id/tiNote">
+                app:layout_constraintTop_toBottomOf="@+id/tiPattern">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etTags"
-                    android:text="@={model.tags}"
+                    android:text="@={model.item.tags}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/label_title"
+                app:layout_constraintTop_toBottomOf="@+id/tiTags">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTitle"
+                    android:text="@={model.item.title}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/label_url"
+                app:layout_constraintTop_toBottomOf="@+id/tiTitle">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etUrl"
+                    android:text="@={model.item.url}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>

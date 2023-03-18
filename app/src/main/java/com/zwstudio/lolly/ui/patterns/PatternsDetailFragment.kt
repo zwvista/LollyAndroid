@@ -40,9 +40,6 @@ class PatternsDetailFragment : Fragment(), MenuProvider {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vmDetail.saveEnabled.onEach {
-            requireActivity().invalidateOptionsMenu()
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -52,19 +49,9 @@ class PatternsDetailFragment : Fragment(), MenuProvider {
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.menuSave -> {
-                vmDetail.save()
-                if (item.id == 0)
-                    vm.create(item)
-                else
-                    vm.update(item)
-                setFragmentResult("PatternsDetailFragment", bundleOf())
                 findNavController().navigateUp()
                 true
             }
             else -> false
         }
-
-    override fun onPrepareMenu(menu: Menu) {
-        menu.findItem(R.id.menuSave).isEnabled = vmDetail.saveEnabled.value
-    }
 }

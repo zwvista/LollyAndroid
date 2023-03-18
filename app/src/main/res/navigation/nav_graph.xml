@@ -287,35 +287,10 @@
             app:argType="com.zwstudio.lolly.models.wpp.MPattern" />
     </fragment>
     <fragment
-        android:id="@+id/patternsWebPagesBrowseFragment"
-        android:name="com.zwstudio.lolly.ui.patterns.PatternsWebPagesBrowseFragment"
-        android:label="@string/patterns_webpages_browse"
-        tools:layout="@layout/fragment_patterns_webpages_browse">
-        <argument
-            android:name="item"
-            app:argType="com.zwstudio.lolly.models.wpp.MPattern" />
-    </fragment>
-    <fragment
-        android:id="@+id/patternsWebPagesDetailFragment"
-        android:name="com.zwstudio.lolly.ui.patterns.PatternsWebPagesDetailFragment"
-        android:label="@string/patterns_webpages_detail"
-        tools:layout="@layout/fragment_patterns_webpages_detail">
-        <argument
-            android:name="item"
-            app:argType="com.zwstudio.lolly.models.wpp.MPatternWebPage" />
-    </fragment>
-    <fragment
-        android:id="@+id/patternsWebPagesListFragment"
-        android:name="com.zwstudio.lolly.ui.patterns.PatternsWebPagesListFragment"
-        android:label="@string/patterns_webpages_list"
-        tools:layout="@layout/fragment_patterns_webpages_list" >
-        <action
-            android:id="@+id/action_patternsWebPagesListFragment_to_patternsWebPagesDetailFragment"
-            app:destination="@+id/patternsWebPagesDetailFragment">
-            <argument
-                android:name="item"
-                app:argType="com.zwstudio.lolly.models.wpp.MPatternWebPage" />
-        </action>
+        android:id="@+id/patternsWebPageFragment"
+        android:name="com.zwstudio.lolly.ui.patterns.PatternsWebPageFragment"
+        android:label="@string/patterns_webpage"
+        tools:layout="@layout/fragment_patterns_webpage">
         <argument
             android:name="item"
             app:argType="com.zwstudio.lolly.models.wpp.MPattern" />

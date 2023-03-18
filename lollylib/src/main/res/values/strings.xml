@@ -33,9 +33,7 @@
     <string name="phrases_textbook_detail">Phrase in Textbook(Detail)</string>
     <string name="patterns">Patterns in Language</string>
     <string name="patterns_detail">Patterns in Language(Detail)</string>
-    <string name="patterns_webpages_browse">Pattern Web Pages(Browse)</string>
-    <string name="patterns_webpages_list">Pattern Web Pages(List)</string>
-    <string name="patterns_webpages_detail">Patterns Web Pages(Detail)</string>
+    <string name="patterns_webpage">Pattern Web Page</string>
     <string name="words_dict">Word Dictionary</string>
 
     <string name="action_delete">Delete</string>
@@ -82,8 +80,6 @@
     <string name="label_textbook2">Textbook:</string>
     <string name="label_pattern">PATTERN:</string>
     <string name="label_tags">TAGS:</string>
-    <string name="label_patternid">PATTERNID: %1$d</string>
-    <string name="label_webpageid">WEBPAGEID: %1$d</string>
     <string name="label_title">TITLE:</string>
     <string name="label_url">URL:</string>
     <string name="label_mode">Mode:</string>
