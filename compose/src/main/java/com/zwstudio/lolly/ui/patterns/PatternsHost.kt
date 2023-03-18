@@ -10,7 +10,6 @@ import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.ui.common.INDEX_KEY
 import com.zwstudio.lolly.ui.common.PatternsScreens
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
-import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable
@@ -18,7 +17,6 @@ fun PatternsHost(openDrawer: () -> Unit) {
 
     val navController = rememberNavController()
     val vm = getViewModel<PatternsViewModel>()
-    val vmWP = getViewModel<PatternsWebPagesViewModel>()
     var item = MPattern()
     NavHost(navController = navController, startDestination = PatternsScreens.PatternsMain.route) {
         composable(route = PatternsScreens.PatternsMain.route) {
@@ -32,36 +30,13 @@ fun PatternsHost(openDrawer: () -> Unit) {
         ) {
             PatternsDetailScreen(vm, vm.lstPatterns[it.arguments!!.getInt(INDEX_KEY)], navController)
         }
-        composable(route = PatternsScreens.PatternsAdd.route) {
-            PatternsDetailScreen(vm, vm.newPattern(), navController)
-        }
         composable(
-            route = PatternsScreens.PatternsWebPagesBrowse.route + "/{$INDEX_KEY}",
+            route = PatternsScreens.PatternsWebPage.route + "/{$INDEX_KEY}",
             arguments = listOf(navArgument(INDEX_KEY) {
                 type = NavType.IntType
             })
         ) {
-            PatternsWebPagesBrowseScreen(vmWP, vm.lstPatterns[it.arguments!!.getInt(INDEX_KEY)], navController)
-        }
-        composable(
-            route = PatternsScreens.PatternsWebPagesList.route + "/{$INDEX_KEY}",
-            arguments = listOf(navArgument(INDEX_KEY) {
-                type = NavType.IntType
-            })
-        ) {
-            item = vm.lstPatterns[it.arguments!!.getInt(INDEX_KEY)]
-            PatternsWebPagesListScreen(vmWP, item.id, navController)
-        }
-        composable(
-            route = PatternsScreens.PatternsWebPagesDetail.route + "/{$INDEX_KEY}",
-            arguments = listOf(navArgument(INDEX_KEY) {
-                type = NavType.IntType
-            })
-        ) {
-            PatternsWebPagesDetailScreen(vmWP, vmWP.lstWebPages[it.arguments!!.getInt(INDEX_KEY)], navController)
-        }
-        composable(route = PatternsScreens.PatternsWebPagesAdd.route) {
-            PatternsWebPagesDetailScreen(vmWP, vmWP.newPatternWebPage(item.id, item.pattern), navController)
+            PatternsWebPageScreen(vm.lstPatterns[it.arguments!!.getInt(INDEX_KEY)], navController)
         }
     }
 }

@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -44,13 +43,6 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
         TopBarMenu(
             title = DrawerScreens.Patterns.title,
             onButtonClicked = { openDrawer() },
-            actions = {
-                IconButton(onClick = {
-                    navController?.navigate(PatternsScreens.PatternsAdd.route)
-                }) {
-                    Icon(Icons.Filled.Add, null)
-                }
-            }
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             SearchView(
@@ -106,7 +98,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                             }
                             IconButton(
                                 onClick = {
-                                    navController?.navigate(PatternsScreens.PatternsWebPagesBrowse.route + "/$index")
+                                    navController?.navigate(PatternsScreens.PatternsWebPage.route + "/$index")
                                 }
                             ) {
                                 Icon(Icons.Filled.Info, null, tint = MaterialTheme.colors.primary)
@@ -126,26 +118,15 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
             buttons = {
                 TextButton(onClick = {
                     showItemDialog = false
-                }) {
-                    Text(stringResource(id = R.string.action_delete))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
                     navController?.navigate(PatternsScreens.PatternsDetail.route + "/$currentItemIndex")
                 }) {
                     Text(stringResource(id = R.string.action_edit))
                 }
                 TextButton(onClick = {
                     showItemDialog = false
-                    navController?.navigate(PatternsScreens.PatternsWebPagesBrowse.route + "/$currentItemIndex")
+                    navController?.navigate(PatternsScreens.PatternsWebPage.route + "/$currentItemIndex")
                 }) {
                     Text(stringResource(id = R.string.action_browse_web_pages))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    navController?.navigate(PatternsScreens.PatternsWebPagesList.route + "/$currentItemIndex")
-                }) {
-                    Text(stringResource(id = R.string.action_edit_web_pages))
                 }
                 TextButton(onClick = {
                     showItemDialog = false
