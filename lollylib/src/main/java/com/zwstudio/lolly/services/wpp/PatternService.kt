@@ -25,26 +25,16 @@ class PatternService {
 
     fun update(o: MPattern): Completable =
         retrofitJson.create(RestPattern::class.java)
-            .update(o.id, o.langid, o.pattern, o.note, o.tags)
+            .update(o.id, o.langid, o.pattern, o.tags, o.title, o.url)
             .flatMapCompletable { println(it.toString()); Completable.complete() }
 
     fun create(o: MPattern): Single<Int> =
         retrofitJson.create(RestPattern::class.java)
-            .create(o.langid, o.pattern, o.note, o.tags)
+            .create(o.langid, o.pattern, o.tags, o.title, o.url)
             .doAfterSuccess { println(it.toString()) }
 
     fun delete(id: Int): Completable =
         retrofitJson.create(RestPattern::class.java)
             .delete(id)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
-
-    fun mergePatterns(o: MPattern): Completable =
-        retrofitSP.create(RestPattern::class.java)
-            .mergePatterns(o.idsMerge, o.pattern, o.note, o.tags)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
-
-    fun splitPattern(o: MPattern): Completable =
-        retrofitSP.create(RestPattern::class.java)
-            .splitPattern(o.id, o.patternsSplit)
             .flatMapCompletable { println(it.toString()); Completable.complete() }
 }

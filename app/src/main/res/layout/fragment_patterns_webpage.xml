@@ -5,16 +5,16 @@
     tools:context=".patterns.PatternsFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Spinner
-            android:id="@+id/spnWebPages"
-            android:selectedItemPosition="@={model.currentWebPageIndex}"
+        <TextView
+            android:id="@+id/tvPattern"
+            android:text="@{model.item.pattern}"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +23,7 @@
             android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/spnWebPages"
+            app:layout_constraintTop_toBottomOf="@+id/tvPattern"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

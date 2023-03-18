@@ -11,8 +11,6 @@ import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
-import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesDetailViewModel
-import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPagesViewModel
 import com.zwstudio.lolly.viewmodels.phrases.*
 import com.zwstudio.lolly.viewmodels.words.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -105,10 +103,8 @@ val lollyModule = module {
     single { LangPhraseService() }
     single { LangWordService() }
     single { PatternService() }
-    single { PatternWebPageService() }
     single { UnitPhraseService() }
     single { UnitWordService() }
-    single { WebPageService() }
     single { WordFamiService() }
 
     viewModel { LoginViewModel() }
@@ -116,8 +112,6 @@ val lollyModule = module {
     viewModel { SearchViewModel() }
     viewModel { parameters -> PatternsDetailViewModel(item = parameters.get()) }
     viewModel { PatternsViewModel() }
-    viewModel { PatternsWebPagesViewModel() }
-    viewModel { parameters -> PatternsWebPagesDetailViewModel(item = parameters.get()) }
     viewModel { PhrasesLangViewModel() }
     viewModel { parameters -> PhrasesLangDetailViewModel(item = parameters.get()) }
     viewModel { parameters -> PhrasesReviewViewModel(doTestAction = parameters.get()) }

@@ -32,7 +32,7 @@ class PatternsViewModel : DrawerListViewModel(), KoinComponent {
     init {
         combine(lstPatternsAll_, textFilter_, scopeFilterIndex_, ::Triple).onEach {
             lstPatterns = if (noFilter) lstPatternsAll else lstPatternsAll.filter {
-                (textFilter.isEmpty() || (if (scopeFilterIndex == 0) it.pattern else if (scopeFilterIndex == 1) it.note else it.tags).contains(textFilter, true))
+                (textFilter.isEmpty() || (if (scopeFilterIndex == 0) it.pattern else it.tags).contains(textFilter, true))
             }
         }.launchIn(viewModelScope)
     }
