@@ -5,13 +5,10 @@ apply plugin: "kotlin-kapt"
 apply plugin: "kotlin-parcelize"
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion '33.0.1'
-
     defaultConfig {
         applicationId "com.zwstudio.lolly"
-        minSdkVersion 23
-        targetSdkVersion 33
+        minSdk 26
+        compileSdk 34
         versionCode 1
         versionName "1.0"
     }
@@ -25,8 +22,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     productFlavors {
     }
@@ -34,7 +31,7 @@ android {
         dataBinding true
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = '17'
     }
     namespace 'com.zwstudio.lolly'
 }
@@ -43,11 +40,11 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation project(path: ':lollylib')
     testImplementation 'junit:junit:4.13.2'
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.10.0'
     implementation 'javax.persistence:persistence-api:1.0.2'
-    implementation 'com.github.woxthebox:draglistview:1.7.2'
+    implementation 'com.github.woxthebox:draglistview:1.7.3'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -55,10 +52,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
-    implementation 'androidx.fragment:fragment-ktx:1.6.0-alpha04'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    implementation 'androidx.fragment:fragment-ktx:1.7.0-alpha06'
     implementation "io.insert-koin:koin-android:$koin_version"
     // debugImplementation because LeakCanary should only run in debug builds.
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
 }

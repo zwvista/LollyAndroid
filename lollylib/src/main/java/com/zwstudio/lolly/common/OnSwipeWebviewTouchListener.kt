@@ -20,10 +20,10 @@ class OnSwipeWebviewTouchListener(ctx: Context, touchListener: TouchListener) : 
             return false // THIS does the trick
         }
 
-        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
             var result = false
             try {
-                val diffY = e2.y - e1.y
+                val diffY = e2.y - e1!!.y
                 val diffX = e2.x - e1.x
                 if (abs(diffX) > abs(diffY)) {
                     // You can customize these settings, so 30 is an example
