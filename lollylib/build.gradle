@@ -8,7 +8,7 @@ android {
     namespace 'com.zwstudio.lolly'
 
     defaultConfig {
-        minSdk 26
+        minSdk 24
         compileSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

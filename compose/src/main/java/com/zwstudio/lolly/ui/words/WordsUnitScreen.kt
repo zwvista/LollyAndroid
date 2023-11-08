@@ -43,7 +43,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
     var expanded by remember { mutableStateOf(false) }
     val state = rememberReorderableLazyListState(onMove = { _,_ -> }, canDragOver = { _,_ -> true })
     var showItemDialog by remember { mutableStateOf(false) }
-    var currentItemIndex by remember { mutableStateOf(0) }
+    var currentItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
