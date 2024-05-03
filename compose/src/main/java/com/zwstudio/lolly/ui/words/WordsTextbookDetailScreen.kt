@@ -22,13 +22,13 @@ import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
 fun WordsTextbookDetailScreen(vm: WordsUnitViewModel, item: MUnitWord, navController: NavHostController?) {
 
-    val vmDetail = getViewModel<WordsUnitDetailViewModel> { parametersOf(item) }
+    val vmDetail = koinViewModel<WordsUnitDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
             title = stringResource(id = R.string.words_textbook_detail),

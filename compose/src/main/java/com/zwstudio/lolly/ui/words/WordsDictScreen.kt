@@ -20,12 +20,12 @@ import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun WordsDictScreen(lstWords: List<String>, index: Int, navController: NavHostController?) {
 
-    val vm = getViewModel<WordsDictViewModel>().apply {
+    val vm = koinViewModel<WordsDictViewModel>().apply {
         this.lstWords = lstWords
         this.selectedWordIndex = index
     }

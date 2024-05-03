@@ -31,11 +31,11 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LoginScreen() {
-    val vm = getViewModel<LoginViewModel>()
+    val vm = koinViewModel<LoginViewModel>()
     val context = LocalContext.current
     var showAlert by remember { mutableStateOf(false) }
     Column(

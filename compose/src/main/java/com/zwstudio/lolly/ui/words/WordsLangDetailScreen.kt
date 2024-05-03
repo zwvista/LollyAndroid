@@ -21,13 +21,13 @@ import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
 fun WordsLangDetailScreen(vm: WordsLangViewModel, item: MLangWord, navController: NavHostController?) {
 
-    val vmDetail = getViewModel<WordsLangDetailViewModel> { parametersOf(item) }
+    val vmDetail = koinViewModel<WordsLangDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
             title = stringResource(id = R.string.words_lang_detail),

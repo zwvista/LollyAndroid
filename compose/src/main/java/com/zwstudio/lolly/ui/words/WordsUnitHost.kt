@@ -9,14 +9,14 @@ import androidx.navigation.navArgument
 import com.zwstudio.lolly.ui.common.INDEX_KEY
 import com.zwstudio.lolly.ui.common.WordsScreens
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun WordsUnitHost(openDrawer: () -> Unit) {
 
     val navController = rememberNavController()
     // https://stackoverflow.com/questions/68548488/sharing-viewmodel-within-jetpack-compose-navigation
-    val vm = getViewModel<WordsUnitViewModel>()
+    val vm = koinViewModel<WordsUnitViewModel>()
     NavHost(navController = navController, startDestination = WordsScreens.WordsUnitMain.route) {
         composable(route = WordsScreens.WordsUnitMain.route) {
             WordsUnitScreen(vm, navController, openDrawer)

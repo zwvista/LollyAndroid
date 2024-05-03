@@ -9,13 +9,13 @@ import androidx.navigation.navArgument
 import com.zwstudio.lolly.ui.common.INDEX_KEY
 import com.zwstudio.lolly.ui.common.PatternsScreens
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun PatternsHost(openDrawer: () -> Unit) {
 
     val navController = rememberNavController()
-    val vm = getViewModel<PatternsViewModel>()
+    val vm = koinViewModel<PatternsViewModel>()
     NavHost(navController = navController, startDestination = PatternsScreens.PatternsMain.route) {
         composable(route = PatternsScreens.PatternsMain.route) {
             PatternsScreen(vm, navController, openDrawer)

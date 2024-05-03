@@ -9,13 +9,13 @@ import androidx.navigation.navArgument
 import com.zwstudio.lolly.ui.common.INDEX_KEY
 import com.zwstudio.lolly.ui.common.PhrasesScreens
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun PhrasesTextbookHost(openDrawer: () -> Unit) {
 
     val navController = rememberNavController()
-    val vm = getViewModel<PhrasesUnitViewModel>()
+    val vm = koinViewModel<PhrasesUnitViewModel>()
     NavHost(navController = navController, startDestination = PhrasesScreens.PhrasesTextbookMain.route) {
         composable(route = PhrasesScreens.PhrasesTextbookMain.route) {
             PhrasesTextbookScreen(vm, navController, openDrawer)

@@ -20,13 +20,13 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
 fun PatternsDetailScreen(item: MPattern, navController: NavHostController?) {
 
-    val vmDetail = getViewModel<PatternsDetailViewModel> { parametersOf(item) }
+    val vmDetail = koinViewModel<PatternsDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
             title = "",

@@ -29,12 +29,12 @@ import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SearchScreen(openDrawer: () -> Unit) {
 
-    val vm = getViewModel<SearchViewModel>()
+    val vm = koinViewModel<SearchViewModel>()
     val onlineDict = remember { OnlineDict() }
     val context = LocalContext.current
     // https://stackoverflow.com/questions/64181930/request-focus-on-textfield-in-jetpack-compose
@@ -46,7 +46,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
 
     LaunchedEffect(Unit) {
 //        focusRequester.requestFocus()
-        if (GlobalUserViewModel.isLoggedIn_.value) {
+        if (GlobalUserViewModel.isLoggedIn) {
             vmSettings.getData()
             vmSettings.selectedDictReferenceIndex_.onEach {
                 searchDict()
