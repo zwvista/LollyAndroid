@@ -1,12 +1,12 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        compose_ui_version = '1.5.4'
+        compose_ui_version = '1.6.7'
         kotlin_version = '1.9.0'
-        nav_version = '2.7.6'
-        retrofit_version = "2.9.0"
-        lifecycle_version = '2.7.0-rc02'
-        koin_version = '3.5.3'
+        nav_version = '2.7.7'
+        retrofit_version = '2.11.0'
+        lifecycle_version = '2.7.0'
+        koin_version = '3.5.6'
         koin_android_compose_version= "3.4.1"
     }
     repositories {
@@ -14,7 +14,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.4'
+        classpath 'com.android.tools.build:gradle:8.4.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
     }

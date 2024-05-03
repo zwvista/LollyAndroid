@@ -300,6 +300,6 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.zwstudio.lolly.ui.misc.LoginFragment"
-        android:label="@string/login"
+        android:label="@string/login_string"
         tools:layout="@layout/fragment_login" />
 </navigation>
