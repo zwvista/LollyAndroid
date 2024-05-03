@@ -38,7 +38,7 @@ class LoginFragment : Fragment() {
                     findNavController().navigateUp()
                 else
                     AlertDialog.Builder(requireContext())
-                        .setTitle(requireContext().getString(R.string.login))
+                        .setTitle(requireContext().getString(R.string.login_string))
                         .setMessage(requireContext().getString(R.string.login_fail_message))
                         .show()
             })

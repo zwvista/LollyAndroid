@@ -113,7 +113,7 @@
     <string name="label_dict_note">Dictionary(Note):</string>
     <string name="label_dict_translation">Dictionary(Translation):</string>
     <string name="lolly">Lolly</string>
-    <string name="login">Login</string>
+    <string name="login_string">Login</string>
     <string name="login_fail_message">Wrong username or password!</string>
     <string name="logout">Logout</string>
     <string name="newtest">NewTest</string>
