@@ -6,8 +6,26 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.tts
-import com.zwstudio.lolly.models.misc.*
-import com.zwstudio.lolly.services.misc.*
+import com.zwstudio.lolly.models.misc.MAutoCorrect
+import com.zwstudio.lolly.models.misc.MDictionary
+import com.zwstudio.lolly.models.misc.MLanguage
+import com.zwstudio.lolly.models.misc.MSelectItem
+import com.zwstudio.lolly.models.misc.MTextbook
+import com.zwstudio.lolly.models.misc.MUSMapping
+import com.zwstudio.lolly.models.misc.MUserSetting
+import com.zwstudio.lolly.models.misc.MUserSettingInfo
+import com.zwstudio.lolly.models.misc.MVoice
+import com.zwstudio.lolly.models.misc.ReviewMode
+import com.zwstudio.lolly.models.misc.autoCorrect
+import com.zwstudio.lolly.models.misc.extractTextFrom
+import com.zwstudio.lolly.services.misc.AutoCorrectService
+import com.zwstudio.lolly.services.misc.DictionaryService
+import com.zwstudio.lolly.services.misc.HtmlService
+import com.zwstudio.lolly.services.misc.LanguageService
+import com.zwstudio.lolly.services.misc.TextbookService
+import com.zwstudio.lolly.services.misc.USMappingService
+import com.zwstudio.lolly.services.misc.UserSettingService
+import com.zwstudio.lolly.services.misc.VoiceService
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -20,7 +38,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.util.*
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 enum class UnitPartToType {

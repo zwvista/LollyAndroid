@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.services.wpp
 
 import com.zwstudio.lolly.common.retrofitJson
-import com.zwstudio.lolly.common.retrofitSP
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
 import io.reactivex.rxjava3.core.Completable
