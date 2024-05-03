@@ -5,8 +5,26 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.common.tts
-import com.zwstudio.lolly.models.misc.*
-import com.zwstudio.lolly.services.misc.*
+import com.zwstudio.lolly.models.misc.MAutoCorrect
+import com.zwstudio.lolly.models.misc.MDictionary
+import com.zwstudio.lolly.models.misc.MLanguage
+import com.zwstudio.lolly.models.misc.MSelectItem
+import com.zwstudio.lolly.models.misc.MTextbook
+import com.zwstudio.lolly.models.misc.MUSMapping
+import com.zwstudio.lolly.models.misc.MUserSetting
+import com.zwstudio.lolly.models.misc.MUserSettingInfo
+import com.zwstudio.lolly.models.misc.MVoice
+import com.zwstudio.lolly.models.misc.ReviewMode
+import com.zwstudio.lolly.models.misc.autoCorrect
+import com.zwstudio.lolly.models.misc.extractTextFrom
+import com.zwstudio.lolly.services.misc.AutoCorrectService
+import com.zwstudio.lolly.services.misc.DictionaryService
+import com.zwstudio.lolly.services.misc.HtmlService
+import com.zwstudio.lolly.services.misc.LanguageService
+import com.zwstudio.lolly.services.misc.TextbookService
+import com.zwstudio.lolly.services.misc.USMappingService
+import com.zwstudio.lolly.services.misc.UserSettingService
+import com.zwstudio.lolly.services.misc.VoiceService
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -17,7 +35,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.util.*
+import java.util.Locale
 
 enum class UnitPartToType {
     Unit, Part, To

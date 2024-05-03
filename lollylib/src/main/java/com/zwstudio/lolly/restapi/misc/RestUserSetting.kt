@@ -1,7 +1,12 @@
 package com.zwstudio.lolly.restapi.misc
 
 import com.zwstudio.lolly.models.misc.MUserSettings
-import retrofit2.http.*
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 // https://stackoverflow.com/questions/46892100/how-to-use-rxjava2-with-retrofit-in-android
 interface RestUserSetting {

@@ -8,7 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.zwstudio.lolly.common.*
+import com.zwstudio.lolly.common.OnSwipeWebviewTouchListener
+import com.zwstudio.lolly.common.OnlineDict
+import com.zwstudio.lolly.common.TouchListener
+import com.zwstudio.lolly.common.speak
+import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentWordsDictBinding
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter

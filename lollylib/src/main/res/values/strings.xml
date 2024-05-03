@@ -93,6 +93,8 @@
     <string name="label_review">Review:</string>
     <string name="label_username">USERNAME:</string>
     <string name="label_password">PASSWORD:</string>
+    <string name="label_username2">USERNAME</string>
+    <string name="label_password2">PASSWORD</string>
 
     <string name="text_correct">Correct</string>
     <string name="text_incorrect">Incorrect</string>

@@ -2,7 +2,6 @@ package com.zwstudio.lolly.services.wpp
 
 import android.util.Log
 import com.zwstudio.lolly.common.retrofitJson
-import com.zwstudio.lolly.common.retrofitSP
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
 import kotlinx.coroutines.Dispatchers
