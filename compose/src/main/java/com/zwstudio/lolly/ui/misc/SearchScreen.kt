@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -44,13 +45,15 @@ fun SearchScreen(openDrawer: () -> Unit) {
         onlineDict.searchDict()
     }
 
-    LaunchedEffect(Unit, block = {
+    LaunchedEffect(Unit) {
 //        focusRequester.requestFocus()
-        vmSettings.getData()
-        vmSettings.selectedDictReferenceIndex_.onEach {
-            searchDict()
-        }.launchIn(this)
-    })
+        if (GlobalUserViewModel.isLoggedIn_.value) {
+            vmSettings.getData()
+            vmSettings.selectedDictReferenceIndex_.onEach {
+                searchDict()
+            }.launchIn(this)
+        }
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
