@@ -5,31 +5,33 @@ import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.zwstudio.lolly.models.misc.MDictionary
+import com.zwstudio.lolly.services.misc.HtmlService
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 enum class DictWebViewStatus {
     Ready, Navigating, Automating
 }
 
 interface IOnlineDict {
-    suspend fun getHtml(url: String): String
     val getWord: String
     val getDict: MDictionary
     val getUrl: String
 }
 
-class OnlineDict {
+class OnlineDict: KoinComponent {
 
     lateinit var wv: WebView
     lateinit var iOnlineDict: IOnlineDict
     var dictStatus = DictWebViewStatus.Ready
+    private val htmlService by inject<HtmlService>()
 
-    fun searchDict() {
+    suspend fun searchDict() {
         val item = iOnlineDict.getDict
         val url = iOnlineDict.getUrl
         if (item.dicttypename == "OFFLINE") {
             wv.loadUrl("about:blank")
-//            val s = iOnlineDict.getHtml(url)
-            val s = ""
+            val s = htmlService.getHtml(url)
             Log.d("HTML", s)
             val str = item.htmlString(s, iOnlineDict.getWord, true)
             wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")

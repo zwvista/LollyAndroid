@@ -161,6 +161,6 @@ fun SettingsScreen(openDrawer: () -> Unit) {
 @Composable
 fun SettingsScreenPreview() {
     LollyAndroidTheme {
-        SettingsScreen() {}
+        SettingsScreen {}
     }
 }

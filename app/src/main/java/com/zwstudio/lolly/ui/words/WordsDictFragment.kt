@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.common.OnSwipeWebviewTouchListener
 import com.zwstudio.lolly.common.OnlineDict
@@ -21,6 +22,7 @@ import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WordsDictFragment : Fragment() {
@@ -72,6 +74,8 @@ class WordsDictFragment : Fragment() {
     }
 
     private fun selectedDictChanged() {
-        onlineDict.searchDict()
+        vm.viewModelScope.launch {
+            onlineDict.searchDict()
+        }
     }
 }

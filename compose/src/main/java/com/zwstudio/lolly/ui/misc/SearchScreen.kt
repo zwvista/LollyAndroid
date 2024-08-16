@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.OnlineDict
 import com.zwstudio.lolly.common.vmSettings
@@ -29,6 +30,7 @@ import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -40,16 +42,12 @@ fun SearchScreen(openDrawer: () -> Unit) {
     // https://stackoverflow.com/questions/64181930/request-focus-on-textfield-in-jetpack-compose
     val focusRequester = remember { FocusRequester() }
 
-    fun searchDict() {
-        onlineDict.searchDict()
-    }
-
     LaunchedEffect(Unit) {
 //        focusRequester.requestFocus()
         if (GlobalUserViewModel.isLoggedIn) {
             vmSettings.getData()
             vmSettings.selectedDictReferenceIndex_.onEach {
-                searchDict()
+                onlineDict.searchDict()
             }.launchIn(this)
         }
     }
@@ -70,7 +68,9 @@ fun SearchScreen(openDrawer: () -> Unit) {
             valueStateFlow = vm.word_,
             modifier = Modifier.focusRequester(focusRequester)
         ) {
-            searchDict()
+            vm.viewModelScope.launch {
+                onlineDict.searchDict()
+            }
         }
         Row(
             modifier = Modifier
