@@ -17,7 +17,6 @@ class WordsDictViewModel : ViewModel(), IOnlineDict, KoinComponent {
 
     override val getWord: String get() = selectedWord
     override val getDict: MDictionary get() = vmSettings.selectedDictReference
-    override val getUrl: String get() = getDict.urlString(selectedWord, vmSettings.lstAutoCorrect)
 
     fun next(delta: Int) {
         selectedWordIndex = (selectedWordIndex + delta + lstWords.size) % lstWords.size
