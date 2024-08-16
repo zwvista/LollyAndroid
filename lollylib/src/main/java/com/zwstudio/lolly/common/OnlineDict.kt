@@ -5,31 +5,33 @@ import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.zwstudio.lolly.models.misc.MDictionary
-import io.reactivex.rxjava3.core.Single
+import com.zwstudio.lolly.services.misc.HtmlService
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 enum class DictWebViewStatus {
     Ready, Navigating, Automating
 }
 
 interface IOnlineDict {
-    fun getHtml(url: String): Single<String>
     val getWord: String
     val getDict: MDictionary
     val getUrl: String
 }
 
-class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict, val compositeDisposable: CompositeDisposable) {
+class OnlineDict(val wv: WebView, val iOnlineDict: IOnlineDict, val compositeDisposable: CompositeDisposable): KoinComponent {
 
     var dictStatus = DictWebViewStatus.Ready
+    private val htmlService by inject<HtmlService>()
 
-    fun searchDict() {
+    suspend fun searchDict() {
         val item = iOnlineDict.getDict
         val url = iOnlineDict.getUrl
         if (item.dicttypename == "OFFLINE") {
             wv.loadUrl("about:blank")
-            compositeDisposable.add(iOnlineDict.getHtml(url).subscribeBy {
+            compositeDisposable.add(htmlService.getHtml(url).subscribeBy {
                 Log.d("HTML", it)
                 val str = item.htmlString(it, iOnlineDict.getWord, true)
                 wv.loadDataWithBaseURL("", str, "text/html", "UTF-8", "")
