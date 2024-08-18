@@ -97,12 +97,12 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                             onClick = {
                                 expanded = false
                             }
-                        ) { Text(text = stringResource(id = R.string.action_retrieve_notes_all)) }
+                        ) { Text(text = stringResource(id = R.string.action_get_notes_all)) }
                         DropdownMenuItem(
                             onClick = {
                                 expanded = false
                             }
-                        ) { Text(text = stringResource(id = R.string.action_retrieve_notes_empty)) }
+                        ) { Text(text = stringResource(id = R.string.action_get_notes_empty)) }
                         DropdownMenuItem(
                             onClick = {
                                 expanded = false
@@ -249,7 +249,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                         vm.getNote(item)
                     }
                 }) {
-                    Text(stringResource(id = R.string.action_retrieve_note))
+                    Text(stringResource(id = R.string.action_get_note))
                 }
                 TextButton(onClick = {
                     showItemDialog = false

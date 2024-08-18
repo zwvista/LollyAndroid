@@ -23,12 +23,12 @@
         app:showAsAction="never"/>
     <item
         android:id="@+id/menuRetrieveNotesAll"
-        android:title="@string/action_retrieve_notes_all"
+        android:title="@string/action_get_notes_all"
         android:orderInCategory="101"
         app:showAsAction="never"/>
     <item
         android:id="@+id/menuRetrieveNotesEmpty"
-        android:title="@string/action_retrieve_notes_empty"
+        android:title="@string/action_get_notes_empty"
         android:orderInCategory="102"
         app:showAsAction="never"/>
     <item

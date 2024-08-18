@@ -137,7 +137,7 @@ fun WordsLangScreen(vm: WordsLangViewModel, navController: NavHostController?, o
                         vm.getNote(item)
                     }
                 }) {
-                    Text(stringResource(id = R.string.action_retrieve_note))
+                    Text(stringResource(id = R.string.action_get_note))
                 }
                 TextButton(onClick = {
                     showItemDialog = false
