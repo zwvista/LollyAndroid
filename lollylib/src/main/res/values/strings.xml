@@ -40,13 +40,13 @@
     <string name="action_more">More</string>
     <string name="action_edit">Edit</string>
     <string name="action_add">Add</string>
-    <string name="action_retrieve_notes_all">Retrieve All Notes</string>
-    <string name="action_retrieve_notes_empty">Retrieve Notes If Empty</string>
+    <string name="action_get_notes_all">Get All Notes</string>
+    <string name="action_get_notes_empty">Get Notes If Empty</string>
     <string name="action_clear_notes_all">Clear All Notes</string>
     <string name="action_clear_notes_empty">Clear Notes If Empty</string>
     <string name="action_batch">Batch Edit</string>
     <string name="action_save">Save</string>
-    <string name="action_retrieve_note">Retrieve Note</string>
+    <string name="action_get_note">Get Note</string>
     <string name="action_clear_note">Clear Note</string>
     <string name="action_copy_word">Copy Word</string>
     <string name="action_google_word">Google Word</string>

@@ -127,7 +127,7 @@ class WordsTextbookFragment : DrawerListFragment() {
                     .setItems(arrayOf(
                         itemView.context.getString(R.string.action_delete),
                         itemView.context.getString(R.string.action_edit),
-                        itemView.context.getString(R.string.action_retrieve_note),
+                        itemView.context.getString(R.string.action_get_note),
                         itemView.context.getString(R.string.action_clear_note),
                         itemView.context.getString(R.string.action_copy_word),
                         itemView.context.getString(R.string.action_google_word),
