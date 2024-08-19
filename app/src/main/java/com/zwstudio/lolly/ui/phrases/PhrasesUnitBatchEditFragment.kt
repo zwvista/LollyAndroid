@@ -11,6 +11,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,13 +29,15 @@ import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitBatchEditViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PhrasesUnitBatchEditFragment : Fragment(), MenuProvider {
 
     val vm by lazy { requireParentFragment().getViewModel<PhrasesUnitViewModel>() }
-    val vmBatch by viewModel<PhrasesUnitBatchEditViewModel>()
+    val vmBatchEdit by viewModel<PhrasesUnitBatchEditViewModel>()
     var binding by autoCleared<FragmentPhrasesUnitBatchEditBinding>()
     val args: PhrasesUnitBatchEditFragmentArgs by navArgs()
 
@@ -48,13 +51,16 @@ class PhrasesUnitBatchEditFragment : Fragment(), MenuProvider {
         vm.lstPhrases = args.list.toList()
         binding = FragmentPhrasesUnitBatchEditBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
-            model = vmBatch
+            model = vmBatchEdit
         }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        vmBatchEdit.saveEnabled.onEach {
+            requireActivity().invalidateOptionsMenu()
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.spnUnit.adapter = makeCustomAdapter(requireContext(), vmSettings.lstUnits) { it.label }
         binding.spnPart.adapter = makeCustomAdapter(requireContext(), vmSettings.lstParts) { it.label }

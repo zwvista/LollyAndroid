@@ -6,7 +6,7 @@ apply plugin: "kotlin-parcelize"
 
 android {
     defaultConfig {
-        applicationId "com.zwstudio.lolly"
+        applicationId "com.zwstudio.lolly.rx"
         minSdk 24
         compileSdk 34
         versionCode 1
