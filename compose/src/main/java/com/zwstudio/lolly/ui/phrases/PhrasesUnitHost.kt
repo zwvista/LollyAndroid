@@ -31,5 +31,8 @@ fun PhrasesUnitHost(openDrawer: () -> Unit) {
         composable(route = PhrasesScreens.PhrasesUnitAdd.route) {
             PhrasesUnitDetailScreen(vm, vm.newUnitPhrase(), navController)
         }
+        composable(route = PhrasesScreens.PhrasesUnitBatchEdit.route) {
+            PhrasesUnitBatchEditScreen(vm, navController)
+        }
     }
 }

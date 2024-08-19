@@ -34,8 +34,10 @@ captures/
 
 # Intellij
 *.iml
-.idea/workspace.xml
-.idea/libraries
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
 
 # Keystore files
 *.jks

@@ -42,5 +42,8 @@ fun WordsUnitHost(openDrawer: () -> Unit) {
                 vm.lstWords.map { it.word }, it.arguments!!.getInt(INDEX_KEY), navController
             )
         }
+        composable(route = WordsScreens.WordsUnitBatchEdit.route) {
+            WordsUnitBatchEditScreen(vm, navController)
+        }
     }
 }

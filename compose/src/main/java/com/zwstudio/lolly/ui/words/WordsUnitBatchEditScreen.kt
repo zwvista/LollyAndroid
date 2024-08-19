@@ -1,7 +1,11 @@
 package com.zwstudio.lolly.ui.words
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
@@ -19,33 +23,28 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
-import com.zwstudio.lolly.models.wpp.MUnitWord
+import com.zwstudio.lolly.ui.common.LabelledCheckBox
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBarArrow
+import com.zwstudio.lolly.viewmodels.words.WordsUnitBatchEditViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun WordsTextbookDetailScreen(vm: WordsUnitViewModel, item: MUnitWord, navController: NavHostController?) {
+fun WordsUnitBatchEditScreen(vm: WordsUnitViewModel, navController: NavHostController?) {
 
-    val vmDetail = koinViewModel<WordsUnitDetailViewModel> { parametersOf(item) }
+    val vmBatchEdit = koinViewModel<WordsUnitBatchEditViewModel>()
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = stringResource(id = R.string.words_textbook_detail),
+            title = stringResource(id = R.string.words_unit_batch_edit),
             navController = navController,
             actions = {
                 Button(
                     onClick = {
-                        vmDetail.save()
-                        if (item.id == 0)
-                            vm.create(item)
-                        else
-                            vm.update(item)
-                        navController?.navigateUp()
                     },
-                    enabled = vmDetail.saveEnabled.collectAsState().value
+                    enabled = vmBatchEdit.saveEnabled.collectAsState().value
                 ) {
                     Icon(Icons.Filled.Done, null)
                 }
@@ -55,48 +54,46 @@ fun WordsTextbookDetailScreen(vm: WordsUnitViewModel, item: MUnitWord, navContro
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(text = stringResource(id = R.string.label_id, vmDetail.id))
-            Text(text = "ID:${vmDetail.textbookname}")
-            Text(text = stringResource(id = R.string.label_unit))
+            LabelledCheckBox(
+                checked = vmBatchEdit.unitChecked.collectAsState().value,
+                onCheckedChange = { vmBatchEdit.unitChecked.value = it },
+                label = stringResource(id = R.string.label_unit)
+            )
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2))
                     .fillMaxWidth(),
+                enabled = vmBatchEdit.unitChecked.collectAsState().value,
                 itemsStateFlow = vmSettings.lstUnits_,
-                selectedItemIndexStateFlow = vmDetail.unitIndex,
+                selectedItemIndexStateFlow = vmBatchEdit.unitIndex,
                 itemText = { it.label },
             )
-            Text(text = stringResource(id = R.string.label_part))
+            LabelledCheckBox(
+                checked = vmBatchEdit.partChecked.collectAsState().value,
+                onCheckedChange = { vmBatchEdit.partChecked.value = it },
+                label = stringResource(id = R.string.label_part)
+            )
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text3))
                     .fillMaxWidth(),
+                enabled = vmBatchEdit.partChecked.collectAsState().value,
                 itemsStateFlow = vmSettings.lstParts_,
-                selectedItemIndexStateFlow = vmDetail.partIndex,
+                selectedItemIndexStateFlow = vmBatchEdit.partIndex,
                 itemText = { it.label },
             )
+            LabelledCheckBox(
+                checked = vmBatchEdit.seqnumChecked.collectAsState().value,
+                onCheckedChange = { vmBatchEdit.seqnumChecked.value = it },
+                label = stringResource(id = R.string.label_seqnum_add)
+            )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("SEQNUM") },
-                value = vmDetail.seqnum.collectAsState().value,
-                onValueChange = { vmDetail.seqnum.value = it },
+                enabled = vmBatchEdit.seqnumChecked.collectAsState().value,
+                value = vmBatchEdit.seqnum.collectAsState().value,
+                onValueChange = { vmBatchEdit.seqnum.value = it },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
-            Text(text = "WORDID:${vmDetail.wordid}")
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text("WORD") },
-                value = vmDetail.word.collectAsState().value,
-                onValueChange = { vmDetail.word.value = it }
-            )
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                label = { Text("NOTE") },
-                value = vmDetail.note.collectAsState().value,
-                onValueChange = { vmDetail.note.value = it }
-            )
-            Text(text = "FAMIID:${vmDetail.famiid}")
-            Text(text = "ACCURACY:${vmDetail.accuracy}")
         }
     }
 }

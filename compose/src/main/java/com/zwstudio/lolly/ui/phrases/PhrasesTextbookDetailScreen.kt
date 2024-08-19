@@ -2,6 +2,7 @@ package com.zwstudio.lolly.ui.phrases
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -13,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
@@ -77,7 +79,8 @@ fun PhrasesTextbookDetailScreen(vm: PhrasesUnitViewModel, item: MUnitPhrase, nav
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text(stringResource(id = R.string.label_seqnum)) },
                 value = vmDetail.seqnum.collectAsState().value,
-                onValueChange = { vmDetail.seqnum.value = it }
+                onValueChange = { vmDetail.seqnum.value = it },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
             Text(text = stringResource(id = R.string.label_phraseid, vmDetail.phraseid))
             TextField(

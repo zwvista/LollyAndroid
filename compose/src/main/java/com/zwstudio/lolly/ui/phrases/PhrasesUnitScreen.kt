@@ -92,6 +92,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                         ) { Text(text = stringResource(id = R.string.action_add)) }
                         DropdownMenuItem(
                             onClick = {
+                                navController?.navigate(PhrasesScreens.PhrasesUnitBatchEdit.route)
                                 expanded = false
                             }
                         ) { Text(text = stringResource(id = R.string.action_batch)) }

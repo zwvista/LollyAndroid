@@ -95,26 +95,31 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                         ) { Text(text = stringResource(id = R.string.action_add)) }
                         DropdownMenuItem(
                             onClick = {
+                                vm.getNotes(false, {_ ->}, {})
                                 expanded = false
                             }
                         ) { Text(text = stringResource(id = R.string.action_get_notes_all)) }
                         DropdownMenuItem(
                             onClick = {
+                                vm.getNotes(true, {_ ->}, {})
                                 expanded = false
                             }
                         ) { Text(text = stringResource(id = R.string.action_get_notes_empty)) }
                         DropdownMenuItem(
                             onClick = {
+                                vm.clearNotes(false, {_ ->}, {})
                                 expanded = false
                             }
                         ) { Text(text = stringResource(id = R.string.action_clear_notes_all)) }
                         DropdownMenuItem(
                             onClick = {
+                                vm.clearNotes(true, {_ ->}, {})
                                 expanded = false
                             }
                         ) { Text(text = stringResource(id = R.string.action_clear_notes_empty)) }
                         DropdownMenuItem(
                             onClick = {
+                                navController?.navigate(WordsScreens.WordsUnitBatchEdit.route)
                                 expanded = false
                             }
                         ) { Text(text = stringResource(id = R.string.action_batch)) }
