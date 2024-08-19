@@ -57,23 +57,7 @@ class WordsUnitBatchEditFragment : Fragment(), MenuProvider {
         super.onViewCreated(view, savedInstanceState)
 
         binding.spnUnit.adapter = makeCustomAdapter(requireContext(), vmSettings.lstUnits) { it.label }
-        binding.spnUnit.setSelection(vmSettings.lstUnits.indexOfFirst { it.value == vmSettings.usunitto })
         binding.spnPart.adapter = makeCustomAdapter(requireContext(), vmSettings.lstParts) { it.label }
-        binding.spnPart.setSelection(vmSettings.lstParts.indexOfFirst { it.value == vmSettings.uspartto })
-
-        fun chkUnit() {
-            binding.spnUnit.isEnabled = binding.chkUnit.isChecked
-        }
-        fun chkPart() {
-            binding.spnPart.isEnabled = binding.chkPart.isChecked
-        }
-        fun chkSeqNum() {
-            binding.etSeqNum.isEnabled = binding.chkSeqNum.isChecked
-        }
-        binding.chkUnit.setOnCheckedChangeListener { _, _ -> chkUnit() }
-        binding.chkPart.setOnCheckedChangeListener { _, _ -> chkPart() }
-        binding.chkSeqNum.setOnCheckedChangeListener { _, _ -> chkSeqNum() }
-        chkUnit(); chkPart(); chkSeqNum()
 
         mDragListView = view.findViewById(R.id.drag_list_view)
         mRefreshLayout = view.findViewById(R.id.swipe_refresh_layout)

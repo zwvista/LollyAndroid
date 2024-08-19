@@ -16,6 +16,7 @@
 
         <CheckBox
             android:id="@+id/chkUnit"
+            android:checked="@{model.unitChecked}"
             android:text="@string/label_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,6 +26,8 @@
 
         <Spinner
             android:id="@+id/spnUnit"
+            android:selectedItemPosition="@={model.unitIndex}"
+            android:enabled="@{model.unitChecked}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintStart_toEndOf="@+id/chkSeqNum"
@@ -34,6 +37,7 @@
 
         <CheckBox
             android:id="@+id/chkPart"
+            android:checked="@{model.partChecked}"
             android:text="@string/label_part"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,6 +47,8 @@
 
         <Spinner
             android:id="@+id/spnPart"
+            android:selectedItemPosition="@={model.partIndex}"
+            android:enabled="@{model.partChecked}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintStart_toEndOf="@+id/chkSeqNum"
@@ -52,23 +58,30 @@
 
         <CheckBox
             android:id="@+id/chkSeqNum"
+            android:checked="@{model.seqnumChecked}"
             android:text="@string/label_seqnum_add"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            app:layout_constraintTop_toTopOf="@+id/etSeqNum"
-            app:layout_constraintBottom_toBottomOf="@+id/etSeqNum"
+            app:layout_constraintTop_toTopOf="@+id/tiSeqNum"
+            app:layout_constraintBottom_toBottomOf="@+id/tiSeqNum"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/etSeqNum" />
+            app:layout_constraintEnd_toStartOf="@+id/tiSeqNum" />
 
-        <EditText
-            android:id="@+id/etSeqNum"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiSeqNum"
+            android:enabled="@{model.seqnumChecked}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="0"
             app:layout_constraintStart_toEndOf="@+id/chkSeqNum"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chkPart" />
+            app:layout_constraintTop_toBottomOf="@+id/chkPart">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSeqNum"
+                android:text="@={model.seqnum}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.zwstudio.lolly.ui.common.LollySwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
