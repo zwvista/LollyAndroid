@@ -7,7 +7,7 @@ android {
     namespace 'com.zwstudio.lolly'
 
     defaultConfig {
-        applicationId "com.zwstudio.lolly"
+        applicationId "com.zwstudio.lolly.compose"
         minSdk 24
         compileSdk 34
         versionCode 1

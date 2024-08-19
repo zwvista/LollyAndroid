@@ -16,7 +16,7 @@
 
         <CheckBox
             android:id="@+id/chkUnit"
-            android:checked="@{model.unitChecked}"
+            android:checked="@={model.unitChecked}"
             android:text="@string/label_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
 
         <CheckBox
             android:id="@+id/chkPart"
-            android:checked="@{model.partChecked}"
+            android:checked="@={model.partChecked}"
             android:text="@string/label_part"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
 
         <CheckBox
             android:id="@+id/chkSeqNum"
-            android:checked="@{model.seqnumChecked}"
+            android:checked="@={model.seqnumChecked}"
             android:text="@string/label_seqnum_add"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
