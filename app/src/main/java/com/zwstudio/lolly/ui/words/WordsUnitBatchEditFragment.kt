@@ -33,11 +33,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class WordsUnitBatchEditFragment : Fragment(), MenuProvider {
 
     val vm by lazy { requireParentFragment().getViewModel<WordsUnitViewModel>() }
-    val vmBatchEdit by viewModel<WordsUnitBatchEditViewModel>()
+    val vmBatchEdit by viewModel<WordsUnitBatchEditViewModel>{ parametersOf(vm) }
     var binding by autoCleared<FragmentWordsUnitBatchEditBinding>()
     val args: WordsUnitBatchEditFragmentArgs by navArgs()
 
@@ -88,18 +89,9 @@ class WordsUnitBatchEditFragment : Fragment(), MenuProvider {
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.menuSave -> {
-                if (binding.chkUnit.isChecked || binding.chkPart.isChecked || binding.chkSeqNum.isChecked) {
-                    for ((i, item) in vm.lstWords.withIndex()) {
-                        val v = mDragListView.recyclerView.findViewHolderForAdapterPosition(i) as WordsUnitBatchItemAdapter.ViewHolder
-                        if (v.mCheckmark.visibility == View.INVISIBLE) continue
-                        if (binding.chkUnit.isChecked) item.unit = (binding.spnUnit.selectedItem as MSelectItem).value
-                        if (binding.chkPart.isChecked) item.part = (binding.spnPart.selectedItem as MSelectItem).value
-                        if (binding.chkSeqNum.isChecked) item.seqnum += binding.etSeqNum.text.toString().toInt()
-                        compositeDisposable.add(vm.update(item).subscribe())
-                    }
-                    setFragmentResult("WordsUnitBatchEditFragment", bundleOf())
-                    findNavController().navigateUp()
-                }
+                vmBatchEdit.save()
+                setFragmentResult("WordsUnitBatchEditFragment", bundleOf())
+                findNavController().navigateUp()
                 true
             }
             else -> false
@@ -131,6 +123,7 @@ class WordsUnitBatchEditFragment : Fragment(), MenuProvider {
             holder.mText1.text = item.wordnote
             holder.mText2.text = item.unitpartseqnum
             holder.itemView.tag = item
+            holder.updateCheckMark()
         }
 
         override fun getUniqueItemId(position: Int): Long {
@@ -141,9 +134,14 @@ class WordsUnitBatchEditFragment : Fragment(), MenuProvider {
             var mText1: TextView = itemView.findViewById(R.id.text1)
             var mText2: TextView = itemView.findViewById(R.id.text2)
             var mCheckmark: ImageView = itemView.findViewById(R.id.image_checkmark)
+            val item get() = itemView.tag as MUnitWord
 
+            fun updateCheckMark() {
+                mCheckmark.visibility = if (item.isChecked) View.VISIBLE else View.INVISIBLE
+            }
             override fun onItemClicked(view: View?) {
-                mCheckmark.visibility = if (mCheckmark.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
+                item.isChecked = !item.isChecked
+                updateCheckMark()
             }
         }
     }

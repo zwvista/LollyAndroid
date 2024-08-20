@@ -145,14 +145,14 @@ val lollyModule = module {
     viewModel { parameters -> PhrasesReviewViewModel(doTestAction = parameters.get()) }
     viewModel { PhrasesUnitViewModel() }
     viewModel { parameters -> PhrasesUnitDetailViewModel(item = parameters.get()) }
-    viewModel { PhrasesUnitBatchEditViewModel() }
+    viewModel { parameters -> PhrasesUnitBatchEditViewModel(vm = parameters.get()) }
     viewModel { WordsDictViewModel() }
     viewModel { WordsLangViewModel() }
     viewModel { parameters -> WordsLangDetailViewModel(item = parameters.get()) }
     viewModel { parameters -> WordsReviewViewModel(doTestAction = parameters.get()) }
     viewModel { WordsUnitViewModel() }
     viewModel { parameters -> WordsUnitDetailViewModel(item = parameters.get()) }
-    viewModel { WordsUnitBatchEditViewModel() }
+    viewModel { parameters -> WordsUnitBatchEditViewModel(vm = parameters.get()) }
 }
 
 fun speak(text: String) =

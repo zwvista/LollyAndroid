@@ -3,7 +3,6 @@ package com.zwstudio.lolly.models.wpp
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.zwstudio.lolly.models.misc.MTextbook
-import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
@@ -35,8 +34,8 @@ data class MUnitPhrase(
     @SerializedName("TRANSLATION")
     var translation: String = "",
 ) : Serializable, Parcelable {
-    @IgnoredOnParcel
-    lateinit var textbook: MTextbook
+    @Transient var isChecked = false
+    @Transient lateinit var textbook: MTextbook
     val unitstr: String
         get() = textbook.unitstr(unit)
     val partstr: String

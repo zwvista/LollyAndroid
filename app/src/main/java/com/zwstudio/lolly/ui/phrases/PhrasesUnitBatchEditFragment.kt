@@ -23,6 +23,7 @@ import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentPhrasesUnitBatchEditBinding
 import com.zwstudio.lolly.models.misc.MSelectItem
 import com.zwstudio.lolly.models.wpp.MUnitPhrase
+import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.ui.common.LollySwipeRefreshLayout
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
@@ -33,11 +34,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class PhrasesUnitBatchEditFragment : Fragment(), MenuProvider {
 
     val vm by lazy { requireParentFragment().getViewModel<PhrasesUnitViewModel>() }
-    val vmBatchEdit by viewModel<PhrasesUnitBatchEditViewModel>()
+    val vmBatchEdit by viewModel<PhrasesUnitBatchEditViewModel>{ parametersOf(vm) }
     var binding by autoCleared<FragmentPhrasesUnitBatchEditBinding>()
     val args: PhrasesUnitBatchEditFragmentArgs by navArgs()
 
@@ -88,18 +90,9 @@ class PhrasesUnitBatchEditFragment : Fragment(), MenuProvider {
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.menuSave -> {
-                if (binding.chkUnit.isChecked || binding.chkPart.isChecked || binding.chkSeqNum.isChecked) {
-                    for ((i, item) in vm.lstPhrases.withIndex()) {
-                        val v = mDragListView.recyclerView.findViewHolderForAdapterPosition(i) as PhrasesUnitBatchItemAdapter.ViewHolder
-                        if (v.mCheckmark.visibility == View.INVISIBLE) continue
-                        if (binding.chkUnit.isChecked) item.unit = (binding.spnUnit.selectedItem as MSelectItem).value
-                        if (binding.chkPart.isChecked) item.part = (binding.spnPart.selectedItem as MSelectItem).value
-                        if (binding.chkSeqNum.isChecked) item.seqnum += binding.etSeqNum.text.toString().toInt()
-                        compositeDisposable.add(vm.update(item).subscribe())
-                    }
-                    setFragmentResult("PhrasesUnitBatchEditFragment", bundleOf())
-                    findNavController().navigateUp()
-                }
+                vmBatchEdit.save()
+                setFragmentResult("PhrasesUnitBatchEditFragment", bundleOf())
+                findNavController().navigateUp()
                 true
             }
             else -> false
@@ -133,6 +126,7 @@ class PhrasesUnitBatchEditFragment : Fragment(), MenuProvider {
             holder.mText2.text = item.unitpartseqnum
             holder.mText3.text = item.translation
             holder.itemView.tag = item
+            holder.updateCheckMark()
         }
 
         override fun getUniqueItemId(position: Int): Long {
@@ -144,9 +138,14 @@ class PhrasesUnitBatchEditFragment : Fragment(), MenuProvider {
             var mText2: TextView = itemView.findViewById(R.id.text2)
             var mText3: TextView = itemView.findViewById(R.id.text3)
             var mCheckmark: ImageView = itemView.findViewById(R.id.image_checkmark)
+            val item get() = itemView.tag as MUnitWord
 
+            fun updateCheckMark() {
+                mCheckmark.visibility = if (item.isChecked) View.VISIBLE else View.INVISIBLE
+            }
             override fun onItemClicked(view: View?) {
-                mCheckmark.visibility = if (mCheckmark.visibility == View.VISIBLE) View.INVISIBLE else View.VISIBLE
+                item.isChecked = !item.isChecked
+                updateCheckMark()
             }
         }
     }
