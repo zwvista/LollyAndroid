@@ -35,7 +35,7 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun WordsUnitBatchEditScreen(vm: WordsUnitViewModel, navController: NavHostController?) {
 
-    val vmBatchEdit = koinViewModel<WordsUnitBatchEditViewModel>()
+    val vmBatchEdit = koinViewModel<WordsUnitBatchEditViewModel> { parametersOf(vm) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
             title = stringResource(id = R.string.words_unit_batch_edit),

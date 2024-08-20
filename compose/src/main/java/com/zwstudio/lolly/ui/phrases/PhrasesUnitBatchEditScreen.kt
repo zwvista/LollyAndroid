@@ -29,11 +29,12 @@ import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitBatchEditViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun PhrasesUnitBatchEditScreen(vm: PhrasesUnitViewModel, navController: NavHostController?) {
 
-    val vmBatchEdit = koinViewModel<PhrasesUnitBatchEditViewModel>()
+    val vmBatchEdit = koinViewModel<PhrasesUnitBatchEditViewModel> { parametersOf(vm) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
             title = stringResource(id = R.string.phrases_unit_batch_edit),

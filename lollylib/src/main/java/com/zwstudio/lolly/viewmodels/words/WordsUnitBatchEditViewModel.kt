@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class WordsUnitBatchEditViewModel : ViewModel() {
+class WordsUnitBatchEditViewModel(val vm: WordsUnitViewModel) : ViewModel() {
     val unitChecked = MutableStateFlow(false)
     val partChecked = MutableStateFlow(false)
     val seqnumChecked = MutableStateFlow(false)
@@ -26,5 +26,13 @@ class WordsUnitBatchEditViewModel : ViewModel() {
     }
 
     fun save() {
+        if (!(unitChecked.value || partChecked.value || seqnumChecked.value)) return
+        for ((i, item) in vm.lstWords.withIndex()) {
+            if (!item.isChecked) continue
+            if (unitChecked.value) item.unit = vmSettings.lstUnits[unitIndex.value].value
+            if (partChecked.value) item.part = vmSettings.lstParts[partIndex.value].value
+            if (seqnumChecked.value) item.seqnum += seqnum.value.toInt()
+            vm.update(item)
+        }
     }
 }
