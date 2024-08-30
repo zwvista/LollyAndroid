@@ -17,7 +17,7 @@ class ReviewOptionsViewModel(val options: MReviewOptions) : ViewModel() {
     val reviewCount = MutableStateFlow(options.reviewCount)
 
     fun save() {
-        options.mode = ReviewMode.values()[mode.value]
+        options.mode = ReviewMode.entries.toTypedArray()[mode.value]
         options.interval = interval.value
         options.shuffled = shuffled.value
         options.groupCount = groupCount.value
