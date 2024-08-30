@@ -21,6 +21,8 @@ data class MTextbook(
     var units: String = "",
     @SerializedName("PARTS")
     var parts: String = "",
+    @SerializedName("ISWEB")
+    var isWeb: Int = 0,
 ) : Serializable {
     var lstUnits = listOf<MSelectItem>()
     fun unitstr(unit: Int) = lstUnits.first { it.value == unit }.label

@@ -36,11 +36,16 @@ sealed class PatternsScreens(val route: String) {
     object PatternsWebPage : PatternsScreens("PatternsWebPage")
 }
 
-const val INDEX_KEY = "INDEX_KEY"
-
-
 sealed class ReviewScreens(val route: String) {
     object WordsReviewMain : ReviewScreens("WordsReviewMain")
     object PhrasesReviewMain : ReviewScreens("PhrasesReviewMain")
     object ReviewOptions : ReviewScreens("ReviewOptions")
 }
+
+sealed class WebTextbooksScreens(val route: String) {
+    object WebTextbooksMain : PatternsScreens("WebTextbooksMain")
+    object WebTextbooksDetail : PatternsScreens("WebTextbooksDetail")
+    object WebTextbooksWebPage : PatternsScreens("WebTextbooksWebPage")
+}
+
+const val INDEX_KEY = "INDEX_KEY"

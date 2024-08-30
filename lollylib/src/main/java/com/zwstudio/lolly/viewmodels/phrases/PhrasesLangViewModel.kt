@@ -19,6 +19,8 @@ class PhrasesLangViewModel : DrawerListViewModel(), KoinComponent {
     var lstPhrasesAll get() = lstPhrasesAll_.value; set(v) { lstPhrasesAll_.value = v }
     var lstPhrases_ = MutableStateFlow(listOf<MLangPhrase>())
     var lstPhrases get() = lstPhrases_.value; set(v) { lstPhrases_.value = v }
+    var textFilter_ = MutableStateFlow("")
+    var textFilter get() = textFilter_.value; set(v) { textFilter_.value = v }
     val scopeFilterIndex_ = MutableStateFlow(0)
     var scopeFilterIndex get() = scopeFilterIndex_.value; set(v) { scopeFilterIndex_.value = v }
     private val noFilter get() = textFilter.isEmpty()

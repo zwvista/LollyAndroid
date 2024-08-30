@@ -48,7 +48,7 @@ fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController
             valueStateFlow = vm.textFilter_
         ) {
         }
-        Row() {
+        Row {
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text3))

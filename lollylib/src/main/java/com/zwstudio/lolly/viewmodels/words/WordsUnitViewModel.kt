@@ -22,6 +22,8 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
     var lstWordsAll get() = lstWordsAll_.value; set(v) { lstWordsAll_.value = v }
     val lstWords_ = MutableStateFlow(listOf<MUnitWord>())
     var lstWords get() = lstWords_.value; set(v) { lstWords_.value = v }
+    var textFilter_ = MutableStateFlow("")
+    var textFilter get() = textFilter_.value; set(v) { textFilter_.value = v }
     val scopeFilterIndex_ = MutableStateFlow(0)
     var scopeFilterIndex get() = scopeFilterIndex_.value; set(v) { scopeFilterIndex_.value = v }
     val textbookFilterIndex_ = MutableStateFlow(0)
