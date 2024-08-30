@@ -21,6 +21,8 @@ class PatternsViewModel : DrawerListViewModel(), KoinComponent {
     var lstPatternsAll get() = lstPatternsAll_.value; set(v) { lstPatternsAll_.value = v }
     var lstPatterns_ = MutableStateFlow(listOf<MPattern>())
     var lstPatterns get() = lstPatterns_.value; set(v) { lstPatterns_.value = v }
+    var textFilter_ = MutableStateFlow("")
+    var textFilter get() = textFilter_.value; set(v) { textFilter_.value = v }
     val scopeFilterIndex_ = MutableStateFlow(0)
     var scopeFilterIndex get() = scopeFilterIndex_.value; set(v) { scopeFilterIndex_.value = v }
     private val noFilter get() = textFilter.isEmpty()

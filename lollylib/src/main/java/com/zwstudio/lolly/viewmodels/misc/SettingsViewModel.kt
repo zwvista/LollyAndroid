@@ -15,6 +15,7 @@ import com.zwstudio.lolly.models.misc.MUSMapping
 import com.zwstudio.lolly.models.misc.MUserSetting
 import com.zwstudio.lolly.models.misc.MUserSettingInfo
 import com.zwstudio.lolly.models.misc.MVoice
+import com.zwstudio.lolly.models.misc.MWebTextbook
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.misc.autoCorrect
 import com.zwstudio.lolly.models.misc.extractTextFrom
@@ -140,6 +141,14 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     val lstTextbookFilters_ = MutableStateFlow(listOf<MSelectItem>())
     var lstTextbookFilters get() = lstTextbookFilters_.value; set(v) { lstTextbookFilters_.value = v }
 
+    var lstWebTextbooks_ = MutableStateFlow(listOf<MWebTextbook>())
+    var lstWebTextbooks get() = lstWebTextbooks_.value; set(v) { lstWebTextbooks_.value = v }
+    val selectedWebTextbookIndex_ = MutableStateFlow(-1)
+    var selectedWebTextbookIndex get() = selectedWebTextbookIndex_.value; set(v) { selectedWebTextbookIndex_.value = v }
+    val selectedWebTextbook get() = lstWebTextbooks.getOrElse(selectedWebTextbookIndex) { MWebTextbook() }
+    val lstWebTextbookFilters_ = MutableStateFlow(listOf<MSelectItem>())
+    var lstWebTextbookFilters get() = lstWebTextbookFilters_.value; set(v) { lstWebTextbookFilters_.value = v }
+
     var lstDictsReference_ = MutableStateFlow(listOf<MDictionary>())
     var lstDictsReference get() = lstDictsReference_.value; set(v) { lstDictsReference_.value = v }
     val selectedDictReferenceIndex_ = MutableStateFlow(-1)
@@ -255,6 +264,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
                 lstDictsTranslation = lst3
                 selectedTextbookIndex = lst4.indexOfFirst { it.id == ustextbook }
                 lstTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lst4.map { MSelectItem(it.id, it.textbookname) }
+                lstWebTextbookFilters = listOf(MSelectItem(0, "All Textbooks")) + lst4.filter { it.isWeb == 1 }.map { MSelectItem(it.id, it.textbookname) }
                 lstTextbooks = lst4
                 lstAutoCorrect = lst5
                 selectedVoiceIndex = lst6.indexOfFirst { it.id == usvoice }
