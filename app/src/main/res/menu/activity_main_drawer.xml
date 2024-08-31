@@ -46,6 +46,10 @@
             android:id="@+id/patternsFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/patterns"/>
+        <item
+            android:id="@+id/webTextbooksFragment"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="@string/webtextbooks"/>
     </group>
 
 </menu>

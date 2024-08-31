@@ -33,6 +33,8 @@
     <string name="patterns_detail">Patterns in Language(Detail)</string>
     <string name="patterns_webpage">Pattern Web Page</string>
     <string name="words_dict">Word Dictionary</string>
+    <string name="webtextbooks">WebTextbooks</string>
+    <string name="webtextbooks_detail">WebTextbooks(Detail)</string>
     <string name="webtextbooks_webpage">WebTextbooks Web Page</string>
 
     <string name="action_delete">Delete</string>
