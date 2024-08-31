@@ -1,10 +1,12 @@
 package com.zwstudio.lolly.viewmodels.webtextbooks
 
 import androidx.lifecycle.viewModelScope
+import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.misc.MWebTextbook
 import com.zwstudio.lolly.services.misc.WebTextbookService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import io.reactivex.rxjava3.core.Completable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -33,9 +35,10 @@ class WebTextbooksViewModel : DrawerListViewModel(), KoinComponent {
         }.launchIn(viewModelScope)
     }
 
-    suspend fun getData() {
+    fun getData(): Completable {
         isBusy = true
-        lstWebTextbooksAll = webTextbookService.getDataByLang(vmSettings.selectedLang.id)
-        isBusy = false
+        return webTextbookService.getDataByLang(vmSettings.selectedLang.id)
+            .applyIO()
+            .flatMapCompletable { lstWebTextbooksAll = it; isBusy = false; Completable.complete() }
     }
 }

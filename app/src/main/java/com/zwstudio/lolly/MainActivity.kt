@@ -49,7 +49,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.phrasesLangFragment,
                 R.id.wordsTextbookFragment,
                 R.id.phrasesTextbookFragment,
-                R.id.patternsFragment
+                R.id.patternsFragment,
+                R.id.webTextbooksFragment
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

@@ -187,6 +187,26 @@
         </action>
     </fragment>
     <fragment
+        android:id="@+id/webTextbooksFragment"
+        android:name="com.zwstudio.lolly.ui.webtextbooks.WebTextbooksFragment"
+        android:label="@string/webtextbooks"
+        tools:layout="@layout/fragment_web_textbooks" >
+        <action
+            android:id="@+id/action_webTextbooksFragment_to_webTextbooksDetailFragment"
+            app:destination="@+id/webTextbooksDetailFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.misc.MWebTextbook" />
+        </action>
+        <action
+            android:id="@+id/action_webTextbooksFragment_to_webTextbooksWebPageFragment"
+            app:destination="@+id/webTextbooksWebPageFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.misc.MWebTextbook" />
+        </action>
+    </fragment>
+    <fragment
         android:id="@+id/wordsUnitDetailFragment"
         android:name="com.zwstudio.lolly.ui.words.WordsUnitDetailFragment"
         android:label="@string/words_unit_detail"
@@ -302,4 +322,22 @@
         android:name="com.zwstudio.lolly.ui.misc.LoginFragment"
         android:label="@string/login_string"
         tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/webTextbooksDetailFragment"
+        android:name="com.zwstudio.lolly.ui.webtextbooks.WebTextbooksDetailFragment"
+        android:label="@string/webtextbooks_detail"
+        tools:layout="@layout/fragment_web_textbooks_detail">
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.misc.MWebTextbook" />
+    </fragment>
+    <fragment
+        android:id="@+id/webTextbooksWebPageFragment"
+        android:name="com.zwstudio.lolly.ui.webtextbooks.WebTextbooksWebPageFragment"
+        android:label="@string/webtextbooks_webpage"
+        tools:layout="@layout/fragment_web_textbooks_webpage">
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.misc.MWebTextbook" />
+    </fragment>
 </navigation>
