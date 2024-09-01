@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.webtextbooks
+package com.zwstudio.lolly.ui.onlinetextbooks
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -13,26 +13,26 @@ import com.zwstudio.lolly.MainActivity
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
-import com.zwstudio.lolly.databinding.FragmentWebTextbooksBinding
-import com.zwstudio.lolly.models.misc.MWebTextbook
+import com.zwstudio.lolly.databinding.FragmentOnlineTextbooksBinding
+import com.zwstudio.lolly.models.misc.MOnlineTextbook
 import com.zwstudio.lolly.ui.*
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.ui.misc.*
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
-import com.zwstudio.lolly.viewmodels.webtextbooks.WebTextbooksViewModel
+import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class WebTextbooksFragment : DrawerListFragment() {
+class OnlineTextbooksFragment : DrawerListFragment() {
 
-    val vm by viewModel<WebTextbooksViewModel>()
+    val vm by viewModel<OnlineTextbooksViewModel>()
     override val vmDrawerList: DrawerListViewModel get() = vm
-    var binding by autoCleared<FragmentWebTextbooksBinding>()
+    var binding by autoCleared<FragmentOnlineTextbooksBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentWebTextbooksBinding.inflate(inflater, container, false).apply {
+        binding = FragmentOnlineTextbooksBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             model = vm
         }
@@ -41,11 +41,11 @@ class WebTextbooksFragment : DrawerListFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.spnWebTextbookFilter.adapter = makeCustomAdapter(requireContext(), vmSettings.lstWebTextbookFilters) { it.label }
+        binding.spnOnlineTextbookFilter.adapter = makeCustomAdapter(requireContext(), vmSettings.lstOnlineTextbookFilters) { it.label }
         setupListView()
 
-        vm.lstWebTextbooks_.onEach {
-            val listAdapter = WebTextbooksItemAdapter(vm, mDragListView)
+        vm.lstOnlineTextbooks_.onEach {
+            val listAdapter = OnlineTextbooksItemAdapter(vm, mDragListView)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -58,14 +58,14 @@ class WebTextbooksFragment : DrawerListFragment() {
         }
     }
 
-    private class WebTextbooksItemAdapter(val vm: WebTextbooksViewModel, val mDragListView: DragListView) : DragItemAdapter<MWebTextbook, WebTextbooksItemAdapter.ViewHolder>() {
+    private class OnlineTextbooksItemAdapter(val vm: OnlineTextbooksViewModel, val mDragListView: DragListView) : DragItemAdapter<MOnlineTextbook, OnlineTextbooksItemAdapter.ViewHolder>() {
 
         init {
-            itemList = vm.lstWebTextbooks
+            itemList = vm.lstOnlineTextbooks
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_web_textbooks_edit, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_online_textbooks_edit, parent, false)
             return ViewHolder(view)
         }
 
@@ -91,20 +91,20 @@ class WebTextbooksFragment : DrawerListFragment() {
             init {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
-                        val item = itemView.tag as MWebTextbook
-                        navController.navigate(WebTextbooksFragmentDirections.actionWebTextbooksFragmentToWebTextbooksWebPageFragment(item))
+                        val item = itemView.tag as MOnlineTextbook
+                        navController.navigate(OnlineTextbooksFragmentDirections.actionOnlineTextbooksFragmentToOnlineTextbooksWebPageFragment(item))
                     }
                     true
                 }
             }
 
             override fun onItemClicked(view: View?) {
-                val item = itemView.tag as MWebTextbook
+                val item = itemView.tag as MOnlineTextbook
                 speak(item.textbookname)
             }
 
             override fun onItemLongClicked(view: View?): Boolean {
-                val item = itemView.tag as MWebTextbook
+                val item = itemView.tag as MOnlineTextbook
                 // https://stackoverflow.com/questions/16389581/android-create-a-popup-that-has-multiple-selection-options
                 AlertDialog.Builder(itemView.context)
                     .setTitle(item.title)
@@ -114,8 +114,8 @@ class WebTextbooksFragment : DrawerListFragment() {
                         itemView.context.getString(R.string.action_cancel),
                     )) { _, which ->
                         when (which) {
-                            0 -> navController.navigate(WebTextbooksFragmentDirections.actionWebTextbooksFragmentToWebTextbooksDetailFragment(item))
-                            1 -> navController.navigate(WebTextbooksFragmentDirections.actionWebTextbooksFragmentToWebTextbooksWebPageFragment(item))
+                            0 -> navController.navigate(OnlineTextbooksFragmentDirections.actionOnlineTextbooksFragmentToOnlineTextbooksDetailFragment(item))
+                            1 -> navController.navigate(OnlineTextbooksFragmentDirections.actionOnlineTextbooksFragmentToOnlineTextbooksWebPageFragment(item))
                             else -> {}
                         }
                     }.show()

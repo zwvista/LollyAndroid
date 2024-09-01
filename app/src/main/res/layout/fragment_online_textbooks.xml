@@ -2,10 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".webTextbooks.WebTextbooksFragment">
+    tools:context=".onlineTextbooks.OnlineTextbooksFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.viewmodels.webtextbooks.WebTextbooksViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,8 +15,8 @@
         android:background="@android:color/white">
 
         <Spinner
-            android:id="@+id/spnWebTextbookFilter"
-            android:selectedItemPosition="@={model.webTextbookFilterIndex_}"
+            android:id="@+id/spnOnlineTextbookFilter"
+            android:selectedItemPosition="@={model.onlineTextbookFilterIndex_}"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/spnWebTextbookFilter"
+            app:layout_constraintTop_toBottomOf="@+id/spnOnlineTextbookFilter"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <com.woxthebox.draglistview.DragListView

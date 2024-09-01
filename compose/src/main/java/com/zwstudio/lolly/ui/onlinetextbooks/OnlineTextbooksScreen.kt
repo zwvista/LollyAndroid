@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.webtextbooks
+package com.zwstudio.lolly.ui.onlinetextbooks
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -22,13 +22,13 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.ui.common.*
-import com.zwstudio.lolly.viewmodels.webtextbooks.WebTextbooksViewModel
+import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WebTextbooksScreen(vm: WebTextbooksViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
+fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
-    val lstWebTextbooks = vm.lstWebTextbooks_.collectAsState().value
+    val lstOnlineTextbooks = vm.lstOnlineTextbooks_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
     var currentItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
@@ -39,7 +39,7 @@ fun WebTextbooksScreen(vm: WebTextbooksViewModel, navController: NavHostControll
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.WebTextbooks.title,
+            title = DrawerScreens.OnlineTextbooks.title,
             onButtonClicked = { openDrawer() },
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -47,8 +47,8 @@ fun WebTextbooksScreen(vm: WebTextbooksViewModel, navController: NavHostControll
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = colorResource(R.color.color_text2)),
-                itemsStateFlow = vmSettings.lstWebTextbookFilters_,
-                selectedItemIndexStateFlow = vm.webTextbookFilterIndex_,
+                itemsStateFlow = vmSettings.lstOnlineTextbookFilters_,
+                selectedItemIndexStateFlow = vm.onlineTextbookFilterIndex_,
                 itemText = { it.label }
             )
         }
@@ -61,7 +61,7 @@ fun WebTextbooksScreen(vm: WebTextbooksViewModel, navController: NavHostControll
             }
         } else {
             LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                itemsIndexed(lstWebTextbooks, key = { _, item -> item.id }) { index, item ->
+                itemsIndexed(lstOnlineTextbooks, key = { _, item -> item.id }) { index, item ->
                     Card(
                         modifier = Modifier
                             .padding(top = 8.dp, bottom = 8.dp)
@@ -92,7 +92,7 @@ fun WebTextbooksScreen(vm: WebTextbooksViewModel, navController: NavHostControll
                             }
                             IconButton(
                                 onClick = {
-                                    navController?.navigate(WebTextbooksScreens.WebTextbooksWebPage.route + "/$index")
+                                    navController?.navigate(OnlineTextbooksScreens.OnlineTextbooksWebPage.route + "/$index")
                                 }
                             ) {
                                 Icon(Icons.Filled.Info, null, tint = MaterialTheme.colors.primary)
@@ -105,20 +105,20 @@ fun WebTextbooksScreen(vm: WebTextbooksViewModel, navController: NavHostControll
     }
 
     if (showItemDialog) {
-        val item = lstWebTextbooks[currentItemIndex]
+        val item = lstOnlineTextbooks[currentItemIndex]
         AlertDialog(
             onDismissRequest = { showItemDialog = false },
             title = { Text(text = item.title) },
             buttons = {
                 TextButton(onClick = {
                     showItemDialog = false
-                    navController?.navigate(WebTextbooksScreens.WebTextbooksDetail.route + "/$currentItemIndex")
+                    navController?.navigate(OnlineTextbooksScreens.OnlineTextbooksDetail.route + "/$currentItemIndex")
                 }) {
                     Text(stringResource(id = R.string.action_edit))
                 }
                 TextButton(onClick = {
                     showItemDialog = false
-                    navController?.navigate(WebTextbooksScreens.WebTextbooksWebPage.route + "/$currentItemIndex")
+                    navController?.navigate(OnlineTextbooksScreens.OnlineTextbooksWebPage.route + "/$currentItemIndex")
                 }) {
                     Text(stringResource(id = R.string.action_browse_web_page))
                 }

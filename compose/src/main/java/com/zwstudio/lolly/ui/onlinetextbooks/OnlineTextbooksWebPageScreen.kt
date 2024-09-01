@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.webtextbooks
+package com.zwstudio.lolly.ui.onlinetextbooks
 
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -17,11 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
-import com.zwstudio.lolly.models.misc.MWebTextbook
+import com.zwstudio.lolly.models.misc.MOnlineTextbook
 import com.zwstudio.lolly.ui.common.TopBarArrow
 
 @Composable
-fun WebTextbooksWebPageScreen(item: MWebTextbook, navController: NavHostController?) {
+fun OnlineTextbooksWebPageScreen(item: MOnlineTextbook, navController: NavHostController?) {
 
     var wv: WebView? = remember { null }
     LaunchedEffect(Unit, block = {
@@ -30,7 +30,7 @@ fun WebTextbooksWebPageScreen(item: MWebTextbook, navController: NavHostControll
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = stringResource(id = R.string.webtextbooks_webpage),
+            title = stringResource(id = R.string.onlineTextbooks_webpage),
             navController = navController
         )
         Text(

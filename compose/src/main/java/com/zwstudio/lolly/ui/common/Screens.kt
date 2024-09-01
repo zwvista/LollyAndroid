@@ -42,10 +42,10 @@ sealed class ReviewScreens(val route: String) {
     object ReviewOptions : ReviewScreens("ReviewOptions")
 }
 
-sealed class WebTextbooksScreens(val route: String) {
-    object WebTextbooksMain : PatternsScreens("WebTextbooksMain")
-    object WebTextbooksDetail : PatternsScreens("WebTextbooksDetail")
-    object WebTextbooksWebPage : PatternsScreens("WebTextbooksWebPage")
+sealed class OnlineTextbooksScreens(val route: String) {
+    object OnlineTextbooksMain : PatternsScreens("OnlineTextbooksMain")
+    object OnlineTextbooksDetail : PatternsScreens("OnlineTextbooksDetail")
+    object OnlineTextbooksWebPage : PatternsScreens("OnlineTextbooksWebPage")
 }
 
 const val INDEX_KEY = "INDEX_KEY"

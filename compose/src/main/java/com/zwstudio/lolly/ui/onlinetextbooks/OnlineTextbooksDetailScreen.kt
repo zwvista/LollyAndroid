@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.webtextbooks
+package com.zwstudio.lolly.ui.onlinetextbooks
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,16 +13,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.R
-import com.zwstudio.lolly.models.misc.MWebTextbook
+import com.zwstudio.lolly.models.misc.MOnlineTextbook
 import com.zwstudio.lolly.ui.common.TopBarArrow
-import com.zwstudio.lolly.viewmodels.webtextbooks.WebTextbooksDetailViewModel
+import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksDetailViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun WebTextbooksDetailScreen(item: MWebTextbook, navController: NavHostController?) {
+fun OnlineTextbooksDetailScreen(item: MOnlineTextbook, navController: NavHostController?) {
 
-    val vmDetail = koinViewModel<WebTextbooksDetailViewModel> { parametersOf(item) }
+    val vmDetail = koinViewModel<OnlineTextbooksDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
             title = "",

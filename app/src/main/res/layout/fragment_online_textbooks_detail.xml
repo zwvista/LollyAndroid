@@ -2,10 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".webTextbooks.WebTextbooksDetailFragment">
+    tools:context=".onlineTextbooks.OnlineTextbooksDetailFragment">
 
     <data>
-        <variable name="model" type="com.zwstudio.lolly.viewmodels.webtextbooks.WebTextbooksDetailViewModel"/>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksDetailViewModel"/>
     </data>
 
     <ScrollView

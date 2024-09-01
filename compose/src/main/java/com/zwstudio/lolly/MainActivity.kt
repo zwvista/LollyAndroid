@@ -29,7 +29,7 @@ import com.zwstudio.lolly.ui.phrases.PhrasesReviewHost
 import com.zwstudio.lolly.ui.phrases.PhrasesTextbookHost
 import com.zwstudio.lolly.ui.phrases.PhrasesUnitHost
 import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
-import com.zwstudio.lolly.ui.webtextbooks.WebTextbooksHost
+import com.zwstudio.lolly.ui.onlinetextbooks.OnlineTextbooksHost
 import com.zwstudio.lolly.ui.words.WordsLangHost
 import com.zwstudio.lolly.ui.words.WordsReviewHost
 import com.zwstudio.lolly.ui.words.WordsTextbookHost
@@ -133,8 +133,8 @@ fun AppMainScreen() {
                 composable(DrawerScreens.Patterns.route) {
                     PatternsHost { openDrawer() }
                 }
-                composable(DrawerScreens.WebTextbooks.route) {
-                    WebTextbooksHost { openDrawer() }
+                composable(DrawerScreens.OnlineTextbooks.route) {
+                    OnlineTextbooksHost { openDrawer() }
                 }
             }
         }
