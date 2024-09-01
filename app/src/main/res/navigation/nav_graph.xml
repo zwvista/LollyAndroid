@@ -189,7 +189,7 @@
     <fragment
         android:id="@+id/onlineTextbooksFragment"
         android:name="com.zwstudio.lolly.ui.onlinetextbooks.OnlineTextbooksFragment"
-        android:label="@string/onlineTextbooks"
+        android:label="@string/onlinetextbooks"
         tools:layout="@layout/fragment_online_textbooks" >
         <action
             android:id="@+id/action_onlineTextbooksFragment_to_onlineTextbooksDetailFragment"
