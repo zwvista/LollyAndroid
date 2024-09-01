@@ -49,7 +49,7 @@
         <item
             android:id="@+id/onlineTextbooksFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="@string/onlineTextbooks"/>
+            android:title="@string/onlinetextbooks"/>
     </group>
 
 </menu>
