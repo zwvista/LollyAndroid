@@ -16,7 +16,7 @@ import com.zwstudio.lolly.services.misc.USMappingService
 import com.zwstudio.lolly.services.misc.UserService
 import com.zwstudio.lolly.services.misc.UserSettingService
 import com.zwstudio.lolly.services.misc.VoiceService
-import com.zwstudio.lolly.services.misc.WebTextbookService
+import com.zwstudio.lolly.services.misc.OnlineTextbookService
 import com.zwstudio.lolly.services.wpp.LangPhraseService
 import com.zwstudio.lolly.services.wpp.LangWordService
 import com.zwstudio.lolly.services.wpp.PatternService
@@ -35,8 +35,8 @@ import com.zwstudio.lolly.viewmodels.phrases.PhrasesReviewViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitBatchEditViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
-import com.zwstudio.lolly.viewmodels.webtextbooks.WebTextbooksDetailViewModel
-import com.zwstudio.lolly.viewmodels.webtextbooks.WebTextbooksViewModel
+import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksDetailViewModel
+import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
@@ -130,7 +130,7 @@ val lollyModule = module {
     single { UserSettingService() }
     single { USMappingService() }
     single { VoiceService() }
-    single { WebTextbookService() }
+    single { OnlineTextbookService() }
 
     single { LangPhraseService() }
     single { LangWordService() }
@@ -150,8 +150,8 @@ val lollyModule = module {
     viewModel { PhrasesUnitViewModel() }
     viewModel { parameters -> PhrasesUnitDetailViewModel(item = parameters.get()) }
     viewModel { parameters -> PhrasesUnitBatchEditViewModel(vm = parameters.get()) }
-    viewModel { parameters -> WebTextbooksDetailViewModel(item = parameters.get()) }
-    viewModel { WebTextbooksViewModel() }
+    viewModel { parameters -> OnlineTextbooksDetailViewModel(item = parameters.get()) }
+    viewModel { OnlineTextbooksViewModel() }
     viewModel { WordsDictViewModel() }
     viewModel { WordsLangViewModel() }
     viewModel { parameters -> WordsLangDetailViewModel(item = parameters.get()) }

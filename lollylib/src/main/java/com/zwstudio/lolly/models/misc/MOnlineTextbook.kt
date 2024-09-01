@@ -3,12 +3,12 @@ package com.zwstudio.lolly.models.misc
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class MWebTextbooks(
+data class MOnlineTextbooks(
     @SerializedName("records")
-    var lst: List<MWebTextbook>? = null
+    var lst: List<MOnlineTextbook>? = null
 )
 
-class MWebTextbook(
+class MOnlineTextbook(
     @SerializedName("ID")
     var id: Int = 0,
     @SerializedName("LANGID")

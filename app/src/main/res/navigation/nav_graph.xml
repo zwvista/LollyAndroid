@@ -187,23 +187,23 @@
         </action>
     </fragment>
     <fragment
-        android:id="@+id/webTextbooksFragment"
-        android:name="com.zwstudio.lolly.ui.webtextbooks.WebTextbooksFragment"
-        android:label="@string/webtextbooks"
-        tools:layout="@layout/fragment_web_textbooks" >
+        android:id="@+id/onlineTextbooksFragment"
+        android:name="com.zwstudio.lolly.ui.onlinetextbooks.OnlineTextbooksFragment"
+        android:label="@string/onlineTextbooks"
+        tools:layout="@layout/fragment_online_textbooks" >
         <action
-            android:id="@+id/action_webTextbooksFragment_to_webTextbooksDetailFragment"
-            app:destination="@+id/webTextbooksDetailFragment">
+            android:id="@+id/action_onlineTextbooksFragment_to_onlineTextbooksDetailFragment"
+            app:destination="@+id/onlineTextbooksDetailFragment">
             <argument
                 android:name="item"
-                app:argType="com.zwstudio.lolly.models.misc.MWebTextbook" />
+                app:argType="com.zwstudio.lolly.models.misc.MOnlineTextbook" />
         </action>
         <action
-            android:id="@+id/action_webTextbooksFragment_to_webTextbooksWebPageFragment"
-            app:destination="@+id/webTextbooksWebPageFragment">
+            android:id="@+id/action_onlineTextbooksFragment_to_onlineTextbooksWebPageFragment"
+            app:destination="@+id/onlineTextbooksWebPageFragment">
             <argument
                 android:name="item"
-                app:argType="com.zwstudio.lolly.models.misc.MWebTextbook" />
+                app:argType="com.zwstudio.lolly.models.misc.MOnlineTextbook" />
         </action>
     </fragment>
     <fragment
@@ -323,21 +323,21 @@
         android:label="@string/login_string"
         tools:layout="@layout/fragment_login" />
     <fragment
-        android:id="@+id/webTextbooksDetailFragment"
-        android:name="com.zwstudio.lolly.ui.webtextbooks.WebTextbooksDetailFragment"
-        android:label="@string/webtextbooks_detail"
-        tools:layout="@layout/fragment_web_textbooks_detail">
+        android:id="@+id/onlineTextbooksDetailFragment"
+        android:name="com.zwstudio.lolly.ui.onlinetextbooks.OnlineTextbooksDetailFragment"
+        android:label="@string/onlineTextbooks_detail"
+        tools:layout="@layout/fragment_online_textbooks_detail">
         <argument
             android:name="item"
-            app:argType="com.zwstudio.lolly.models.misc.MWebTextbook" />
+            app:argType="com.zwstudio.lolly.models.misc.MOnlineTextbook" />
     </fragment>
     <fragment
-        android:id="@+id/webTextbooksWebPageFragment"
-        android:name="com.zwstudio.lolly.ui.webtextbooks.WebTextbooksWebPageFragment"
-        android:label="@string/webtextbooks_webpage"
-        tools:layout="@layout/fragment_web_textbooks_webpage">
+        android:id="@+id/onlineTextbooksWebPageFragment"
+        android:name="com.zwstudio.lolly.ui.onlinetextbooks.OnlineTextbooksWebPageFragment"
+        android:label="@string/onlineTextbooks_webpage"
+        tools:layout="@layout/fragment_online_textbooks_webpage">
         <argument
             android:name="item"
-            app:argType="com.zwstudio.lolly.models.misc.MWebTextbook" />
+            app:argType="com.zwstudio.lolly.models.misc.MOnlineTextbook" />
     </fragment>
 </navigation>

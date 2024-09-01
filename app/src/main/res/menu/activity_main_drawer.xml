@@ -47,9 +47,9 @@
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/patterns"/>
         <item
-            android:id="@+id/webTextbooksFragment"
+            android:id="@+id/onlineTextbooksFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
-            android:title="@string/webtextbooks"/>
+            android:title="@string/onlineTextbooks"/>
     </group>
 
 </menu>
