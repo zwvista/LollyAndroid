@@ -504,7 +504,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
                 i++
             }
         }
-        compositeDisposable.add(subscription!!)
+        compositeDisposable.add(subscription)
     }
 
     fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {

@@ -27,7 +27,7 @@ class PhrasesUnitBatchEditViewModel(val vm: PhrasesUnitViewModel) : ViewModel() 
 
     fun save() {
         if (!(unitChecked.value || partChecked.value || seqnumChecked.value)) return
-        for ((i, item) in vm.lstPhrases.withIndex()) {
+        for (item in vm.lstPhrases) {
             if (!item.isChecked) continue
             if (unitChecked.value) item.unit = vmSettings.lstUnits[unitIndex.value].value
             if (partChecked.value) item.part = vmSettings.lstParts[partIndex.value].value
