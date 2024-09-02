@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.zwstudio.lolly'
+    namespace 'com.zwstudio.lolly.compose'
 
     defaultConfig {
         applicationId "com.zwstudio.lolly.compose"

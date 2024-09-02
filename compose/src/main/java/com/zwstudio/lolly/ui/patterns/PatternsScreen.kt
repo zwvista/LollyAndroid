@@ -18,10 +18,10 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.copyText
 import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.common.speak
+import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.ui.common.*
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel

@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.zwstudio.lolly.R
+import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel

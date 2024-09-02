@@ -39,8 +39,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.ui.common.LabelledCheckBox
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBarArrow

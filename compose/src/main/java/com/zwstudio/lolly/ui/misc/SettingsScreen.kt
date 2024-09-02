@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.ui.common.DrawerScreens
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBarMenu

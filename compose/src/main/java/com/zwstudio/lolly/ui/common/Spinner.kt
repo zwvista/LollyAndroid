@@ -20,7 +20,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.zwstudio.lolly.R
+import com.zwstudio.lolly.compose.R
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
