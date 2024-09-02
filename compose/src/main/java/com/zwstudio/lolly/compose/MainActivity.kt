@@ -1,4 +1,4 @@
-package com.zwstudio.lolly
+package com.zwstudio.lolly.compose
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
