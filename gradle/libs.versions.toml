@@ -11,6 +11,7 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 koinAndroid = "3.5.6"
 kotlin = "2.0.20"
+kotlinGradlePlugin = "2.0.20"
 kotlinxCoroutinesCore = "1.8.1"
 leakcanaryAndroid = "2.14"
 lifecycleViewmodelKtx = "2.8.4"
@@ -48,6 +49,7 @@ gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 junit = { module = "junit:junit", version.ref = "junit" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroid" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 leakcanary-android = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanaryAndroid" }
