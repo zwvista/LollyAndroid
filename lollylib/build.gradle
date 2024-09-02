@@ -5,7 +5,7 @@ plugins {
 apply plugin: "kotlin-parcelize"
 
 android {
-    namespace 'com.zwstudio.lolly.lib'
+    namespace 'com.zwstudio.lolly.lollylib'
 
     defaultConfig {
         minSdk 24
