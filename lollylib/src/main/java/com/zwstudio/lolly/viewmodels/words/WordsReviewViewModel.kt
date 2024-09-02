@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.viewmodels.words
 
 import androidx.lifecycle.ViewModel
-import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.vmSettings
+import com.zwstudio.lolly.lib.R as libR
 import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.misc.extractTextFrom
@@ -47,9 +47,9 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
     val accuracyString = MutableStateFlow("")
     val accuracyVisible = MutableStateFlow(true)
     val checkNextEnabled = MutableStateFlow(false)
-    val checkNextStringRes = MutableStateFlow(R.string.text_check)
+    val checkNextStringRes = MutableStateFlow(libR.string.text_check)
     val checkPrevEnabled = MutableStateFlow(false)
-    val checkPrevStringRes = MutableStateFlow(R.string.text_check)
+    val checkPrevStringRes = MutableStateFlow(libR.string.text_check)
     val checkPrevVisible = MutableStateFlow(true)
     val wordTargetString = MutableStateFlow("")
     val noteTargetString = MutableStateFlow("")
@@ -68,8 +68,8 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         fun f() {
             index = if (moveForward.value) 0 else count - 1
             doTest()
-            checkNextStringRes.value = if (isTestMode) R.string.text_check else R.string.text_next
-            checkPrevStringRes.value = if (isTestMode) R.string.text_check else R.string.text_prev
+            checkNextStringRes.value = if (isTestMode) libR.string.text_check else libR.string.text_next
+            checkPrevStringRes.value = if (isTestMode) libR.string.text_check else libR.string.text_prev
         }
         lstWords = listOf()
         lstCorrectIDs = mutableListOf()
@@ -160,8 +160,8 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
             else
                 incorrectVisible.value = true
             wordHintVisible.value = false
-            checkNextStringRes.value = R.string.text_next
-            checkPrevStringRes.value = R.string.text_prev
+            checkNextStringRes.value = libR.string.text_next
+            checkPrevStringRes.value = libR.string.text_prev
             if (!hasCurrent) return
             val o = currentItem!!
             val isCorrect = o.word == wordInputString.value
@@ -174,8 +174,8 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         } else {
             move(toNext)
             doTest()
-            checkNextStringRes.value = R.string.text_check
-            checkPrevStringRes.value = R.string.text_check
+            checkNextStringRes.value = libR.string.text_check
+            checkPrevStringRes.value = libR.string.text_check
         }
     }
 
