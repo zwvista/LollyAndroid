@@ -2,7 +2,11 @@ package com.zwstudio.lolly.ui.words
 
 import android.webkit.WebView
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -12,7 +16,11 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
-import com.zwstudio.lolly.common.*
+import com.zwstudio.lolly.common.OnSwipeWebviewTouchListener
+import com.zwstudio.lolly.common.OnlineDict
+import com.zwstudio.lolly.common.TouchListener
+import com.zwstudio.lolly.common.speak
+import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.ui.common.Spinner
 import com.zwstudio.lolly.ui.common.TopBarArrow

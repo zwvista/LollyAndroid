@@ -11,12 +11,12 @@ import com.zwstudio.lolly.services.misc.AutoCorrectService
 import com.zwstudio.lolly.services.misc.DictionaryService
 import com.zwstudio.lolly.services.misc.HtmlService
 import com.zwstudio.lolly.services.misc.LanguageService
+import com.zwstudio.lolly.services.misc.OnlineTextbookService
 import com.zwstudio.lolly.services.misc.TextbookService
 import com.zwstudio.lolly.services.misc.USMappingService
 import com.zwstudio.lolly.services.misc.UserService
 import com.zwstudio.lolly.services.misc.UserSettingService
 import com.zwstudio.lolly.services.misc.VoiceService
-import com.zwstudio.lolly.services.misc.OnlineTextbookService
 import com.zwstudio.lolly.services.wpp.LangPhraseService
 import com.zwstudio.lolly.services.wpp.LangWordService
 import com.zwstudio.lolly.services.wpp.PatternService
@@ -27,6 +27,8 @@ import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
+import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksDetailViewModel
+import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangDetailViewModel
@@ -35,8 +37,6 @@ import com.zwstudio.lolly.viewmodels.phrases.PhrasesReviewViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitBatchEditViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitDetailViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
-import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksDetailViewModel
-import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
