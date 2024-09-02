@@ -9,13 +9,13 @@ import com.zwstudio.lolly.common.tts
 import com.zwstudio.lolly.models.misc.MAutoCorrect
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.models.misc.MLanguage
+import com.zwstudio.lolly.models.misc.MOnlineTextbook
 import com.zwstudio.lolly.models.misc.MSelectItem
 import com.zwstudio.lolly.models.misc.MTextbook
 import com.zwstudio.lolly.models.misc.MUSMapping
 import com.zwstudio.lolly.models.misc.MUserSetting
 import com.zwstudio.lolly.models.misc.MUserSettingInfo
 import com.zwstudio.lolly.models.misc.MVoice
-import com.zwstudio.lolly.models.misc.MOnlineTextbook
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.misc.autoCorrect
 import com.zwstudio.lolly.models.misc.extractTextFrom

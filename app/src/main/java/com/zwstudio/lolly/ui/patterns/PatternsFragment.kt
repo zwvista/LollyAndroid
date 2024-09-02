@@ -2,7 +2,13 @@ package com.zwstudio.lolly.ui.patterns
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
@@ -20,9 +26,9 @@ import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentPatternsBinding
 import com.zwstudio.lolly.models.wpp.MPattern
-import com.zwstudio.lolly.ui.*
-import com.zwstudio.lolly.ui.common.*
-import com.zwstudio.lolly.ui.misc.*
+import com.zwstudio.lolly.ui.common.DrawerListFragment
+import com.zwstudio.lolly.ui.common.autoCleared
+import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
