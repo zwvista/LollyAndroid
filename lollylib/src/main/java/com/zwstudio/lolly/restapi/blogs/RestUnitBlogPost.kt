@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.restapi.blogs
 
 import com.zwstudio.lolly.models.blogs.MUnitBlogPosts
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -11,17 +12,17 @@ import retrofit2.http.Query
 
 interface RestUnitBlogPost {
     @GET("UNITBLOGPOSTS")
-    suspend fun getDataByTextbook(@Query("filter") vararg filters: String): MUnitBlogPosts
+    fun getDataByTextbook(@Query("filter") vararg filters: String): Single<MUnitBlogPosts>
 
     @FormUrlEncoded
     @PUT("UNITBLOGPOSTS/{id}")
-    suspend fun update(@Path("id") id: Int, @Field("TEXTBOOKID") textbookid: Int,
-                       @Field("UNIT") unit: Int,
-                       @Field("CONTENT") content: String): Int
+    fun update(@Path("id") id: Int, @Field("TEXTBOOKID") textbookid: Int,
+               @Field("UNIT") unit: Int,
+               @Field("CONTENT") content: String): Single<Int>
 
     @FormUrlEncoded
     @POST("UNITBLOGPOSTS")
-    suspend fun create(@Field("TEXTBOOKID") textbookid: Int,
-                       @Field("UNIT") unit: Int,
-                       @Field("CONTENT") content: String): Int
+    fun create(@Field("TEXTBOOKID") textbookid: Int,
+               @Field("UNIT") unit: Int,
+               @Field("CONTENT") content: String): Single<Int>
 }
