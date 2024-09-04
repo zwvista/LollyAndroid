@@ -114,15 +114,11 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         vmSettings.getNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
-            viewModelScope.launch {
-                getNote(lstWords[i])
-                oneComplete(i)
-            }
+            getNote(lstWords[i])
+            oneComplete(i)
         }, allComplete = {
-            viewModelScope.launch {
-                isBusy = false
-                allComplete()
-            }
+            isBusy = false
+            allComplete()
         })
     }
 

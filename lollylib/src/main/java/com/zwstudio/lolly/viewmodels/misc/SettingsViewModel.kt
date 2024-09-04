@@ -519,7 +519,12 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         return extractTextFrom(html, dictNote.transform, "") { text, _ -> text }
     }
 
-    suspend fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+    suspend fun getNotes(
+        wordCount: Int,
+        isNoteEmpty: (Int) -> Boolean,
+        getOne: suspend (Int) -> Unit,
+        allComplete: suspend () -> Unit)
+    {
         val dictNote = selectedDictNote
         var i = 0
         while (i <= wordCount) {
