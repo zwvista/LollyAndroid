@@ -198,3 +198,24 @@ fun <T> List<T>.mapButReplace(targetItem: T, newItem: T) = map {
         it
     }
 }
+
+fun getPreferredRangeFromArray(
+    index: Int,
+    length: Int,
+    preferredLength: Int
+): Pair<Int, Int> {
+    var start: Int
+    var end: Int
+    if (length < preferredLength) {
+        start = 0; end = length
+    } else {
+        start = index - preferredLength / 2; end = index + preferredLength / 2
+        if (start < 0) {
+            end -= start; start = 0
+        }
+        if (end > length) {
+            start -= end - length; end = length
+        }
+    }
+    return Pair(start, end)
+}
