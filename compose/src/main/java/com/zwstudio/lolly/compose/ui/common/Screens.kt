@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.common
+package com.zwstudio.lolly.compose.ui.common
 
 sealed class TopScreens(val route: String) {
     object AppMain : TopScreens("AppMain")

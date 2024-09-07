@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.patterns
+package com.zwstudio.lolly.compose.ui.patterns
 
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -22,7 +22,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.models.wpp.MPattern
-import com.zwstudio.lolly.ui.common.TopBarArrow
+import com.zwstudio.lolly.compose.ui.common.TopBarArrow
 
 @Composable
 fun PatternsWebPageScreen(item: MPattern, navController: NavHostController?) {

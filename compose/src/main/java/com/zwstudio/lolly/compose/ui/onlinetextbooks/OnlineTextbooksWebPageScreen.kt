@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.onlinetextbooks
+package com.zwstudio.lolly.compose.ui.onlinetextbooks
 
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -22,7 +22,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.models.misc.MOnlineTextbook
-import com.zwstudio.lolly.ui.common.TopBarArrow
+import com.zwstudio.lolly.compose.ui.common.TopBarArrow
 
 @Composable
 fun OnlineTextbooksWebPageScreen(item: MOnlineTextbook, navController: NavHostController?) {

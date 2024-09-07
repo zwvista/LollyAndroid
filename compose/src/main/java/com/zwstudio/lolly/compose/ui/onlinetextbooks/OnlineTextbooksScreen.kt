@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.onlinetextbooks
+package com.zwstudio.lolly.compose.ui.onlinetextbooks
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -40,10 +40,10 @@ import androidx.navigation.NavHostController
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.compose.R
-import com.zwstudio.lolly.ui.common.DrawerScreens
-import com.zwstudio.lolly.ui.common.OnlineTextbooksScreens
-import com.zwstudio.lolly.ui.common.Spinner
-import com.zwstudio.lolly.ui.common.TopBarMenu
+import com.zwstudio.lolly.compose.ui.common.DrawerScreens
+import com.zwstudio.lolly.compose.ui.common.OnlineTextbooksScreens
+import com.zwstudio.lolly.compose.ui.common.Spinner
+import com.zwstudio.lolly.compose.ui.common.TopBarMenu
 import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
 
 @OptIn(ExperimentalFoundationApi::class)

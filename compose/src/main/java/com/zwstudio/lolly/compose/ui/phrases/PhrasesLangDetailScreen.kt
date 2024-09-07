@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.phrases
+package com.zwstudio.lolly.compose.ui.phrases
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.models.wpp.MLangPhrase
-import com.zwstudio.lolly.ui.common.TopBarArrow
+import com.zwstudio.lolly.compose.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
 import org.koin.androidx.compose.koinViewModel

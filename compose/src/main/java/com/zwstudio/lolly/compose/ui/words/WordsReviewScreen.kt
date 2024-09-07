@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.words
+package com.zwstudio.lolly.compose.ui.words
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,10 +30,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.compose.R
-import com.zwstudio.lolly.ui.common.DrawerScreens
-import com.zwstudio.lolly.ui.common.LabelledCheckBox
-import com.zwstudio.lolly.ui.common.ReviewScreens
-import com.zwstudio.lolly.ui.common.TopBarMenu
+import com.zwstudio.lolly.compose.ui.common.DrawerScreens
+import com.zwstudio.lolly.compose.ui.common.LabelledCheckBox
+import com.zwstudio.lolly.compose.ui.common.ReviewScreens
+import com.zwstudio.lolly.compose.ui.common.TopBarMenu
 import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

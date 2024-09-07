@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.phrases
+package com.zwstudio.lolly.compose.ui.phrases
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -40,11 +40,11 @@ import com.zwstudio.lolly.common.copyText
 import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.compose.R
-import com.zwstudio.lolly.ui.common.DrawerScreens
-import com.zwstudio.lolly.ui.common.PhrasesScreens
-import com.zwstudio.lolly.ui.common.SearchView
-import com.zwstudio.lolly.ui.common.Spinner
-import com.zwstudio.lolly.ui.common.TopBarMenu
+import com.zwstudio.lolly.compose.ui.common.DrawerScreens
+import com.zwstudio.lolly.compose.ui.common.PhrasesScreens
+import com.zwstudio.lolly.compose.ui.common.SearchView
+import com.zwstudio.lolly.compose.ui.common.Spinner
+import com.zwstudio.lolly.compose.ui.common.TopBarMenu
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
 

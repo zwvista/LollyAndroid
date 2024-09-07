@@ -31,6 +31,7 @@ import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksDetailViewMo
 import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
+import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesReviewViewModel
@@ -130,7 +131,7 @@ val lollyModule = module {
     viewModel { parameters -> PhrasesUnitBatchEditViewModel(vm = parameters.get()) }
     viewModel { parameters -> OnlineTextbooksDetailViewModel(item = parameters.get()) }
     viewModel { OnlineTextbooksViewModel() }
-    viewModel { WordsDictViewModel() }
+    viewModel { parameters -> WordsDictViewModel(lstWords = parameters.get(), index = parameters.get()) }
     viewModel { WordsLangViewModel() }
     viewModel { parameters -> WordsLangDetailViewModel(item = parameters.get()) }
     viewModel { parameters -> WordsReviewViewModel(doTestAction = parameters.get()) }

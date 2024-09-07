@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.misc
+package com.zwstudio.lolly.compose.ui.misc
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

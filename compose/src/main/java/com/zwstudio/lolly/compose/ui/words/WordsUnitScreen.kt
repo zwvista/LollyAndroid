@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.words
+package com.zwstudio.lolly.compose.ui.words
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -56,11 +56,11 @@ import com.zwstudio.lolly.common.openPage
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.compose.R
-import com.zwstudio.lolly.ui.common.DrawerScreens
-import com.zwstudio.lolly.ui.common.SearchView
-import com.zwstudio.lolly.ui.common.Spinner
-import com.zwstudio.lolly.ui.common.TopBarMenu
-import com.zwstudio.lolly.ui.common.WordsScreens
+import com.zwstudio.lolly.compose.ui.common.DrawerScreens
+import com.zwstudio.lolly.compose.ui.common.SearchView
+import com.zwstudio.lolly.compose.ui.common.Spinner
+import com.zwstudio.lolly.compose.ui.common.TopBarMenu
+import com.zwstudio.lolly.compose.ui.common.WordsScreens
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import kotlinx.coroutines.launch

@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.misc
+package com.zwstudio.lolly.compose.ui.misc
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,10 +19,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.compose.R
-import com.zwstudio.lolly.ui.common.DrawerScreens
-import com.zwstudio.lolly.ui.common.Spinner
-import com.zwstudio.lolly.ui.common.TopBarMenu
-import com.zwstudio.lolly.ui.theme.LollyAndroidTheme
+import com.zwstudio.lolly.compose.ui.common.DrawerScreens
+import com.zwstudio.lolly.compose.ui.common.Spinner
+import com.zwstudio.lolly.compose.ui.common.TopBarMenu
+import com.zwstudio.lolly.compose.ui.theme.LollyAndroidTheme
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 
 @Composable

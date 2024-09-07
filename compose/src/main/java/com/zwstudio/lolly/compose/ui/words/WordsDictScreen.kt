@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.words
+package com.zwstudio.lolly.compose.ui.words
 
 import android.webkit.WebView
 import androidx.compose.foundation.background
@@ -22,8 +22,8 @@ import com.zwstudio.lolly.common.TouchListener
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.compose.R
-import com.zwstudio.lolly.ui.common.Spinner
-import com.zwstudio.lolly.ui.common.TopBarArrow
+import com.zwstudio.lolly.compose.ui.common.Spinner
+import com.zwstudio.lolly.compose.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -31,12 +31,8 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun WordsDictScreen(lstWords: List<String>, index: Int, navController: NavHostController?) {
+fun WordsDictScreen(vm: WordsDictViewModel, navController: NavHostController?) {
 
-    val vm = koinViewModel<WordsDictViewModel>().apply {
-        this.lstWords = lstWords
-        this.selectedWordIndex = index
-    }
     val onlineDict = remember { OnlineDict() }
     val context = LocalContext.current
 

@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.common
+package com.zwstudio.lolly.compose.ui.common
 
 // https://gist.github.com/Pinaki93/163f293a9c6f7ba3ae5f20bc87d133da
 

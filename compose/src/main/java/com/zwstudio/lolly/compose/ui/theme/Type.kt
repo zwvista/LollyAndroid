@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.theme
+package com.zwstudio.lolly.compose.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

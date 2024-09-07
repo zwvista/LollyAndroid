@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.words
+package com.zwstudio.lolly.compose.ui.words
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,8 +24,8 @@ import androidx.navigation.NavHostController
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.models.wpp.MUnitWord
-import com.zwstudio.lolly.ui.common.Spinner
-import com.zwstudio.lolly.ui.common.TopBarArrow
+import com.zwstudio.lolly.compose.ui.common.Spinner
+import com.zwstudio.lolly.compose.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.words.WordsUnitDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import org.koin.androidx.compose.koinViewModel

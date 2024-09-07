@@ -1,12 +1,12 @@
-package com.zwstudio.lolly.ui.words
+package com.zwstudio.lolly.compose.ui.words
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.zwstudio.lolly.common.speak
-import com.zwstudio.lolly.ui.common.ReviewScreens
-import com.zwstudio.lolly.ui.misc.ReviewOptionsScreen
+import com.zwstudio.lolly.compose.ui.common.ReviewScreens
+import com.zwstudio.lolly.compose.ui.misc.ReviewOptionsScreen
 import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
 import org.koin.androidx.compose.koinViewModel

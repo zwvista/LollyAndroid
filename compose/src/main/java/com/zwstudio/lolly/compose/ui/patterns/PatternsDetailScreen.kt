@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.patterns
+package com.zwstudio.lolly.compose.ui.patterns
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.models.wpp.MPattern
-import com.zwstudio.lolly.ui.common.TopBarArrow
+import com.zwstudio.lolly.compose.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf

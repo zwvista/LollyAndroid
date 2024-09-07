@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.patterns
+package com.zwstudio.lolly.compose.ui.patterns
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.zwstudio.lolly.ui.common.INDEX_KEY
-import com.zwstudio.lolly.ui.common.PatternsScreens
+import com.zwstudio.lolly.compose.ui.common.INDEX_KEY
+import com.zwstudio.lolly.compose.ui.common.PatternsScreens
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import org.koin.androidx.compose.koinViewModel
 

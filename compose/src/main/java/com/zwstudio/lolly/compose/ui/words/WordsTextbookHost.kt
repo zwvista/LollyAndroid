@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.words
+package com.zwstudio.lolly.compose.ui.words
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
@@ -6,8 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.zwstudio.lolly.ui.common.INDEX_KEY
-import com.zwstudio.lolly.ui.common.WordsScreens
+import com.zwstudio.lolly.common.getPreferredRangeFromArray
+import com.zwstudio.lolly.compose.ui.common.INDEX_KEY
+import com.zwstudio.lolly.compose.ui.common.WordsScreens
+import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -34,9 +36,10 @@ fun WordsTextbookHost(openDrawer: () -> Unit) {
                 type = NavType.IntType
             })
         ) {
-            WordsDictScreen(
-                vm.lstWords.map { it.word }, it.arguments!!.getInt(INDEX_KEY), navController
-            )
+            val index = it.arguments!!.getInt(INDEX_KEY)
+            val (start, end) = getPreferredRangeFromArray(index, vm.lstWords.size, 50)
+            val lstWords = vm.lstWords.subList(start, end).map { it.word }
+            WordsDictScreen(WordsDictViewModel(lstWords, index), navController)
         }
     }
 }

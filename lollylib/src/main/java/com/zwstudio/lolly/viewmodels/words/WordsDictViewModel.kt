@@ -7,10 +7,10 @@ import com.zwstudio.lolly.models.misc.MDictionary
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.KoinComponent
 
-class WordsDictViewModel : ViewModel(), IOnlineDict, KoinComponent {
-    var lstWords_ = MutableStateFlow(listOf<String>())
+class WordsDictViewModel(lstWords: List<String>, index: Int) : ViewModel(), IOnlineDict, KoinComponent {
+    var lstWords_ = MutableStateFlow(lstWords)
     var lstWords get() = lstWords_.value; set(v) { lstWords_.value = v }
-    var selectedWordIndex_ = MutableStateFlow(0)
+    var selectedWordIndex_ = MutableStateFlow(index)
     var selectedWordIndex get() = selectedWordIndex_.value; set(v) { selectedWordIndex_.value = v }
     val selectedWord: String
         get() = lstWords[selectedWordIndex]

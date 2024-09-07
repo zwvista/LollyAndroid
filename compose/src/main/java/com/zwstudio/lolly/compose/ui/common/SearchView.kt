@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.common
+package com.zwstudio.lolly.compose.ui.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

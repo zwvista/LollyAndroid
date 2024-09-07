@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.common
+package com.zwstudio.lolly.compose.ui.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

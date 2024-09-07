@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.words
+package com.zwstudio.lolly.compose.ui.words
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.models.wpp.MLangWord
-import com.zwstudio.lolly.ui.common.TopBarArrow
+import com.zwstudio.lolly.compose.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.words.WordsLangDetailViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
 import org.koin.androidx.compose.koinViewModel

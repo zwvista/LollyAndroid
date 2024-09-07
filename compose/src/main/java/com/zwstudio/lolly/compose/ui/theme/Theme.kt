@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.theme
+package com.zwstudio.lolly.compose.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

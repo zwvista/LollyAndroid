@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.ui.misc
+package com.zwstudio.lolly.compose.ui.misc
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,9 +20,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.compose.R
-import com.zwstudio.lolly.ui.common.LabelledCheckBox
-import com.zwstudio.lolly.ui.common.Spinner
-import com.zwstudio.lolly.ui.common.TopBarArrow
+import com.zwstudio.lolly.compose.ui.common.LabelledCheckBox
+import com.zwstudio.lolly.compose.ui.common.Spinner
+import com.zwstudio.lolly.compose.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
