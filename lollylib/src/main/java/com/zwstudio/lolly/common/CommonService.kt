@@ -169,14 +169,6 @@ fun googleString(context: Context, text: String) {
     openPage(context, url)
 }
 
-fun <T> List<T>.mapButReplace(targetItem: T, newItem: T) = map {
-    if (it == targetItem) {
-        newItem
-    } else {
-        it
-    }
-}
-
 fun getPreferredRangeFromArray(
     index: Int,
     length: Int,

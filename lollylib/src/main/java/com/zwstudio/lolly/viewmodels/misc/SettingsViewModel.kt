@@ -538,7 +538,12 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         allComplete()
     }
 
-    fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+    suspend fun clearNotes(
+        wordCount: Int,
+        isNoteEmpty: (Int) -> Boolean,
+        getOne: suspend (Int) -> Unit,
+        allComplete: suspend () -> Unit
+    ) {
         var i = 0
         while (i < wordCount) {
             while (i < wordCount && !isNoteEmpty(i))

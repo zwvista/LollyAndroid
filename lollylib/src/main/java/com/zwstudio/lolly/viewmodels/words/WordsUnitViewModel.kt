@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.viewmodels.words
 
 import androidx.lifecycle.viewModelScope
-import com.zwstudio.lolly.common.mapButReplace
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.wpp.MUnitWord
 import com.zwstudio.lolly.services.wpp.LangWordService
@@ -96,12 +95,8 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
     }
 
     suspend fun getNote(item: MUnitWord) {
-        val note = vmSettings.getNote(item.word)
-        val newItem = item.copy(note = note).apply {
-            textbook = item.textbook
-        }
-        lstWordsAll = lstWordsAll.mapButReplace(item, newItem)
-        langWordService.updateNote(item.wordid, note)
+        item.note = vmSettings.getNote(item.word)
+        langWordService.updateNote(item.wordid, item.note)
     }
 
     suspend fun clearNote(item: MUnitWord) {
@@ -127,15 +122,11 @@ class WordsUnitViewModel : DrawerListViewModel(), KoinComponent {
         vmSettings.clearNotes(lstWords.size, isNoteEmpty = {
             !ifEmpty || lstWords[it].note.isEmpty()
         }, getOne = { i ->
-            viewModelScope.launch {
-                clearNote(lstWords[i])
-                oneComplete(i)
-            }
+            clearNote(lstWords[i])
+            oneComplete(i)
         }, allComplete = {
-            viewModelScope.launch {
-                isBusy = false
-                allComplete()
-            }
+            isBusy = false
+            allComplete()
         })
     }
 }
