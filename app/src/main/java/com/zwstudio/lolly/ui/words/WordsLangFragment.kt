@@ -22,6 +22,7 @@ import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.copyText
+import com.zwstudio.lolly.common.getPreferredRangeFromArray
 import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.common.openPage
 import com.zwstudio.lolly.common.speak
@@ -128,8 +129,10 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MLangWord
+                        val index = vm.lstWords.indexOf(item)
+                        val (start, end) = getPreferredRangeFromArray(index, vm.lstWords.size, 50)
                         navController.navigate(WordsLangFragmentDirections.actionWordsLangFragmentToWordsDictFragment(
-                            vm.lstWords.map { it.word }.toTypedArray(), vm.lstWords.indexOf(item)
+                            vm.lstWords.subList(start, end).map { it.word }.toTypedArray(), vm.lstWords.indexOf(item)
                         ))
                     }
                     true
