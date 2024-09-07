@@ -24,13 +24,14 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class WordsDictFragment : Fragment() {
 
-    val vm by viewModel<WordsDictViewModel>()
     var binding by autoCleared<FragmentWordsDictBinding>()
     var onlineDict by autoCleared<OnlineDict>()
     val args: WordsDictFragmentArgs by navArgs()
+    val vm by viewModel<WordsDictViewModel>{ parametersOf(args.list.toList(), args.index) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentWordsDictBinding.inflate(inflater, container, false).apply {
@@ -44,8 +45,6 @@ class WordsDictFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        vm.lstWords = args.list.toList()
-        vm.selectedWordIndex = args.index
 
         binding.webView.setOnTouchListener(OnSwipeWebviewTouchListener(requireContext(), object : TouchListener {
             override fun onSwipeLeft() =
