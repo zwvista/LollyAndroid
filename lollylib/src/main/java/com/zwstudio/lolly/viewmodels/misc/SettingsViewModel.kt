@@ -488,7 +488,12 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         }
     }
 
-    fun getNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+    fun getNotes(
+        wordCount: Int,
+        isNoteEmpty: (Int) -> Boolean,
+        getOne: (Int) -> Unit,
+        allComplete: () -> Unit
+    ) {
         val dictNote = selectedDictNote
         var i = 0
         var subscription: Disposable? = null
@@ -507,7 +512,12 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         compositeDisposable.add(subscription)
     }
 
-    fun clearNotes(wordCount: Int, isNoteEmpty: (Int) -> Boolean, getOne: (Int) -> Unit, allComplete: () -> Unit) {
+    fun clearNotes(
+        wordCount: Int,
+        isNoteEmpty: (Int) -> Boolean,
+        getOne: (Int) -> Unit,
+        allComplete: () -> Unit
+    ) {
         var i = 0
         while (i < wordCount) {
             while (i < wordCount && !isNoteEmpty(i))
