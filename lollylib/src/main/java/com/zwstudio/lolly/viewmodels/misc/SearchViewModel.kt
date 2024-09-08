@@ -12,5 +12,4 @@ class SearchViewModel : ViewModel(), IOnlineDict, KoinComponent {
     var word get() = word_.value; set(v) { word_.value = v }
 
     override val getWord: String get() = word
-    override val getDict: MDictionary get() = vmSettings.selectedDictReference
 }
