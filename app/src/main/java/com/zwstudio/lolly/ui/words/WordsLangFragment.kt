@@ -132,7 +132,7 @@ class WordsLangFragment : DrawerListFragment(), MenuProvider {
                         val index = vm.lstWords.indexOf(item)
                         val (start, end) = getPreferredRangeFromArray(index, vm.lstWords.size, 50)
                         navController.navigate(WordsLangFragmentDirections.actionWordsLangFragmentToWordsDictFragment(
-                            vm.lstWords.subList(start, end).map { it.word }.toTypedArray(), vm.lstWords.indexOf(item)
+                            vm.lstWords.subList(start, end).map { it.word }.toTypedArray(), index
                         ))
                     }
                     true

@@ -6,20 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.zwstudio.lolly.common.OnSwipeWebviewTouchListener
+import com.zwstudio.lolly.common.TouchListener
+import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentPatternsWebpageBinding
 import com.zwstudio.lolly.ui.common.autoCleared
-import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
+import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class PatternsWebPageFragment : Fragment() {
 
-    val vm by viewModel<PatternsDetailViewModel>{ parametersOf(item) }
     var binding by autoCleared<FragmentPatternsWebpageBinding>()
     val args: PatternsWebPageFragmentArgs by navArgs()
-    val item get() = args.item
+    val vm by viewModel<PatternsWebPageViewModel>{ parametersOf(args.list.toList(), args.index) }
 
     val compositeDisposable = CompositeDisposable()
 
@@ -35,6 +41,18 @@ class PatternsWebPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.webView.webViewClient = WebViewClient()
-        binding.webView.loadUrl(vm.item.url)
+        binding.webView.loadUrl(vm.selectedPattern.url)
+        binding.webView.setOnTouchListener(OnSwipeWebviewTouchListener(requireContext(), object : TouchListener {
+            override fun onSwipeLeft() =
+                vm.next(-1)
+            override fun onSwipeRight() =
+                vm.next(1)
+        }))
+        binding.spnPattern.adapter = makeCustomAdapter(requireContext(), vm.lstPatterns) { it.title }
+
+        vm.selectedPatternIndex_.onEach {
+            speak(vm.selectedPattern.title)
+            binding.webView.loadUrl(vm.selectedPattern.url)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

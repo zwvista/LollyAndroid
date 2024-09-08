@@ -29,6 +29,7 @@ import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksDetailViewModel
 import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
+import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksWebPageViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsDetailViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageViewModel
@@ -145,6 +146,7 @@ val lollyModule = module {
     viewModel { SearchViewModel() }
     viewModel { parameters -> PatternsDetailViewModel(item = parameters.get()) }
     viewModel { PatternsViewModel() }
+    viewModel { parameters -> PatternsWebPageViewModel(lstPatterns = parameters.get(), index = parameters.get()) }
     viewModel { PhrasesLangViewModel() }
     viewModel { parameters -> PhrasesLangDetailViewModel(item = parameters.get()) }
     viewModel { parameters -> PhrasesReviewViewModel(doTestAction = parameters.get()) }
@@ -153,6 +155,7 @@ val lollyModule = module {
     viewModel { parameters -> PhrasesUnitBatchEditViewModel(vm = parameters.get()) }
     viewModel { parameters -> OnlineTextbooksDetailViewModel(item = parameters.get()) }
     viewModel { OnlineTextbooksViewModel() }
+    viewModel { parameters -> OnlineTextbooksWebPageViewModel(lstOnlineTextbooks = parameters.get(), index = parameters.get()) }
     viewModel { parameters -> WordsDictViewModel(lstWords = parameters.get(), index = parameters.get()) }
     viewModel { WordsLangViewModel() }
     viewModel { parameters -> WordsLangDetailViewModel(item = parameters.get()) }

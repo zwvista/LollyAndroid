@@ -1,6 +1,8 @@
 package com.zwstudio.lolly.models.wpp
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
 data class MPatterns(
@@ -8,6 +10,7 @@ data class MPatterns(
     var lst: List<MPattern>? = null
 )
 
+@Parcelize
 data class MPattern(
     @SerializedName("ID")
     var id: Int = 0,
@@ -21,7 +24,7 @@ data class MPattern(
     var title: String = "",
     @SerializedName("URL")
     var url: String = "",
-) : Serializable
+) : Serializable, Parcelable
 
 class MPatternVariation {
     var index = 0
