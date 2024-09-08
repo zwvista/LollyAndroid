@@ -205,8 +205,11 @@
             android:id="@+id/action_onlineTextbooksFragment_to_onlineTextbooksWebPageFragment"
             app:destination="@+id/onlineTextbooksWebPageFragment">
             <argument
-                android:name="item"
-                app:argType="com.zwstudio.lolly.models.misc.MOnlineTextbook" />
+                android:name="list"
+                app:argType="com.zwstudio.lolly.models.misc.MOnlineTextbook[]" />
+            <argument
+                android:name="index"
+                app:argType="integer" />
         </action>
     </fragment>
     <fragment
@@ -343,7 +346,10 @@
         android:label="@string/onlineTextbooks_webpage"
         tools:layout="@layout/fragment_online_textbooks_webpage">
         <argument
-            android:name="item"
-            app:argType="com.zwstudio.lolly.models.misc.MOnlineTextbook" />
+            android:name="list"
+            app:argType="com.zwstudio.lolly.models.misc.MOnlineTextbook[]" />
+        <argument
+            android:name="index"
+            app:argType="integer" />
     </fragment>
 </navigation>

@@ -1,6 +1,8 @@
 package com.zwstudio.lolly.models.misc
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
 data class MOnlineTextbooks(
@@ -8,6 +10,7 @@ data class MOnlineTextbooks(
     var lst: List<MOnlineTextbook>? = null
 )
 
+@Parcelize
 class MOnlineTextbook(
     @SerializedName("ID")
     var id: Int = 0,
@@ -23,4 +26,4 @@ class MOnlineTextbook(
     var title: String = "",
     @SerializedName("URL")
     var url: String = "",
-) : Serializable
+) : Serializable, Parcelable
