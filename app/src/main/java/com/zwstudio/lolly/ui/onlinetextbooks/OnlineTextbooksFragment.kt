@@ -14,13 +14,16 @@ import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
 import com.zwstudio.lolly.R
+import com.zwstudio.lolly.common.getPreferredRangeFromArray
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentOnlineTextbooksBinding
 import com.zwstudio.lolly.models.misc.MOnlineTextbook
+import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.ui.common.DrawerListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
+import com.zwstudio.lolly.ui.patterns.PatternsFragmentDirections
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -95,7 +98,7 @@ class OnlineTextbooksFragment : DrawerListFragment() {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MOnlineTextbook
-                        navController.navigate(OnlineTextbooksFragmentDirections.actionOnlineTextbooksFragmentToOnlineTextbooksWebPageFragment(item))
+                        browseWebPage(item)
                     }
                     true
                 }
@@ -118,11 +121,20 @@ class OnlineTextbooksFragment : DrawerListFragment() {
                     )) { _, which ->
                         when (which) {
                             0 -> navController.navigate(OnlineTextbooksFragmentDirections.actionOnlineTextbooksFragmentToOnlineTextbooksDetailFragment(item))
-                            1 -> navController.navigate(OnlineTextbooksFragmentDirections.actionOnlineTextbooksFragmentToOnlineTextbooksWebPageFragment(item))
+                            1 -> browseWebPage(item)
                             else -> {}
                         }
                     }.show()
                 return true
+            }
+
+            private fun browseWebPage(item: MOnlineTextbook) {
+                val index = vm.lstOnlineTextbooks.indexOf(item)
+                val (start, end) = getPreferredRangeFromArray(index, vm.lstOnlineTextbooks.size, 50)
+                navController.navigate(
+                    OnlineTextbooksFragmentDirections.actionOnlineTextbooksFragmentToOnlineTextbooksWebPageFragment(
+                    vm.lstOnlineTextbooks.subList(start, end).toTypedArray(), index
+                ))
             }
         }
     }
