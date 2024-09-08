@@ -14,7 +14,6 @@ class WordsDictViewModel(val lstWords: List<String>, index: Int) : ViewModel(), 
         get() = lstWords[selectedWordIndex]
 
     override val getWord: String get() = selectedWord
-    override val getDict: MDictionary get() = vmSettings.selectedDictReference
 
     fun next(delta: Int) {
         selectedWordIndex = (selectedWordIndex + delta + lstWords.size) % lstWords.size

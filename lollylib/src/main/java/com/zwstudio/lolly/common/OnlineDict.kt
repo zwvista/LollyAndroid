@@ -12,7 +12,6 @@ enum class DictWebViewStatus {
 
 interface IOnlineDict {
     val getWord: String
-    val getDict: MDictionary
 }
 
 class OnlineDict {
@@ -22,7 +21,7 @@ class OnlineDict {
     var dictStatus = DictWebViewStatus.Ready
 
     suspend fun searchDict() {
-        val item = iOnlineDict.getDict
+        val item = vmSettings.selectedDictReference
         val url = item.urlString(iOnlineDict.getWord, vmSettings.lstAutoCorrect)
         if (item.dicttypename == "OFFLINE") {
             wv.loadUrl("about:blank")
@@ -46,7 +45,7 @@ class OnlineDict {
         wv.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
                 if (dictStatus == DictWebViewStatus.Ready) return
-                val item = iOnlineDict.getDict
+                val item = vmSettings.selectedDictReference
                 if (dictStatus == DictWebViewStatus.Automating) {
                     val s = item.automation.replace("{0}", iOnlineDict.getWord)
                     wv.evaluateJavascript(s) {
