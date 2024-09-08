@@ -6,9 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.zwstudio.lolly.common.getPreferredRangeFromArray
 import com.zwstudio.lolly.compose.ui.common.INDEX_KEY
 import com.zwstudio.lolly.compose.ui.common.PatternsScreens
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
+import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -34,7 +36,10 @@ fun PatternsHost(openDrawer: () -> Unit) {
                 type = NavType.IntType
             })
         ) {
-            PatternsWebPageScreen(vm.lstPatterns[it.arguments!!.getInt(INDEX_KEY)], navController)
+            val index = it.arguments!!.getInt(INDEX_KEY)
+            val (start, end) = getPreferredRangeFromArray(index, vm.lstPatterns.size, 50)
+            val lstPatterns = vm.lstPatterns.subList(start, end)
+            PatternsWebPageScreen(PatternsWebPageViewModel(lstPatterns, index), navController)
         }
     }
 }

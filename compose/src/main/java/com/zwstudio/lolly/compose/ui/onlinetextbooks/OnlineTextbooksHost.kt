@@ -6,9 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.zwstudio.lolly.common.getPreferredRangeFromArray
 import com.zwstudio.lolly.compose.ui.common.INDEX_KEY
 import com.zwstudio.lolly.compose.ui.common.OnlineTextbooksScreens
 import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
+import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksWebPageViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -34,7 +36,10 @@ fun OnlineTextbooksHost(openDrawer: () -> Unit) {
                 type = NavType.IntType
             })
         ) {
-            OnlineTextbooksWebPageScreen(vm.lstOnlineTextbooks[it.arguments!!.getInt(INDEX_KEY)], navController)
+            val index = it.arguments!!.getInt(INDEX_KEY)
+            val (start, end) = getPreferredRangeFromArray(index, vm.lstOnlineTextbooks.size, 50)
+            val lstOnlineTextbooks = vm.lstOnlineTextbooks.subList(start, end)
+            OnlineTextbooksWebPageScreen(OnlineTextbooksWebPageViewModel(lstOnlineTextbooks, index), navController)
         }
     }
 }

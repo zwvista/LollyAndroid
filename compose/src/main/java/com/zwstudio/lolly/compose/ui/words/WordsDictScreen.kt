@@ -58,7 +58,7 @@ fun WordsDictScreen(vm: WordsDictViewModel, navController: NavHostController?) {
                     .background(color = colorResource(R.color.color_text3))
                     .fillMaxWidth()
                     .weight(1f),
-                itemsStateFlow = vm.lstWords_,
+                items = vm.lstWords,
                 selectedItemIndexStateFlow = vm.selectedWordIndex_,
                 itemText = { it }
             )

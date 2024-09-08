@@ -22,6 +22,7 @@ import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.copyText
+import com.zwstudio.lolly.common.getPreferredRangeFromArray
 import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentPatternsBinding
@@ -128,7 +129,7 @@ class PatternsFragment : DrawerListFragment(), MenuProvider {
                 mForward.setOnTouchListener { _, event ->
                     if (event.action == MotionEvent.ACTION_DOWN) {
                         val item = itemView.tag as MPattern
-                        navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPageFragment(item))
+                        browseWebPage(item)
                     }
                     true
                 }
@@ -153,13 +154,21 @@ class PatternsFragment : DrawerListFragment(), MenuProvider {
                     )) { _, which ->
                         when (which) {
                             0 -> navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsDetailFragment(item))
-                            1 -> navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPageFragment(item))
+                            1 -> browseWebPage(item)
                             2 -> copyText(itemView.context, item.pattern)
                             3 -> googleString(itemView.context, item.pattern)
                             else -> {}
                         }
                     }.show()
                 return true
+            }
+
+            private fun browseWebPage(item: MPattern) {
+                val index = vm.lstPatterns.indexOf(item)
+                val (start, end) = getPreferredRangeFromArray(index, vm.lstPatterns.size, 50)
+                navController.navigate(PatternsFragmentDirections.actionPatternsFragmentToPatternsWebPageFragment(
+                    vm.lstPatterns.subList(start, end).toTypedArray(), index
+                ))
             }
         }
     }
