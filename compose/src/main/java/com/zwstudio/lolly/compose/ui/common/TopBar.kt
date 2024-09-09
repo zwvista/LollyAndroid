@@ -34,7 +34,6 @@ fun TopBarMenu(
             }
         },
         actions = actions,
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.secondary)
     )
 }
 
@@ -57,6 +56,5 @@ fun TopBarArrow(
             }
         },
         actions = actions,
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.secondary)
     )
 }
