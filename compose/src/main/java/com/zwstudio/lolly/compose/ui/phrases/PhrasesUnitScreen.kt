@@ -58,6 +58,7 @@ import com.zwstudio.lolly.compose.ui.common.Spinner
 import com.zwstudio.lolly.compose.ui.common.TopBarMenu
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
+import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
@@ -68,7 +69,6 @@ import org.burnoutcrew.reorderable.reorderable
 fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
     val lstPhrases = vm.lstPhrases_.collectAsState().value
-    var expanded by remember { mutableStateOf(false) }
     val state = rememberReorderableLazyListState(onMove = { _,_ -> }, canDragOver = { _,_ -> true })
     var showItemDialog by remember { mutableStateOf(false) }
     var currentItemIndex by remember { mutableIntStateOf(0) }
@@ -82,52 +82,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
         TopBarMenu(
             title = DrawerScreens.PhrasesUnit.title,
             onButtonClicked = { openDrawer() },
-            actions = {
-                Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
-                    IconButton(onClick = { expanded = true }) {
-                        Icon(Icons.Filled.MoreVert, null, tint = MaterialTheme.colors.surface)
-                    }
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false }
-                    ) {
-                        DropdownMenuItem(
-                            onClick = {
-                                vm.isEditMode = false
-                                expanded = false
-                            }
-                        ) {
-                            Text(text = stringResource(id = R.string.normal_mode))
-                            if (!vm.isEditMode_.collectAsState().value) {
-                                Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
-                            }
-                        }
-                        DropdownMenuItem(
-                            onClick = {
-                                vm.isEditMode = true
-                                expanded = false
-                            }
-                        ) {
-                            Text(text = stringResource(id = R.string.edit_mode))
-                            if (vm.isEditMode_.collectAsState().value) {
-                                Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
-                            }
-                        }
-                        DropdownMenuItem(
-                            onClick = {
-                                expanded = false
-                                navController?.navigate(PhrasesScreens.PhrasesUnitAdd.route)
-                            }
-                        ) { Text(text = stringResource(id = R.string.action_add)) }
-                        DropdownMenuItem(
-                            onClick = {
-                                navController?.navigate(PhrasesScreens.PhrasesUnitBatchEdit.route)
-                                expanded = false
-                            }
-                        ) { Text(text = stringResource(id = R.string.action_batch)) }
-                    }
-                }
-            }
+            actions = { PhrasesUnitActions(vm, navController) }
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             SearchView(
@@ -255,5 +210,54 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                 }
             },
         )
+    }
+}
+
+@Composable
+fun PhrasesUnitActions(vm: PhrasesUnitViewModel, navController: NavHostController?) {
+    var expanded by remember { mutableStateOf(false) }
+    Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
+        IconButton(onClick = { expanded = true }) {
+            Icon(Icons.Filled.MoreVert, null, tint = MaterialTheme.colors.surface)
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            DropdownMenuItem(
+                onClick = {
+                    vm.isEditMode = false
+                    expanded = false
+                }
+            ) {
+                Text(text = stringResource(id = R.string.normal_mode))
+                if (!vm.isEditMode_.collectAsState().value) {
+                    Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
+                }
+            }
+            DropdownMenuItem(
+                onClick = {
+                    vm.isEditMode = true
+                    expanded = false
+                }
+            ) {
+                Text(text = stringResource(id = R.string.edit_mode))
+                if (vm.isEditMode_.collectAsState().value) {
+                    Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
+                }
+            }
+            DropdownMenuItem(
+                onClick = {
+                    expanded = false
+                    navController?.navigate(PhrasesScreens.PhrasesUnitAdd.route)
+                }
+            ) { Text(text = stringResource(id = R.string.action_add)) }
+            DropdownMenuItem(
+                onClick = {
+                    navController?.navigate(PhrasesScreens.PhrasesUnitBatchEdit.route)
+                    expanded = false
+                }
+            ) { Text(text = stringResource(id = R.string.action_batch)) }
+        }
     }
 }
