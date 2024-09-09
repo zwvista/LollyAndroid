@@ -6,20 +6,29 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -48,7 +57,7 @@ import com.zwstudio.lolly.compose.ui.common.TopBarMenu
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesLangViewModel
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PhrasesLangScreen(vm: PhrasesLangViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
@@ -108,8 +117,8 @@ fun PhrasesLangScreen(vm: PhrasesLangViewModel, navController: NavHostController
                                     showItemDialog = true
                                 },
                             ),
-                        elevation = 8.dp,
-                        backgroundColor = Color.White,
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
                     ) {
                         Row(
                             modifier = Modifier.padding(start = 16.dp),
@@ -134,39 +143,47 @@ fun PhrasesLangScreen(vm: PhrasesLangViewModel, navController: NavHostController
 
     if (showItemDialog) {
         val item = lstPhrases[currentItemIndex]
-        AlertDialog(
+        BasicAlertDialog(
             onDismissRequest = { showItemDialog = false },
-            title = { Text(text = item.phrase) },
-            buttons = {
-                TextButton(onClick = {
-                    showItemDialog = false
-                }) {
-                    Text(stringResource(id = R.string.action_delete))
+        ) {
+            Surface(
+                modifier = Modifier.wrapContentWidth().wrapContentHeight(),
+                shape = MaterialTheme.shapes.large,
+                tonalElevation = AlertDialogDefaults.TonalElevation
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(text = item.phrase)
+                    Spacer(modifier = Modifier.height(24.dp))
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_delete))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        navController?.navigate(PhrasesScreens.PhrasesLangDetail.route + "/$currentItemIndex")
+                    }) {
+                        Text(stringResource(id = R.string.action_edit))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        copyText(context, item.phrase)
+                    }) {
+                        Text(stringResource(id = R.string.action_copy_phrase))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        googleString(context, item.phrase)
+                    }) {
+                        Text(stringResource(id = R.string.action_google_phrase))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_cancel))
+                    }
                 }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    navController?.navigate(PhrasesScreens.PhrasesLangDetail.route + "/$currentItemIndex")
-                }) {
-                    Text(stringResource(id = R.string.action_edit))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    copyText(context, item.phrase)
-                }) {
-                    Text(stringResource(id = R.string.action_copy_phrase))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    googleString(context, item.phrase)
-                }) {
-                    Text(stringResource(id = R.string.action_google_phrase))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                }) {
-                    Text(stringResource(id = R.string.action_cancel))
-                }
-            },
-        )
+            }
+        }
     }
 }

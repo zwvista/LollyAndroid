@@ -9,27 +9,34 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -69,7 +76,7 @@ import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
@@ -136,8 +143,8 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                                         showItemDialog = true
                                     },
                                 ),
-                            elevation = 8.dp,
-                            backgroundColor = Color.White,
+                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color.White),
                         ) {
                             Row(
                                 modifier = Modifier.padding(start = 16.dp),
@@ -170,7 +177,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                                         Icons.Filled.Menu,
                                         null,
                                         modifier = Modifier.detectReorderAfterLongPress(state),
-                                        tint = MaterialTheme.colors.primary
+                                        tint = MaterialTheme.colorScheme.primary
                                     )
                                 } else {
                                     IconButton(
@@ -181,7 +188,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                                         Icon(
                                             Icons.Filled.Info,
                                             null,
-                                            tint = MaterialTheme.colors.primary
+                                            tint = MaterialTheme.colorScheme.primary
                                         )
                                     }
                                 }
@@ -195,63 +202,74 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
 
     if (showItemDialog) {
         val item = lstWords[currentItemIndex]
-        AlertDialog(
-            onDismissRequest = { showItemDialog = false },
-            title = { Text(text = item.word) },
-            buttons = {
-                TextButton(onClick = {
-                    showItemDialog = false
-                }) {
-                    Text(stringResource(id = R.string.action_delete))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$currentItemIndex")
-                }) {
-                    Text(stringResource(id = R.string.action_edit))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    vm.viewModelScope.launch {
-                        vm.getNote(item)
+        BasicAlertDialog(
+            onDismissRequest = { showItemDialog = false }
+        ) {
+            Surface(
+                modifier = Modifier.wrapContentWidth().wrapContentHeight(),
+                shape = MaterialTheme.shapes.large,
+                tonalElevation = AlertDialogDefaults.TonalElevation
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(text = item.word)
+                    Spacer(modifier = Modifier.height(24.dp))
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_delete))
                     }
-                }) {
-                    Text(stringResource(id = R.string.action_get_note))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    vm.viewModelScope.launch {
-                        vm.clearNote(item)
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$currentItemIndex")
+                    }) {
+                        Text(stringResource(id = R.string.action_edit))
                     }
-                }) {
-                    Text(stringResource(id = R.string.action_clear_note))
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        vm.viewModelScope.launch {
+                            vm.getNote(item)
+                        }
+                    }) {
+                        Text(stringResource(id = R.string.action_get_note))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        vm.viewModelScope.launch {
+                            vm.clearNote(item)
+                        }
+                    }) {
+                        Text(stringResource(id = R.string.action_clear_note))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        copyText(context, item.word)
+                    }) {
+                        Text(stringResource(id = R.string.action_copy_word))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        googleString(context, item.word)
+                    }) {
+                        Text(stringResource(id = R.string.action_google_word))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        val url = vmSettings.selectedDictReference.urlString(
+                            item.word,
+                            vmSettings.lstAutoCorrect
+                        )
+                        openPage(context, url)
+                    }) {
+                        Text(stringResource(id = R.string.action_online_dict))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_cancel))
+                    }
                 }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    copyText(context, item.word)
-                }) {
-                    Text(stringResource(id = R.string.action_copy_word))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    googleString(context, item.word)
-                }) {
-                    Text(stringResource(id = R.string.action_google_word))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    val url = vmSettings.selectedDictReference.urlString(item.word, vmSettings.lstAutoCorrect)
-                    openPage(context, url)
-                }) {
-                    Text(stringResource(id = R.string.action_online_dict))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                }) {
-                    Text(stringResource(id = R.string.action_cancel))
-                }
-            },
-        )
+            }
+        }
     }
 }
 
@@ -260,7 +278,7 @@ fun WordsUnitActions(vm: WordsUnitViewModel, navController: NavHostController?) 
     var expanded by remember { mutableStateOf(false) }
     Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
         IconButton(onClick = { expanded = true }) {
-            Icon(Icons.Filled.MoreVert, null, tint = MaterialTheme.colors.surface)
+            Icon(Icons.Filled.MoreVert, null, tint = MaterialTheme.colorScheme.surface)
         }
         DropdownMenu(
             expanded = expanded,
@@ -269,63 +287,63 @@ fun WordsUnitActions(vm: WordsUnitViewModel, navController: NavHostController?) 
             DropdownMenuItem(
                 onClick = {
                     vm.isEditMode = false
-                    expanded = false
+                },
+                text = { Text(text = stringResource(id = R.string.normal_mode)) },
+                trailingIcon = {
+                    if (!vm.isEditMode_.collectAsState().value)
+                        Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colorScheme.primary)
                 }
-            ) {
-                Text(text = stringResource(id = R.string.normal_mode))
-                Spacer(Modifier.weight(1f))
-                if (!vm.isEditMode_.collectAsState().value) {
-                    Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
-                }
-            }
+            )
             DropdownMenuItem(
                 onClick = {
                     vm.isEditMode = true
-                    expanded = false
+                },
+                text = { Text(text = stringResource(id = R.string.edit_mode)) },
+                trailingIcon = {
+                    if (vm.isEditMode_.collectAsState().value)
+                        Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colorScheme.primary)
                 }
-            ) {
-                Text(text = stringResource(id = R.string.edit_mode))
-                Spacer(Modifier.weight(1f))
-                if (vm.isEditMode_.collectAsState().value) {
-                    Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
-                }
-            }
+            )
             DropdownMenuItem(
                 onClick = {
-                    expanded = false
                     navController?.navigate(WordsScreens.WordsUnitAdd.route)
-                }
-            ) { Text(text = stringResource(id = R.string.action_add)) }
+                },
+                text = { Text(text = stringResource(id = R.string.action_add)) }
+            )
             DropdownMenuItem(
                 onClick = {
                     vm.getNotes(false, {_ ->}, {})
-                    expanded = false
-                }
-            ) { Text(text = stringResource(id = R.string.action_get_notes_all)) }
+                },
+                text = { Text(text = stringResource(id = R.string.action_get_notes_all)) }
+            )
             DropdownMenuItem(
                 onClick = {
                     vm.getNotes(true, {_ ->}, {})
                     expanded = false
-                }
-            ) { Text(text = stringResource(id = R.string.action_get_notes_empty)) }
+                },
+                text = { Text(text = stringResource(id = R.string.action_get_notes_empty)) }
+            )
             DropdownMenuItem(
                 onClick = {
                     vm.clearNotes(false, {_ ->}, {})
                     expanded = false
-                }
-            ) { Text(text = stringResource(id = R.string.action_clear_notes_all)) }
+                },
+                text = { Text(text = stringResource(id = R.string.action_clear_notes_all)) }
+            )
             DropdownMenuItem(
                 onClick = {
                     vm.clearNotes(true, {_ ->}, {})
                     expanded = false
-                }
-            ) { Text(text = stringResource(id = R.string.action_clear_notes_empty)) }
+                },
+                text = { Text(text = stringResource(id = R.string.action_clear_notes_empty)) }
+            )
             DropdownMenuItem(
                 onClick = {
                     navController?.navigate(WordsScreens.WordsUnitBatchEdit.route)
                     expanded = false
-                }
-            ) { Text(text = stringResource(id = R.string.action_batch)) }
+                },
+                text = { Text(text = stringResource(id = R.string.action_batch)) }
+            )
         }
     }
 }

@@ -6,28 +6,36 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.BasicAlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -64,7 +72,7 @@ import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
@@ -131,8 +139,8 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                                         showItemDialog = true
                                     },
                                 ),
-                            elevation = 8.dp,
-                            backgroundColor = Color.White,
+                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color.White),
                         ) {
                             Row(
                                 modifier = Modifier.padding(start = 16.dp),
@@ -163,7 +171,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                                         Icons.Filled.Menu,
                                         null,
                                         modifier = Modifier.detectReorderAfterLongPress(state),
-                                        tint = MaterialTheme.colors.primary
+                                        tint = MaterialTheme.colorScheme.primary
                                     )
                                 }
                             }
@@ -176,40 +184,48 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
 
     if (showItemDialog) {
         val item = lstPhrases[currentItemIndex]
-        AlertDialog(
+        BasicAlertDialog(
             onDismissRequest = { showItemDialog = false },
-            title = { Text(text = item.phrase) },
-            buttons = {
-                TextButton(onClick = {
-                    showItemDialog = false
-                }) {
-                    Text(stringResource(id = R.string.action_delete))
+        ) {
+            Surface(
+                modifier = Modifier.wrapContentWidth().wrapContentHeight(),
+                shape = MaterialTheme.shapes.large,
+                tonalElevation = AlertDialogDefaults.TonalElevation
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(text = item.phrase)
+                    Spacer(modifier = Modifier.height(24.dp))
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_delete))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        navController?.navigate(PhrasesScreens.PhrasesUnitDetail.route + "/$currentItemIndex")
+                    }) {
+                        Text(stringResource(id = R.string.action_edit))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        copyText(context, item.phrase)
+                    }) {
+                        Text(stringResource(id = R.string.action_copy_phrase))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                        googleString(context, item.phrase)
+                    }) {
+                        Text(stringResource(id = R.string.action_google_phrase))
+                    }
+                    TextButton(onClick = {
+                        showItemDialog = false
+                    }) {
+                        Text(stringResource(id = R.string.action_cancel))
+                    }
                 }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    navController?.navigate(PhrasesScreens.PhrasesUnitDetail.route + "/$currentItemIndex")
-                }) {
-                    Text(stringResource(id = R.string.action_edit))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    copyText(context, item.phrase)
-                }) {
-                    Text(stringResource(id = R.string.action_copy_phrase))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                    googleString(context, item.phrase)
-                }) {
-                    Text(stringResource(id = R.string.action_google_phrase))
-                }
-                TextButton(onClick = {
-                    showItemDialog = false
-                }) {
-                    Text(stringResource(id = R.string.action_cancel))
-                }
-            },
-        )
+            }
+        }
     }
 }
 
@@ -218,7 +234,7 @@ fun PhrasesUnitActions(vm: PhrasesUnitViewModel, navController: NavHostControlle
     var expanded by remember { mutableStateOf(false) }
     Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
         IconButton(onClick = { expanded = true }) {
-            Icon(Icons.Filled.MoreVert, null, tint = MaterialTheme.colors.surface)
+            Icon(Icons.Filled.MoreVert, null, tint = MaterialTheme.colorScheme.surface)
         }
         DropdownMenu(
             expanded = expanded,
@@ -227,37 +243,35 @@ fun PhrasesUnitActions(vm: PhrasesUnitViewModel, navController: NavHostControlle
             DropdownMenuItem(
                 onClick = {
                     vm.isEditMode = false
-                    expanded = false
+                },
+                text = { Text(text = stringResource(id = R.string.normal_mode)) },
+                trailingIcon = {
+                    if (!vm.isEditMode_.collectAsState().value)
+                        Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colorScheme.primary)
                 }
-            ) {
-                Text(text = stringResource(id = R.string.normal_mode))
-                if (!vm.isEditMode_.collectAsState().value) {
-                    Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
-                }
-            }
+            )
             DropdownMenuItem(
                 onClick = {
                     vm.isEditMode = true
-                    expanded = false
+                },
+                text = { Text(text = stringResource(id = R.string.edit_mode)) },
+                trailingIcon = {
+                    if (vm.isEditMode_.collectAsState().value)
+                        Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colorScheme.primary)
                 }
-            ) {
-                Text(text = stringResource(id = R.string.edit_mode))
-                if (vm.isEditMode_.collectAsState().value) {
-                    Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colors.primary)
-                }
-            }
+            )
             DropdownMenuItem(
                 onClick = {
-                    expanded = false
                     navController?.navigate(PhrasesScreens.PhrasesUnitAdd.route)
-                }
-            ) { Text(text = stringResource(id = R.string.action_add)) }
+                },
+                text = { Text(text = stringResource(id = R.string.action_add)) }
+            )
             DropdownMenuItem(
                 onClick = {
                     navController?.navigate(PhrasesScreens.PhrasesUnitBatchEdit.route)
-                    expanded = false
-                }
-            ) { Text(text = stringResource(id = R.string.action_batch)) }
+                },
+                text = { Text(text = stringResource(id = R.string.action_batch)) }
+            )
         }
     }
 }

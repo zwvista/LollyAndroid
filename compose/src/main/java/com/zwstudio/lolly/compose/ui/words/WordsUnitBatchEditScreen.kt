@@ -12,18 +12,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.LocalTextStyle
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -141,8 +142,8 @@ fun WordsUnitBatchEditScreen(vm: WordsUnitViewModel, navController: NavHostContr
                                 .clickable {
                                     isCheckedList[index] = !isCheckedList[index]
                                 },
-                            elevation = 8.dp,
-                            backgroundColor = Color.White,
+                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color.White),
                         ) {
                             Row(
                                 modifier = Modifier.padding(start = 16.dp),
@@ -174,7 +175,7 @@ fun WordsUnitBatchEditScreen(vm: WordsUnitViewModel, navController: NavHostContr
                                     Icon(
                                         Icons.Filled.Check,
                                         null,
-                                        tint = MaterialTheme.colors.primary
+                                        tint = MaterialTheme.colorScheme.primary
                                     )
                                 }
                             }

@@ -7,12 +7,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -50,18 +51,16 @@ fun <T> Spinner(
             selectedItemIndex
         )
 
-        androidx.compose.material.DropdownMenu(
+        DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false },
             modifier = dropDownModifier
         ) {
             items.forEachIndexed { index, element ->
-                DropdownMenuItem(onClick = {
-                    onItemSelected(index)
-                    expanded = false
-                }) {
-                    dropdownItemFactory(element, index)
-                }
+                DropdownMenuItem(
+                    onClick = { onItemSelected(index) },
+                    text = { dropdownItemFactory(element, index) }
+                )
             }
         }
     }
@@ -107,7 +106,7 @@ fun <T> Spinner(
                 modifier = Modifier.alpha(
                     if(index == selectedItemIndexStateFlow.collectAsState().value) 1f else 0f
                 ),
-                tint = MaterialTheme.colors.primary
+                tint = MaterialTheme.colorScheme.primary
             )
             Text(text = itemText(item))
         },
