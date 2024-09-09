@@ -1,7 +1,6 @@
 package com.zwstudio.lolly.services.misc
 
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class BlogService {
     private fun html1With(s: String) =

@@ -53,7 +53,6 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.ui)
     implementation(libs.ui.tooling.preview)
-    implementation(libs.runtime.livedata)
     implementation(libs.androidx.material)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
