@@ -59,7 +59,6 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.swiperefreshlayout)
     implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.common.java8)
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
