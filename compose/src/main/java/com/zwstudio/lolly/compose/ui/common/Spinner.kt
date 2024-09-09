@@ -37,7 +37,8 @@ fun <T> Spinner(
     selectedItemIndex: Int,
     onItemSelected: (Int) -> Unit,
     selectedItemFactory: @Composable (Modifier, Int) -> Unit,
-    dropdownItemFactory: @Composable (T, Int) -> Unit,
+    dropdownText: @Composable (T, Int) -> Unit,
+    dropdownIcon: @Composable (T, Int) -> Unit,
     enabled: Boolean = true,
 ) {
     var expanded: Boolean by remember { mutableStateOf(false) }
@@ -59,7 +60,8 @@ fun <T> Spinner(
             items.forEachIndexed { index, element ->
                 DropdownMenuItem(
                     onClick = { onItemSelected(index) },
-                    text = { dropdownItemFactory(element, index) }
+                    text = { dropdownText(element, index) },
+                    leadingIcon = { dropdownIcon(element, index) },
                 )
             }
         }
@@ -99,7 +101,10 @@ fun <T> Spinner(
                 )
             }
         },
-        dropdownItemFactory = { item, index ->
+        dropdownText = { item, index ->
+            Text(text = itemText(item))
+        },
+        dropdownIcon = { item, index ->
             Icon(
                 Icons.Filled.CheckCircle,
                 null,
@@ -108,7 +113,6 @@ fun <T> Spinner(
                 ),
                 tint = MaterialTheme.colorScheme.primary
             )
-            Text(text = itemText(item))
         },
         enabled = enabled
     )
