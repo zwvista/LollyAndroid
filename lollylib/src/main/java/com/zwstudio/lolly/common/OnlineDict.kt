@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.zwstudio.lolly.models.misc.MDictionary
 
 enum class DictWebViewStatus {
     Ready, Navigating, Automating

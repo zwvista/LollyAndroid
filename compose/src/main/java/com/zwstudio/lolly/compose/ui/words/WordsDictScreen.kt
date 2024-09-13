@@ -28,7 +28,6 @@ import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun WordsDictScreen(vm: WordsDictViewModel, navController: NavHostController?) {

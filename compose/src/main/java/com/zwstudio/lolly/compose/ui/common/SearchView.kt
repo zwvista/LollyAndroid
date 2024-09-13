@@ -5,18 +5,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -32,7 +29,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 // https://stackoverflow.com/questions/72599643/how-to-implement-search-in-jetpack-compose-android
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchView(
     valueStateFlow: MutableStateFlow<String>,
@@ -80,16 +76,6 @@ fun SearchView(
         },
         singleLine = true,
         shape = RectangleShape, // The TextField has rounded corners top left and right by default
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = Color.White,
-            cursorColor = Color.White,
-            focusedLeadingIconColor = Color.White,
-            focusedTrailingIconColor = Color.White,
-            focusedContainerColor = MaterialTheme.colorScheme.primary,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
-        ),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         keyboardActions = KeyboardActions(onSearch = { onSearch() }),
     )

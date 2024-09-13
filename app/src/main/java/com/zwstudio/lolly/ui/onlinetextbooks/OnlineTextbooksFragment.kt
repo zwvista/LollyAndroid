@@ -19,11 +19,9 @@ import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentOnlineTextbooksBinding
 import com.zwstudio.lolly.models.misc.MOnlineTextbook
-import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.ui.common.DrawerListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
-import com.zwstudio.lolly.ui.patterns.PatternsFragmentDirections
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
 import kotlinx.coroutines.flow.launchIn

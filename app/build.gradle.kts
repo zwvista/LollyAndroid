@@ -1,5 +1,3 @@
-import org.gradle.internal.impldep.bsh.commands.dir
-
 plugins {
     id("com.android.application")
     id("kotlin-android")

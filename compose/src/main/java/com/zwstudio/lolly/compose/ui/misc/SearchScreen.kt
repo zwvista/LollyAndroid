@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -84,7 +84,6 @@ fun SearchScreen(openDrawer: () -> Unit) {
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text3))
-                    .fillMaxWidth()
                     .weight(1f),
                 itemsStateFlow = vmSettings.lstLanguages_,
                 selectedItemIndexStateFlow = vmSettings.selectedLangIndex_,
@@ -93,7 +92,6 @@ fun SearchScreen(openDrawer: () -> Unit) {
             Spinner(
                 modifier = Modifier
                     .background(color = colorResource(R.color.color_text2))
-                    .fillMaxWidth()
                     .weight(1f),
                 itemsStateFlow = vmSettings.lstDictsReference_,
                 selectedItemIndexStateFlow = vmSettings.selectedDictReferenceIndex_,
