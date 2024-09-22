@@ -1,4 +1,4 @@
-package com.zwstudio.lolly.compose.ui.patterns
+package com.zwstudio.lolly.compose.ui.blogs
 
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -16,35 +16,40 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.common.OnSwipeWebviewTouchListener
 import com.zwstudio.lolly.common.TouchListener
+import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.compose.R
+import com.zwstudio.lolly.compose.ui.common.DrawerScreens
 import com.zwstudio.lolly.compose.ui.common.Spinner
-import com.zwstudio.lolly.compose.ui.common.TopBarArrow
-import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageViewModel
+import com.zwstudio.lolly.compose.ui.common.TopBarMenu
+import com.zwstudio.lolly.services.misc.BlogService
+import com.zwstudio.lolly.viewmodels.blogs.UnitBlogPostsViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @Composable
-fun PatternsWebPageScreen(vm: PatternsWebPageViewModel, navController: NavHostController?) {
+fun UnitBlogPostsScreen(vm: UnitBlogPostsViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
     var wv: WebView? = remember { null }
     LaunchedEffect(Unit, block = {
-        vm.selectedPatternIndex_.onEach {
-            wv?.loadUrl(vm.selectedPattern.url)
+        vm.selectedUnitIndex_.onEach {
+            val content = vmSettings.getBlogContent(vm.selectedUnit)
+            val str = BlogService().markedToHtml(content)
+            wv?.loadData(str, null, null)
         }.launchIn(this)
     })
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopBarArrow(
-            title = stringResource(id = R.string.patterns_webpage),
-            navController = navController
+        TopBarMenu(
+            title = DrawerScreens.BlogsUnit.title,
+            onButtonClicked = { openDrawer() },
         )
         Spinner(
             modifier = Modifier
                 .background(color = colorResource(R.color.color_text3))
                 .fillMaxWidth(),
-            items = vm.lstPatterns,
-            selectedItemIndexStateFlow = vm.selectedPatternIndex_,
-            itemText = { it.title }
+            items = vm.lstUnits,
+            selectedItemIndexStateFlow = vm.selectedUnitIndex_,
+            itemText = { it.label }
         )
         AndroidView(
             factory = {

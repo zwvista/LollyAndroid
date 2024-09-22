@@ -36,6 +36,7 @@
     <string name="onlinetextbooks">Online Textbooks</string>
     <string name="onlineTextbooks_detail">Online Textbooks (Detail)</string>
     <string name="onlineTextbooks_webpage">Online Textbooks (Web Page)</string>
+    <string name="unit_blog_posts">Unit Blog Posts</string>
 
     <string name="action_delete">Delete</string>
     <string name="action_more">More</string>

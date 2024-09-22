@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.common.tts
+import com.zwstudio.lolly.models.blogs.MUnitBlogPost
 import com.zwstudio.lolly.models.misc.MAutoCorrect
 import com.zwstudio.lolly.models.misc.MDictionary
 import com.zwstudio.lolly.models.misc.MLanguage
@@ -18,6 +19,7 @@ import com.zwstudio.lolly.models.misc.MVoice
 import com.zwstudio.lolly.models.misc.ReviewMode
 import com.zwstudio.lolly.models.misc.autoCorrect
 import com.zwstudio.lolly.models.misc.extractTextFrom
+import com.zwstudio.lolly.services.blogs.UnitBlogPostService
 import com.zwstudio.lolly.services.misc.AutoCorrectService
 import com.zwstudio.lolly.services.misc.DictionaryService
 import com.zwstudio.lolly.services.misc.HtmlService
@@ -182,6 +184,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     var selectedPartFromIndex get() = selectedPartFromIndex_.value; set(v) { selectedPartFromIndex_.value = v }
     val selectedUnitToIndex_ = MutableStateFlow(-1)
     var selectedUnitToIndex get() = selectedUnitToIndex_.value; set(v) { selectedUnitToIndex_.value = v }
+    val selectedUnitTo get() = if (lstUnits.indices.contains(selectedUnitToIndex)) lstUnits[selectedUnitToIndex].value else 0
     val selectedPartToIndex_ = MutableStateFlow(-1)
     var selectedPartToIndex get() = selectedPartToIndex_.value; set(v) { selectedPartToIndex_.value = v }
     val toTypeIndex_ = MutableStateFlow(UnitPartToType.To.ordinal)
@@ -204,6 +207,7 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     private val autoCorrectService by inject<AutoCorrectService>()
     private val voiceService by inject<VoiceService>()
     private val htmlService by inject<HtmlService>()
+    private val unitBlogPostService by inject<UnitBlogPostService>()
 
     private fun getUSInfo(name: String): MUserSettingInfo {
         val o = lstUSMappings.find { it.name == name }!!
@@ -554,4 +558,11 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         }
         allComplete()
     }
+
+    suspend fun getBlogContent(unit: Int): String =
+        unitBlogPostService.getDataByTextbook(selectedTextbook.id, unit)?.content ?: ""
+    suspend fun getBlogContent(): String =
+        getBlogContent(selectedUnitTo)
+    suspend fun saveBlogContent(content: String) =
+        unitBlogPostService.update(selectedTextbook.id, selectedUnitTo, content)
 }

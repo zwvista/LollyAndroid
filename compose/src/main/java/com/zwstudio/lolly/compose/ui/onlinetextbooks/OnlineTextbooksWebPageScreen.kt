@@ -20,13 +20,17 @@ import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.compose.ui.common.Spinner
 import com.zwstudio.lolly.compose.ui.common.TopBarArrow
 import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksWebPageViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun OnlineTextbooksWebPageScreen(vm: OnlineTextbooksWebPageViewModel, navController: NavHostController?) {
 
     var wv: WebView? = remember { null }
     LaunchedEffect(Unit, block = {
-        wv?.loadUrl(vm.selectedOnlineTextbook.url)
+        vm.selectedOnlineTextbookIndex_.onEach {
+            wv?.loadUrl(vm.selectedOnlineTextbook.url)
+        }.launchIn(this)
     })
 
     Column(modifier = Modifier.fillMaxSize()) {

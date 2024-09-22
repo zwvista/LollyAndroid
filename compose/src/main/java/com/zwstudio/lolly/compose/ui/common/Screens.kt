@@ -48,4 +48,8 @@ sealed class OnlineTextbooksScreens(val route: String) {
     object OnlineTextbooksWebPage : PatternsScreens("OnlineTextbooksWebPage")
 }
 
+sealed class BlogsUnitScreens(val route: String) {
+    object UnitBlogPosts : BlogsUnitScreens("UnitBlogPosts")
+}
+
 const val INDEX_KEY = "INDEX_KEY"

@@ -30,6 +30,7 @@ sealed class DrawerScreens(val title: String, val route: String) {
     object PhrasesLang : DrawerScreens( "Phrases in Language", "PhrasesLang")
     object Patterns : DrawerScreens( "Patterns in Language", "Patterns")
     object OnlineTextbooks : DrawerScreens( "Online Textbooks", "OnlineTextbooks")
+    object BlogsUnit : DrawerScreens( "Unit Blog Posts", "BlogsUnit")
 }
 
 private val screens = listOf(
@@ -45,6 +46,7 @@ private val screens = listOf(
     DrawerScreens.PhrasesLang,
     DrawerScreens.Patterns,
     DrawerScreens.OnlineTextbooks,
+    DrawerScreens.BlogsUnit,
 )
 
 @Composable

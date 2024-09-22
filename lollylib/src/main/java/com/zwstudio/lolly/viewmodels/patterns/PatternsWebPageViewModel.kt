@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.core.component.KoinComponent
 
 class PatternsWebPageViewModel(val lstPatterns: List<MPattern>, index: Int) : ViewModel(), KoinComponent {
-    var selectedPatternIndex_ = MutableStateFlow(0)
+    var selectedPatternIndex_ = MutableStateFlow(index)
     var selectedPatternIndex get() = selectedPatternIndex_.value; set(v) { selectedPatternIndex_.value = v }
     val selectedPattern: MPattern
         get() = lstPatterns[selectedPatternIndex]

@@ -8,21 +8,33 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class UnitBlogPostService {
-    suspend fun getDataByTextbook(textbookid: Int, unit: Int): List<MUnitBlogPost> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestUnitBlogPost::class.java)
+    suspend fun getDataByTextbook(textbookid: Int, unit: Int): MUnitBlogPost? = withContext(Dispatchers.IO) {
+        val lst = retrofitJson.create(RestUnitBlogPost::class.java)
             .getDataByTextbook("TEXTBOOKID,eq,${textbookid}", "UNIT,eq,${unit}")
             .lst!!
+        return@withContext if (lst.isEmpty()) null else lst[0]
     }
 
-    suspend fun update(o: MUnitBlogPost) = withContext(Dispatchers.IO) {
+    private suspend fun update(o: MUnitBlogPost) = withContext(Dispatchers.IO) {
         retrofitJson.create(RestUnitBlogPost::class.java)
             .update(o.id, o.textbookid, o.unit, o.content)
             .let { Log.d("", it.toString()) }
     }
 
-    suspend fun create(o: MUnitBlogPost): Int = withContext(Dispatchers.IO) {
+    private suspend fun create(o: MUnitBlogPost): Int = withContext(Dispatchers.IO) {
         retrofitJson.create(RestUnitBlogPost::class.java)
             .create(o.textbookid, o.unit, o.content)
             .also { Log.d("", it.toString()) }
+    }
+
+    suspend fun update(textbookid: Int, unit: Int, content: String) {
+        val o = getDataByTextbook(textbookid, unit)
+        val item = o ?: MUnitBlogPost()
+        if (item.id == 0) {
+            item.textbookid = textbookid
+            item.unit = unit
+        }
+        item.content = content
+        if (item.id == 0) create(item) else update(item)
     }
 }
