@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.speech.tts.TextToSpeech
+import com.zwstudio.lolly.services.blogs.UnitBlogPostService
 import com.zwstudio.lolly.services.misc.AutoCorrectService
 import com.zwstudio.lolly.services.misc.DictionaryService
 import com.zwstudio.lolly.services.misc.HtmlService
@@ -23,6 +24,7 @@ import com.zwstudio.lolly.services.wpp.PatternService
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
 import com.zwstudio.lolly.services.wpp.UnitWordService
 import com.zwstudio.lolly.services.wpp.WordFamiService
+import com.zwstudio.lolly.viewmodels.blogs.UnitBlogPostsViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
@@ -133,6 +135,7 @@ val lollyModule = module {
     single { USMappingService() }
     single { VoiceService() }
     single { OnlineTextbookService() }
+    single { UnitBlogPostService() }
 
     single { LangPhraseService() }
     single { LangWordService() }
@@ -156,6 +159,7 @@ val lollyModule = module {
     viewModel { parameters -> OnlineTextbooksDetailViewModel(item = parameters.get()) }
     viewModel { OnlineTextbooksViewModel() }
     viewModel { parameters -> OnlineTextbooksWebPageViewModel(lstOnlineTextbooks = parameters.get(), index = parameters.get()) }
+    viewModel { UnitBlogPostsViewModel() }
     viewModel { parameters -> WordsDictViewModel(lstWords = parameters.get(), index = parameters.get()) }
     viewModel { WordsLangViewModel() }
     viewModel { parameters -> WordsLangDetailViewModel(item = parameters.get()) }
