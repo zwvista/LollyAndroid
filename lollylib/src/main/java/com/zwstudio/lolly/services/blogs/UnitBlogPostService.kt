@@ -9,10 +9,9 @@ import kotlinx.coroutines.withContext
 
 class UnitBlogPostService {
     suspend fun getDataByTextbook(textbookid: Int, unit: Int): MUnitBlogPost? = withContext(Dispatchers.IO) {
-        val lst = retrofitJson.create(RestUnitBlogPost::class.java)
+        retrofitJson.create(RestUnitBlogPost::class.java)
             .getDataByTextbook("TEXTBOOKID,eq,${textbookid}", "UNIT,eq,${unit}")
-            .lst!!
-        return@withContext if (lst.isEmpty()) null else lst[0]
+            .lst!!.firstOrNull()
     }
 
     private suspend fun update(o: MUnitBlogPost) = withContext(Dispatchers.IO) {

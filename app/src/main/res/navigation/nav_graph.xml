@@ -213,6 +213,12 @@
         </action>
     </fragment>
     <fragment
+        android:id="@+id/unitBlogPostsFragment"
+        android:name="com.zwstudio.lolly.ui.blogs.UnitBlogPostsFragment"
+        android:label="@string/unit_blog_posts"
+        tools:layout="@layout/fragment_unit_blog_posts" >
+    </fragment>
+    <fragment
         android:id="@+id/wordsUnitDetailFragment"
         android:name="com.zwstudio.lolly.ui.words.WordsUnitDetailFragment"
         android:label="@string/words_unit_detail"
