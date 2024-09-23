@@ -9,12 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.zwstudio.lolly.common.OnSwipeWebviewTouchListener
 import com.zwstudio.lolly.common.TouchListener
+import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentUnitBlogPostsBinding
 import com.zwstudio.lolly.services.misc.BlogService
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.blogs.UnitBlogPostsViewModel
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,6 +26,7 @@ class UnitBlogPostsFragment : Fragment() {
 
     var binding by autoCleared<FragmentUnitBlogPostsBinding>()
     val vm by viewModel<UnitBlogPostsViewModel>()
+    val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentUnitBlogPostsBinding.inflate(inflater, container, false).apply {
@@ -46,11 +49,11 @@ class UnitBlogPostsFragment : Fragment() {
         binding.spnUnit.adapter = makeCustomAdapter(requireContext(), vm.lstUnits) { it.label }
 
         vm.selectedUnitIndex_.onEach {
-            vmSettings.getBlogContent(vm.selectedUnit).map {
+            compositeDisposable.add(vmSettings.getBlogContent(vm.selectedUnit).map {
                 BlogService().markedToHtml(it)
-            }.subscribeBy {
+            }.applyIO().subscribeBy {
                 binding.webView.loadData(it, null, null)
-            }
+            })
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }
