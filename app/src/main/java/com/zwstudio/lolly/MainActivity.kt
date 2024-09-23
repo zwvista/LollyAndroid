@@ -50,7 +50,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.wordsTextbookFragment,
                 R.id.phrasesTextbookFragment,
                 R.id.patternsFragment,
-                R.id.onlineTextbooksFragment
+                R.id.onlineTextbooksFragment,
+                R.id.unitBlogPostsFragment
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

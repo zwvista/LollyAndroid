@@ -211,11 +211,8 @@ class SettingsViewModel : ViewModel(), KoinComponent {
     private val autoCorrectService by inject<AutoCorrectService>()
     private val voiceService by inject<VoiceService>()
     private val htmlService by inject<HtmlService>()
-<<<<<<< HEAD
-    private val compositeDisposable = CompositeDisposable()
-=======
     private val unitBlogPostService by inject<UnitBlogPostService>()
->>>>>>> 079074b (blogs 1)
+    private val compositeDisposable = CompositeDisposable()
 
     private fun getUSInfo(name: String): MUserSettingInfo {
         val o = lstUSMappings.find { it.name == name }!!
@@ -536,10 +533,10 @@ class SettingsViewModel : ViewModel(), KoinComponent {
         allComplete()
     }
 
-    suspend fun getBlogContent(unit: Int): String =
-        unitBlogPostService.getDataByTextbook(selectedTextbook.id, unit)?.content ?: ""
-    suspend fun getBlogContent(): String =
+    fun getBlogContent(unit: Int): Single<String> =
+        unitBlogPostService.getDataByTextbook(selectedTextbook.id, unit).map { it.map { it.content }.orElse("") }
+    fun getBlogContent(): Single<String> =
         getBlogContent(selectedUnitTo)
-    suspend fun saveBlogContent(content: String) =
+    fun saveBlogContent(content: String): Completable =
         unitBlogPostService.update(selectedTextbook.id, selectedUnitTo, content)
 }

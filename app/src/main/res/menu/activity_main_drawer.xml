@@ -50,6 +50,10 @@
             android:id="@+id/onlineTextbooksFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/onlinetextbooks"/>
+        <item
+            android:id="@+id/unitBlogPostsFragment"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="@string/unit_blog_posts"/>
     </group>
 
 </menu>
