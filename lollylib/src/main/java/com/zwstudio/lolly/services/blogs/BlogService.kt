@@ -5,27 +5,26 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class BlogService {
     private fun html1With(s: String) =
-        "<strong><span style=\"color:#0000ff;\">$s</span></strong>"
+        """<strong><span style="color:#0000ff;">$s</span></strong>"""
     private fun htmlWordWith(s: String) = html1With("$s：")
     private fun htmlBWith(s: String) = html1With(s)
     private fun htmlE1With(s: String) =
-        "<span style=\"color:#006600;\">$s</span>"
+        """<span style="color:#006600;">$s</span>"""
     private fun html2With(s: String) =
-        "<span style=\"color:#cc00cc;\">$s</span>"
+        """<span style="color:#cc00cc;">$s</span>"""
     private fun htmlE2With(s: String) = html2With(s)
     private fun htmlIWith(s: String) = "<strong>${html2With(s)}</strong>"
     private val htmlEmptyLine = "<div><br></div>"
     private val regMarkedEntry = Regex("""(\*\*?)\s*(.*?)：(.*?)：(.*)""")
-    private val regMarkedB = Regex("""<B>(.+?)</B>""")
-    private val regMarkedI = Regex("""<I>(.+?)</I>""")
+    private val regMarkedB = Regex("<B>(.+?)</B>")
+    private val regMarkedI = Regex("<I>(.+?)</I>")
     fun markedToHtml(text: String): String {
         val lst = text.split("\n").toMutableList()
         var i = 0
         while (i < lst.size) {
             var s = lst[i]
             val m = regMarkedEntry.find(s)
-            if (m != null)
-            {
+            if (m != null) {
                 val s1 = m.groupValues[1]
                 val s2 = m.groupValues[2]
                 val s3 = m.groupValues[3]
@@ -40,11 +39,9 @@ class BlogService {
                     lst[i] += "</li>"
                 if (isLast || m2 == null)
                     lst.add(++i, "</ul>")
-            }
-            else if (s.isEmpty())
+            } else if (s.isEmpty())
                 lst[i] = htmlEmptyLine
-            else
-            {
+            else {
                 s = regMarkedB.replace(s, htmlBWith("$1"))
                 s = regMarkedI.replace(s, htmlIWith("$1"))
                 lst[i] = "<div>$s</div>"
@@ -57,8 +54,7 @@ class BlogService {
     private val regHtmlB = Regex(htmlBWith("(.+?)"))
     private val regHtmlI = Regex(htmlIWith("(.+?)"))
     private val regHtmlEntry = Regex("(<li>|<br>)${htmlWordWith("(.*?)")}(?:${htmlE1With("(.*?)")})?(?:${htmlE2With("(.*?)")})?(?:</li>)?")
-    fun htmlToMarked(text: String): String
-    {
+    fun htmlToMarked(text: String): String {
         val lst = text.split("\n").toMutableList()
         var i = 0
         while (i < lst.size) {
@@ -67,21 +63,16 @@ class BlogService {
                 lst.removeAt(i--)
             else if (s == htmlEmptyLine)
                 lst[i] = ""
-            else
-            {
+            else {
                 var m = regLine.find(s)
-                if (m != null)
-                {
+                if (m != null) {
                     s = m.groupValues[1]
                     s = regHtmlB.replace(s, "<B>$1</B>")
                     s = regHtmlI.replace(s, "<I>$1</I>")
                     lst[i] = s
-                }
-                else
-                {
+                } else {
                     m = regHtmlEntry.find(s)
-                    if (m != null)
-                    {
+                    if (m != null) {
                         val s1 = m.groupValues[1]
                         val s2 = m.groupValues[2]
                         val s3 = m.groupValues[3]
@@ -98,8 +89,7 @@ class BlogService {
     fun addTagB(text: String) = "<B>$text</B>"
     fun addTagI(text: String) = "<I>$text</I>"
     fun removeTagBI(text: String) = Regex("</?[BI]>").replace(text, "")
-    fun exchangeTagBI(text: String): String
-    {
+    fun exchangeTagBI(text: String): String {
         var text = Regex("<(/)?B>").replace(text, "<$1Temp>")
         text = Regex("<(/)?I>").replace(text, "<$1B>")
         text = Regex("<(/)?Temp>").replace(text, "<$1I>")
