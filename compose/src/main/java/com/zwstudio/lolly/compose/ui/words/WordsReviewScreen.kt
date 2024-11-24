@@ -21,12 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.compose.R
@@ -140,13 +141,19 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
                 LabelledCheckBox(
                     checked = vm.onRepeat.collectAsState().value,
                     onCheckedChange = { vm.onRepeat.value = it },
-                    label = stringResource(id = R.string.text_on_repeat)
+                    label = stringResource(id = R.string.text_on_repeat),
+                    modifier = Modifier.alpha(
+                        if (vm.onRepeatVisible.collectAsState().value) 1f else 0f
+                    )
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 LabelledCheckBox(
                     checked = vm.moveForward.collectAsState().value,
                     onCheckedChange = { vm.moveForward.value = it },
-                    label = stringResource(id = R.string.text_move_forward)
+                    label = stringResource(id = R.string.text_move_forward),
+                    modifier = Modifier.alpha(
+                        if (vm.moveForwardVisible.collectAsState().value) 1f else 0f
+                    )
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Button(
@@ -183,8 +190,21 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
                     style = TextStyle(color = colorResource(R.color.color_text3), fontSize = 20.sp),
                 )
             }
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = vm.wordHintString.collectAsState().value,
+                    modifier = Modifier.alpha(
+                        if (vm.wordHintVisible.collectAsState().value) 1f else 0f
+                    ),
+                    style = TextStyle(fontSize = 20.sp),
+                )
+            }
             Text(
                 text = vm.translationString.collectAsState().value,
+                textAlign = TextAlign.Center,
             )
             TextField(
                 value = vm.wordInputString.collectAsState().value,

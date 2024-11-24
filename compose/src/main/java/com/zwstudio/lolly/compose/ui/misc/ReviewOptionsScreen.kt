@@ -41,6 +41,7 @@ fun ReviewOptionsScreen(
             actions = {
                 Button(
                     onClick = {
+                        vm.save()
                         optionsDone.value = true
                         navController?.navigateUp()
                     }

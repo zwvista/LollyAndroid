@@ -157,12 +157,24 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvWordTarget" />
 
             <TextView
+                android:id="@+id/tvWordHint"
+                android:text="@{model.wordHintString}"
+                android:visibility="@{model.wordHintVisible}"
+                tools:text="4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvNoteTarget" />
+
+            <TextView
                 android:id="@+id/tvTranslation"
                 android:text="@{model.translationString}"
                 tools:text="Translation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tvNoteTarget"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvWordHint"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tiWordInput"
@@ -172,6 +184,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etWordInput"
                     android:text="@={model.wordInputString}"
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
