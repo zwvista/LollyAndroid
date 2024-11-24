@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId = "com.zwstudio.lolly"
         minSdk = 24
-        compileSdk = 34
+        compileSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
