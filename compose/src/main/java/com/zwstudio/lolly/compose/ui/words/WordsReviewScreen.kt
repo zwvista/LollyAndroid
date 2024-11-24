@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -103,13 +105,15 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
                         text = stringResource(id = R.string.text_correct),
                         modifier = Modifier.alpha(
                             if (vm.correctVisible.collectAsState().value) 1f else 0f
-                        )
+                        ),
+                        style = TextStyle(color = Color.Green),
                     )
                     Text(
                         text = stringResource(id = R.string.text_incorrect),
                         modifier = Modifier.alpha(
                             if (vm.incorrectVisible.collectAsState().value) 1f else 0f
-                        )
+                        ),
+                        style = TextStyle(color = Color.Red),
                     )
                 }
             }
@@ -204,12 +208,12 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
             }
             Text(
                 text = vm.translationString.collectAsState().value,
-                textAlign = TextAlign.Center,
             )
             TextField(
                 value = vm.wordInputString.collectAsState().value,
                 onValueChange = { vm.wordInputString.value = it },
-                modifier = Modifier.fillMaxWidth().focusRequester(focusRequester)
+                modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
+                textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center)
             )
         }
     }
