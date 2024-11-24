@@ -155,6 +155,7 @@ class WordsReviewViewModel(private val doTestAction: WordsReviewViewModel.() -> 
         } else if (!correctVisible.value && !incorrectVisible.value) {
             wordInputString.value = vmSettings.autoCorrectInput(wordInputString.value)
             wordTargetVisible.value = true
+            noteTargetVisible.value = true
             if (wordInputString.value == currentWord)
                 correctVisible.value = true
             else
