@@ -2,6 +2,7 @@ package com.zwstudio.lolly.models.wpp
 
 // Generated 2014-10-12 21:44:14 by Hibernate Tools 4.3.1
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import kotlin.math.floor
@@ -12,8 +13,9 @@ data class MLangWords(
 )
 
 data class MLangWord(
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
-    @Transient var id: Int = 0,
+    var id: Int = 0,
     @SerializedName("LANGID")
     var langid: Int = 0,
     @SerializedName("WORD")

@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.models.blogs
 
 import android.os.Parcelable
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
@@ -13,8 +14,9 @@ data class MLangBlogGroups(
 
 @Parcelize
 data class MLangBlogGroup(
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
-    @Transient var id: Int = 0,
+    var id: Int = 0,
     @SerializedName("LANGID")
     var langid: Int = 0,
     @SerializedName("NAME")

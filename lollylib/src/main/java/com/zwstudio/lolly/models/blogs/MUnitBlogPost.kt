@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.models.blogs
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -9,8 +10,9 @@ class MUnitBlogPosts(
 )
 
 data class MUnitBlogPost(
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
-    @Transient var id: Int = 0,
+    var id: Int = 0,
     @SerializedName("TEXTBOOKID")
     var textbookid: Int = 0,
     @SerializedName("UNIT")
