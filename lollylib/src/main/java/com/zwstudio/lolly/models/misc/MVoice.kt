@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class MVoices(
     @SerializedName("records")
-    var lst: List<MVoice>? = null
+    var lst: List<MVoice> = emptyList()
 )
 
 data class MVoice(

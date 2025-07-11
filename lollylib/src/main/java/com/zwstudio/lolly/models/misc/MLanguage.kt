@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class MLanguages(
     @SerializedName("records")
-    var lst: List<MLanguage>? = null
+    var lst: List<MLanguage> = emptyList()
 )
 
 data class MLanguage(

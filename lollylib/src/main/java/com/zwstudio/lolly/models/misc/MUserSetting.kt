@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class MUserSettings(
     @SerializedName("records")
-    var lst: List<MUserSetting>? = null
+    var lst: List<MUserSetting> = emptyList()
 )
 
 data class MUserSetting(

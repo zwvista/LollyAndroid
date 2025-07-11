@@ -5,7 +5,7 @@ import java.io.Serializable
 
 class MUnitBlogPosts(
     @SerializedName("records")
-    var lst: List<MUnitBlogPost>? = null
+    var lst: List<MUnitBlogPost> = emptyList()
 )
 
 data class MUnitBlogPost(
