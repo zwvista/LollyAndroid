@@ -10,7 +10,7 @@ data class MPatternWebPages(
 
 data class MPatternWebPage(
     @SerializedName("ID")
-    var id: Int = 0,
+    @Transient var id: Int = 0,
     @SerializedName("PATTERNID")
     var patternid: Int = 0,
     @SerializedName("LANGID")

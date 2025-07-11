@@ -10,7 +10,7 @@ data class MLangBlogsContent(
 
 data class MLangBlogPostContent(
     @SerializedName("ID")
-    var id: Int = 0,
+    @Transient var id: Int = 0,
     @SerializedName("TITLE")
     var title: String = "",
     @SerializedName("CONTENT")

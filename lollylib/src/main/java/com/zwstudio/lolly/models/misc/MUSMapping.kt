@@ -10,7 +10,7 @@ data class MUSMappings(
 
 data class MUSMapping(
     @SerializedName("ID")
-    var id: Int = 0,
+    @Transient var id: Int = 0,
     @SerializedName("NAME")
     var name: String = "",
     @SerializedName("KIND")

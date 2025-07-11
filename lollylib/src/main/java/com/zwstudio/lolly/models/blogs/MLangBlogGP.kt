@@ -10,7 +10,7 @@ data class MLangBlogGPs(
 
 data class MLangBlogGP(
     @SerializedName("ID")
-    var id: Int = 0,
+    @Transient var id: Int = 0,
     @SerializedName("GROUPID")
     var groupid: Int = 0,
     @SerializedName("POSTID")

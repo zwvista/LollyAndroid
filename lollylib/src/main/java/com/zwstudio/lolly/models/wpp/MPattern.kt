@@ -13,7 +13,7 @@ data class MPatterns(
 @Parcelize
 data class MPattern(
     @SerializedName("ID")
-    var id: Int = 0,
+    @Transient var id: Int = 0,
     @SerializedName("LANGID")
     var langid: Int = 0,
     @SerializedName("PATTERN")

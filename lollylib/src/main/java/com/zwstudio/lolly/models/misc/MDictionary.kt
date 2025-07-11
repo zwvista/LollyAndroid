@@ -14,7 +14,7 @@ data class MDictionaries(
 
 data class MDictionary(
     @SerializedName("ID")
-    var id: Int = 0,
+    @Transient var id: Int = 0,
     @SerializedName("DICTID")
     var dictid: Int = 0,
     @SerializedName("LANGIDFROM")
