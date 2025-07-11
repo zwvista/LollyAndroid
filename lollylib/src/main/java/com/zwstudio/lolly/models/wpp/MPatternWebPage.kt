@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.models.wpp
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -9,8 +10,9 @@ data class MPatternWebPages(
 )
 
 data class MPatternWebPage(
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
-    @Transient var id: Int = 0,
+    var id: Int = 0,
     @SerializedName("PATTERNID")
     var patternid: Int = 0,
     @SerializedName("LANGID")

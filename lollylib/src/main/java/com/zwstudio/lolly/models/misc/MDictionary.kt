@@ -3,6 +3,7 @@ package com.zwstudio.lolly.models.misc
 // Generated 2014-10-12 21:44:14 by Hibernate Tools 4.3.1
 
 import android.util.Log
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.net.URLEncoder
@@ -13,8 +14,9 @@ data class MDictionaries(
 )
 
 data class MDictionary(
+    @Expose(serialize = false, deserialize = true)
     @SerializedName("ID")
-    @Transient var id: Int = 0,
+    var id: Int = 0,
     @SerializedName("DICTID")
     var dictid: Int = 0,
     @SerializedName("LANGIDFROM")
