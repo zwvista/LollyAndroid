@@ -10,7 +10,7 @@ class MUnitBlogPosts(
 
 data class MUnitBlogPost(
     @SerializedName("ID")
-    var id: Int = 0,
+    @Transient var id: Int = 0,
     @SerializedName("TEXTBOOKID")
     var textbookid: Int = 0,
     @SerializedName("UNIT")

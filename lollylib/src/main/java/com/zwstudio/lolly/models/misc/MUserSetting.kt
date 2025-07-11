@@ -11,7 +11,7 @@ data class MUserSettings(
 data class MUserSetting(
 
     @SerializedName("ID")
-    var id: Int = 0,
+    @Transient var id: Int = 0,
     @SerializedName("USERID")
     var userid: String = "",
     @SerializedName("KIND")

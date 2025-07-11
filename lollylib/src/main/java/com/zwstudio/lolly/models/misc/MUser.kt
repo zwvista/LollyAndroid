@@ -10,7 +10,7 @@ data class MUsers(
 
 data class MUser(
     @SerializedName("ID")
-    var id: Int = 0,
+    @Transient var id: Int = 0,
     @SerializedName("USERID")
     var userid: String = "",
     @SerializedName("USERNAME")

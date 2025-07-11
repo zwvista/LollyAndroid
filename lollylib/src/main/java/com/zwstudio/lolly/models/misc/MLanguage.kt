@@ -10,7 +10,7 @@ data class MLanguages(
 
 data class MLanguage(
     @SerializedName("ID")
-    var id: Int = 0,
+    @Transient var id: Int = 0,
     @SerializedName("NAME")
     var langname: String = "",
 ) : Serializable

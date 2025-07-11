@@ -10,7 +10,7 @@ data class MAutoCorrects(
 
 data class MAutoCorrect(
     @SerializedName("ID")
-    var id: Int = 0,
+    @Transient var id: Int = 0,
     @SerializedName("LANGID")
     var langid: Int = 0,
     @SerializedName("SEQNUM")
