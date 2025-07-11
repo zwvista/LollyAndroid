@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class MPatternWebPages(
     @SerializedName("records")
-    var lst: List<MPatternWebPage>? = null
+    var lst: List<MPatternWebPage> = emptyList()
 )
 
 data class MPatternWebPage(

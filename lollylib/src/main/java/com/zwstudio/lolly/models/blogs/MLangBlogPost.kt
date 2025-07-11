@@ -8,7 +8,7 @@ import java.io.Serializable
 
 data class MLangBlogPosts(
     @SerializedName("records")
-    var lst: List<MLangBlogPost>? = null
+    var lst: List<MLangBlogPost> = emptyList()
 )
 
 @Parcelize

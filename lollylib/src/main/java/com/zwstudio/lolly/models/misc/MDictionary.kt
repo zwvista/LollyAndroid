@@ -9,7 +9,7 @@ import java.net.URLEncoder
 
 data class MDictionaries(
     @SerializedName("records")
-    var lst: List<MDictionary>? = null
+    var lst: List<MDictionary> = emptyList()
 )
 
 data class MDictionary(

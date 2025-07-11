@@ -9,7 +9,7 @@ import java.io.Serializable
 
 data class MUnitPhrases(
     @SerializedName("records")
-    var lst: List<MUnitPhrase>? = null
+    var lst: List<MUnitPhrase> = emptyList()
 )
 
 @Parcelize

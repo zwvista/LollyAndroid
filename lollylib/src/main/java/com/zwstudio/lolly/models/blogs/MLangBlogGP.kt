@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class MLangBlogGPs(
     @SerializedName("records")
-    var lst: List<MLangBlogGP>? = null
+    var lst: List<MLangBlogGP> = emptyList()
 )
 
 data class MLangBlogGP(

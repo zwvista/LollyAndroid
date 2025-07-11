@@ -10,7 +10,7 @@ import kotlin.math.floor
 
 data class MUnitWords(
     @SerializedName("records")
-    var lst: List<MUnitWord>? = null
+    var lst: List<MUnitWord> = emptyList()
 )
 
 @Parcelize

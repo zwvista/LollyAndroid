@@ -8,7 +8,7 @@ import kotlin.math.floor
 
 data class MLangWords(
     @SerializedName("records")
-    var lst: List<MLangWord>? = null
+    var lst: List<MLangWord> = emptyList()
 )
 
 data class MLangWord(

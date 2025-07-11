@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class MUSMappings(
     @SerializedName("records")
-    var lst: List<MUSMapping>? = null
+    var lst: List<MUSMapping> = emptyList()
 )
 
 data class MUSMapping(

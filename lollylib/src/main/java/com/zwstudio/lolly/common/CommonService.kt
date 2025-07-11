@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import com.zwstudio.lolly.services.blogs.UnitBlogPostService
 import com.zwstudio.lolly.services.misc.AutoCorrectService
 import com.zwstudio.lolly.services.misc.DictionaryService
@@ -218,4 +219,8 @@ fun getPreferredRangeFromArray(
         }
     }
     return Pair(start, end)
+}
+
+fun Any.logDebug(message: String) {
+    Log.d(this::class.java.simpleName, message)
 }

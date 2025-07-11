@@ -7,7 +7,7 @@ import java.io.Serializable
 
 data class MOnlineTextbooks(
     @SerializedName("records")
-    var lst: List<MOnlineTextbook>? = null
+    var lst: List<MOnlineTextbook> = emptyList()
 )
 
 @Parcelize

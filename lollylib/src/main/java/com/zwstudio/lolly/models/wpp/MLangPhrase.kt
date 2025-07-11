@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class MLangPhrases(
     @SerializedName("records")
-    var lst: List<MLangPhrase>? = null
+    var lst: List<MLangPhrase> = emptyList()
 )
 
 data class MLangPhrase(

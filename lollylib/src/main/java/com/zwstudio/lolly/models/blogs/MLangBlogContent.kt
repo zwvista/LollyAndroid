@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class MLangBlogsContent(
     @SerializedName("records")
-    var lst: List<MLangBlogPostContent>? = null
+    var lst: List<MLangBlogPostContent> = emptyList()
 )
 
 data class MLangBlogPostContent(

@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class MUsers(
     @SerializedName("records")
-    var lst: List<MUser>? = null
+    var lst: List<MUser> = emptyList()
 )
 
 data class MUser(

@@ -7,7 +7,7 @@ import java.io.Serializable
 
 data class MTextbooks(
     @SerializedName("records")
-    var lst: List<MTextbook>? = null
+    var lst: List<MTextbook> = emptyList()
 )
 
 data class MTextbook(

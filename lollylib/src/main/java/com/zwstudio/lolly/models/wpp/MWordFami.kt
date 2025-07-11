@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class MWordsFami(
     @SerializedName("records")
-    var lst: List<MWordFami>? = null
+    var lst: List<MWordFami> = emptyList()
 )
 
 data class MWordFami(

@@ -7,7 +7,7 @@ import java.io.Serializable
 
 data class MPatterns(
     @SerializedName("records")
-    var lst: List<MPattern>? = null
+    var lst: List<MPattern> = emptyList()
 )
 
 @Parcelize

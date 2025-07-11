@@ -5,7 +5,7 @@ import java.io.Serializable
 
 data class MAutoCorrects(
     @SerializedName("records")
-    var lst: List<MAutoCorrect>? = null
+    var lst: List<MAutoCorrect> = emptyList()
 )
 
 data class MAutoCorrect(
