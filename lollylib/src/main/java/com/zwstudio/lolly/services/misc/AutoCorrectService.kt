@@ -10,7 +10,6 @@ class AutoCorrectService {
     private val api = retrofitJson.create(RestAutoCorrect::class.java)
 
     suspend fun getDataByLang(langid: Int): List<MAutoCorrect> = withContext(Dispatchers.IO) {
-        api.getDataByLang("LANGID,eq,$langid")
-            .lst!!
+        api.getDataByLang("LANGID,eq,$langid").lst
     }
 }

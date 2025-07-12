@@ -11,10 +11,12 @@ class LangBlogPostContentService {
     private val api = retrofitJson.create(RestLangBlogPostContent::class.java)
 
     suspend fun getDataById(id: Int): MLangBlogPostContent? = withContext(Dispatchers.IO) {
-        api.getDataById("ID,eq,$id").lst.firstOrNull()
+        api.getDataById("ID,eq,$id")
+            .lst.firstOrNull()
     }
 
     suspend fun update(item: MLangBlogPostContent) = withContext(Dispatchers.IO) {
-        api.update(item.id, item).let { logDebug("Updated content ID=${item.id}, result=$it") }
+        api.update(item.id, item)
+            .let { logDebug("Updated item ID=${item.id}, result=$it") }
     }
 }

@@ -10,22 +10,18 @@ class DictionaryService {
     private val api = retrofitJson.create(RestDictionary::class.java)
 
     suspend fun getDictsByLang(langid: Int): List<MDictionary> = withContext(Dispatchers.IO) {
-        api.getDictsByLang("LANGIDFROM,eq,$langid")
-            .lst!!
+        api.getDictsByLang("LANGIDFROM,eq,$langid").lst
     }
 
     suspend fun getDictsReferenceByLang(langid: Int): List<MDictionary> = withContext(Dispatchers.IO) {
-        api.getDictsReferenceByLang("LANGIDFROM,eq,$langid")
-            .lst!!
+        api.getDictsReferenceByLang("LANGIDFROM,eq,$langid").lst
     }
 
     suspend fun getDictsNoteByLang(langid: Int): List<MDictionary> = withContext(Dispatchers.IO) {
-        api.getDictsNoteByLang("LANGIDFROM,eq,$langid")
-            .lst!!
+        api.getDictsNoteByLang("LANGIDFROM,eq,$langid").lst
     }
 
     suspend fun getDictsTranslationByLang(langid: Int): List<MDictionary> = withContext(Dispatchers.IO) {
-        api.getDictsTranslationByLang("LANGIDFROM,eq,$langid")
-            .lst!!
+        api.getDictsTranslationByLang("LANGIDFROM,eq,$langid").lst
     }
 }

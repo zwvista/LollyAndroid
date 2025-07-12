@@ -11,14 +11,17 @@ class LangBlogGPService {
     private val api = retrofitJson.create(RestLangBlogGP::class.java)
 
     suspend fun create(item: MLangBlogGP): Int = withContext(Dispatchers.IO) {
-        api.create(item).also { logDebug("Created GP: result=$it") }
+        api.create(item)
+            .also { logDebug("Created new item: result=$it") }
     }
 
     suspend fun update(item: MLangBlogGP) = withContext(Dispatchers.IO) {
-        api.update(item.id, item).let { logDebug("Updated GP ID=${item.id}, result=$it") }
+        api.update(item.id, item)
+            .let { logDebug("Updated item ID=${item.id}, result=$it") }
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        api.delete(id).let { logDebug("Deleted GP ID=$id, result=$it") }
+        api.delete(id)
+            .let { logDebug("Deleted item ID=$id, result=$it") }
     }
 }

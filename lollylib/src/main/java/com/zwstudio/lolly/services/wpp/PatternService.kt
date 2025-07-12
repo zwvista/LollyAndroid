@@ -11,13 +11,11 @@ class PatternService {
     private val api = retrofitJson.create(RestPattern::class.java)
 
     suspend fun getDataByLang(langid: Int): List<MPattern> = withContext(Dispatchers.IO) {
-        api.getDataByLang("LANGID,eq,$langid")
-            .lst!!
+        api.getDataByLang("LANGID,eq,$langid").lst
     }
 
     suspend fun getDataById(id: Int): List<MPattern> = withContext(Dispatchers.IO) {
-        api.getDataById("ID,eq,$id")
-            .lst!!
+        api.getDataById("ID,eq,$id").lst
     }
 
     suspend fun updateNote(id: Int, note: String) = withContext(Dispatchers.IO) {

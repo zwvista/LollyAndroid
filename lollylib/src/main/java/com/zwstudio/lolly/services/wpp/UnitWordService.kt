@@ -15,7 +15,7 @@ class UnitWordService {
     suspend fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): List<MUnitWord> = withContext(Dispatchers.IO) {
         api.getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",
                 "UNITPART,bt,$unitPartFrom,$unitPartTo")
-            .lst!!.also {
+            .lst.also {
                 for (o in it)
                     o.textbook = textbook
             }
@@ -23,7 +23,7 @@ class UnitWordService {
 
     suspend fun getDataByTextbook(textbook: MTextbook): List<MUnitWord> = withContext(Dispatchers.IO) {
         api.getDataByTextbook("TEXTBOOKID,eq,${textbook.id}")
-            .lst!!.distinctBy { it.wordid }.also {
+            .lst.distinctBy { it.wordid }.also {
                 for (o in it)
                     o.textbook = textbook
             }
@@ -31,7 +31,7 @@ class UnitWordService {
 
     suspend fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): List<MUnitWord> = withContext(Dispatchers.IO) {
         api.getDataByLang("LANGID,eq,$langid")
-            .lst!!.also {
+            .lst.also {
                 for (o in it)
                     o.textbook = lstTextbooks.first { it.id == o.textbookid }
             }
@@ -39,7 +39,7 @@ class UnitWordService {
 
     suspend fun getDataByLangWord(langid: Int, word: String, lstTextbooks: List<MTextbook>): List<MUnitWord> = withContext(Dispatchers.IO) {
         api.getDataByLangWord("LANGID,eq,$langid", "WORD,eq,$word")
-            .lst!!.also {
+            .lst.also {
                 for (o in it)
                     o.textbook = lstTextbooks.first { it.id == o.textbookid }
             }

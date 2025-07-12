@@ -8,7 +8,5 @@ class UserService {
     private val api = retrofitJson.create(RestUser::class.java)
 
     suspend fun getData(username: String, password: String): List<MUser> =
-        retrofitJson.create(RestUser::class.java)
-            .getData("USERNAME,eq,$username", "PASSWORD,eq,$password")
-            .let { it.lst!! }
+        api.getData("USERNAME,eq,$username", "PASSWORD,eq,$password").lst
 }

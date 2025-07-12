@@ -12,8 +12,7 @@ class WordFamiService {
     private val api = retrofitJson.create(RestWordFami::class.java)
 
     private suspend fun getDataByWord(wordid: Int): List<MWordFami> = withContext(Dispatchers.IO) {
-        api.getDataByUserWord("USERID,eq,${GlobalUserViewModel.userid}", "WORDID,eq,$wordid")
-            .lst!!
+        api.getDataByUserWord("USERID,eq,${GlobalUserViewModel.userid}", "WORDID,eq,$wordid").lst
     }
 
     private suspend fun update(o: MWordFami) = withContext(Dispatchers.IO) {

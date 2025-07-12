@@ -13,8 +13,7 @@ class UserSettingService {
     private val api = retrofitJson.create(RestUserSetting::class.java)
 
     suspend fun getData(): List<MUserSetting> = withContext(Dispatchers.IO) {
-        api.getDataByUser("USERID,eq,${GlobalUserViewModel.userid}")
-            .lst!!
+        api.getDataByUser("USERID,eq,${GlobalUserViewModel.userid}").lst
     }
 
     suspend fun update(info: MUserSettingInfo, v: Int): Int = withContext(Dispatchers.IO) {

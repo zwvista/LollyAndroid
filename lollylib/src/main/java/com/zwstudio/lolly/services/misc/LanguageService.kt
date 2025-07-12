@@ -10,7 +10,6 @@ class LanguageService {
     private val api = retrofitJson.create(RestLanguage::class.java)
 
     suspend fun getData(): List<MLanguage> = withContext(Dispatchers.IO) {
-        api.getData()
-            .lst!!
+        api.getData().lst
     }
 }

@@ -16,11 +16,13 @@ class UnitBlogPostService {
     }
 
     private suspend fun update(item: MUnitBlogPost) = withContext(Dispatchers.IO) {
-        api.update(item.id, item).let { logDebug("Updated ID=${item.id}, result=$it") }
+        api.update(item.id, item)
+            .let { logDebug("Updated item ID=${item.id}, result=$it") }
     }
 
     private suspend fun create(item: MUnitBlogPost): Int = withContext(Dispatchers.IO) {
-        api.create(item).also { logDebug("Created new item, result=$it") }
+        api.create(item)
+            .also { logDebug("Created new item, result=$it") }
     }
 
     suspend fun update(textbookid: Int, unit: Int, content: String) {

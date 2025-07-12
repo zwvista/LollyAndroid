@@ -10,7 +10,6 @@ class OnlineTextbookService {
     private val api = retrofitJson.create(RestOnlineTextbook::class.java)
 
     suspend fun getDataByLang(langid: Int): List<MOnlineTextbook> = withContext(Dispatchers.IO) {
-        api.getDataByLang("LANGID,eq,$langid")
-            .lst!!
+        api.getDataByLang("LANGID,eq,$langid").lst
     }
 }

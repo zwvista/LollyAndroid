@@ -12,8 +12,7 @@ class LangPhraseService {
     private val api = retrofitJson.create(RestLangPhrase::class.java)
 
     suspend fun getDataByLang(langid: Int): List<MLangPhrase> = withContext(Dispatchers.IO) {
-        api.getDataByLang("LANGID,eq,$langid")
-            .lst
+        api.getDataByLang("LANGID,eq,$langid").lst
     }
 
     suspend fun updateTranslation(id: Int, translation: String?) = withContext(Dispatchers.IO) {

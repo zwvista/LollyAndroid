@@ -10,7 +10,6 @@ class USMappingService {
     private val api = retrofitJson.create(RestUSMapping::class.java)
 
     suspend fun getData(): List<MUSMapping> = withContext(Dispatchers.IO) {
-        api.getData()
-            .lst!!
+        api.getData().lst
     }
 }

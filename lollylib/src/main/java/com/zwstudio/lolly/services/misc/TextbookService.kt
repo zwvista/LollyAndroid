@@ -29,9 +29,8 @@ class TextbookService {
                 return m.groupValues[1].split(",")
             return listOf()
         }
-        retrofitJson.create(RestTextbook::class.java)
-            .getDataByLang("LANGID,eq,$langid")
-            .lst!!.also {
+        api.getDataByLang("LANGID,eq,$langid")
+            .lst.also {
                 for (o in it) {
                     o.lstUnits = f(o.units).mapIndexed { index, s -> MSelectItem(index + 1, s) }
                     o.lstParts = o.parts.split(",").mapIndexed { index, s -> MSelectItem(index + 1, s) }

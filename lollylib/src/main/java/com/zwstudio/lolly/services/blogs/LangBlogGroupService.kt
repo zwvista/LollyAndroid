@@ -29,14 +29,17 @@ class LangBlogGroupService {
     }
 
     suspend fun create(item: MLangBlogGroup): Int = withContext(Dispatchers.IO) {
-        api.create(item).also { logDebug("Created group, result=$it") }
+        api.create(item)
+            .also { logDebug("Created new item, result=$it") }
     }
 
     suspend fun update(item: MLangBlogGroup) = withContext(Dispatchers.IO) {
-        api.update(item.id, item).let { logDebug("Updated group ${item.id}, result=$it") }
+        api.update(item.id, item)
+            .let { logDebug("Updated item ${item.id}, result=$it") }
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        api.delete(id).let { logDebug("Deleted group $id, result=$it") }
+        api.delete(id)
+            .let { logDebug("Deleted item $id, result=$it") }
     }
 }

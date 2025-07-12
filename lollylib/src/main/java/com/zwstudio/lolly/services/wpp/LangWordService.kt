@@ -11,8 +11,7 @@ class LangWordService {
     private val api = retrofitJson.create(RestLangWord::class.java)
 
     suspend fun getDataByLang(langid: Int): List<MLangWord> = withContext(Dispatchers.IO) {
-        api.getDataByLang("LANGID,eq,$langid")
-            .lst!!
+        api.getDataByLang("LANGID,eq,$langid").lst
     }
 
     suspend fun updateNote(id: Int, note: String?) = withContext(Dispatchers.IO) {

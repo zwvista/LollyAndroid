@@ -12,18 +12,21 @@ class LangBlogPostService {
     private val api = retrofitJson.create(RestLangBlogPost::class.java)
 
     suspend fun getDataByLang(langid: Int): List<MLangBlogPost> = withContext(Dispatchers.IO) {
-        api.getDataByLang("LANGID,eq,$langid").lst ?: emptyList()
+        api.getDataByLang("LANGID,eq,$langid").lst
     }
 
     suspend fun update(item: MLangBlogPost) = withContext(Dispatchers.IO) {
-        api.update(item.id, item).let { logDebug("Updated ID=${item.id}, result=$it") }
+        api.update(item.id, item)
+            .let { logDebug("Updated item ID=${item.id}, result=$it") }
     }
 
     suspend fun create(item: MLangBlogPost) = withContext(Dispatchers.IO) {
-        api.create(item).also { logDebug("Created new item, result=$it") }
+        api.create(item)
+            .also { logDebug("Created new item, result=$it") }
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        api.delete(id).let { logDebug("Deleted ID=$id, result=$it") }
+        api.delete(id)
+            .let { logDebug("Deleted ID=$id, result=$it") }
     }
 }

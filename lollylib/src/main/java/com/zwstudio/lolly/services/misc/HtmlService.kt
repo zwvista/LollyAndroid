@@ -7,11 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class HtmlService {
-    private val api = retrofitJson.create(RestHtml::class.java)
+    private val api = retrofitHtml.create(RestHtml::class.java)
 
     // https://futurestud.io/tutorials/retrofit-2-receive-plain-string-responses
     suspend fun getHtml(url: String): String = withContext(Dispatchers.IO) {
-        retrofitHtml.create(RestHtml::class.java)
-            .getStringResponse(url)
+        api.getStringResponse(url)
     }
 }
