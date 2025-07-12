@@ -1,6 +1,7 @@
 package com.zwstudio.lolly.restapi.blogs
 
 import com.zwstudio.lolly.models.blogs.MLangBlogGP
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.POST
@@ -9,11 +10,11 @@ import retrofit2.http.Path
 
 interface RestLangBlogGP {
     @POST("LANGBLOGGP")
-    suspend fun create(@Body item: MLangBlogGP): Int
+    fun create(@Body item: MLangBlogGP): Single<Int>
 
     @PUT("LANGBLOGGP/{id}")
-    suspend fun update(@Path("id") id: Int, @Body item: MLangBlogGP): Int
+    fun update(@Path("id") id: Int, @Body item: MLangBlogGP): Single<Int>
 
     @DELETE("LANGBLOGGP/{id}")
-    suspend fun delete(@Path("id") id: Int): Int
+    fun delete(@Path("id") id: Int): Single<Int>
 }

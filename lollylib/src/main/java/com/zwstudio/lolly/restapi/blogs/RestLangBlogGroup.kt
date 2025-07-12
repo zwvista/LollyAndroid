@@ -1,27 +1,34 @@
 package com.zwstudio.lolly.restapi.blogs
 
+import com.zwstudio.lolly.models.blogs.MLangBlogGPs
 import com.zwstudio.lolly.models.blogs.MLangBlogGroup
 import com.zwstudio.lolly.models.blogs.MLangBlogGroups
-import com.zwstudio.lolly.models.blogs.MLangBlogGPs
-import retrofit2.http.*
+import io.reactivex.rxjava3.core.Single
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface RestLangBlogGroup {
     @GET("LANGBLOGGROUPS")
-    suspend fun getDataByLang(@Query("filter") filter: String, @Query("order") order: String): MLangBlogGroups
+    fun getDataByLang(@Query("filter") filter: String, @Query("order") order: String): Single<MLangBlogGroups>
 
     @GET("VLANGBLOGGP")
-    suspend fun getDataByLangPost(
+    fun getDataByLangPost(
         @Query("filter") filter1: String,
         @Query("filter") filter2: String,
         @Query("order") order: String
-    ): MLangBlogGPs
+    ): Single<MLangBlogGPs>
 
     @POST("LANGBLOGGROUPS")
-    suspend fun create(@Body item: MLangBlogGroup): Int
+    fun create(@Body item: MLangBlogGroup): Single<Int>
 
     @PUT("LANGBLOGGROUPS/{id}")
-    suspend fun update(@Path("id") id: Int, @Body item: MLangBlogGroup): Int
+    fun update(@Path("id") id: Int, @Body item: MLangBlogGroup): Single<Int>
 
     @DELETE("LANGBLOGGROUPS/{id}")
-    suspend fun delete(@Path("id") id: Int): Int
+    fun delete(@Path("id") id: Int): Single<Int>
 }

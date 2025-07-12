@@ -6,8 +6,9 @@ import com.zwstudio.lolly.restapi.misc.RestOnlineTextbook
 import io.reactivex.rxjava3.core.Single
 
 class OnlineTextbookService {
+    private val api = retrofitJson.create(RestOnlineTextbook::class.java)
+
     fun getDataByLang(langid: Int): Single<List<MOnlineTextbook>> =
-        retrofitJson.create(RestOnlineTextbook::class.java)
-            .getDataByLang("LANGID,eq,$langid")
-            .map { it.lst!! }
+        api.getDataByLang("LANGID,eq,$langid")
+            .map { it.lst }
 }

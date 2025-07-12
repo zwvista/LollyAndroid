@@ -6,8 +6,9 @@ import com.zwstudio.lolly.restapi.misc.RestUSMapping
 import io.reactivex.rxjava3.core.Single
 
 class USMappingService {
+    private val api = retrofitJson.create(RestUSMapping::class.java)
+
     fun getData(): Single<List<MUSMapping>> =
-        retrofitJson.create(RestUSMapping::class.java)
-            .getData()
-            .map { it.lst!! }
+        api.getData()
+            .map { it.lst }
 }

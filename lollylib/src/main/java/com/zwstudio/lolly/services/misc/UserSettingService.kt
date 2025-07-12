@@ -10,27 +10,24 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 class UserSettingService {
+    private val api = retrofitJson.create(RestUserSetting::class.java)
+
     fun getData(): Single<List<MUserSetting>> =
-        retrofitJson.create(RestUserSetting::class.java)
-            .getDataByUser("USERID,eq,${GlobalUserViewModel.userid}")
-            .map { it.lst!! }
+        api.getDataByUser("USERID,eq,${GlobalUserViewModel.userid}")
+            .map { it.lst }
 
     fun update(info: MUserSettingInfo, v: Int): Completable =
         update(info, v.toString())
 
     fun update(info: MUserSettingInfo, v: String): Completable =
         (when (info.valueid) {
-            1 -> retrofitJson.create(RestUserSetting::class.java)
-                .updateValue1(info.usersettingid, v)
+            1 -> api.updateValue1(info.usersettingid, v)
                 .map { Log.d("API Result", it.toString()) }
-            2 -> retrofitJson.create(RestUserSetting::class.java)
-                .updateValue2(info.usersettingid, v)
+            2 -> api.updateValue2(info.usersettingid, v)
                 .map { Log.d("API Result", it.toString()) }
-            3 -> retrofitJson.create(RestUserSetting::class.java)
-                .updateValue3(info.usersettingid, v)
+            3 -> api.updateValue3(info.usersettingid, v)
                 .map { Log.d("API Result", it.toString()) }
-            4 -> retrofitJson.create(RestUserSetting::class.java)
-                .updateValue4(info.usersettingid, v)
+            4 -> api.updateValue4(info.usersettingid, v)
                 .map { Log.d("API Result", it.toString()) }
             else -> Single.just(0)
         }).flatMapCompletable { Completable.complete() }

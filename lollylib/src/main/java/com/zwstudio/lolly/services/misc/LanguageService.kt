@@ -6,8 +6,9 @@ import com.zwstudio.lolly.restapi.misc.RestLanguage
 import io.reactivex.rxjava3.core.Single
 
 class LanguageService {
+    private val api = retrofitJson.create(RestLanguage::class.java)
+
     fun getData(): Single<List<MLanguage>> =
-        retrofitJson.create(RestLanguage::class.java)
-            .getData()
-            .map { it.lst!!}
+        api.getData()
+            .map { it.lst }
 }

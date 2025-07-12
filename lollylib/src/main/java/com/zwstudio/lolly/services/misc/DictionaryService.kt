@@ -6,23 +6,21 @@ import com.zwstudio.lolly.restapi.misc.RestDictionary
 import io.reactivex.rxjava3.core.Single
 
 class DictionaryService {
+    private val api = retrofitJson.create(RestDictionary::class.java)
+
     fun getDictsByLang(langid: Int): Single<List<MDictionary>> =
-        retrofitJson.create(RestDictionary::class.java)
-            .getDictsByLang("LANGIDFROM,eq,$langid")
-            .map { it.lst!! }
+        api.getDictsByLang("LANGIDFROM,eq,$langid")
+            .map { it.lst }
 
     fun getDictsReferenceByLang(langid: Int): Single<List<MDictionary>> =
-        retrofitJson.create(RestDictionary::class.java)
-            .getDictsReferenceByLang("LANGIDFROM,eq,$langid")
-            .map { it.lst!! }
+        api.getDictsReferenceByLang("LANGIDFROM,eq,$langid")
+            .map { it.lst }
 
     fun getDictsNoteByLang(langid: Int): Single<List<MDictionary>> =
-        retrofitJson.create(RestDictionary::class.java)
-            .getDictsNoteByLang("LANGIDFROM,eq,$langid")
-            .map { it.lst!! }
+        api.getDictsNoteByLang("LANGIDFROM,eq,$langid")
+            .map { it.lst }
 
     fun getDictsTranslationByLang(langid: Int): Single<List<MDictionary>> =
-        retrofitJson.create(RestDictionary::class.java)
-            .getDictsTranslationByLang("LANGIDFROM,eq,$langid")
-            .map { it.lst!! }
+        api.getDictsTranslationByLang("LANGIDFROM,eq,$langid")
+            .map { it.lst }
 }

@@ -7,6 +7,8 @@ import com.zwstudio.lolly.restapi.misc.RestTextbook
 import io.reactivex.rxjava3.core.Single
 
 class TextbookService {
+    private val api = retrofitJson.create(RestTextbook::class.java)
+
     fun getDataByLang(langid: Int): Single<List<MTextbook>> {
         fun f(unitsString: String): List<String> {
             var m = Regex("""UNITS,(\d+)""").find(unitsString)
@@ -26,10 +28,9 @@ class TextbookService {
                 return m.groupValues[1].split(",")
             return listOf()
         }
-        return retrofitJson.create(RestTextbook::class.java)
-            .getDataByLang("LANGID,eq,$langid")
+        return api.getDataByLang("LANGID,eq,$langid")
             .map {
-                val lst = it.lst!!
+                val lst = it.lst
                 for (o in lst) {
                     o.lstUnits = f(o.units).mapIndexed { index, s -> MSelectItem(index + 1, s) }
                     o.lstParts = o.parts.split(",").mapIndexed { index, s -> MSelectItem(index + 1, s) }

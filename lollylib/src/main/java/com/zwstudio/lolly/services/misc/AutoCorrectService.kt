@@ -6,8 +6,9 @@ import com.zwstudio.lolly.restapi.misc.RestAutoCorrect
 import io.reactivex.rxjava3.core.Single
 
 class AutoCorrectService {
+    private val api = retrofitJson.create(RestAutoCorrect::class.java)
+
     fun getDataByLang(langid: Int): Single<List<MAutoCorrect>> =
-        retrofitJson.create(RestAutoCorrect::class.java)
-            .getDataByLang("LANGID,eq,$langid")
-            .map { it.lst!! }
+        api.getDataByLang("LANGID,eq,$langid")
+            .map { it.lst }
 }

@@ -6,8 +6,9 @@ import com.zwstudio.lolly.restapi.misc.RestUser
 import io.reactivex.rxjava3.core.Single
 
 class UserService {
+    private val api = retrofitJson.create(RestUser::class.java)
+
     fun getData(username: String, password: String): Single<List<MUser>> =
-        retrofitJson.create(RestUser::class.java)
-            .getData("USERNAME,eq,$username", "PASSWORD,eq,$password")
-            .map { it.lst!! }
+        api.getData("USERNAME,eq,$username", "PASSWORD,eq,$password")
+            .map { it.lst }
 }

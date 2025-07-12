@@ -2,18 +2,25 @@ package com.zwstudio.lolly.restapi.blogs
 
 import com.zwstudio.lolly.models.blogs.MLangBlogPost
 import com.zwstudio.lolly.models.blogs.MLangBlogPosts
-import retrofit2.http.*
+import io.reactivex.rxjava3.core.Single
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface RestLangBlogPost {
     @GET("LANGBLOGPOSTS")
-    suspend fun getDataByLang(@Query("filter") filter: String): MLangBlogPosts
+    fun getDataByLang(@Query("filter") filter: String): Single<MLangBlogPosts>
 
     @PUT("LANGBLOGPOSTS/{id}")
-    suspend fun update(@Path("id") id: Int, @Body item: MLangBlogPost): Int
+    fun update(@Path("id") id: Int, @Body item: MLangBlogPost): Single<Int>
 
     @POST("LANGBLOGPOSTS")
-    suspend fun create(@Body item: MLangBlogPost): Int
+    fun create(@Body item: MLangBlogPost): Single<Int>
 
     @DELETE("LANGBLOGPOSTS/{id}")
-    suspend fun delete(@Path("id") id: Int): Int
+    fun delete(@Path("id") id: Int): Single<Int>
 }
