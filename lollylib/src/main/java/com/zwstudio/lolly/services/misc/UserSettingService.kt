@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.services.misc
 
-import android.util.Log
+import com.zwstudio.lolly.common.completeUpdate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.misc.MUserSetting
 import com.zwstudio.lolly.models.misc.MUserSettingInfo
@@ -22,13 +22,9 @@ class UserSettingService {
     fun update(info: MUserSettingInfo, v: String): Completable =
         (when (info.valueid) {
             1 -> api.updateValue1(info.usersettingid, v)
-                .map { Log.d("API Result", it.toString()) }
             2 -> api.updateValue2(info.usersettingid, v)
-                .map { Log.d("API Result", it.toString()) }
             3 -> api.updateValue3(info.usersettingid, v)
-                .map { Log.d("API Result", it.toString()) }
             4 -> api.updateValue4(info.usersettingid, v)
-                .map { Log.d("API Result", it.toString()) }
             else -> Single.just(0)
-        }).flatMapCompletable { Completable.complete() }
+        }).completeUpdate(info.usersettingid)
 }
