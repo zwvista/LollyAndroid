@@ -1,5 +1,7 @@
 package com.zwstudio.lolly.services.blogs
 
+import com.zwstudio.lolly.common.completeCreate
+import com.zwstudio.lolly.common.completeUpdate
 import com.zwstudio.lolly.common.logDebug
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.blogs.MUnitBlogPost
@@ -15,14 +17,12 @@ class UnitBlogPostService {
             .lst.firstOrNull()
     }
 
-    private suspend fun update(item: MUnitBlogPost) = withContext(Dispatchers.IO) {
-        api.update(item.id, item)
-            .let { logDebug("Updated item ID=${item.id}, result=$it") }
+    private suspend fun create(item: MUnitBlogPost) = withContext(Dispatchers.IO) {
+        api.create(item).completeCreate()
     }
 
-    private suspend fun create(item: MUnitBlogPost): Int = withContext(Dispatchers.IO) {
-        api.create(item)
-            .also { logDebug("Created new item, result=$it") }
+    private suspend fun update(item: MUnitBlogPost) = withContext(Dispatchers.IO) {
+        api.update(item.id, item).completeUpdate(item.id)
     }
 
     suspend fun update(textbookid: Int, unit: Int, content: String) {

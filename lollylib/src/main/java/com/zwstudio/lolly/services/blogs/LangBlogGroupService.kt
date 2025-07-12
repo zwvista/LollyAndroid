@@ -1,5 +1,8 @@
 package com.zwstudio.lolly.services.blogs
 
+import com.zwstudio.lolly.common.completeDelete
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.debugCreate
 import com.zwstudio.lolly.common.logDebug
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.blogs.MLangBlogGroup
@@ -15,31 +18,25 @@ class LangBlogGroupService {
     }
 
     suspend fun getDataByLangPost(langid: Int, postid: Int): List<MLangBlogGroup> = withContext(Dispatchers.IO) {
-        api.getDataByLangPost(
-            "LANGID,eq,$langid",
-            "POSTID,eq,$postid",
-            "GROUPNAME"
-        ).lst.map { o ->
-            MLangBlogGroup(
-                id = o.groupid,
-                langid = langid,
-                groupname = o.groupname,
-            ).also { it.gpid = o.id }
-        }.distinctBy { it.id }
+        api.getDataByLangPost("LANGID,eq,$langid", "POSTID,eq,$postid")
+            .lst.map { item ->
+                MLangBlogGroup(
+                    id = item.groupid,
+                    langid = langid,
+                    groupname = item.groupname,
+                ).also { it.gpid = item.id }
+            }.distinctBy { it.id }
     }
 
     suspend fun create(item: MLangBlogGroup): Int = withContext(Dispatchers.IO) {
-        api.create(item)
-            .also { logDebug("Created new item, result=$it") }
+        api.create(item).debugCreate()
     }
 
     suspend fun update(item: MLangBlogGroup) = withContext(Dispatchers.IO) {
-        api.update(item.id, item)
-            .let { logDebug("Updated item ${item.id}, result=$it") }
+        api.update(item.id, item).completeUpdate(item.id)
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        api.delete(id)
-            .let { logDebug("Deleted item $id, result=$it") }
+        api.delete(id).completeDelete()
     }
 }

@@ -9,12 +9,8 @@ interface RestLangBlogGroup {
     @GET("LANGBLOGGROUPS")
     suspend fun getDataByLang(@Query("filter") filter: String, @Query("order") order: String): MLangBlogGroups
 
-    @GET("VLANGBLOGGP")
-    suspend fun getDataByLangPost(
-        @Query("filter") filter1: String,
-        @Query("filter") filter2: String,
-        @Query("order") order: String
-    ): MLangBlogGPs
+    @GET("VLANGBLOGGP?order=GROUPNAME")
+    suspend fun getDataByLangPost(@Query("filter") vararg filters: String): MLangBlogGPs
 
     @POST("LANGBLOGGROUPS")
     suspend fun create(@Body item: MLangBlogGroup): Int

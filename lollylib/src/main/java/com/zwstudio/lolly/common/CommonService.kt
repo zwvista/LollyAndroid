@@ -202,3 +202,15 @@ fun getPreferredRangeFromArray(
 fun Any.logDebug(message: String) {
     Log.d(this::class.java.simpleName, message)
 }
+
+fun Int.debugCreate(): Int =
+    also { logDebug("Created new item, result=$this") }
+
+fun Int.completeCreate() =
+    logDebug("Created new item, result=$this")
+
+fun Any.completeUpdate(id: Int) =
+    logDebug("Updated item ID=${id}, result=$id")
+
+fun Int.completeDelete() =
+    logDebug("Deleted item, result=$this")

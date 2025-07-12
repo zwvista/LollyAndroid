@@ -1,5 +1,8 @@
 package com.zwstudio.lolly.services.blogs
 
+import com.zwstudio.lolly.common.completeDelete
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.debugCreate
 import com.zwstudio.lolly.common.logDebug
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.blogs.MLangBlogPost
@@ -15,18 +18,15 @@ class LangBlogPostService {
         api.getDataByLang("LANGID,eq,$langid").lst
     }
 
-    suspend fun update(item: MLangBlogPost) = withContext(Dispatchers.IO) {
-        api.update(item.id, item)
-            .let { logDebug("Updated item ID=${item.id}, result=$it") }
+    suspend fun create(item: MLangBlogPost) = withContext(Dispatchers.IO) {
+        api.create(item).debugCreate()
     }
 
-    suspend fun create(item: MLangBlogPost) = withContext(Dispatchers.IO) {
-        api.create(item)
-            .also { logDebug("Created new item, result=$it") }
+    suspend fun update(item: MLangBlogPost) = withContext(Dispatchers.IO) {
+        api.update(item.id, item).completeUpdate(item.id)
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        api.delete(id)
-            .let { logDebug("Deleted ID=$id, result=$it") }
+        api.delete(id).completeDelete()
     }
 }
