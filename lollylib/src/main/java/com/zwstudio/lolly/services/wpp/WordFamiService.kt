@@ -1,6 +1,8 @@
 package com.zwstudio.lolly.services.wpp
 
-import android.util.Log
+import com.zwstudio.lolly.common.completeDelete
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.debugCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
@@ -15,19 +17,16 @@ class WordFamiService {
         api.getDataByUserWord("USERID,eq,${GlobalUserViewModel.userid}", "WORDID,eq,$wordid").lst
     }
 
-    private suspend fun update(o: MWordFami) = withContext(Dispatchers.IO) {
-        api.update(o.id, o.userid, o.wordid, o.correct, o.total)
-            .let { Log.d("API Result", it.toString()) }
+    private suspend fun update(item: MWordFami) = withContext(Dispatchers.IO) {
+        api.update(item.id, item).completeUpdate(item.id)
     }
 
-    private suspend fun create(o: MWordFami): Int = withContext(Dispatchers.IO) {
-        api.create(o.userid, o.wordid, o.correct, o.total)
-            .also { Log.d("API Result", it.toString()) }
+    private suspend fun create(item: MWordFami): Int = withContext(Dispatchers.IO) {
+        api.create(item).debugCreate()
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        api.delete(id)
-            .let { Log.d("API Result", it.toString()) }
+        api.delete(id).completeDelete()
     }
 
     suspend fun update(wordid: Int, isCorrect: Boolean): MWordFami {
@@ -41,12 +40,11 @@ class WordFamiService {
             item.correct = d
             item.total = 1
             item.id = create(item)
-        }
-        else {
-            val o = lst[0]
-            item.id = o.id
-            item.correct = o.correct + d
-            item.total = o.total + 1
+        } else {
+            val item2 = lst[0]
+            item.id = item2.id
+            item.correct = item2.correct + d
+            item.total = item2.total + 1
             update(item)
         }
         return item

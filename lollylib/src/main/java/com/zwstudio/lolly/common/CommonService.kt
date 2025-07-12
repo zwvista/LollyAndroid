@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import com.zwstudio.lolly.models.misc.MSPResult
 import com.zwstudio.lolly.services.blogs.UnitBlogPostService
 import com.zwstudio.lolly.services.misc.AutoCorrectService
 import com.zwstudio.lolly.services.misc.DictionaryService
@@ -213,4 +214,16 @@ fun Any.completeUpdate(id: Int) =
     logDebug("Updated item ID=${id}, result=$id")
 
 fun Int.completeDelete() =
+    logDebug("Deleted item, result=$this")
+
+fun List<List<MSPResult>>.debugCreateResult(): Int =
+    let {
+        logDebug("Created new item, result=$it")
+        it[0][0].newid!!.toInt()
+    }
+
+fun List<List<MSPResult>>.completeUpdateResult(id: Int) =
+    logDebug("Updated item ID=${id}, result=$id")
+
+fun List<List<MSPResult>>.completeDeleteResult(): Unit =
     logDebug("Deleted item, result=$this")

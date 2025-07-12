@@ -1,7 +1,9 @@
 package com.zwstudio.lolly.restapi.wpp
 
 import com.zwstudio.lolly.models.misc.MSPResult
+import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.models.wpp.MLangWords
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -24,15 +26,11 @@ interface RestLangWord {
     @PUT("LANGWORDS/{id}")
     suspend fun updateNote(@Path("id") id: Int, @Field("NOTE") note: String?): Int
 
-    @FormUrlEncoded
     @PUT("LANGWORDS/{id}")
-    suspend fun update(@Path("id") id: Int, @Field("LANGID") langid: Int,
-               @Field("WORD") word: String, @Field("NOTE") note: String?): Int
+    suspend fun update(@Path("id") id: Int, @Body item: MLangWord): Int
 
-    @FormUrlEncoded
     @POST("LANGWORDS")
-    suspend fun create(@Field("LANGID") langid: Int,
-               @Field("WORD") word: String, @Field("NOTE") note: String?): Int
+    suspend fun create(@Body item: MLangWord): Int
 
     @FormUrlEncoded
     @POST("LANGWORDS_DELETE")

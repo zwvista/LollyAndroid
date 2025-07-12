@@ -1,6 +1,9 @@
 package com.zwstudio.lolly.services.wpp
 
-import android.util.Log
+import com.zwstudio.lolly.common.completeDeleteResult
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.completeUpdateResult
+import com.zwstudio.lolly.common.debugCreateResult
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.common.retrofitSP
 import com.zwstudio.lolly.models.misc.MTextbook
@@ -11,6 +14,7 @@ import kotlinx.coroutines.withContext
 
 class UnitWordService {
     private val api = retrofitJson.create(RestUnitWord::class.java)
+    private val apiSP = retrofitSP.create(RestUnitWord::class.java)
 
     suspend fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): List<MUnitWord> = withContext(Dispatchers.IO) {
         api.getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",
@@ -46,28 +50,21 @@ class UnitWordService {
     }
 
     suspend fun updateSeqNum(id: Int, seqnum: Int) = withContext(Dispatchers.IO) {
-        api.updateSeqNum(id, seqnum)
-            .let { Log.d("API Result", it.toString()) }
+        api.updateSeqNum(id, seqnum).completeUpdate(id)
     }
 
-    suspend fun update(o: MUnitWord) = withContext(Dispatchers.IO) {
-        retrofitSP.create(RestUnitWord::class.java)
-            .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .let { Log.d("API Result", it.toString()) }
+    suspend fun update(item: MUnitWord) = withContext(Dispatchers.IO) {
+        apiSP.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, item.word, item.note, item.famiid, item.correct, item.total)
+            .completeUpdateResult(item.id)
     }
 
-    suspend fun create(o: MUnitWord): Int = withContext(Dispatchers.IO) {
-        retrofitSP.create(RestUnitWord::class.java)
-            .create(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .let {
-                Log.d("API Result", it.toString())
-                it[0][0].newid!!.toInt()
-            }
+    suspend fun create(item: MUnitWord): Int = withContext(Dispatchers.IO) {
+        apiSP.create(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, item.word, item.note, item.famiid, item.correct, item.total)
+            .debugCreateResult()
     }
 
-    suspend fun delete(o: MUnitWord) = withContext(Dispatchers.IO) {
-        retrofitSP.create(RestUnitWord::class.java)
-            .delete(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.wordid, o.word, o.note, o.famiid, o.correct, o.total)
-            .let { Log.d("API Result", it.toString()) }
+    suspend fun delete(item: MUnitWord) = withContext(Dispatchers.IO) {
+        apiSP.delete(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.wordid, item.word, item.note, item.famiid, item.correct, item.total)
+            .completeDeleteResult()
     }
 }

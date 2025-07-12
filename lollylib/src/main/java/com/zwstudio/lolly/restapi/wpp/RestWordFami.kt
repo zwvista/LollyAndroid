@@ -1,8 +1,9 @@
 package com.zwstudio.lolly.restapi.wpp
 
+import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.models.wpp.MWordsFami
+import retrofit2.http.Body
 import retrofit2.http.DELETE
-import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -16,15 +17,11 @@ interface RestWordFami {
 
     @FormUrlEncoded
     @PUT("WORDSFAMI/{id}")
-    suspend fun update(@Path("id") id: Int, @Field("USERID") userid: String,
-               @Field("WORDID") wordid: Int,
-               @Field("CORRECT") correct: Int, @Field("TOTAL") total: Int): Int
+    suspend fun update(@Path("id") id: Int, @Body item: MWordFami): Int
 
     @FormUrlEncoded
     @POST("WORDSFAMI")
-    suspend fun create(@Field("USERID") userid: String,
-               @Field("WORDID") wordid: Int,
-               @Field("CORRECT") correct: Int, @Field("TOTAL") total: Int): Int
+    suspend fun create(@Body item: MWordFami): Int
 
     @DELETE("UNITWORDS/{id}")
     suspend fun delete(@Path("id") id: Int): Int

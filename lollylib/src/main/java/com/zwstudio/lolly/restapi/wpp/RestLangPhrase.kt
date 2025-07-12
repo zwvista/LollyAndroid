@@ -1,7 +1,9 @@
 package com.zwstudio.lolly.restapi.wpp
 
 import com.zwstudio.lolly.models.misc.MSPResult
+import com.zwstudio.lolly.models.wpp.MLangPhrase
 import com.zwstudio.lolly.models.wpp.MLangPhrases
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -24,17 +26,11 @@ interface RestLangPhrase {
     @PUT("LANGPHRASES/{id}")
     suspend fun updateTranslation(@Path("id") id: Int, @Field("TRANSLATION") translation: String?): Int
 
-    @FormUrlEncoded
     @PUT("LANGPHRASES/{id}")
-    suspend fun update(@Path("id") id: Int, @Field("LANGID") langid: Int,
-               @Field("PHRASE") phrase: String,
-               @Field("TRANSLATION") translation: String?): Int
+    suspend fun update(@Path("id") id: Int, @Body item: MLangPhrase): Int
 
-    @FormUrlEncoded
     @POST("LANGPHRASES")
-    suspend fun create(@Field("LANGID") langid: Int,
-               @Field("PHRASE") phrase: String,
-               @Field("TRANSLATION") translation: String?): Int
+    suspend fun create(@Body item: MLangPhrase): Int
 
     @FormUrlEncoded
     @POST("LANGPHRASES_DELETE")

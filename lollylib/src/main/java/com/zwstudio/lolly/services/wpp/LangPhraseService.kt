@@ -1,6 +1,8 @@
 package com.zwstudio.lolly.services.wpp
 
-import android.util.Log
+import com.zwstudio.lolly.common.completeDeleteResult
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.debugCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.common.retrofitSP
 import com.zwstudio.lolly.models.wpp.MLangPhrase
@@ -10,29 +12,25 @@ import kotlinx.coroutines.withContext
 
 class LangPhraseService {
     private val api = retrofitJson.create(RestLangPhrase::class.java)
+    private val apiSP = retrofitSP.create(RestLangPhrase::class.java)
 
     suspend fun getDataByLang(langid: Int): List<MLangPhrase> = withContext(Dispatchers.IO) {
         api.getDataByLang("LANGID,eq,$langid").lst
     }
 
     suspend fun updateTranslation(id: Int, translation: String?) = withContext(Dispatchers.IO) {
-        api.updateTranslation(id, translation)
-            .let { Log.d("API Result", it.toString()) }
+        api.updateTranslation(id, translation).completeUpdate(id)
     }
 
-    suspend fun update(o: MLangPhrase) = withContext(Dispatchers.IO) {
-        api.update(o.id, o.langid, o.phrase, o.translation)
-            .let { Log.d("API Result", it.toString()) }
+    suspend fun update(item: MLangPhrase) = withContext(Dispatchers.IO) {
+        api.update(item.id, item).completeUpdate(item.id)
     }
 
-    suspend fun create(o: MLangPhrase): Int = withContext(Dispatchers.IO) {
-        api.create(o.langid, o.phrase, o.translation)
-            .also { Log.d("API Result", it.toString()) }
+    suspend fun create(item: MLangPhrase): Int = withContext(Dispatchers.IO) {
+        api.create(item).debugCreate()
     }
 
-    suspend fun delete(o: MLangPhrase) = withContext(Dispatchers.IO) {
-        retrofitSP.create(RestLangPhrase::class.java)
-            .delete(o.id, o.langid, o.phrase, o.translation)
-            .let { Log.d("API Result", it.toString()) }
+    suspend fun delete(item: MLangPhrase): Unit = withContext(Dispatchers.IO) {
+        apiSP.delete(item.id, item.langid, item.phrase, item.translation).completeDeleteResult()
     }
 }

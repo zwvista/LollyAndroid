@@ -1,6 +1,8 @@
 package com.zwstudio.lolly.restapi.wpp
 
+import com.zwstudio.lolly.models.wpp.MPatternWebPage
 import com.zwstudio.lolly.models.wpp.MPatternWebPages
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -21,15 +23,11 @@ interface RestPatternWebPage {
     @PUT("PATTERNSWEBPAGES/{id}")
     suspend fun updateSeqNum(@Path("id") id: Int, @Field("SEQNUM") seqnum: Int): Int
 
-    @FormUrlEncoded
     @PUT("PATTERNSWEBPAGES/{id}")
-    suspend fun update(@Path("id") id: Int, @Field("PATTERNID") patternid: Int,
-               @Field("SEQNUM") seqnum: Int, @Field("WEBPAGEID") webpageid: Int): Int
+    suspend fun update(@Path("id") id: Int, @Body item: MPatternWebPage): Int
 
-    @FormUrlEncoded
     @POST("PATTERNSWEBPAGES")
-    suspend fun create(@Field("PATTERNID") patternid: Int,
-               @Field("SEQNUM") seqnum: Int, @Field("WEBPAGEID") webpageid: Int): Int
+    suspend fun create(@Body item: MPatternWebPage): Int
 
     @DELETE("PATTERNSWEBPAGES/{id}")
     suspend fun delete(@Path("id") id: Int): Int
