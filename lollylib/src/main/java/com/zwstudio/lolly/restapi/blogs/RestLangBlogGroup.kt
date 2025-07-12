@@ -16,12 +16,8 @@ interface RestLangBlogGroup {
     @GET("LANGBLOGGROUPS")
     fun getDataByLang(@Query("filter") filter: String, @Query("order") order: String): Single<MLangBlogGroups>
 
-    @GET("VLANGBLOGGP")
-    fun getDataByLangPost(
-        @Query("filter") filter1: String,
-        @Query("filter") filter2: String,
-        @Query("order") order: String
-    ): Single<MLangBlogGPs>
+    @GET("VLANGBLOGGP?order=GROUPNAME")
+    fun getDataByLangPost(@Query("filter") vararg filters: String): Single<MLangBlogGPs>
 
     @POST("LANGBLOGGROUPS")
     fun create(@Body item: MLangBlogGroup): Single<Int>

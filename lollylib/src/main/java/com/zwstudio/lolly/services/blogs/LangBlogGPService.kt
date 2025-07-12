@@ -1,24 +1,23 @@
 package com.zwstudio.lolly.services.blogs
 
-import com.zwstudio.lolly.common.logDebug
+import com.zwstudio.lolly.common.completeDelete
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.debugCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.blogs.MLangBlogGP
 import com.zwstudio.lolly.restapi.blogs.RestLangBlogGP
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 class LangBlogGPService {
     private val api = retrofitJson.create(RestLangBlogGP::class.java)
 
-    suspend fun create(item: MLangBlogGP): Int = withContext(Dispatchers.IO) {
-        api.create(item).also { logDebug("Created GP: result=$it") }
-    }
+    fun create(item: MLangBlogGP): Single<Int> =
+        api.create(item).debugCreate()
 
-    suspend fun update(item: MLangBlogGP) = withContext(Dispatchers.IO) {
-        api.update(item.id, item).let { logDebug("Updated GP ID=${item.id}, result=$it") }
-    }
+    fun update(item: MLangBlogGP): Completable =
+        api.update(item.id, item).completeUpdate(item.id)
 
-    suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        api.delete(id).let { logDebug("Deleted GP ID=$id, result=$it") }
-    }
+    fun delete(id: Int): Completable =
+        api.delete(id).completeDelete()
 }

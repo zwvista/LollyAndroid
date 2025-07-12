@@ -1,42 +1,39 @@
 package com.zwstudio.lolly.services.blogs
 
-import com.zwstudio.lolly.common.logDebug
+import com.zwstudio.lolly.common.completeDelete
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.debugCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.blogs.MLangBlogGroup
 import com.zwstudio.lolly.restapi.blogs.RestLangBlogGroup
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 class LangBlogGroupService {
     private val api = retrofitJson.create(RestLangBlogGroup::class.java)
 
-    suspend fun getDataByLang(langid: Int): List<MLangBlogGroup> = withContext(Dispatchers.IO) {
-        api.getDataByLang("LANGID,eq,$langid", "NAME").lst
-    }
+    fun getDataByLang(langid: Int): Single<List<MLangBlogGroup>> =
+        api.getDataByLang("LANGID,eq,$langid", "NAME").map {
+            it.lst
+        }
 
-    suspend fun getDataByLangPost(langid: Int, postid: Int): List<MLangBlogGroup> = withContext(Dispatchers.IO) {
-        api.getDataByLangPost(
-            "LANGID,eq,$langid",
-            "POSTID,eq,$postid",
-            "GROUPNAME"
-        ).lst.map { o ->
-            MLangBlogGroup(
-                id = o.groupid,
-                langid = langid,
-                groupname = o.groupname,
-            ).also { it.gpid = o.id }
-        }.distinctBy { it.id }
-    }
+    fun getDataByLangPost(langid: Int, postid: Int): Single<List<MLangBlogGroup>> =
+        api.getDataByLangPost("LANGID,eq,$langid", "POSTID,eq,$postid").map {
+            it.lst.map { item ->
+                MLangBlogGroup(
+                    id = item.groupid,
+                    langid = langid,
+                    groupname = item.groupname,
+                ).also { it.gpid = item.id }
+            }.distinctBy { it.id }
+        }
 
-    suspend fun create(item: MLangBlogGroup): Int = withContext(Dispatchers.IO) {
-        api.create(item).also { logDebug("Created group, result=$it") }
-    }
+    fun create(item: MLangBlogGroup): Single<Int> =
+        api.create(item).debugCreate()
 
-    suspend fun update(item: MLangBlogGroup) = withContext(Dispatchers.IO) {
-        api.update(item.id, item).let { logDebug("Updated group ${item.id}, result=$it") }
-    }
+    fun update(item: MLangBlogGroup): Completable =
+        api.update(item.id, item).completeUpdate(item.id)
 
-    suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        api.delete(id).let { logDebug("Deleted group $id, result=$it") }
-    }
+    fun delete(id: Int): Completable =
+        api.delete(id).completeDelete()
 }

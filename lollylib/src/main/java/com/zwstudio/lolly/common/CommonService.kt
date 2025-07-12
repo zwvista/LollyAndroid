@@ -224,3 +224,26 @@ fun getPreferredRangeFromArray(
 fun Any.logDebug(message: String) {
     Log.d(this::class.java.simpleName, message)
 }
+
+fun Single<Int>.debugCreate(): Single<Int> =
+    map {
+        it.also { logDebug("Created new item, result=$it") }
+    }
+
+fun Single<Int>.completeCreate(): Completable =
+    flatMapCompletable {
+        logDebug("Created new item, result=$it")
+        Completable.complete()
+    }
+
+fun Single<Int>.completeUpdate(id: Int): Completable =
+    flatMapCompletable {
+        logDebug("Updated item ID=${id}, result=$it")
+        Completable.complete()
+    }
+
+fun Single<Int>.completeDelete(): Completable =
+    flatMapCompletable {
+        logDebug("Deleted item, result=$it")
+        Completable.complete()
+    }

@@ -1,29 +1,28 @@
 package com.zwstudio.lolly.services.blogs
 
-import com.zwstudio.lolly.common.logDebug
+import com.zwstudio.lolly.common.completeDelete
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.debugCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.blogs.MLangBlogPost
-import com.zwstudio.lolly.models.blogs.MLangBlogPosts
 import com.zwstudio.lolly.restapi.blogs.RestLangBlogPost
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 class LangBlogPostService {
     private val api = retrofitJson.create(RestLangBlogPost::class.java)
 
-    suspend fun getDataByLang(langid: Int): List<MLangBlogPost> = withContext(Dispatchers.IO) {
-        api.getDataByLang("LANGID,eq,$langid").lst ?: emptyList()
-    }
+    fun getDataByLang(langid: Int): Single<List<MLangBlogPost>> =
+        api.getDataByLang("LANGID,eq,$langid").map {
+            it.lst
+        }
 
-    suspend fun update(item: MLangBlogPost) = withContext(Dispatchers.IO) {
-        api.update(item.id, item).let { logDebug("Updated ID=${item.id}, result=$it") }
-    }
+    fun create(item: MLangBlogPost): Single<Int> =
+        api.create(item).debugCreate()
 
-    suspend fun create(item: MLangBlogPost) = withContext(Dispatchers.IO) {
-        api.create(item).also { logDebug("Created new item, result=$it") }
-    }
+    fun update(item: MLangBlogPost): Completable =
+        api.update(item.id, item).completeUpdate(item.id)
 
-    suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        api.delete(id).let { logDebug("Deleted ID=$id, result=$it") }
-    }
+    fun delete(id: Int): Completable =
+        api.delete(id).completeDelete()
 }
