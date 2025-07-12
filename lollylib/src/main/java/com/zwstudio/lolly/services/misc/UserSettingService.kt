@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.services.misc
 
-import android.util.Log
+import com.zwstudio.lolly.common.completeUpdate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.misc.MUserSetting
 import com.zwstudio.lolly.models.misc.MUserSettingInfo
@@ -16,25 +16,17 @@ class UserSettingService {
         api.getDataByUser("USERID,eq,${GlobalUserViewModel.userid}").lst
     }
 
-    suspend fun update(info: MUserSettingInfo, v: Int): Int = withContext(Dispatchers.IO) {
+    suspend fun update(info: MUserSettingInfo, v: Int) = withContext(Dispatchers.IO) {
         update(info, v.toString())
     }
 
-    suspend fun update(info: MUserSettingInfo, v: String): Int = withContext(Dispatchers.IO) {
-        when (info.valueid) {
-            1 -> retrofitJson.create(RestUserSetting::class.java)
-                .updateValue1(info.usersettingid, v)
-                .also { Log.d("API Result", it.toString()) }
-            2 -> retrofitJson.create(RestUserSetting::class.java)
-                .updateValue2(info.usersettingid, v)
-                .also { Log.d("API Result", it.toString()) }
-            3 -> retrofitJson.create(RestUserSetting::class.java)
-                .updateValue3(info.usersettingid, v)
-                .also { Log.d("API Result", it.toString()) }
-            4 -> retrofitJson.create(RestUserSetting::class.java)
-                .updateValue4(info.usersettingid, v)
-                .also { Log.d("API Result", it.toString()) }
+    suspend fun update(info: MUserSettingInfo, v: String) = withContext(Dispatchers.IO) {
+        (when (info.valueid) {
+            1 -> api.updateValue1(info.usersettingid, v)
+            2 -> api.updateValue2(info.usersettingid, v)
+            3 -> api.updateValue3(info.usersettingid, v)
+            4 -> api.updateValue4(info.usersettingid, v)
             else -> 0
-        }
+        }).completeUpdate(info.usersettingid)
     }
 }
