@@ -7,9 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class OnlineTextbookService {
+    private val api = retrofitJson.create(RestOnlineTextbook::class.java)
+
     suspend fun getDataByLang(langid: Int): List<MOnlineTextbook> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestOnlineTextbook::class.java)
-            .getDataByLang("LANGID,eq,$langid")
+        api.getDataByLang("LANGID,eq,$langid")
             .lst!!
     }
 }

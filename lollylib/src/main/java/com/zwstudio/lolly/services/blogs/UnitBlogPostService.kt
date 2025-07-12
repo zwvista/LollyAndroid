@@ -12,7 +12,7 @@ class UnitBlogPostService {
 
     suspend fun getDataByTextbook(textbookid: Int, unit: Int): MUnitBlogPost? = withContext(Dispatchers.IO) {
         api.getDataByTextbook("TEXTBOOKID,eq,$textbookid", "UNIT,eq,$unit")
-            .lst!!.firstOrNull()
+            .lst.firstOrNull()
     }
 
     private suspend fun update(item: MUnitBlogPost) = withContext(Dispatchers.IO) {

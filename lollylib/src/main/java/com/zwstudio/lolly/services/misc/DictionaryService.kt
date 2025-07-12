@@ -7,27 +7,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class DictionaryService {
+    private val api = retrofitJson.create(RestDictionary::class.java)
+
     suspend fun getDictsByLang(langid: Int): List<MDictionary> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestDictionary::class.java)
-            .getDictsByLang("LANGIDFROM,eq,$langid")
+        api.getDictsByLang("LANGIDFROM,eq,$langid")
             .lst!!
     }
 
     suspend fun getDictsReferenceByLang(langid: Int): List<MDictionary> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestDictionary::class.java)
-            .getDictsReferenceByLang("LANGIDFROM,eq,$langid")
+        api.getDictsReferenceByLang("LANGIDFROM,eq,$langid")
             .lst!!
     }
 
     suspend fun getDictsNoteByLang(langid: Int): List<MDictionary> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestDictionary::class.java)
-            .getDictsNoteByLang("LANGIDFROM,eq,$langid")
+        api.getDictsNoteByLang("LANGIDFROM,eq,$langid")
             .lst!!
     }
 
     suspend fun getDictsTranslationByLang(langid: Int): List<MDictionary> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestDictionary::class.java)
-            .getDictsTranslationByLang("LANGIDFROM,eq,$langid")
+        api.getDictsTranslationByLang("LANGIDFROM,eq,$langid")
             .lst!!
     }
 }

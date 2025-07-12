@@ -7,9 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class AutoCorrectService {
+    private val api = retrofitJson.create(RestAutoCorrect::class.java)
+
     suspend fun getDataByLang(langid: Int): List<MAutoCorrect> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestAutoCorrect::class.java)
-            .getDataByLang("LANGID,eq,$langid")
+        api.getDataByLang("LANGID,eq,$langid")
             .lst!!
     }
 }

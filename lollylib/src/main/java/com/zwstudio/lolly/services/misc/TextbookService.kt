@@ -8,6 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class TextbookService {
+    private val api = retrofitJson.create(RestTextbook::class.java)
+
     suspend fun getDataByLang(langid: Int): List<MTextbook> = withContext(Dispatchers.IO) {
         fun f(unitsString: String): List<String> {
             var m = Regex("""UNITS,(\d+)""").find(unitsString)

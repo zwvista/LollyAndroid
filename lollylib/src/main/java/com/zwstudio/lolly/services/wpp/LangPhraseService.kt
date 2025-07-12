@@ -9,27 +9,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class LangPhraseService {
+    private val api = retrofitJson.create(RestLangPhrase::class.java)
+
     suspend fun getDataByLang(langid: Int): List<MLangPhrase> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestLangPhrase::class.java)
-            .getDataByLang("LANGID,eq,$langid")
-            .lst!!
+        api.getDataByLang("LANGID,eq,$langid")
+            .lst
     }
 
     suspend fun updateTranslation(id: Int, translation: String?) = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestLangPhrase::class.java)
-            .updateTranslation(id, translation)
+        api.updateTranslation(id, translation)
             .let { Log.d("API Result", it.toString()) }
     }
 
     suspend fun update(o: MLangPhrase) = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestLangPhrase::class.java)
-            .update(o.id, o.langid, o.phrase, o.translation)
+        api.update(o.id, o.langid, o.phrase, o.translation)
             .let { Log.d("API Result", it.toString()) }
     }
 
     suspend fun create(o: MLangPhrase): Int = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestLangPhrase::class.java)
-            .create(o.langid, o.phrase, o.translation)
+        api.create(o.langid, o.phrase, o.translation)
             .also { Log.d("API Result", it.toString()) }
     }
 

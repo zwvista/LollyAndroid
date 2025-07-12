@@ -7,9 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class VoiceService {
+    private val api = retrofitJson.create(RestVoice::class.java)
+
     suspend fun getDataByLang(langid: Int): List<MVoice> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestVoice::class.java)
-            .getDataByLang("LANGID,eq,$langid", "VOICETYPEID,eq,4")
+        api.getDataByLang("LANGID,eq,$langid", "VOICETYPEID,eq,4")
             .lst!!
     }
 }

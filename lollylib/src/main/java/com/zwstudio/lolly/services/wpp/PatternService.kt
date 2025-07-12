@@ -8,39 +8,35 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class PatternService {
+    private val api = retrofitJson.create(RestPattern::class.java)
+
     suspend fun getDataByLang(langid: Int): List<MPattern> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestPattern::class.java)
-            .getDataByLang("LANGID,eq,$langid")
+        api.getDataByLang("LANGID,eq,$langid")
             .lst!!
     }
 
     suspend fun getDataById(id: Int): List<MPattern> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestPattern::class.java)
-            .getDataById("ID,eq,$id")
+        api.getDataById("ID,eq,$id")
             .lst!!
     }
 
     suspend fun updateNote(id: Int, note: String) = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestPattern::class.java)
-            .updateNote(id, note)
+        api.updateNote(id, note)
             .let { Log.d("", it.toString()) }
     }
 
     suspend fun update(o: MPattern) = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestPattern::class.java)
-            .update(o.id, o.langid, o.pattern, o.tags, o.title, o.url)
+        api.update(o.id, o.langid, o.pattern, o.tags, o.title, o.url)
             .let { Log.d("", it.toString()) }
     }
 
     suspend fun create(o: MPattern): Int = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestPattern::class.java)
-            .create(o.langid, o.pattern, o.tags, o.title, o.url)
+        api.create(o.langid, o.pattern, o.tags, o.title, o.url)
             .also { Log.d("", it.toString()) }
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestPattern::class.java)
-            .delete(id)
+        api.delete(id)
             .let { Log.d("", it.toString()) }
     }
 }

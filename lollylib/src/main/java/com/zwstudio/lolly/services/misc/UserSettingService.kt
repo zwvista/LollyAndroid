@@ -10,9 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class UserSettingService {
+    private val api = retrofitJson.create(RestUserSetting::class.java)
+
     suspend fun getData(): List<MUserSetting> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestUserSetting::class.java)
-            .getDataByUser("USERID,eq,${GlobalUserViewModel.userid}")
+        api.getDataByUser("USERID,eq,${GlobalUserViewModel.userid}")
             .lst!!
     }
 

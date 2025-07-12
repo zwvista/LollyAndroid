@@ -10,9 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class UnitWordService {
+    private val api = retrofitJson.create(RestUnitWord::class.java)
+
     suspend fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): List<MUnitWord> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestUnitWord::class.java)
-            .getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",
+        api.getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",
                 "UNITPART,bt,$unitPartFrom,$unitPartTo")
             .lst!!.also {
                 for (o in it)
@@ -21,8 +22,7 @@ class UnitWordService {
     }
 
     suspend fun getDataByTextbook(textbook: MTextbook): List<MUnitWord> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestUnitWord::class.java)
-            .getDataByTextbook("TEXTBOOKID,eq,${textbook.id}")
+        api.getDataByTextbook("TEXTBOOKID,eq,${textbook.id}")
             .lst!!.distinctBy { it.wordid }.also {
                 for (o in it)
                     o.textbook = textbook
@@ -30,8 +30,7 @@ class UnitWordService {
     }
 
     suspend fun getDataByLang(langid: Int, lstTextbooks: List<MTextbook>): List<MUnitWord> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestUnitWord::class.java)
-            .getDataByLang("LANGID,eq,$langid")
+        api.getDataByLang("LANGID,eq,$langid")
             .lst!!.also {
                 for (o in it)
                     o.textbook = lstTextbooks.first { it.id == o.textbookid }
@@ -39,8 +38,7 @@ class UnitWordService {
     }
 
     suspend fun getDataByLangWord(langid: Int, word: String, lstTextbooks: List<MTextbook>): List<MUnitWord> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestUnitWord::class.java)
-            .getDataByLangWord("LANGID,eq,$langid", "WORD,eq,$word")
+        api.getDataByLangWord("LANGID,eq,$langid", "WORD,eq,$word")
             .lst!!.also {
                 for (o in it)
                     o.textbook = lstTextbooks.first { it.id == o.textbookid }
@@ -48,8 +46,7 @@ class UnitWordService {
     }
 
     suspend fun updateSeqNum(id: Int, seqnum: Int) = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestUnitWord::class.java)
-            .updateSeqNum(id, seqnum)
+        api.updateSeqNum(id, seqnum)
             .let { Log.d("API Result", it.toString()) }
     }
 

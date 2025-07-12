@@ -7,9 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class LanguageService {
+    private val api = retrofitJson.create(RestLanguage::class.java)
+
     suspend fun getData(): List<MLanguage> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestLanguage::class.java)
-            .getData()
+        api.getData()
             .lst!!
     }
 }

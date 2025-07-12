@@ -9,27 +9,25 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class WordFamiService {
+    private val api = retrofitJson.create(RestWordFami::class.java)
+
     private suspend fun getDataByWord(wordid: Int): List<MWordFami> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestWordFami::class.java)
-            .getDataByUserWord("USERID,eq,${GlobalUserViewModel.userid}", "WORDID,eq,$wordid")
+        api.getDataByUserWord("USERID,eq,${GlobalUserViewModel.userid}", "WORDID,eq,$wordid")
             .lst!!
     }
 
     private suspend fun update(o: MWordFami) = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestWordFami::class.java)
-            .update(o.id, o.userid, o.wordid, o.correct, o.total)
+        api.update(o.id, o.userid, o.wordid, o.correct, o.total)
             .let { Log.d("API Result", it.toString()) }
     }
 
     private suspend fun create(o: MWordFami): Int = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestWordFami::class.java)
-            .create(o.userid, o.wordid, o.correct, o.total)
+        api.create(o.userid, o.wordid, o.correct, o.total)
             .also { Log.d("API Result", it.toString()) }
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestWordFami::class.java)
-            .delete(id)
+        api.delete(id)
             .let { Log.d("API Result", it.toString()) }
     }
 

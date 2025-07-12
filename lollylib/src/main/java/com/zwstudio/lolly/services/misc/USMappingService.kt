@@ -7,9 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class USMappingService {
+    private val api = retrofitJson.create(RestUSMapping::class.java)
+
     suspend fun getData(): List<MUSMapping> = withContext(Dispatchers.IO) {
-        retrofitJson.create(RestUSMapping::class.java)
-            .getData()
+        api.getData()
             .lst!!
     }
 }
