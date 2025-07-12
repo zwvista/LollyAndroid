@@ -1,6 +1,9 @@
 package com.zwstudio.lolly.services.wpp
 
-import android.util.Log
+import com.zwstudio.lolly.common.completeDeleteResult
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.completeUpdateResult
+import com.zwstudio.lolly.common.debugCreateResult
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.common.retrofitSP
 import com.zwstudio.lolly.models.misc.MTextbook
@@ -11,6 +14,7 @@ import io.reactivex.rxjava3.core.Single
 
 class UnitPhraseService {
     private val api = retrofitJson.create(RestUnitPhrase::class.java)
+    private val apiSP = retrofitSP.create(RestUnitPhrase::class.java)
 
     fun getDataByTextbookUnitPart(textbook: MTextbook, unitPartFrom: Int, unitPartTo: Int): Single<List<MUnitPhrase>> =
         api.getDataByTextbookUnitPart("TEXTBOOKID,eq,${textbook.id}",
@@ -52,24 +56,17 @@ class UnitPhraseService {
             }
 
     fun updateSeqNum(id: Int, seqnum: Int): Completable =
-        api.updateSeqNum(id, seqnum)
-            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
+        api.updateSeqNum(id, seqnum).completeUpdate(id)
 
-    fun update(o: MUnitPhrase): Completable =
-        retrofitSP.create(RestUnitPhrase::class.java)
-            .update(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.phraseid, o.phrase, o.translation)
-            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
+    fun update(item: MUnitPhrase): Completable =
+        apiSP.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation)
+            .completeUpdateResult(item.id)
 
-    fun create(o: MUnitPhrase): Single<Int> =
-        retrofitSP.create(RestUnitPhrase::class.java)
-            .create(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.phraseid, o.phrase, o.translation)
-            .map {
-                Log.d("API Result", it.toString())
-                it[0][0].newid!!.toInt()
-            }
+    fun create(item: MUnitPhrase): Single<Int> =
+        apiSP.create(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation)
+            .debugCreateResult()
 
-    fun delete(o: MUnitPhrase): Completable =
-        retrofitSP.create(RestUnitPhrase::class.java)
-            .delete(o.id, o.langid, o.textbookid, o.unit, o.part, o.seqnum, o.phraseid, o.phrase, o.translation)
-            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
+    fun delete(item: MUnitPhrase): Completable =
+        apiSP.delete(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation)
+            .completeDeleteResult()
 }

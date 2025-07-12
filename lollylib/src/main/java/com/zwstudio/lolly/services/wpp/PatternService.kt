@@ -1,5 +1,8 @@
 package com.zwstudio.lolly.services.wpp
 
+import com.zwstudio.lolly.common.completeDelete
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.debugCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
@@ -18,18 +21,14 @@ class PatternService {
             .map { it.lst }
 
     fun updateNote(id: Int, note: String): Completable =
-        api.updateNote(id, note)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+        api.updateNote(id, note).completeUpdate(id)
 
-    fun update(o: MPattern): Completable =
-        api.update(o.id, o.langid, o.pattern, o.tags, o.title, o.url)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+    fun update(item: MPattern): Completable =
+        api.update(item.id, item).completeUpdate(item.id)
 
-    fun create(o: MPattern): Single<Int> =
-        api.create(o.langid, o.pattern, o.tags, o.title, o.url)
-            .doAfterSuccess { println(it.toString()) }
+    fun create(item: MPattern): Single<Int> =
+        api.create(item).debugCreate()
 
     fun delete(id: Int): Completable =
-        api.delete(id)
-            .flatMapCompletable { println(it.toString()); Completable.complete() }
+        api.delete(id).completeDelete()
 }

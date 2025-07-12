@@ -1,6 +1,8 @@
 package com.zwstudio.lolly.services.wpp
 
-import android.util.Log
+import com.zwstudio.lolly.common.completeDelete
+import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.debugCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
@@ -15,17 +17,14 @@ class WordFamiService {
         api.getDataByUserWord("USERID,eq,${GlobalUserViewModel.userid}", "WORDID,eq,$wordid")
             .map { it.lst }
 
-    private fun update(o: MWordFami): Completable =
-        api.update(o.id, o.userid, o.wordid, o.correct, o.total)
-            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
+    private fun update(item: MWordFami): Completable =
+        api.update(item.id, item).completeUpdate(item.id)
 
-    private fun create(o: MWordFami): Single<Int> =
-        api.create(o.userid, o.wordid, o.correct, o.total)
-            .doAfterSuccess { Log.d("API Result", it.toString()) }
+    private fun create(item: MWordFami): Single<Int> =
+        api.create(item).debugCreate()
 
     fun delete(id: Int): Completable =
-        api.delete(id)
-            .flatMapCompletable { Log.d("API Result", it.toString()); Completable.complete() }
+        api.delete(id).completeDelete()
 
     fun update(wordid: Int, isCorrect: Boolean): Single<MWordFami> =
         getDataByWord(wordid).flatMap { lst ->
@@ -43,10 +42,10 @@ class WordFamiService {
                 }
             }
             else {
-                val o = lst[0]
-                item.id = o.id
-                item.correct = o.correct + d
-                item.total = o.total + 1
+                val item2 = lst[0]
+                item.id = item2.id
+                item.correct = item2.correct + d
+                item.total = item2.total + 1
                 update(item).toSingle {
                     item
                 }

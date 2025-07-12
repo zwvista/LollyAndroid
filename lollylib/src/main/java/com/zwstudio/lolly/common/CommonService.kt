@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import com.zwstudio.lolly.models.misc.MSPResult
 import com.zwstudio.lolly.services.blogs.UnitBlogPostService
 import com.zwstudio.lolly.services.misc.AutoCorrectService
 import com.zwstudio.lolly.services.misc.DictionaryService
@@ -243,6 +244,24 @@ fun Single<Int>.completeUpdate(id: Int): Completable =
     }
 
 fun Single<Int>.completeDelete(): Completable =
+    flatMapCompletable {
+        logDebug("Deleted item, result=$it")
+        Completable.complete()
+    }
+
+fun Single<List<List<MSPResult>>>.debugCreateResult(): Single<Int> =
+    map {
+        logDebug("Created new item, result=$it")
+        it[0][0].newid!!.toInt()
+    }
+
+fun Single<List<List<MSPResult>>>.completeUpdateResult(id: Int): Completable =
+    flatMapCompletable {
+        logDebug("Updated item ID=${id}, result=$it")
+        Completable.complete()
+    }
+
+fun Single<List<List<MSPResult>>>.completeDeleteResult(): Completable =
     flatMapCompletable {
         logDebug("Deleted item, result=$it")
         Completable.complete()
