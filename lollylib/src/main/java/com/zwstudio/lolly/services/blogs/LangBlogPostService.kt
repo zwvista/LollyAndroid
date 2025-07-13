@@ -21,9 +21,10 @@ class LangBlogPostService {
         api.getDataByLangGroup("LANGID,eq,$langid", "GROUPID,eq,$groupid").map {
             it.lst.map { item ->
                 MLangBlogPost(
-                    id = item.groupid,
+                    id = item.postid,
                     langid = langid,
                     title = item.title,
+                    url = item.url
                 ).also { it.gpid = item.id }
             }.distinctBy { it.id }
         }
