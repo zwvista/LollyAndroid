@@ -9,6 +9,10 @@ import android.net.Uri
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import com.zwstudio.lolly.models.misc.MSPResult
+import com.zwstudio.lolly.services.blogs.LangBlogGPService
+import com.zwstudio.lolly.services.blogs.LangBlogGroupService
+import com.zwstudio.lolly.services.blogs.LangBlogPostContentService
+import com.zwstudio.lolly.services.blogs.LangBlogPostService
 import com.zwstudio.lolly.services.blogs.UnitBlogPostService
 import com.zwstudio.lolly.services.misc.AutoCorrectService
 import com.zwstudio.lolly.services.misc.DictionaryService
@@ -26,6 +30,8 @@ import com.zwstudio.lolly.services.wpp.PatternService
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
 import com.zwstudio.lolly.services.wpp.UnitWordService
 import com.zwstudio.lolly.services.wpp.WordFamiService
+import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
+import com.zwstudio.lolly.viewmodels.blogs.LangBlogPostsContentViewModel
 import com.zwstudio.lolly.viewmodels.blogs.UnitBlogPostsViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
@@ -127,17 +133,22 @@ fun onDestroyApp() {
 }
 
 val lollyModule = module {
+    single { LangBlogGPService() }
+    single { LangBlogGroupService() }
+    single { LangBlogPostContentService() }
+    single { LangBlogPostService() }
+    single { UnitBlogPostService() }
+
     single { AutoCorrectService() }
     single { DictionaryService() }
     single { HtmlService() }
     single { LanguageService() }
+    single { OnlineTextbookService() }
     single { TextbookService() }
     single { UserService() }
     single { UserSettingService() }
     single { USMappingService() }
     single { VoiceService() }
-    single { OnlineTextbookService() }
-    single { UnitBlogPostService() }
 
     single { LangPhraseService() }
     single { LangWordService() }
@@ -146,29 +157,36 @@ val lollyModule = module {
     single { UnitWordService() }
     single { WordFamiService() }
 
+    viewModel { LangBlogGroupsViewModel() }
+    viewModel { parameters -> LangBlogPostsContentViewModel(lstLangBlogPosts = parameters.get(), index = parameters.get()) }
+    viewModel { UnitBlogPostsViewModel() }
+
     viewModel { LoginViewModel() }
     viewModel { parameters -> ReviewOptionsViewModel(options = parameters.get()) }
     viewModel { SearchViewModel() }
-    viewModel { parameters -> PatternsDetailViewModel(item = parameters.get()) }
-    viewModel { PatternsViewModel() }
-    viewModel { parameters -> PatternsWebPageViewModel(lstPatterns = parameters.get(), index = parameters.get()) }
-    viewModel { PhrasesLangViewModel() }
-    viewModel { parameters -> PhrasesLangDetailViewModel(item = parameters.get()) }
-    viewModel { parameters -> PhrasesReviewViewModel(doTestAction = parameters.get()) }
-    viewModel { PhrasesUnitViewModel() }
-    viewModel { parameters -> PhrasesUnitDetailViewModel(item = parameters.get()) }
-    viewModel { parameters -> PhrasesUnitBatchEditViewModel(vm = parameters.get()) }
+
     viewModel { parameters -> OnlineTextbooksDetailViewModel(item = parameters.get()) }
     viewModel { OnlineTextbooksViewModel() }
     viewModel { parameters -> OnlineTextbooksWebPageViewModel(lstOnlineTextbooks = parameters.get(), index = parameters.get()) }
-    viewModel { UnitBlogPostsViewModel() }
+
+    viewModel { parameters -> PatternsDetailViewModel(item = parameters.get()) }
+    viewModel { PatternsViewModel() }
+    viewModel { parameters -> PatternsWebPageViewModel(lstPatterns = parameters.get(), index = parameters.get()) }
+
+    viewModel { parameters -> PhrasesLangDetailViewModel(item = parameters.get()) }
+    viewModel { PhrasesLangViewModel() }
+    viewModel { parameters -> PhrasesReviewViewModel(doTestAction = parameters.get()) }
+    viewModel { parameters -> PhrasesUnitBatchEditViewModel(vm = parameters.get()) }
+    viewModel { parameters -> PhrasesUnitDetailViewModel(item = parameters.get()) }
+    viewModel { PhrasesUnitViewModel() }
+
     viewModel { parameters -> WordsDictViewModel(lstWords = parameters.get(), index = parameters.get()) }
-    viewModel { WordsLangViewModel() }
     viewModel { parameters -> WordsLangDetailViewModel(item = parameters.get()) }
+    viewModel { WordsLangViewModel() }
     viewModel { parameters -> WordsReviewViewModel(doTestAction = parameters.get()) }
-    viewModel { WordsUnitViewModel() }
-    viewModel { parameters -> WordsUnitDetailViewModel(item = parameters.get()) }
     viewModel { parameters -> WordsUnitBatchEditViewModel(vm = parameters.get()) }
+    viewModel { parameters -> WordsUnitDetailViewModel(item = parameters.get()) }
+    viewModel { WordsUnitViewModel() }
 }
 
 fun speak(text: String) =
