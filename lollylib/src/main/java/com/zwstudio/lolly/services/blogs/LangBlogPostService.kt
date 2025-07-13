@@ -3,10 +3,8 @@ package com.zwstudio.lolly.services.blogs
 import com.zwstudio.lolly.common.completeDelete
 import com.zwstudio.lolly.common.completeUpdate
 import com.zwstudio.lolly.common.debugCreate
-import com.zwstudio.lolly.common.logDebug
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.blogs.MLangBlogPost
-import com.zwstudio.lolly.models.blogs.MLangBlogPosts
 import com.zwstudio.lolly.restapi.blogs.RestLangBlogPost
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -16,6 +14,17 @@ class LangBlogPostService {
 
     suspend fun getDataByLang(langid: Int): List<MLangBlogPost> = withContext(Dispatchers.IO) {
         api.getDataByLang("LANGID,eq,$langid").lst
+    }
+
+    suspend fun getDataByLangGroup(langid: Int, groupid: Int): List<MLangBlogPost> = withContext(Dispatchers.IO) {
+        api.getDataByLangGroup("LANGID,eq,$langid", "GROUPID,eq,$groupid")
+            .lst.map { item ->
+                MLangBlogPost(
+                    id = item.groupid,
+                    langid = langid,
+                    title = item.title,
+                ).also { it.gpid = item.id }
+            }.distinctBy { it.id }
     }
 
     suspend fun create(item: MLangBlogPost) = withContext(Dispatchers.IO) {

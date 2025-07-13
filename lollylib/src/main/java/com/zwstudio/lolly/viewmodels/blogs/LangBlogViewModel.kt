@@ -1,0 +1,54 @@
+package com.zwstudio.lolly.viewmodels.blogs
+
+import androidx.lifecycle.viewModelScope
+import com.zwstudio.lolly.models.blogs.MLangBlogGroup
+import com.zwstudio.lolly.models.blogs.MLangBlogPost
+import com.zwstudio.lolly.services.blogs.LangBlogGroupService
+import com.zwstudio.lolly.services.blogs.LangBlogPostContentService
+import com.zwstudio.lolly.services.blogs.LangBlogPostService
+import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+
+open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
+
+    var lstLangBlogGroupsAll_ = MutableStateFlow(listOf<MLangBlogGroup>())
+    var lstLangBlogGroupsAll get() = lstLangBlogGroupsAll_.value; set(v) { lstLangBlogGroupsAll_.value = v }
+    var lstLangBlogGroups_ = MutableStateFlow(listOf<MLangBlogGroup>())
+    var lstLangBlogGroups get() = lstLangBlogGroups_.value; set(v) { lstLangBlogGroups_.value = v }
+    var groupFilter_ = MutableStateFlow("")
+    var groupFilter get() = groupFilter_.value; set(v) { groupFilter_.value = v }
+    private val noGroupFilter get() = groupFilter.isEmpty()
+    var selectedGroup: MLangBlogGroup? = null
+
+    var lstLangBlogPostsAll_ = MutableStateFlow(listOf<MLangBlogPost>())
+    var lstLangBlogPostsAll get() = lstLangBlogPostsAll_.value; set(v) { lstLangBlogPostsAll_.value = v }
+    var lstLangBlogPosts_ = MutableStateFlow(listOf<MLangBlogPost>())
+    var lstLangBlogPosts get() = lstLangBlogPosts_.value; set(v) { lstLangBlogPosts_.value = v }
+    var postFilter_ = MutableStateFlow("")
+    var postFilter get() = postFilter_.value; set(v) { postFilter_.value = v }
+    private val noPostFilter get() = postFilter.isEmpty()
+    var selectedPost: MLangBlogPost? = null
+    var postContent = ""
+
+    protected val langBlogGroupService by inject<LangBlogGroupService>()
+    protected val langBlogPostService by inject<LangBlogPostService>()
+    protected val langBlogPostContentService by inject<LangBlogPostContentService>()
+
+    init {
+        combine(lstLangBlogGroupsAll_, groupFilter_, ::Pair).onEach {
+            lstLangBlogGroups = if (noGroupFilter) lstLangBlogGroupsAll else lstLangBlogGroupsAll.filter {
+                it.groupname.contains(groupFilter, true)
+            }
+        }.launchIn(viewModelScope)
+        combine(lstLangBlogPostsAll_, postFilter_, ::Pair).onEach {
+            lstLangBlogPosts = if (noPostFilter) lstLangBlogPostsAll else lstLangBlogPostsAll.filter {
+                it.title.contains(postFilter, true)
+            }
+        }.launchIn(viewModelScope)
+    }
+}
