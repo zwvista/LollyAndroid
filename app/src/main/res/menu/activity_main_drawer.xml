@@ -54,6 +54,10 @@
             android:id="@+id/unitBlogPostsFragment"
             android:icon="@android:drawable/ic_menu_slideshow"
             android:title="@string/unit_blog_posts"/>
+        <item
+            android:id="@+id/langBlogGroupsFragment"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="@string/lang_blog_groups"/>
     </group>
 
 </menu>

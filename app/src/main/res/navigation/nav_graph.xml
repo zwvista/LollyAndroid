@@ -358,4 +358,73 @@
             android:name="index"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/langBlogGroupsFragment"
+        android:name="com.zwstudio.lolly.ui.blogs.LangBlogGroupsFragment"
+        android:label="@string/lang_blog_groups"
+        tools:layout="@layout/fragment_lang_blog_groups" >
+        <action
+            android:id="@+id/action_langBlogGroupsFragment_to_langBlogGroupsDetailFragment"
+            app:destination="@id/langBlogGroupsDetailFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.blogs.MLangBlogGroup" />
+        </action>
+        <action
+            android:id="@+id/action_langBlogGroupsFragment_to_langBlogPostsListFragment"
+            app:destination="@id/langBlogPostsListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/langBlogGroupsDetailFragment"
+        android:name="com.zwstudio.lolly.ui.blogs.LangBlogGroupsDetailFragment"
+        android:label="@string/lang_blog_groups_detail"
+        tools:layout="@layout/fragment_lang_blog_groups_detail" >
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.blogs.MLangBlogGroup" />
+    </fragment>
+    <fragment
+        android:id="@+id/langBlogPostsContentFragment"
+        android:name="com.zwstudio.lolly.ui.blogs.LangBlogPostsContentFragment"
+        android:label="@string/lang_blog_posts_content"
+        tools:layout="@layout/fragment_lang_blog_posts_content" >
+        <argument
+            android:name="list"
+            app:argType="com.zwstudio.lolly.models.blogs.MLangBlogPost[]" />
+        <argument
+            android:name="index"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/langBlogPostsDetailFragment"
+        android:name="com.zwstudio.lolly.ui.blogs.LangBlogPostsDetailFragment"
+        android:label="@string/lang_blog_posts_detail"
+        tools:layout="@layout/fragment_lang_blog_posts_detail" >
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.blogs.MLangBlogPost" />
+    </fragment>
+    <fragment
+        android:id="@+id/langBlogPostsListFragment"
+        android:name="com.zwstudio.lolly.ui.blogs.LangBlogPostsListFragment"
+        android:label="@string/lang_blog_posts_list"
+        tools:layout="@layout/fragment_lang_blog_posts_list" >
+        <action
+            android:id="@+id/action_langBlogPostsListFragment_to_langBlogPostsDetailFragment"
+            app:destination="@id/langBlogPostsDetailFragment" >
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.blogs.MLangBlogPost" />
+        </action>
+        <action
+            android:id="@+id/action_langBlogPostsListFragment_to_langBlogPostsContentFragment"
+            app:destination="@id/langBlogPostsContentFragment">
+            <argument
+                android:name="list"
+                app:argType="com.zwstudio.lolly.models.blogs.MLangBlogPost[]" />
+            <argument
+                android:name="index"
+                app:argType="integer" />
+        </action>
+    </fragment>
 </navigation>

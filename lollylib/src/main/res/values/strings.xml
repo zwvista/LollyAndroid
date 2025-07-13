@@ -37,6 +37,11 @@
     <string name="onlineTextbooks_detail">Online Textbooks (Detail)</string>
     <string name="onlineTextbooks_webpage">Online Textbooks (Web Page)</string>
     <string name="unit_blog_posts">Unit Blog Posts</string>
+    <string name="lang_blog_groups">Language Blog Groups</string>
+    <string name="lang_blog_groups_detail">Language Blog Groups(Detail)</string>
+    <string name="lang_blog_posts_content">Language Blog Posts(Content)</string>
+    <string name="lang_blog_posts_detail">Language Blog Posts(Detail)</string>
+    <string name="lang_blog_posts_list">Language Blog Posts(List)</string>
 
     <string name="action_delete">Delete</string>
     <string name="action_more">More</string>
@@ -60,6 +65,8 @@
     <string name="action_browse_web_page">Browse Web Page</string>
     <string name="action_edit_web_pages">Edit Web Pages</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_show_posts">Show Posts</string>
+    <string name="action_show_content">Show Content</string>
     <string name="label_id">ID: %1$d</string>
     <string name="label_unit">UNIT:</string>
     <string name="label_part">PART:</string>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".blogs.LangBlogGroupsFragment">
+
+    <data>
+        <variable name="model" type="com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <SearchView
+            android:id="@+id/svGroupFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="Filter"
+            android:iconifiedByDefault="false"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <com.zwstudio.lolly.ui.common.LollySwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/svGroupFilter"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.woxthebox.draglistview.DragListView
+                android:id="@+id/drag_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </com.zwstudio.lolly.ui.common.LollySwipeRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
