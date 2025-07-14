@@ -34,6 +34,15 @@
                 android:layout_marginTop="8dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 app:layout_constraintTop_toBottomOf="@+id/tvID" />
+
+            <TextView
+                android:id="@+id/tvUrl"
+                android:text='@{@string/label_url + " " + model.item.url}'
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
