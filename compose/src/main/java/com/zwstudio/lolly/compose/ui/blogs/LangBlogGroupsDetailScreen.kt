@@ -25,7 +25,7 @@ fun LangBlogGroupsDetailScreen(item: MLangBlogGroup, navController: NavHostContr
     val vmDetail = koinViewModel<LangBlogGroupsDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = "",
+            title = stringResource(id = R.string.lang_blog_groups_detail),
             navController = navController,
         )
         Column(

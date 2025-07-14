@@ -35,7 +35,7 @@ fun LangBlogPostsContentScreen(vm: LangBlogPostsContentViewModel, navController:
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = stringResource(id = R.string.onlineTextbooks_webpage),
+            title = stringResource(id = R.string.lang_blog_posts_content),
             navController = navController
         )
         Spinner(

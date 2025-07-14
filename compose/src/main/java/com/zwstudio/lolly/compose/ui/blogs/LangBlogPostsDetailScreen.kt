@@ -25,7 +25,7 @@ fun LangBlogPostsDetailScreen(item: MLangBlogPost, navController: NavHostControl
     val vmDetail = koinViewModel<LangBlogPostsDetailViewModel> { parametersOf(item) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
-            title = "",
+            title = stringResource(id = R.string.lang_blog_posts_detail),
             navController = navController,
         )
         Column(

@@ -48,12 +48,13 @@ import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.compose.ui.common.LangBlogGroupsScreens
 import com.zwstudio.lolly.compose.ui.common.SearchView
-import com.zwstudio.lolly.compose.ui.common.TopBarMenu
+import com.zwstudio.lolly.compose.ui.common.TopBarArrow
+import com.zwstudio.lolly.models.blogs.MLangBlogGroup
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun LangBlogPostsListScreen(vm: LangBlogGroupsViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
+fun LangBlogPostsListScreen(vm: LangBlogGroupsViewModel, navController: NavHostController?, item: MLangBlogGroup) {
 
     val lstLangBlogPosts = vm.lstLangBlogPosts_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
@@ -61,13 +62,13 @@ fun LangBlogPostsListScreen(vm: LangBlogGroupsViewModel, navController: NavHostC
     val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
-        vm.getGroups()
+        vm.selectGroup(item)
     })
 
     Column(modifier = Modifier.fillMaxSize()) {
-        TopBarMenu(
+        TopBarArrow(
             title = stringResource(id = R.string.lang_blog_posts_list),
-            onButtonClicked = { openDrawer() },
+            navController = navController,
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
             SearchView(
