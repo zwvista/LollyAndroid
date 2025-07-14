@@ -11,6 +11,7 @@ import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
@@ -33,6 +34,8 @@ class LangBlogPostsListFragment : DrawerListFragment() {
     val vm by activityViewModel<LangBlogGroupsViewModel>()
     override val vmDrawerList: DrawerListViewModel get() = vm
     var binding by autoCleared<FragmentLangBlogPostsListBinding>()
+    val args: LangBlogPostsListFragmentArgs by navArgs()
+    val item get() = args.item
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLangBlogPostsListBinding.inflate(inflater, container, false).apply {
@@ -64,7 +67,7 @@ class LangBlogPostsListFragment : DrawerListFragment() {
             progressBar1.visibility = if (it) View.VISIBLE else View.GONE
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        compositeDisposable.add(vm.getPosts().subscribe())
+        compositeDisposable.add(vm.selectGroup(item).subscribe())
     }
 
     private class LangBlogPostsItemAdapter(val vm: LangBlogGroupsViewModel, val mDragListView: DragListView, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangBlogPost, LangBlogPostsItemAdapter.ViewHolder>() {

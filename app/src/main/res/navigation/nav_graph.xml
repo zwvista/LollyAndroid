@@ -372,7 +372,11 @@
         </action>
         <action
             android:id="@+id/action_langBlogGroupsFragment_to_langBlogPostsListFragment"
-            app:destination="@id/langBlogPostsListFragment" />
+            app:destination="@id/langBlogPostsListFragment">
+            <argument
+                android:name="item"
+                app:argType="com.zwstudio.lolly.models.blogs.MLangBlogGroup" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/langBlogGroupsDetailFragment"
@@ -409,6 +413,9 @@
         android:name="com.zwstudio.lolly.ui.blogs.LangBlogPostsListFragment"
         android:label="@string/lang_blog_posts_list"
         tools:layout="@layout/fragment_lang_blog_posts_list" >
+        <argument
+            android:name="item"
+            app:argType="com.zwstudio.lolly.models.blogs.MLangBlogGroup" />
         <action
             android:id="@+id/action_langBlogPostsListFragment_to_langBlogPostsDetailFragment"
             app:destination="@id/langBlogPostsDetailFragment" >
