@@ -68,7 +68,7 @@ fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController
 
     val lstWords = vm.lstWords_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
-    var currentItemIndex by remember { mutableIntStateOf(0) }
+    var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
@@ -119,7 +119,7 @@ fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController
                             .combinedClickable(
                                 onClick = { speak(item.word) },
                                 onLongClick = {
-                                    currentItemIndex = index
+                                    selectedItemIndex = index
                                     showItemDialog = true
                                 },
                             ),
@@ -160,7 +160,7 @@ fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController
     }
 
     if (showItemDialog) {
-        val item = lstWords[currentItemIndex]
+        val item = lstWords[selectedItemIndex]
         BasicAlertDialog(
             onDismissRequest = { showItemDialog = false },
         ) {
@@ -174,7 +174,7 @@ fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController
                     Spacer(modifier = Modifier.height(24.dp))
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(WordsScreens.WordsTextbookDetail.route + "/$currentItemIndex")
+                        navController?.navigate(WordsScreens.WordsTextbookDetail.route + "/$selectedItemIndex")
                     }) {
                         Text(stringResource(id = R.string.action_edit))
                     }

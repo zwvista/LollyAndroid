@@ -83,7 +83,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
     val lstWords = vm.lstWords_.collectAsState().value
     val state = rememberReorderableLazyListState(onMove = { _,_ -> }, canDragOver = { _,_ -> true })
     var showItemDialog by remember { mutableStateOf(false) }
-    var currentItemIndex by remember { mutableIntStateOf(0) }
+    var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
@@ -139,7 +139,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                                             speak(item.word)
                                     },
                                     onLongClick = {
-                                        currentItemIndex = index
+                                        selectedItemIndex = index
                                         showItemDialog = true
                                     },
                                 ),
@@ -201,7 +201,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
     }
 
     if (showItemDialog) {
-        val item = lstWords[currentItemIndex]
+        val item = lstWords[selectedItemIndex]
         BasicAlertDialog(
             onDismissRequest = { showItemDialog = false }
         ) {
@@ -220,7 +220,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                     }
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$currentItemIndex")
+                        navController?.navigate(WordsScreens.WordsUnitDetail.route + "/$selectedItemIndex")
                     }) {
                         Text(stringResource(id = R.string.action_edit))
                     }

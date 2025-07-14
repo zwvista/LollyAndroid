@@ -78,7 +78,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
     val lstPhrases = vm.lstPhrases_.collectAsState().value
     val state = rememberReorderableLazyListState(onMove = { _,_ -> }, canDragOver = { _,_ -> true })
     var showItemDialog by remember { mutableStateOf(false) }
-    var currentItemIndex by remember { mutableIntStateOf(0) }
+    var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
@@ -134,7 +134,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                                             speak(item.phrase)
                                     },
                                     onLongClick = {
-                                        currentItemIndex = index
+                                        selectedItemIndex = index
                                         showItemDialog = true
                                     },
                                 ),
@@ -182,7 +182,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
     }
 
     if (showItemDialog) {
-        val item = lstPhrases[currentItemIndex]
+        val item = lstPhrases[selectedItemIndex]
         BasicAlertDialog(
             onDismissRequest = { showItemDialog = false },
         ) {
@@ -201,7 +201,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                     }
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(PhrasesScreens.PhrasesUnitDetail.route + "/$currentItemIndex")
+                        navController?.navigate(PhrasesScreens.PhrasesUnitDetail.route + "/$selectedItemIndex")
                     }) {
                         Text(stringResource(id = R.string.action_edit))
                     }

@@ -60,7 +60,7 @@ fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostCo
 
     val lstOnlineTextbooks = vm.lstOnlineTextbooks_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
-    var currentItemIndex by remember { mutableIntStateOf(0) }
+    var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
@@ -99,7 +99,7 @@ fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostCo
                             .combinedClickable(
                                 onClick = { speak(item.textbookname) },
                                 onLongClick = {
-                                    currentItemIndex = index
+                                    selectedItemIndex = index
                                     showItemDialog = true
                                 },
                             ),
@@ -135,7 +135,7 @@ fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostCo
     }
 
     if (showItemDialog) {
-        val item = lstOnlineTextbooks[currentItemIndex]
+        val item = lstOnlineTextbooks[selectedItemIndex]
         BasicAlertDialog(
             onDismissRequest = { showItemDialog = false },
         ) {
@@ -149,13 +149,13 @@ fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostCo
                     Spacer(modifier = Modifier.height(24.dp))
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(OnlineTextbooksScreens.OnlineTextbooksDetail.route + "/$currentItemIndex")
+                        navController?.navigate(OnlineTextbooksScreens.OnlineTextbooksDetail.route + "/$selectedItemIndex")
                     }) {
                         Text(stringResource(id = R.string.action_edit))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(OnlineTextbooksScreens.OnlineTextbooksWebPage.route + "/$currentItemIndex")
+                        navController?.navigate(OnlineTextbooksScreens.OnlineTextbooksWebPage.route + "/$selectedItemIndex")
                     }) {
                         Text(stringResource(id = R.string.action_browse_web_page))
                     }

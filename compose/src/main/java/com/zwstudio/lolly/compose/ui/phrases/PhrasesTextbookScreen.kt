@@ -65,7 +65,7 @@ fun PhrasesTextbookScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
 
     val lstPhrases = vm.lstPhrases_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
-    var currentItemIndex by remember { mutableIntStateOf(0) }
+    var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
@@ -116,7 +116,7 @@ fun PhrasesTextbookScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
                             .combinedClickable(
                                 onClick = { speak(item.phrase) },
                                 onLongClick = {
-                                    currentItemIndex = index
+                                    selectedItemIndex = index
                                     showItemDialog = true
                                 },
                             ),
@@ -155,7 +155,7 @@ fun PhrasesTextbookScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
     }
 
     if (showItemDialog) {
-        val item = lstPhrases[currentItemIndex]
+        val item = lstPhrases[selectedItemIndex]
         BasicAlertDialog(
             onDismissRequest = { showItemDialog = false },
         ) {
@@ -174,7 +174,7 @@ fun PhrasesTextbookScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
                     }
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(PhrasesScreens.PhrasesTextbookDetail.route + "/$currentItemIndex")
+                        navController?.navigate(PhrasesScreens.PhrasesTextbookDetail.route + "/$selectedItemIndex")
                     }) {
                         Text(stringResource(id = R.string.action_edit))
                     }

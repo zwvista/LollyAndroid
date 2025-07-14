@@ -58,7 +58,7 @@ fun LangBlogGroupsScreen(vm: LangBlogGroupsViewModel, navController: NavHostCont
 
     val lstLangBlogGroups = vm.lstLangBlogGroups_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
-    var currentItemIndex by remember { mutableIntStateOf(0) }
+    var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
@@ -93,7 +93,7 @@ fun LangBlogGroupsScreen(vm: LangBlogGroupsViewModel, navController: NavHostCont
                             .combinedClickable(
                                 onClick = { speak(item.groupname) },
                                 onLongClick = {
-                                    currentItemIndex = index
+                                    selectedItemIndex = index
                                     showItemDialog = true
                                 },
                             ),
@@ -125,7 +125,7 @@ fun LangBlogGroupsScreen(vm: LangBlogGroupsViewModel, navController: NavHostCont
     }
 
     if (showItemDialog) {
-        val item = lstLangBlogGroups[currentItemIndex]
+        val item = lstLangBlogGroups[selectedItemIndex]
         BasicAlertDialog(
             onDismissRequest = { showItemDialog = false },
         ) {
@@ -139,13 +139,13 @@ fun LangBlogGroupsScreen(vm: LangBlogGroupsViewModel, navController: NavHostCont
                     Spacer(modifier = Modifier.height(24.dp))
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(LangBlogGroupsScreens.LangBlogGroupsDetail.route + "/$currentItemIndex")
+                        navController?.navigate(LangBlogGroupsScreens.LangBlogGroupsDetail.route + "/$selectedItemIndex")
                     }) {
                         Text(stringResource(id = R.string.action_edit))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(LangBlogGroupsScreens.LangBlogPostsList.route + "/$currentItemIndex")
+                        navController?.navigate(LangBlogGroupsScreens.LangBlogPostsList.route + "/$selectedItemIndex")
                     }) {
                         Text(stringResource(id = R.string.action_browse_web_page))
                     }

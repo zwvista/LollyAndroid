@@ -63,7 +63,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
 
     val lstPatterns = vm.lstPatterns_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
-    var currentItemIndex by remember { mutableIntStateOf(0) }
+    var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
@@ -106,7 +106,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                             .combinedClickable(
                                 onClick = { speak(item.pattern) },
                                 onLongClick = {
-                                    currentItemIndex = index
+                                    selectedItemIndex = index
                                     showItemDialog = true
                                 },
                             ),
@@ -142,7 +142,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
     }
 
     if (showItemDialog) {
-        val item = lstPatterns[currentItemIndex]
+        val item = lstPatterns[selectedItemIndex]
         BasicAlertDialog(
             onDismissRequest = { showItemDialog = false },
         ) {
@@ -156,13 +156,13 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
                     Spacer(modifier = Modifier.height(24.dp))
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(PatternsScreens.PatternsDetail.route + "/$currentItemIndex")
+                        navController?.navigate(PatternsScreens.PatternsDetail.route + "/$selectedItemIndex")
                     }) {
                         Text(stringResource(id = R.string.action_edit))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(PatternsScreens.PatternsWebPage.route + "/$currentItemIndex")
+                        navController?.navigate(PatternsScreens.PatternsWebPage.route + "/$selectedItemIndex")
                     }) {
                         Text(stringResource(id = R.string.action_browse_web_page))
                     }
