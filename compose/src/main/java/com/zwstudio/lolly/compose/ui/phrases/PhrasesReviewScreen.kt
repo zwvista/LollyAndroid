@@ -65,7 +65,7 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.PhrasesReview.title,
+            title = stringResource(id = DrawerScreens.PhrasesReview.titleRes),
             onButtonClicked = { openDrawer() },
             actions = {
                 Button(

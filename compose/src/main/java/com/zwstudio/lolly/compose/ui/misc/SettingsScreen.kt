@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zwstudio.lolly.common.vmSettings
@@ -36,7 +37,7 @@ fun SettingsScreen(openDrawer: () -> Unit) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.Settings.title,
+            title = stringResource(id = DrawerScreens.Settings.titleRes),
             onButtonClicked = { openDrawer() }
         )
         Column(

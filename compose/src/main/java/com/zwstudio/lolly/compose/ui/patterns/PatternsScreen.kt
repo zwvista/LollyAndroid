@@ -72,7 +72,7 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.Patterns.title,
+            title = stringResource(id = DrawerScreens.Patterns.titleRes),
             onButtonClicked = { openDrawer() },
         )
         Row(verticalAlignment = Alignment.CenterVertically) {

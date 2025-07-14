@@ -87,7 +87,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.PhrasesUnit.title,
+            title = stringResource(id = DrawerScreens.PhrasesUnit.titleRes),
             onButtonClicked = { openDrawer() },
             actions = { PhrasesUnitActions(vm, navController) }
         )

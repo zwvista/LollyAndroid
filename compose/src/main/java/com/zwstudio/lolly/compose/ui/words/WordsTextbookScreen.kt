@@ -77,7 +77,7 @@ fun WordsTextbookScreen(vm: WordsUnitViewModel, navController: NavHostController
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.WordsTextbook.title,
+            title = stringResource(id = DrawerScreens.WordsTextbook.titleRes),
             onButtonClicked = { openDrawer() }
         )
         SearchView(

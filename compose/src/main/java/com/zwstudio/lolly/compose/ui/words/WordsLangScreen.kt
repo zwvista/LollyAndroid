@@ -78,7 +78,7 @@ fun WordsLangScreen(vm: WordsLangViewModel, navController: NavHostController?, o
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.WordsLang.title,
+            title = stringResource(id = DrawerScreens.WordsLang.titleRes),
             onButtonClicked = { openDrawer() },
             actions = {
                 IconButton(onClick = {

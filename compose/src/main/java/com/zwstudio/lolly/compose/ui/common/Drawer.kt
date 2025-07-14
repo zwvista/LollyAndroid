@@ -1,5 +1,6 @@
 package com.zwstudio.lolly.compose.ui.common
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -12,25 +13,27 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.compose.ui.theme.LollyAndroidTheme
 
-sealed class DrawerScreens(val title: String, val route: String) {
-    object Search : DrawerScreens("Search", "Search")
-    object Settings : DrawerScreens("Settings", "Settings")
-    object WordsUnit : DrawerScreens( "Words in Unit", "WordsUnit")
-    object PhrasesUnit : DrawerScreens( "Phrases in Unit", "PhrasesUnit")
-    object WordsReview : DrawerScreens( "Words Review", "WordsReview")
-    object PhrasesReview : DrawerScreens( "Phrases Review", "PhrasesReview")
-    object WordsTextbook : DrawerScreens( "Words in Textbook", "WordsTextbook")
-    object PhrasesTextbook : DrawerScreens( "Phrases in Textbook", "PhrasesTextbook")
-    object WordsLang : DrawerScreens( "Words in Language", "WordsLang")
-    object PhrasesLang : DrawerScreens( "Phrases in Language", "PhrasesLang")
-    object Patterns : DrawerScreens( "Patterns in Language", "Patterns")
-    object OnlineTextbooks : DrawerScreens( "Online Textbooks", "OnlineTextbooks")
-    object BlogsUnit : DrawerScreens( "Unit Blog Posts", "BlogsUnit")
+sealed class DrawerScreens(@StringRes val titleRes: Int, val route: String) {
+    object Search : DrawerScreens(R.string.search, "Search")
+    object Settings : DrawerScreens(R.string.settings, "Settings")
+    object WordsUnit : DrawerScreens( R.string.words_unit, "WordsUnit")
+    object PhrasesUnit : DrawerScreens( R.string.phrases_unit, "PhrasesUnit")
+    object WordsReview : DrawerScreens( R.string.words_review, "WordsReview")
+    object PhrasesReview : DrawerScreens( R.string.phrases_review, "PhrasesReview")
+    object WordsTextbook : DrawerScreens( R.string.words_textbook, "WordsTextbook")
+    object PhrasesTextbook : DrawerScreens( R.string.phrases_textbook, "PhrasesTextbook")
+    object WordsLang : DrawerScreens( R.string.words_lang, "WordsLang")
+    object PhrasesLang : DrawerScreens( R.string.phrases_lang, "PhrasesLang")
+    object Patterns : DrawerScreens( R.string.patterns, "Patterns")
+    object OnlineTextbooks : DrawerScreens( R.string.onlinetextbooks, "OnlineTextbooks")
+    object UnitBlogPosts : DrawerScreens( R.string.unit_blog_posts, "UnitBlogPosts")
+    object LangBlogGroups : DrawerScreens( R.string.lang_blog_groups, "LangBlogGroups")
 }
 
 private val screens = listOf(
@@ -46,7 +49,8 @@ private val screens = listOf(
     DrawerScreens.PhrasesLang,
     DrawerScreens.Patterns,
     DrawerScreens.OnlineTextbooks,
-    DrawerScreens.BlogsUnit,
+    DrawerScreens.UnitBlogPosts,
+    DrawerScreens.LangBlogGroups,
 )
 
 @Composable
@@ -66,7 +70,7 @@ fun Drawer(
         screens.forEach { screen ->
             Spacer(Modifier.height(24.dp))
             Text(
-                text = screen.title,
+                text = stringResource(id = screen.titleRes),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.clickable {
                     onDestinationClicked(screen.route)

@@ -74,7 +74,7 @@ fun PhrasesTextbookScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.PhrasesTextbook.title,
+            title = stringResource(id = DrawerScreens.PhrasesTextbook.titleRes),
             onButtonClicked = { openDrawer() }
         )
         SearchView(

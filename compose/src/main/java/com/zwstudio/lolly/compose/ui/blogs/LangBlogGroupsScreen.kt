@@ -1,7 +1,6 @@
-package com.zwstudio.lolly.compose.ui.onlinetextbooks
+package com.zwstudio.lolly.compose.ui.blogs
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,41 +45,36 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.common.speak
-import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.compose.ui.common.DrawerScreens
-import com.zwstudio.lolly.compose.ui.common.OnlineTextbooksScreens
-import com.zwstudio.lolly.compose.ui.common.Spinner
+import com.zwstudio.lolly.compose.ui.common.LangBlogGroupsScreens
+import com.zwstudio.lolly.compose.ui.common.SearchView
 import com.zwstudio.lolly.compose.ui.common.TopBarMenu
-import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
+import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
+fun LangBlogGroupsScreen(vm: LangBlogGroupsViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
-    val lstOnlineTextbooks = vm.lstOnlineTextbooks_.collectAsState().value
+    val lstLangBlogGroups = vm.lstLangBlogGroups_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
     var currentItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
     LaunchedEffect(Unit, block = {
-        vm.getData()
+        vm.getGroups()
     })
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = stringResource(id = DrawerScreens.OnlineTextbooks.titleRes),
+            title = stringResource(id = DrawerScreens.LangBlogGroups.titleRes),
             onButtonClicked = { openDrawer() },
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Spinner(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = colorResource(R.color.color_text2)),
-                itemsStateFlow = vmSettings.lstOnlineTextbookFilters_,
-                selectedItemIndexStateFlow = vm.onlineTextbookFilterIndex_,
-                itemText = { it.label }
-            )
+            SearchView(
+                valueStateFlow = vm.groupFilter_
+            ) {
+            }
         }
         if (vm.isBusy) {
             Box(
@@ -91,13 +85,13 @@ fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostCo
             }
         } else {
             LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                itemsIndexed(lstOnlineTextbooks, key = { _, item -> item.id }) { index, item ->
+                itemsIndexed(lstLangBlogGroups, key = { _, item -> item.id }) { index, item ->
                     Card(
                         modifier = Modifier
                             .padding(top = 8.dp, bottom = 8.dp)
                             .fillMaxWidth()
                             .combinedClickable(
-                                onClick = { speak(item.textbookname) },
+                                onClick = { speak(item.groupname) },
                                 onLongClick = {
                                     currentItemIndex = index
                                     showItemDialog = true
@@ -112,17 +106,13 @@ fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostCo
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = item.textbookname,
+                                    text = item.groupname,
                                     color = colorResource(R.color.color_text2)
-                                )
-                                Text(
-                                    text = item.title,
-                                    color = colorResource(R.color.color_text3)
                                 )
                             }
                             IconButton(
                                 onClick = {
-                                    navController?.navigate(OnlineTextbooksScreens.OnlineTextbooksWebPage.route + "/$index")
+                                    navController?.navigate(LangBlogGroupsScreens.LangBlogPostsList.route + "/$index")
                                 }
                             ) {
                                 Icon(Icons.Filled.Info, null, tint = MaterialTheme.colorScheme.primary)
@@ -135,7 +125,7 @@ fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostCo
     }
 
     if (showItemDialog) {
-        val item = lstOnlineTextbooks[currentItemIndex]
+        val item = lstLangBlogGroups[currentItemIndex]
         BasicAlertDialog(
             onDismissRequest = { showItemDialog = false },
         ) {
@@ -145,17 +135,17 @@ fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostCo
                 tonalElevation = AlertDialogDefaults.TonalElevation
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text(text = item.title)
+                    Text(text = item.groupname)
                     Spacer(modifier = Modifier.height(24.dp))
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(OnlineTextbooksScreens.OnlineTextbooksDetail.route + "/$currentItemIndex")
+                        navController?.navigate(LangBlogGroupsScreens.LangBlogGroupsDetail.route + "/$currentItemIndex")
                     }) {
                         Text(stringResource(id = R.string.action_edit))
                     }
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(OnlineTextbooksScreens.OnlineTextbooksWebPage.route + "/$currentItemIndex")
+                        navController?.navigate(LangBlogGroupsScreens.LangBlogPostsList.route + "/$currentItemIndex")
                     }) {
                         Text(stringResource(id = R.string.action_browse_web_page))
                     }

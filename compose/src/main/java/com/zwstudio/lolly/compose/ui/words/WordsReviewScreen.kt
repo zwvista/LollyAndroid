@@ -68,7 +68,7 @@ fun WordsReviewScreen(vm: WordsReviewViewModel, navController: NavHostController
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.WordsReview.title,
+            title = stringResource(id = DrawerScreens.WordsReview.titleRes),
             onButtonClicked = { openDrawer() },
             actions = {
                 Button(

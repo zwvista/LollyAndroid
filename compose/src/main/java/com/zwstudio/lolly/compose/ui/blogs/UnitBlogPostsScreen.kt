@@ -40,7 +40,7 @@ fun UnitBlogPostsScreen(vm: UnitBlogPostsViewModel, navController: NavHostContro
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.BlogsUnit.title,
+            title = stringResource(id = DrawerScreens.UnitBlogPosts.titleRes),
             onButtonClicked = { openDrawer() },
         )
         Spinner(

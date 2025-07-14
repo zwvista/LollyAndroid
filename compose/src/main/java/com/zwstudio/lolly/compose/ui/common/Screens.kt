@@ -48,8 +48,16 @@ sealed class OnlineTextbooksScreens(val route: String) {
     object OnlineTextbooksWebPage : PatternsScreens("OnlineTextbooksWebPage")
 }
 
-sealed class BlogsUnitScreens(val route: String) {
-    object UnitBlogPosts : BlogsUnitScreens("UnitBlogPosts")
+sealed class UnitBlogPostsScreens(val route: String) {
+    object UnitBlogPosts : UnitBlogPostsScreens("UnitBlogPosts")
+}
+
+sealed class LangBlogGroupsScreens(val route: String) {
+    object LangBlogGroups : LangBlogGroupsScreens("LangBlogGroups")
+    object LangBlogGroupsDetail : LangBlogGroupsScreens("LangBlogGroupsDetail")
+    object LangBlogPostsContent : LangBlogGroupsScreens("LangBlogPostsContent")
+    object LangBlogPostsDetail : LangBlogGroupsScreens("LangBlogPostsDetail")
+    object LangBlogPostsList : LangBlogGroupsScreens("LangBlogPostsList")
 }
 
 const val INDEX_KEY = "INDEX_KEY"

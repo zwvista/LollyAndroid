@@ -21,7 +21,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.zwstudio.lolly.common.onCreateApp
 import com.zwstudio.lolly.common.onDestroyApp
-import com.zwstudio.lolly.compose.ui.blogs.BlogsUnitHost
+import com.zwstudio.lolly.compose.ui.blogs.LangBlogGroupsHost
+import com.zwstudio.lolly.compose.ui.blogs.UnitBlogPostsHost
 import com.zwstudio.lolly.compose.ui.common.Drawer
 import com.zwstudio.lolly.compose.ui.common.DrawerScreens
 import com.zwstudio.lolly.compose.ui.common.TopScreens
@@ -145,8 +146,11 @@ fun AppMainScreen() {
                 composable(DrawerScreens.OnlineTextbooks.route) {
                     OnlineTextbooksHost { openDrawer() }
                 }
-                composable(DrawerScreens.BlogsUnit.route) {
-                    BlogsUnitHost { openDrawer() }
+                composable(DrawerScreens.UnitBlogPosts.route) {
+                    UnitBlogPostsHost { openDrawer() }
+                }
+                composable(DrawerScreens.LangBlogGroups.route) {
+                    LangBlogGroupsHost { openDrawer() }
                 }
             }
         }

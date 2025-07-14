@@ -72,7 +72,7 @@ fun PhrasesLangScreen(vm: PhrasesLangViewModel, navController: NavHostController
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
-            title = DrawerScreens.PhrasesLang.title,
+            title = stringResource(id = DrawerScreens.PhrasesLang.titleRes),
             onButtonClicked = { openDrawer() },
             actions = {
                 IconButton(onClick = {
