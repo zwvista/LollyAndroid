@@ -54,7 +54,7 @@ fun LangBlogGroupsHost(openDrawer: () -> Unit) {
             val index = it.arguments!!.getInt(INDEX_KEY)
             val (start, end) = getPreferredRangeFromArray(index, vm.lstLangBlogPosts.size, 50)
             val lstLangBlogPosts = vm.lstLangBlogPosts.subList(start, end)
-            LangBlogPostsContentScreen(LangBlogPostsContentViewModel(lstLangBlogPosts, index), navController)
+            LangBlogPostsContentScreen(LangBlogPostsContentViewModel(lstLangBlogPosts, index), vmGroup = vm, navController)
         }
     }
 }

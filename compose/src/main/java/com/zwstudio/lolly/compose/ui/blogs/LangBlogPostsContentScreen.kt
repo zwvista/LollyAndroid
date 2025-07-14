@@ -19,17 +19,28 @@ import com.zwstudio.lolly.common.TouchListener
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.compose.ui.common.Spinner
 import com.zwstudio.lolly.compose.ui.common.TopBarArrow
+import com.zwstudio.lolly.services.misc.BlogService
+import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogPostsContentViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @Composable
-fun LangBlogPostsContentScreen(vm: LangBlogPostsContentViewModel, navController: NavHostController?) {
+fun LangBlogPostsContentScreen(
+    vm: LangBlogPostsContentViewModel,
+    vmGroup: LangBlogGroupsViewModel,
+    navController: NavHostController?
+) {
 
     var wv: WebView? = remember { null }
     LaunchedEffect(Unit, block = {
         vm.selectedLangBlogPostIndex_.onEach {
-//            wv?.loadUrl(vm.selectedLangBlogPost.url)
+            vmGroup.selectPost(vm.selectedLangBlogPost)
+        }.launchIn(this)
+
+        vmGroup.postContent_.onEach {
+            val str = BlogService().markedToHtml(vmGroup.postContent)
+            wv?.loadData(str, null, null)
         }.launchIn(this)
     })
 
