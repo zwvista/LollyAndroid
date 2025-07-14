@@ -30,8 +30,10 @@ import com.zwstudio.lolly.services.wpp.PatternService
 import com.zwstudio.lolly.services.wpp.UnitPhraseService
 import com.zwstudio.lolly.services.wpp.UnitWordService
 import com.zwstudio.lolly.services.wpp.WordFamiService
+import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsDetailViewModel
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogPostsContentViewModel
+import com.zwstudio.lolly.viewmodels.blogs.LangBlogPostsDetailViewModel
 import com.zwstudio.lolly.viewmodels.blogs.UnitBlogPostsViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
 import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
@@ -157,8 +159,10 @@ val lollyModule = module {
     single { UnitWordService() }
     single { WordFamiService() }
 
+    viewModel { parameters -> LangBlogGroupsDetailViewModel(item = parameters.get()) }
     viewModel { LangBlogGroupsViewModel() }
     viewModel { parameters -> LangBlogPostsContentViewModel(lstLangBlogPosts = parameters.get(), index = parameters.get()) }
+    viewModel { parameters -> LangBlogPostsDetailViewModel(item = parameters.get()) }
     viewModel { UnitBlogPostsViewModel() }
 
     viewModel { LoginViewModel() }
