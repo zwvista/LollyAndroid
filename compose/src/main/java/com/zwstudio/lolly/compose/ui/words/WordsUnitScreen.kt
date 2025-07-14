@@ -278,7 +278,7 @@ fun WordsUnitActions(vm: WordsUnitViewModel, navController: NavHostController?) 
     var expanded by remember { mutableStateOf(false) }
     Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
         IconButton(onClick = { expanded = true }) {
-            Icon(Icons.Filled.MoreVert, null, tint = MaterialTheme.colorScheme.surface)
+            Icon(Icons.Filled.MoreVert, null, tint = MaterialTheme.colorScheme.primary)
         }
         DropdownMenu(
             expanded = expanded,

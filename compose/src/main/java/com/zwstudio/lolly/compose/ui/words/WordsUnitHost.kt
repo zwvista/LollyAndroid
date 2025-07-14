@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.zwstudio.lolly.common.getPreferredRangeFromArray
 import com.zwstudio.lolly.compose.ui.common.INDEX_KEY
 import com.zwstudio.lolly.compose.ui.common.WordsScreens
 import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
@@ -40,7 +41,8 @@ fun WordsUnitHost(openDrawer: () -> Unit) {
             })
         ) {
             val index = it.arguments!!.getInt(INDEX_KEY)
-            val lstWords = vm.lstWords.map { it.word }
+            val (start, end) = getPreferredRangeFromArray(index, vm.lstWords.size, 50)
+            val lstWords = vm.lstWords.map { it.word }.subList(start, end)
             WordsDictScreen(WordsDictViewModel(lstWords, index), navController)
         }
         composable(route = WordsScreens.WordsUnitBatchEdit.route) {
