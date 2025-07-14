@@ -11,6 +11,7 @@ import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
@@ -132,12 +133,15 @@ class LangBlogPostsListFragment : DrawerListFragment() {
             }
 
             private fun showContent(item: MLangBlogPost) {
-                val index = vm.lstLangBlogPosts.indexOf(item)
-                val (start, end) = getPreferredRangeFromArray(index, vm.lstLangBlogPosts.size, 50)
-                navController.navigate(
+                vm.viewModelScope.launch {
+                    vm.selectPost(item)
+                    val index = vm.lstLangBlogPosts.indexOf(item)
+                    val (start, end) = getPreferredRangeFromArray(index, vm.lstLangBlogPosts.size, 50)
+                    navController.navigate(
                     LangBlogPostsListFragmentDirections.actionLangBlogPostsListFragmentToLangBlogPostsContentFragment(
-                    vm.lstLangBlogPosts.subList(start, end).toTypedArray(), index
-                ))
+                        vm.lstLangBlogPosts.subList(start, end).toTypedArray(), index
+                    ))
+                }
             }
         }
     }
