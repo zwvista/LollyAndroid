@@ -8,15 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.databinding.FragmentLangBlogPostsDetailBinding
 import com.zwstudio.lolly.ui.common.autoCleared
-import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogPostsDetailViewModel
-import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 class LangBlogPostsDetailFragment : Fragment() {
 
-    val vm by lazy { requireParentFragment().getViewModel<LangBlogGroupsViewModel>() }
     val vmDetail by viewModel<LangBlogPostsDetailViewModel>{ parametersOf(item) }
     var binding by autoCleared<FragmentLangBlogPostsDetailBinding>()
     val args: LangBlogPostsDetailFragmentArgs by navArgs()
