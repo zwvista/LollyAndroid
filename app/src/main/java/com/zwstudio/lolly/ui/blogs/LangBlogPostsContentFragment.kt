@@ -16,12 +16,12 @@ import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogPostsContentViewModel
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import kotlin.getValue
 
 class LangBlogPostsContentFragment : Fragment() {
 
@@ -29,6 +29,7 @@ class LangBlogPostsContentFragment : Fragment() {
     val args: LangBlogPostsContentFragmentArgs by navArgs()
     val vm by viewModel<LangBlogPostsContentViewModel>{ parametersOf(args.list.toList(), args.index) }
     val vmGroup by activityViewModel<LangBlogGroupsViewModel>()
+    val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLangBlogPostsContentBinding.inflate(inflater, container, false).apply {
@@ -51,6 +52,10 @@ class LangBlogPostsContentFragment : Fragment() {
         binding.spnLangBlogPost.adapter = makeCustomAdapter(requireContext(), vm.lstLangBlogPosts) { it.title }
 
         vm.selectedLangBlogPostIndex_.onEach {
+            compositeDisposable.add(vmGroup.selectPost(vm.selectedLangBlogPost).subscribe())
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        vmGroup.postContent_.onEach {
             val str = BlogService().markedToHtml(vmGroup.postContent)
             binding.webView.loadData(str, null, null)
         }.launchIn(viewLifecycleOwner.lifecycleScope)

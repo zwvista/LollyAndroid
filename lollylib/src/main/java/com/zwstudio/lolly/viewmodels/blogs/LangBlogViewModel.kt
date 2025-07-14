@@ -33,7 +33,9 @@ open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
     var postFilter get() = postFilter_.value; set(v) { postFilter_.value = v }
     private val noPostFilter get() = postFilter.isEmpty()
     var selectedPost: MLangBlogPost? = null
-    var postContent = ""
+
+    var postContent_ = MutableStateFlow("")
+    var postContent get() = postContent_.value; set(v) { postContent_.value = v }
 
     protected val langBlogGroupService by inject<LangBlogGroupService>()
     protected val langBlogPostService by inject<LangBlogPostService>()

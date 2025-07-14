@@ -59,7 +59,7 @@ class LangBlogPostsListFragment : DrawerListFragment() {
         setupListView()
 
         vm.lstLangBlogPosts_.onEach {
-            val listAdapter = LangBlogPostsItemAdapter(vm, mDragListView, compositeDisposable)
+            val listAdapter = LangBlogPostsItemAdapter(vm, mDragListView)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -70,7 +70,7 @@ class LangBlogPostsListFragment : DrawerListFragment() {
         compositeDisposable.add(vm.selectGroup(item).subscribe())
     }
 
-    private class LangBlogPostsItemAdapter(val vm: LangBlogGroupsViewModel, val mDragListView: DragListView, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangBlogPost, LangBlogPostsItemAdapter.ViewHolder>() {
+    private class LangBlogPostsItemAdapter(val vm: LangBlogGroupsViewModel, val mDragListView: DragListView) : DragItemAdapter<MLangBlogPost, LangBlogPostsItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstLangBlogPosts
@@ -133,14 +133,12 @@ class LangBlogPostsListFragment : DrawerListFragment() {
             }
 
             private fun showContent(item: MLangBlogPost) {
-                compositeDisposable.add(vm.selectPost(item).subscribe {
-                    val index = vm.lstLangBlogPosts.indexOf(item)
-                    val (start, end) = getPreferredRangeFromArray(index, vm.lstLangBlogPosts.size, 50)
-                    navController.navigate(
-                    LangBlogPostsListFragmentDirections.actionLangBlogPostsListFragmentToLangBlogPostsContentFragment(
-                        vm.lstLangBlogPosts.subList(start, end).toTypedArray(), index
-                    ))
-                })
+                val index = vm.lstLangBlogPosts.indexOf(item)
+                val (start, end) = getPreferredRangeFromArray(index, vm.lstLangBlogPosts.size, 50)
+                navController.navigate(
+                LangBlogPostsListFragmentDirections.actionLangBlogPostsListFragmentToLangBlogPostsContentFragment(
+                    vm.lstLangBlogPosts.subList(start, end).toTypedArray(), index
+                ))
             }
         }
     }
