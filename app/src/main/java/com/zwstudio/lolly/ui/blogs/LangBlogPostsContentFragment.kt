@@ -11,19 +11,24 @@ import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.common.OnSwipeWebviewTouchListener
 import com.zwstudio.lolly.common.TouchListener
 import com.zwstudio.lolly.databinding.FragmentLangBlogPostsContentBinding
+import com.zwstudio.lolly.services.misc.BlogService
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
+import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogPostsContentViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.androidx.viewmodel.ext.android.activityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
+import kotlin.getValue
 
 class LangBlogPostsContentFragment : Fragment() {
 
     var binding by autoCleared<FragmentLangBlogPostsContentBinding>()
     val args: LangBlogPostsContentFragmentArgs by navArgs()
     val vm by viewModel<LangBlogPostsContentViewModel>{ parametersOf(args.list.toList(), args.index) }
+    val vmGroup by activityViewModel<LangBlogGroupsViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLangBlogPostsContentBinding.inflate(inflater, container, false).apply {
@@ -46,9 +51,8 @@ class LangBlogPostsContentFragment : Fragment() {
         binding.spnLangBlogPost.adapter = makeCustomAdapter(requireContext(), vm.lstLangBlogPosts) { it.title }
 
         vm.selectedLangBlogPostIndex_.onEach {
-//            val content = vmSettings.getBlogContent(vm.selectedUnit)
-//            val str = BlogService().markedToHtml(content)
-//            binding.webView.loadData(str, null, null)
+            val str = BlogService().markedToHtml(vmGroup.postContent)
+            binding.webView.loadData(str, null, null)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

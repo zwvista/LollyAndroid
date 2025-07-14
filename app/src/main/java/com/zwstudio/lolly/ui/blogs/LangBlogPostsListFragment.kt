@@ -23,9 +23,9 @@ import com.zwstudio.lolly.ui.common.DrawerListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class LangBlogPostsListFragment : DrawerListFragment() {
@@ -56,7 +56,7 @@ class LangBlogPostsListFragment : DrawerListFragment() {
         setupListView()
 
         vm.lstLangBlogPosts_.onEach {
-            val listAdapter = LangBlogPostsItemAdapter(vm, mDragListView)
+            val listAdapter = LangBlogPostsItemAdapter(vm, mDragListView, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -64,12 +64,10 @@ class LangBlogPostsListFragment : DrawerListFragment() {
             progressBar1.visibility = if (it) View.VISIBLE else View.GONE
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            vm.getPosts()
-        }
+        compositeDisposable.add(vm.getPosts().subscribe())
     }
 
-    private class LangBlogPostsItemAdapter(val vm: LangBlogGroupsViewModel, val mDragListView: DragListView) : DragItemAdapter<MLangBlogPost, LangBlogPostsItemAdapter.ViewHolder>() {
+    private class LangBlogPostsItemAdapter(val vm: LangBlogGroupsViewModel, val mDragListView: DragListView, val compositeDisposable: CompositeDisposable) : DragItemAdapter<MLangBlogPost, LangBlogPostsItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstLangBlogPosts
@@ -132,12 +130,14 @@ class LangBlogPostsListFragment : DrawerListFragment() {
             }
 
             private fun showContent(item: MLangBlogPost) {
-                val index = vm.lstLangBlogPosts.indexOf(item)
-                val (start, end) = getPreferredRangeFromArray(index, vm.lstLangBlogPosts.size, 50)
-                navController.navigate(
+                compositeDisposable.add(vm.selectPost(item).subscribe {
+                    val index = vm.lstLangBlogPosts.indexOf(item)
+                    val (start, end) = getPreferredRangeFromArray(index, vm.lstLangBlogPosts.size, 50)
+                    navController.navigate(
                     LangBlogPostsListFragmentDirections.actionLangBlogPostsListFragmentToLangBlogPostsContentFragment(
-                    vm.lstLangBlogPosts.subList(start, end).toTypedArray(), index
-                ))
+                        vm.lstLangBlogPosts.subList(start, end).toTypedArray(), index
+                    ))
+                })
             }
         }
     }

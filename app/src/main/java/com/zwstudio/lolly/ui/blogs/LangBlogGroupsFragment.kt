@@ -64,9 +64,7 @@ class LangBlogGroupsFragment : DrawerListFragment() {
             progressBar1.visibility = if (it) View.VISIBLE else View.GONE
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            vm.getGroups()
-        }
+        compositeDisposable.add(vm.getGroups().subscribe())
     }
 
     private class LangBlogGroupsItemAdapter(val vm: LangBlogGroupsViewModel, val mDragListView: DragListView) : DragItemAdapter<MLangBlogGroup, LangBlogGroupsItemAdapter.ViewHolder>() {
