@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.services.blogs
 
-import com.zwstudio.lolly.common.logUpdate
 import com.zwstudio.lolly.common.logCreate
+import com.zwstudio.lolly.common.logUpdate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.blogs.MUnitBlogPost
 import com.zwstudio.lolly.restapi.blogs.RestUnitBlogPost
@@ -31,9 +31,7 @@ class UnitBlogPostService {
             })
         }.flatMapCompletable {
             it.content = content
-            if (it.id == 0)
-                create(it).flatMapCompletable { Completable.complete() }
-            else
-                update(it)
+            if (it.id == 0) create(it) else update(it)
+            Completable.complete()
         }
 }

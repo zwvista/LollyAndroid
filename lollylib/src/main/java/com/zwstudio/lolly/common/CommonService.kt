@@ -250,18 +250,18 @@ fun Any.logDebug(message: String) {
 
 fun Single<Int>.logCreate(): Single<Int> =
     map {
-        it.also { logDebug("Created new item, result=$it") }
+        it.also { logDebug("✅ Created new item, result=$it") }
     }
 
 fun Single<Int>.logUpdate(id: Int): Completable =
     flatMapCompletable {
-        logDebug("Updated item ID=${id}, result=$it")
+        logDebug("\uD83D\uDCDD Updated item ID=${id}, result=$it")
         Completable.complete()
     }
 
 fun Single<Int>.logDelete(): Completable =
     flatMapCompletable {
-        logDebug("Deleted item, result=$it")
+        logDebug("❌ Deleted item, result=$it")
         Completable.complete()
     }
 
