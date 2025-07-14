@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.services.blogs
 
-import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.logUpdate
 import com.zwstudio.lolly.common.logDebug
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.blogs.MLangBlogPostContent
@@ -17,6 +17,6 @@ class LangBlogPostContentService {
     }
 
     suspend fun update(item: MLangBlogPostContent) = withContext(Dispatchers.IO) {
-        api.update(item.id, item).completeUpdate(item.id)
+        api.update(item.id, item).logUpdate(item.id)
     }
 }

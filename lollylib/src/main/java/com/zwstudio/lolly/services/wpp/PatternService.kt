@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.common.completeDelete
-import com.zwstudio.lolly.common.completeUpdate
-import com.zwstudio.lolly.common.debugCreate
+import com.zwstudio.lolly.common.logDelete
+import com.zwstudio.lolly.common.logUpdate
+import com.zwstudio.lolly.common.logCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
@@ -21,18 +21,18 @@ class PatternService {
     }
 
     suspend fun updateNote(id: Int, note: String) = withContext(Dispatchers.IO) {
-        api.updateNote(id, note).completeUpdate(id)
+        api.updateNote(id, note).logUpdate(id)
     }
 
     suspend fun update(item: MPattern) = withContext(Dispatchers.IO) {
-        api.update(item.id, item).completeUpdate(item.id)
+        api.update(item.id, item).logUpdate(item.id)
     }
 
     suspend fun create(item: MPattern): Int = withContext(Dispatchers.IO) {
-        api.create(item).debugCreate()
+        api.create(item).logCreate()
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        api.delete(id).completeDelete()
+        api.delete(id).logDelete()
     }
 }

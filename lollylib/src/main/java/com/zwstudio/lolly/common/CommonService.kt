@@ -227,26 +227,23 @@ fun Any.logDebug(message: String) {
     Log.d(this::class.java.simpleName, message)
 }
 
-fun Int.debugCreate(): Int =
+fun Int.logCreate(): Int =
     also { logDebug("Created new item, result=$this") }
 
-fun Int.completeCreate() =
-    logDebug("Created new item, result=$this")
+fun Any.logUpdate(id: Int) =
+    logDebug("Updated item, ID=$id")
 
-fun Any.completeUpdate(id: Int) =
-    logDebug("Updated item ID=${id}, result=$id")
+fun Int.logDelete() =
+    logDebug("Deleted item, ID=$this")
 
-fun Int.completeDelete() =
-    logDebug("Deleted item, result=$this")
-
-fun List<List<MSPResult>>.debugCreateResult(): Int =
+fun List<List<MSPResult>>.logCreateResult(): Int =
     let {
         logDebug("Created new item, result=$it")
         it[0][0].newid!!.toInt()
     }
 
-fun List<List<MSPResult>>.completeUpdateResult(id: Int) =
+fun List<List<MSPResult>>.logUpdateResult(id: Int) =
     logDebug("Updated item ID=${id}, result=$id")
 
-fun List<List<MSPResult>>.completeDeleteResult(): Unit =
+fun List<List<MSPResult>>.logDeleteResult(): Unit =
     logDebug("Deleted item, result=$this")

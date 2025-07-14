@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.common.completeDeleteResult
-import com.zwstudio.lolly.common.completeUpdate
-import com.zwstudio.lolly.common.completeUpdateResult
-import com.zwstudio.lolly.common.debugCreateResult
+import com.zwstudio.lolly.common.logDeleteResult
+import com.zwstudio.lolly.common.logUpdate
+import com.zwstudio.lolly.common.logUpdateResult
+import com.zwstudio.lolly.common.logCreateResult
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.common.retrofitSP
 import com.zwstudio.lolly.models.misc.MTextbook
@@ -50,21 +50,21 @@ class UnitPhraseService {
     }
 
     suspend fun updateSeqNum(id: Int, seqnum: Int) = withContext(Dispatchers.IO) {
-        api.updateSeqNum(id, seqnum).completeUpdate(id)
+        api.updateSeqNum(id, seqnum).logUpdate(id)
     }
 
     suspend fun update(item: MUnitPhrase) = withContext(Dispatchers.IO) {
         apiSP.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation)
-            .completeUpdateResult(item.id)
+            .logUpdateResult(item.id)
     }
 
     suspend fun create(item: MUnitPhrase): Int = withContext(Dispatchers.IO) {
         apiSP.create(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation)
-            .debugCreateResult()
+            .logCreateResult()
     }
 
     suspend fun delete(item: MUnitPhrase) = withContext(Dispatchers.IO) {
         apiSP.delete(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation)
-            .completeDeleteResult()
+            .logDeleteResult()
     }
 }

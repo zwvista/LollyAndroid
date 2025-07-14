@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.common.completeDelete
-import com.zwstudio.lolly.common.completeUpdate
-import com.zwstudio.lolly.common.debugCreate
+import com.zwstudio.lolly.common.logDelete
+import com.zwstudio.lolly.common.logUpdate
+import com.zwstudio.lolly.common.logCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
@@ -18,15 +18,15 @@ class WordFamiService {
     }
 
     private suspend fun update(item: MWordFami) = withContext(Dispatchers.IO) {
-        api.update(item.id, item).completeUpdate(item.id)
+        api.update(item.id, item).logUpdate(item.id)
     }
 
     private suspend fun create(item: MWordFami): Int = withContext(Dispatchers.IO) {
-        api.create(item).debugCreate()
+        api.create(item).logCreate()
     }
 
     suspend fun delete(id: Int) = withContext(Dispatchers.IO) {
-        api.delete(id).completeDelete()
+        api.delete(id).logDelete()
     }
 
     suspend fun update(wordid: Int, isCorrect: Boolean): MWordFami {

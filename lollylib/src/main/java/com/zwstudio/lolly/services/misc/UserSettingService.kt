@@ -1,6 +1,6 @@
 package com.zwstudio.lolly.services.misc
 
-import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.logUpdate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.misc.MUserSetting
 import com.zwstudio.lolly.models.misc.MUserSettingInfo
@@ -27,6 +27,6 @@ class UserSettingService {
             3 -> api.updateValue3(info.usersettingid, v)
             4 -> api.updateValue4(info.usersettingid, v)
             else -> 0
-        }).completeUpdate(info.usersettingid)
+        }).logUpdate(info.usersettingid)
     }
 }
