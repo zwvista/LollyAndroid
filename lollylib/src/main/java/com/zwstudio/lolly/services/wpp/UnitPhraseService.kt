@@ -1,9 +1,9 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.common.completeDeleteResult
-import com.zwstudio.lolly.common.completeUpdate
-import com.zwstudio.lolly.common.completeUpdateResult
-import com.zwstudio.lolly.common.debugCreateResult
+import com.zwstudio.lolly.common.logDeleteResult
+import com.zwstudio.lolly.common.logUpdate
+import com.zwstudio.lolly.common.logUpdateResult
+import com.zwstudio.lolly.common.logCreateResult
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.common.retrofitSP
 import com.zwstudio.lolly.models.misc.MTextbook
@@ -56,17 +56,17 @@ class UnitPhraseService {
             }
 
     fun updateSeqNum(id: Int, seqnum: Int): Completable =
-        api.updateSeqNum(id, seqnum).completeUpdate(id)
+        api.updateSeqNum(id, seqnum).logUpdate(id)
 
     fun update(item: MUnitPhrase): Completable =
         apiSP.update(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation)
-            .completeUpdateResult(item.id)
+            .logUpdateResult(item.id)
 
     fun create(item: MUnitPhrase): Single<Int> =
         apiSP.create(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation)
-            .debugCreateResult()
+            .logCreateResult()
 
     fun delete(item: MUnitPhrase): Completable =
         apiSP.delete(item.id, item.langid, item.textbookid, item.unit, item.part, item.seqnum, item.phraseid, item.phrase, item.translation)
-            .completeDeleteResult()
+            .logDeleteResult()
 }

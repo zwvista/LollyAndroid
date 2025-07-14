@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.common.completeDeleteResult
-import com.zwstudio.lolly.common.completeUpdate
-import com.zwstudio.lolly.common.debugCreate
+import com.zwstudio.lolly.common.logDeleteResult
+import com.zwstudio.lolly.common.logUpdate
+import com.zwstudio.lolly.common.logCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.common.retrofitSP
 import com.zwstudio.lolly.models.wpp.MLangWord
@@ -19,15 +19,15 @@ class LangWordService {
             .map { it.lst }
 
     fun updateNote(id: Int, note: String?): Completable =
-        api.updateNote(id, note).completeUpdate(id)
+        api.updateNote(id, note).logUpdate(id)
 
     fun update(item: MLangWord): Completable =
-        api.update(item.id, item).completeUpdate(item.id)
+        api.update(item.id, item).logUpdate(item.id)
 
     fun create(item: MLangWord): Single<Int> =
-        api.create(item).debugCreate()
+        api.create(item).logCreate()
 
     fun delete(item: MLangWord): Completable =
         apiSP.delete(item.id, item.langid, item.word, item.note, item.famiid, item.correct, item.total)
-            .completeDeleteResult()
+            .logDeleteResult()
 }

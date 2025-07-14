@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.common.completeDelete
-import com.zwstudio.lolly.common.completeUpdate
-import com.zwstudio.lolly.common.debugCreate
+import com.zwstudio.lolly.common.logDelete
+import com.zwstudio.lolly.common.logUpdate
+import com.zwstudio.lolly.common.logCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.wpp.MWordFami
 import com.zwstudio.lolly.restapi.wpp.RestWordFami
@@ -18,13 +18,13 @@ class WordFamiService {
             .map { it.lst }
 
     private fun update(item: MWordFami): Completable =
-        api.update(item.id, item).completeUpdate(item.id)
+        api.update(item.id, item).logUpdate(item.id)
 
     private fun create(item: MWordFami): Single<Int> =
-        api.create(item).debugCreate()
+        api.create(item).logCreate()
 
     fun delete(id: Int): Completable =
-        api.delete(id).completeDelete()
+        api.delete(id).logDelete()
 
     fun update(wordid: Int, isCorrect: Boolean): Single<MWordFami> =
         getDataByWord(wordid).flatMap { lst ->

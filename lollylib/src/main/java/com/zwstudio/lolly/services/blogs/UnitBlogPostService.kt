@@ -1,7 +1,7 @@
 package com.zwstudio.lolly.services.blogs
 
-import com.zwstudio.lolly.common.completeCreate
-import com.zwstudio.lolly.common.completeUpdate
+import com.zwstudio.lolly.common.logUpdate
+import com.zwstudio.lolly.common.logCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.blogs.MUnitBlogPost
 import com.zwstudio.lolly.restapi.blogs.RestUnitBlogPost
@@ -17,11 +17,11 @@ class UnitBlogPostService {
             Optional.ofNullable(it.lst.firstOrNull())
         }
 
-    private fun create(item: MUnitBlogPost): Completable =
-        api.create(item).completeCreate()
+    private fun create(item: MUnitBlogPost): Single<Int> =
+        api.create(item).logCreate()
 
     private fun update(item: MUnitBlogPost): Completable =
-        api.update(item.id, item).completeUpdate(item.id)
+        api.update(item.id, item).logUpdate(item.id)
 
     fun update(textbookid: Int, unit: Int, content: String): Completable =
         getDataByTextbook(textbookid, unit).map {
@@ -31,6 +31,9 @@ class UnitBlogPostService {
             })
         }.flatMapCompletable {
             it.content = content
-            if (it.id == 0) create(it) else update(it)
+            if (it.id == 0)
+                create(it).flatMapCompletable { Completable.complete() }
+            else
+                update(it)
         }
 }

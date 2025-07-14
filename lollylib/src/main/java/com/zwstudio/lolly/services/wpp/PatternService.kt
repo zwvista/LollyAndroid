@@ -1,8 +1,8 @@
 package com.zwstudio.lolly.services.wpp
 
-import com.zwstudio.lolly.common.completeDelete
-import com.zwstudio.lolly.common.completeUpdate
-import com.zwstudio.lolly.common.debugCreate
+import com.zwstudio.lolly.common.logDelete
+import com.zwstudio.lolly.common.logUpdate
+import com.zwstudio.lolly.common.logCreate
 import com.zwstudio.lolly.common.retrofitJson
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.restapi.wpp.RestPattern
@@ -21,14 +21,14 @@ class PatternService {
             .map { it.lst }
 
     fun updateNote(id: Int, note: String): Completable =
-        api.updateNote(id, note).completeUpdate(id)
+        api.updateNote(id, note).logUpdate(id)
 
     fun update(item: MPattern): Completable =
-        api.update(item.id, item).completeUpdate(item.id)
+        api.update(item.id, item).logUpdate(item.id)
 
     fun create(item: MPattern): Single<Int> =
-        api.create(item).debugCreate()
+        api.create(item).logCreate()
 
     fun delete(id: Int): Completable =
-        api.delete(id).completeDelete()
+        api.delete(id).logDelete()
 }
