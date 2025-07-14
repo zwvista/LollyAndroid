@@ -231,10 +231,10 @@ fun Int.logCreate(): Int =
     also { logDebug("Created new item, result=$this") }
 
 fun Any.logUpdate(id: Int) =
-    logDebug("Updated item, ID=$id")
+    logDebug("Updated item, ID=$id, result=$this")
 
 fun Int.logDelete() =
-    logDebug("Deleted item, ID=$this")
+    logDebug("Deleted item, result=$this")
 
 fun List<List<MSPResult>>.logCreateResult(): Int =
     let {
