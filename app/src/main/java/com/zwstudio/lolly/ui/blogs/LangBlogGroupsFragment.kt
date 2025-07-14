@@ -11,7 +11,6 @@ import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
@@ -132,10 +131,7 @@ class LangBlogGroupsFragment : DrawerListFragment() {
             }
 
             private fun showPosts(item: MLangBlogGroup) {
-                vm.viewModelScope.launch {
-                    vm.selectGroup(item)
-                    navController.navigate(LangBlogGroupsFragmentDirections.actionLangBlogGroupsFragmentToLangBlogPostsListFragment())
-                }
+                navController.navigate(LangBlogGroupsFragmentDirections.actionLangBlogGroupsFragmentToLangBlogPostsListFragment(item))
             }
         }
     }

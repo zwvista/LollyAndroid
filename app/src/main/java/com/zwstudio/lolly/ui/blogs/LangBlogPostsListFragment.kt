@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.navArgs
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
@@ -34,6 +35,8 @@ class LangBlogPostsListFragment : DrawerListFragment() {
     val vm by activityViewModel<LangBlogGroupsViewModel>()
     override val vmDrawerList: DrawerListViewModel get() = vm
     var binding by autoCleared<FragmentLangBlogPostsListBinding>()
+    val args: LangBlogPostsListFragmentArgs by navArgs()
+    val item get() = args.item
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLangBlogPostsListBinding.inflate(inflater, container, false).apply {
@@ -66,7 +69,7 @@ class LangBlogPostsListFragment : DrawerListFragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            vm.getPosts()
+            vm.selectGroup(item)
         }
     }
 
