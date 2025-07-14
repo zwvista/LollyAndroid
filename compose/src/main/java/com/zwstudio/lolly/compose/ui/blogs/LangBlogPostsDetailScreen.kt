@@ -39,6 +39,12 @@ fun LangBlogPostsDetailScreen(item: MLangBlogPost, navController: NavHostControl
                 value = vmDetail.item.title,
                 onValueChange = {}
             )
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text(stringResource(id = R.string.label_url)) },
+                value = vmDetail.item.url,
+                onValueChange = {}
+            )
         }
     }
 }
