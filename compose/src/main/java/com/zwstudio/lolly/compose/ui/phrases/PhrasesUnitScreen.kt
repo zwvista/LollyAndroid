@@ -61,12 +61,12 @@ import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.compose.ui.common.DrawerScreens
 import com.zwstudio.lolly.compose.ui.common.PhrasesScreens
+import com.zwstudio.lolly.compose.ui.common.ReorderableItemCustom
 import com.zwstudio.lolly.compose.ui.common.SearchView
 import com.zwstudio.lolly.compose.ui.common.Spinner
 import com.zwstudio.lolly.compose.ui.common.TopBarMenu
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
-import org.burnoutcrew.reorderable.ReorderableItem
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
@@ -121,7 +121,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                     .reorderable(state)
             ) {
                 itemsIndexed(lstPhrases, key = { _, item -> item.id }) { index, item ->
-                    ReorderableItem(state, item.id) { dragging ->
+                    ReorderableItemCustom(state, item.id) { dragging ->
                         Card(
                             modifier = Modifier
                                 .padding(top = 8.dp, bottom = 8.dp)
