@@ -24,7 +24,6 @@ import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
 class LangBlogGroupsFragment : DrawerListFragment() {
@@ -62,10 +61,6 @@ class LangBlogGroupsFragment : DrawerListFragment() {
         vm.isBusy_.onEach {
             progressBar1.visibility = if (it) View.VISIBLE else View.GONE
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            vm.getGroups()
-        }
     }
 
     private class LangBlogGroupsItemAdapter(val vm: LangBlogGroupsViewModel, val mDragListView: DragListView) : DragItemAdapter<MLangBlogGroup, LangBlogGroupsItemAdapter.ViewHolder>() {
