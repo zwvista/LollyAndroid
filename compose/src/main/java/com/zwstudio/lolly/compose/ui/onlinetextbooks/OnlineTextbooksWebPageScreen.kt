@@ -27,11 +27,11 @@ import kotlinx.coroutines.flow.onEach
 fun OnlineTextbooksWebPageScreen(vm: OnlineTextbooksWebPageViewModel, navController: NavHostController?) {
 
     var wv: WebView? = remember { null }
-    LaunchedEffect(Unit, block = {
+    LaunchedEffect(Unit) {
         vm.selectedOnlineTextbookIndex_.onEach {
             wv?.loadUrl(vm.selectedOnlineTextbook.url)
         }.launchIn(this)
-    })
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(

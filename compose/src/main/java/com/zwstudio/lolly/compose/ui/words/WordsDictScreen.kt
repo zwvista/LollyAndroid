@@ -35,12 +35,12 @@ fun WordsDictScreen(vm: WordsDictViewModel, navController: NavHostController?) {
     val onlineDict = remember { OnlineDict() }
     val context = LocalContext.current
 
-    LaunchedEffect(Unit, block = {
+    LaunchedEffect(Unit) {
         combine(vm.selectedWordIndex_, vmSettings.selectedDictReferenceIndex_, ::Pair).onEach {
             speak(vm.selectedWord)
             onlineDict.searchDict()
         }.launchIn(this)
-    })
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(

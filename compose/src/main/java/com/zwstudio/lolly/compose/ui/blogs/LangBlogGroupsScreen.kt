@@ -29,7 +29,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -39,7 +38,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -50,6 +48,7 @@ import com.zwstudio.lolly.compose.ui.common.DrawerScreens
 import com.zwstudio.lolly.compose.ui.common.LangBlogGroupsScreens
 import com.zwstudio.lolly.compose.ui.common.SearchView
 import com.zwstudio.lolly.compose.ui.common.TopBarMenu
+import com.zwstudio.lolly.models.blogs.MLangBlogGroup
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
@@ -59,11 +58,11 @@ fun LangBlogGroupsScreen(vm: LangBlogGroupsViewModel, navController: NavHostCont
     val lstLangBlogGroups = vm.lstLangBlogGroups_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
     var selectedItemIndex by remember { mutableIntStateOf(0) }
-    val context = LocalContext.current
 
-    LaunchedEffect(Unit, block = {
-        vm.getGroups()
-    })
+    fun showPosts(item: MLangBlogGroup) {
+        vm.selectedGroup = item
+        navController?.navigate(LangBlogGroupsScreens.LangBlogPostsList.route)
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(
@@ -112,7 +111,7 @@ fun LangBlogGroupsScreen(vm: LangBlogGroupsViewModel, navController: NavHostCont
                             }
                             IconButton(
                                 onClick = {
-                                    navController?.navigate(LangBlogGroupsScreens.LangBlogPostsList.route + "/$index")
+                                    showPosts(item)
                                 }
                             ) {
                                 Icon(Icons.Filled.Info, null, tint = MaterialTheme.colorScheme.primary)
@@ -145,9 +144,9 @@ fun LangBlogGroupsScreen(vm: LangBlogGroupsViewModel, navController: NavHostCont
                     }
                     TextButton(onClick = {
                         showItemDialog = false
-                        navController?.navigate(LangBlogGroupsScreens.LangBlogPostsList.route + "/$selectedItemIndex")
+                        showPosts(item)
                     }) {
-                        Text(stringResource(id = R.string.action_browse_web_page))
+                        Text(stringResource(id = R.string.action_show_posts))
                     }
                     TextButton(onClick = {
                         showItemDialog = false

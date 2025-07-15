@@ -44,7 +44,7 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
     val lifecycleOwner = LocalLifecycleOwner.current
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(Unit, block = {
+    LaunchedEffect(Unit) {
         if (vm.showOptions) {
             vm.showOptions = false
             navController?.navigate(ReviewScreens.ReviewOptions.route)
@@ -56,7 +56,7 @@ fun PhrasesReviewScreen(vm: PhrasesReviewViewModel, navController: NavHostContro
         vm.inputFocused.onEach {
             focusRequester.requestFocus()
         }.launchIn(this)
-    })
+    }
     DisposableEffect(lifecycleOwner) {
         onDispose {
             vm.stopTimer()

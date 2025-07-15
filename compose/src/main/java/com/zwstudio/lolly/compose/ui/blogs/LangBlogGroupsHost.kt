@@ -30,12 +30,8 @@ fun LangBlogGroupsHost(openDrawer: () -> Unit) {
         ) {
             LangBlogGroupsDetailScreen(vm.lstLangBlogGroups[it.arguments!!.getInt(INDEX_KEY)], navController)
         }
-        composable(route = LangBlogGroupsScreens.LangBlogPostsList.route + "/{$INDEX_KEY}",
-            arguments = listOf(navArgument(INDEX_KEY) {
-                type = NavType.IntType
-            })
-        ) {
-            LangBlogPostsListScreen(vm, navController, vm.lstLangBlogGroups[it.arguments!!.getInt(INDEX_KEY)])
+        composable(route = LangBlogGroupsScreens.LangBlogPostsList.route) {
+            LangBlogPostsListScreen(vm, navController)
         }
         composable(
             route = LangBlogGroupsScreens.LangBlogPostsDetail.route + "/{$INDEX_KEY}",

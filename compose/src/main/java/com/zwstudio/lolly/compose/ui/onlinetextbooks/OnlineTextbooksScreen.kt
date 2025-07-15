@@ -63,9 +63,9 @@ fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostCo
     var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
-    LaunchedEffect(Unit, block = {
+    LaunchedEffect(Unit) {
         vm.getData()
-    })
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(

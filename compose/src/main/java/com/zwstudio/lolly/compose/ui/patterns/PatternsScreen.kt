@@ -66,9 +66,9 @@ fun PatternsScreen(vm: PatternsViewModel, navController: NavHostController?, ope
     var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
-    LaunchedEffect(Unit, block = {
+    LaunchedEffect(Unit) {
         vm.getData()
-    })
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(

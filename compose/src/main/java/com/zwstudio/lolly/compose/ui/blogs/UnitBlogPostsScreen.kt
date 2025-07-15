@@ -30,13 +30,13 @@ import kotlinx.coroutines.flow.onEach
 fun UnitBlogPostsScreen(vm: UnitBlogPostsViewModel, navController: NavHostController?, openDrawer: () -> Unit) {
 
     var wv: WebView? = remember { null }
-    LaunchedEffect(Unit, block = {
+    LaunchedEffect(Unit) {
         vm.selectedUnitIndex_.onEach {
             val content = vmSettings.getBlogContent(vm.selectedUnit)
             val str = BlogService().markedToHtml(content)
             wv?.loadData(str, null, null)
         }.launchIn(this)
-    })
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(

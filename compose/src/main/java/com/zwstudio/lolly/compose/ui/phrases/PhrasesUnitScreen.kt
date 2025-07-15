@@ -81,9 +81,9 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
     var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
-    LaunchedEffect(Unit, block = {
+    LaunchedEffect(Unit) {
         vm.getDataInTextbook()
-    })
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(

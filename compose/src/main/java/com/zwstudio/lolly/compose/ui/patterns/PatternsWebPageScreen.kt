@@ -27,11 +27,11 @@ import kotlinx.coroutines.flow.onEach
 fun PatternsWebPageScreen(vm: PatternsWebPageViewModel, navController: NavHostController?) {
 
     var wv: WebView? = remember { null }
-    LaunchedEffect(Unit, block = {
+    LaunchedEffect(Unit) {
         vm.selectedPatternIndex_.onEach {
             wv?.loadUrl(vm.selectedPattern.url)
         }.launchIn(this)
-    })
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(

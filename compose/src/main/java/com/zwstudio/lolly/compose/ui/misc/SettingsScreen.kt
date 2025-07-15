@@ -31,9 +31,9 @@ fun SettingsScreen(openDrawer: () -> Unit) {
 
     val vm = vmSettings
 
-    LaunchedEffect(Unit, block = {
+    LaunchedEffect(Unit) {
         vm.getData()
-    })
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarMenu(

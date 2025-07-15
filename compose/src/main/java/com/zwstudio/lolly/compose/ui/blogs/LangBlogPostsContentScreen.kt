@@ -33,16 +33,16 @@ fun LangBlogPostsContentScreen(
 ) {
 
     var wv: WebView? = remember { null }
-    LaunchedEffect(Unit, block = {
+    LaunchedEffect(Unit) {
         vm.selectedLangBlogPostIndex_.onEach {
-            vmGroup.selectPost(vm.selectedLangBlogPost)
+            vmGroup.selectedPost = vm.selectedLangBlogPost
         }.launchIn(this)
 
         vmGroup.postContent_.onEach {
             val str = BlogService().markedToHtml(vmGroup.postContent)
             wv?.loadData(str, null, null)
         }.launchIn(this)
-    })
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
