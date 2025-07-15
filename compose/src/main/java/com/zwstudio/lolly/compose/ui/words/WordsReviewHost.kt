@@ -7,7 +7,6 @@ import androidx.navigation.compose.rememberNavController
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.compose.ui.common.ReviewScreens
 import com.zwstudio.lolly.compose.ui.misc.ReviewOptionsScreen
-import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsReviewViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -26,7 +25,7 @@ fun WordsReviewHost(openDrawer: () -> Unit) {
             WordsReviewScreen(vm, navController, openDrawer)
         }
         composable(route = ReviewScreens.ReviewOptions.route) {
-            ReviewOptionsScreen(ReviewOptionsViewModel(vm.options), vm.optionsDone, navController)
+            ReviewOptionsScreen(vm.options, vm.optionsDone, navController)
         }
     }
 }

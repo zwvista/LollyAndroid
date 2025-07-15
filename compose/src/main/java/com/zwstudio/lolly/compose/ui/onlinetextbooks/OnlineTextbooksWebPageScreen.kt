@@ -19,13 +19,20 @@ import com.zwstudio.lolly.common.TouchListener
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.compose.ui.common.Spinner
 import com.zwstudio.lolly.compose.ui.common.TopBarArrow
+import com.zwstudio.lolly.models.misc.MOnlineTextbook
 import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksWebPageViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
-fun OnlineTextbooksWebPageScreen(vm: OnlineTextbooksWebPageViewModel, navController: NavHostController?) {
-
+fun OnlineTextbooksWebPageScreen(
+    lstOnlineTextbooks: List<MOnlineTextbook>,
+    index: Int,
+    navController: NavHostController?
+) {
+    val vm = koinViewModel<OnlineTextbooksWebPageViewModel>(parameters = { parametersOf(lstOnlineTextbooks, index) })
     var wv: WebView? = remember { null }
     LaunchedEffect(Unit) {
         vm.selectedOnlineTextbookIndex_.onEach {

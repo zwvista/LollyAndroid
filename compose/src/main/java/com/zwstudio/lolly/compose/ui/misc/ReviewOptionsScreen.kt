@@ -23,17 +23,20 @@ import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.compose.ui.common.LabelledCheckBox
 import com.zwstudio.lolly.compose.ui.common.Spinner
 import com.zwstudio.lolly.compose.ui.common.TopBarArrow
+import com.zwstudio.lolly.models.misc.MReviewOptions
 import com.zwstudio.lolly.viewmodels.misc.ReviewOptionsViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun ReviewOptionsScreen(
-    vm: ReviewOptionsViewModel,
+    options: MReviewOptions,
     optionsDone: MutableStateFlow<Boolean>
     , navController: NavHostController?
 ) {
-
+    val vm = koinViewModel<ReviewOptionsViewModel>(parameters = { parametersOf(options) })
     Column(modifier = Modifier.fillMaxSize()) {
         TopBarArrow(
             title = stringResource(id = R.string.review_options),
