@@ -11,7 +11,6 @@ import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
@@ -24,7 +23,6 @@ import com.zwstudio.lolly.ui.common.DrawerListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -34,8 +32,6 @@ class LangBlogPostsListFragment : DrawerListFragment() {
     val vm by activityViewModel<LangBlogGroupsViewModel>()
     override val vmDrawerList: DrawerListViewModel get() = vm
     var binding by autoCleared<FragmentLangBlogPostsListBinding>()
-    val args: LangBlogPostsListFragmentArgs by navArgs()
-    val item get() = args.item
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLangBlogPostsListBinding.inflate(inflater, container, false).apply {
@@ -66,8 +62,6 @@ class LangBlogPostsListFragment : DrawerListFragment() {
         vm.isBusy_.onEach {
             progressBar1.visibility = if (it) View.VISIBLE else View.GONE
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        compositeDisposable.add(vm.selectGroup(item).subscribe())
     }
 
     private class LangBlogPostsItemAdapter(val vm: LangBlogGroupsViewModel, val mDragListView: DragListView) : DragItemAdapter<MLangBlogPost, LangBlogPostsItemAdapter.ViewHolder>() {
@@ -133,10 +127,10 @@ class LangBlogPostsListFragment : DrawerListFragment() {
             }
 
             private fun showContent(item: MLangBlogPost) {
+                vm.selectedPost = item
                 val index = vm.lstLangBlogPosts.indexOf(item)
                 val (start, end) = getPreferredRangeFromArray(index, vm.lstLangBlogPosts.size, 50)
-                navController.navigate(
-                LangBlogPostsListFragmentDirections.actionLangBlogPostsListFragmentToLangBlogPostsContentFragment(
+                navController.navigate(LangBlogPostsListFragmentDirections.actionLangBlogPostsListFragmentToLangBlogPostsContentFragment(
                     vm.lstLangBlogPosts.subList(start, end).toTypedArray(), index
                 ))
             }

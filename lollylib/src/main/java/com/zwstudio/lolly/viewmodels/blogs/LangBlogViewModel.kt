@@ -7,6 +7,8 @@ import com.zwstudio.lolly.services.blogs.LangBlogGroupService
 import com.zwstudio.lolly.services.blogs.LangBlogPostContentService
 import com.zwstudio.lolly.services.blogs.LangBlogPostService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -23,7 +25,8 @@ open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
     var groupFilter_ = MutableStateFlow("")
     var groupFilter get() = groupFilter_.value; set(v) { groupFilter_.value = v }
     private val noGroupFilter get() = groupFilter.isEmpty()
-    var selectedGroup: MLangBlogGroup? = null
+    var selectedGroup_ = MutableStateFlow<MLangBlogGroup?>(null)
+    var selectedGroup get() = selectedGroup_.value; set(v) { selectedGroup_.value = v }
 
     var lstLangBlogPostsAll_ = MutableStateFlow(listOf<MLangBlogPost>())
     var lstLangBlogPostsAll get() = lstLangBlogPostsAll_.value; set(v) { lstLangBlogPostsAll_.value = v }
@@ -32,10 +35,13 @@ open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
     var postFilter_ = MutableStateFlow("")
     var postFilter get() = postFilter_.value; set(v) { postFilter_.value = v }
     private val noPostFilter get() = postFilter.isEmpty()
-    var selectedPost: MLangBlogPost? = null
+    var selectedPost_ = MutableStateFlow<MLangBlogPost?>(null)
+    var selectedPost get() = selectedPost_.value; set(v) { selectedPost_.value = v }
 
     var postContent_ = MutableStateFlow("")
     var postContent get() = postContent_.value; set(v) { postContent_.value = v }
+
+    val compositeDisposable = CompositeDisposable()
 
     protected val langBlogGroupService by inject<LangBlogGroupService>()
     protected val langBlogPostService by inject<LangBlogPostService>()
@@ -51,6 +57,11 @@ open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
             lstLangBlogPosts = if (noPostFilter) lstLangBlogPostsAll else lstLangBlogPostsAll.filter {
                 it.title.contains(postFilter, true)
             }
+        }.launchIn(viewModelScope)
+        selectedPost_.onEach {
+            compositeDisposable.add(langBlogPostContentService.getDataById(it?.id ?: 0).subscribeBy {
+                postContent = it.map { it.content }.orElse("")
+            })
         }.launchIn(viewModelScope)
     }
 }

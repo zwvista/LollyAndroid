@@ -3,14 +3,19 @@ package com.zwstudio.lolly.viewmodels.blogs
 import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.vmSettings
-import com.zwstudio.lolly.models.blogs.MLangBlogGroup
-import com.zwstudio.lolly.models.blogs.MLangBlogPost
 import io.reactivex.rxjava3.core.Completable
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class LangBlogGroupsViewModel: LangBlogViewModel() {
     init {
-        viewModelScope.launch { getGroups() }
+        viewModelScope.launch {
+            compositeDisposable.add(getGroups().subscribe())
+        }
+        selectedGroup_.onEach {
+            compositeDisposable.add(getPosts().subscribe())
+        }.launchIn(viewModelScope)
     }
 
     fun getGroups(): Completable {
@@ -26,17 +31,5 @@ class LangBlogGroupsViewModel: LangBlogViewModel() {
             vmSettings.selectedLang.id, selectedGroup?.id ?: 0)
             .applyIO()
             .flatMapCompletable { lstLangBlogPostsAll = it ; isBusy = false; Completable.complete() }
-    }
-
-    fun selectGroup(group: MLangBlogGroup?): Completable {
-        selectedGroup = group
-        return getPosts()
-    }
-
-    fun selectPost(post: MLangBlogPost?): Completable {
-        selectedPost = post
-        return langBlogPostContentService.getDataById(post?.id ?: 0)
-            .applyIO()
-            .flatMapCompletable { postContent = it.map { it.content }.orElse(""); Completable.complete() }
     }
 }
