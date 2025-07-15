@@ -9,7 +9,6 @@ import androidx.navigation.navArgument
 import com.zwstudio.lolly.common.getPreferredRangeFromArray
 import com.zwstudio.lolly.compose.ui.common.INDEX_KEY
 import com.zwstudio.lolly.compose.ui.common.WordsScreens
-import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsLangViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -42,7 +41,7 @@ fun WordsLangHost(openDrawer: () -> Unit) {
             val index = it.arguments!!.getInt(INDEX_KEY)
             val (start, end) = getPreferredRangeFromArray(index, vm.lstWords.size, 50)
             val lstWords = vm.lstWords.subList(start, end).map { it.word }
-            WordsDictScreen(WordsDictViewModel(lstWords, index), navController)
+            WordsDictScreen(lstWords, index, navController)
         }
     }
 }

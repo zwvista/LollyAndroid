@@ -28,10 +28,13 @@ import com.zwstudio.lolly.viewmodels.words.WordsDictViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
-fun WordsDictScreen(vm: WordsDictViewModel, navController: NavHostController?) {
+fun WordsDictScreen(lstWords: List<String>, index: Int, navController: NavHostController?) {
 
+    val vm = koinViewModel<WordsDictViewModel>(parameters = { parametersOf(lstWords, index) })
     val onlineDict = remember { OnlineDict() }
     val context = LocalContext.current
 

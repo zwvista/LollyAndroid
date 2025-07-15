@@ -10,7 +10,6 @@ import com.zwstudio.lolly.common.getPreferredRangeFromArray
 import com.zwstudio.lolly.compose.ui.common.INDEX_KEY
 import com.zwstudio.lolly.compose.ui.common.LangBlogGroupsScreens
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
-import com.zwstudio.lolly.viewmodels.blogs.LangBlogPostsContentViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -50,7 +49,7 @@ fun LangBlogGroupsHost(openDrawer: () -> Unit) {
             val index = it.arguments!!.getInt(INDEX_KEY)
             val (start, end) = getPreferredRangeFromArray(index, vm.lstLangBlogPosts.size, 50)
             val lstLangBlogPosts = vm.lstLangBlogPosts.subList(start, end)
-            LangBlogPostsContentScreen(LangBlogPostsContentViewModel(lstLangBlogPosts, index), vmGroup = vm, navController)
+            LangBlogPostsContentScreen(lstLangBlogPosts, index, vmGroup = vm, navController)
         }
     }
 }

@@ -19,19 +19,25 @@ import com.zwstudio.lolly.common.TouchListener
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.compose.ui.common.Spinner
 import com.zwstudio.lolly.compose.ui.common.TopBarArrow
+import com.zwstudio.lolly.models.blogs.MLangBlogPost
 import com.zwstudio.lolly.services.misc.BlogService
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogPostsContentViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun LangBlogPostsContentScreen(
-    vm: LangBlogPostsContentViewModel,
+    lstLangBlogPosts: List<MLangBlogPost>,
+    index: Int,
     vmGroup: LangBlogGroupsViewModel,
     navController: NavHostController?
 ) {
-
+    val vm = koinViewModel<LangBlogPostsContentViewModel>(
+        parameters = { parametersOf(lstLangBlogPosts, index) }
+    )
     var wv: WebView? = remember { null }
     LaunchedEffect(Unit) {
         vm.selectedLangBlogPostIndex_.onEach {
