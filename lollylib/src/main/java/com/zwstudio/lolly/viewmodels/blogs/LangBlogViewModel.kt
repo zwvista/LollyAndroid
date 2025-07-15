@@ -23,7 +23,8 @@ open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
     var groupFilter_ = MutableStateFlow("")
     var groupFilter get() = groupFilter_.value; set(v) { groupFilter_.value = v }
     private val noGroupFilter get() = groupFilter.isEmpty()
-    var selectedGroup: MLangBlogGroup? = null
+    var selectedGroup_ = MutableStateFlow<MLangBlogGroup?>(null)
+    var selectedGroup get() = selectedGroup_.value; set(v) { selectedGroup_.value = v }
 
     var lstLangBlogPostsAll_ = MutableStateFlow(listOf<MLangBlogPost>())
     var lstLangBlogPostsAll get() = lstLangBlogPostsAll_.value; set(v) { lstLangBlogPostsAll_.value = v }
@@ -32,7 +33,8 @@ open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
     var postFilter_ = MutableStateFlow("")
     var postFilter get() = postFilter_.value; set(v) { postFilter_.value = v }
     private val noPostFilter get() = postFilter.isEmpty()
-    var selectedPost: MLangBlogPost? = null
+    var selectedPost_ = MutableStateFlow<MLangBlogPost?>(null)
+    var selectedPost get() = selectedPost_.value; set(v) { selectedPost_.value = v }
 
     var postContent_ = MutableStateFlow("")
     var postContent get() = postContent_.value; set(v) { postContent_.value = v }
@@ -51,6 +53,9 @@ open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
             lstLangBlogPosts = if (noPostFilter) lstLangBlogPostsAll else lstLangBlogPostsAll.filter {
                 it.title.contains(postFilter, true)
             }
+        }.launchIn(viewModelScope)
+        selectedPost_.onEach {
+            postContent = langBlogPostContentService.getDataById(it?.id ?: 0)?.content ?: ""
         }.launchIn(viewModelScope)
     }
 }

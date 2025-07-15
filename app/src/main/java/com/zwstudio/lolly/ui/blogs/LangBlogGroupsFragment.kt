@@ -131,7 +131,8 @@ class LangBlogGroupsFragment : DrawerListFragment() {
             }
 
             private fun showPosts(item: MLangBlogGroup) {
-                navController.navigate(LangBlogGroupsFragmentDirections.actionLangBlogGroupsFragmentToLangBlogPostsListFragment(item))
+                vm.selectedGroup = item
+                navController.navigate(LangBlogGroupsFragmentDirections.actionLangBlogGroupsFragmentToLangBlogPostsListFragment())
             }
         }
     }

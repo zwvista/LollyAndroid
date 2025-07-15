@@ -50,7 +50,7 @@ class LangBlogPostsContentFragment : Fragment() {
         binding.spnLangBlogPost.adapter = makeCustomAdapter(requireContext(), vm.lstLangBlogPosts) { it.title }
 
         vm.selectedLangBlogPostIndex_.onEach {
-            vmGroup.selectPost(vm.selectedLangBlogPost)
+            vmGroup.selectedPost = vm.selectedLangBlogPost
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         vmGroup.postContent_.onEach {
