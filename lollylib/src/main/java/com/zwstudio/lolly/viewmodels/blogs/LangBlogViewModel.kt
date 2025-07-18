@@ -6,6 +6,7 @@ import com.zwstudio.lolly.models.blogs.MLangBlogPost
 import com.zwstudio.lolly.services.blogs.LangBlogGroupService
 import com.zwstudio.lolly.services.blogs.LangBlogPostContentService
 import com.zwstudio.lolly.services.blogs.LangBlogPostService
+import com.zwstudio.lolly.services.misc.BlogService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -36,8 +37,8 @@ open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
     var selectedPost_ = MutableStateFlow<MLangBlogPost?>(null)
     var selectedPost get() = selectedPost_.value; set(v) { selectedPost_.value = v }
 
-    var postContent_ = MutableStateFlow("")
-    var postContent get() = postContent_.value; set(v) { postContent_.value = v }
+    var postHtml_ = MutableStateFlow("")
+    var postHtml get() = postHtml_.value; set(v) { postHtml_.value = v }
 
     protected val langBlogGroupService by inject<LangBlogGroupService>()
     protected val langBlogPostService by inject<LangBlogPostService>()
@@ -55,7 +56,8 @@ open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
             }
         }.launchIn(viewModelScope)
         selectedPost_.onEach {
-            postContent = langBlogPostContentService.getDataById(it?.id ?: 0)?.content ?: ""
+            val str = langBlogPostContentService.getDataById(it?.id ?: 0)?.content ?: ""
+            postHtml = BlogService().markedToHtml(str)
         }.launchIn(viewModelScope)
     }
 }

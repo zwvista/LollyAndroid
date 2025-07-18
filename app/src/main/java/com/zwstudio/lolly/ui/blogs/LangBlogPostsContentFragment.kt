@@ -47,15 +47,14 @@ class LangBlogPostsContentFragment : Fragment() {
             override fun onSwipeRight() =
                 vm.next(1)
         }))
-        binding.spnLangBlogPost.adapter = makeCustomAdapter(requireContext(), vm.lstLangBlogPosts) { it.title }
+        binding.spnLangBlogPost.adapter = makeCustomAdapter(requireContext(), vm.lstPosts) { it.title }
 
-        vm.selectedLangBlogPostIndex_.onEach {
-            vmGroup.selectedPost = vm.selectedLangBlogPost
+        vm.selectedPostIndex_.onEach {
+            vmGroup.selectedPost = vm.selectedPost
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        vmGroup.postContent_.onEach {
-            val str = BlogService().markedToHtml(vmGroup.postContent)
-            binding.webView.loadData(str, null, null)
+        vmGroup.postHtml_.onEach {
+            binding.webView.loadData(it, null, null)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }

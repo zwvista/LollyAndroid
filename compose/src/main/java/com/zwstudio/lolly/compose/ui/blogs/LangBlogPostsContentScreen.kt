@@ -40,13 +40,12 @@ fun LangBlogPostsContentScreen(
     )
     var wv: WebView? = remember { null }
     LaunchedEffect(Unit) {
-        vm.selectedLangBlogPostIndex_.onEach {
-            vmGroup.selectedPost = vm.selectedLangBlogPost
+        vm.selectedPostIndex_.onEach {
+            vmGroup.selectedPost = vm.selectedPost
         }.launchIn(this)
 
-        vmGroup.postContent_.onEach {
-            val str = BlogService().markedToHtml(vmGroup.postContent)
-            wv?.loadData(str, null, null)
+        vmGroup.postHtml_.onEach {
+            wv?.loadData(it, null, null)
         }.launchIn(this)
     }
 
@@ -59,8 +58,8 @@ fun LangBlogPostsContentScreen(
             modifier = Modifier
                 .background(color = colorResource(R.color.color_text3))
                 .fillMaxWidth(),
-            items = vm.lstLangBlogPosts,
-            selectedItemIndexStateFlow = vm.selectedLangBlogPostIndex_,
+            items = vm.lstPosts,
+            selectedItemIndexStateFlow = vm.selectedPostIndex_,
             itemText = { it.title }
         )
         AndroidView(
