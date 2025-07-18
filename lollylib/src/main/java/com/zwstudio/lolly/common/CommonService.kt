@@ -69,7 +69,9 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
+import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
@@ -135,62 +137,62 @@ fun onDestroyApp() {
 }
 
 val lollyModule = module {
-    single { LangBlogGPService() }
-    single { LangBlogGroupService() }
-    single { LangBlogPostContentService() }
-    single { LangBlogPostService() }
-    single { UnitBlogPostService() }
+    singleOf(::LangBlogGPService)
+    singleOf(::LangBlogGroupService)
+    singleOf(::LangBlogPostContentService)
+    singleOf(::LangBlogPostService)
+    singleOf(::UnitBlogPostService)
 
-    single { AutoCorrectService() }
-    single { DictionaryService() }
-    single { HtmlService() }
-    single { LanguageService() }
-    single { OnlineTextbookService() }
-    single { TextbookService() }
-    single { UserService() }
-    single { UserSettingService() }
-    single { USMappingService() }
-    single { VoiceService() }
+    singleOf(::AutoCorrectService)
+    singleOf(::DictionaryService)
+    singleOf(::HtmlService)
+    singleOf(::LanguageService)
+    singleOf(::OnlineTextbookService)
+    singleOf(::TextbookService)
+    singleOf(::UserService)
+    singleOf(::UserSettingService)
+    singleOf(::USMappingService)
+    singleOf(::VoiceService)
 
-    single { LangPhraseService() }
-    single { LangWordService() }
-    single { PatternService() }
-    single { UnitPhraseService() }
-    single { UnitWordService() }
-    single { WordFamiService() }
+    singleOf(::LangPhraseService)
+    singleOf(::LangWordService)
+    singleOf(::PatternService)
+    singleOf(::UnitPhraseService)
+    singleOf(::UnitWordService)
+    singleOf(::WordFamiService)
 
-    viewModel { parameters -> LangBlogGroupsDetailViewModel(item = parameters.get()) }
-    viewModel { LangBlogGroupsViewModel() }
-    viewModel { parameters -> LangBlogPostsContentViewModel(lstLangBlogPosts = parameters.get(), index = parameters.get()) }
-    viewModel { parameters -> LangBlogPostsDetailViewModel(item = parameters.get()) }
-    viewModel { UnitBlogPostsViewModel() }
+    viewModelOf(::LangBlogGroupsDetailViewModel)
+    viewModelOf(::LangBlogGroupsViewModel)
+    viewModelOf(::LangBlogPostsContentViewModel)
+    viewModelOf(::LangBlogPostsDetailViewModel)
+    viewModelOf(::UnitBlogPostsViewModel)
 
-    viewModel { LoginViewModel() }
-    viewModel { parameters -> ReviewOptionsViewModel(options = parameters.get()) }
-    viewModel { SearchViewModel() }
+    viewModelOf(::LoginViewModel)
+    viewModelOf(::ReviewOptionsViewModel)
+    viewModelOf(::SearchViewModel)
 
-    viewModel { parameters -> OnlineTextbooksDetailViewModel(item = parameters.get()) }
-    viewModel { OnlineTextbooksViewModel() }
-    viewModel { parameters -> OnlineTextbooksWebPageViewModel(lstOnlineTextbooks = parameters.get(), index = parameters.get()) }
+    viewModelOf(::OnlineTextbooksDetailViewModel)
+    viewModelOf(::OnlineTextbooksViewModel)
+    viewModelOf(::OnlineTextbooksWebPageViewModel)
 
-    viewModel { parameters -> PatternsDetailViewModel(item = parameters.get()) }
-    viewModel { PatternsViewModel() }
-    viewModel { parameters -> PatternsWebPageViewModel(lstPatterns = parameters.get(), index = parameters.get()) }
+    viewModelOf(::PatternsDetailViewModel)
+    viewModelOf(::PatternsViewModel)
+    viewModelOf(::PatternsWebPageViewModel)
 
-    viewModel { parameters -> PhrasesLangDetailViewModel(item = parameters.get()) }
-    viewModel { PhrasesLangViewModel() }
-    viewModel { parameters -> PhrasesReviewViewModel(doTestAction = parameters.get()) }
-    viewModel { parameters -> PhrasesUnitBatchEditViewModel(vm = parameters.get()) }
-    viewModel { parameters -> PhrasesUnitDetailViewModel(item = parameters.get()) }
-    viewModel { PhrasesUnitViewModel() }
+    viewModelOf(::PhrasesLangDetailViewModel)
+    viewModelOf(::PhrasesLangViewModel)
+    viewModelOf(::PhrasesReviewViewModel)
+    viewModelOf(::PhrasesUnitBatchEditViewModel)
+    viewModelOf(::PhrasesUnitDetailViewModel)
+    viewModelOf(::PhrasesUnitViewModel)
 
-    viewModel { parameters -> WordsDictViewModel(lstWords = parameters.get(), index = parameters.get()) }
-    viewModel { parameters -> WordsLangDetailViewModel(item = parameters.get()) }
-    viewModel { WordsLangViewModel() }
-    viewModel { parameters -> WordsReviewViewModel(doTestAction = parameters.get()) }
-    viewModel { parameters -> WordsUnitBatchEditViewModel(vm = parameters.get()) }
-    viewModel { parameters -> WordsUnitDetailViewModel(item = parameters.get()) }
-    viewModel { WordsUnitViewModel() }
+    viewModelOf(::WordsDictViewModel)
+    viewModelOf(::WordsLangDetailViewModel)
+    viewModelOf(::WordsLangViewModel)
+    viewModelOf(::WordsReviewViewModel)
+    viewModelOf(::WordsUnitBatchEditViewModel)
+    viewModelOf(::WordsUnitDetailViewModel)
+    viewModelOf(::WordsUnitViewModel)
 }
 
 fun speak(text: String) =

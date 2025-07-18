@@ -6,6 +6,7 @@ import com.zwstudio.lolly.models.blogs.MLangBlogPost
 import com.zwstudio.lolly.services.blogs.LangBlogGroupService
 import com.zwstudio.lolly.services.blogs.LangBlogPostContentService
 import com.zwstudio.lolly.services.blogs.LangBlogPostService
+import com.zwstudio.lolly.services.misc.BlogService
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -38,8 +39,8 @@ open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
     var selectedPost_ = MutableStateFlow<MLangBlogPost?>(null)
     var selectedPost get() = selectedPost_.value; set(v) { selectedPost_.value = v }
 
-    var postContent_ = MutableStateFlow("")
-    var postContent get() = postContent_.value; set(v) { postContent_.value = v }
+    var postHtml_ = MutableStateFlow("")
+    var postHtml get() = postHtml_.value; set(v) { postHtml_.value = v }
 
     val compositeDisposable = CompositeDisposable()
 
@@ -60,7 +61,8 @@ open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
         }.launchIn(viewModelScope)
         selectedPost_.onEach {
             compositeDisposable.add(langBlogPostContentService.getDataById(it?.id ?: 0).subscribeBy {
-                postContent = it.map { it.content }.orElse("")
+                val str = it.map { it.content }.orElse("")
+                postHtml = BlogService().markedToHtml(str)
             })
         }.launchIn(viewModelScope)
     }
