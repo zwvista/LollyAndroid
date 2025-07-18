@@ -39,7 +39,7 @@ fun PatternsHost(openDrawer: () -> Unit) {
             val index = it.arguments!!.getInt(INDEX_KEY)
             val (start, end) = getPreferredRangeFromArray(index, vm.lstPatterns.size, 50)
             val lstPatterns = vm.lstPatterns.subList(start, end)
-            PatternsWebPageScreen(PatternsWebPageViewModel(lstPatterns, index), navController)
+            PatternsWebPageScreen(lstPatterns, index, navController)
         }
     }
 }
