@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.common.OnSwipeWebviewTouchListener
 import com.zwstudio.lolly.common.TouchListener
 import com.zwstudio.lolly.databinding.FragmentLangBlogPostsContentBinding
-import com.zwstudio.lolly.services.misc.BlogService
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
@@ -27,8 +26,8 @@ class LangBlogPostsContentFragment : Fragment() {
 
     var binding by autoCleared<FragmentLangBlogPostsContentBinding>()
     val args: LangBlogPostsContentFragmentArgs by navArgs()
-    val vm by viewModel<LangBlogPostsContentViewModel>{ parametersOf(args.list.toList(), args.index) }
-    val vmGroup by activityViewModel<LangBlogGroupsViewModel>()
+    val vmGroups by activityViewModel<LangBlogGroupsViewModel>()
+    val vm by viewModel<LangBlogPostsContentViewModel>{ parametersOf(vmGroups, args.list.toList(), args.index) }
     val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -51,11 +50,7 @@ class LangBlogPostsContentFragment : Fragment() {
         }))
         binding.spnLangBlogPost.adapter = makeCustomAdapter(requireContext(), vm.lstPosts) { it.title }
 
-        vm.selectedPostIndex_.onEach {
-            vmGroup.selectedPost = vm.selectedPost
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        vmGroup.postHtml_.onEach {
+        vmGroups.postHtml_.onEach {
             binding.webView.loadData(it, null, null)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
