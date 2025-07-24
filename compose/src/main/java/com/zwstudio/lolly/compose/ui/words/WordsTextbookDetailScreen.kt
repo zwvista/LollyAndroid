@@ -43,10 +43,7 @@ fun WordsTextbookDetailScreen(vm: WordsUnitViewModel, item: MUnitWord, navContro
                 Button(
                     onClick = {
                         vmDetail.save()
-                        if (item.id == 0)
-                            vm.create(item)
-                        else
-                            vm.update(item)
+                        vm.update(item)
                         navController?.navigateUp()
                     },
                     enabled = vmDetail.saveEnabled.collectAsState().value
