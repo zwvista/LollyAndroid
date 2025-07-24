@@ -29,7 +29,7 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
 class LangBlogGroupsFragment : LollyListFragment() {
 
     val vm by activityViewModel<LangBlogGroupsViewModel>()
-    override val vmDrawerList: LollyListViewModel get() = vm
+    override val vmList: LollyListViewModel get() = vm
     var binding by autoCleared<FragmentLangBlogGroupsBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

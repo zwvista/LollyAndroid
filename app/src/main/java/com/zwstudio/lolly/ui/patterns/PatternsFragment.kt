@@ -42,7 +42,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PatternsFragment : LollyListFragment(), MenuProvider {
 
     val vm by viewModel<PatternsViewModel>()
-    override val vmDrawerList: LollyListViewModel get() = vm
+    override val vmList: LollyListViewModel get() = vm
     var binding by autoCleared<FragmentPatternsBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

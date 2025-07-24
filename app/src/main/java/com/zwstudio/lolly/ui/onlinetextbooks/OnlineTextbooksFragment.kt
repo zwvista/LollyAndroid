@@ -32,7 +32,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class OnlineTextbooksFragment : LollyListFragment() {
 
     val vm by viewModel<OnlineTextbooksViewModel>()
-    override val vmDrawerList: LollyListViewModel get() = vm
+    override val vmList: LollyListViewModel get() = vm
     var binding by autoCleared<FragmentOnlineTextbooksBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

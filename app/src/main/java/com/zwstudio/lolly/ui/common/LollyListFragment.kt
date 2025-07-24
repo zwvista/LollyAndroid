@@ -21,8 +21,8 @@ abstract class LollyListFragment : Fragment() {
     var mDragListView by autoCleared<DragListView>()
     var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()
     var progressBar1 by autoCleared<ProgressBar>()
-    abstract val vmDrawerList: LollyListViewModel
-    abstract suspend fun onRefresh();
+    abstract val vmList: LollyListViewModel
+    abstract suspend fun onRefresh()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,14 +57,14 @@ abstract class LollyListFragment : Fragment() {
                 override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
                     mRefreshLayout.isEnabled = true
                     Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
-                    vmDrawerList.reindex {}
+                    vmList.reindex {}
                 }
             })
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(dragItem)
         }
 
-        vmDrawerList.isBusy_.onEach {
+        vmList.isBusy_.onEach {
             progressBar1.visibility = if (it) View.VISIBLE else View.GONE
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
