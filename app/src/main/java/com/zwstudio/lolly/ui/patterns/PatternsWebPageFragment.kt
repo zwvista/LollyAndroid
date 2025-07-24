@@ -14,8 +14,8 @@ import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentPatternsWebpageBinding
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import com.zwstudio.lolly.viewmodels.patterns.PatternsWebPageViewModel
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
