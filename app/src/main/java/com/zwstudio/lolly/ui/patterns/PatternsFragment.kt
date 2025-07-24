@@ -30,7 +30,7 @@ import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.ui.common.LollyListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.LollyListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.patterns.PatternsViewModel
 import kotlinx.coroutines.flow.combine
@@ -42,7 +42,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PatternsFragment : LollyListFragment(), MenuProvider {
 
     val vm by viewModel<PatternsViewModel>()
-    override val vmDrawerList: DrawerListViewModel get() = vm
+    override val vmDrawerList: LollyListViewModel get() = vm
     var binding by autoCleared<FragmentPatternsBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -72,15 +72,9 @@ class PatternsFragment : LollyListFragment(), MenuProvider {
             val listAdapter = PatternsItemAdapter(vm, mDragListView)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        vm.isBusy_.onEach {
-            progressBar1.visibility = if (it) View.VISIBLE else View.GONE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            vm.getData()
-        }
     }
+
+    override suspend fun onRefresh() = vm.getData()
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.menu_add, menu)

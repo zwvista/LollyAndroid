@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.misc.MOnlineTextbook
 import com.zwstudio.lolly.services.misc.OnlineTextbookService
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.LollyListViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class OnlineTextbooksViewModel : DrawerListViewModel(), KoinComponent {
+class OnlineTextbooksViewModel : LollyListViewModel(), KoinComponent {
 
     var lstOnlineTextbooksAll_ = MutableStateFlow(listOf<MOnlineTextbook>())
     var lstOnlineTextbooksAll get() = lstOnlineTextbooksAll_.value; set(v) { lstOnlineTextbooksAll_.value = v }

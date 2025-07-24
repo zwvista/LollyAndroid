@@ -7,7 +7,7 @@ import com.zwstudio.lolly.services.blogs.LangBlogGroupService
 import com.zwstudio.lolly.services.blogs.LangBlogPostContentService
 import com.zwstudio.lolly.services.blogs.LangBlogPostService
 import com.zwstudio.lolly.services.misc.BlogService
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.LollyListViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-open class LangBlogViewModel : DrawerListViewModel(), KoinComponent {
+open class LangBlogViewModel : LollyListViewModel(), KoinComponent {
 
     var lstLangBlogGroupsAll_ = MutableStateFlow(listOf<MLangBlogGroup>())
     var lstLangBlogGroupsAll get() = lstLangBlogGroupsAll_.value; set(v) { lstLangBlogGroupsAll_.value = v }

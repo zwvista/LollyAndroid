@@ -28,7 +28,7 @@ import com.zwstudio.lolly.ui.common.LollyListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.ui.common.yesNoDialog
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.LollyListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -39,7 +39,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class WordsTextbookFragment : LollyListFragment() {
 
     val vm by viewModel<WordsUnitViewModel>()
-    override val vmDrawerList: DrawerListViewModel get() = vm
+    override val vmDrawerList: LollyListViewModel get() = vm
     var binding by autoCleared<FragmentWordsTextbookBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -69,15 +69,9 @@ class WordsTextbookFragment : LollyListFragment() {
             val listAdapter = WordsTextbookItemAdapter(vm, mDragListView)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        vm.isBusy_.onEach {
-            progressBar1.visibility = if (it) View.VISIBLE else View.GONE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            vm.getDataInLang()
-        }
     }
+
+    override suspend fun onRefresh() = vm.getDataInLang()
 
     private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {
 

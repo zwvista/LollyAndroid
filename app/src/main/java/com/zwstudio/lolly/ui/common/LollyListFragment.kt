@@ -6,18 +6,23 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.R
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.LollyListViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 abstract class LollyListFragment : Fragment() {
 
     var mDragListView by autoCleared<DragListView>()
     var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()
     var progressBar1 by autoCleared<ProgressBar>()
-    abstract val vmDrawerList: DrawerListViewModel
+    abstract val vmDrawerList: LollyListViewModel
+    abstract suspend fun onRefresh();
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,7 +38,12 @@ abstract class LollyListFragment : Fragment() {
         mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(),
             R.color.app_color
         ))
-        mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
+        mRefreshLayout.setOnRefreshListener {
+            viewLifecycleOwner.lifecycleScope.launch {
+                onRefresh();
+                mRefreshLayout.isRefreshing = false
+            }
+        }
 
         mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
         if (dragItem == null)
@@ -52,6 +62,14 @@ abstract class LollyListFragment : Fragment() {
             })
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(dragItem)
+        }
+
+        vmDrawerList.isBusy_.onEach {
+            progressBar1.visibility = if (it) View.VISIBLE else View.GONE
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            onRefresh()
         }
     }
 }
