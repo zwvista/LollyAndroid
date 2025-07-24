@@ -28,7 +28,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -41,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.compose.R
@@ -49,6 +52,7 @@ import com.zwstudio.lolly.compose.ui.common.SearchView
 import com.zwstudio.lolly.compose.ui.common.TopBarArrow
 import com.zwstudio.lolly.models.blogs.MLangBlogPost
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -57,6 +61,12 @@ fun LangBlogPostsListScreen(vm: LangBlogGroupsViewModel, navController: NavHostC
     val lstLangBlogPosts = vm.lstLangBlogPosts_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
     var selectedItemIndex by remember { mutableIntStateOf(0) }
+
+    suspend fun onRefresh() = vm.getGroups()
+
+    LaunchedEffect(Unit) {
+        onRefresh()
+    }
 
     fun showContent(index: Int, item: MLangBlogPost) {
         vm.selectedPost = item
@@ -74,7 +84,7 @@ fun LangBlogPostsListScreen(vm: LangBlogGroupsViewModel, navController: NavHostC
             ) {
             }
         }
-        if (vm.isBusy) {
+        if (vm.isBusy_.collectAsState().value) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -82,38 +92,47 @@ fun LangBlogPostsListScreen(vm: LangBlogGroupsViewModel, navController: NavHostC
                 CircularProgressIndicator()
             }
         } else {
-            LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                itemsIndexed(lstLangBlogPosts, key = { _, item -> item.id }) { index, item ->
-                    Card(
-                        modifier = Modifier
-                            .padding(top = 8.dp, bottom = 8.dp)
-                            .fillMaxWidth()
-                            .combinedClickable(
-                                onClick = { speak(item.title) },
-                                onLongClick = {
-                                    selectedItemIndex = index
-                                    showItemDialog = true
-                                },
-                            ),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(start = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically
+            PullToRefreshBox(
+                isRefreshing = vm.isBusy_.collectAsState().value,
+                onRefresh = { vm.viewModelScope.launch { onRefresh() } },
+            ) {
+                LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                    itemsIndexed(lstLangBlogPosts, key = { _, item -> item.id }) { index, item ->
+                        Card(
+                            modifier = Modifier
+                                .padding(top = 8.dp, bottom = 8.dp)
+                                .fillMaxWidth()
+                                .combinedClickable(
+                                    onClick = { speak(item.title) },
+                                    onLongClick = {
+                                        selectedItemIndex = index
+                                        showItemDialog = true
+                                    },
+                                ),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color.White),
                         ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = item.title,
-                                    color = colorResource(R.color.color_text2)
-                                )
-                            }
-                            IconButton(
-                                onClick = {
-                                    showContent(index, item)
-                                }
+                            Row(
+                                modifier = Modifier.padding(start = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Icon(Icons.Filled.Info, null, tint = MaterialTheme.colorScheme.primary)
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = item.title,
+                                        color = colorResource(R.color.color_text2)
+                                    )
+                                }
+                                IconButton(
+                                    onClick = {
+                                        showContent(index, item)
+                                    }
+                                ) {
+                                    Icon(
+                                        Icons.Filled.Info,
+                                        null,
+                                        tint = MaterialTheme.colorScheme.primary
+                                    )
+                                }
                             }
                         }
                     }

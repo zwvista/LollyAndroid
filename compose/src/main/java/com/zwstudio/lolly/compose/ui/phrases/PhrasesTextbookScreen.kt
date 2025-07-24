@@ -27,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -45,6 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.common.copyText
 import com.zwstudio.lolly.common.googleString
@@ -58,6 +60,7 @@ import com.zwstudio.lolly.compose.ui.common.Spinner
 import com.zwstudio.lolly.compose.ui.common.TopBarMenu
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -68,8 +71,10 @@ fun PhrasesTextbookScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
     var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
+    suspend fun onRefresh() = vm.getDataInLang()
+
     LaunchedEffect(Unit) {
-        vm.getDataInLang()
+        onRefresh()
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -99,7 +104,7 @@ fun PhrasesTextbookScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
                 itemText = { it.label }
             )
         }
-        if (vm.isBusy) {
+        if (vm.isBusy_.collectAsState().value) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -107,45 +112,50 @@ fun PhrasesTextbookScreen(vm: PhrasesUnitViewModel, navController: NavHostContro
                 CircularProgressIndicator()
             }
         } else {
-            LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                itemsIndexed(lstPhrases, key = { _, item -> item.id }) { index, item ->
-                    Card(
-                        modifier = Modifier
-                            .padding(top = 8.dp, bottom = 8.dp)
-                            .fillMaxWidth()
-                            .combinedClickable(
-                                onClick = { speak(item.phrase) },
-                                onLongClick = {
-                                    selectedItemIndex = index
-                                    showItemDialog = true
-                                },
-                            ),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(start = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically
+            PullToRefreshBox(
+                isRefreshing = vm.isBusy_.collectAsState().value,
+                onRefresh = { vm.viewModelScope.launch { onRefresh() } },
+            ) {
+                LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                    itemsIndexed(lstPhrases, key = { _, item -> item.id }) { index, item ->
+                        Card(
+                            modifier = Modifier
+                                .padding(top = 8.dp, bottom = 8.dp)
+                                .fillMaxWidth()
+                                .combinedClickable(
+                                    onClick = { speak(item.phrase) },
+                                    onLongClick = {
+                                        selectedItemIndex = index
+                                        showItemDialog = true
+                                    },
+                                ),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color.White),
                         ) {
-                            CompositionLocalProvider(
-                                LocalTextStyle provides TextStyle(fontSize = 11.sp),
-                                LocalContentColor provides colorResource(R.color.color_text1)
+                            Row(
+                                modifier = Modifier.padding(start = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Column(modifier = Modifier.padding(end = 16.dp)) {
-                                    Text(text = item.unitstr)
-                                    Text(text = item.partstr)
-                                    Text(text = "${item.seqnum}")
+                                CompositionLocalProvider(
+                                    LocalTextStyle provides TextStyle(fontSize = 11.sp),
+                                    LocalContentColor provides colorResource(R.color.color_text1)
+                                ) {
+                                    Column(modifier = Modifier.padding(end = 16.dp)) {
+                                        Text(text = item.unitstr)
+                                        Text(text = item.partstr)
+                                        Text(text = "${item.seqnum}")
+                                    }
                                 }
-                            }
-                            Column {
-                                Text(
-                                    text = item.phrase,
-                                    color = colorResource(R.color.color_text2)
-                                )
-                                Text(
-                                    text = item.translation,
-                                    color = colorResource(R.color.color_text3)
-                                )
+                                Column {
+                                    Text(
+                                        text = item.phrase,
+                                        color = colorResource(R.color.color_text2)
+                                    )
+                                    Text(
+                                        text = item.translation,
+                                        color = colorResource(R.color.color_text3)
+                                    )
+                                }
                             }
                         }
                     }

@@ -29,6 +29,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -44,6 +45,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
@@ -53,6 +55,7 @@ import com.zwstudio.lolly.compose.ui.common.OnlineTextbooksScreens
 import com.zwstudio.lolly.compose.ui.common.Spinner
 import com.zwstudio.lolly.compose.ui.common.TopBarMenu
 import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -63,8 +66,10 @@ fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostCo
     var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
+    suspend fun onRefresh() = vm.getData()
+
     LaunchedEffect(Unit) {
-        vm.getData()
+        onRefresh()
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -82,7 +87,7 @@ fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostCo
                 itemText = { it.label }
             )
         }
-        if (vm.isBusy) {
+        if (vm.isBusy_.collectAsState().value) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -90,42 +95,51 @@ fun OnlineTextbooksScreen(vm: OnlineTextbooksViewModel, navController: NavHostCo
                 CircularProgressIndicator()
             }
         } else {
-            LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                itemsIndexed(lstOnlineTextbooks, key = { _, item -> item.id }) { index, item ->
-                    Card(
-                        modifier = Modifier
-                            .padding(top = 8.dp, bottom = 8.dp)
-                            .fillMaxWidth()
-                            .combinedClickable(
-                                onClick = { speak(item.textbookname) },
-                                onLongClick = {
-                                    selectedItemIndex = index
-                                    showItemDialog = true
-                                },
-                            ),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(start = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically
+            PullToRefreshBox(
+                isRefreshing = vm.isBusy_.collectAsState().value,
+                onRefresh = { vm.viewModelScope.launch { onRefresh() } },
+            ) {
+                LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                    itemsIndexed(lstOnlineTextbooks, key = { _, item -> item.id }) { index, item ->
+                        Card(
+                            modifier = Modifier
+                                .padding(top = 8.dp, bottom = 8.dp)
+                                .fillMaxWidth()
+                                .combinedClickable(
+                                    onClick = { speak(item.textbookname) },
+                                    onLongClick = {
+                                        selectedItemIndex = index
+                                        showItemDialog = true
+                                    },
+                                ),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color.White),
                         ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = item.textbookname,
-                                    color = colorResource(R.color.color_text2)
-                                )
-                                Text(
-                                    text = item.title,
-                                    color = colorResource(R.color.color_text3)
-                                )
-                            }
-                            IconButton(
-                                onClick = {
-                                    navController?.navigate(OnlineTextbooksScreens.OnlineTextbooksWebPage.route + "/$index")
-                                }
+                            Row(
+                                modifier = Modifier.padding(start = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Icon(Icons.Filled.Info, null, tint = MaterialTheme.colorScheme.primary)
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Text(
+                                        text = item.textbookname,
+                                        color = colorResource(R.color.color_text2)
+                                    )
+                                    Text(
+                                        text = item.title,
+                                        color = colorResource(R.color.color_text3)
+                                    )
+                                }
+                                IconButton(
+                                    onClick = {
+                                        navController?.navigate(OnlineTextbooksScreens.OnlineTextbooksWebPage.route + "/$index")
+                                    }
+                                ) {
+                                    Icon(
+                                        Icons.Filled.Info,
+                                        null,
+                                        tint = MaterialTheme.colorScheme.primary
+                                    )
+                                }
                             }
                         }
                     }

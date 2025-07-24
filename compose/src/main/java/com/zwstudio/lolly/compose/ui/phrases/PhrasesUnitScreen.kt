@@ -36,6 +36,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -54,6 +55,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.common.copyText
 import com.zwstudio.lolly.common.googleString
@@ -67,6 +69,7 @@ import com.zwstudio.lolly.compose.ui.common.Spinner
 import com.zwstudio.lolly.compose.ui.common.TopBarMenu
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
+import kotlinx.coroutines.launch
 import org.burnoutcrew.reorderable.detectReorderAfterLongPress
 import org.burnoutcrew.reorderable.rememberReorderableLazyListState
 import org.burnoutcrew.reorderable.reorderable
@@ -81,8 +84,10 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
     var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
+    suspend fun onRefresh() = vm.getDataInTextbook()
+
     LaunchedEffect(Unit) {
-        vm.getDataInTextbook()
+        onRefresh()
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -105,7 +110,7 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                 itemText = { it.label }
             )
         }
-        if (vm.isBusy) {
+        if (vm.isBusy_.collectAsState().value) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -113,65 +118,70 @@ fun PhrasesUnitScreen(vm: PhrasesUnitViewModel, navController: NavHostController
                 CircularProgressIndicator()
             }
         } else {
-            LazyColumn(
-                state = state.listState,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-                    .reorderable(state)
+            PullToRefreshBox(
+                isRefreshing = vm.isBusy_.collectAsState().value,
+                onRefresh = { vm.viewModelScope.launch { onRefresh() } },
             ) {
-                itemsIndexed(lstPhrases, key = { _, item -> item.id }) { index, item ->
-                    ReorderableItemCustom(state, item.id) { dragging ->
-                        Card(
-                            modifier = Modifier
-                                .padding(top = 8.dp, bottom = 8.dp)
-                                .fillMaxWidth()
-                                .combinedClickable(
-                                    onClick = {
-                                        if (vm.isEditMode)
-                                            navController?.navigate(PhrasesScreens.PhrasesUnitDetail.route + "/$index")
-                                        else
-                                            speak(item.phrase)
-                                    },
-                                    onLongClick = {
-                                        selectedItemIndex = index
-                                        showItemDialog = true
-                                    },
-                                ),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White),
-                        ) {
-                            Row(
-                                modifier = Modifier.padding(start = 16.dp),
-                                verticalAlignment = Alignment.CenterVertically
+                LazyColumn(
+                    state = state.listState,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                        .reorderable(state)
+                ) {
+                    itemsIndexed(lstPhrases, key = { _, item -> item.id }) { index, item ->
+                        ReorderableItemCustom(state, item.id) { dragging ->
+                            Card(
+                                modifier = Modifier
+                                    .padding(top = 8.dp, bottom = 8.dp)
+                                    .fillMaxWidth()
+                                    .combinedClickable(
+                                        onClick = {
+                                            if (vm.isEditMode)
+                                                navController?.navigate(PhrasesScreens.PhrasesUnitDetail.route + "/$index")
+                                            else
+                                                speak(item.phrase)
+                                        },
+                                        onLongClick = {
+                                            selectedItemIndex = index
+                                            showItemDialog = true
+                                        },
+                                    ),
+                                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                                colors = CardDefaults.cardColors(containerColor = Color.White),
                             ) {
-                                CompositionLocalProvider(
-                                    LocalTextStyle provides TextStyle(fontSize = 11.sp),
-                                    LocalContentColor provides colorResource(R.color.color_text1)
+                                Row(
+                                    modifier = Modifier.padding(start = 16.dp),
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Column(modifier = Modifier.padding(end = 16.dp)) {
-                                        Text(text = item.unitstr)
-                                        Text(text = item.partstr)
-                                        Text(text = "${item.seqnum}")
+                                    CompositionLocalProvider(
+                                        LocalTextStyle provides TextStyle(fontSize = 11.sp),
+                                        LocalContentColor provides colorResource(R.color.color_text1)
+                                    ) {
+                                        Column(modifier = Modifier.padding(end = 16.dp)) {
+                                            Text(text = item.unitstr)
+                                            Text(text = item.partstr)
+                                            Text(text = "${item.seqnum}")
+                                        }
                                     }
-                                }
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(
-                                        text = item.phrase,
-                                        color = colorResource(R.color.color_text2)
-                                    )
-                                    Text(
-                                        text = item.translation,
-                                        color = colorResource(R.color.color_text3)
-                                    )
-                                }
-                                if (vm.isEditMode_.collectAsState().value) {
-                                    Icon(
-                                        Icons.Filled.Menu,
-                                        null,
-                                        modifier = Modifier.detectReorderAfterLongPress(state),
-                                        tint = MaterialTheme.colorScheme.primary
-                                    )
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = item.phrase,
+                                            color = colorResource(R.color.color_text2)
+                                        )
+                                        Text(
+                                            text = item.translation,
+                                            color = colorResource(R.color.color_text3)
+                                        )
+                                    }
+                                    if (vm.isEditMode_.collectAsState().value) {
+                                        Icon(
+                                            Icons.Filled.Menu,
+                                            null,
+                                            modifier = Modifier.detectReorderAfterLongPress(state),
+                                            tint = MaterialTheme.colorScheme.primary
+                                        )
+                                    }
                                 }
                             }
                         }

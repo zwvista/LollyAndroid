@@ -29,6 +29,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -72,8 +73,10 @@ fun WordsLangScreen(vm: WordsLangViewModel, navController: NavHostController?, o
     var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
 
+    suspend fun onRefresh() = vm.getData()
+
     LaunchedEffect(Unit) {
-        vm.getData()
+        onRefresh()
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
@@ -102,7 +105,7 @@ fun WordsLangScreen(vm: WordsLangViewModel, navController: NavHostController?, o
                 itemText = { it.label }
             )
         }
-        if (vm.isBusy) {
+        if (vm.isBusy_.collectAsState().value) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -110,37 +113,42 @@ fun WordsLangScreen(vm: WordsLangViewModel, navController: NavHostController?, o
                 CircularProgressIndicator()
             }
         } else {
-            LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                itemsIndexed(lstWords, key = { _, item -> item.id }) { index, item ->
-                    Card(
-                        modifier = Modifier
-                            .padding(top = 8.dp, bottom = 8.dp)
-                            .fillMaxWidth()
-                            .combinedClickable(
-                                onClick = { speak(item.word) },
-                                onLongClick = {
-                                    selectedItemIndex = index
-                                    showItemDialog = true
-                                },
-                            ),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White),
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(start = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically
+            PullToRefreshBox(
+                isRefreshing = vm.isBusy_.collectAsState().value,
+                onRefresh = { vm.viewModelScope.launch { onRefresh() } },
+            ) {
+                LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                    itemsIndexed(lstWords, key = { _, item -> item.id }) { index, item ->
+                        Card(
+                            modifier = Modifier
+                                .padding(top = 8.dp, bottom = 8.dp)
+                                .fillMaxWidth()
+                                .combinedClickable(
+                                    onClick = { speak(item.word) },
+                                    onLongClick = {
+                                        selectedItemIndex = index
+                                        showItemDialog = true
+                                    },
+                                ),
+                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color.White),
                         ) {
-                            Column {
-                                Text(
-                                    text = item.word,
-                                    color = colorResource(R.color.color_text2),
-                                    style = TextStyle(fontSize = 25.sp)
-                                )
-                                Text(
-                                    text = item.note,
-                                    color = colorResource(R.color.color_text3),
-                                    style = TextStyle(fontSize = 20.sp)
-                                )
+                            Row(
+                                modifier = Modifier.padding(start = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column {
+                                    Text(
+                                        text = item.word,
+                                        color = colorResource(R.color.color_text2),
+                                        style = TextStyle(fontSize = 25.sp)
+                                    )
+                                    Text(
+                                        text = item.note,
+                                        color = colorResource(R.color.color_text3),
+                                        style = TextStyle(fontSize = 20.sp)
+                                    )
+                                }
                             }
                         }
                     }
