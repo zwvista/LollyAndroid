@@ -10,8 +10,8 @@ import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import com.woxthebox.draglistview.DragItemAdapter
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.MainActivity
@@ -66,14 +66,14 @@ class WordsTextbookFragment : LollyListFragment() {
         setupListView()
 
         vm.lstWords_.onEach {
-            val listAdapter = WordsTextbookItemAdapter(vm, mDragListView)
+            val listAdapter = WordsTextbookItemAdapter(vm, mDragListView, viewLifecycleOwner)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override suspend fun onRefresh() = vm.getDataInLang()
 
-    private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {
+    private class WordsTextbookItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val viewLifecycleOwner: LifecycleOwner) : DragItemAdapter<MUnitWord, WordsTextbookItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -152,14 +152,14 @@ class WordsTextbookFragment : LollyListFragment() {
                             1 -> edit(item)
                             2 -> {
                                 val index = itemList.indexOf(item)
-                                vm.viewModelScope.launch {
+                                viewLifecycleOwner.lifecycleScope.launch {
                                     vm.getNote(item)
                                     mDragListView.adapter.notifyItemChanged(index)
                                 }
                             }
                             3 -> {
                                 val index = itemList.indexOf(item)
-                                vm.viewModelScope.launch {
+                                viewLifecycleOwner.lifecycleScope.launch {
                                     vm.clearNote(item)
                                     mDragListView.adapter.notifyItemChanged(index)
                                 }

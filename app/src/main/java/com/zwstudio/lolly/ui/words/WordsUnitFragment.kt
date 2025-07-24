@@ -17,8 +17,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragItemAdapter
@@ -81,7 +81,7 @@ class WordsUnitFragment : LollyListFragment(), MenuProvider {
         }
 
         combine(vm.lstWords_, vm.isEditMode_, ::Pair).onEach {
-            val listAdapter = WordsUnitItemAdapter(vm, mDragListView)
+            val listAdapter = WordsUnitItemAdapter(vm, mDragListView, viewLifecycleOwner)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
@@ -160,7 +160,7 @@ class WordsUnitFragment : LollyListFragment(), MenuProvider {
         }
     }
 
-    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
+    private class WordsUnitItemAdapter(val vm: WordsUnitViewModel, val mDragListView: DragListView, val viewLifecycleOwner: LifecycleOwner) : DragItemAdapter<MUnitWord, WordsUnitItemAdapter.ViewHolder>() {
 
         init {
             itemList = vm.lstWords
@@ -245,14 +245,14 @@ class WordsUnitFragment : LollyListFragment(), MenuProvider {
                             1 -> edit(item)
                             2 -> {
                                 val index = itemList.indexOf(item)
-                                vm.viewModelScope.launch {
+                                viewLifecycleOwner.lifecycleScope.launch {
                                     vm.getNote(item)
                                     mDragListView.adapter.notifyItemChanged(index)
                                 }
                             }
                             3 -> {
                                 val index = itemList.indexOf(item)
-                                vm.viewModelScope.launch {
+                                viewLifecycleOwner.lifecycleScope.launch {
                                     vm.clearNote(item)
                                     mDragListView.adapter.notifyItemChanged(index)
                                 }
