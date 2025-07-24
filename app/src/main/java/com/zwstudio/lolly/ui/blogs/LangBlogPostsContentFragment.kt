@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import com.zwstudio.lolly.common.OnSwipeWebviewTouchListener
 import com.zwstudio.lolly.common.TouchListener
 import com.zwstudio.lolly.databinding.FragmentLangBlogPostsContentBinding
-import com.zwstudio.lolly.services.misc.BlogService
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
