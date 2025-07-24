@@ -27,7 +27,7 @@ import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentPatternsBinding
 import com.zwstudio.lolly.models.wpp.MPattern
-import com.zwstudio.lolly.ui.common.DrawerListFragment
+import com.zwstudio.lolly.ui.common.LollyListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
@@ -39,7 +39,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PatternsFragment : DrawerListFragment(), MenuProvider {
+class PatternsFragment : LollyListFragment(), MenuProvider {
 
     val vm by viewModel<PatternsViewModel>()
     override val vmDrawerList: DrawerListViewModel get() = vm

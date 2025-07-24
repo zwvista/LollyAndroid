@@ -29,7 +29,7 @@ import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentWordsLangBinding
 import com.zwstudio.lolly.models.wpp.MLangWord
-import com.zwstudio.lolly.ui.common.DrawerListFragment
+import com.zwstudio.lolly.ui.common.LollyListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.ui.common.yesNoDialog
@@ -41,7 +41,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class WordsLangFragment : DrawerListFragment(), MenuProvider {
+class WordsLangFragment : LollyListFragment(), MenuProvider {
 
     val vm by viewModel<WordsLangViewModel>()
     override val vmDrawerList: DrawerListViewModel get() = vm
