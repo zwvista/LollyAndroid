@@ -46,6 +46,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -86,8 +87,11 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
     var showItemDialog by remember { mutableStateOf(false) }
     var selectedItemIndex by remember { mutableIntStateOf(0) }
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
-    suspend fun onRefresh() = vm.getDataInTextbook()
+    fun onRefresh() = coroutineScope.launch {
+        vm.getDataInTextbook()
+    }
 
     LaunchedEffect(Unit) {
         onRefresh()
@@ -123,7 +127,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
         } else {
             PullToRefreshBox(
                 isRefreshing = vm.isBusy_.collectAsState().value,
-                onRefresh = { vm.viewModelScope.launch { onRefresh() } },
+                onRefresh = { onRefresh() },
             ) {
                 LazyColumn(
                     state = state.listState,

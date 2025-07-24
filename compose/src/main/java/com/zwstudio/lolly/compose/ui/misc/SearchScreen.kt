@@ -14,6 +14,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -33,6 +34,7 @@ import com.zwstudio.lolly.compose.ui.common.TopBarMenu
 import com.zwstudio.lolly.compose.ui.theme.LollyAndroidTheme
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -46,6 +48,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
     val context = LocalContext.current
     // https://stackoverflow.com/questions/64181930/request-focus-on-textfield-in-jetpack-compose
     val focusRequester = remember { FocusRequester() }
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
 //        focusRequester.requestFocus()
@@ -73,7 +76,7 @@ fun SearchScreen(openDrawer: () -> Unit) {
             valueStateFlow = vm.word_,
             modifier = Modifier.focusRequester(focusRequester)
         ) {
-            vm.viewModelScope.launch {
+            coroutineScope.launch {
                 onlineDict.searchDict()
             }
         }

@@ -79,9 +79,9 @@ fun AppMainScreen() {
     val navController = rememberNavController()
     Surface(color = MaterialTheme.colorScheme.background) {
         val drawerState = rememberDrawerState(DrawerValue.Closed)
-        val scope = rememberCoroutineScope()
+        val coroutineScope = rememberCoroutineScope()
         val openDrawer = {
-            scope.launch {
+            coroutineScope.launch {
                 drawerState.open()
             }
         }
@@ -94,7 +94,7 @@ fun AppMainScreen() {
                 ) {
                     Drawer(
                         onDestinationClicked = { route ->
-                            scope.launch {
+                            coroutineScope.launch {
                                 drawerState.close()
                             }
                             navController.navigate(route) {

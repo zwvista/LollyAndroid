@@ -16,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +27,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewModelScope
 import com.zwstudio.lolly.compose.R
 import com.zwstudio.lolly.viewmodels.misc.GlobalUserViewModel
 import com.zwstudio.lolly.viewmodels.misc.LoginViewModel
@@ -38,6 +38,8 @@ fun LoginScreen() {
     val vm = koinViewModel<LoginViewModel>()
     val context = LocalContext.current
     var showAlert by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
+
     Column(
         Modifier
             .fillMaxSize()
@@ -69,7 +71,7 @@ fun LoginScreen() {
         Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
-                vm.viewModelScope.launch {
+                coroutineScope.launch {
                     vm.login(context)
                     if (!GlobalUserViewModel.isLoggedIn)
                         showAlert = true

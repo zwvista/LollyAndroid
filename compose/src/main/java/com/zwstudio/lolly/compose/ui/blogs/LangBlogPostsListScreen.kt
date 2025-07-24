@@ -36,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +44,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.compose.R
@@ -61,8 +61,11 @@ fun LangBlogPostsListScreen(vm: LangBlogGroupsViewModel, navController: NavHostC
     val lstLangBlogPosts = vm.lstLangBlogPosts_.collectAsState().value
     var showItemDialog by remember { mutableStateOf(false) }
     var selectedItemIndex by remember { mutableIntStateOf(0) }
+    val coroutineScope = rememberCoroutineScope()
 
-    suspend fun onRefresh() = vm.getGroups()
+    fun onRefresh() = coroutineScope.launch {
+        vm.getGroups()
+    }
 
     LaunchedEffect(Unit) {
         onRefresh()
@@ -94,7 +97,7 @@ fun LangBlogPostsListScreen(vm: LangBlogGroupsViewModel, navController: NavHostC
         } else {
             PullToRefreshBox(
                 isRefreshing = vm.isBusy_.collectAsState().value,
-                onRefresh = { vm.viewModelScope.launch { onRefresh() } },
+                onRefresh = { onRefresh() },
             ) {
                 LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp)) {
                     itemsIndexed(lstLangBlogPosts, key = { _, item -> item.id }) { index, item ->
