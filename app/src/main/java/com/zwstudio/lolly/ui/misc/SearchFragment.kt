@@ -12,7 +12,6 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.OnlineDict
@@ -26,7 +25,6 @@ import com.zwstudio.lolly.viewmodels.misc.SearchViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment(), MenuProvider {
@@ -104,8 +102,6 @@ class SearchFragment : Fragment(), MenuProvider {
     fun searchDict() {
         vm.word = binding.svWord.query.toString()
         binding.svWord.post { binding.svWord.clearFocus() }
-        vm.viewModelScope.launch {
-            onlineDict.searchDict()
-        }
+        onlineDict.searchDict()
     }
 }

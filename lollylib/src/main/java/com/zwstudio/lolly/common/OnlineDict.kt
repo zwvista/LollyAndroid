@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.zwstudio.lolly.models.misc.MDictionary
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
@@ -23,7 +22,7 @@ class OnlineDict(
 ) {
     var dictStatus = DictWebViewStatus.Ready
 
-    suspend fun searchDict() {
+    fun searchDict() {
         val item = vmSettings.selectedDictReference
         val url = item.urlString(iOnlineDict.getWord, vmSettings.lstAutoCorrect)
         if (item.dicttypename == "OFFLINE") {
