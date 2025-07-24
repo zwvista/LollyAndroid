@@ -18,7 +18,7 @@ import com.zwstudio.lolly.R
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentLangBlogGroupsBinding
 import com.zwstudio.lolly.models.blogs.MLangBlogGroup
-import com.zwstudio.lolly.ui.common.DrawerListFragment
+import com.zwstudio.lolly.ui.common.LollyListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
 
-class LangBlogGroupsFragment : DrawerListFragment() {
+class LangBlogGroupsFragment : LollyListFragment() {
 
     val vm by activityViewModel<LangBlogGroupsViewModel>()
     override val vmDrawerList: DrawerListViewModel get() = vm

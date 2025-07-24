@@ -23,7 +23,7 @@ import com.zwstudio.lolly.common.googleString
 import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.databinding.FragmentPhrasesLangBinding
 import com.zwstudio.lolly.models.wpp.MLangPhrase
-import com.zwstudio.lolly.ui.common.DrawerListFragment
+import com.zwstudio.lolly.ui.common.LollyListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.ui.common.yesNoDialog
@@ -35,7 +35,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PhrasesLangFragment : DrawerListFragment(), MenuProvider {
+class PhrasesLangFragment : LollyListFragment(), MenuProvider {
 
     val vm by viewModel<PhrasesLangViewModel>()
     override val vmDrawerList: DrawerListViewModel get() = vm

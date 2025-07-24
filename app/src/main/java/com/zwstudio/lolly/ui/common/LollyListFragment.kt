@@ -12,7 +12,7 @@ import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.R
 import com.zwstudio.lolly.viewmodels.DrawerListViewModel
 
-abstract class DrawerListFragment : Fragment() {
+abstract class LollyListFragment : Fragment() {
 
     var mDragListView by autoCleared<DragListView>()
     var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()

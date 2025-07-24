@@ -24,7 +24,7 @@ import com.zwstudio.lolly.common.speak
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.databinding.FragmentWordsTextbookBinding
 import com.zwstudio.lolly.models.wpp.MUnitWord
-import com.zwstudio.lolly.ui.common.DrawerListFragment
+import com.zwstudio.lolly.ui.common.LollyListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.ui.common.yesNoDialog
@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class WordsTextbookFragment : DrawerListFragment() {
+class WordsTextbookFragment : LollyListFragment() {
 
     val vm by viewModel<WordsUnitViewModel>()
     override val vmDrawerList: DrawerListViewModel get() = vm
