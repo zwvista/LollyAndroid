@@ -6,19 +6,24 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.woxthebox.draglistview.DragItem
 import com.woxthebox.draglistview.DragListView
 import com.zwstudio.lolly.R
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.LollyListViewModel
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 abstract class LollyListFragment : Fragment() {
 
     var mDragListView by autoCleared<DragListView>()
     var mRefreshLayout by autoCleared<LollySwipeRefreshLayout>()
     var progressBar1 by autoCleared<ProgressBar>()
-    abstract val vmDrawerList: DrawerListViewModel
+    abstract val vmList: LollyListViewModel
+    abstract fun onRefresh(): Completable
 
     val compositeDisposable = CompositeDisposable()
 
@@ -36,7 +41,11 @@ abstract class LollyListFragment : Fragment() {
         mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(requireContext(),
             R.color.app_color
         ))
-        mRefreshLayout.setOnRefreshListener { mRefreshLayout.postDelayed({ mRefreshLayout.isRefreshing = false }, 2000) }
+        mRefreshLayout.setOnRefreshListener {
+            compositeDisposable.add(onRefresh().subscribe {
+                mRefreshLayout.isRefreshing = false
+            })
+        }
 
         mDragListView.setLayoutManager(LinearLayoutManager(requireContext()))
         if (dragItem == null)
@@ -50,11 +59,17 @@ abstract class LollyListFragment : Fragment() {
                 override fun onItemDragEnded(fromPosition: Int, toPosition: Int) {
                     mRefreshLayout.isEnabled = true
                     Toast.makeText(mDragListView.context, "End - position: $toPosition", Toast.LENGTH_SHORT).show()
-                    vmDrawerList.reindex {}
+                    vmList.reindex {}
                 }
             })
             mDragListView.setCanDragHorizontally(false)
             mDragListView.setCustomDragItem(dragItem)
         }
+
+        vmList.isBusy_.onEach {
+            progressBar1.visibility = if (it) View.VISIBLE else View.GONE
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        compositeDisposable.add(onRefresh().subscribe())
     }
 }

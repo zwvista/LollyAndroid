@@ -35,9 +35,10 @@ import com.zwstudio.lolly.ui.common.LollyListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.ui.common.yesNoDialog
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.LollyListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.words.WordsUnitViewModel
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
@@ -47,7 +48,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class WordsUnitFragment : LollyListFragment(), MenuProvider {
 
     val vm by viewModel<WordsUnitViewModel>()
-    override val vmDrawerList: DrawerListViewModel get() = vm
+    override val vmList: LollyListViewModel get() = vm
     var binding by autoCleared<FragmentWordsUnitBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -84,13 +85,9 @@ class WordsUnitFragment : LollyListFragment(), MenuProvider {
             val listAdapter = WordsUnitItemAdapter(vm, mDragListView, compositeDisposable)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        vm.isBusy_.onEach {
-            progressBar1.visibility = if (it) View.VISIBLE else View.GONE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        compositeDisposable.add(vm.getDataInTextbook().subscribe())
     }
+
+    override fun onRefresh(): Completable = vm.getDataInTextbook()
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.menu_words_unit, menu)

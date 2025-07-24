@@ -5,7 +5,7 @@ import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.wpp.MLangWord
 import com.zwstudio.lolly.services.wpp.LangWordService
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.LollyListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import io.reactivex.rxjava3.core.Completable
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class WordsLangViewModel : DrawerListViewModel(), KoinComponent {
+class WordsLangViewModel : LollyListViewModel(), KoinComponent {
 
     var lstWordsAll_ = MutableStateFlow(listOf<MLangWord>())
     var lstWordsAll get() = lstWordsAll_.value; set(v) { lstWordsAll_.value = v }

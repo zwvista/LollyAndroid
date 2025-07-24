@@ -22,9 +22,10 @@ import com.zwstudio.lolly.ui.common.LollyListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
 import com.zwstudio.lolly.ui.common.yesNoDialog
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.LollyListViewModel
 import com.zwstudio.lolly.viewmodels.misc.SettingsViewModel
 import com.zwstudio.lolly.viewmodels.phrases.PhrasesUnitViewModel
+import io.reactivex.rxjava3.core.Completable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,7 +33,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PhrasesTextbookFragment : LollyListFragment() {
 
     val vm by viewModel<PhrasesUnitViewModel>()
-    override val vmDrawerList: DrawerListViewModel get() = vm
+    override val vmList: LollyListViewModel get() = vm
     var binding by autoCleared<FragmentPhrasesTextbookBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -63,13 +64,9 @@ class PhrasesTextbookFragment : LollyListFragment() {
             val listAdapter = PhrasesTextbookItemAdapter(vm, mDragListView)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        vm.isBusy_.onEach {
-            progressBar1.visibility = if (it) View.VISIBLE else View.GONE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        compositeDisposable.add(vm.getDataInLang().subscribe())
     }
+
+    override fun onRefresh(): Completable = vm.getDataInLang()
 
     private class PhrasesTextbookItemAdapter(val vm: PhrasesUnitViewModel, val mDragListView: DragListView) : DragItemAdapter<MUnitPhrase, PhrasesTextbookItemAdapter.ViewHolder>() {
 

@@ -22,8 +22,9 @@ import com.zwstudio.lolly.models.misc.MOnlineTextbook
 import com.zwstudio.lolly.ui.common.LollyListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
 import com.zwstudio.lolly.ui.common.makeCustomAdapter
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.LollyListViewModel
 import com.zwstudio.lolly.viewmodels.onlinetextbooks.OnlineTextbooksViewModel
+import io.reactivex.rxjava3.core.Completable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,7 +32,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class OnlineTextbooksFragment : LollyListFragment() {
 
     val vm by viewModel<OnlineTextbooksViewModel>()
-    override val vmDrawerList: DrawerListViewModel get() = vm
+    override val vmList: LollyListViewModel get() = vm
     var binding by autoCleared<FragmentOnlineTextbooksBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -51,13 +52,9 @@ class OnlineTextbooksFragment : LollyListFragment() {
             val listAdapter = OnlineTextbooksItemAdapter(vm, mDragListView)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        vm.isBusy_.onEach {
-            progressBar1.visibility = if (it) View.VISIBLE else View.GONE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        compositeDisposable.add(vm.getData().subscribe())
     }
+
+    override fun onRefresh(): Completable = vm.getData()
 
     private class OnlineTextbooksItemAdapter(val vm: OnlineTextbooksViewModel, val mDragListView: DragListView) : DragItemAdapter<MOnlineTextbook, OnlineTextbooksItemAdapter.ViewHolder>() {
 

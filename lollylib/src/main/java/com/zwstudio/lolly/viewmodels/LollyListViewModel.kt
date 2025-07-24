@@ -3,7 +3,7 @@ package com.zwstudio.lolly.viewmodels;
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
-open class DrawerListViewModel : ViewModel() {
+open class LollyListViewModel : ViewModel() {
     var isEditMode_ = MutableStateFlow(false)
     var isEditMode get() = isEditMode_.value; set(v) { isEditMode_.value = v }
     var isBusy_ = MutableStateFlow(false)

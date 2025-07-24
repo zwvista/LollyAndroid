@@ -5,7 +5,7 @@ import com.zwstudio.lolly.common.applyIO
 import com.zwstudio.lolly.common.vmSettings
 import com.zwstudio.lolly.models.wpp.MPattern
 import com.zwstudio.lolly.services.wpp.PatternService
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.LollyListViewModel
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class PatternsViewModel : DrawerListViewModel(), KoinComponent {
+class PatternsViewModel : LollyListViewModel(), KoinComponent {
 
     var lstPatternsAll_ = MutableStateFlow(listOf<MPattern>())
     var lstPatternsAll get() = lstPatternsAll_.value; set(v) { lstPatternsAll_.value = v }

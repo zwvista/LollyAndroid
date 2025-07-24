@@ -21,8 +21,9 @@ import com.zwstudio.lolly.databinding.FragmentLangBlogPostsListBinding
 import com.zwstudio.lolly.models.blogs.MLangBlogPost
 import com.zwstudio.lolly.ui.common.LollyListFragment
 import com.zwstudio.lolly.ui.common.autoCleared
-import com.zwstudio.lolly.viewmodels.DrawerListViewModel
+import com.zwstudio.lolly.viewmodels.LollyListViewModel
 import com.zwstudio.lolly.viewmodels.blogs.LangBlogGroupsViewModel
+import io.reactivex.rxjava3.core.Completable
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.activityViewModel
@@ -30,7 +31,7 @@ import org.koin.androidx.viewmodel.ext.android.activityViewModel
 class LangBlogPostsListFragment : LollyListFragment() {
 
     val vm by activityViewModel<LangBlogGroupsViewModel>()
-    override val vmDrawerList: DrawerListViewModel get() = vm
+    override val vmList: LollyListViewModel get() = vm
     var binding by autoCleared<FragmentLangBlogPostsListBinding>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -58,11 +59,9 @@ class LangBlogPostsListFragment : LollyListFragment() {
             val listAdapter = LangBlogPostsItemAdapter(vm, mDragListView)
             mDragListView.setAdapter(listAdapter, true)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        vm.isBusy_.onEach {
-            progressBar1.visibility = if (it) View.VISIBLE else View.GONE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
+
+    override fun onRefresh(): Completable = vm.getPosts()
 
     private class LangBlogPostsItemAdapter(val vm: LangBlogGroupsViewModel, val mDragListView: DragListView) : DragItemAdapter<MLangBlogPost, LangBlogPostsItemAdapter.ViewHolder>() {
 
