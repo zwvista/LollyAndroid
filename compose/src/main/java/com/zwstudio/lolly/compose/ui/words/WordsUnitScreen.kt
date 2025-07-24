@@ -57,7 +57,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.zwstudio.lolly.common.copyText
 import com.zwstudio.lolly.common.googleString
@@ -238,7 +237,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                     }
                     TextButton(onClick = {
                         showItemDialog = false
-                        vm.viewModelScope.launch {
+                        coroutineScope.launch {
                             vm.getNote(item)
                         }
                     }) {
@@ -246,7 +245,7 @@ fun WordsUnitScreen(vm: WordsUnitViewModel, navController: NavHostController?, o
                     }
                     TextButton(onClick = {
                         showItemDialog = false
-                        vm.viewModelScope.launch {
+                        coroutineScope.launch {
                             vm.clearNote(item)
                         }
                     }) {
