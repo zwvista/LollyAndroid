@@ -1,10 +1,12 @@
+import com.android.build.api.dsl.LibraryExtension
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
 }
 apply(plugin = "kotlin-parcelize")
 
-android {
+configure<LibraryExtension> {
     namespace = "com.zwstudio.lolly.lollylib"
 
     defaultConfig {
@@ -12,7 +14,6 @@ android {
         compileSdk = 37
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {

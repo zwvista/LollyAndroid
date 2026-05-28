@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.ApplicationExtension
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -6,7 +8,7 @@ plugins {
     id("kotlin-parcelize")
 }
 
-android {
+configure<ApplicationExtension> {
     defaultConfig {
         applicationId = "com.zwstudio.lolly"
         minSdk = 24

@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.Packaging
 
 plugins {
@@ -6,7 +7,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
 }
 
-android {
+configure<ApplicationExtension> {
     namespace = "com.zwstudio.lolly.compose"
 
     defaultConfig {
