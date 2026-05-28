@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.ApplicationExtension
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -6,11 +8,11 @@ plugins {
     id("kotlin-parcelize")
 }
 
-android {
+configure<ApplicationExtension> {
     defaultConfig {
         applicationId = "com.zwstudio.lolly.rx"
         minSdk = 24
-        compileSdk = 35
+        compileSdk = 37
         versionCode = 1
         versionName = "1.0"
     }
@@ -24,16 +26,13 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     productFlavors {
     }
     buildFeatures {
         dataBinding = true
-    }
-    kotlinOptions {
-        jvmTarget = "17"
     }
     namespace = "com.zwstudio.lolly"
 }
